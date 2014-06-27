@@ -1,0 +1,1706 @@
+ll
+emacs /etc/ssh/sshd_config 
+apt-get install emacs
+sudo apt-get update
+apt-get upgrade
+ll
+apt-get install emacs
+emacs
+emacs /etc/ssh/sshd_config
+service ssh restart
+head /etc/ssh/sshd_config
+echo 'bicentennial' > /etc/hostname
+emacs /etc/default/dhcpcd
+rm /etc/default/dhcpcd
+hostname -F /etc/hostname
+hostname -f
+hostname
+apt-get install nginx
+apt-get install mysql-server php5-mysql
+mysql_secure_installation
+apt-get update
+apt-get upgrade
+git
+apt-get install git
+git -v
+git --version
+pwd
+ll
+cd /etc/nginx/
+ll
+mv nginx.conf{,.orig} 
+emacs nginx.conf
+cd sites-enabled/
+ll
+rm default 
+man ln
+ln -s /etc/nginx/sites-available/www ww
+ln -s /etc/nginx/sites-available/www www
+rm ww
+ll
+ln /etc/nginx/sites-available/www ww
+ll
+cd ..
+ll
+cd sites-available/
+ll
+emacs www
+ll
+cd ../sites-enabled/
+ll
+cd ..
+/etc/init.d/nginx start
+for file in classes.php; contact.php
+index.php
+info.php
+publications.php
+research.php
+for file in classes.php  contact.php  index.php  info.php  publications.php  research.php  tryagain.php; do wget http://50.136.126.124/$file; done
+ll
+rm *.php
+cd /usr/share/nginx/
+ll
+mkdir html
+ll
+cd html
+for file in classes.php  contact.php  index.php  info.php  publications.php  research.php  tryagain.php; do wget http://50.136.126.124/$file; done
+ll
+cp *.php ../www
+ll ../www
+ll
+pw
+pwd
+ll
+cd /usr/share/nginx/html/
+l
+ll
+chmod 777 index.php
+ll
+chmod 544 index.php
+ll
+chmod 644 index.php
+ll
+cd ..
+ll
+ll www
+ll html
+pwd
+cd html
+ll
+emacs index.php 
+clear
+ll
+cd ../www
+ll
+emacs index.php
+cat index.php
+ll
+cd ..
+ll
+rm -r www
+ll
+cd /usr/local/nginx/
+cd /etc/nginx/
+ll
+nginx -s reload
+ll
+cd /usr/share/nginx/html/
+ll
+wget http://andyreagan.com/storylab.html
+ll
+less storylab.html 
+wget http://www.uvm.edu/~areagan/storylab.html
+wget http://www.uvm.edu/~areagan/storylab.js
+wget storylab_d8V1P8H5cYWaFZQXXcvV5580gp301.csv
+wget http://www.uvm.edu/~areagan/storylab_d8V1P8H5cYWaFZQXXcvV5580gp301.csv
+wget http://www.uvm.edu/~areagan/storylab_d8V1P8H5cYWaFZQXXcvV5580gp302.csv
+wget http://www.uvm.edu/~areagan/storylab_d8V1P8H5cYWaFZQXXcvV5580gp303.csv
+ll
+mv storylab.html{.1,}
+ll
+cp {storylab,index}.html
+ll
+erm
+rm *~
+ll
+aptitude install python-flup
+pwd
+git
+git version
+pwd
+ll
+cd /usr/share/nginx/
+ll
+cd html
+mkdir wiki
+ll
+rm -r wiki
+cd ..
+ll
+mkdir wiki
+ll
+cd wiki
+sudo apt-get install libjpeg8 libjpeg-dev libpng12-0 libpng12-dev
+apt-get update
+apt-get upgrade
+ll
+sudo pip install Pillow
+ll
+pip install Pillow
+gcc -v
+apt-get list
+man aptitude
+man apt-et
+man apt-get
+apt-get install gcc-4.8
+aptitude install gcc-4.8
+aptitude install gcc-4.8.1
+apt-get install gcc-48
+apt-get install gcc
+apt-get list gcc
+apt-get update
+apt-get upgrade
+apt-get install gcc-4.8
+apt-get install g++-4.8
+pip install Pillow
+apt-get install python-dev
+pip install Pillow
+pip install git+git://github.com/benjaoming/django-wiki.git
+python manage.py diffsettings
+pwd
+ll
+ll ..
+ll /
+python
+ll
+pwd
+cd /usr/share/nginx/
+ll
+cd wiki
+ll
+django-admin.py startproject mysite
+ll
+ls mysite/
+ll mysite/
+ll
+cd /usr/share/nginx/wiki
+ll
+cd mysite/
+ll
+apt-get install nginx
+apt-get install python-flup
+ll
+python ./mangage.py runfcgi host=127.0.0.1 port=8080
+python mangage.py runfcgi host=127.0.0.1 port=8080
+python ./manage.py runfcgi host=127.0.0.1 port=8080
+nginx -s reload
+cd /usr/share/nginx/
+cd wiki/
+ll
+cd mysite/
+ll
+apt-get install mysql-server
+netstat
+netstat -tap
+netstat -tap 
+mysql
+apt-get update\
+apt-get upgrade
+ll
+sql
+ll
+pwd
+cd ..
+ll
+cd ..
+ll
+ls /bin
+cd
+ll
+cd /usr/local/nginx
+ls /usr/
+ls /usr/bin
+ls /usr/local/
+ls /usr/local/etc
+cd /etc/nginx/
+ll
+ll sites-available/
+ls sites-enabled/
+ll sites-enabled/
+emacs sites-available/www
+mv sites-available/www sites-available/works-but-poorly-indented
+cd sites-available/
+ll
+emacs from-django-tutorial
+ll
+cd ..
+ll
+ll conf.d
+cd sites-available/
+ll
+emacs from-django-tutorial 
+ll /
+ll /usr/share/nginx/html
+ll
+erm
+ll
+emacs from-django-tutorial
+cp from-django-tutorial www
+emacs ww
+emacs www
+/etc/init.d/nginx reload
+ll /usr/share/nginx/www
+emacs www
+/etc/init.d/nginx reload
+ll
+erm
+ll
+emacs www
+emacs works-but-poorly-indented 
+ll
+emacs www
+ll
+l
+ll
+cd /usr/share/nginx/
+ll
+netstat -tln
+netstat -t
+netstat
+man netstat
+netstat t
+netstat -t
+man netstat
+netstat -s
+netstat -t
+netstat -ta
+cat /etc/mysql/my.cnf
+ll
+cd wiki/mysite/
+ll
+cd mysite/
+ll
+emacs settings.py
+mysql -u root -p
+ll
+erm
+ll
+emacs settings.py
+cd ..
+ll
+python manage.py syncdb
+pip install python-mysqldb
+pip install mysql-python
+apt-get install python-mysqldb
+python manage.py syncdb
+mysql -u root -p
+ll
+ll build
+\rm -r build
+ll
+python manage.py syncdb
+python manage.py startapp polls
+ll
+ll polls
+emacs polls/models.py 
+emacs mysite/settings.py
+python manage.py sql polls
+python manage.py validate
+python manage.py sqlcustom polls
+python manage.py sqlclear polls
+python manage.py sqlindexes polls
+python manage.py sqlall polls
+python manage.py syncdb
+python manage.py sqlclear polls
+python manage.py shell
+emacs polls/models.py
+python manage.py shell
+emacs polls/models.py
+python manage.py shell
+emacs polls/models.py
+clear
+python manage.py shell
+python manage.py syncdb
+python manage.py shell
+python manage.py validate
+emacs polls/models.py
+python manage.py syncdb
+python manage.py shell
+python manage.py syncdb
+
+ll
+python manage.py sqlclear polls
+python manage.py sqlclear polls | python manage.py dbshell
+python manage.py syncdb
+chmod +x m
+chmod +x manage.py 
+./manage.py shell
+emacs /etc/nginx/sites-available/www
+/etc/init.d/nginx restart
+cd /etc/nginx/sites-availabl
+cd /etc/nginx/sites-available
+ll
+emacs from-django-tutorial
+emacs www
+ll
+emacs www
+nginx restart
+nginx reload
+/etc/init.d/nginx restart
+cd /usr/share/nginx/wiki/
+cd mysite/
+ll
+emacs mysite/settings.py
+emacs mysite/urls.py
+emacs mysite/wsgi.py
+ll
+rm db.sqlite3 
+y
+python manage.py runfcgi host=127.0.0.1 port=8080
+top
+shutdown -r now
+cd /usr/share/nginx/
+ll
+cd wiki
+ll
+cd mysite/
+ll
+emacs mysite/settings.py
+emacs /etc/hosts
+ll
+cd /etc/
+ll
+ll h*
+emacs hostname 
+emacs hosts
+cat hostname >> hosts
+emacs hosts
+init.d/mysql restart
+mysql -u root -p
+mysql -u testuser -p
+mysql -u testuser
+cd /usr/share/nginx/wiki/mysite/
+ll
+rm db.sqlite3 
+ll
+]
+ll
+python manage.py syncdb
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=django.pid
+ll
+echo $PIDFILE
+ll mysite/
+ll
+ll mysite/
+python manage.py collectstatic
+ll
+cd mysite/
+ll
+mkidr static
+mkdir static
+ll
+cd static/
+ln -s /usr/local/lib/python2.7/dist-packages/django/contrib/admin/ admin
+cd ..
+ll
+emacs s
+emacs settings.py
+ll static/
+mv static/admin{,ln}
+ll s
+ll static/
+cd ..
+ll
+cd mysite/static
+export STATIC_ROOT=$(pwd)
+cd ../../
+python manage.py collectstatic
+
+ll
+emacs mysite/settings.py
+echo $STATIC_ROOT >> mysite/settings.py
+emacs mysite/settings.py
+python manage.py collectstatic
+echo $PIDFILE
+env
+ll
+ls /
+cat /django.pid 
+kill $(cat /django.pid)
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=django.pid
+ll mysite/static/admin/css
+emacs /etc/nginx/sites-available/www
+/etc/init.d/nginx restart
+emacs /etc/nginx/sites-available/www
+ls /usr/share/nginx/wiki/mysite/mysite/static
+emacs /etc/nginx/sites-available/www
+/etc/init.d/nginx restart
+ll /
+kill -9 $(cat /django.pid)
+pwd
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=django.pid
+ll
+emacs restart.sh
+echo "kill -9 $(cat /django.pid)" >> restart.sh 
+emacs restart.sh
+echo "./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=django.pid" >> restart.sh
+ll
+erm
+rm *~
+ll
+emacs polls/admin.py
+emacs mysite/ad
+ll polls
+emacs polls/admin.py
+. restart.sh 
+emacs restart.sh 
+pwd >> restart.sh
+emacs restart.sh 
+ll
+erm
+ll
+rm *~
+emacs polls/admin.py
+. restart.sh 
+ll
+kill -9 $(cat /django.pid)
+ll
+mv /django.pid .
+ll
+. restart.sh 
+cat restart.sh 
+PIDFILE="/usr/share/nginx/wiki/mysite/django.pid"
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/${PIDFILE}
+ll
+cat django.pid 
+shutdown -r now
+ll
+uptime
+cd /usr/share/nginx/wiki/mysite/
+ll
+cat django.pid 
+cat restart.sh 
+kill -9 4973
+rm django.pid 
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+pwd
+ll
+emacs polls/admin.py
+chmod +x restart.sh 
+./restart.sh 
+cat django.pid 
+kill -9 9979
+cat restart.sh 
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+cat django.pid 
+emacs polls/admin.py
+emacs polls/models.py
+emacs polls/admin.py
+ll
+mkdir templates
+emacs mysite/settings.py
+mkdir templates/admin
+cd templates/admin/
+python
+cp /usr/local/lib/python2.7/dist-packages/django/contrib/admin/templates/admin/base_site.html .
+ll
+emacs base_site.html 
+cd ../../
+ll
+cat django.pid 
+kill -9 10050
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+emacs polls/views.py 
+touch polls/urls.py
+emacs polls/urls.py 
+ll polls
+cd polls
+rm *~
+ll
+cd ..
+emacs polls/urls.py 
+emacs mysite/urls.py
+emacs polls/views.py 
+emacs polls/urls.py
+pwd
+ll
+cat django.pid 
+kill -9 10205
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+emacs polls/urls
+emacs polls/urls.py
+emacs mysite/urls.py
+cat django.pid 
+kill -9 10326
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+emacs polls/urls.py
+emacs mysite/urls.py
+kill -9 10326
+cat django.pid 
+kill -9 10369
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+emacs mysite/urls.py
+emacs polls/urls.py
+emacs polls/views.py
+cat django.pid 
+kill -9 10414
+./manage.py runfcgi method=threaded host=127.0.0.1 port=8080 pidfile=/usr/share/nginx/wiki/mysite/django.pid
+emacs restart.sh 
+./restart.sh
+cat django.pid 
+emacs polls/views.py
+pwd
+mkdir -p polls/templates/polls
+emacs polls/templates/polls/index.html
+clear
+ll
+erm
+emacs polls/views.py
+emacs polls/templates/polls/detail.html
+clear
+ll
+emacs polls/templates/polls/detail.html 
+emacs polls/templates/polls/index.html
+emacs mysite/urls.py
+emacs polls/templates/polls/index.html
+pwd
+./restart.sh
+ll
+emacs polls/templates/polls/detail.html
+emacs polls/templates/polls/index.html
+emacs polls/urls.py
+emacs polls/views.py
+./restart.sh
+cat django.pid 
+emacs polls/views.py
+./restart.sh
+emacs polls/views.py
+./restart.sh
+emacs polls/views.py
+./restart.sh
+emacs polls/views.py
+ll
+python manage.py -shell
+python manage.py shell
+emacs polls/views.py
+./restart.sh
+emacs polls/views.py
+./restart.sh
+emacs polls/views.py
+clear
+emacs polls/templates/polls/index.html
+./restart.sh
+clear
+ll
+erm
+ll
+emacs polls/templates/polls/detail.html
+emacs polls/views.py
+emacs polls/templates/polls/results.html
+./restart.sh
+ll
+python manage.py shell
+emacs polls/tests.py
+python manage.py test polls
+emacs polls/models.py
+python manage.py test polls
+emacs polls/tests.py
+mkdir polls/static
+mkdir polls/static/polls
+emacs polls/static/polls/style.css
+emacs polls/templates/polls/index.html
+cd /usr/share/nginx/wiki/
+ll
+cd mysite/
+ll
+rm *~
+git status
+git init
+ll
+git status
+ll -h
+git add manage.py mysite/*.py
+git add manage.py mysite/static/*
+git status
+ll
+git add templates/admin/base_site.html
+git add polls/*.py
+git add polls/templates/polls/*.html
+git status
+cd polls
+\rm *~
+git add *.pyc
+git status
+rm templates/polls/*~
+cd ..
+rm templates/admin/base_site.html~
+git add restart.sh
+ll
+ll polls
+ll polls/static/
+git add polls/static/*
+git status
+cd mysite/
+rm *~
+git add *.pyc
+git status
+cd ..
+git add django.pid
+git status
+git commit -am "initial commit"
+l
+ll
+git status
+pip list
+pip --list
+pip help
+pip freeze
+pip install labMTsimple
+pip freeze
+pip help
+apt-get install libjpeg8 libjpeg-dev libpng libpng-dev
+apt-get install libjpeg8 libjpeg-dev
+apt-get update
+apt-get upgrade
+apt-get install libpng-dev
+ll
+cd /usr/share/nginx/wiki/mysite/
+ll
+pip install Pillow
+pip install Pillow --upgrade
+cd /usr/share/nginx/wiki/mysite/
+emacs requirements.txt
+pip install requirements.txt 
+pip install -r requirements.txt 
+pip install -r requirements.txt --upgrade
+ll
+emacs mysite/settings.py
+python manage.py syncdb
+clear
+python manage.py syncdb
+emacs mysite/settings.py
+python manage.py syncdb
+emacs mysite/settings.py
+python manage.py syncdb
+emacs mysite/settings.py
+python manage.py syncdb
+python manage.py migrate
+emacs mysite/settings.py
+python manage.py migrate
+python manage.py syncdb
+python manage.py migrate
+ll
+emacs mysite/urls.py
+./restart.sh 
+emacs mysite/settings.py
+python manage.py syncdb
+python manage.py migrate
+./restart.sh 
+cd /usr/share/nginx/wiki/mysite/
+ll
+emacs /home/user0/.bashrc
+pw
+pwd
+ll
+emacs mysite/urls.py
+emacs mysite/settings.py
+./restart.sh 
+mkdir wiki
+ll
+mkdir -p wiki/templates/wiki/
+ll
+wget http://uvm.edu/~areagan/files/2014/03/sixipedia2.jpg
+ll
+cd wiki
+ll
+cd templates/wiki/
+ll
+emacs base.html
+emacs base-
+emacs base_site.html 
+cd ../../../
+ll
+cp sixipedia2.jpg wiki/static/wiki/img/
+emacs wiki/templates/wiki/base.html 
+emacs wiki/templates/wiki/base_site.html
+./restart.sh 
+emacs wiki/templates/wiki/base_site.html
+./restart.sh 
+emacs wiki/templates/wiki/base_site.html
+./restart.sh 
+emacs wiki/templates/wiki/base_site.html
+pwd
+ll
+cd wiki
+ll
+cd ..
+ll
+ll
+cd ..
+ll
+git clone https://github.com/benjaoming/django-wiki.git
+ll
+ll django-wiki/
+ll wiki
+pwd
+ll django-wiki/wiki
+ll
+ll mysite/
+rm mysite/wiki
+rm -rimysite/wiki
+rm -ri mysite/wiki
+rm -r mysite/wiki
+ll
+cp django-wiki/wiki mysite
+cp -r django-wiki/wiki mysite
+emacs README.setup
+cd mysite/
+./restart.sh 
+python manage.py collectstatic
+ll
+cd wiki
+ll
+cd static/
+ll
+cd wiki
+ll
+cd img
+ll
+cd ..
+ll
+ll bootstrap/
+ll css
+ll js
+pwd
+cd ../../
+ll
+./restart.sh 
+ll
+ll polls
+python manage.py startapp swn
+ll
+ll templates/admin/
+ll templates/
+ll templates/admin/
+ll templates/admin/base_site.html 
+ll
+ll mysite/
+ll mysite/static/
+ll mysite/static
+ll
+cd swn
+ll
+emacs models.py 
+cd ..
+emacs mysite/settings.py
+ll
+pytho manage.py sql swn
+python manage.py sql swn
+python manage.py syncdb
+./manage.py migrate
+ll
+./manage.py shell
+emacs swn/models.py
+ll
+emacs polls/models.py
+emacs swn/models.py
+ll
+emacs swn/admin.py 
+./restart.sh 
+ll
+less polls/admin.py
+cat polls/admin.py >> swn/admin.py
+emacs swn/admin.py
+less swn/models.py
+emacs swn/admin.py
+less polls/models.py
+./restart.sh 
+emacs swn/admin.py
+./restart.sh 
+emacs swn/admin.py
+./restart.sh 
+emacs swn/admin.py
+emacs swn/models.py
+./restart.sh 
+emacs polls/moe
+rm polls/moe 
+emacs polls/models.py
+eamcs swn/models.py
+emacs swn/models.py
+./restart.sh 
+emacs swn/models.py
+emacs swn/admin.py
+less polls/admin.py
+emacs swn/admin.py
+./restart.sh 
+ll polls/
+ll polls/templates/
+ll polls/templates/polls/
+ll polls/templates/polls/detail.html 
+less polls/templates/polls/detail.html 
+mkdir -p swn/templates/swn
+cp polls/templates/polls/* swn/templates/swn/
+emacs swn/templates/swn/index.html 
+emacs swn/templates/swn/detail.html 
+emacs swn/models.py
+emacs polls/models.py
+emacs swn/templates/swn/detail.html 
+emacs polls/views.py
+./manage.py startapp vaccv
+ll
+cd vaccv
+ll
+emacs models.py 
+ll
+mkdir clone
+ll
+ll clone
+pwd
+ll
+cd ..
+ll
+emacs mysite/urls.py
+ll
+emacs mysite/urls.py
+./restart.sh 
+emacs mysite/urls.py
+ll swn
+cp polls/urls.py swn
+cp polls/urls.py vaccv
+emacs swn/urls
+emacs swn/urls.py 
+emacs vaccv/urls.py 
+ll vaccv/
+rm vaccv/.#urls.py 
+ll
+ll vaccv
+cd vaccv
+erm
+rm *~
+cd ..
+ll
+emacs swn/urls
+emacs swn/urls.py
+emacs swn/views
+emacs swn/views.py 
+cat polls/views.py swn/views.py 
+cat polls/views.py >> swn/views.py 
+emacs swn/views.py 
+emacs swn/models.py
+emacs polls/models.py
+emacs swn/models.py
+emacs swn/views.py 
+emacs swn/templates/
+ll swn/templates/swn/
+rm swn/templates/swn/results.html 
+ll swn/templates/
+emacs swn/templates/swn/index.html
+ll polls
+ll polls/static/
+ll polls/static/polls/
+ll polls/static/polls/style.css 
+less polls/static/polls/style.css 
+mkdir -p swn/static/swn
+cp polls/static/polls/style.css swn/static/swn
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+emacs swn/templates/swn/index.html
+./restart.sh 
+emacs swn/admin.py
+emacs swn/models.py
+./restart.sh 
+emacs swn/models.py
+./restart.sh 
+emacs swn/models.py
+./restart.sh 
+emacs swn/models.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs polls/models.py
+emacs polls/urls.py
+ll polls
+ll polls/views.py
+less polls/views.py
+emacs polls/models.py
+emacs swn/templates/swn/detail.html
+./restart.sh 
+./manage.py shell
+less swn/views.py
+./manage.py shell
+ll
+emacs swn/views.py
+emacs swn/urls.py
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+./restart.sh 
+ll
+cd vacvv
+cd vaccv
+ll
+emacs views.py 
+emacs models.py 
+emacs urls.py
+emcas ../swn/urls.py
+emacs ../swn/urls.py
+emacs urls.py
+cat ../swn/views.py >> views.py 
+emacs views.py 
+mkdir templates/vaccv
+mkdir -p templates/vaccv
+cp ../swn/templates/swn/* templates/vaccv/
+emacs templates/vaccv/
+emacs templates/vaccv/index.html
+cd ..
+./restart.sh 
+emcas vaccv/templates/vaccv/detail.html
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+ll vaccv/templates/vaccv/
+./restart.sh 
+ll
+emacs mysite/urls.py
+emacs vaccv/urls.py
+emacs vaccv/views.py
+emacs swn/views.py
+emacs vaccv/admin.py 
+cat swn/admin.py >> vaccv/admin.py 
+emacs vaccv/admin.py 
+erm
+emacs mysite/settings.py
+./restart.sh 
+emacs vaccv/urls.py
+./restart.sh 
+emacs vaccv/urls.py
+emacs vaccv/templates/vaccv/detail.html
+emacs vaccv/urls.py
+emacs vaccv/views.py
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+emacs vaccv/templates/vaccv/detail.html
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+ll
+cd vaccv
+ll
+ls clone/
+mkdir clone/users/a/r/areagan/
+mkdir -p clone/users/a/r/areagan/
+ll
+cd ..
+./manage.py collectstatic
+emacs mysite/settings.py
+ll
+mkdir mysite/static/vaccv
+./manage.py collectstatic
+ll
+ln -s mysite/static/vaccv/data vaccv/clone
+cd mysite/static/vaccv/data
+ll vaccv/
+ll vaccv/clone/
+rm vaccv/clone/data
+ll vaccv/clone/
+ln -s vaccv/clone mysite/static/vaccv
+ll mysite/static/
+ll mysite/static/vaccv/
+rm -r mysite/static/vaccv/
+ln -s vaccv/clone mysite/static/vaccv
+rm -r mysite/static
+./manage.py collectstatic
+mkdir mysite/static/vaccv
+rm -r mysite/static/vaccv/
+ln -s vaccv/clone mysite/static/vaccv
+ll mysite/static/
+cd mysite/static/vaccv
+rm mysite/static/vaccv
+ln -s ../../vaccv/clone mysite/static/vaccv
+ll mysite/static/
+cd mysite/static/vaccv
+ll
+cd ..
+ll
+cd ../../
+ll
+pwd
+ll
+cd vaccv/
+ll
+erm
+cd clone/
+ll
+ll users/a/r/areagan/
+pwd
+ll
+cd ..
+ll
+emacs views.py
+cd ..
+./restart.sh 
+pwd
+emacs vaccv/views.py
+./restart.sh 
+ls ~
+ls -a ~
+ls -a ~/.ssh
+ssh_keygen
+ssh-keygen
+ll
+ssh vacc1
+ll ~
+cd ~
+pwd
+ll
+ll .ssh
+ssh vacc1
+pwd
+ll ..
+ll /
+emacs /etc/ssh/ssh_config 
+emacs polls/templates/polls/detail.html 
+emacs polls/templates/polls/results.html 
+emacs polls/templates/polls/detail.html 
+grep static polls/templates/polls/*
+./manage.py collectstatic
+./restart.sh 
+./manage.py collectstatic
+./restart.sh 
+ll
+ll swn/static/swn/
+less swn/static/swn/thumb.png 
+./manage.py collectstatic
+less swn/static/swn/thumb.png 
+
+./restart.sh 
+ll
+pwd
+cd ..
+ll
+cd
+ll
+pwd
+mkdir downloads
+cd downloads/
+ll
+wget https://pypi.python.org/packages/source/d/django-likes/django-likes-0.1.tar.gz#md5=bfba14e334f3e7f8a0901dc6654b6ec7
+ll
+tar xvzf django-likes-0.1.tar.gz 
+ll
+cd django-likes-0.1/
+ll
+python setup.py install
+cd ..
+wget https://pypi.python.org/packages/source/d/django-secretballot/django-secretballot-0.2.3.tar.gz#md5=d83db62753e85116050b8084b01eb17f
+tar xzvf django-secretballot-0.2.3.tar.gz 
+cd django-secretballot-0.2.3/
+ll
+python setup.py 
+python setup.py install
+pwqd
+cd ..
+ll
+cd django-likes-0.1/
+l
+ll
+emacs likes/urls.py 
+python setup.py intall
+python setup.py install
+ll
+./restart.sh 
+top
+ssh areagan@bluemoon-user1.uvm.edu
+ssh vacc1
+man ssh
+ssh -i ~/.ssh/id_rsa areagan@bluemoon-user1.uvm.edu
+ssh -i ~/.ssh/id_rsa areagan@bluemoon-user1.uvm.edu "pwd"
+ll
+rm vaccv/#urls.py# 
+cd vaccv/
+rm *~
+ll
+emacs views.py
+./re
+cd ..
+./restart.sh 
+clear
+emacs vaccv/views.py
+emacs vaccv/templates/vaccv/detail.html
+emacs vaccv/urls.py
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/views.py
+pwd
+ll vaccv/clone/
+emacs vaccv/views.py
+man scp
+cat vaccv/views.py
+scp -i ~/.ssh/id_rsa areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png .
+rm boston004*
+
+man scp
+rsync -i ~/.ssh/id_rsa areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png .
+man rsync
+rsync areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png .
+man rsync
+echo $HOME
+rsync -avz -e 'ssh -i /home/user0/.ssh/id_rsa areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png .
+rsync -avz -e 'ssh -i /home/user0/.ssh/id_rsa' . areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png
+pwd
+rsync -avz -e 'ssh -i /home/user0/.ssh/id_rsa' /usr/share/nginx/wiki/mysite/vaccv/clone areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png
+man rsync
+rsync -avz -e 'ssh -i /home/user0/.ssh/id_rsa' areagan@bluemoon-user1.uvm.edu:/users/a/r/areagan/work/2014/event-prediction/figures/*.png /home/user0
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/views.py
+\ls -1
+ls
+ls -1
+emacs vaccv/views.py
+./restart.sh 
+ll
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+ll vaccv/clone/users/a/r/areagan/work/2014/event-prediction/
+ll vaccv/clone/users/a/r/areagan/work/2014/event-prediction/figures/
+ll vaccv/clone/users/a/r/areagan/work/2014/event-prediction/boston004.png/
+\rm -r vaccv/clone/users
+./restart.sh 
+\rm -r vaccv/cloneusers
+ll mysite/static/
+ll mysite/static/vaccv/clone
+rm mysite/static/vaccv
+emacs vaccv/views.py
+ll mysite/static/vaccv/clone
+ll mysite/static/vaccv
+pwd
+ll
+ll mysite/
+ll mysite/static/
+mkdir mysite/static/vaccv
+ll mysite/static/vaccv
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+ll mysite/static/vaccv/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/figures/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/figures/st
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/static/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/static/vaccv/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/static/vaccv/users/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/static/vaccv/users/a
+emacs vaccv/views.py
+ll
+rm -r vaccv/clone/*
+rm -r mysite/static/vaccv/*
+./restart.sh 
+emacs vaccv/views.py
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/static/vaccv/users/a/r/areagan/work/2014/event-prediction/figures/usr/share/nginx/wiki/mysite/mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/figures/boston004
+man mkdir
+ll
+mkdir test
+mkdir -p test
+ll
+ll te
+ll test/
+ll
+./restart.sh 
+ls -1 mysite/static/vaccv/
+ls -1 mysite/static/vaccv/*.png
+emacs vaccv/views.py
+./restart.sh 
+\rm mysite/static/vaccv/*
+\rm -r mysite/static/vaccv/*
+ll vaccv/clone/
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction
+ll mysite/static/vaccv/users/a/r/areagan/work/2014/event-prediction/figures/
+ll
+emacs vaccv/views.py
+emacs vaccv/templates/vaccv/detail.html
+man ls
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/views.py
+./restart.sh 
+emacs vaccv/views.py
+emacs vaccv/templates/vaccv/detail.html
+./restart.sh 
+emacs vaccv/views.py
+./restart.sh 
+cd /usr/share/nginx/wiki/mysite/mysite/static/vaccv/users/a/r/areagan/work/2013/data-assimilation/OpenFOAM/figures; ls -1 *.png *.jpg *.svg
+cd ../../../../
+cd ../../.././
+cd ../../../../
+ll
+cd ../
+emacs vaccv/views.py
+./restart.sh 
+ll
+rm -r mysite/static/vaccv/*
+ll
+emacs swn/templates/swn/detail.html
+emacs polls/templates/polls/detail.html 
+emacs swn/templates/swn/detail.html
+emacs swn/models.py
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+./manage.py syncdb
+emacs swn/models.py
+./manage.py syncdb
+ll
+emacs swn/models.py
+emacs swn/templates/swn/detail.html
+mkdir -p swn/static/swn
+cd swn/static/swn/
+wget http://andyreagan.com/files/2014/04/thumb.png
+ll
+cd ../../
+ll
+rm *~
+ll
+cd ..
+ll
+emacs swn/templates/swn/detail.html
+wget http://uvm.edu/~areagan/files/2014/04/thumb.png
+mv thumb.png swn/static/swn/
+wget http://uvm.edu/~areagan/files/2014/04/thumb.png
+ll
+cp thumb.png swn/static/swn/
+emacs swn/templates/swn/detail.html
+emacs swn/templates/swn/index.html
+emacs swn/templates/swn/detail.html
+emacs mysite/settings.py
+./restart.sh 
+emacs swn/models.py
+emacs mysite/settings.py
+emacs mysite/urls.py
+ll
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/models.py
+./restart.sh 
+emacs mysite/urls.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+./manage.py syncdb
+./manage.py shell
+emacs swn/models
+emacs swn/models.py
+./manage.py shell
+emacs mysite/settings.py
+./manage.py syncdb
+./manage.py migrate
+./restart.sh 
+emacs mysite/settings.py
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs mysite/urls.py
+./restart.sh 
+emacs mysite/urls.py
+./restart.sh 
+./manage.py shll
+./manage.py shell
+emacs 
+emacs swn/models.py
+python manage.py syncdb
+./restart.sh 
+./manage.py shll
+./manage.py shell
+./manage.py syncdb
+./manage.py migrate
+python manage.py syncdb
+emacs swn/models.py
+python manage.py syncdb
+python manage.py migrate
+python
+lll
+ll
+python manage.py flush
+./manage.py syncdb
+./manage.py migrate
+emacs swn/models.py
+ll
+./manage.py flush
+./manage.py syncdb
+emacs swn/models.py
+ll
+emacs swn/models
+emacs swn/models.py
+emacs mysite/settings.py
+./restart.sh 
+emacs swn/models.py
+ll
+emasc swn/models.py
+emacs swn/models.py
+emacs swn/views.py
+emacs swn/urls.py
+ll
+./manage.py flush
+./restart.sh 
+emacs swn/models.py
+emacs mysite/settings.py
+./restart.sh 
+emacs mysite/settings.py
+emacs swn/models.py
+emacs mysite/settings.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/mode
+emacs swn/models.py
+emacs mysite/settings.py
+./restart.sh 
+ll
+eamcs mysite/settings.py
+emacs mysite/settings.py
+emacs swn/urls.py
+emacs swn/models.py
+emacs swn/views.py
+eamcs swn/templates/swn/detail.html
+emacs swn/templates/swn/detail.html
+./manage.py flush
+ll
+./restart.sh 
+pwd
+emacs mysite/settings.py
+emacs swn/models.py
+emacs swn/urls.py
+emacs swn/models.py
+emacs wiki/urls.py
+emacs swn/urls.py
+emacs swn/templates/swn/detail.html
+./restart.sh 
+./manage.py flush
+l
+ll
+./restart.sh 
+python manage.py syncdb
+python manage.py migrate
+emacs mysite/settings.py
+ll
+./restart.sh 
+emacs mysite/settings.py
+emacs mysite/urls.py
+python manage.py syncdb
+python manage.py migrate
+ll
+pwd
+ll
+mkdir old
+mv wiki polls old
+ll
+rm thumb.png 
+ll
+mv sixipedia2.jpg mysite/static/
+ll
+./manage.py collectstatic
+ll
+ll test
+rm test
+rm -r test
+ll
+emacs swn/templates/swn/
+emacs swn/templates/swn/detail.html
+emacs swn/models.py
+python manage.py syncdb
+emacs swn/models.py
+python manage.py syncdb
+python manage.py migrate
+ll
+emacs swn/admin.py
+emacs swn/models.py
+./restart.sh 
+emacs swn/admin.py
+./restart.sh 
+emacs swn/admin.py
+ll
+emacs swn/templates/
+emacs swn/templates/swn/detail.html
+./restart.sh 
+python manage.py syncdb
+emacs swn/models.py
+python manage.py syncdb
+emacs swn/models.py
+python manage.py flush
+ll
+python manage.py flush
+python manage.py syncdb
+emacs old/wiki/models/
+emacs old/wiki/models/article.py
+ll old/wiki/models
+ll old/wiki/models/urlpath.py
+less old/wiki/models/urlpath.py
+ll
+emacs mysite/settings.py
+emacs swn/models.py
+./manage.py flush
+ll
+emacs mysite/settings.py
+emacs swn/models.py
+./manage.py flush
+ll
+./restart.sh syncdb
+./manage.py syncdb
+./manage.py migrate
+./manage.py check swn
+./manage.py check
+./manage.py cleanup
+./manage.py clearsessions
+python
+./manage.py dbshell
+./manage.py migrate
+./manage.py flush
+l
+ll
+./manage.py dbshell
+./manage.py flush
+emacs mysite/settings.py
+emacs swn/models.py
+./manage.py dbshell
+mysql -u root -p
+./manage.py dbshell
+./manage.py syncdb
+./manage.py migrate
+./restart.sh 
+emacs swn/models.py
+emacs swn/admin.py
+ll
+./restart.sh 
+ll
+cd old/wiki/
+lll
+ll
+ll models/
+ll views/
+ll editors/
+ll conf/
+ll co
+ll core
+ll locale
+ll management/
+ll management/commands/
+less management/commands/wikiviz.py 
+ll
+ll locale/
+ll locale/es/
+ll locale/es/LC_MESSAGES/
+less locale/es/LC_MESSAGES/django.po 
+ll
+less locale/en/LC_MESSAGES/django.po 
+ll locale/
+ll
+ll migrations/
+ll
+ll models/
+ll
+pw
+pwd
+ll
+cd ../../
+ll
+./manage.py dbshell
+ll
+pwd
+ll
+mysql -u root -p
+./manage.py dbshell
+./manage.py schemamigration swn --initial
+./manage.py migrate swn
+./manage.py syncdb
+./manage.py migrate swn
+./manage.py migrate django_notify
+ll
+emacs swn/models.py
+./manage.py schemamigration swn --auto
+emacs swn/models.py
+./manage.py schemamigration swn --auto
+./manage.py migrate swn
+ll
+emacs swn/templates/swn/detail.html
+emacs swn/models.py
+./manage.py shell
+./restart.sh 
+python
+./manage.py shell
+emacs swn/templates/swn/detail.html
+./restart.sh 
+ll
+pwd
+ll
+pwd
+l
+ll
+l
+ll
+pwd
+l
+ll
+emacs swn/views.py
+emacs swn/urls.py
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/urls.py
+emacs swn/views.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+ll
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+./manage.py shell
+ll
+./manage.py shell
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+emacs swn/urls.py
+emacs swn/views.py
+emacs swn/models.py
+emacs swn/views.py
+./restart.sh 
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+./er
+./restart.sh 
+./manage.py flush
+./manage.py syncdb
+./manage.py migrate
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+emacs swn/templates/swn/detail.html
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs swn/views.py
+./restart.sh 
+emacs mysite/settings.py
+ll mysite/
+emacs mysite/settings.py
+ll old/wiki/template
+ll old/wiki/templates/
+ll old/wiki/templates/wiki/
+less old/wiki/templates/wiki/base.html 
+less old/wiki/templates/wiki/base_site.html
+ll
+pwd
+ll
+ll mysite/
+ll mysite/static/
+ll mysite/static/admin/
+ll mysite/static/admin/css
+ll mysite/static/admin/img
+ll mysite/static/admin/js
+ll mysite/static/admin/js/admin/
+pwd
+ll
+ll old
+ll swn/
+cat re
+cat restart.sh 
+l
+ll
+cat re
+cat requirements.txt 
+ll
+ll templates/
+ll templates/admin/
+ll templates/admin/base_site.html 
+ll
+ll vaccv/
+cd vaccv/
+erm
+rm *~
+ll
+https://andrewreagan@bitbucket.org/andrewreagan/hedonometer.githttps://andrewreagan@bitbucket.org/andrewreagan/hedonometer.githttps://andrewreagan@bitbucket.org/andrewreagan/hedonometer.gitcd ..
+ll
+ll mysite/urls.py
+emacs mysite/urls.py
+ll
+ll old
+ll old/polls/
+ll old/polls/static/
+ll
+ll mysite/static/
+ll mysite
+ll mysite/static/
+ll mysite/static/admin/
+ll mysite/static/admin/sw
+ll mysite/static/swn/
+ll mysite/static/vaccv/
+ll mysite/static/vaccv/%7Byour/
+ll mysite/static/vaccv/users/
+ll mysite/static/
+ll mysite/static/admin
+emacs mysite/settings.py
