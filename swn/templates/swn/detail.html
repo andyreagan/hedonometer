@@ -1,0 +1,91 @@
+{% load staticfiles %}
+<script type='text/javascript' src='http://code.jquery.com/jquery-1.8.2.js'></script>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#button").click(function() {
+      var input_string = $("#forminput").val();
+      $.ajax({
+        url : "/swn/{{ topic.id }}_submit/",
+        type : "POST",
+        dataType: "json",
+        data : {
+          client_response : input_string,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success : function(json) {
+          // $('#result').append( 'Server Response: ' + json.server_response);
+          if (json.status_code == 0) {
+            alert("too short!");
+          }
+          if (json.status_code == 1) {
+            alert("too long!");
+          }
+          if (json.status_code == 2) {
+            window.location.reload(true);
+          }
+        },
+        error : function(xhr,errmsg,err) {
+          alert(xhr.status + ": " + xhr.responseText);
+        }
+      });
+      return false;
+    });
+    $(".indivnovel").click(function() {
+      console.log(this);
+      var swn_id = this.value;
+      console.log(swn_id);
+      $.ajax({
+        url : "/swn/{{ topic.id }}_vote/",
+        type : "POST",
+        dataType: "json",
+        data : {
+          client_response : swn_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success : function(json) {
+          console.log(this);
+          $('#count'+swn_id).text(json['count']);
+        },
+        error : function(xhr,errmsg,err) {
+          alert(xhr.status + ": " + xhr.responseText);
+        }
+      });
+      return false;
+    });
+  });
+</script>
+
+<h1>{{ topic.title }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% for swn in topic.swn_set.all %}
+    {{ swn.text }}<br />
+    <text id="count{{ swn.id|slugify }}">{{ swn.like_set.all.count }}</text>
+    <form method="post" name="example form" >
+    {% csrf_token %}
+    <input class="indivnovel" value="{{ swn.id }}" type="image" src="{% static 'swn/thumb.png' %}" height="25"/>
+    </form> 
+    <br /><br />
+{% endfor %}
+
+Add new:
+
+<form method="post" name="example form" >
+{% csrf_token %}
+<input name="example" id="forminput" type="text">
+<input id="button" type="submit"/></input>
+</form>
+
+{% comment %}
+<input id="button" type="image" src="{% static 'swn/thumb.png' %}" height="25"/></input>
+{% load likes_inclusion_tags %}
+    {% likes swn %} <br /><br />
+
+<ul>
+{% for choice in topic.swn_set.all %}
+    <li>{{ swn.text }}</li>
+{% endfor %}
+</ul>
+{% endcomment %}

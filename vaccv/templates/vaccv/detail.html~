@@ -1,0 +1,11 @@
+<center>
+<h1>{{ directory }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+{% for image in imagelist %}
+    {{ image }}
+    <br />
+    <img src="/static/vaccv/{{ directory }}/{{ image }}"/>
+{% endfor %}
+</center>

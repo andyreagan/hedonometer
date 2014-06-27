@@ -1,0 +1,7 @@
+from django.db import models
+
+# Create your models here.
+
+# a model for the people
+class Person(models.Model):
+    

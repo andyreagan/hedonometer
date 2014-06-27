@@ -1,0 +1,92 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block content %}
+    <div class="container">
+      <div class="infobox">
+        <h4>Average Happiness for Twitter</h4>
+      </div>
+      <p style="margin-bottom:0px; font-size: 11px;">
+      </p>
+
+      <noscript>
+        <div id='unsupported' class='container error'>
+          <h5>JavaScript Not Detected</h5>
+          <p>The Hedonometer requires JavaScript to be enabled.</p>
+        </div>
+      </noscript>
+
+      <!--[if lte IE 8]>
+          <div class='ie' id='unsupported'>
+	    <h4>Incompatible Browser</h4>
+	    <p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a h\ref="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
+	  </div>
+      <![endif]-->
+
+      <div id="datapanel"></div>
+      <div id="chart"></div>
+
+      <div id="wrap"></div>
+      <div id="bigbox" class="container"></div>
+      <div id="subrow"></div>
+      <div id="yearsrow" style="margin-left:-57px;"></div>
+
+    </div>
+
+    <div class="modal" id="myModal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
+            <!-- <h3 class="modal-title" id="modaltitle">Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span></h3> -->
+            <!-- <button class="btn btn-default btn-sm" type="button"><i class="fa fa-signal"></i> Major Event</button> -->
+          </div>
+          <div class="modal-body" id="moveshifthere">
+          </div>
+          <div class="modal-footer">
+            <div class="addthis_sharing_toolbox pull-left"></div>
+
+            <div class="input-group restrain pull-right">
+              <span class="input-group-btn">
+                <!-- <button class="btn btn-default" type="button" onclick="nextDay(-1);"> -->
+                <button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
+                  Prev Day
+                </button>
+              </span>
+              <input type="text" class="form-control" value="2013-04-15" id="dp1">
+              <!-- <input type="text" class="form-control" > -->
+              <span class="input-group-btn">
+                <button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
+                  Next Day
+                </button>
+              </span>
+            </div>
+
+            <!-- <div class="btn-group"> -->
+            <!--   <button class="btn btn-default" onclick="nextDay(-1);">Prev Day</button> -->
+            <!--   <button class="btn btn-default"><input type="text" class="span2" value="02-16-2014" id="dp1"></button> -->
+            <!--   <button class="btn btn-default" onclick="nextDay(1);">Next Day</button> -->
+            <!-- </div> -->
+
+            <!-- <a href="#" class="btn btn-default">Embed Shift</a> -->
+            <!-- <a href="#" data-dismiss="modal" class="btn">Close</a> -->
+          </div>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+{% block bottomjs %}
+
+    <!-- Javascript                                                                                                                                                          
+         ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static "hedonometer/js/d3.js" %}" type="text/javascript"></script>
+    <script src="{% static "hedonometer/js/minishift.js" %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap-datepicker.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/timeline2.js" %}"></script>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+        <div class="col-xs-12 col-sm-8">
+	  <h3>Happiness</h3>
+	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in real time.</p>
+
+	  <p>Our hedonometer is based on people&#8217;s online expressions, capitalizing on data-rich social media, and we&#8217;re measuring how people present themselves to the outside world. For our first version of hedonometer.org, we&#8217;re using Twitter as a source but in principle we can expand to any data source in any language (more below). We&#8217;ll also be adding an API soon.</p>
+
+	  <p>So this is just a start &mdash; we invite you to explore the <a href="index.html">Twitter time series</a> and let us know what you think.</p>
+	  
+          <h3>Hedonometer Team</h3>
+          <p id="team">Hedonometer.org is based on the research of <a href="http://www.uvm.edu/~pdodds"  target="_blank">Peter Dodds</a> and <a href="http://www.uvm.edu/~cdanfort" target="_blank">Chris Danforth</a> and their team in the <a href="http://www.onehappybird.com" target="_blank">Computational Story Lab</a> at the <a href="http://www.uvm.edu/~cmplxsys/" target="_blank">University of Vermont Complex Systems Center</a>, and the technology of <a href="mailto:btivnan@mitre.org?Subject=Hedonometer">Brian Tivnan</a>, <a href="mailto:mcmahon@mitre.org?Subject=Hedonometer">Matt McMahon</a> and their team from <a href="http://www.mitre.org">The MITRE Corporation</a>.</p>
+	</div>
+        <div class="col-xs-0 col-sm-4">
+	</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+        <div class="col-xs-12 col-sm-8">
+	  <h3>Frequently Asked Questions</h3>
+	  <h4>General</h4>
+	  <h5>&ldquo;Where does the word &#8216;hedonometer&#8217; come from?&rdquo;</h5>
+	  <p>The economist Francis Edgeworth coined the term in the late 1800&#8217;s to describe "an ideally perfect instrument, a psychophysical machine, continually registering the height of pleasure experienced by an individual." <a href="http://en.wikipedia.org/wiki/Hedonometer" target="_blank">[wikipedia]</a></p>
+	  <hr>
+	  <h5>&ldquo;How are words assigned a happiness score?&rdquo;</h5>
+	  <p>To quantify the happiness of the atoms of language, we merged the 5,000 most frequent words from a collection of four corpora: Google Books, New York Times articles, Music Lyrics, and Twitter messages, resulting in a composite set of roughly 10,000 unique words. Using Amazon&#8217;s Mechanical Turk service, we had each of these words scored on a nine point scale of happiness: (1) sad to (9) happy. You can explore the average scores of each word on our <a href="/words.html">words page</a>, or download the entire list from the publication supplement <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752">here</a>.
+	  </p>
+	  <hr>
+	  <h5>&ldquo;What is being measured by the instrument?&rdquo;</h5>
+	  <p>hedonometer.org currently measures Twitter&#8217;s Gardenhose feed, a random sampling of roughly 50 million (10%) of all messages posted to the service, comprising 100GB of JSON each day. Words in messages written in English are thrown into a large bag (containing roughly 100 million words per day), and the bag is assigned a happiness score based on the average happiness score of the words contained within.</p>
+	  <hr>
+	  <h5>&ldquo;If this is an instrument, it should have a knob somewhere.&rdquo;</h5>
+	  <p>Is that even a question?  Well, we do have a knob. It allows us to tune the relative importance of the most emotionally charged words by removing neutral words from consideration when determining the happiness of a given day. It also allows us to remove words that receive widely varying scores when rated on Mechanical Turk. Many profanities received average ratings between 4 and 6 due to the bimodal nature of their word score distribution. (Details on the choice of &Delta; h<sub>avg</sub> = 1 can be found in figure 2 of the publication listed below.)</p>
+	  <hr>
+	  <h5>&ldquo;What does the hedonometer say about people who don&#8217;t tweet?&rdquo;</h5>
+	  <p>Tweets represent a non-uniform subsampling of all utterances made by a non-representative subpopulation of all people. However, there are hundreds of millions of people presently using the website to express their activities and interests, and as such it is an important social signal.
+	  </p>
+	  <hr/>
+	  <h5>&ldquo;What about the demographics of Twitter? Aren&#8217;t they non-representative?&rdquo;</h5>
+	  <p>Yes! And Twitter&#8217;s demographics have also changed over time. Nevertheless, we&#8217;re using Twitter as our initial data source for a few reasons:
+	    <ol>	<li>We have found that our measure of happiness correlates very well
+		with traditional surveys of well-being (see <a href="http://arxiv.org/abs/1302.3299" target="_blank">here</a> for details).</li>	
+	      <li>Twitter provides a stern test for our instrument due to the enormous amount of data we receive and must process in real time.</li>	
+	      <li> We can focus in on Twitter communities to gain a sense of
+		what people are expressing (e.g., countries and cities); and</li>	
+	      <li>Twitter continues to become a more and more important
+		collective, global media voice, and is thus an important story in itself
+		worthy of scientific analysis.</li>	
+	    </ol>
+	  </p>
+	  <hr/>
+	  <h5>&ldquo;Why does the day of Osama Bin Laden&#8217;s death have such a low happiness score?&rdquo;</h5>
+	  <p>Many people presume this day will be one of clear positivity. While we do see positive words such as &ldquo;celebration&rdquo; appearing, the overall language of the day on Twitter reflected that a very negatively viewed character met a very negative end. It was a day of complex emotion which is best explored in the <a href="http://www.hedonometer.org/wordshift.html?date=2011-05-02" target="_blank">word shift for the day</a>, rather than the single number of its average happiness.</p>
+	  <hr/>
+	  <h5>&ldquo;Where can I learn more about the hedonometer and other work being carried out by the Computational Story Lab?&rdquo;</h5>
+	  <p>In our Computational Story Lab <a href="http://onehappybird.com" target="_blank">blog</a> we describe research projects in which we use our hedonometer to characterize happiness variations with respect to geography, network topology, demographics, and socio-economic data. For example, here&#8217;s a map of the US with cities colored by happiness:</p>
+	  <br/>
+	  <p>
+	    <a href="http://onehappybird.com/2013/02/18/where-is-the-happiest-city-in-the-usa/" target="_blank"><img src="{% static "hedonometer/graphics/where-is-the-happiest-city-in-the-usa.jpeg" %}"></a>
+	    <br>
+	  </p>
+	  <br>
+	  <p>For the full story of our hedonometer algorithm, please read our foundational paper describing its construction:</p>
+	</div>
+        <div class="col-xs-0 col-sm-4">
+	</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-2 col-sm-2">
+	  <img width="70" height="70" src="{% static "hedonometer/graphics/papers/5.jpg" %}" class="img-polaroid">
+	</div>
+	<div class="col-xs-10 col-sm-6">
+	  <i>Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.</i><br>
+	  PLoS ONE, 6, e26752, 2011. <a href="http://www.uvm.edu/~cdanfort/research/2011-hedonometer-arxiv.pdf" target="_blank">[pdf]</a> <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752" target="_blank">[journal url]</a>
+	</div>
+        <div class="col-xs-0 col-sm-0">
+	</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-10 col-sm-8">
+	  <h4>Future</h4>
+	  <h5>&ldquo;What about languages other than English?&rdquo;</h5>
+	  <p>We are currently in the process of scoring the most frequently used words in a dozen other languages, and hope to have these measurements incorporated into the instrument by the end of the year.</p>
+	  <hr>
+	  <h5>&ldquo;How will you deal with context?&rdquo;</h5>
+	  <p>We are currently developing a principled method to identify relevant phrases, for example to deal with the multitude of both positive and negative uses of profanity.  We expect to be scoring phrases instead of words, where appropriate, in the near future.</p>
+	  <hr>
+	  <h5>&ldquo;Do you plan to include sources other than Twitter to feed hedonometer.org?&rdquo;</h5>
+	  <p>We will soon be including text from other online sources including Google Trends (what people are searching for), bit.ly (what people are viewing online), and the BBC (what people are reading), which will serve as different lenses through which to explore societal trends.</p>
+	  <hr>
+	  <h5>&ldquo;What about other emotions?&rdquo;</h5>
+	  <p>We are currently building a large-scale database of word-based measures for emotions other than happiness and sadness such as fear, anger, and surprise. We intend to incorporate these emotions into future versions of the hedonometer.</p>
+	  <hr>
+	</div>
+        <div class="col-xs-0 col-sm-2">
+	</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-12 col-sm-8">
+	  <h4>Technological</h4>
+	  <h5>&ldquo;How did you develop the interface for hedonometer.org?&rdquo;</h5>
+	  <p>We used the D3.js Javascript data visualization library for visualizing the data, the Sinatra domain specific language and the DataMapper Object Relational Mapper with PostgreSQL to create the web application.  Hedonometer.org is deployed on the Heroku cloud application platform.</p>
+	  <hr>
+	  <h5>&ldquo;What computational infrastructure underlies hedonometer.org?&rdquo;</h5>
+	  <p>We initially prototyped the infrastructure on a local Hadoop cluster and then deployed this prototype via Amazon Web Services (AWS), specifically the Simple Storage Service (S3) and  Elastic Compute Cloud (EC2). Currently, this AWS architecture enables the computation of daily Happiness and Word Shifts for four years of data on 1500 processors in three hours. Future instances of this infrastructure will allow for further scaling to tens of thousands of processors and enhancements to permit hourly site updates.</p>
+
+	  <hr>
+	  <h4>Credits</h4>
+
+	  <h5>UVM&#8217;s Computational Story Lab:</h5>
+	  <p>Peter Dodds, Chris Danforth, Andi Elledge, Sharon Alajajian, Nicholas Allgaier, Catherine Bliss, Melody Burkins, Eric Clark, Emily Cody, Kameron Decker Harris, Suma Desu, Mike Foley, Morgan Frank, Bill Gottesman, Isabel Kloumann, Paul Lessard, Lewis Mitchell, Kate Morrow, Eitan Pechenick, Michael Pellon, Aaron Powers, Andy Reagan, Matt Tretin, Lindsay Van Leir, and Jake Williams.</p>
+
+	  <h5>The MITRE Team:</h5>
+	  <p>Brian Tivnan, Matt McMahon, Ivan Ramiscal, Mike Shadid, Pete Carrigan, Zach Furness, Zoe Henscheid, Garry Jacyna, Matt Koehler, and Karine Megerdoomian.</p>
+
+	  <h5>Many thanks and acknowledgments go to these people:</h5>
+	  <p>Mike Austin, Josh Brown, Jim Burgmeier, Kate Danforth, Tyler Gray, John Kaehny, Jim Lawson, Aimee Picchi, Andrew Reece, Tony Richardson, John Tucker and Toph Tucker.</p>
+
+	  <p>And special thanks go to Jonathan Harris and Sep Kamvar for their
+	    <a href="http://www.wefeelfine.org" target="_blank">initial inspiration</a>.</p>
+
+	  <hr>
+	</div>
+        <div class="col-xs-0 col-sm-4">
+	</div>
+      </div>
+      <div class="row">
+        <div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-12 col-sm-8">
+	</div>
+        <div class="col-xs-0 col-sm-4">
+	</div>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block bottomjs %}
+
+    <!-- Javascript
+     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+
+{% endblock %}
+

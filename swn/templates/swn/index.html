@@ -1,0 +1,14 @@
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href="{% static 'swn/style.css' %}" />
+
+<h1>Latest 5 Topics</h1>
+
+{% if latest_topic_list %}
+    <ul>
+    {% for topic in latest_topic_list %}
+        <li><a href="{% url 'swn:detail' topic.id %}">{{ topic.title }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No topics are available.</p>
+{% endif %}

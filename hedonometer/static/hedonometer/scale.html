@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+	<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+	
+    <title>Hedonometer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="application-name" content="Hedonometer"/>
+	<meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
+	<meta name="developer" content="Ivan Ramiscal, The MITRE Corporation"/>
+	<meta name="google-site-verification" content="qL0BJxj9IpszlaCQOt8ocvPUY4VgBBpsbsj5FnR6tyM" />
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:site" content="Hedonometer">
+	<meta name="twitter:title" content="The Hedonometer">
+	<meta name="twitter:description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
+	<meta name="twitter:creator" content="@hedonometer">
+	<meta name="twitter:image:src" content="http://www.hedonometer.org/graphics/selfies/hedoLarge.png">
+	<meta name="twitter:domain" content="">
+	<meta name="twitter:app:name:iphone" content="">
+	<meta name="twitter:app:name:ipad" content="">
+	<meta name="twitter:app:name:googleplay" content="">
+	<meta name="twitter:app:url:iphone" content="">
+	<meta name="twitter:app:url:ipad" content="">
+	<meta name="twitter:app:url:googleplay" content="">
+	<meta name="twitter:app:id:iphone" content="">
+	<meta name="twitter:app:id:ipad" content="">
+	<meta name="twitter:app:id:googleplay" content="">	
+    <!-- Styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+    <link href="css/timeline.css" rel="stylesheet">
+
+    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+	<script src="js/d3.js" type="text/javascript"></script>
+	<script src="js/timeline.js"></script>
+	<script src="js/mousetrap.min.js"></script>
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+	<style>
+	#timeseries{margin-left:9em; margin-top:6em; -webkit-transform:scale(1.25); width:100%;}
+	#yearsrow{margin-left:1em; margin-top:5em; -webkit-transform:scale(1.25);}
+	#daylegend{margin-left:8.8em;-webkit-transform:scale(1.25);}
+	</style>
+  </head>
+
+  <body>
+	<noscript>
+	<div id="informational" class="container" itemscope itemtype="http://schema.org/WebApplication">
+	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Hedonometer</strong></div>
+	</a><div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
+	<div itemprop="creator" itemscope itemtype="http://schema.org/Organization">
+	Created by: <span itemprop="name">The MITRE Corporation</span> &amp; <span itemprop="name">University of Vermont Complex Systems Center</span></div>
+	<hr>
+	</div>
+	</noscript>
+
+
+		<div class="container">
+			<div class="infobox">
+			<h4>Daily Happiness Averages for Twitter, September 2008 to present</h4>
+			</div>
+			<p style="margin-bottom:0px; font-size: 11px;">
+				Click to toggle day of week. Hover over circles for more information.
+			</p>
+			
+			<noscript>
+			<div id='unsupported' class='container error'>
+			<h5>JavaScript Not Detected</h5>
+			<p>The Hedonometer requires JavaScript to be enabled.</p>
+			</div>
+			</noscript>
+
+			<!--[if lte IE 8]>
+			<div class='ie' id='unsupported'>
+			<h4>Incompatible Browser</h4>
+			<p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a href="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
+			</div>
+			<![endif]-->
+			
+			<div id="datapanel"></div>
+		     <div id="chart"></div>
+	     
+			<div id="wrap"></div>
+			<div id="bigbox" class="container"></div>
+			<div id="subrow"></div>
+			<div id="yearsrow"></div>
+
+
+			<div id="footer">
+				<div id="footer-inner" style="padding-top:20px;">
+				<p class="logo"><a href="http://www.mitre.org"><img alt="The MITRE Corporation" src="graphics/mitrelogo-whiteonblue.jpg" style="height:45px; margin-top:-2px; padding-right:30px;"/></a>
+				<a href="http://uvm.edu"><img alt="University of Vermont" src="graphics/uvmlogosolid3425k.png" style="padding-right:15px;width:226px;height:54px;"/></a>
+				<a href="http://www.uvm.edu/~cmplxsys/"><img alt="University of Vermont Complex Systems Center" src="graphics/CSC.png" style="padding-right:15px;height:57px;width:57px;"/></a>	
+				<a href="http://www.uvm.edu/~vacc/"><img alt="University of Vermont Advanced Computing Core" src="graphics/vacc.jpg" style="padding-right:15px;width:84.5px;height:54px;"/></a>
+				<a href="http://onehappybird.com/"><img alt="computational story lab" src="graphics/csl.png" style="width:113px; height:54px"/></a>
+				</p>
+				<p style="font-size:12px; color:lightgrey;">Copyright &copy; 2013 The MITRE Corporation &amp; University of Vermont Complex Systems Center. All Rights Reserved.<br><a href="policy.html">Privacy Policy</a> |  Approved for Public Release: 13-0883. Distribution Unlimited.</p>
+			</div>
+			</div>
+			</div> <!-- /footer -->
+
+			
+		</div>
+		
+		
+
+<script type="text/javascript">
+	window.onload = generateTimeline;
+</script>
+
+<!-- Javascript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+<script src="/js/bootstrap.js"></script>
+
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-36404428-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+  </body>
+</html>

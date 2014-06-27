@@ -1,0 +1,3 @@
+from tastypie.resources import ModelResource
+from cmplxsys.models import Person
+

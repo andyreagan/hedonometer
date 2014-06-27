@@ -26,8 +26,21 @@ TEMPLATE_DEBUG = True
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR,'templates')]
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    "sekizai.context_processors.sekizai",
+)
+
 ALLOWED_HOSTS = []
 
+SITE_ID = 1
 
 # Application definition
 
@@ -36,9 +49,32 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polls',
+# for the tutorial
+#     'polls',
+    'swn',
+    'vaccv',
+    'hedonometer',
+# for the wiki, keep
+    'django.contrib.humanize',
+    'south',
+    'django_notify',
+    'mptt',
+    'sekizai',
+    'sorl.thumbnail',
+# the wiki itself...not going to use
+#    'wiki',
+#    'wiki.plugins.attachments',
+#    'wiki.plugins.notifications',
+#    'wiki.plugins.images',
+#    'wiki.plugins.macros',
+# these were a good idea but they're both out of date
+#    'secretballot',
+#    'likes'
+    'cmplxsys',
+    'tastypie',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,6 +84,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+# also for the likes/secretballot combo
+#    'likes.middleware.SecretBallotUserIpUseragentMiddleware',
 )
 
 ROOT_URLCONF = 'mysite.urls'
@@ -61,7 +99,7 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'polldb',
+        'NAME': 'swndb',
         'USER': 'root',
         'PASSWORD': 'm@candch33s#',
         'HOST': '127.0.0.1',

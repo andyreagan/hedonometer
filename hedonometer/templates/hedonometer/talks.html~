@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    
+    <title>Hedonometer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="Hedonometer"/>
+    <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
+    <meta name="developer" content="Andy Reagan, UVM, and Ivan Ramiscal, The MITRE Corporation"/>
+    <meta name="google-site-verification" content="qL0BJxj9IpszlaCQOt8ocvPUY4VgBBpsbsj5FnR6tyM" />
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="Hedonometer">
+    <meta name="twitter:title" content="The Hedonometer">
+    <meta name="twitter:description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
+    <meta name="twitter:creator" content="@hedonometer">
+    <meta name="twitter:image:src" content="http://www.hedonometer.org/graphics/selfies/hedoLarge.png">
+    <meta name="twitter:domain" content="">
+    <meta name="twitter:app:name:iphone" content="">
+    <meta name="twitter:app:name:ipad" content="">
+    <meta name="twitter:app:name:googleplay" content="">
+    <meta name="twitter:app:url:iphone" content="">
+    <meta name="twitter:app:url:ipad" content="">
+    <meta name="twitter:app:url:googleplay" content="">
+    <meta name="twitter:app:id:iphone" content="">
+    <meta name="twitter:app:id:ipad" content="">
+    <meta name="twitter:app:id:googleplay" content="">	
+    <!-- Styles -->
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/site.css" rel="stylesheet">
+    <link href="css/timeline.css" rel="stylesheet">
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="ico/apple-touch-icon-57-precomposed.png">
+
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-539b215a08fde1a0"></script>
+    <script type="text/javascript">
+      var addthis_config = addthis_config||{};
+      addthis_config.data_track_addressbar = false;
+      addthis_config.data_track_clickback = false;
+    </script>
+
+  </head>
+
+  <body>
+    <noscript>
+      <div id="informational" class="container" itemscope itemtype="http://schema.org/WebApplication">
+	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Hedonometer</strong></div>
+	</a><div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
+	<div itemprop="creator" itemscope itemtype="http://schema.org/Organization">
+	  Created by: <span itemprop="name">The MITRE Corporation</span> &amp; <span itemprop="name">University of Vermont Complex Systems Center</span></div>
+	<hr>
+      </div>
+      <!-- <div id='unsupported' class="container error"> -->
+      <!-- 	<h5>JavaScript Not Detected</h5> -->
+      <!-- 	<p>The Hedonometer requires JavaScript to be enabled.</p> -->
+      <!-- 	<hr> -->
+      <!-- </div> -->
+    </noscript>
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+      <div class="container">
+	<div class="navbar-header">
+	  <div class="navbar-brand">
+	  <img alt="logo" src="graphics/hedonometer-logo.png" class="img-responsive img-circle" width="23px">
+	  </div>
+	  <a class="navbar-brand" href="/index.html">hedonometer</a>
+	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+
+	  </button>
+	</div>
+	<div class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav">
+	    <li><a href="/about.html">About</a></li>
+	    <li><a href="/shifts.html">Shifts</a></li>
+	    <li><a href="/words.html">Words</a></li>
+	    <li><a href="http://onehappybird.com" target="_blank">Blog</a></li>
+	    <li><a href="/press.html">Press</a></li>
+	    <li><a href="/papers.html">Papers</a></li>
+	    <li><a href="/talks.html">Talks</a></li>
+	  </ul>
+	</div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-sm-10">
+	  <h3>Talks</h3>
+
+	  <p>&ldquo;Measuring the happiness and health of populations in real time using an unexpectedly tunable hedonometer&rdquo; MIT, Join FuturICT/Media Lab meeting, February 2013. 
+	    <a href="http://www.youtube.com/watch?v=XNvQJSdrEYM">[YouTube]</a></p>
+	  <br>
+
+	  <iframe width="420" height="315" src="http://www.youtube.com/embed/XNvQJSdrEYM" frameborder="0" allowfullscreen></iframe>
+
+	  <hr>
+	  
+	  <p>&ldquo;Big Happy: Revealing the Character of Cities Through Data&rdquo; given at TEDxUVM 2012: "Big Scale, Big Fail?"<a href="http://www.youtube.com/watch?v=rZd52_Nq3n0">[YouTube]</a></p>
+
+	  <iframe width="420" height="315" src="http://www.youtube.com/embed/rZd52_Nq3n0" frameborder="0" allowfullscreen></iframe></p>
+
+<hr>
+<p>&ldquo;Measuring Happiness: Social Media as a Laboratory&rdquo; given at ECHO Cafe Scientifique, 2011.</p>
+<object width = "512" height = "328" > <param name = "movie" value = "http://dgjigvacl6ipj.cloudfront.net/media/swf/PBSPlayer.swf" > </param><param name="flashvars" value="video=http://video.vpt.org/videoPlayerInfo/2282125104&player=viral&end=0" /> <param name="allowFullScreen" value="true"></param > <param name = "allowscriptaccess" value = "always" > </param><param name="wmode" value="transparent"></param ><embed src="http://dgjigvacl6ipj.cloudfront.net/media/swf/PBSPlayer.swf" flashvars="video=http://video.vpt.org/videoPlayerInfo/2282125104&player=viral&end=0" type="application/x-shockwave-flash" allowscriptaccess="always" wmode="transparent" allowfullscreen="true" width="512" height="328" bgcolor="#000000"></embed></object><p style="font-size:11px; font-family:Arial, Helvetica, sans-serif; color: #808080; margin-top: 5px; background: transparent; text-align: center; width: 512px;">Watch <a style="text-decoration:none !important; font-weight:normal !important; height: 13px; color:#4eb2fe !important;" href="http://video.vpt.org/video/2282125104" target="_blank">Café Scientifique: Measuring Happiness</a> on PBS. See more from <a style="text-decoration:none !important; font-weight:normal !important; height: 13px; color:#4eb2fe !important;" href="None" target="_blank">Vermont Public Television Specials.</a></p>
+	</div> <!-- column -->
+	<div class="col-xs-12 col-sm-2">
+	</div> <!-- column -->
+      </div>
+    </div><!--container-->
+
+    <div id="footer">
+      <div class="container">
+
+	<p class="logo"><a href="http://www.mitre.org"><img alt="The MITRE Corporation" src="graphics/mitrelogo-whiteonblue.jpg" style="height:30px; margin-top:-2px; padding-right:30px;"/></a>
+	  <a href="http://uvm.edu"  target="_blank"><img alt="University of Vermont" src="graphics/uvmlogosolid3425k.png" style="padding-right:15px;height:30px;"/></a>
+	  <a href="http://www.uvm.edu/~cmplxsys/"  target="_blank"><img alt="University of Vermont Complex Systems Center" src="graphics/CSCnew.png" style="padding-right:15px;height:30px;border:1;"/></a>	
+	  <a href="http://www.uvm.edu/~vacc/"  target="_blank"><img alt="University of Vermont Advanced Computing Core" src="graphics/vacc.jpg" style="padding-right:15px;height:30px;border:1;"/></a>
+	  <a href="http://onehappybird.com/" target="_blank"><img alt="computational story lab" src="graphics/csl.png" style="height:30px;" border="3px"/></a>
+	</p>
+	<p style="font-size:10px; color:lightgrey;">Copyright &copy; 2013 The MITRE Corporation &amp; University of Vermont Complex Systems Center. All Rights Reserved.<br><a href="policy.html">Privacy Policy</a> |  Approved for Public Release: 13-0883. Distribution Unlimited.</p>
+      </div> <!-- /footer -->
+    </div>
+
+    <!-- Javascript
+     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-36404428-1']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+
+    </script>
+  </body>
+</html>
+
+
+
+
+
+
+
+
+
