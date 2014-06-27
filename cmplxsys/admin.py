@@ -1,13 +1,13 @@
 from django.contrib import admin
 
 # Register your models here.
-from cmplxsys.models import Person,Paper,Press,Funding,Project
+from cmplxsys.models import Person,Paper,Press,Funding,Project,Course
 
 # class PersonAdmin(admin.ModelAdmin):
-#     list_display = ('website','strava')
+#     list_display = ('website','strava') 
 
 class PaperPersonAdmin(admin.ModelAdmin):
-    filter_horizontal = ('authors',)
+    filter_horizontal = ('authors','fromclass')
 
 class PressPaperAdmin(admin.ModelAdmin):
     filter_horizontal = ('paper',)
@@ -18,8 +18,12 @@ class FundingProjectAdmin(admin.ModelAdmin):
 class ProjectPeopleAdmin(admin.ModelAdmin):
     filter_horizontal = ('people',)
 
+class CoursePeopleAdmin(admin.ModelAdmin):
+    filter_horizontal = ('students','teachers')
+
 admin.site.register(Person) #,PersonAdmin)
 admin.site.register(Paper,PaperPersonAdmin)
 admin.site.register(Press,PressPaperAdmin)
 admin.site.register(Funding,FundingProjectAdmin)
 admin.site.register(Project,ProjectPeopleAdmin)
+admin.site.register(Course,CoursePeopleAdmin)
