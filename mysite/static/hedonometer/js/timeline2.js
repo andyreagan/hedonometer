@@ -42,11 +42,16 @@
     	return weekDays[d.date.getDay()];
     };
 
+    // showbigdayscale = d3.scale.linear()
+    //     .domain()
+    //     .range();
+
     // days that are worth labeling
     var bigdays = [
 	{
 	    date: new Date(2008,  8, 29),
 	    value: 5.95,
+	    importance: 0,
 	    caption: 'Bailout',
 	    picture: 'bailout.png',
 	    x: 20,
@@ -58,6 +63,7 @@
 	{
 	    date: new Date(2009,  3, 27),
 	    value: 6.014,
+	    importance: 0,
 	    caption: 'Swine flu',
 	    x: -10,
 	    y: 50,
@@ -68,6 +74,7 @@
 	{
 	    date: new Date(2009,  5, 25),
 	    value: 5.91,
+	    importance: 0,
 	    caption: 'MJ death',
 	    x: 0,
 	    y: 37,
@@ -78,6 +85,7 @@
 	{
 	    date: new Date(2009,  8, 14), 
 	    value:5.99, 
+	    importance: 0,
 	    caption: 'Swayze dead',
 	    x: 10,
 	    y: 35,
@@ -88,6 +96,7 @@
 	{
 	    date: new Date(2010,  1, 27),
 	    value: 6.00,
+	    importance: 0,
 	    caption: 'Chile Quake',
 	    x: 3,
 	    y: 30,
@@ -98,6 +107,7 @@
 	{
 	    date: new Date(2011,  2, 11),
 	    value:5.93,
+	    importance: 0,
 	    caption: 'Tsunami Japan',
 	    x: -5,
 	    y: 30,
@@ -108,6 +118,7 @@
 	{
 	    date: new Date(2011,  3, 29),
 	    value: 6.060,
+	    importance: 0,
 	    caption: 'Royal Wedding',
 	    x: 15,
 	    y: -120,
@@ -118,6 +129,7 @@
 	{
 	    date: new Date(2011,  7, 8),
 	    value: 5.934,
+	    importance: 0,
 	    caption: 'London Riots',
 	    x: 7,
 	    y: 50,
@@ -128,6 +140,7 @@
 	{
 	    date: new Date(2012,  11, 14),
 	    value: 5.89,
+	    importance: 0,
 	    caption: 'Newtown',
 	    x: -5,
 	    y: 30,
@@ -138,6 +151,7 @@
 	{
 	    date: new Date(2010,  01, 27),
 	    value: 6.01,
+	    importance: 0,
 	    caption: 'Earthquake in Chile',
 	    x: -5,
 	    y: 30,
@@ -148,6 +162,7 @@
 	{
 	    date: new Date(2010,  00, 12),
 	    value: 6.01,
+	    importance: 0,
 	    caption: 'Earthquake in Haiti',
 	    x: -5,
 	    y: 30,
@@ -158,6 +173,7 @@
 	{
 	    date: new Date(2010,  04, 24),
 	    value: 6.01,
+	    importance: 0,
 	    caption: 'Lost Finale',
 	    x: -5,
 	    y: 30,
@@ -168,6 +184,7 @@
 	{
 	    date: new Date(2010,  09, 26),
 	    value: 6.00,
+	    importance: 0,
 	    caption: 'Sumatra Earthquake and Tsunami',
 	    x: -5,
 	    y: 30,
@@ -178,6 +195,7 @@
 	{
 	    date: new Date(2010,  10, 02),
 	    value: 6.00,
+	    importance: 0,
 	    caption: 'US Senate Elections',
 	    x: -5,
 	    y: 30,
@@ -188,6 +206,7 @@
 	{
 	    date: new Date(2010,  11, 13),
 	    value: 6.01,
+	    importance: 0,
 	    caption: 'Football Game',
 	    x: -5,
 	    y: 30,
@@ -198,6 +217,7 @@
 	{
 	    date: new Date(2011,  00, 11),
 	    value: 5.97,
+	    importance: 0,
 	    caption: 'President Obama Visit Site of Giffords Shooting',
 	    x: -5,
 	    y: 30,
@@ -208,6 +228,7 @@
 	{
 	    date: new Date(2011,  01, 22),
 	    value: 5.98,
+	    importance: 0,
 	    caption: 'Earthquake in Christchurch',
 	    x: -5,
 	    y: 30,
@@ -218,6 +239,7 @@
 	{
 	    date: new Date(2011,  04, 01),
 	    value: 5.96,
+	    importance: 0,
 	    caption: 'Death of Osama bin Laden',
 	    x: -5,
 	    y: 30,
@@ -228,6 +250,7 @@
 	{
 	    date: new Date(2011,  04, 02),
 	    value: 5.92,
+	    importance: 0,
 	    caption: 'Death of Osama bin Laden',
 	    x: -5,
 	    y: 30,
@@ -238,6 +261,7 @@
 	{
 	    date: new Date(2011,  06, 05),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Casey Anthony Trial',
 	    x: -5,
 	    y: 30,
@@ -248,6 +272,7 @@
 	{
 	    date: new Date(2011,  06, 23),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Death of Amy Winehouse',
 	    x: -5,
 	    y: 30,
@@ -258,6 +283,7 @@
 	{
 	    date: new Date(2011,  07, 23),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Earthquake in Virginia, USA',
 	    x: -5,
 	    y: 30,
@@ -268,6 +294,7 @@
 	{
 	    date: new Date(2011,  08, 21),
 	    value: 5.93,
+	    importance: 0,
 	    caption: 'Execution of Troy Davis',
 	    x: -5,
 	    y: 30,
@@ -278,6 +305,7 @@
 	{
 	    date: new Date(2011,  08, 11),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Patriot Day',
 	    x: -5,
 	    y: 30,
@@ -288,6 +316,7 @@
 	{
 	    date: new Date(2012,  00, 18),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Protest SOPA',
 	    x: -5,
 	    y: 30,
@@ -298,6 +327,7 @@
 	{
 	    date: new Date(2012,  03, 11),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Sumatra Earthquake and Tsunami',
 	    x: -5,
 	    y: 30,
@@ -308,6 +338,7 @@
 	{
 	    date: new Date(2012,  04, 29),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Italian Earthquake',
 	    x: -5,
 	    y: 30,
@@ -318,6 +349,7 @@
 	{
 	    date: new Date(2012,  06, 20),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Aurora Shooting',
 	    x: -5,
 	    y: 30,
@@ -328,6 +360,7 @@
 	{
 	    date: new Date(2012,  08, 11),
 	    value: 5.95,
+	    importance: 0,
 	    caption: 'Benghazi Attack',
 	    x: -5,
 	    y: 30,
@@ -338,6 +371,7 @@
 	{
 	    date: new Date(2012,  09, 03),
 	    value: 5.93,
+	    importance: 0,
 	    caption: 'US Presidential Debate',
 	    x: -5,
 	    y: 30,
@@ -348,6 +382,7 @@
 	{
 	    date: new Date(2012,  10, 06),
 	    value: 5.92,
+	    importance: 0,
 	    caption: 'US Presidential Election',
 	    x: -5,
 	    y: 30,
@@ -358,6 +393,7 @@
 	{
 	    date: new Date(2013,  00, 22),
 	    value: 5.93,
+	    importance: 0,
 	    caption: 'Lone Star College Shooting',
 	    x: -5,
 	    y: 30,
@@ -368,6 +404,7 @@
 	{
 	    date: new Date(2013,  03, 03),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Bomb found in Berlin',
 	    x: -5,
 	    y: 30,
@@ -378,6 +415,7 @@
 	{
 	    date: new Date(2013,  03, 15),
 	    value: 5.88,
+	    importance: 0,
 	    caption: 'Boston Marathon Bombing',
 	    x: -5,
 	    y: 30,
@@ -388,6 +426,7 @@
 	{
 	    date: new Date(2013,  03, 19),
 	    value: 5.92,
+	    importance: 0,
 	    caption: 'Boston Bomber Suspects Arresting',
 	    x: -5,
 	    y: 30,
@@ -398,6 +437,7 @@
 	{
 	    date: new Date(2013,  04, 22),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'Murder of Lee Rigby',
 	    x: -5,
 	    y: 30,
@@ -408,6 +448,7 @@
 	{
 	    date: new Date(2013,  05, 18),
 	    value: 5.94,
+	    importance: 0,
 	    caption: 'NBA Finals',
 	    x: -5,
 	    y: 30,
@@ -418,6 +459,7 @@
 	{
 	    date: new Date(2013,  06, 13),
 	    value: 5.91,
+	    importance: 0,
 	    caption: 'State of Florida v. George Zimmerman Verdict',
 	    x: -5,
 	    y: 30,
@@ -428,6 +470,7 @@
 	{
 	    date: new Date(2013,  06, 14),
 	    value: 5.93,
+	    importance: 0,
 	    caption: 'Death of Cory Monteith',
 	    x: -5,
 	    y: 30,
@@ -438,6 +481,7 @@
 	{
 	    date: new Date(2013,  11, 01),
 	    value: 5.95,
+	    importance: 0,
 	    caption: 'Death of Paul Walker',
 	    x: -5,
 	    y: 30,
@@ -448,6 +492,7 @@
 	{
 	    date: new Date(2014,  00, 23),
 	    value: 5.93,
+	    importance: 0,
 	    caption: 'Justin Bieber Arrested',
 	    x: -5,
 	    y: 30,
@@ -458,6 +503,7 @@
 	{
 	    date: new Date(2013,  08, 13),
 	    value: 6.02,
+	    importance: 0,
 	    caption: 'Niall Horans Birthday',
 	    x: -5,
 	    y: 30,

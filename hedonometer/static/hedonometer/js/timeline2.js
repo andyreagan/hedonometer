@@ -42,6 +42,10 @@
     	return weekDays[d.date.getDay()];
     };
 
+    // showbigdayscale = d3.scale.linear()
+    //     .domain()
+    //     .range();
+
     // days that are worth labeling
     var bigdays = [
 	{

@@ -3,13 +3,15 @@ from django.db import models
 # Create your models here.
 
 # a model for the people
-# pointed to by courses (twice), papers, projects
+# pointed to by courses (twice), papers, projects, press, funding
+# which is everything else
 class Person(models.Model):
     # username
     uname = models.CharField(max_length=20)
     # eventually can build a model for affiliations (VACC, UVM, CSYS, CS, MATH, etc)
     # but bigger fish to fry right now
     affiliation = models.CharField(max_length=200, default="University of Vermont")
+    blurb = models.TextField(null=True, blank=True, default="",)
     fullname = models.CharField(max_length=200)
     # split up name is optional, for now
     first = models.CharField(max_length=200, null=True, blank=True, default="")
@@ -37,6 +39,34 @@ class Person(models.Model):
     class Meta:
         ordering = ('uname',)
 
+# projects
+# point to people
+# pointed to by papers, funding
+class Project(models.Model):
+    title = models.CharField(max_length=500, default="Earth shattering project.")
+    description = models.TextField(null=True, blank=True)
+    people = models.ManyToManyField(Person)
+
+    def __unicode__(self):
+        return self.title
+
+# funding
+# pointed to by papers
+# points to projects, people
+class Funding(models.Model):
+    title = models.CharField(max_length=500, default="100M Award.")
+    url = models.CharField(max_length=2000, default="http://www.nsf.gov")
+    startdate = models.DateTimeField('date begins')
+    enddate = models.DateTimeField('date ends')
+    shortdescription = models.CharField(max_length=1000, null=True, blank=True)
+    longdescription = models.TextField(null=True, blank=True)
+    source = models.CharField(max_length=200, null=True, blank=True)
+
+    project = models.ManyToManyField(Project, blank=True)
+    people = models.ManyToManyField(Person, blank=True)
+
+    def __unicode__(self):
+        return self.title
 
 # courses
 # papers will point to them
@@ -51,19 +81,19 @@ class Course(models.Model):
     numtimesoffered = models.CharField(max_length=200, null=True, blank=True)
     imagelink = models.CharField(max_length=200, null=True, blank=True)
 
-    students = models.ManyToManyField(Person,related_name='courses_taught')
+    students = models.ManyToManyField(Person,related_name='courses_taught', blank=True)
     teachers = models.ManyToManyField(Person,related_name='courses_taken')
 
     def __unicode__(self):
         return self.shortcode
-    
+
 # papers
-# point to class, authors
+# point to authors, projects, funding (for direct funding), course
 # pointed to by press
 class Paper(models.Model):
     title = models.CharField(max_length=500)
-    logline = models.CharField(max_length=500)
-    abstract = models.CharField(max_length=2000, default="There are none.")
+    logline = models.CharField(max_length=500, null=True, blank=True,)
+    abstract = models.TextField(default="There are none.")
     img = models.CharField(max_length=200, null=True, blank=True,)
     status = models.CharField(max_length=200)
     arxiv = models.CharField(max_length=200, null=True, blank=True)
@@ -82,13 +112,13 @@ class Paper(models.Model):
     timescited = models.CharField(max_length=20, null=True, blank=True)
 
     authors = models.ManyToManyField(Person)
-    fromclass = models.ManyToManyField(Course)
+    fromclass = models.ManyToManyField(Course, blank=True)
 
     def __unicode__(self):
         return self.title
 
 # press
-# points to papers
+# points to papers, projects, people
 class Press(models.Model):
     title = models.CharField(max_length=500, default="UVM Researcher catapaults into fame.")
     url = models.CharField(max_length=2000, default="http://www.nytimes.com")
@@ -97,31 +127,17 @@ class Press(models.Model):
     description = models.CharField(max_length=200, null=True, blank=True)
     imagelink = models.CharField(max_length=200, null=True, blank=True)
     organization = models.CharField(max_length=200, null=True, blank=True)
-    paper = models.ManyToManyField(Paper)
+    papers = models.ManyToManyField(Paper, blank=True)
+    projects = models.ManyToManyField(Project, blank=True)
+    people = models.ManyToManyField(Person, blank=True)
 
     def __unicode__(self):
-        return self.title
+        return self.title 
 
-class Project(models.Model):
-    title = models.CharField(max_length=500, default="Earth shattering project.")
-    description = models.CharField(max_length=200, null=True, blank=True)
-    people = models.ManyToManyField(Person)
 
-    def __unicode__(self):
-        return self.title
 
-class Funding(models.Model):
-    title = models.CharField(max_length=500, default="100M Award.")
-    url = models.CharField(max_length=2000, default="http://www.nsf.gov")
-    startdate = models.DateTimeField('date begins')
-    enddate = models.DateTimeField('date ends')
-    shortdescription = models.CharField(max_length=200, null=True, blank=True)
-    longdescription = models.CharField(max_length=2000, null=True, blank=True)
-    source = models.CharField(max_length=200, null=True, blank=True)
-    project = models.ManyToManyField(Project)
 
-    def __unicode__(self):
-        return self.title
+
 
 
 

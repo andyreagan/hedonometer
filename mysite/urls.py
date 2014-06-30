@@ -18,6 +18,7 @@ urlpatterns = patterns('',
     url(r'^swn/', include('swn.urls', namespace='swn')),
     url(r'^vaccv/', include('vaccv.urls', namespace='vaccv')),
     url(r'^cmplxsys/', include('cmplxsys.urls', namespace='cmplxsys')),
+    url(r'^explore/', include('consulting.urls', namespace='consulting')),
     # not using
     # url(r'^likes/', include('likes.urls')),
     # url(r'^polls/', include('polls.urls', namespace='polls')),

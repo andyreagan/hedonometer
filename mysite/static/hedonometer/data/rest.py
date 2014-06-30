@@ -44,3 +44,7 @@ if __name__ == '__main__':
             print "-------------------------------"
         maincurr+=datetime.timedelta(days=1)
 
+
+
+
+

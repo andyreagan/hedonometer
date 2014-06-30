@@ -57,6 +57,7 @@ INSTALLED_APPS = (
     'swn',
     'vaccv',
     'hedonometer',
+    'consulting',
 # for the wiki, keep
     'django.contrib.humanize',
     'south',

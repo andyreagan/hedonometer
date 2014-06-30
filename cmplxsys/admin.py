@@ -7,10 +7,11 @@ from cmplxsys.models import Person,Paper,Press,Funding,Project,Course
 #     list_display = ('website','strava') 
 
 class PaperPersonAdmin(admin.ModelAdmin):
+    search_fields = ['title']
     filter_horizontal = ('authors','fromclass')
 
 class PressPaperAdmin(admin.ModelAdmin):
-    filter_horizontal = ('paper',)
+    filter_horizontal = ('papers',)
 
 class FundingProjectAdmin(admin.ModelAdmin):
     filter_horizontal = ('project',)
@@ -21,7 +22,10 @@ class ProjectPeopleAdmin(admin.ModelAdmin):
 class CoursePeopleAdmin(admin.ModelAdmin):
     filter_horizontal = ('students','teachers')
 
-admin.site.register(Person) #,PersonAdmin)
+class PersonAdmin(admin.ModelAdmin):
+    search_fields = ['fullname']
+
+admin.site.register(Person,PersonAdmin)
 admin.site.register(Paper,PaperPersonAdmin)
 admin.site.register(Press,PressPaperAdmin)
 admin.site.register(Funding,FundingProjectAdmin)

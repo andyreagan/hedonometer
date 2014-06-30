@@ -1,0 +1,291 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <!-- Styles -->
+    <link href="{% static "hedonometer/css/bootstrap.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/site.css" %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "hedonometer/js/tablesorter/addons/pager/jquery.tablesorter.pager.css" %}" type="text/css" media="print, projection, screen" />
+    <link rel="stylesheet" href="{% static "hedonometer/js/tablesorter/themes/blue/style.css" %}" type="text/css" media="print, projection, screen" />
+    <link href="{% static "hedonometer/css/timeline.css" %}" rel="stylesheet">
+
+    <!-- For looking up words -->
+    <link rel="stylesheet" href="{% static "hedonometer/js/tablesorter/addons/pager/jquery.tablesorter.pager.css" %}" type="text/css" media="print, projection, screen" />
+    <style type="text/css">
+      .pager { text-align: left; height: 20px;}
+      .loadingMessage{margin-top:10px; color:red; font-weight: bold;}
+      table {
+      margin-top: 60px;
+      }
+      .top-buffer { margin-top:50px; }
+
+      .typeahead,
+      .tt-query,
+      .tt-hint {
+      width: 396px;
+      height: 30px;
+      padding: 8px 12px;
+      font-size: 16px;
+      line-height: 30px;
+      border: 2px solid #ccc;
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      outline: none;
+      }
+
+      .typeahead {
+      background-color: #fff;
+      }
+
+      .typeahead:focus {
+      border: 2px solid #0097cf;
+      }
+
+      .tt-query {
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      }
+
+      .tt-hint {
+      color: #999
+      }
+
+      .tt-dropdown-menu {
+      width: 422px;
+      margin-top: 12px;
+      padding: 8px 0;
+      background-color: #fff;
+      border: 1px solid #ccc;
+      border: 1px solid rgba(0, 0, 0, 0.2);
+      -webkit-border-radius: 8px;
+      -moz-border-radius: 8px;
+      border-radius: 8px;
+      -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      box-shadow: 0 5px 10px rgba(0,0,0,.2);
+      }
+
+      .tt-suggestion {
+      padding: 3px 20px;
+      font-size: 18px;
+      line-height: 24px;
+      }
+
+      .tt-suggestion.tt-cursor {
+      color: #fff;
+      background-color: #0097cf;
+
+      }
+
+      .tt-suggestion p {
+      margin: 0;
+      }
+
+      .gist {
+      font-size: 14px;
+      }
+
+      /* example specific styles */
+      /* ----------------------- */
+
+      #custom-templates .empty-message {
+      padding: 5px 10px;
+      text-align: center;
+      }
+
+      #multiple-datasets .league-name {
+      margin: 0 20px 5px 20px;
+      padding: 3px 0;
+      border-bottom: 1px solid #ccc;
+      }
+
+      #scrollable-dropdown-menu .tt-dropdown-menu {
+      max-height: 150px;
+      overflow-y: auto;
+      }
+
+      #rtl-support .tt-dropdown-menu {
+      text-align: right;
+      }
+    </style>
+
+{% endblock %}
+
+{% block headerjs %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+    <script src="{% static "hedonometer/js/typeahead.bundle.js" %}"></script>
+    <script type="text/javascript">
+
+      var substringMatcher = function(strs) {
+        return function findMatches(q,cb) {
+          var matches, substringRegex;
+          console.log("matching "+q);
+          matches = [];
+          for (var i=0; i<labMT1.length; i++) {
+            if (labMT1[i][0].match(q)) {
+     	      matches.push({ value: labMT1[i][0]})   
+            }
+          }
+          cb(matches);
+        };
+      };
+
+      $(document).ready(function() {
+        console.log("initializing table");
+
+        $("#wordsearch").typeahead(
+          {
+            hint: false,
+            highlight: true,
+            minLength: 1,
+          },
+          {
+            name: "hedowords",
+            source: substringMatcher(["one","two"])
+              //function(query, cb) { cb(["test"]);
+              //limit disconnected
+              //$.post('/search/typeahead', { q: query, limit: 4 }, function(data) {
+              //  cb(JSON.parse(data));
+              //});
+              //},
+          });
+        }).on("typeahead:selected",function(event,sugg,dataset) {
+              console.log(event);
+              console.log(sugg);
+              console.log(dataset);
+	      drawWordStats(d3.select("#viewpanel"),sugg.value);
+              //$("#viewpanel").load('/definition/' + encodeURIComponent(sugg.value));
+              $("#controlpanel").hide();
+            });
+    </script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12">
+	</div> <!-- column -->
+      </div>
+      <div class="row">
+        <div class="col-sm-4" style="height: 25px; width:250px; margin-right:10px;">
+          Word Search
+	  <form>
+	    <input id="wordsearch" type="text" style="margin-left: 5px;" placeholder="happy">
+	    <!-- <input type="submit" style="margin-left:10px; margin-top: -10px;"> -->
+          </form>
+	</div> <!-- column -->
+	<div id="controlpanel" class="col-sm-7" style="height:25px; width: 500px; margin-left: 0px; ">
+	  Control Panel
+	  <div id="pager" style="padding-top:-20px">
+	    <form>
+	      <img src="{% static "hedonometer/js/tablesorter/addons/pager/icons/first.png" %}" class="first"/>
+	      <img src="{% static "hedonometer/js/tablesorter/addons/pager/icons/prev.png" %}" class="prev"/>
+	      <input type="text" class="pagedisplay" value="Loading...">
+	      <img src="{% static "hedonometer/js/tablesorter/addons/pager/icons/next.png" %}" class="next"/>
+	      <img src="{% static "hedonometer/js/tablesorter/addons/pager/icons/last.png" %}" class="last"/>
+	      <select class="pagesize">
+		<option value="25">25 per page</option>
+		<option value="50">50 per page</option>
+		<option value="100">100 per page</option>
+	      </select>
+	    </form>
+	  </div><!-- pager -->
+	  <script>
+	    // $("form").submit(function(e) {
+	    // console.log("submitting query");
+	    // e.preventDefault();
+	    // $("#viewpanel").load('/definition/' + $("input:first").val());
+	    // $("#controlpanel").hide();
+	    // });
+
+	    // $("#wordsearch").select(function(e) {
+	    // $("#viewpanel").load('/definition/' + encodeURIComponent($("#wordsearch").val()));
+	    // $("#controlpanel").hide();
+	    // });
+	  </script>
+	</div><!-- column -->
+      </div><!--row -->
+      <div class="row top-buffer">
+	<div class="col-xs-12" id="viewpanel">
+	  <table id="insured_list" class="tablesorter" style="margin-left:0px;"><colgroup><col style="width: 141px;"><col style="width: 142px;"><col style="width: 142px;"><col style="width: 142px;"><col style="width: 142px;"><col style="width: 142px;"><col style="width: 142px;"><col style="width: 142px;"></colgroup><thead><tr style="font-weight:bold;"><th style="width:100px;" class="header">Word</th><th style="width:100px;" class="header">Sadness Rank</th><th style="width:100px;" class="header">Average</th><th style="width:100px;" class="header">Standard Deviation</th><th style="width:100px;" class="header">Twitter</th><th style="width:100px;" class="header">Google Books</th><th style="width:100px;" class="header">New York Times</th><th style="width:100px;" class="header">Lyrics</th></tr></thead><tbody><tr class="odd"><td>laughter</td><td>1</td><td>8.50</td><td>0.93</td><td>3600</td><td></td><td></td><td>1728</td></tr><tr class="even"><td>happiness</td><td>2</td><td>8.44</td><td>0.97</td><td>1853</td><td>2458</td><td></td><td>1230</td></tr><tr class="odd"><td>love</td><td>3</td><td>8.42</td><td>1.10</td><td>25</td><td>317</td><td>328</td><td>23</td></tr><tr class="even"><td>happy</td><td>4</td><td>8.30</td><td>0.99</td><td>65</td><td>1372</td><td>1313</td><td>375</td></tr><tr class="odd"><td>laughed</td><td>5</td><td>8.26</td><td>1.15</td><td>3334</td><td>3542</td><td></td><td>2332</td></tr><tr class="even"><td>laugh</td><td>6</td><td>8.22</td><td>1.37</td><td>1002</td><td>3998</td><td>4488</td><td>647</td></tr><tr class="odd"><td>laughing</td><td>7</td><td>8.20</td><td>1.10</td><td>1579</td><td></td><td></td><td>1122</td></tr><tr class="even"><td>excellent</td><td>8</td><td>8.18</td><td>1.10</td><td>1496</td><td>1756</td><td>3155</td><td></td></tr><tr class="odd"><td>laughs</td><td>9</td><td>8.18</td><td>1.15</td><td>3554</td><td></td><td></td><td>2856</td></tr><tr class="even"><td>joy</td><td>10</td><td>8.16</td><td>1.05</td><td>988</td><td>2336</td><td>2723</td><td>809</td></tr><tr class="odd"><td>successful</td><td>11</td><td>8.16</td><td>1.07</td><td>2176</td><td>1198</td><td>1565</td><td></td></tr><tr class="even"><td>win</td><td>12</td><td>8.12</td><td>1.08</td><td>154</td><td>3031</td><td>776</td><td>694</td></tr><tr class="odd"><td>rainbow</td><td>13</td><td>8.10</td><td>0.99</td><td>2726</td><td></td><td></td><td>1723</td></tr><tr class="even"><td>smile</td><td>14</td><td>8.10</td><td>1.01</td><td>925</td><td>2666</td><td>2898</td><td>349</td></tr><tr class="odd"><td>won</td><td>15</td><td>8.10</td><td>1.21</td><td>810</td><td>1167</td><td>439</td><td>1493</td></tr><tr class="even"><td>pleasure</td><td>16</td><td>8.08</td><td>0.96</td><td>1497</td><td>1526</td><td>4253</td><td>1398</td></tr><tr class="odd"><td>smiled</td><td>17</td><td>8.08</td><td>1.06</td><td></td><td>3537</td><td></td><td>2248</td></tr><tr class="even"><td>rainbows</td><td>18</td><td>8.06</td><td>1.36</td><td></td><td></td><td></td><td>4216</td></tr><tr class="odd"><td>winning</td><td>19</td><td>8.04</td><td>1.04</td><td>1876</td><td></td><td>1426</td><td>3646</td></tr><tr class="even"><td>celebration</td><td>20</td><td>8.02</td><td>1.53</td><td>3306</td><td></td><td>2762</td><td>4070</td></tr><tr class="odd"><td>enjoyed</td><td>21</td><td>8.02</td><td>1.53</td><td>1530</td><td>2908</td><td>3502</td><td></td></tr><tr class="even"><td>healthy</td><td>22</td><td>8.02</td><td>1.05</td><td>1393</td><td>3200</td><td>3292</td><td>4619</td></tr><tr class="odd"><td>music</td><td>23</td><td>8.02</td><td>1.11</td><td>132</td><td>875</td><td>167</td><td>374</td></tr><tr class="even"><td>celebrating</td><td>24</td><td>8.00</td><td>1.14</td><td>2550</td><td></td><td></td><td></td></tr><tr class="odd"><td>congratulations</td><td>25</td><td>8.00</td><td>1.62</td><td>2246</td><td></td><td></td><td></td></tr></tbody></table>
+	</div> <!-- column -->
+      </div>
+    </div><!--container-->
+
+{% endblock %}
+
+{% block bottomjs %}
+    <!-- Javascript
+     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+
+
+    <!-- For the table sorting -->
+
+    <script src="{% static "hedonometer/js/jquery.blockUI.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="{% static "hedonometer/js/tablesorter/jquery.tablesorter.js" %}"></script>
+    <script src="{% static "hedonometer/js/tablesorter/addons/pager/jquery.tablesorter.pager.js" %}"></script>
+
+    <script type="text/javascript">
+      // do this very last
+      $("#viewpanel").load("/table.html", function(){ console.log("table loaded");});
+
+      d3.text("static/hedonometer/labMT1.txt",function(data) {
+        var splitdata = data.slice(0,10222).split("\n");
+        labMT1 = splitdata.map(function(d) { return d.split("\t"); });
+      });
+      drawWordStats = function (selection,word) {
+      selection.selectAll("*").remove();
+        var index = 0;
+        for (var i=0; i<labMT1.length; i++) {
+          if (word === labMT1[i][0]) {
+	    index = i;
+          }
+        }
+	console.log(index);
+      
+        selection.append("div").attr("class","row").append("div").attr("class","col-xs-12 col-sm-6 col-md-4").append("h3").text(labMT1[index][0]);
+
+        var row1 = selection.append("div").attr("class","row");
+        var col11 = row1.append("div").attr("class","col-xs-12 col-sm-6 col-md-4");
+        col11.append("h4").text("happiness rank");
+        col11.append("h3").append("i").text(labMT1[index][1]+" of 10222");
+        col11.append("p").text("A composite set of 10,222 unique words merged from the top 5,000 words from Twitter, Google Books (English), music lyrics (1960-2007), and the New York Times (1987 to 2007).");
+        var col12 = row1.append("div").attr("class","col-xs-12 col-sm-6 col-md-4");
+        col12.append("h4").text("happiness average");
+        col12.append("h3").append("i").text(labMT1[index][2]);
+        col12.append("p").text("On a nine point integer scale, representing a sad to happy spectrum.");
+        var col13 = row1.append("div").attr("class","col-xs-12 col-sm-6 col-md-4")
+	col13.append("h4").text("standard deviation").append("p");
+        col13.append("h3").append("i").text(parseFloat(labMT1[index][3]).toFixed(2));
+        col13.append("p").text("On the same nine point integer scale, representing a sad to happy spectrum.");
+        var row2 = selection.append("div").attr("class","row");
+        var col21 = row2.append("div").attr("class","col-xs-12 col-sm-6 col-md-3");
+        col21.append("h4").text("twitter rank");
+        col21.append("h3").append("i").text(labMT1[index][4]+" of 5000");
+        col21.append("p").text("The top 5000 words in Twitter ordered by decreasing frequency of occurrence.");
+        var col22 = row2.append("div").attr("class","col-xs-12 col-sm-6 col-md-3");
+        col22.append("h4").text("google rank");
+        col22.append("h3").append("i").text(labMT1[index][5]+" of 5000");
+        col22.append("p").text("The top 5000 words in Google Books (English) ordered by decreasing frequency of occurrence.");
+        var col23 = row2.append("div").attr("class","col-xs-12 col-sm-6 col-md-3");
+        col23.append("h4").text("nyt rank");
+        col23.append("h3").append("i").text(labMT1[index][6]+" of 5000");
+        col23.append("p").text("The top 5000 words in New York Times (1987 to 2007) ordered by decreasing frequency of occurrence.");
+        var col24 = row2.append("div").attr("class","col-xs-12 col-sm-6 col-md-3");
+        col24.append("h4").text("lyrics rank");
+        col24.append("h3").append("i").text(labMT1[index][7]+" of 5000");
+        col24.append("p").text("The top 5000 words in Lyrics corpus ordered by decreasing frequency of occurrence.");
+      };
+    </script>
+
+{% endblock %}
+
+
