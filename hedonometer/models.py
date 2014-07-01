@@ -5,14 +5,14 @@ from django.db import models
 class Event(models.Model):
     date = models.DateTimeField()
     value = models.CharField(max_length=20)
-    importance = models.CharField(max_length=20)
+    importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
     caption = models.CharField(max_length=200, null=True, blank=True)
     picture = models.CharField(max_length=200, null=True, blank=True)
-    x = models.CharField(max_length=200)
-    y = models.CharField(max_length=200)
-    shorter = models.CharField(max_length=200)
-    longer = models.TextField(max_length=200)
-    wiki = models.CharField(max_length=500)
+    x = models.IntegerField(max_length=4)
+    y = models.IntegerField(max_length=4)
+    shorter = models.CharField(max_length=200, help_text="Use commas to make new lines on the main visualization label.")
+    longer = models.TextField(max_length=200, help_text="Shows up in the description of the event inside shift popups (big and small).")
+    wiki = models.URLField()
 
     def __unicode__(self):
         return self.caption

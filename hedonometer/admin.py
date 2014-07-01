@@ -6,6 +6,9 @@ from django.contrib import admin
 from hedonometer.models import Event
 
 class EventAdmin(admin.ModelAdmin):
-    search_fields = ['longer']
+    search_fields = ('longer',)
+    list_display = ('date','caption','importance','x','y','shorter',)
+    list_display_links = ('caption',)
+    list_editable = ('importance','x','y',)
 
 admin.site.register(Event,EventAdmin)

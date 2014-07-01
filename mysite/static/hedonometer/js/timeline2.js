@@ -5,6 +5,7 @@
     var dur =  550,
     shiftTypeSelect = false,
     cformat = d3.time.format("%Y-%m-%d"),
+    dformat = d3.time.format("%Y-%m-%dT00:00:00"),
     longformat = d3.time.format("%B %e, %Y"),
     longerformat = d3.time.format("%A, %B %e, %Y"),
     dateencoder = d3.urllib.encoder().varname("date"),
@@ -42,476 +43,6 @@
     	return weekDays[d.date.getDay()];
     };
 
-    // showbigdayscale = d3.scale.linear()
-    //     .domain()
-    //     .range();
-
-    // days that are worth labeling
-    bigdays = [
-	{
-	    date: new Date(2008,  8, 29),
-	    value: 5.95,
-	    importance: 0,
-	    caption: 'Bailout',
-	    picture: 'bailout.png',
-	    x: 20,
-	    y: 40,
-	    shorter: ['US Government','Bailout'],
-	    longer: 'US Government Bailout',
-	    wiki: "http://en.wikipedia.org/wiki/Automotive_industry_crisis_of_2008%E2%80%9310",
-	},
-	{
-	    date: new Date(2009,  3, 27),
-	    value: 6.014,
-	    importance: 0,
-	    caption: 'Swine flu',
-	    x: -10,
-	    y: 50,
-	    shorter: ['Swine Flu','Outbreak'],
-	    longer: 'Swine Flu Outbreak',
-	    wiki: "http://en.wikipedia.org/wiki/2009_flu_pandemic",
-	},
-	{
-	    date: new Date(2009,  5, 25),
-	    value: 5.91,
-	    importance: 0,
-	    caption: 'MJ death',
-	    x: 0,
-	    y: 37,
-	    shorter: ['Death of','Michael Jackson'],
-	    longer: 'Death of Michael Jackson',
-	    wiki: "http://en.wikipedia.org/wiki/Death_of_Michael_Jackson",
-	},
-	{
-	    date: new Date(2009,  8, 14), 
-	    value:5.99, 
-	    importance: 0,
-	    caption: 'Swayze dead',
-	    x: 10,
-	    y: 35,
-	    shorter: ['Death of','Patrick Swayze'],
-	    longer: 'Death of Patrick Swayze',
-	    wiki: "http://en.wikipedia.org/wiki/Patrick_Swayze#Illness_and_death",
-	},
-	{
-	    date: new Date(2010,  1, 27),
-	    value: 6.00,
-	    importance: 0,
-	    caption: 'Chile Quake',
-	    x: 3,
-	    y: 30,
-	    shorter: ['Earthquake','in Chile'],
-	    longer: 'Earthquake in Chile',
-	    wiki: "http://en.wikipedia.org/wiki/2010_Chile_earthquake",
-	},
-	{
-	    date: new Date(2011,  2, 11),
-	    value:5.93,
-	    importance: 0,
-	    caption: 'Tsunami Japan',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Tsunami in','Japan'],
-	    longer: 'Tsunami in Japan',
-	    wiki: "http://en.wikipedia.org/wiki/2011_T%C5%8Dhoku_earthquake_and_tsunami",
-	},
-	{
-	    date: new Date(2011,  3, 29),
-	    value: 6.060,
-	    importance: 0,
-	    caption: 'Royal Wedding',
-	    x: 15,
-	    y: -120,
-	    shorter: ['Wedding of','Prince William','and Kate Middleton'],
-	    longer: 'Wedding of Prince William and Kate Middleton',
-	    wiki: "http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton",
-	},
-	{
-	    date: new Date(2011,  7, 8),
-	    value: 5.934,
-	    importance: 0,
-	    caption: 'London Riots',
-	    x: 7,
-	    y: 50,
-	    shorter: ['Riots in','London'],
-	    longer: 'Riots in London',
-	    wiki: "http://en.wikipedia.org/wiki/2011_England_riots",
-	},
-	{
-	    date: new Date(2012,  11, 14),
-	    value: 5.89,
-	    importance: 0,
-	    caption: 'Newtown',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Sandy Hook Elementary','School shooting'],
-	    longer: 'Sandy Hook Elementary School shooting',
-	    wiki: "http://en.wikipedia.org/wiki/Sandy_Hook_Elementary_School_shooting",
-	},
-	{
-	    date: new Date(2010,  01, 27),
-	    value: 6.01,
-	    importance: 0,
-	    caption: 'Earthquake in Chile',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Earthquake in Chile','Natural Disaster'],
-	    longer: 'Earthquake in Chile, Natural Disaster',
-	    wiki: "http://en.wikipedia.org/wiki/2010_Chile_earthquake",
-	},
-	{
-	    date: new Date(2010,  00, 12),
-	    value: 6.01,
-	    importance: 0,
-	    caption: 'Earthquake in Haiti',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Earthquake in Haiti','Natural Disaster'],
-	    longer: 'Earthquake in Haiti, Natural Disaster',
-	    wiki: "http://en.wikipedia.org/wiki/2010_Haiti_earthquake",
-	},
-	{
-	    date: new Date(2010,  04, 24),
-	    value: 6.01,
-	    importance: 0,
-	    caption: 'Lost Finale',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Day after the Lost Finale aired'],
-	    longer: 'The show Lost aired its final episode the night before',
-	    wiki: "http://en.wikipedia.org/wiki/Lost_(TV_series)",
-	},
-	{
-	    date: new Date(2010,  09, 26),
-	    value: 6.00,
-	    importance: 0,
-	    caption: 'Sumatra Earthquake and Tsunami',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Sumatra Earthquake and Tsunami','Natural Disaster'],
-	    longer: 'Earthquake devastates Sumatra, Indonesia followed by tsunami',
-	    wiki: "http://en.wikipedia.org/wiki/October_2010_Sumatra_earthquake_and_tsunami",
-	},
-	{
-	    date: new Date(2010,  10, 02),
-	    value: 6.00,
-	    importance: 0,
-	    caption: 'US Senate Elections',
-	    x: -5,
-	    y: 30,
-	    shorter: ['US Senate Election Day'],
-	    longer: 'US Senate Election Day',
-	    wiki: "http://en.wikipedia.org/wiki/United_States_Senate_elections_2010",
-	},
-	{
-	    date: new Date(2010,  11, 13),
-	    value: 6.01,
-	    importance: 0,
-	    caption: 'Football Game',
-	    x: -5,
-	    y: 30,
-	    shorter: ['NFL Game', 'Ravens Vs. Texans'],
-	    longer: 'NFL Matchup between Baltimore Ravens and Houston Texans',
-	    wiki: "http://en.wikipedia.org/wiki/2010_Houston_Texans_season",
-	},
-	{
-	    date: new Date(2011,  00, 11),
-	    value: 5.97,
-	    importance: 0,
-	    caption: 'President Obama Visit Site of Giffords Shooting',
-	    x: -5,
-	    y: 30,
-	    shorter: ['President Obama Memorializes Site of Giffords Shooting'],
-	    longer: 'President Obama Memorializes Site where Representative Gabrielle Giffords was shot on Jan. 8, 2010',
-	    wiki: "http://en.wikipedia.org/wiki/2011_Tucson_shooting",
-	},
-	{
-	    date: new Date(2011,  01, 22),
-	    value: 5.98,
-	    importance: 0,
-	    caption: 'Earthquake in Christchurch',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Earthquake in Christchurch', 'Natural Disaster'],
-	    longer: 'Earthquake in Christchurch',
-	    wiki: "http://en.wikipedia.org/wiki/2010_Canterbury_earthquake",
-	},
-	{
-	    date: new Date(2011,  04, 01),
-	    value: 5.96,
-	    importance: 0,
-	    caption: 'Death of Osama bin Laden',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Death of', 'Osama bin Laden'],
-	    longer: 'Osama bin Laden is found and killed by US Navy SEAL Team Six',
-	    wiki: "http://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden",
-	},
-	{
-	    date: new Date(2011,  04, 02),
-	    value: 5.92,
-	    importance: 0,
-	    caption: 'Death of Osama bin Laden',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Death of', 'Osama bin Laden'],
-	    longer: 'Osama bin Laden is found and killed by US Navy SEAL Team Six',
-	    wiki: "http://en.wikipedia.org/wiki/Death_of_Osama_bin_Laden",
-	},
-	{
-	    date: new Date(2011,  06, 05),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Casey Anthony Trial',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Casey Anthony Found Not Guilty'],
-	    longer: 'Casey Anthony found not guilty in the case over the murder of her young daughter',
-	    wiki: "http://en.wikipedia.org/wiki/Death_of_Caylee_Anthony",
-	},
-	{
-	    date: new Date(2011,  06, 23),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Death of Amy Winehouse',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Death of', 'Amy Winehouse'],
-	    longer: 'Death of Amy Winehouse',
-	    wiki: "http://en.wikipedia.org/wiki/Amy_Winehouse",
-	},
-	{
-	    date: new Date(2011,  07, 23),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Earthquake in Virginia, USA',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Earthquake in Virginia, USA', 'Natural Disaster'],
-	    longer: 'Earthquake in Virginia, USA',
-	    wiki: "http://en.wikipedia.org/wiki/2011_Virginia_earthquake",
-	},
-	{
-	    date: new Date(2011,  08, 21),
-	    value: 5.93,
-	    importance: 0,
-	    caption: 'Execution of Troy Davis',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Execution of', 'Troy Davis'],
-	    longer: 'Execution of Troy Davis',
-	    wiki: "http://en.wikipedia.org/wiki/Troy_Davis",
-	},
-	{
-	    date: new Date(2011,  08, 11),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Patriot Day',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Anniversary of', '10 Years Since September 11 Attacks'],
-	    longer: '10 Year Anniversary of September 11 Attacks',
-	    wiki: "http://en.wikipedia.org/wiki/September_11_attacks",
-	},
-	{
-	    date: new Date(2012,  00, 18),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Protest SOPA',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Protest against the Stop Online Piracy Act'],
-	    longer: 'Protest against the Stop Online Piracy Act by Wikipedia and Google',
-	    wiki: "http://en.wikipedia.org/wiki/Stop_Online_Piracy_Act",
-	},
-	{
-	    date: new Date(2012,  03, 11),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Sumatra Earthquake and Tsunami',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Sumatra Earthquake and Tsunami', 'Natural Disaster'],
-	    longer: 'Another earthquake hits Sumatra, Indonesia causing another tsunami',
-	    wiki: "http://en.wikipedia.org/wiki/2012_Indian_Ocean_earthquakes",
-	},
-	{
-	    date: new Date(2012,  04, 29),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Italian Earthquake',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Earthquake in Italy', 'Natural Disaster'],
-	    longer: 'Earthquake in Italy',
-	    wiki: "http://en.wikipedia.org/wiki/2012_Northern_Italy_earthquakes",
-	},
-	{
-	    date: new Date(2012,  06, 20),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Aurora Shooting',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Shooting in Aurora, Colorado', 'Shooting'],
-	    longer: 'Shooting at the premier of “Dark Night Rises” in Aurora, Colorado',
-	    wiki: "http://en.wikipedia.org/wiki/2012_Aurora_shooting",
-	},
-	{
-	    date: new Date(2012,  08, 11),
-	    value: 5.95,
-	    importance: 0,
-	    caption: 'Benghazi Attack',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Attack in Benghazi', 'Terror Attack'],
-	    longer: 'Terror Attack on American diplomatic mission in Benghazi',
-	    wiki: "http://en.wikipedia.org/wiki/2012_Benghazi_attack",
-	},
-	{
-	    date: new Date(2012,  09, 03),
-	    value: 5.93,
-	    importance: 0,
-	    caption: 'US Presidential Debate',
-	    x: -5,
-	    y: 30,
-	    shorter: ['US Presidential Candidate Debate', 'US Presidential Election'],
-	    longer: 'US Presidential Candidate Debate between Mitt Romney and President Barack Obama',
-	    wiki: "http://en.wikipedia.org/wiki/United_States_presidential_election_debates,_2012",
-	},
-	{
-	    date: new Date(2012,  10, 06),
-	    value: 5.92,
-	    importance: 0,
-	    caption: 'US Presidential Election',
-	    x: -5,
-	    y: 30,
-	    shorter: ['US Presidential Election'],
-	    longer: 'US Presidential Election',
-	    wiki: "http://en.wikipedia.org/wiki/United_States_presidential_election,_2012",
-	},
-	{
-	    date: new Date(2013,  00, 22),
-	    value: 5.93,
-	    importance: 0,
-	    caption: 'Lone Star College Shooting',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Lone Star College Shooting', 'School Shooting'],
-	    longer: 'Lone Star College Shooting',
-	    wiki: "http://en.wikipedia.org/wiki/Lone_Star_College–North_Harris",
-	},
-	{
-	    date: new Date(2013,  03, 03),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Bomb found in Berlin',
-	    x: -5,
-	    y: 30,
-	    shorter: ['A WWII Bomb was found in Berlin'],
-	    longer: 'A Bomb remaining from WWII was found and disabled in Berlin, Germany',
-	    wiki: "http://en.wikipedia.org/wiki/Unexploded_ordnance",
-	},
-	{
-	    date: new Date(2013,  03, 15),
-	    value: 5.88,
-	    importance: 0,
-	    caption: 'Boston Marathon Bombing',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Bomb explodes at Boston Marathon Finishline'],
-	    longer: 'Two bombers attack the finish line of the Boston Marathon',
-	    wiki: "http://en.wikipedia.org/wiki/Boston_Marathon_bombings",
-	},
-	{
-	    date: new Date(2013,  03, 19),
-	    value: 5.92,
-	    importance: 0,
-	    caption: 'Boston Bomber Suspects Arresting',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Boston Bombing Suspects are arrested'],
-	    longer: 'One Boston Bombing suspect is killed in shootout and the other is arrested',
-	    wiki: "http://en.wikipedia.org/wiki/Boston_Marathon_bombings",
-	},
-	{
-	    date: new Date(2013,  04, 22),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'Murder of Lee Rigby',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Man Killed in London Street Attack'],
-	    longer: 'A veteran is killed on the street in London by two men',
-	    wiki: "http://en.wikipedia.org/wiki/Murder_of_Lee_Rigby",
-	},
-	{
-	    date: new Date(2013,  05, 18),
-	    value: 5.94,
-	    importance: 0,
-	    caption: 'NBA Finals',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Finals of NBA 2012-13 Season'],
-	    longer: 'Finals of NBA 2012-13 Season, Miami Heat vs. San Antonio Spurs',
-	    wiki: "http://en.wikipedia.org/wiki/2013_NBA_Finals",
-	},
-	{
-	    date: new Date(2013,  06, 13),
-	    value: 5.91,
-	    importance: 0,
-	    caption: 'State of Florida v. George Zimmerman Verdict',
-	    x: -5,
-	    y: 30,
-	    shorter: ['State of Florida v. George Zimmerman Verdict'],
-	    longer: 'George Zimmerman is found not guilty in the Florida Stand Your Ground Case regarding the shooting of Trayvon Martin',
-	    wiki: "http://en.wikipedia.org/wiki/State_of_Florida_v._George_Zimmerman",
-	},
-	{
-	    date: new Date(2013,  06, 14),
-	    value: 5.93,
-	    importance: 0,
-	    caption: 'Death of Cory Monteith',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Death of Cory Monteith'],
-	    longer: 'Cory Monteith is found dead of accidental overdose',
-	    wiki: "http://en.wikipedia.org/wiki/Finn_Hudson",
-	},
-	{
-	    date: new Date(2013,  11, 01),
-	    value: 5.95,
-	    importance: 0,
-	    caption: 'Death of Paul Walker',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Death of Paul Walker'],
-	    longer: 'Paul Walker is killed in a car accident',
-	    wiki: "http://en.wikipedia.org/wiki/Paul_Walker",
-	},
-	{
-	    date: new Date(2014,  00, 23),
-	    value: 5.93,
-	    importance: 0,
-	    caption: 'Justin Bieber Arrested',
-	    x: -5,
-	    y: 30,
-	    shorter: ['Justin Bieber is Arrested'],
-	    longer: 'Justin Bieber is arrested in Miami for DUI, driving with an expired license and resisting arrest',
-	    wiki: "http://en.wikipedia.org/wiki/Justin_Bieber#Legal_issues",
-	},
-	{
-	    date: new Date(2013,  08, 13),
-	    value: 6.02,
-	    importance: 0,
-	    caption: 'Niall Horans Birthday',
-	    x: -5,
-	    y: 30,
-	    shorter: ['One Direction', 'Niall Horans Birthday'],
-	    longer: 'Niall Horan of One Direction celebrates a birthday',
-	    wiki: "http://en.wikipedia.org/wiki/List_of_One_Direction_members#Niall_Horan",
-	},
-    ];
 
     // Boston will be ran whenever we mouse over a circle
     function myMouseDownOpenWordShiftFunction() {
@@ -659,8 +190,14 @@
     var MainxAxisSpace = 40;
     //height2 = document.documentElement.clientHeight * 0.5;
 
+    var beginningOfTime = new Date(2008,8,10);
+
+    var bigdayscale = d3.scale.linear()
+    	.domain([0,today.getTime()-beginningOfTime.getTime()])
+        .range([-100,100]);
+
     var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
-    var x2 = d3.time.scale().range([0, width - 7]).domain([new Date(2008,8,10),today]);
+    var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
 
     y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
@@ -942,97 +479,93 @@
 
 	var format = d3.time.format("%m-%d");
 
-	var bigdaylines = focus2.selectAll("line.bigdays").data(bigdays).enter()
-	    .append("line")
-	    .attr({
-		"x1": function(d,i) { return x(d.date); },
-		"x2": function(d,i) { return x(d.date)+d.x; },
-		"y1": function(d,i) { return y(d.value)+2*(d.y/d.y); }, // 2 in the direction of the offset +2*(d.y/d.y)
-		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-26; } else { return y(d.value)+d.y+d.shorter.length*20;} },
-		"stroke": "grey",
-		"stroke-width": 0.5,
-		"class": "bigdays",
-	    });
+	d3.json('/api/v1/events/?format=json',function(json) { 
+	    bigdays = json.objects; 
+	    
+	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
+				       d.x = parseFloat(d.x);
+				       d.y = parseFloat(d.y); 
+				       d.importance = parseFloat(d.importance); 
+				       d.shorter = d.shorter.split(',')})
 
-	var bigdaygroups = focus2.selectAll("g.bigdays").data(bigdays).enter()
-	    .append("g")
-	    .attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
-	
-	var textwidth = 6;
+	    var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
+		.append("line")
+		.attr({
+		    "x1": function(d,i) { return x(d.date); },
+		    "x2": function(d,i) { return x(d.date)+d.x; },
+		    "y1": function(d,i) { return y(d.value)+2*(d.y/d.y); }, // 2 in the direction of the offset +2*(d.y/d.y)
+		    "y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-26; } else { return y(d.value)+d.y+d.shorter.length*20;} },
+		    "stroke": "grey",
+		    "stroke-width": 0.5,
+		    "class": "bigdayline",
+		});
 
-	String.prototype.width = function(font) {
-	    var f = font || '12px arial',
-	    o = $('<div>' + this + '</div>')
-		.css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
-		.appendTo($('body')),
-	    w = o.width();
+	    var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
+		.append("g")
+	        .attr("class","bigdaygroup")
+		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
+	    
+	    var textwidth = 6;
 
-	    o.remove();
+	    String.prototype.width = function(font) {
+		var f = font || '12px arial',
+		o = $('<div>' + this + '</div>')
+		    .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
+		    .appendTo($('body')),
+		w = o.width();
 
-	    return w;
-	}
-	
-	bigdaygroups
-	    .append("text")
-	    .text(function(d) { console.log(d.shorter.length); return d.shorter[0]; } )
-	    .attr("class","")
-	    .attr("stroke","grey")
+		o.remove();
+
+		return w;
+	    }
+	    
+	    var line0 = bigdaygroups
+		.append("text")
+		.text(function(d) { console.log(d.shorter.length); return d.shorter[0]; } )
+		.attr("class","bigdaytext")
  	    // .attr("stroke-width","0.1")
-	    .attr("dx", function(d) { return -d.shorter[0].width()/2; })
-	    .attr("dy", function(d) { return 0; });
+		.attr("dx", function(d) { return -d.shorter[0].width()/2; })
+		.attr("dy", function(d) { return 0; })
+		.attr("stroke","")
+		.attr("fill","grey");
 
-	bigdaygroups
-	    .append("text")
-	    .text(function(d) { if (d.shorter.length > 1) { return d.shorter[1]; }
-			      else { return ""; } })
-	    .attr("class","")
-	    .attr("stroke","grey")
-	    .attr("dx", function(d) { if (d.shorter.length > 1) {return -d.shorter[1].width()/2; } else { return 0; } })
-	    .attr("dy", function(d) { return 15; });
+	    bigdaygroups
+		.append("text")
+		.text(function(d) { if (d.shorter.length > 1) { return d.shorter[1]; }
+				    else { return ""; } })
+		.attr("class","bigdaytext")
+		.attr("dx", function(d) { if (d.shorter.length > 1) {return -d.shorter[1].width()/2; } else { return 0; } })
+		.attr("dy", function(d) { return 15; })
+		.attr("stroke","")
+		.attr("fill","grey");
 
-	bigdaygroups
-	    .append("text")
-	    .text(function(d) { if (d.shorter.length > 2) { return d.shorter[2]; }
-			      else { return ""; } })
-	    .attr("class","")
-	    .attr("stroke","grey")
-	    .attr("dx", function(d) { if (d.shorter.length > 2) { return -d.shorter[2].width()/2; } else { return 0; } })
-	    .attr("dy", function(d) { return 30; });
+	    bigdaygroups
+		.append("text")
+		.text(function(d) { if (d.shorter.length > 2) { return d.shorter[2]; }
+				    else { return ""; } })
+		.attr("class","bigdaytext")
+		.attr("dx", function(d) { if (d.shorter.length > 2) { return -d.shorter[2].width()/2; } else { return 0; } })
+		.attr("dy", function(d) { return 30; })
+		.attr("stroke","")
+		.attr("fill","grey");
 
-	bigdaygroups
-	    .append("text")
-	    .text(function(d) { if (d.shorter.length > 3) { return d.shorter[3]; }
-			      else { return ""; } })
-	    .attr("class","")
-	    .attr("stroke","grey")
-	    .attr("dx", function(d) { if (d.shorter.length > 3) { return -d.shorter[3].width()/2; } else { return 0; } })
-	    .attr("dy", function(d) { return 45; });
 
-	// text.exit().remove();
+	    bigdaygroups
+		.append("text")
+		.text(function(d) { if (d.shorter.length > 3) { return d.shorter[3]; }
+				    else { return ""; } })
+		.attr("class","bigdaytext")
+		.attr("dx", function(d) { if (d.shorter.length > 3) { return -d.shorter[3].width()/2; } else { return 0; } })
+		.attr("dy", function(d) { return 45; })
+		.attr("stroke","")
+		.attr("fill","grey");
 
-	// svg.on("mousemove", function() {
-	//     fisheye.focus(d3.mouse(this));
+	    // call the brush initially
+	    brushing();
 
-	//     // check that this layer wasn't too buried
-	//     // might need "focus2" instead of "svg"
-	//     // console.log("fisheye action");
-
-	//     circle.each(function(d) { d.x = x(d.date); d.y = y(d.value); d.fisheye = fisheye(d); })
-	//         .attr("cx",function(d) { return d.fisheye.x; })
-	//         .attr("cy",function(d) { return d.fisheye.y; })
-	//         .attr("r",function(d) { return rmax*d.fisheye.z; });
-	
-	//     text.each(function(d) { 
-    	// 	d.x = x(d.date); 
-    	// 	if (d.value <= 6.05) { d.y = y(d.value) -.4; }
-    	// 	else { d.y = y(d.value) - 10.4; }
-    	// 	d.fisheye = fisheye(d); 
-	//     })
-	// 	.attr("dx",function(d) { return d.fisheye.x; })
-	//         .attr("dy",function(d) { return d.fisheye.y; });
-
-	//     path.attr("d",fishline);
-	// });
+	    // d3.selectAll("text.bigdaytext").attr("fill","white")
+	    // d3.selectAll("line.bigdayline").attr("stroke","white")
+	} )
 
 	// d3.select(".x.brush").call(brush.event);
 	var brushgroup = context.append("g").attr("class", "x brush")
@@ -1046,6 +579,7 @@
 
 	// call the brush initially
 	brushing();
+
 
     }); // main data load
 
@@ -1071,6 +605,9 @@
 	console.log(x.domain()[0].getTime());
 	console.log(x.domain()[1].getTime());
 	console.log(x2.domain());
+
+	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
+
 	//x.domain(brush.empty() ? x2.domain() : brush.extent());
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
 	//focus.select("#path").attr("d", fishline);
@@ -1082,7 +619,6 @@
 	    return y(d.value);
 	})
  	    .attr("r", function(d) {
-		var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 		return rScale(currRange);
 	    });
 	var rect = focus2.selectAll("rect").attr("x", function(d) {
@@ -1091,18 +627,26 @@
 	    return y(d.value + .02);
 	});
 
-	var lines = focus2.selectAll("line.bigdays")
+	var lines = focus2.selectAll("line.bigdayline")
 	    .attr({
 		"x1": function(d,i) { return x(d.date); },
 		"x2": function(d,i) { return x(d.date)+d.x; },
 		"y1": function(d,i) { return y(d.value)+2*(d.y/d.y); }, // 2 in the direction of the offset
-		"y2": function(d,i) { return y(d.value)+d.y; },
+		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*15} },
 	    });
 	
-	var groups = focus2.selectAll("g")
+	var groups = focus2.selectAll("g.bigdaygroup")
 	    .attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
 
 	d3.select("#minilist").remove();
+	
+	var cutoff = bigdayscale(currRange);
+	console.log(cutoff);
+
+	// d3.selectAll("text.bigdaytext").attr("fill",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
+	// d3.selectAll("line.bigdayline").attr("stroke",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
+	d3.selectAll("text.bigdaytext").attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
+	d3.selectAll("line.bigdayline").attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
     }
 
     var fullRange = (today.getTime()-1222964002773);
@@ -2022,6 +1566,18 @@
 
 		//plotShift: function(canvas,boxwidth,boxheight,numWords,sizes,sortedType,sortedWords)
 		plotShift(shiftsvg,figwidth,figheight,numWords,sizes,types,names);
+
+		shortlist.append("rect").attr({
+		    "x": 0,
+		    "y": 0,
+		    "width": 220,
+		    "height": 200,
+		    "fill": "white",
+		    "opacity": 0.01,})
+		    .on("click",function() { 
+		        transitionBigShift(popdate);
+		    });
+
 
 		// .attr("class","btn btn-primary expanderbutton");
 		// .attr("x",20)
