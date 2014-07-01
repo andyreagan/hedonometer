@@ -1,7 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
 # a model for the people
 # pointed to by courses (twice), papers, projects, press, funding
 # which is everything else

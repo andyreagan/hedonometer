@@ -47,7 +47,7 @@
     //     .range();
 
     // days that are worth labeling
-    var bigdays = [
+    bigdays = [
 	{
 	    date: new Date(2008,  8, 29),
 	    value: 5.95,

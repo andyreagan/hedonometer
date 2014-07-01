@@ -1348,7 +1348,9 @@
 	d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='/static/hedonometer/graphics/white.png' height='35'/>");
 
 	d3.text("/static/consulting/data/keywords/"+keyworddecoder().current+"/"+dformat(update)+"-word-vector-"+keywordnums[keyworddecoder().current]+"-sum.csv",function(tmp) {
-	    compFvec = tmp.split(',').slice(0,10222);
+	    tg = tmp.split(',');
+	    compFvec = tmp.split(',').slice(1,10222);
+	    compFvec.push(0);
 	    d3.text("/static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(update,0))+"-sum.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
@@ -1534,7 +1536,7 @@
 		modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
 		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
 
-		modalbody.append("p").text(function() {
+		modalbody.insert("p","svg").text(function() {
 		    var head = "What's making words around "+keyworddecoder().current;
 		    return havg <= tcomp ? head + " happier than the rest of twitter:" : head + " sadder than the rest of twitter:";
 		});

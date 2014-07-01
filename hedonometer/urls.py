@@ -1,7 +1,12 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView
 
 from hedonometer import views
+from tastypie.api import Api
+from hedonometer.api import EventResource
+
+v1_api = Api(api_name='v1')
+v1_api.register(EventResource())
 
 urlpatterns = patterns('',
     # ex: /swn/         
@@ -29,6 +34,7 @@ urlpatterns = patterns('',
     url(r'^talks.html', 
         TemplateView.as_view(template_name='hedonometer/talks.html'),
         name='talks'),
+    (r'^api/', include(v1_api.urls)),
     # url(r'^$', views.index, name='index'),
     # ex: /swn/5
     # url(r'^(?P<swn_id>\d+)/$', views.detail, name='detail'),

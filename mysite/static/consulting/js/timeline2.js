@@ -12,73 +12,138 @@
     };
 
     var keywordnums = { 
-	"ben & jerry's": 0,
-	"ben & jerrys": 1,
-	"ben and jerry's": 2,
-	"ben and jerrys": 3,
-	"breyers": 4,
-	"edy's": 5,
-	"edys": 6,
-	"haagen dazs": 7,
-	"klondike": 8,
-	"mars": 9,
-	"nestle": 10,
-	"popsicle": 11,
-	"dessert": 12,
-	"ice cream": 13,
-	"gelato": 14,
-	"cone": 15,
-	"snack": 16,
-	"snacks": 17,
-	"candy": 18,
-	"pint": 19,
-	"flavor": 20,
-	"taste": 21,
-	"chocolate": 22,
-	"cookie": 23,
-	"cookies": 24,
-	"blue bell": 25,
-	"blue bunny": 26,
-	"dreyer's": 27,
-	"good humor": 28,
-	"magnum": 29,
-	"mars": 30,
-	"nestle": 31,
-	"popsicle": 32,
-	"turkey hill": 33,
-	"fruttare": 34,
-	"skinny cow": 35,
-	"talenti": 36,
-	"ice-cream": 37,
-	"ice-lolly": 38,
-	"ice lolly": 39,
-	"pre-packaged": 40,
-	"prepackaged": 41,
-	"sticks": 42,
-	"tubs": 43,
-	"cups": 44,
-	"pints": 45,
-	"ice-cream parlour": 46,
-	"ice cream parlour": 47,
-	"flavours": 48,
-	"taste": 49,
-	"texture": 50,
-	"vanilla": 51,
-	"strawberry": 52,
-	"chocolate bars": 53,
-	"chocolate bar": 54,
-	"candy bars": 55,
-	"candy bar": 56,
-	"cookie": 57,
-	"crisps": 58,
-	"hungry": 59,
-	"snack": 60,
-	"snacks": 61,
-	"food": 62,
-	"eat": 63,
-	"starving": 64,
-	"dessert": 65,
-    };
+	"ben & jerry's": { "num": 0,
+			   "ignore": "ben & jerry's", },
+	"ben & jerrys": { "num": 1,
+			  "ignore": "ben & jerrys", },
+	"ben and jerry's": { "num": 2,
+			     "ignore": "ben and jerry's", },
+	"ben and jerrys": { "num": 3,
+			    "ignore": "ben and jerrys", },
+	"breyers": { "num": 4,
+		     "ignore": "breyers", },
+	"edy's": { "num": 5,
+		   "ignore": "edy's", },
+	"edys": { "num": 6,
+		  "ignore": "edys", },
+	"haagen dazs": { "num": 7,
+			 "ignore": "haagen dazs", },
+	"klondike": { "num": 8,
+		      "ignore": "klondike", },
+	"mars": { "num": 9,
+		  "ignore": "mars", },
+	"nestle": { "num": 10,
+		    "ignore": "nestle", },
+	"popsicle": { "num": 11,
+		      "ignore": "popsicle", },
+	"dessert": { "num": 12,
+		     "ignore": "dessert", },
+	"ice cream": { "num": 13,
+		       "ignore": "ice cream", },
+	"gelato": { "num": 14,
+		    "ignore": "gelato", },
+	"cone": { "num": 15,
+		  "ignore": "cone", },
+	"snack": { "num": 16,
+		   "ignore": "snack", },
+	"snacks": { "num": 17,
+		    "ignore": "snacks", },
+	"candy": { "num": 18,
+		   "ignore": "candy", },
+	"pint": { "num": 19,
+		  "ignore": "pint", },
+	"flavor": { "num": 20,
+		    "ignore": "flavor", },
+	"taste": { "num": 21,
+		   "ignore": "taste", },
+	"chocolate": { "num": 22,
+		       "ignore": "chocolate", },
+	"cookie": { "num": 23,
+		    "ignore": "cookie", },
+	"cookies": { "num": 24,
+		     "ignore": "cookies", },
+	"blue bell": { "num": 25,
+		       "ignore": "blue bell", },
+	"blue bunny": { "num": 26,
+			"ignore": "blue bunny", },
+	"dreyer's": { "num": 27,
+		      "ignore": "dreyer's", },
+	"good humor": { "num": 28,
+			"ignore": "good humor", },
+	"magnum": { "num": 29,
+		    "ignore": "magnum", },
+	"mars": { "num": 30,
+		  "ignore": "mars", },
+	"nestle": { "num": 31,
+		    "ignore": "nestle", },
+	"popsicle": { "num": 32,
+		      "ignore": "popsicle", },
+	"turkey hill": { "num": 33,
+			 "ignore": "turkey hill", },
+	"fruttare": { "num": 34,
+		      "ignore": "fruttare", },
+	"skinny cow": { "num": 35,
+			"ignore": "skinny cow", },
+	"talenti": { "num": 36,
+		     "ignore": "talenti", },
+	"ice-cream": { "num": 37,
+		       "ignore": "ice-cream", },
+	"ice-lolly": { "num": 38,
+		       "ignore": "ice-lolly", },
+	"ice lolly": { "num": 39,
+		       "ignore": "ice lolly", },
+	"pre-packaged": { "num": 40,
+			  "ignore": "pre-packaged", },
+	"prepackaged": { "num": 41,
+			 "ignore": "prepackaged", },
+	"sticks": { "num": 42,
+		    "ignore": "sticks", },
+	"tubs": { "num": 43,
+		  "ignore": "tubs", },
+	"cups": { "num": 44,
+		  "ignore": "cups", },
+	"pints": { "num": 45,
+		   "ignore": "pints", },
+	"ice-cream parlour": { "num": 46,
+			       "ignore": "ice-cream parlour", },
+	"ice cream parlour": { "num": 47,
+			       "ignore": "ice cream parlour", },
+	"flavours": { "num": 48,
+		      "ignore": "flavours", },
+	"taste": { "num": 49,
+		   "ignore": "taste", },
+	"texture": { "num": 50,
+		     "ignore": "texture", },
+	"vanilla": { "num": 51,
+		     "ignore": "vanilla", },
+	"strawberry": { "num": 52,
+			"ignore": "strawberry", },
+	"chocolate bars": { "num": 53,
+			    "ignore": "chocolate bars", },
+	"chocolate bar": { "num": 54,
+			   "ignore": "chocolate bar", },
+	"candy bars": { "num": 55,
+			"ignore": "candy bars", },
+	"candy bar": { "num": 56,
+		       "ignore": "candy bar", },
+	"cookie": { "num": 57,
+		    "ignore": "cookie", },
+	"crisps": { "num": 58,
+		    "ignore": "crisps", },
+	"hungry": { "num": 59,
+		    "ignore": "hungry", },
+	"snack": { "num": 60,
+		   "ignore": "snack", },
+	"snacks": { "num": 61,
+		    "ignore": "snacks", },
+	"food": { "num": 62,
+		  "ignore": "food", },
+	"eat": { "num": 63,
+		 "ignore": "eat", },
+	"starving": { "num": 64,
+		      "ignore": "starving", },
+	"dessert": { "num": 65,
+		     "ignore": "dessert", }, };
 
     var dur =  550,
     shiftTypeSelect = false,
@@ -732,10 +797,16 @@
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("/static/consulting/data/keywords/"+keyworddecoder().current+"/"+dformat(popdate)+"-word-vector-"+keywordnums[keyworddecoder().current]+"-sum.csv",function(tmp) {
+	d3.text("/static/consulting/data/keywords/"+keyworddecoder().current+"/"+dformat(popdate)+"-word-vector-"+keywordnums[keyworddecoder().current].num+"-sum.csv",function(tmp) {
+	    // tg = tmp.split(',');
+	    // compFvec = tmp.split(',').slice(1,10222);
+	    // compFvec.push(0);
+	    // console.log(tmp.split(',').length);
 	    compFvec = tmp.split(',').slice(0,10222);
 	    d3.text("/static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-sum.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
+
+		ignoreWords.push(keywordnums[keyworddecoder().current].ignore);
 
 		for (var i = 0; i < words.length; i++) {
 		    var exclude = false;
@@ -1347,10 +1418,14 @@
 
 	d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='/static/hedonometer/graphics/white.png' height='35'/>");
 
-	d3.text("/static/consulting/data/keywords/"+keyworddecoder().current+"/"+dformat(update)+"-word-vector-"+keywordnums[keyworddecoder().current]+"-sum.csv",function(tmp) {
+	d3.text("/static/consulting/data/keywords/"+keyworddecoder().current+"/"+dformat(update)+"-word-vector-"+keywordnums[keyworddecoder().current].num+"-sum.csv",function(tmp) {
+	    // tg = tmp.split(',');
 	    compFvec = tmp.split(',').slice(0,10222);
+	    // compFvec.push(0);
 	    d3.text("/static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(update,0))+"-sum.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
+
+		ignoreWords.push(keywordnums[keyworddecoder().current].ignore);
 
 		for (var i = 0; i < words.length; i++) {
 		    var exclude = false;
@@ -1533,12 +1608,11 @@
 		modalbody.insert("p","svg").attr("class","shifttitle pullleft").html(function(d,i) { return "<b>"+""+longerformat(newdate)+"</b>"; });
 		modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
 		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
+
 		modalbody.insert("p","svg").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
+		    var head = "What's making words around "+keyworddecoder().current;
+		    return havg <= tcomp ? head + " happier than the rest of twitter:" : head + " sadder than the rest of twitter:";
 		});
-
-
 
 		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 

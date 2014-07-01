@@ -1,0 +1,11 @@
+from hedonometer.models import Person,Paper,Funding,Press,Project
+from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
+from tastypie import fields
+
+class BasicPersonResource(ModelResource):
+    class Meta:
+        queryset = Person.objects.all()
+        resource_name = 'person'
+        filtering = {
+            'uname': ALL,
+        }
