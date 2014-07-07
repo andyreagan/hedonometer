@@ -122,9 +122,11 @@ code {
 
 
 .y.axis line { stroke: white; }
-.y.axis text { fill: grey; }
+.y.axis text { fill: #585858; }
+.x.axis text { fill: #585858; }
 
 .legendrect { cursor: pointer; }
+.yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
 .sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }

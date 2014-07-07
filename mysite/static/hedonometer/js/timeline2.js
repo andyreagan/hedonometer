@@ -2,12 +2,51 @@
 (function() {
     console.log("running timeline viz");
 
+    String.prototype.width = function(font) {
+	var f = font || '12px arial',
+	o = $('<div>' + this + '</div>')
+	    .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
+	    .appendTo($('body')),
+	w = o.width();
+	o.remove();
+	return w;
+    }
+
+    function splitWidth(s,w) {
+	// s is the string
+	// w is the width that we want to split it to
+	var t = s.split(" ");
+	var n = [t[0]];
+	var i = 1;
+	var j = 0;
+	while (i<t.length) {
+	    if ((n[j]+t[i]).width() < w) {
+		n[j] += " "+t[i]
+	    }
+	    else {
+		j++;
+		n.push(t[i]);
+	    }
+	    i++;
+	}
+	return n;
+    }
+
     var dur =  550,
+    ignoreWords = ["nigga","nigger","niggaz","niggas"],
+    bigdays = {},
     shiftTypeSelect = false,
+    formatDate = d3.time.format("%b %Y"),
+    today = new Date(),
+    beginningOfTime = new Date(2008,8,10),
     cformat = d3.time.format("%Y-%m-%d"),
     dformat = d3.time.format("%Y-%m-%dT00:00:00"),
     longformat = d3.time.format("%B %e, %Y"),
     longerformat = d3.time.format("%A, %B %e, %Y"),
+    fromencoder = d3.urllib.encoder().varname("from");
+    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-18))),
+    toencoder = d3.urllib.encoder().varname("to"),
+    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
     dateencoder = d3.urllib.encoder().varname("date"),
     datedecoder = d3.urllib.decoder().varname("date"),
     shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
@@ -46,9 +85,9 @@
 
     // Boston will be ran whenever we mouse over a circle
     function myMouseDownOpenWordShiftFunction() {
-	// var circle = d3.select(this);
-	console.log(this);
-	popitup('/wordshift.html?date=' + d3.select(this).attr("shortdate"));
+	var circle = d3.select(this);
+	popdate = cformat.parse(circle.attr("shortdate"));
+	transitionBigShift(popdate);
     };
 
     function toggleAll(r) {
@@ -142,8 +181,7 @@
     // these get reset when the day toggle is called
     var rmax = 2.75; // scale down to 1.25 for whole timeseries
 
-    var formatDate = d3.time.format("%b %Y");
-    var today = new Date();
+
 
     var symbol = d3.scale.ordinal().range(d3.svg.symbolTypes),
     color = d3.scale.category10();
@@ -190,11 +228,9 @@
     var MainxAxisSpace = 40;
     //height2 = document.documentElement.clientHeight * 0.5;
 
-    var beginningOfTime = new Date(2008,8,10);
-
     var bigdayscale = d3.scale.linear()
     	.domain([0,today.getTime()-beginningOfTime.getTime()])
-        .range([-100,100]);
+        .range([-100,99.5]);
 
     var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
     var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
@@ -207,9 +243,10 @@
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
 
-    console.log([d3.time.month.offset(today,-18),today]);
-    console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
-    var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(today,-18),today]).on("brush", brushing).on("brushend",brushended);
+    // console.log([d3.time.month.offset(today,-18),today]);
+    // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
+    // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(today,-18),today]).on("brush", brushing).on("brushend",brushended);
+    var brush = d3.svg.brush().x(x2).extent([cformat.parse(fromdecoder().current),cformat.parse(todecoder().current)]).on("brush", brushing).on("brushend",brushended);
 
     // var fisheye = d3.fisheye.circular()
     // 	.radius(120);
@@ -275,7 +312,7 @@
 
     var legendgroup = svg.append("g")
 	.attr({"class": "legendgroup",
-	       "transform": "translate("+(width-10-366)+","+0+")",});
+	       "transform": "translate("+(width-10-366)+","+1+")",});
 
     legendgroup.append("rect")
 	.attr({"class": "legendbox",
@@ -380,11 +417,92 @@
 	    toggleDays(rScale(currRange));
 	});
 
+    var fullyearboxwidth = 315;
+
+    svg.append("text")
+	.attr({
+	    "x": (width-10-fullyearboxwidth-53),
+	    "y": 44,
+	    "fill": "grey",
+	    })
+	.text("Jump to:");
+
+    var yeargroup = svg.append("g")
+	.attr({"class": "yeargroup",
+	       "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
+
+    yeargroup.append("rect")
+	.attr({"class": "yearbox",
+	       "x": 0,
+	       "y": 0,
+	       "rx": 3,
+	       "ry": 3,
+	       "width": fullyearboxwidth,
+	       "height": 19,
+	       "fill": "#F0F0F0",
+	       'stroke-width': '0.5',
+	       'stroke': 'rgb(0,0,0)'});
+
+    var yearboxwidth = 36;
+    
+    var datearray = [
+	[beginningOfTime, new Date(2008,11,31)],
+	[new Date(2009,00,01), new Date(2009,11,31)],
+	[new Date(2010,00,01), new Date(2010,11,31)],
+	[new Date(2011,00,01), new Date(2011,11,31)],
+	[new Date(2012,00,01), new Date(2012,11,31)],
+	[new Date(2013,00,01), new Date(2013,11,31)],
+	[beginningOfTime, today],
+	[d3.time.month.offset(today,-18), today],
+    ];
+
+    yeargroup.selectAll("text")
+    	.data([2008,2009,2010,2011,2012,2013,"Full","Last 18mo"])
+    	.enter()
+    	.append("text")
+    	.attr("x", function(d,i) { if (i==6) { return 6+yearboxwidth*i; } else {return 4+yearboxwidth*i; }})
+    	.attr("y", 14)
+    	.text(function(d,i) { return d; });
+
+    yeargroup.selectAll("rect.yearclick")
+    	.data(datearray)
+    	.enter()
+    	.append("rect")
+    	.attr({"class": "yearrect",
+    	       "x": function(d,i) { return yearboxwidth*i; },
+    	       "y": 0,
+    	       "width": function(d,i) { if (i<6) { return yearboxwidth-2; } else { return yearboxwidth+27; }},
+    	       "height": 19,
+    	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
+    	       "opacity": "0.0",})
+    	.on("mousedown", function(d,i) {
+	    // do everything brush related
+	    brush.extent(d);
+	    brushing();
+	    brushended();
+	    context.select(".x.brush")
+		.call(brush);
+	    var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
+	    d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
+	    d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
+    	});
+
+    yeargroup.selectAll("line")
+    	.data([0,0,0,0,0,0,0])
+    	.enter()
+    	.append("line")
+    	.attr("stroke","grey")
+    	.attr("stroke-width","2")
+    	.attr("x1", function(d,i) { return 36+yearboxwidth*i+d; })
+    	.attr("x2", function(d,i) { return 36+yearboxwidth*i+d; })
+    	.attr("y1", 0)
+    	.attr("y2", 19);
+
     var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height+MainxAxisSpace) + ")");
 
     var minDate,maxDate;
 
-    d3.csv("http://s3.amazonaws.com/hedopostprocess/dailyFull.csv", function(data) {
+    d3.csv("/static/hedonometer/data/word-vectors/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -432,7 +550,7 @@
 	    .attr("y1",function(d){ return y(y.ticks(7)[0]); })
 	    .attr("y2",function(d){ return y(y.ticks(7)[0]); })
 	    .attr("fill","none")
-	    .attr("stroke",function(d,i) { if (i===0) {return "black";} else {return "black";} })
+	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
 	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
 	    .attr("stroke-width","1.7px");
 	
@@ -442,35 +560,24 @@
 	
 	var circle = focus2.selectAll("circle").data(data);
 
-	circle.enter().append("circle").attr("r", function(d){return rmax*(0)}).attr("class", function(d) {
-	    return weekDays[d.date.getDay()];
-	}).attr("cx", function(d, i) {
-	    return x(d.date);
-	}).attr("clip-path", "url(#clip)")
-	    .attr("cy", function(d) {
-		return y(6.00);
-	    })
-	    .attr("shortdate", function(d) {
-		return d.shortDate;
-	    }).attr("havg", function(d) {
-		return d.value.toFixed(2);
-	    }).attr("day", function(d) {
-		return weekDays[d.date.getDay()];
-	    }).attr("date", function(d) {
-		return d.date;
-	    })
-	//.transition().duration(dur)
-	    .attr("cy", function(d) {
-		return y(d.value);
-	    })
+    	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
+    	    //yearDict.toggle(d,);
+
+	circle.enter().append("circle")
+	    .attr({
+		"class": function(d) { return weekDays[d.date.getDay()]; },
+		"cx": function(d, i) { return x(d.date); },
+		"clip-path": "url(#clip)",
+		"shortdate": function(d) { return d.shortDate;  },
+		"havg": function(d) { d.value.toFixed(2); },
+		"day": function(d) { return weekDays[d.date.getDay()]; },
+		"date": function(d) { return d.date; },
+		"cy": function(d) { return y(d.value); },
+		"r": function(d) { return rScale(currRange); }, })
 	    .on("mouseover.enlarge", function() { d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5); })
 	    .on("mouseover.popup",myMouseOverFunction) 
-	    .on("mouseout", myMouseOutFunction) 
-            // .on("mousedown", myMouseDownOpenWordShiftFunction)
-	    .transition().duration(dur)
-	    .attr("r", function(d){ return rmax; })
-	;
-	circle.exit().remove();
+	    .on("mouseout", myMouseOutFunction)
+	    .on("mousedown", myMouseDownOpenWordShiftFunction);
 
 	context.append("path").data([data]).attr("class", "mini").attr("d", area2);
 	context.append("g").attr("class", "x axis")
@@ -480,24 +587,23 @@
 	var format = d3.time.format("%m-%d");
 
 	d3.json('/api/v1/events/?format=json',function(json) { 
-	    bigdays = json.objects; 
+	    bigdays = json.objects;
 	    
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
-				       d.y = parseFloat(d.y); 
-				       d.importance = parseFloat(d.importance); 
-				       d.shorter = d.shorter.split(',')})
+				       d.shorter = d.shorter.split(',');
+				       // don't let them overflow the bottom
+				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]); 
+				       d.importance = parseFloat(d.importance);})
 
 	    var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
 		.append("line")
 		.attr({
-		    "x1": function(d,i) { return x(d.date); },
-		    "x2": function(d,i) { return x(d.date)+d.x; },
-		    "y1": function(d,i) { return y(d.value)+2*(d.y/d.y); }, // 2 in the direction of the offset +2*(d.y/d.y)
-		    "y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-26; } else { return y(d.value)+d.y+d.shorter.length*20;} },
+		    // the x and y get set upon brushing
 		    "stroke": "grey",
 		    "stroke-width": 0.5,
 		    "class": "bigdayline",
+		    "visibility": "hidden",
 		});
 
 	    var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
@@ -507,18 +613,6 @@
 	    
 	    var textwidth = 6;
 
-	    String.prototype.width = function(font) {
-		var f = font || '12px arial',
-		o = $('<div>' + this + '</div>')
-		    .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
-		    .appendTo($('body')),
-		w = o.width();
-
-		o.remove();
-
-		return w;
-	    }
-	    
 	    var line0 = bigdaygroups
 		.append("text")
 		.text(function(d) { console.log(d.shorter.length); return d.shorter[0]; } )
@@ -527,7 +621,8 @@
 		.attr("dx", function(d) { return -d.shorter[0].width()/2; })
 		.attr("dy", function(d) { return 0; })
 		.attr("stroke","")
-		.attr("fill","grey");
+		.attr("fill","grey")
+		.attr("visibility","hidden");
 
 	    bigdaygroups
 		.append("text")
@@ -537,7 +632,8 @@
 		.attr("dx", function(d) { if (d.shorter.length > 1) {return -d.shorter[1].width()/2; } else { return 0; } })
 		.attr("dy", function(d) { return 15; })
 		.attr("stroke","")
-		.attr("fill","grey");
+		.attr("fill","grey")
+		.attr("visibility","hidden");
 
 	    bigdaygroups
 		.append("text")
@@ -547,7 +643,8 @@
 		.attr("dx", function(d) { if (d.shorter.length > 2) { return -d.shorter[2].width()/2; } else { return 0; } })
 		.attr("dy", function(d) { return 30; })
 		.attr("stroke","")
-		.attr("fill","grey");
+		.attr("fill","grey")
+		.attr("visibility","hidden");
 
 
 	    bigdaygroups
@@ -558,10 +655,15 @@
 		.attr("dx", function(d) { if (d.shorter.length > 3) { return -d.shorter[3].width()/2; } else { return 0; } })
 		.attr("dy", function(d) { return 45; })
 		.attr("stroke","")
-		.attr("fill","grey");
+		.attr("fill","grey")
+		.attr("visibility","hidden");
 
 	    // call the brush initially
 	    brushing();
+	    focus.selectAll(".brushingline")
+		.attr({ 
+		    "visibility": "hidden",
+		});
 
 	    // d3.selectAll("text.bigdaytext").attr("fill","white")
 	    // d3.selectAll("line.bigdayline").attr("stroke","white")
@@ -579,6 +681,11 @@
 
 	// call the brush initially
 	brushing();
+
+	focus.selectAll(".brushingline")
+	    .attr({ 
+		"visibility": "hidden",
+	    });
 
 
     }); // main data load
@@ -598,7 +705,25 @@
 
     function brushended() {
 	console.log("brushended");
+	fromencoder.varval(cformat(x.domain()[0]));
+	toencoder.varval(cformat(x.domain()[1]));
+	focus.selectAll(".brushingline")
+	    .attr({ 
+		"visibility": "hidden",
+	    });
     }
+
+    focus.selectAll("brushingline").data([0,width]).enter().append("line")
+	.attr({
+	    "class": "brushingline",
+	    "x1": function(d,i) { return d; },
+	    "x2": function(d,i) { return x2(brush.extent()[i]); },
+	    "y1": 475,
+	    "y2": 500,
+	    "stroke": "#C0C0C0",
+	    "stroke-width": 2,
+	    "visibility": "hidden",
+	});
 
     function brushing() {
 	console.log("brushing");
@@ -606,13 +731,20 @@
 	console.log(x.domain()[1].getTime());
 	console.log(x2.domain());
 
-	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
+	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
 
 	//x.domain(brush.empty() ? x2.domain() : brush.extent());
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
 	//focus.select("#path").attr("d", fishline);
 	focus.select("#path").attr("d", line);
 	focus.select(".x.axis").call(xAxis);
+	
+	focus.selectAll(".brushingline")
+	    .attr({ 
+		"x2": function(d,i) { return x2(brush.extent()[i]) },
+		"visibility": "visible",
+	    });
+
 	var circle = focus2.selectAll("circle").attr("cx", function(d) {
 	    return x(d.date);
 	}).attr("cy", function(d) {
@@ -621,6 +753,7 @@
  	    .attr("r", function(d) {
 		return rScale(currRange);
 	    });
+
 	var rect = focus2.selectAll("rect").attr("x", function(d) {
 	    return x(d.date);
 	}).attr("y", function(d) {
@@ -631,8 +764,8 @@
 	    .attr({
 		"x1": function(d,i) { return x(d.date); },
 		"x2": function(d,i) { return x(d.date)+d.x; },
-		"y1": function(d,i) { return y(d.value)+2*(d.y/d.y); }, // 2 in the direction of the offset
-		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*15} },
+		"y1": function(d,i) { return y(d.value)+3*(d.y/Math.abs(d.y)); }, // 2 in the direction of the offset +2*(d.y/d.y)
+		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*12-6;} },
 	    });
 	
 	var groups = focus2.selectAll("g.bigdaygroup")
@@ -645,8 +778,8 @@
 
 	// d3.selectAll("text.bigdaytext").attr("fill",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
 	// d3.selectAll("line.bigdayline").attr("stroke",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
-	d3.selectAll("text.bigdaytext").attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
-	d3.selectAll("line.bigdayline").attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
+	d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
+	d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
     }
 
     var fullRange = (today.getTime()-1222964002773);
@@ -662,7 +795,7 @@
 		y = y - 10;
 		x = x - 30;
 	    } 
-	    else { y = y - 209; }
+	    else { y = y - 224; }
 	} 
 	// on the left
 	else {
@@ -672,7 +805,7 @@
 		y = y - 10;
 		x = x + 20;
 	    } else {
-		y = y - 209;
+		y = y - 224;
 	    }
 	}
 	if (s == 'X') {
@@ -684,10 +817,10 @@
     };
 
     function triangleptsXY(x, y) {
-	var trianglepointsA = ["10 0, 10 210, 20 200, 230 200, 230 0, 10 0"]
-	var trianglepointsB = ["205 200, 215 210, 215 200, 230 200, 230 0, 10 0, 10 200, 205 200"]
-	var trianglepointsC = ["10 10, 0 20, 10 20, 10 200, 230 200, 230 0, 10 0, 10 10"]
-	var trianglepointsD = ["230 10, 240 20, 230 20, 230 200, 10 200, 10 0, 230 0, 230 10"]
+	var trianglepointsA = ["10 0, 10 225, 20 215, 230 215, 230 0, 10 0"]
+	var trianglepointsB = ["205 215, 215 225, 215 215, 230 215, 230 0, 10 0, 10 215, 205 215"]
+	var trianglepointsC = ["10 10, 0 20, 10 20, 10 215, 230 215, 230 0, 10 0, 10 10"]
+	var trianglepointsD = ["230 10, 240 20, 230 20, 230 215, 10 215, 10 0, 230 0, 230 10"]
 	var result = []
 	if (x >= 600) {
 	    if (y <= 210) {
@@ -745,40 +878,12 @@
 		    }
 		}
 		shiftObj = shift(refFvec,compFvec,lens,words);
-	    });
-	});
-
-	d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/data/" + cformat(popdate) + ".json", function(json) {
-	    // extract data from the json
-	    var names = json.map(function(d) { return d.name; });
-	    var sizes = json.map(function(d) { return d.size; });
-	    // trend is -1 if down, 1 if up
-	    var trends = json.map(function(d) { return d.trend; });
-	    // vibe is -1 if negative, 1 if up
-	    var vibes = json.map(function(d) { return d.vibe; });
-	    // make a new type that agrees with mine
-	    var types = Array(vibes.length);
-	    for (var i=0; i<types.length; i=i+1) {
-		types[i] = 0
-		if (parseFloat(vibes[i]) === 1) {
-		    types[i] = types[i] + 1;
-		}
-		if (parseFloat(trends[i]) === 1) {
-		    types[i] = types[i] + 2;
-		}
-	    }
-	    console.log(types);
-
-	    // set the width for bars
-	    //var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
-	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
-	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
-
-	    d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/metadata/" + cformat(popdate) + ".json", function(json) {
-		var havg = json.map(function(d) { return d.trefhavg; });
-		var tcomp = json.map(function(d) { return d.tcomphavg; });
-
-		var shifttotals = json[0];
+		var sortedMag = shiftObj.sortedMag.slice(0,1000),
+		sortedType = shiftObj.sortedType.slice(0,1000),
+		sortedWords = shiftObj.sortedWords.slice(0,1000),
+		sumTypes = shiftObj.sumTypes.slice(0,1000),
+		havg = shiftObj.refH,
+		tcomp = shiftObj.compH;
 
 		//console.log(circle);
 		dateencoder.varval(cformat(popdate));
@@ -849,11 +954,7 @@
 		var canvas = newsmalllist.select("svg"),
 		boxwidth = (modalwidth-20-10),
 		boxheight = (modalheight-40-25),
-		sortedMag = sizes,
-		sortedType = types,
-		sortedWords = names,
-		sumTypes = [shifttotals.normnegdown,-shifttotals.normnegup,-shifttotals.normposdown,shifttotals.normposup];
-		
+
 		/* plot the shift
 
 		   -take a d3 selection, and draw the shift SVG on it
@@ -896,10 +997,29 @@
 		// make these local
 		// var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
 
+		// take the longest of the top five words
+		console.log("appending to sorted words");
+		console.log(sortedWords);
+		sortedWords = sortedWords.map(function(d,i) { 
+		    if (sortedType[i] == 0) {
+			return d.concat("-\u2193");
+		    } 
+		    else if (sortedType[i] == 1) {
+			return "\u2193+".concat(d);
+		    }
+		    else if (sortedType[i] == 2) {
+			return "\u2191-".concat(d);
+		    } else {
+			return d.concat("+\u2191");
+		    }
+		});
+		console.log(sortedWords);
+		var maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
+		console.log(maxWidth);
+
 		var bigshiftx = d3.scale.linear()
-		    .domain([-Math.abs(sizes[0]),Math.abs(sizes[0])])
-		//.range([-x0,x0]);
-		    .range([(sortedWords[0].length+4.5)*5, width-(sortedWords[0].length+4.5)*5]);
+		    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
+		    .range([maxWidth+10,width-maxWidth-10]);
 
 		// linear scale function
 		var bigshifty =  d3.scale.linear()
@@ -932,10 +1052,6 @@
 		    .attr("fill", "#FCFCFC")
 		    .attr("opacity","0.96");
 
-
-
-
-
 		canvas.append("text")
 		    .text("Word Rank")
 		    .attr("class","axes-text")
@@ -958,12 +1074,12 @@
 		var bigshifttextsize = 13;
 
 		axes.selectAll("rect.shiftrect")
-		    .data(sizes)
+		    .data(sortedMag)
 		    .enter()
 		    .append("rect")
 		// color
-		    .attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-		    .attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
+		    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+		    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
 		    .attr("x",function(d,i) { 
 			if (d>0) { return bigfigcenter; } 
 			else { return bigshiftx(d)} })
@@ -979,16 +1095,14 @@
 		// });
 
 		axes.selectAll("text.shifttext")
-		    .data(sizes)
+		    .data(sortedMag)
 		    .enter()
 		    .append("text")
-		    .attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
+		    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
 		    .attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } )
 		    .attr("y",function(d,i) { return bigshifty(i+1)+iBarH; } )
-		    .style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
-		    .text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
-					  else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-					  if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } });
+		    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
+		    .text(function(d,i) { return sortedWords[i]; });
 
 		// check if there is a word selection to apply
 		if (shiftseldecoder().current === "posup") {
@@ -1056,7 +1170,7 @@
 
 		topScale = d3.scale.linear()
 		    .domain([-maxShiftSum,maxShiftSum])
-		    .range([width*.1,width*.9]);
+		    .range([width*.12,width*.88]);
 
 		// define the RHS summary bars so I can add if needed
 		// var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
@@ -1460,88 +1574,71 @@
 		    .attr('font-family', 'FontAwesome')
 		    .attr('font-size', function(d) { return '2em'} )
 		    .text(function() { return '\uF012' }); 
-		shortlist.append("text").attr("x", 20).attr("y", 36)
+		var tmp = splitWidth(bigdays[i].longer,230);
+		shortlist.append("text").attr("x", 20).attr("y", 38)
 		//.html(function() { return '<b>'+bigdays[i].caption+'</b>'; })
-		    .text(function() { return bigdays[i].longer; })
+		    .text(function() { return tmp[0]; })
 		    .attr("font-weight","bold")
 		    .attr("font-size", "10px")
 		    .attr("class","shifttitlebigdaytext");
+		if (tmp.length > 1) {
+		    shortlist.append("text").attr("x", 20).attr("y", 49)
+			.text(function() { return tmp[1]; })
+			.attr("font-weight","bold")
+			.attr("font-size", "10px")
+			.attr("class","shifttitlebigdaytext");
+		}
 		break;
 	    }
 	}
 
-	d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/data/" + cformat(popdate) + ".json", function(json) {
-	    // extract data from the json
-	    var names = json.map(function(d) { return d.name; });
-	    var sizes = json.map(function(d) { return d.size; });
-	    // trend is -1 if down, 1 if up
-	    var trends = json.map(function(d) { return d.trend; });
-	    // vibe is -1 if negative, 1 if up
-	    var vibes = json.map(function(d) { return d.vibe; });
-	    // make a new type that agrees with mine
-	    var types = Array(vibes.length);
-	    for (var i=0; i<types.length; i=i+1) {
-		types[i] = 0
-		if (parseFloat(vibes[i]) === 1) {
-		    types[i] = types[i] + 1;
-		}
-		if (parseFloat(trends[i]) === 1) {
-		    types[i] = types[i] + 2;
-		}
-	    }
-	    console.log(types);
+	d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
+	    var names = csv.map(function(d) { return d.word; });
+	    var sizes = csv.map(function(d) { return d.mag; });
+	    var types = csv.map(function(d) { return d.type; });
 
 	    // set the width for bars
 	    //var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/metadata/" + cformat(popdate) + ".json", function(json) {
-		var havg = json.map(function(d) { return d.trefhavg; });
-		var tcomp = json.map(function(d) { return d.tcomphavg; });
+	    d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
+		var havg = csv.map(function(d) { return d.refH; });
+		var tcomp = csv.map(function(d) { return d.compH; });
 
 		shortlist.append("svg:text").attr("x", 20).attr("y", 25).text("Average Happiness: " + parseFloat(tcomp).toFixed(2)).attr("font-size", "10px").attr("class","shifttitlehavg");
 
-		var shifttotals = json[0];
-		// shortlist.append("svg:text").attr("x", 20).attr("y", 35).attr("font-size", "10px").text(function() {
-		//     var head = "What's making this day ";
-		//     // longer
-		//     //return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		//     // shorter
-		//     return havg <= tcomp ? head + "happier:" : head + "sadder:";
-		// }).attr("class","shifttitlewhatis");
-
 		// wrap the longer sentence
-		shortlist.append("svg:text").attr("x", 20).attr("y", 47).attr("font-size", "10px").text(function() {
+		shortlist.append("svg:text").attr("x", 20).attr("y", 62).attr("font-size", "10px").text(function() {
 		    var head = "What's making this day ";
 		    // longer
 		    // return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
 		    // shorter
 		    return havg <= tcomp ? head + "happier" : head + "sadder";
 		}).attr("class","shifttitlewhatisone");
-		shortlist.append("svg:text").attr("x", 20).attr("y", 57).attr("font-size", "10px").text(function() {
+		shortlist.append("svg:text").attr("x", 20).attr("y", 72).attr("font-size", "10px").text(function() {
 		    return "than the last seven days:"
 		}).attr("class","shifttitlewhatistwo");
 
 		shortlist.append("line")
 		    .attr("x1", 20)
 		    .attr("x2",220)
-		    .attr("y1", 61)
-		    .attr("y2", 61)
+		    .attr("y1", 76)
+		    .attr("y2", 76)
 		    .attr("stroke", "grey")
 		    .attr("stroke-width", ".3px")
 		    .attr("class","shiftsepline");
 		shortlist.append("line")
 		    .attr("x1", 20)
 		    .attr("x2",220)
-		    .attr("y1", 183)
-		    .attr("y2", 183)
+		    .attr("y1", 198)
+		    .attr("y2", 198)
 		    .attr("stroke", "grey")
 		    .attr("stroke-width", ".3px")
 		    .attr("class","shiftsepline");
 
 		// add the link to bigger wordshift
-		shortlist.append("g").attr("transform","translate(40,196)")
+		shortlist.append("g").attr("transform","translate(40,211)")
 		//.insert("g","rect").attr("transform","translate(20,177)")
 		    .append("text")
 		    .text("Click for interactive word shift.")
@@ -1550,10 +1647,9 @@
 		    .attr("class","expanderbutton")
 	            .on("click",function() { 
 		                             transitionBigShift(popdate);
-					     
 					   });
 
-		var innerlist = shortlist.append("svg:g").attr("transform", "translate(20,64)").attr("id","smallshiftgroup");
+		var innerlist = shortlist.append("svg:g").attr("transform", "translate(20,79)").attr("id","smallshiftgroup");
 
 		var figwidth = 190,
 		figheight = 115,
@@ -1632,10 +1728,25 @@
 	// and second word is longer
 	// make these local
 	// var x0 = Math.max(-d3.min(sortedMag) * 1.33, d3.max(sortedMag) * 1.33);
+
+	sortedWords = sortedWords.map(function(d,i) { 
+	    if (sortedType[i] == 0) {
+		return d.concat("-\u2193");
+	    } 
+	    else if (sortedType[i] == 1) {
+		return "\u2193+".concat(d);
+	    }
+	    else if (sortedType[i] == 2) {
+		return "\u2191-".concat(d);
+	    } else {
+		return d.concat("+\u2191");
+	    }
+	});
+	var maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
 	var x = d3.scale.linear()
 	    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
 	//.range([-x0,x0]);
-	    .range([(sortedWords[0].length+2.5)*5, width-(sortedWords[0].length+2.5)*5]);
+	    .range([maxWidth-5, boxwidth-maxWidth+5]);
 
 	// linear scale function
 	var y =  d3.scale.linear()
@@ -1695,9 +1806,7 @@
 	    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
 	    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
 	    .attr("y",function(d,i) { return y(i+1)+iBarH; } )
-	    .text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-				  else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-				  if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+	    .text(function(d,i) { return sortedWords[i]; })
 	    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
 	function zoomed() {
@@ -1742,147 +1851,151 @@
 	if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
 	else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
 
-	d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/data/" + cformat(newdate) + ".json", function(json) {
-	    // extract data from the json
-	    var names = json.map(function(d) { return d.name; });
-	    var sizes = json.map(function(d) { return d.size; });
-	    // trend is -1 if down, 1 if up
-	    var trends = json.map(function(d) { return d.trend; });
-	    // vibe is -1 if negative, 1 if up
-	    var vibes = json.map(function(d) { return d.vibe; });
-	    // make a new type that agrees with mine
-	    var types = Array(vibes.length);
-	    for (var i=0; i<types.length; i=i+1) {
-		types[i] = 0
-		if (parseFloat(vibes[i]) === 1) { types[i] = types[i] + 1; }
-		if (parseFloat(trends[i]) === 1) { types[i] = types[i] + 2; }
-	    }
+	d3.text("static/hedonometer/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
+	    compFvec = tmp.split('\n').slice(0,10222);
+	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
+		refFvec = tmp2.split('\n').slice(0,10222);
 
-	    console.log(types);
-
-	    var modalwidth = 558;
-	    var modalheight = 495;
-	    var boxwidth = modalwidth-20-10;
-	    var boxheight = modalheight-40-25;
-
-	    // select the innermost svg on the modal
-	    var axes = bigshiftdiv.select("#shiftcanvas");
-
-	    // reconstruct the scales
-	    var margin = {top: 0, right: 0, bottom: 0, left: 0},
-	    figwidth = boxwidth - margin.left - margin.right,
-	    figheight = boxheight - margin.top - margin.bottom,
-	    iBarH = 11;
-
-	    var yHeight = (7+17*3+14+5), // 101
-	    clipHeight = 100,
-	    barHeight = (7+17*3+15), // 95
-	    width = (figwidth-20), 	// give just enough room for the labels
-	    height = (figheight-20);
-
-	    var bigfigcenter = width/2;
-
-	    var bigshiftx = d3.scale.linear()
-		.domain([-Math.abs(sizes[0]),Math.abs(sizes[0])])
-	    //.range([-x0,x0]);
-		.range([(names[0].length+4.5)*5, width-(names[0].length+4.5)*5]);
-
-	    // linear scale function
-	    var bigshifty = d3.scale.linear()
-		.domain([numWords+1,1])
-		.range([height+2, yHeight]); 
-
-	    var newbars = axes.selectAll("rect.shiftrect").data(sizes);
-	    var newwords = axes.selectAll("text.shifttext").data(sizes);
-	    
-	    // if we haven't dont a subselection, apply with a transition
-	    if (shiftseldecoder().current === "none" || shiftsledecoder().current.length === 0) {
-		newbars.transition()
-	            .attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-	            .attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-		    .attr("x",function(d,i) { 
-			if (d>0) { return bigfigcenter; } 
-			else { return bigshiftx(d)} })
-		    .attr("height",function(d,i) { return iBarH; } )
-		    .attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
-
-		newwords.transition()
-	            .attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
-	            .style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-	            .text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
-	    				  else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-	    				  if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
-		    .attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
-	    }
-	    // else apply without a transition
-	    else {
-		newbars
-	            .attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-	            .attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-		    .attr("x",function(d,i) { 
-			if (d>0) { return bigfigcenter; } 
-			else { return bigshiftx(d)} })
-		    .attr("height",function(d,i) { return iBarH; } )
-		    .attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
-
-		newwords
-	            .attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
-	            .style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-	            .text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
-	    				  else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-	    				  if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
-		    .attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
-
-		if (shiftseldecoder().current === "posup") {
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		for (var i = 0; i < words.length; i++) {
+		    var exclude = false;
+		    for (var k = 0; k < ignoreWords.length; k++) {
+			if (ignoreWords[k] == words[i]) {
+			    exclude = true;
+			    // console.log("excluding");
+			}
+		    }
+		    // console.log(i);
+		    if (lens[i] > 4 && lens[i] < 6) {
+			exclude = true;
+			// console.log("excluding");
+		    }
+		    if (exclude) {
+			refFvec[i] = 0;
+			compFvec[i] = 0;
+		    }
 		}
-		else if (shiftseldecoder().current === "negdown") {
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
-		}
-		else if (shiftseldecoder().current === "posdown") {
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		}
-		else if (shiftseldecoder().current === "negup") {
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		}
-	    }
+		shiftObj = shift(refFvec,compFvec,lens,words);
+		var sizes = shiftObj.sortedMag.slice(0,1000),
+		types = shiftObj.sortedType.slice(0,1000),
+		names = shiftObj.sortedWords.slice(0,1000),
+		sumTypes = shiftObj.sumTypes.slice(0,1000),
+		havg = shiftObj.refH,
+		tcomp = shiftObj.compH;
 
-	    d3.json("http://s3.amazonaws.com/hedopostprocess/word-shift-results/metadata/" + cformat(newdate) + ".json", function(json2) {
-		var havg = json2.map(function(d) { return d.trefhavg; });
-		var tcomp = json2.map(function(d) { return d.tcomphavg; });
+		var modalwidth = 558;
+		var modalheight = 495;
+		var boxwidth = modalwidth-20-10;
+		var boxheight = modalheight-40-25;
 
-		var shifttotals = json[0];
+		// select the innermost svg on the modal
+		var axes = bigshiftdiv.select("#shiftcanvas");
 
-		// console.log(havg);
-		// console.log(tcomp);
+		// reconstruct the scales
+		var margin = {top: 0, right: 0, bottom: 0, left: 0},
+		figwidth = boxwidth - margin.left - margin.right,
+		figheight = boxheight - margin.top - margin.bottom,
+		iBarH = 11;
+
+		var yHeight = (7+17*3+14+5), // 101
+		clipHeight = 100,
+		barHeight = (7+17*3+15), // 95
+		width = (figwidth-20), 	// give just enough room for the labels
+		height = (figheight-20);
+
+		var bigfigcenter = width/2;
+
+		var bigshiftx = d3.scale.linear()
+		    .domain([-Math.abs(sizes[0]),Math.abs(sizes[0])])
+		//.range([-x0,x0]);
+		    .range([(names[0].length+4.5)*5, width-(names[0].length+4.5)*5]);
+
+		// linear scale function
+		var bigshifty = d3.scale.linear()
+		    .domain([numWords+1,1])
+		    .range([height+2, yHeight]); 
+
+		var newbars = axes.selectAll("rect.shiftrect").data(sizes);
+		var newwords = axes.selectAll("text.shifttext").data(sizes);
+		
+		// if we haven't dont a subselection, apply with a transition
+		if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
+		    newbars.transition()
+			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
+			.attr("x",function(d,i) { 
+			    if (d>0) { return bigfigcenter; } 
+			    else { return bigshiftx(d)} })
+			.attr("height",function(d,i) { return iBarH; } )
+			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
+
+		    newwords.transition()
+			.attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
+			.style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+			.text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
+	    				      else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+	    				      if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
+			.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
+		}
+		// else apply without a transition
+		else {
+		    newbars
+			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
+			.attr("x",function(d,i) { 
+			    if (d>0) { return bigfigcenter; } 
+			    else { return bigshiftx(d)} })
+			.attr("height",function(d,i) { return iBarH; } )
+			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
+
+		    newwords
+			.attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
+			.style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+			.text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
+	    				      else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+	    				      if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
+			.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
+
+		    if (shiftseldecoder().current === "posup") {
+			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    }
+		    else if (shiftseldecoder().current === "negdown") {
+			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+		    }
+		    else if (shiftseldecoder().current === "posdown") {
+			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    }
+		    else if (shiftseldecoder().current === "negup") {
+			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    }
+		}
 
 		var modalbody = d3.select("#moveshifthere");
 		// remove the text at the top
@@ -1908,7 +2021,7 @@
 		});
 
 		// var sumTypes = [8,-10,-6,14];
-		var sumTypes = [json2[0].normnegdown,-json2[0].normnegup,-json2[0].normposdown,json2[0].normposup]
+		// var sumTypes = [json2[0].normnegdown,-json2[0].normnegup,-json2[0].normposdown,json2[0].normposup]
 
 		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 
@@ -2035,7 +2148,6 @@
 	result.setDate(date.getDate() + days);
 	return result;
     }
-    
 
 })();
 

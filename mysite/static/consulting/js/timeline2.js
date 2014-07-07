@@ -1740,7 +1740,9 @@
 	return result;
     }
     
+    d3.select("#downloadlink").attr("href","/static/consulting/data/keywords/"+keyworddecoder().current+"/allhappsday.csv");
 
 })();
+
 
 
