@@ -27,9 +27,11 @@ if __name__ == '__main__':
     labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
 
     if goal == "recompute":
+        print "opening in write mode"
         g = codecs.open('word-vectors/sumhapps.csv','w','utf8')
         g.write('date,value\n')
     else:
+        print "opening in append mode"        
         g = codecs.open('word-vectors/sumhapps.csv','a','utf8')
     # loop over time
     currDay = copy.copy(start)
@@ -48,7 +50,7 @@ if __name__ == '__main__':
             # print daywordarray
             # print len(daywordarray)
             # compute happiness of the word vectors
-            stoppedVec = stopper(daywordarray,labMTvector,labMTwordList)
+            stoppedVec = stopper(daywordarray,labMTvector,labMTwordList,ignore=["thirsty"])
             happs = emotionV(stoppedVec,labMTvector)
             dayhappsarray[0] = happs
 

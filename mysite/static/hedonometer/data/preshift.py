@@ -42,8 +42,8 @@ if __name__ == '__main__':
             print len(wordarray)
             print len(prevwordarray)
             # compute happiness of the word vectors
-            wordarrayst = stopper(wordarray,labMTvector,labMTwordList)
-            prevwordarrayst = stopper(prevwordarray,labMTvector,labMTwordList)
+            wordarrayst = stopper(wordarray,labMTvector,labMTwordList,ignore=["thirsty"])
+            prevwordarrayst = stopper(prevwordarray,labMTvector,labMTwordList,ignore=["thirsty"])
 
             happs = emotionV(wordarrayst,labMTvector)
             prevhapps = emotionV(prevwordarrayst,labMTvector)
@@ -54,14 +54,14 @@ if __name__ == '__main__':
             # print sortedWords[:10]
             # print sortedType[:10]
             # print sumTypes
-            print 'writing word-vectors/{0}-shift.csv'.format(currDay.strftime('%Y-%m-%d'))
-            g = codecs.open('word-vectors/{0}-shift.csv'.format(currDay.strftime('%Y-%m-%d')),'w','utf8')
+            print 'writing shifts/{0}-shift.csv'.format(currDay.strftime('%Y-%m-%d'))
+            g = codecs.open('shifts/{0}-shift.csv'.format(currDay.strftime('%Y-%m-%d')),'w','utf8')
             g.write("mag,word,type")
             for i in xrange(10):
                 g.write("\n{0},{1},{2}".format(sortedMag[i],sortedWords[i],sortedType[i]))
             g.close()
-            print 'writing word-vectors/{0}-metashift.csv'.format(currDay.strftime('%Y-%m-%d'))
-            g = codecs.open('word-vectors/{0}-metashift.csv'.format(currDay.strftime('%Y-%m-%d')),'w','utf8')
+            print 'writing shifts/{0}-metashift.csv'.format(currDay.strftime('%Y-%m-%d'))
+            g = codecs.open('shifts/{0}-metashift.csv'.format(currDay.strftime('%Y-%m-%d')),'w','utf8')
             g.write("refH,compH,negdown,negup,posdown,posup")
             g.write("\n{0},{1},{2},{3},{4},{5}".format(prevhapps,happs,sumTypes[0],sumTypes[1],sumTypes[2],sumTypes[3]))
             g.close()

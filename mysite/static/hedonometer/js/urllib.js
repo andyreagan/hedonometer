@@ -133,6 +133,9 @@ slightly more documentation in the README
 			varresult = GET[varname];
 		    }
 		}
+		else {
+		    varresult = ""
+		}
 		return urllib;
 	    }
 
