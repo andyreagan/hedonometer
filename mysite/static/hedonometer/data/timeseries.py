@@ -4,7 +4,7 @@
 # for all keywords
 #
 # USAGE: 
-# python rest.py 2014-01-01 2014-06-26
+# python timeseries.py 2014-01-01 2014-06-26
 
 import codecs
 from labMTsimple.storyLab import *
@@ -21,11 +21,16 @@ if __name__ == '__main__':
     [year,month,day] = map(int,sys.argv[2].split('-'))
     end = datetime.datetime(year,month,day)
 
+    goal = sys.argv[3]
+
     lang = "english"
     labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
 
-    g = codecs.open('word-vectors/sumhapps.csv','w','utf8')
-   
+    if goal == "recompute":
+        g = codecs.open('word-vectors/sumhapps.csv','w','utf8')
+        g.write('date,value\n')
+    else:
+        g = codecs.open('word-vectors/sumhapps.csv','a','utf8')
     # loop over time
     currDay = copy.copy(start)
     while currDay <= end:
@@ -51,6 +56,7 @@ if __name__ == '__main__':
             # write out the day happs
             print 'reading word-vectors/{0}'.format(currDay.strftime('%Y-%m-%d-sum.csv'))
             f = codecs.open('word-vectors/{0}-sumhapps.csv'.format(currDay.strftime('%Y-%m-%d')),'w','utf8')
+            f.write('{0},{1}\n'.format(currDay.strftime('%Y-%m-%d'),dayhappsarray[0]))    
             f.close()
     
             g.write('{0},{1}\n'.format(currDay.strftime('%Y-%m-%d'),dayhappsarray[0]))
@@ -74,7 +80,7 @@ if __name__ == '__main__':
         # increase the days
         currDay += datetime.timedelta(days=1)
         
-    
+    g.close()
 
 
 

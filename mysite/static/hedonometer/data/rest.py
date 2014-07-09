@@ -38,7 +38,7 @@ if __name__ == '__main__':
             [total,date] = sumfiles(maincurr+datetime.timedelta(days=-6),maincurr+datetime.timedelta(days=0),array)
             
             # write the total into a file for date
-            print "printing to {0}".format(date.strftime('%Y-%m-%d'))
+            print "printing to {0}-prev7.csv".format(date.strftime('%Y-%m-%d'))
             f = open('word-vectors/{0}-prev7.csv'.format(date.strftime('%Y-%m-%d')),'w')
             for i in xrange(10222):
                 f.write('{0:.0f}\n'.format(total[i]))

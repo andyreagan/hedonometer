@@ -136,9 +136,9 @@ if __name__ == "__main__":
   for i in xrange(len(allvecs)):
     for j in xrange(10222):
       if index[j] > -1:
-        allvecs10k[i][j] = int(allvecs[i][index[j]])
+        allvecs10k[i][j] = float(allvecs[i][index[j]])
       else:
-        allvecs10k[i][j] = 0
+        allvecs10k[i][j] = 0.0
 
   print "writing new file..."
   f = codecs.open(newbase+"/"+newfile,"w","utf8")
@@ -147,7 +147,7 @@ if __name__ == "__main__":
     f.write(str(allvecs10k[0][i]))
     for j in xrange(1,24):
       f.write(',')
-      f.write(str(allvecs10k[j][i]))
+      f.write('{0:.0f}'.format(allvecs10k[j][i]))
     f.write('\n')
   f.close()
 
@@ -156,7 +156,7 @@ if __name__ == "__main__":
   allvecs10ksum = [sum([allvecs10k[j][i] for j in xrange(24)]) for i in xrange(10222)]
   # i like writing them vertically
   for i in xrange(10222):
-    f.write(str(allvecs10ksum[i]))
+    f.write('{0:.0f}'.format(allvecs10ksum[i]))
     f.write('\n')
   f.close()
 

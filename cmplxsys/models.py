@@ -10,6 +10,8 @@ class Person(models.Model):
     # eventually can build a model for affiliations (VACC, UVM, CSYS, CS, MATH, etc)
     # but bigger fish to fry right now
     affiliation = models.CharField(max_length=200, default="University of Vermont")
+    position = models.CharField(max_length=200, null=True, blank=True, default="Professor")
+    department = models.CharField(max_length=200, null=True, blank=True, default="Mathematics and Statistics")
     blurb = models.TextField(null=True, blank=True, default="",)
     fullname = models.CharField(max_length=200)
     # split up name is optional, for now

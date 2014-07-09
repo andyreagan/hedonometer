@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-xs-0 col-sm-0">
 	</div>
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12 col-sm-7">
 	  <h3>Happiness</h3>
 	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in real time.</p>
 
@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-xs-0 col-sm-0">
 	</div>
-        <div class="col-xs-12 col-sm-8">
+        <div class="col-xs-12 col-sm-7">
 	  <h3>Frequently Asked Questions</h3>
 	  <h4>General</h4>
 	  <h5>&ldquo;Where does the word &#8216;hedonometer&#8217; come from?&rdquo;</h5>
@@ -63,7 +63,7 @@
 	  <p>In our Computational Story Lab <a href="http://onehappybird.com" target="_blank">blog</a> we describe research projects in which we use our hedonometer to characterize happiness variations with respect to geography, network topology, demographics, and socio-economic data. For example, here&#8217;s a map of the US with cities colored by happiness:</p>
 	  <br/>
 	  <p>
-	    <a href="http://onehappybird.com/2013/02/18/where-is-the-happiest-city-in-the-usa/" target="_blank"><img src="{% static "hedonometer/graphics/where-is-the-happiest-city-in-the-usa.jpeg" %}"></a>
+	    <a href="http://onehappybird.com/2013/02/18/where-is-the-happiest-city-in-the-usa/" target="_blank"><img src="{% static "hedonometer/graphics/where-is-the-happiest-city-in-the-usa.jpeg" %}" class="img-responsive"></a>
 	    <br>
 	  </p>
 	  <br>
@@ -73,14 +73,14 @@
 	</div>
       </div>
       <div class="row">
-        <div class="col-xs-0 col-sm-0">
-	</div>
-	<div class="col-xs-2 col-sm-2">
-	  <img width="70" height="70" src="{% static "hedonometer/graphics/papers/5.jpg" %}" class="img-polaroid">
-	</div>
-	<div class="col-xs-10 col-sm-6">
-	  <i>Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.</i><br>
-	  PLoS ONE, 6, e26752, 2011. <a href="http://www.uvm.edu/~cdanfort/research/2011-hedonometer-arxiv.pdf" target="_blank">[pdf]</a> <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752" target="_blank">[journal url]</a>
+	<div class="col-xs-10 col-sm-7">
+	  <div class="col-xs-2 col-sm-3">
+	    <img width="70" height="70" src="{% static "hedonometer/graphics/papers/5.jpg" %}" class="img-polaroid">
+	  </div>
+	  <div class="col-xs-10 col-sm-9">
+	    <i>Temporal Patterns of Happiness and Information in a Global-Scale Social Network: Hedonometrics and Twitter.</i><br>
+	    PLoS ONE, 6, e26752, 2011. <a href="http://www.uvm.edu/~cdanfort/research/2011-hedonometer-arxiv.pdf" target="_blank">[pdf]</a> <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752" target="_blank">[journal url]</a>
+	  </div>
 	</div>
         <div class="col-xs-0 col-sm-0">
 	</div>
@@ -88,7 +88,7 @@
       <div class="row">
         <div class="col-xs-0 col-sm-0">
 	</div>
-	<div class="col-xs-10 col-sm-8">
+	<div class="col-xs-10 col-sm-7">
 	  <h4>Future</h4>
 	  <h5>&ldquo;What about languages other than English?&rdquo;</h5>
 	  <p>We are currently in the process of scoring the most frequently used words in a dozen other languages, and hope to have these measurements incorporated into the instrument by the end of the year.</p>
@@ -109,13 +109,18 @@
       <div class="row">
         <div class="col-xs-0 col-sm-0">
 	</div>
-	<div class="col-xs-12 col-sm-8">
+	<div class="col-xs-12 col-sm-7">
 	  <h4>Technological</h4>
-	  <h5>&ldquo;How did you develop the interface for hedonometer.org?&rdquo;</h5>
-	  <p>We used the D3.js Javascript data visualization library for visualizing the data, the Sinatra domain specific language and the DataMapper Object Relational Mapper with PostgreSQL to create the web application.  Hedonometer.org is deployed on the Heroku cloud application platform.</p>
-	  <hr>
-	  <h5>&ldquo;What computational infrastructure underlies hedonometer.org?&rdquo;</h5>
-	  <p>We initially prototyped the infrastructure on a local Hadoop cluster and then deployed this prototype via Amazon Web Services (AWS), specifically the Simple Storage Service (S3) and  Elastic Compute Cloud (EC2). Currently, this AWS architecture enables the computation of daily Happiness and Word Shifts for four years of data on 1500 processors in three hours. Future instances of this infrastructure will allow for further scaling to tens of thousands of processors and enhancements to permit hourly site updates.</p>
+
+<h5>“How are you developing the interface for hedonometer.org?”</h5>
+
+<p>We used the <a href="http://d3js.org/" target="_blank">D3</a> Javascript data visualization library for visualizing the data, <a href="http://getbootstrap.com/" target="_blank">Bootstrap</a> for layout, and <a href="https://www.djangoproject.com/" target="_blank">Django</a> as a web framework. Hedonometer.org is deployed on a <a href="https://www.linode.com/" target="_blank">Linode</a> virtual linux server.</p>
+
+<hr>
+
+<h5>“What computational infrastructure underlies hedonometer.org?”</h5>
+
+<p>We use Amazon Web Services and the Vermont Advanced Computing Core (<a href="http://www.uvm.edu/~vacc/" target="_blank">VACC</a>) to compute happiness vectors from the Twitter Gardenhose, and preprocess some of the data on the Linode server. For specifics on how the tweets are analyzed, including the parsing details (regular expressions), a sample code to compute happiness is available on Github <a href="https://github.com/andyreagan/labMT-simple" target="_blank">here</a>.</p>
 
 	  <hr>
 	  <h4>Credits</h4>
@@ -140,7 +145,7 @@
       <div class="row">
         <div class="col-xs-0 col-sm-0">
 	</div>
-	<div class="col-xs-12 col-sm-8">
+	<div class="col-xs-12 col-sm-7">
 	</div>
         <div class="col-xs-0 col-sm-4">
 	</div>

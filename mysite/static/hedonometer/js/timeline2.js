@@ -417,7 +417,22 @@
 	    toggleDays(rScale(currRange));
 	});
 
-    var fullyearboxwidth = 315;
+
+    var datearray = [
+	[beginningOfTime, new Date(2009,11,31)],
+	[new Date(2010,00,01), new Date(2010,11,31)],
+	[new Date(2011,00,01), new Date(2011,11,31)],
+	[new Date(2012,00,01), new Date(2012,11,31)],
+	[new Date(2013,00,01), new Date(2013,11,31)],
+	[beginningOfTime, today],
+	[d3.time.month.offset(today,-18), today],
+    ],
+    yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
+    yearstringslen = yearstrings.map(function(d) { return d.width(); }),
+    initialpadding = 2,
+    boxpadding = 5,
+    fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
+
 
     svg.append("text")
 	.attr({
@@ -443,24 +458,17 @@
 	       'stroke-width': '0.5',
 	       'stroke': 'rgb(0,0,0)'});
 
-    var yearboxwidth = 36;
-    
-    var datearray = [
-	[beginningOfTime, new Date(2008,11,31)],
-	[new Date(2009,00,01), new Date(2009,11,31)],
-	[new Date(2010,00,01), new Date(2010,11,31)],
-	[new Date(2011,00,01), new Date(2011,11,31)],
-	[new Date(2012,00,01), new Date(2012,11,31)],
-	[new Date(2013,00,01), new Date(2013,11,31)],
-	[beginningOfTime, today],
-	[d3.time.month.offset(today,-18), today],
-    ];
-
     yeargroup.selectAll("text")
-    	.data([2008,2009,2010,2011,2012,2013,"Full","Last 18mo"])
+    	.data(yearstrings)
     	.enter()
     	.append("text")
-    	.attr("x", function(d,i) { if (i==6) { return 6+yearboxwidth*i; } else {return 4+yearboxwidth*i; }})
+    	.attr("x", function(d,i) { 
+	    // start at 2
+	    if (i==0) { return initialpadding; }
+	    // then use 2+width+10+width+10+width...
+	    // for default padding of 5 on L/R
+	    else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
+	})
     	.attr("y", 14)
     	.text(function(d,i) { return d; });
 
@@ -469,13 +477,15 @@
     	.enter()
     	.append("rect")
     	.attr({"class": "yearrect",
-    	       "x": function(d,i) { return yearboxwidth*i; },
+    	       "x": function(d,i) { if (i === 0) { return 0; }
+	    else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
     	       "y": 0,
-    	       "width": function(d,i) { if (i<6) { return yearboxwidth-2; } else { return yearboxwidth+27; }},
+    	       "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
     	       "height": 19,
     	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
     	       "opacity": "0.0",})
     	.on("mousedown", function(d,i) {
+	    console.log(yearstrings[i]);
 	    // do everything brush related
 	    brush.extent(d);
 	    brushing();
@@ -488,13 +498,17 @@
     	});
 
     yeargroup.selectAll("line")
-    	.data([0,0,0,0,0,0,0])
+    	.data(yearstrings.slice(0,yearstrings.length-1))
     	.enter()
     	.append("line")
     	.attr("stroke","grey")
     	.attr("stroke-width","2")
-    	.attr("x1", function(d,i) { return 36+yearboxwidth*i+d; })
-    	.attr("x2", function(d,i) { return 36+yearboxwidth*i+d; })
+    	.attr("x1", function(d,i) { 
+	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+	})
+    	.attr("x2", function(d,i) { 
+	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+	})
     	.attr("y1", 0)
     	.attr("y2", 19);
 
@@ -1104,55 +1118,55 @@
 		    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
 		    .text(function(d,i) { return sortedWords[i]; });
 
-		// check if there is a word selection to apply
-		if (shiftseldecoder().current === "posup") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		}
-		else if (shiftseldecoder().current === "negdown") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
-		}
-		else if (shiftseldecoder().current === "posdown") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		}
-		else if (shiftseldecoder().current === "negup") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		}
+		// // check if there is a word selection to apply
+		// if (shiftseldecoder().current === "posup") {
+		//     shiftTypeSelect = true;
+		//     resetButton();
+		//     axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+		//     axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		// }
+		// else if (shiftseldecoder().current === "negdown") {
+		//     shiftTypeSelect = true;
+		//     resetButton();
+		//     axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+		//     axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		//     axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+		// }
+		// else if (shiftseldecoder().current === "posdown") {
+		//     shiftTypeSelect = true;
+		//     resetButton();
+		//     axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+		//     axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		// }
+		// else if (shiftseldecoder().current === "negup") {
+		//     shiftTypeSelect = true;
+		//     resetButton();
+		//     axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
+		//     axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		//     axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		//     axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		// }
 		
 		// draw a white rectangle to hide the shift bars behind the summary shifts
 		// move x,y to 3 and width to -6 to give the bg a little space
@@ -1394,7 +1408,7 @@
 		    d3.selectAll("text.shifttext").transition().duration(1000)
 			.attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } )
 			.attr("transform","translate(0,0)");
-		    d3.selectAll(".resetbutton").remove();
+		    // d3.selectAll(".resetbutton").remove();
 		    shiftselencoder.varval("none");
 		    shiftselencoder.destroy();
 		} // reset
@@ -1407,7 +1421,7 @@
 		    var shiftsvg = d3.select("#modalsvg");
 
 		    var resetGroup = shiftsvg.append("g")
-			.attr("transform","translate("+(8)+","+(60)+") rotate(-90)")
+			.attr("transform","translate("+(0)+","+(56)+") rotate(-90)")
 			.attr("class","resetbutton");
 
 		    resetGroup.append("rect")
@@ -1416,7 +1430,7 @@
 			.attr("rx",3)
 			.attr("ry",3)
 			.attr("width",48)
-			.attr("height",19)
+			.attr("height",17)
 			.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
 			.style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
 
@@ -1440,6 +1454,9 @@
 			});
 		    
 		}; // resetButton
+
+		// call it
+		resetButton();
 
 		// now go ahead and move everthing to the modal
 		// this is not straightforward:
@@ -1824,6 +1841,9 @@
 	var that = this;
 	// console.log(this);
 	// console.log(that);
+
+	// shiftselencoder.varval("none");
+	// shiftselencoder.destroy();
 
 	// var date = datedecoder().current;
 	// console.log(date);
