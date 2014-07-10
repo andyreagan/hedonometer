@@ -3,7 +3,7 @@
 {% block content %}
     <div class="container">
       <div class="infobox">
-        <h4>Average Happiness for Twitter</h4>
+        <h4>Average Happiness for Twitter: Maps</h4>
       </div>
       <p style="margin-bottom:0px; font-size: 11px;">
       </p>
@@ -22,13 +22,7 @@
 	  </div>
       <![endif]-->
 
-      <div id="datapanel"></div>
-      <div id="chart"></div>
-
-      <div id="wrap"></div>
       <div id="bigbox" class="container"></div>
-      <div id="subrow"></div>
-      <div id="yearsrow" style="margin-left:-57px;"></div>
 
     </div>
 
@@ -46,13 +40,13 @@
 
             <div class="input-group restrain pull-right">
               <span class="input-group-btn">
-                <button class="btn btn-default left" type="button">
+                <button class="btn btn-default left" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
                   Prev Day
                 </button>
               </span>
               <input type="text" class="form-control" value="2013-04-15" id="dp1">
               <span class="input-group-btn">
-                <button class="btn btn-default right" type="button">
+                <button class="btn btn-default right" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
                   Next Day
                 </button>
               </span>
@@ -65,7 +59,9 @@
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/index-all.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/dev-all.min.js" %}"></script>
 
 {% endblock %}
+
+
 

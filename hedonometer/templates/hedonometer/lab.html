@@ -3,9 +3,19 @@
 {% block content %}
     <div class="container">
       <div class="infobox">
-        <h4>Average Happiness for Twitter</h4>
+        <h4>Average Happiness for Twitter: Labs</h4>
       </div>
       <p style="margin-bottom:0px; font-size: 11px;">
+	Attempting to build a fine grained tool for sentiment analysis on Twitter.
+	Key features are (1) variable time range, (2) variable time resolution, (3) variable range shift selection and (4) variable lens.
+	The time range should be both visually (on the timeseries) and manually edit-able (calendars and such). For starters, just manually.
+	Building an API to respond to arbitrarily time ranges with any resolution will be the most important feature.
+	The time resolution will be chosen for you, based on the size of the time range. For very narrow ranges, we hope to provide minute-level resolution, and for the widest ranges, day resolution.
+	The shift range selection will also be both visually and manually controlled.
+	Or maybe just manually...multiple brushes on the same svg are tricky.
+	
+	This will be a lot like the existing books app at 
+	
       </p>
 
       <noscript>
@@ -22,13 +32,7 @@
 	  </div>
       <![endif]-->
 
-      <div id="datapanel"></div>
-      <div id="chart"></div>
-
-      <div id="wrap"></div>
       <div id="bigbox" class="container"></div>
-      <div id="subrow"></div>
-      <div id="yearsrow" style="margin-left:-57px;"></div>
 
     </div>
 
@@ -46,13 +50,13 @@
 
             <div class="input-group restrain pull-right">
               <span class="input-group-btn">
-                <button class="btn btn-default left" type="button">
+                <button class="btn btn-default left" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
                   Prev Day
                 </button>
               </span>
               <input type="text" class="form-control" value="2013-04-15" id="dp1">
               <span class="input-group-btn">
-                <button class="btn btn-default right" type="button">
+                <button class="btn btn-default right" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
                   Next Day
                 </button>
               </span>
@@ -65,7 +69,9 @@
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/index-all.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/dev-all.min.js" %}"></script>
 
 {% endblock %}
+
+
 
