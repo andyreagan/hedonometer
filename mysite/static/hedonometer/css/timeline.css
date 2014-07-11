@@ -8,12 +8,7 @@
 .sidebar-nav{padding:9px 0;}
 input[type="submit"]{margin-top:9px;}
 h4#pixels-total{position:relative;width:166px;float:right;margin:8px 0 0 0;padding:0 0 0 54px;font-size:1.1em;line-height:1.4;font-weight:normal;color:#777777;}
-#footer{border-top:1px solid #dddddd;}
-#footer a{font-weight:bold;color:#777777;}
-#footer p.logo{font-size:15px;line-height:1.8;margin-top:15px;} 
-#footer ul#footer-nav{float:left;width:700px;margin:3px 0 10px 0;}
-#footer-nav li{float:left;margin:0 10px 0 0;padding:0 10px 0 0;line-height:1;border-right:1px solid #cccccc;}
-ol,ul{list-style:none;}
+
 /* #footer p{clear:left;margin:0 0 10px 0;line-height:1.6;}
 p{display:block;}
 #footer a.footer-twitter{margin:0 15px 0 0;padding:1px 0 0 20px;background-repeat:no-repeat;background-position:0 0;background-image:url("/images/icon-twitter-footer.png");} */
@@ -81,43 +76,7 @@ width: 80px; //input the value of width u desire
 }
 
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 120px;
-}
-#footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 120px;
-  background-color: #f5f5f5;
-}
 
-
-/* Custom page CSS
--------------------------------------------------- */
-/* Not required for template or sticky footer method. */
-
-body > .container {
-  padding: 60px 15px 0;
-}
-.container .text-muted {
-  margin: 20px 0;
-}
-
-#footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-code {
-  font-size: 80%;
-}
 
 
 

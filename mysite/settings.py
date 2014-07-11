@@ -79,6 +79,7 @@ INSTALLED_APPS = (
 #    'likes'
     'cmplxsys',
     'tastypie',
+    'storybreaker',
 )
 
 MIDDLEWARE_CLASSES = (

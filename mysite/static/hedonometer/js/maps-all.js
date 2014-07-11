@@ -11216,1677 +11216,6 @@ if (typeof jQuery === 'undefined') { throw new Error('Bootstrap\'s JavaScript re
   })
 
 }(jQuery);
-/* =========================================================
- * bootstrap-datepicker.js
- * Repo: https://github.com/eternicode/bootstrap-datepicker/
- * Demo: http://eternicode.github.io/bootstrap-datepicker/
- * Docs: http://bootstrap-datepicker.readthedocs.org/
- * Forked from http://www.eyecon.ro/bootstrap-datepicker
- * =========================================================
- * Started by Stefan Petre; improvements by Andrew Rowls + contributors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- * ========================================================= */
-
-(function($, undefined){
-
-	var $window = $(window);
-
-	function UTCDate(){
-		return new Date(Date.UTC.apply(Date, arguments));
-	}
-	function UTCToday(){
-		var today = new Date();
-		return UTCDate(today.getFullYear(), today.getMonth(), today.getDate());
-	}
-	function alias(method){
-		return function(){
-			return this[method].apply(this, arguments);
-		};
-	}
-
-	var DateArray = (function(){
-		var extras = {
-			get: function(i){
-				return this.slice(i)[0];
-			},
-			contains: function(d){
-				// Array.indexOf is not cross-browser;
-				// $.inArray doesn't work with Dates
-				var val = d && d.valueOf();
-				for (var i=0, l=this.length; i < l; i++)
-					if (this[i].valueOf() === val)
-						return i;
-				return -1;
-			},
-			remove: function(i){
-				this.splice(i,1);
-			},
-			replace: function(new_array){
-				if (!new_array)
-					return;
-				if (!$.isArray(new_array))
-					new_array = [new_array];
-				this.clear();
-				this.push.apply(this, new_array);
-			},
-			clear: function(){
-				this.splice(0);
-			},
-			copy: function(){
-				var a = new DateArray();
-				a.replace(this);
-				return a;
-			}
-		};
-
-		return function(){
-			var a = [];
-			a.push.apply(a, arguments);
-			$.extend(a, extras);
-			return a;
-		};
-	})();
-
-
-	// Picker object
-
-	var Datepicker = function(element, options){
-		this.dates = new DateArray();
-		this.viewDate = UTCToday();
-		this.focusDate = null;
-
-		this._process_options(options);
-
-		this.element = $(element);
-		this.isInline = false;
-		this.isInput = this.element.is('input');
-		this.component = this.element.is('.date') ? this.element.find('.add-on, .input-group-addon, .btn') : false;
-		this.hasInput = this.component && this.element.find('input').length;
-		if (this.component && this.component.length === 0)
-			this.component = false;
-
-		this.picker = $(DPGlobal.template);
-		this._buildEvents();
-		this._attachEvents();
-
-		if (this.isInline){
-			this.picker.addClass('datepicker-inline').appendTo(this.element);
-		}
-		else {
-			this.picker.addClass('datepicker-dropdown dropdown-menu');
-		}
-
-		if (this.o.rtl){
-			this.picker.addClass('datepicker-rtl');
-		}
-
-		this.viewMode = this.o.startView;
-
-		if (this.o.calendarWeeks)
-			this.picker.find('tfoot th.today')
-						.attr('colspan', function(i, val){
-							return parseInt(val) + 1;
-						});
-
-		this._allow_update = false;
-
-		this.setStartDate(this._o.startDate);
-		this.setEndDate(this._o.endDate);
-		this.setDaysOfWeekDisabled(this.o.daysOfWeekDisabled);
-
-		this.fillDow();
-		this.fillMonths();
-
-		this._allow_update = true;
-
-		this.update();
-		this.showMode();
-
-		if (this.isInline){
-			this.show();
-		}
-	};
-
-	Datepicker.prototype = {
-		constructor: Datepicker,
-
-		_process_options: function(opts){
-			// Store raw options for reference
-			this._o = $.extend({}, this._o, opts);
-			// Processed options
-			var o = this.o = $.extend({}, this._o);
-
-			// Check if "de-DE" style date is available, if not language should
-			// fallback to 2 letter code eg "de"
-			var lang = o.language;
-			if (!dates[lang]){
-				lang = lang.split('-')[0];
-				if (!dates[lang])
-					lang = defaults.language;
-			}
-			o.language = lang;
-
-			switch (o.startView){
-				case 2:
-				case 'decade':
-					o.startView = 2;
-					break;
-				case 1:
-				case 'year':
-					o.startView = 1;
-					break;
-				default:
-					o.startView = 0;
-			}
-
-			switch (o.minViewMode){
-				case 1:
-				case 'months':
-					o.minViewMode = 1;
-					break;
-				case 2:
-				case 'years':
-					o.minViewMode = 2;
-					break;
-				default:
-					o.minViewMode = 0;
-			}
-
-			o.startView = Math.max(o.startView, o.minViewMode);
-
-			// true, false, or Number > 0
-			if (o.multidate !== true){
-				o.multidate = Number(o.multidate) || false;
-				if (o.multidate !== false)
-					o.multidate = Math.max(0, o.multidate);
-				else
-					o.multidate = 1;
-			}
-			o.multidateSeparator = String(o.multidateSeparator);
-
-			o.weekStart %= 7;
-			o.weekEnd = ((o.weekStart + 6) % 7);
-
-			var format = DPGlobal.parseFormat(o.format);
-			if (o.startDate !== -Infinity){
-				if (!!o.startDate){
-					if (o.startDate instanceof Date)
-						o.startDate = this._local_to_utc(this._zero_time(o.startDate));
-					else
-						o.startDate = DPGlobal.parseDate(o.startDate, format, o.language);
-				}
-				else {
-					o.startDate = -Infinity;
-				}
-			}
-			if (o.endDate !== Infinity){
-				if (!!o.endDate){
-					if (o.endDate instanceof Date)
-						o.endDate = this._local_to_utc(this._zero_time(o.endDate));
-					else
-						o.endDate = DPGlobal.parseDate(o.endDate, format, o.language);
-				}
-				else {
-					o.endDate = Infinity;
-				}
-			}
-
-			o.daysOfWeekDisabled = o.daysOfWeekDisabled||[];
-			if (!$.isArray(o.daysOfWeekDisabled))
-				o.daysOfWeekDisabled = o.daysOfWeekDisabled.split(/[,\s]*/);
-			o.daysOfWeekDisabled = $.map(o.daysOfWeekDisabled, function(d){
-				return parseInt(d, 10);
-			});
-
-			var plc = String(o.orientation).toLowerCase().split(/\s+/g),
-				_plc = o.orientation.toLowerCase();
-			plc = $.grep(plc, function(word){
-				return (/^auto|left|right|top|bottom$/).test(word);
-			});
-			o.orientation = {x: 'auto', y: 'auto'};
-			if (!_plc || _plc === 'auto')
-				; // no action
-			else if (plc.length === 1){
-				switch (plc[0]){
-					case 'top':
-					case 'bottom':
-						o.orientation.y = plc[0];
-						break;
-					case 'left':
-					case 'right':
-						o.orientation.x = plc[0];
-						break;
-				}
-			}
-			else {
-				_plc = $.grep(plc, function(word){
-					return (/^left|right$/).test(word);
-				});
-				o.orientation.x = _plc[0] || 'auto';
-
-				_plc = $.grep(plc, function(word){
-					return (/^top|bottom$/).test(word);
-				});
-				o.orientation.y = _plc[0] || 'auto';
-			}
-		},
-		_events: [],
-		_secondaryEvents: [],
-		_applyEvents: function(evs){
-			for (var i=0, el, ch, ev; i < evs.length; i++){
-				el = evs[i][0];
-				if (evs[i].length === 2){
-					ch = undefined;
-					ev = evs[i][1];
-				}
-				else if (evs[i].length === 3){
-					ch = evs[i][1];
-					ev = evs[i][2];
-				}
-				el.on(ev, ch);
-			}
-		},
-		_unapplyEvents: function(evs){
-			for (var i=0, el, ev, ch; i < evs.length; i++){
-				el = evs[i][0];
-				if (evs[i].length === 2){
-					ch = undefined;
-					ev = evs[i][1];
-				}
-				else if (evs[i].length === 3){
-					ch = evs[i][1];
-					ev = evs[i][2];
-				}
-				el.off(ev, ch);
-			}
-		},
-		_buildEvents: function(){
-			if (this.isInput){ // single input
-				this._events = [
-					[this.element, {
-						focus: $.proxy(this.show, this),
-						keyup: $.proxy(function(e){
-							if ($.inArray(e.keyCode, [27,37,39,38,40,32,13,9]) === -1)
-								this.update();
-						}, this),
-						keydown: $.proxy(this.keydown, this)
-					}]
-				];
-			}
-			else if (this.component && this.hasInput){ // component: input + button
-				this._events = [
-					// For components that are not readonly, allow keyboard nav
-					[this.element.find('input'), {
-						focus: $.proxy(this.show, this),
-						keyup: $.proxy(function(e){
-							if ($.inArray(e.keyCode, [27,37,39,38,40,32,13,9]) === -1)
-								this.update();
-						}, this),
-						keydown: $.proxy(this.keydown, this)
-					}],
-					[this.component, {
-						click: $.proxy(this.show, this)
-					}]
-				];
-			}
-			else if (this.element.is('div')){  // inline datepicker
-				this.isInline = true;
-			}
-			else {
-				this._events = [
-					[this.element, {
-						click: $.proxy(this.show, this)
-					}]
-				];
-			}
-			this._events.push(
-				// Component: listen for blur on element descendants
-				[this.element, '*', {
-					blur: $.proxy(function(e){
-						this._focused_from = e.target;
-					}, this)
-				}],
-				// Input: listen for blur on element
-				[this.element, {
-					blur: $.proxy(function(e){
-						this._focused_from = e.target;
-					}, this)
-				}]
-			);
-
-			this._secondaryEvents = [
-				[this.picker, {
-					click: $.proxy(this.click, this)
-				}],
-				[$(window), {
-					resize: $.proxy(this.place, this)
-				}],
-				[$(document), {
-					'mousedown touchstart': $.proxy(function(e){
-						// Clicked outside the datepicker, hide it
-						if (!(
-							this.element.is(e.target) ||
-							this.element.find(e.target).length ||
-							this.picker.is(e.target) ||
-							this.picker.find(e.target).length
-						)){
-							this.hide();
-						}
-					}, this)
-				}]
-			];
-		},
-		_attachEvents: function(){
-			this._detachEvents();
-			this._applyEvents(this._events);
-		},
-		_detachEvents: function(){
-			this._unapplyEvents(this._events);
-		},
-		_attachSecondaryEvents: function(){
-			this._detachSecondaryEvents();
-			this._applyEvents(this._secondaryEvents);
-		},
-		_detachSecondaryEvents: function(){
-			this._unapplyEvents(this._secondaryEvents);
-		},
-		_trigger: function(event, altdate){
-			var date = altdate || this.dates.get(-1),
-				local_date = this._utc_to_local(date);
-
-			this.element.trigger({
-				type: event,
-				date: local_date,
-				dates: $.map(this.dates, this._utc_to_local),
-				format: $.proxy(function(ix, format){
-					if (arguments.length === 0){
-						ix = this.dates.length - 1;
-						format = this.o.format;
-					}
-					else if (typeof ix === 'string'){
-						format = ix;
-						ix = this.dates.length - 1;
-					}
-					format = format || this.o.format;
-					var date = this.dates.get(ix);
-					return DPGlobal.formatDate(date, format, this.o.language);
-				}, this)
-			});
-		},
-
-		show: function(){
-			if (!this.isInline)
-				this.picker.appendTo('body');
-			this.picker.show();
-			this.place();
-			this._attachSecondaryEvents();
-			this._trigger('show');
-		},
-
-		hide: function(){
-			if (this.isInline)
-				return;
-			if (!this.picker.is(':visible'))
-				return;
-			this.focusDate = null;
-			this.picker.hide().detach();
-			this._detachSecondaryEvents();
-			this.viewMode = this.o.startView;
-			this.showMode();
-
-			if (
-				this.o.forceParse &&
-				(
-					this.isInput && this.element.val() ||
-					this.hasInput && this.element.find('input').val()
-				)
-			)
-				this.setValue();
-			this._trigger('hide');
-		},
-
-		remove: function(){
-			this.hide();
-			this._detachEvents();
-			this._detachSecondaryEvents();
-			this.picker.remove();
-			delete this.element.data().datepicker;
-			if (!this.isInput){
-				delete this.element.data().date;
-			}
-		},
-
-		_utc_to_local: function(utc){
-			return utc && new Date(utc.getTime() + (utc.getTimezoneOffset()*60000));
-		},
-		_local_to_utc: function(local){
-			return local && new Date(local.getTime() - (local.getTimezoneOffset()*60000));
-		},
-		_zero_time: function(local){
-			return local && new Date(local.getFullYear(), local.getMonth(), local.getDate());
-		},
-		_zero_utc_time: function(utc){
-			return utc && new Date(Date.UTC(utc.getUTCFullYear(), utc.getUTCMonth(), utc.getUTCDate()));
-		},
-
-		getDates: function(){
-			return $.map(this.dates, this._utc_to_local);
-		},
-
-		getUTCDates: function(){
-			return $.map(this.dates, function(d){
-				return new Date(d);
-			});
-		},
-
-		getDate: function(){
-			return this._utc_to_local(this.getUTCDate());
-		},
-
-		getUTCDate: function(){
-			return new Date(this.dates.get(-1));
-		},
-
-		setDates: function(){
-			var args = $.isArray(arguments[0]) ? arguments[0] : arguments;
-			this.update.apply(this, args);
-			this._trigger('changeDate');
-			this.setValue();
-		},
-
-		setUTCDates: function(){
-			var args = $.isArray(arguments[0]) ? arguments[0] : arguments;
-			this.update.apply(this, $.map(args, this._utc_to_local));
-			this._trigger('changeDate');
-			this.setValue();
-		},
-
-		setDate: alias('setDates'),
-		setUTCDate: alias('setUTCDates'),
-
-		setValue: function(){
-			var formatted = this.getFormattedDate();
-			if (!this.isInput){
-				if (this.component){
-					this.element.find('input').val(formatted).change();
-				}
-			}
-			else {
-				this.element.val(formatted).change();
-			}
-		},
-
-		getFormattedDate: function(format){
-			if (format === undefined)
-				format = this.o.format;
-
-			var lang = this.o.language;
-			return $.map(this.dates, function(d){
-				return DPGlobal.formatDate(d, format, lang);
-			}).join(this.o.multidateSeparator);
-		},
-
-		setStartDate: function(startDate){
-			this._process_options({startDate: startDate});
-			this.update();
-			this.updateNavArrows();
-		},
-
-		setEndDate: function(endDate){
-			this._process_options({endDate: endDate});
-			this.update();
-			this.updateNavArrows();
-		},
-
-		setDaysOfWeekDisabled: function(daysOfWeekDisabled){
-			this._process_options({daysOfWeekDisabled: daysOfWeekDisabled});
-			this.update();
-			this.updateNavArrows();
-		},
-
-		place: function(){
-			if (this.isInline)
-				return;
-			var calendarWidth = this.picker.outerWidth(),
-				calendarHeight = this.picker.outerHeight(),
-				visualPadding = 10,
-				windowWidth = $window.width(),
-				windowHeight = $window.height(),
-				scrollTop = $window.scrollTop();
-
-			var zIndex = parseInt(this.element.parents().filter(function(){
-					return $(this).css('z-index') !== 'auto';
-				}).first().css('z-index'))+10;
-			var offset = this.component ? this.component.parent().offset() : this.element.offset();
-			var height = this.component ? this.component.outerHeight(true) : this.element.outerHeight(false);
-			var width = this.component ? this.component.outerWidth(true) : this.element.outerWidth(false);
-			var left = offset.left,
-				top = offset.top;
-
-			this.picker.removeClass(
-				'datepicker-orient-top datepicker-orient-bottom '+
-				'datepicker-orient-right datepicker-orient-left'
-			);
-
-			if (this.o.orientation.x !== 'auto'){
-				this.picker.addClass('datepicker-orient-' + this.o.orientation.x);
-				if (this.o.orientation.x === 'right')
-					left -= calendarWidth - width;
-			}
-			// auto x orientation is best-placement: if it crosses a window
-			// edge, fudge it sideways
-			else {
-				// Default to left
-				this.picker.addClass('datepicker-orient-left');
-				if (offset.left < 0)
-					left -= offset.left - visualPadding;
-				else if (offset.left + calendarWidth > windowWidth)
-					left = windowWidth - calendarWidth - visualPadding;
-			}
-
-			// auto y orientation is best-situation: top or bottom, no fudging,
-			// decision based on which shows more of the calendar
-			var yorient = this.o.orientation.y,
-				top_overflow, bottom_overflow;
-			if (yorient === 'auto'){
-				top_overflow = -scrollTop + offset.top - calendarHeight;
-				bottom_overflow = scrollTop + windowHeight - (offset.top + height + calendarHeight);
-				if (Math.max(top_overflow, bottom_overflow) === bottom_overflow)
-					yorient = 'top';
-				else
-					yorient = 'bottom';
-			}
-			this.picker.addClass('datepicker-orient-' + yorient);
-			if (yorient === 'top')
-				top += height;
-			else
-				top -= calendarHeight + parseInt(this.picker.css('padding-top'));
-
-			this.picker.css({
-				top: top,
-				left: left,
-				zIndex: zIndex
-			});
-		},
-
-		_allow_update: true,
-		update: function(){
-			if (!this._allow_update)
-				return;
-
-			var oldDates = this.dates.copy(),
-				dates = [],
-				fromArgs = false;
-			if (arguments.length){
-				$.each(arguments, $.proxy(function(i, date){
-					if (date instanceof Date)
-						date = this._local_to_utc(date);
-					dates.push(date);
-				}, this));
-				fromArgs = true;
-			}
-			else {
-				dates = this.isInput
-						? this.element.val()
-						: this.element.data('date') || this.element.find('input').val();
-				if (dates && this.o.multidate)
-					dates = dates.split(this.o.multidateSeparator);
-				else
-					dates = [dates];
-				delete this.element.data().date;
-			}
-
-			dates = $.map(dates, $.proxy(function(date){
-				return DPGlobal.parseDate(date, this.o.format, this.o.language);
-			}, this));
-			dates = $.grep(dates, $.proxy(function(date){
-				return (
-					date < this.o.startDate ||
-					date > this.o.endDate ||
-					!date
-				);
-			}, this), true);
-			this.dates.replace(dates);
-
-			if (this.dates.length)
-				this.viewDate = new Date(this.dates.get(-1));
-			else if (this.viewDate < this.o.startDate)
-				this.viewDate = new Date(this.o.startDate);
-			else if (this.viewDate > this.o.endDate)
-				this.viewDate = new Date(this.o.endDate);
-
-			if (fromArgs){
-				// setting date by clicking
-				this.setValue();
-			}
-			else if (dates.length){
-				// setting date by typing
-				if (String(oldDates) !== String(this.dates))
-					this._trigger('changeDate');
-			}
-			if (!this.dates.length && oldDates.length)
-				this._trigger('clearDate');
-
-			this.fill();
-		},
-
-		fillDow: function(){
-			var dowCnt = this.o.weekStart,
-				html = '<tr>';
-			if (this.o.calendarWeeks){
-				var cell = '<th class="cw">&nbsp;</th>';
-				html += cell;
-				this.picker.find('.datepicker-days thead tr:first-child').prepend(cell);
-			}
-			while (dowCnt < this.o.weekStart + 7){
-				html += '<th class="dow">'+dates[this.o.language].daysMin[(dowCnt++)%7]+'</th>';
-			}
-			html += '</tr>';
-			this.picker.find('.datepicker-days thead').append(html);
-		},
-
-		fillMonths: function(){
-			var html = '',
-			i = 0;
-			while (i < 12){
-				html += '<span class="month">'+dates[this.o.language].monthsShort[i++]+'</span>';
-			}
-			this.picker.find('.datepicker-months td').html(html);
-		},
-
-		setRange: function(range){
-			if (!range || !range.length)
-				delete this.range;
-			else
-				this.range = $.map(range, function(d){
-					return d.valueOf();
-				});
-			this.fill();
-		},
-
-		getClassNames: function(date){
-			var cls = [],
-				year = this.viewDate.getUTCFullYear(),
-				month = this.viewDate.getUTCMonth(),
-				today = new Date();
-			if (date.getUTCFullYear() < year || (date.getUTCFullYear() === year && date.getUTCMonth() < month)){
-				cls.push('old');
-			}
-			else if (date.getUTCFullYear() > year || (date.getUTCFullYear() === year && date.getUTCMonth() > month)){
-				cls.push('new');
-			}
-			if (this.focusDate && date.valueOf() === this.focusDate.valueOf())
-				cls.push('focused');
-			// Compare internal UTC date with local today, not UTC today
-			if (this.o.todayHighlight &&
-				date.getUTCFullYear() === today.getFullYear() &&
-				date.getUTCMonth() === today.getMonth() &&
-				date.getUTCDate() === today.getDate()){
-				cls.push('today');
-			}
-			if (this.dates.contains(date) !== -1)
-				cls.push('active');
-			if (date.valueOf() < this.o.startDate || date.valueOf() > this.o.endDate ||
-				$.inArray(date.getUTCDay(), this.o.daysOfWeekDisabled) !== -1){
-				cls.push('disabled');
-			}
-			if (this.range){
-				if (date > this.range[0] && date < this.range[this.range.length-1]){
-					cls.push('range');
-				}
-				if ($.inArray(date.valueOf(), this.range) !== -1){
-					cls.push('selected');
-				}
-			}
-			return cls;
-		},
-
-		fill: function(){
-			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
-				month = d.getUTCMonth(),
-				startYear = this.o.startDate !== -Infinity ? this.o.startDate.getUTCFullYear() : -Infinity,
-				startMonth = this.o.startDate !== -Infinity ? this.o.startDate.getUTCMonth() : -Infinity,
-				endYear = this.o.endDate !== Infinity ? this.o.endDate.getUTCFullYear() : Infinity,
-				endMonth = this.o.endDate !== Infinity ? this.o.endDate.getUTCMonth() : Infinity,
-				todaytxt = dates[this.o.language].today || dates['en'].today || '',
-				cleartxt = dates[this.o.language].clear || dates['en'].clear || '',
-				tooltip;
-			this.picker.find('.datepicker-days thead th.datepicker-switch')
-						.text(dates[this.o.language].months[month]+' '+year);
-			this.picker.find('tfoot th.today')
-						.text(todaytxt)
-						.toggle(this.o.todayBtn !== false);
-			this.picker.find('tfoot th.clear')
-						.text(cleartxt)
-						.toggle(this.o.clearBtn !== false);
-			this.updateNavArrows();
-			this.fillMonths();
-			var prevMonth = UTCDate(year, month-1, 28),
-				day = DPGlobal.getDaysInMonth(prevMonth.getUTCFullYear(), prevMonth.getUTCMonth());
-			prevMonth.setUTCDate(day);
-			prevMonth.setUTCDate(day - (prevMonth.getUTCDay() - this.o.weekStart + 7)%7);
-			var nextMonth = new Date(prevMonth);
-			nextMonth.setUTCDate(nextMonth.getUTCDate() + 42);
-			nextMonth = nextMonth.valueOf();
-			var html = [];
-			var clsName;
-			while (prevMonth.valueOf() < nextMonth){
-				if (prevMonth.getUTCDay() === this.o.weekStart){
-					html.push('<tr>');
-					if (this.o.calendarWeeks){
-						// ISO 8601: First week contains first thursday.
-						// ISO also states week starts on Monday, but we can be more abstract here.
-						var
-							// Start of current week: based on weekstart/current date
-							ws = new Date(+prevMonth + (this.o.weekStart - prevMonth.getUTCDay() - 7) % 7 * 864e5),
-							// Thursday of this week
-							th = new Date(Number(ws) + (7 + 4 - ws.getUTCDay()) % 7 * 864e5),
-							// First Thursday of year, year from thursday
-							yth = new Date(Number(yth = UTCDate(th.getUTCFullYear(), 0, 1)) + (7 + 4 - yth.getUTCDay())%7*864e5),
-							// Calendar week: ms between thursdays, div ms per day, div 7 days
-							calWeek =  (th - yth) / 864e5 / 7 + 1;
-						html.push('<td class="cw">'+ calWeek +'</td>');
-
-					}
-				}
-				clsName = this.getClassNames(prevMonth);
-				clsName.push('day');
-
-				if (this.o.beforeShowDay !== $.noop){
-					var before = this.o.beforeShowDay(this._utc_to_local(prevMonth));
-					if (before === undefined)
-						before = {};
-					else if (typeof(before) === 'boolean')
-						before = {enabled: before};
-					else if (typeof(before) === 'string')
-						before = {classes: before};
-					if (before.enabled === false)
-						clsName.push('disabled');
-					if (before.classes)
-						clsName = clsName.concat(before.classes.split(/\s+/));
-					if (before.tooltip)
-						tooltip = before.tooltip;
-				}
-
-				clsName = $.unique(clsName);
-				html.push('<td class="'+clsName.join(' ')+'"' + (tooltip ? ' title="'+tooltip+'"' : '') + '>'+prevMonth.getUTCDate() + '</td>');
-				if (prevMonth.getUTCDay() === this.o.weekEnd){
-					html.push('</tr>');
-				}
-				prevMonth.setUTCDate(prevMonth.getUTCDate()+1);
-			}
-			this.picker.find('.datepicker-days tbody').empty().append(html.join(''));
-
-			var months = this.picker.find('.datepicker-months')
-						.find('th:eq(1)')
-							.text(year)
-							.end()
-						.find('span').removeClass('active');
-
-			$.each(this.dates, function(i, d){
-				if (d.getUTCFullYear() === year)
-					months.eq(d.getUTCMonth()).addClass('active');
-			});
-
-			if (year < startYear || year > endYear){
-				months.addClass('disabled');
-			}
-			if (year === startYear){
-				months.slice(0, startMonth).addClass('disabled');
-			}
-			if (year === endYear){
-				months.slice(endMonth+1).addClass('disabled');
-			}
-
-			html = '';
-			year = parseInt(year/10, 10) * 10;
-			var yearCont = this.picker.find('.datepicker-years')
-								.find('th:eq(1)')
-									.text(year + '-' + (year + 9))
-									.end()
-								.find('td');
-			year -= 1;
-			var years = $.map(this.dates, function(d){
-					return d.getUTCFullYear();
-				}),
-				classes;
-			for (var i = -1; i < 11; i++){
-				classes = ['year'];
-				if (i === -1)
-					classes.push('old');
-				else if (i === 10)
-					classes.push('new');
-				if ($.inArray(year, years) !== -1)
-					classes.push('active');
-				if (year < startYear || year > endYear)
-					classes.push('disabled');
-				html += '<span class="' + classes.join(' ') + '">'+year+'</span>';
-				year += 1;
-			}
-			yearCont.html(html);
-		},
-
-		updateNavArrows: function(){
-			if (!this._allow_update)
-				return;
-
-			var d = new Date(this.viewDate),
-				year = d.getUTCFullYear(),
-				month = d.getUTCMonth();
-			switch (this.viewMode){
-				case 0:
-					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getUTCFullYear() && month <= this.o.startDate.getUTCMonth()){
-						this.picker.find('.prev').css({visibility: 'hidden'});
-					}
-					else {
-						this.picker.find('.prev').css({visibility: 'visible'});
-					}
-					if (this.o.endDate !== Infinity && year >= this.o.endDate.getUTCFullYear() && month >= this.o.endDate.getUTCMonth()){
-						this.picker.find('.next').css({visibility: 'hidden'});
-					}
-					else {
-						this.picker.find('.next').css({visibility: 'visible'});
-					}
-					break;
-				case 1:
-				case 2:
-					if (this.o.startDate !== -Infinity && year <= this.o.startDate.getUTCFullYear()){
-						this.picker.find('.prev').css({visibility: 'hidden'});
-					}
-					else {
-						this.picker.find('.prev').css({visibility: 'visible'});
-					}
-					if (this.o.endDate !== Infinity && year >= this.o.endDate.getUTCFullYear()){
-						this.picker.find('.next').css({visibility: 'hidden'});
-					}
-					else {
-						this.picker.find('.next').css({visibility: 'visible'});
-					}
-					break;
-			}
-		},
-
-		click: function(e){
-			e.preventDefault();
-			var target = $(e.target).closest('span, td, th'),
-				year, month, day;
-			if (target.length === 1){
-				switch (target[0].nodeName.toLowerCase()){
-					case 'th':
-						switch (target[0].className){
-							case 'datepicker-switch':
-								this.showMode(1);
-								break;
-							case 'prev':
-							case 'next':
-								var dir = DPGlobal.modes[this.viewMode].navStep * (target[0].className === 'prev' ? -1 : 1);
-								switch (this.viewMode){
-									case 0:
-										this.viewDate = this.moveMonth(this.viewDate, dir);
-										this._trigger('changeMonth', this.viewDate);
-										break;
-									case 1:
-									case 2:
-										this.viewDate = this.moveYear(this.viewDate, dir);
-										if (this.viewMode === 1)
-											this._trigger('changeYear', this.viewDate);
-										break;
-								}
-								this.fill();
-								break;
-							case 'today':
-								var date = new Date();
-								date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-
-								this.showMode(-2);
-								var which = this.o.todayBtn === 'linked' ? null : 'view';
-								this._setDate(date, which);
-								break;
-							case 'clear':
-								var element;
-								if (this.isInput)
-									element = this.element;
-								else if (this.component)
-									element = this.element.find('input');
-								if (element)
-									element.val("").change();
-								this.update();
-								this._trigger('changeDate');
-								if (this.o.autoclose)
-									this.hide();
-								break;
-						}
-						break;
-					case 'span':
-						if (!target.is('.disabled')){
-							this.viewDate.setUTCDate(1);
-							if (target.is('.month')){
-								day = 1;
-								month = target.parent().find('span').index(target);
-								year = this.viewDate.getUTCFullYear();
-								this.viewDate.setUTCMonth(month);
-								this._trigger('changeMonth', this.viewDate);
-								if (this.o.minViewMode === 1){
-									this._setDate(UTCDate(year, month, day));
-								}
-							}
-							else {
-								day = 1;
-								month = 0;
-								year = parseInt(target.text(), 10)||0;
-								this.viewDate.setUTCFullYear(year);
-								this._trigger('changeYear', this.viewDate);
-								if (this.o.minViewMode === 2){
-									this._setDate(UTCDate(year, month, day));
-								}
-							}
-							this.showMode(-1);
-							this.fill();
-						}
-						break;
-					case 'td':
-						if (target.is('.day') && !target.is('.disabled')){
-							day = parseInt(target.text(), 10)||1;
-							year = this.viewDate.getUTCFullYear();
-							month = this.viewDate.getUTCMonth();
-							if (target.is('.old')){
-								if (month === 0){
-									month = 11;
-									year -= 1;
-								}
-								else {
-									month -= 1;
-								}
-							}
-							else if (target.is('.new')){
-								if (month === 11){
-									month = 0;
-									year += 1;
-								}
-								else {
-									month += 1;
-								}
-							}
-							this._setDate(UTCDate(year, month, day));
-						}
-						break;
-				}
-			}
-			if (this.picker.is(':visible') && this._focused_from){
-				$(this._focused_from).focus();
-			}
-			delete this._focused_from;
-		},
-
-		_toggle_multidate: function(date){
-			var ix = this.dates.contains(date);
-			if (!date){
-				this.dates.clear();
-			}
-			else if (ix !== -1){
-				this.dates.remove(ix);
-			}
-			else {
-				this.dates.push(date);
-			}
-			if (typeof this.o.multidate === 'number')
-				while (this.dates.length > this.o.multidate)
-					this.dates.remove(0);
-		},
-
-		_setDate: function(date, which){
-			if (!which || which === 'date')
-				this._toggle_multidate(date && new Date(date));
-			if (!which || which  === 'view')
-				this.viewDate = date && new Date(date);
-
-			this.fill();
-			this.setValue();
-			this._trigger('changeDate');
-			var element;
-			if (this.isInput){
-				element = this.element;
-			}
-			else if (this.component){
-				element = this.element.find('input');
-			}
-			if (element){
-				element.change();
-			}
-			if (this.o.autoclose && (!which || which === 'date')){
-				this.hide();
-			}
-		},
-
-		moveMonth: function(date, dir){
-			if (!date)
-				return undefined;
-			if (!dir)
-				return date;
-			var new_date = new Date(date.valueOf()),
-				day = new_date.getUTCDate(),
-				month = new_date.getUTCMonth(),
-				mag = Math.abs(dir),
-				new_month, test;
-			dir = dir > 0 ? 1 : -1;
-			if (mag === 1){
-				test = dir === -1
-					// If going back one month, make sure month is not current month
-					// (eg, Mar 31 -> Feb 31 == Feb 28, not Mar 02)
-					? function(){
-						return new_date.getUTCMonth() === month;
-					}
-					// If going forward one month, make sure month is as expected
-					// (eg, Jan 31 -> Feb 31 == Feb 28, not Mar 02)
-					: function(){
-						return new_date.getUTCMonth() !== new_month;
-					};
-				new_month = month + dir;
-				new_date.setUTCMonth(new_month);
-				// Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
-				if (new_month < 0 || new_month > 11)
-					new_month = (new_month + 12) % 12;
-			}
-			else {
-				// For magnitudes >1, move one month at a time...
-				for (var i=0; i < mag; i++)
-					// ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
-					new_date = this.moveMonth(new_date, dir);
-				// ...then reset the day, keeping it in the new month
-				new_month = new_date.getUTCMonth();
-				new_date.setUTCDate(day);
-				test = function(){
-					return new_month !== new_date.getUTCMonth();
-				};
-			}
-			// Common date-resetting loop -- if date is beyond end of month, make it
-			// end of month
-			while (test()){
-				new_date.setUTCDate(--day);
-				new_date.setUTCMonth(new_month);
-			}
-			return new_date;
-		},
-
-		moveYear: function(date, dir){
-			return this.moveMonth(date, dir*12);
-		},
-
-		dateWithinRange: function(date){
-			return date >= this.o.startDate && date <= this.o.endDate;
-		},
-
-		keydown: function(e){
-			if (this.picker.is(':not(:visible)')){
-				if (e.keyCode === 27) // allow escape to hide and re-show picker
-					this.show();
-				return;
-			}
-			var dateChanged = false,
-				dir, newDate, newViewDate,
-				focusDate = this.focusDate || this.viewDate;
-			switch (e.keyCode){
-				case 27: // escape
-					if (this.focusDate){
-						this.focusDate = null;
-						this.viewDate = this.dates.get(-1) || this.viewDate;
-						this.fill();
-					}
-					else
-						this.hide();
-					e.preventDefault();
-					break;
-				case 37: // left
-				case 39: // right
-					if (!this.o.keyboardNavigation)
-						break;
-					dir = e.keyCode === 37 ? -1 : 1;
-					if (e.ctrlKey){
-						newDate = this.moveYear(this.dates.get(-1) || UTCToday(), dir);
-						newViewDate = this.moveYear(focusDate, dir);
-						this._trigger('changeYear', this.viewDate);
-					}
-					else if (e.shiftKey){
-						newDate = this.moveMonth(this.dates.get(-1) || UTCToday(), dir);
-						newViewDate = this.moveMonth(focusDate, dir);
-						this._trigger('changeMonth', this.viewDate);
-					}
-					else {
-						newDate = new Date(this.dates.get(-1) || UTCToday());
-						newDate.setUTCDate(newDate.getUTCDate() + dir);
-						newViewDate = new Date(focusDate);
-						newViewDate.setUTCDate(focusDate.getUTCDate() + dir);
-					}
-					if (this.dateWithinRange(newDate)){
-						this.focusDate = this.viewDate = newViewDate;
-						this.setValue();
-						this.fill();
-						e.preventDefault();
-					}
-					break;
-				case 38: // up
-				case 40: // down
-					if (!this.o.keyboardNavigation)
-						break;
-					dir = e.keyCode === 38 ? -1 : 1;
-					if (e.ctrlKey){
-						newDate = this.moveYear(this.dates.get(-1) || UTCToday(), dir);
-						newViewDate = this.moveYear(focusDate, dir);
-						this._trigger('changeYear', this.viewDate);
-					}
-					else if (e.shiftKey){
-						newDate = this.moveMonth(this.dates.get(-1) || UTCToday(), dir);
-						newViewDate = this.moveMonth(focusDate, dir);
-						this._trigger('changeMonth', this.viewDate);
-					}
-					else {
-						newDate = new Date(this.dates.get(-1) || UTCToday());
-						newDate.setUTCDate(newDate.getUTCDate() + dir * 7);
-						newViewDate = new Date(focusDate);
-						newViewDate.setUTCDate(focusDate.getUTCDate() + dir * 7);
-					}
-					if (this.dateWithinRange(newDate)){
-						this.focusDate = this.viewDate = newViewDate;
-						this.setValue();
-						this.fill();
-						e.preventDefault();
-					}
-					break;
-				case 32: // spacebar
-					// Spacebar is used in manually typing dates in some formats.
-					// As such, its behavior should not be hijacked.
-					break;
-				case 13: // enter
-					focusDate = this.focusDate || this.dates.get(-1) || this.viewDate;
-					this._toggle_multidate(focusDate);
-					dateChanged = true;
-					this.focusDate = null;
-					this.viewDate = this.dates.get(-1) || this.viewDate;
-					this.setValue();
-					this.fill();
-					if (this.picker.is(':visible')){
-						e.preventDefault();
-						if (this.o.autoclose)
-							this.hide();
-					}
-					break;
-				case 9: // tab
-					this.focusDate = null;
-					this.viewDate = this.dates.get(-1) || this.viewDate;
-					this.fill();
-					this.hide();
-					break;
-			}
-			if (dateChanged){
-				if (this.dates.length)
-					this._trigger('changeDate');
-				else
-					this._trigger('clearDate');
-				var element;
-				if (this.isInput){
-					element = this.element;
-				}
-				else if (this.component){
-					element = this.element.find('input');
-				}
-				if (element){
-					element.change();
-				}
-			}
-		},
-
-		showMode: function(dir){
-			if (dir){
-				this.viewMode = Math.max(this.o.minViewMode, Math.min(2, this.viewMode + dir));
-			}
-			this.picker
-				.find('>div')
-				.hide()
-				.filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName)
-					.css('display', 'block');
-			this.updateNavArrows();
-		}
-	};
-
-	var DateRangePicker = function(element, options){
-		this.element = $(element);
-		this.inputs = $.map(options.inputs, function(i){
-			return i.jquery ? i[0] : i;
-		});
-		delete options.inputs;
-
-		$(this.inputs)
-			.datepicker(options)
-			.bind('changeDate', $.proxy(this.dateUpdated, this));
-
-		this.pickers = $.map(this.inputs, function(i){
-			return $(i).data('datepicker');
-		});
-		this.updateDates();
-	};
-	DateRangePicker.prototype = {
-		updateDates: function(){
-			this.dates = $.map(this.pickers, function(i){
-				return i.getUTCDate();
-			});
-			this.updateRanges();
-		},
-		updateRanges: function(){
-			var range = $.map(this.dates, function(d){
-				return d.valueOf();
-			});
-			$.each(this.pickers, function(i, p){
-				p.setRange(range);
-			});
-		},
-		dateUpdated: function(e){
-			// `this.updating` is a workaround for preventing infinite recursion
-			// between `changeDate` triggering and `setUTCDate` calling.  Until
-			// there is a better mechanism.
-			if (this.updating)
-				return;
-			this.updating = true;
-
-			var dp = $(e.target).data('datepicker'),
-				new_date = dp.getUTCDate(),
-				i = $.inArray(e.target, this.inputs),
-				l = this.inputs.length;
-			if (i === -1)
-				return;
-
-			$.each(this.pickers, function(i, p){
-				if (!p.getUTCDate())
-					p.setUTCDate(new_date);
-			});
-
-			if (new_date < this.dates[i]){
-				// Date being moved earlier/left
-				while (i >= 0 && new_date < this.dates[i]){
-					this.pickers[i--].setUTCDate(new_date);
-				}
-			}
-			else if (new_date > this.dates[i]){
-				// Date being moved later/right
-				while (i < l && new_date > this.dates[i]){
-					this.pickers[i++].setUTCDate(new_date);
-				}
-			}
-			this.updateDates();
-
-			delete this.updating;
-		},
-		remove: function(){
-			$.map(this.pickers, function(p){ p.remove(); });
-			delete this.element.data().datepicker;
-		}
-	};
-
-	function opts_from_el(el, prefix){
-		// Derive options from element data-attrs
-		var data = $(el).data(),
-			out = {}, inkey,
-			replace = new RegExp('^' + prefix.toLowerCase() + '([A-Z])');
-		prefix = new RegExp('^' + prefix.toLowerCase());
-		function re_lower(_,a){
-			return a.toLowerCase();
-		}
-		for (var key in data)
-			if (prefix.test(key)){
-				inkey = key.replace(replace, re_lower);
-				out[inkey] = data[key];
-			}
-		return out;
-	}
-
-	function opts_from_locale(lang){
-		// Derive options from locale plugins
-		var out = {};
-		// Check if "de-DE" style date is available, if not language should
-		// fallback to 2 letter code eg "de"
-		if (!dates[lang]){
-			lang = lang.split('-')[0];
-			if (!dates[lang])
-				return;
-		}
-		var d = dates[lang];
-		$.each(locale_opts, function(i,k){
-			if (k in d)
-				out[k] = d[k];
-		});
-		return out;
-	}
-
-	var old = $.fn.datepicker;
-	$.fn.datepicker = function(option){
-		var args = Array.apply(null, arguments);
-		args.shift();
-		var internal_return;
-		this.each(function(){
-			var $this = $(this),
-				data = $this.data('datepicker'),
-				options = typeof option === 'object' && option;
-			if (!data){
-				var elopts = opts_from_el(this, 'date'),
-					// Preliminary otions
-					xopts = $.extend({}, defaults, elopts, options),
-					locopts = opts_from_locale(xopts.language),
-					// Options priority: js args, data-attrs, locales, defaults
-					opts = $.extend({}, defaults, locopts, elopts, options);
-				if ($this.is('.input-daterange') || opts.inputs){
-					var ropts = {
-						inputs: opts.inputs || $this.find('input').toArray()
-					};
-					$this.data('datepicker', (data = new DateRangePicker(this, $.extend(opts, ropts))));
-				}
-				else {
-					$this.data('datepicker', (data = new Datepicker(this, opts)));
-				}
-			}
-			if (typeof option === 'string' && typeof data[option] === 'function'){
-				internal_return = data[option].apply(data, args);
-				if (internal_return !== undefined)
-					return false;
-			}
-		});
-		if (internal_return !== undefined)
-			return internal_return;
-		else
-			return this;
-	};
-
-	var defaults = $.fn.datepicker.defaults = {
-		autoclose: false,
-		beforeShowDay: $.noop,
-		calendarWeeks: false,
-		clearBtn: false,
-		daysOfWeekDisabled: [],
-		endDate: Infinity,
-		forceParse: true,
-		format: 'mm/dd/yyyy',
-		keyboardNavigation: true,
-		language: 'en',
-		minViewMode: 0,
-		multidate: false,
-		multidateSeparator: ',',
-		orientation: "auto",
-		rtl: false,
-		startDate: -Infinity,
-		startView: 0,
-		todayBtn: false,
-		todayHighlight: false,
-		weekStart: 0
-	};
-	var locale_opts = $.fn.datepicker.locale_opts = [
-		'format',
-		'rtl',
-		'weekStart'
-	];
-	$.fn.datepicker.Constructor = Datepicker;
-	var dates = $.fn.datepicker.dates = {
-		en: {
-			days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-			daysShort: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-			daysMin: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
-			months: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-			monthsShort: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-			today: "Today",
-			clear: "Clear"
-		}
-	};
-
-	var DPGlobal = {
-		modes: [
-			{
-				clsName: 'days',
-				navFnc: 'Month',
-				navStep: 1
-			},
-			{
-				clsName: 'months',
-				navFnc: 'FullYear',
-				navStep: 1
-			},
-			{
-				clsName: 'years',
-				navFnc: 'FullYear',
-				navStep: 10
-		}],
-		isLeapYear: function(year){
-			return (((year % 4 === 0) && (year % 100 !== 0)) || (year % 400 === 0));
-		},
-		getDaysInMonth: function(year, month){
-			return [31, (DPGlobal.isLeapYear(year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
-		},
-		validParts: /dd?|DD?|mm?|MM?|yy(?:yy)?/g,
-		nonpunctuation: /[^ -\/:-@\[\u3400-\u9fff-`{-~\t\n\r]+/g,
-		parseFormat: function(format){
-			// IE treats \0 as a string end in inputs (truncating the value),
-			// so it's a bad format delimiter, anyway
-			var separators = format.replace(this.validParts, '\0').split('\0'),
-				parts = format.match(this.validParts);
-			if (!separators || !separators.length || !parts || parts.length === 0){
-				throw new Error("Invalid date format.");
-			}
-			return {separators: separators, parts: parts};
-		},
-		parseDate: function(date, format, language){
-			if (!date)
-				return undefined;
-			if (date instanceof Date)
-				return date;
-			if (typeof format === 'string')
-				format = DPGlobal.parseFormat(format);
-			var part_re = /([\-+]\d+)([dmwy])/,
-				parts = date.match(/([\-+]\d+)([dmwy])/g),
-				part, dir, i;
-			if (/^[\-+]\d+[dmwy]([\s,]+[\-+]\d+[dmwy])*$/.test(date)){
-				date = new Date();
-				for (i=0; i < parts.length; i++){
-					part = part_re.exec(parts[i]);
-					dir = parseInt(part[1]);
-					switch (part[2]){
-						case 'd':
-							date.setUTCDate(date.getUTCDate() + dir);
-							break;
-						case 'm':
-							date = Datepicker.prototype.moveMonth.call(Datepicker.prototype, date, dir);
-							break;
-						case 'w':
-							date.setUTCDate(date.getUTCDate() + dir * 7);
-							break;
-						case 'y':
-							date = Datepicker.prototype.moveYear.call(Datepicker.prototype, date, dir);
-							break;
-					}
-				}
-				return UTCDate(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(), 0, 0, 0);
-			}
-			parts = date && date.match(this.nonpunctuation) || [];
-			date = new Date();
-			var parsed = {},
-				setters_order = ['yyyy', 'yy', 'M', 'MM', 'm', 'mm', 'd', 'dd'],
-				setters_map = {
-					yyyy: function(d,v){
-						return d.setUTCFullYear(v);
-					},
-					yy: function(d,v){
-						return d.setUTCFullYear(2000+v);
-					},
-					m: function(d,v){
-						if (isNaN(d))
-							return d;
-						v -= 1;
-						while (v < 0) v += 12;
-						v %= 12;
-						d.setUTCMonth(v);
-						while (d.getUTCMonth() !== v)
-							d.setUTCDate(d.getUTCDate()-1);
-						return d;
-					},
-					d: function(d,v){
-						return d.setUTCDate(v);
-					}
-				},
-				val, filtered;
-			setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
-			setters_map['dd'] = setters_map['d'];
-			date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0);
-			var fparts = format.parts.slice();
-			// Remove noop parts
-			if (parts.length !== fparts.length){
-				fparts = $(fparts).filter(function(i,p){
-					return $.inArray(p, setters_order) !== -1;
-				}).toArray();
-			}
-			// Process remainder
-			function match_part(){
-				var m = this.slice(0, parts[i].length),
-					p = parts[i].slice(0, m.length);
-				return m === p;
-			}
-			if (parts.length === fparts.length){
-				var cnt;
-				for (i=0, cnt = fparts.length; i < cnt; i++){
-					val = parseInt(parts[i], 10);
-					part = fparts[i];
-					if (isNaN(val)){
-						switch (part){
-							case 'MM':
-								filtered = $(dates[language].months).filter(match_part);
-								val = $.inArray(filtered[0], dates[language].months) + 1;
-								break;
-							case 'M':
-								filtered = $(dates[language].monthsShort).filter(match_part);
-								val = $.inArray(filtered[0], dates[language].monthsShort) + 1;
-								break;
-						}
-					}
-					parsed[part] = val;
-				}
-				var _date, s;
-				for (i=0; i < setters_order.length; i++){
-					s = setters_order[i];
-					if (s in parsed && !isNaN(parsed[s])){
-						_date = new Date(date);
-						setters_map[s](_date, parsed[s]);
-						if (!isNaN(_date))
-							date = _date;
-					}
-				}
-			}
-			return date;
-		},
-		formatDate: function(date, format, language){
-			if (!date)
-				return '';
-			if (typeof format === 'string')
-				format = DPGlobal.parseFormat(format);
-			var val = {
-				d: date.getUTCDate(),
-				D: dates[language].daysShort[date.getUTCDay()],
-				DD: dates[language].days[date.getUTCDay()],
-				m: date.getUTCMonth() + 1,
-				M: dates[language].monthsShort[date.getUTCMonth()],
-				MM: dates[language].months[date.getUTCMonth()],
-				yy: date.getUTCFullYear().toString().substring(2),
-				yyyy: date.getUTCFullYear()
-			};
-			val.dd = (val.d < 10 ? '0' : '') + val.d;
-			val.mm = (val.m < 10 ? '0' : '') + val.m;
-			date = [];
-			var seps = $.extend([], format.separators);
-			for (var i=0, cnt = format.parts.length; i <= cnt; i++){
-				if (seps.length)
-					date.push(seps.shift());
-				date.push(val[format.parts[i]]);
-			}
-			return date.join('');
-		},
-		headTemplate: '<thead>'+
-							'<tr>'+
-								'<th class="prev">&laquo;</th>'+
-								'<th colspan="5" class="datepicker-switch"></th>'+
-								'<th class="next">&raquo;</th>'+
-							'</tr>'+
-						'</thead>',
-		contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',
-		footTemplate: '<tfoot>'+
-							'<tr>'+
-								'<th colspan="7" class="today"></th>'+
-							'</tr>'+
-							'<tr>'+
-								'<th colspan="7" class="clear"></th>'+
-							'</tr>'+
-						'</tfoot>'
-	};
-	DPGlobal.template = '<div class="datepicker">'+
-							'<div class="datepicker-days">'+
-								'<table class=" table-condensed">'+
-									DPGlobal.headTemplate+
-									'<tbody></tbody>'+
-									DPGlobal.footTemplate+
-								'</table>'+
-							'</div>'+
-							'<div class="datepicker-months">'+
-								'<table class="table-condensed">'+
-									DPGlobal.headTemplate+
-									DPGlobal.contTemplate+
-									DPGlobal.footTemplate+
-								'</table>'+
-							'</div>'+
-							'<div class="datepicker-years">'+
-								'<table class="table-condensed">'+
-									DPGlobal.headTemplate+
-									DPGlobal.contTemplate+
-									DPGlobal.footTemplate+
-								'</table>'+
-							'</div>'+
-						'</div>';
-
-	$.fn.datepicker.DPGlobal = DPGlobal;
-
-
-	/* DATEPICKER NO CONFLICT
-	* =================== */
-
-	$.fn.datepicker.noConflict = function(){
-		$.fn.datepicker = old;
-		return this;
-	};
-
-
-	/* DATEPICKER DATA-API
-	* ================== */
-
-	$(document).on(
-		'focus.datepicker.data-api click.datepicker.data-api',
-		'[data-provide="datepicker"]',
-		function(e){
-			var $this = $(this);
-			if ($this.data('datepicker'))
-				return;
-			e.preventDefault();
-			// component click requires us to explicitly show it
-			$this.datepicker('show');
-		}
-	);
-	$(function(){
-		$('[data-provide="datepicker-inline"]').datepicker();
-	});
-
-}(window.jQuery));
 /*
 d3.urllib
 =========
@@ -13069,32 +11398,658 @@ I like this feature
 
 
 
-var lang = "english";
-var ignoreWords=["nigger"];
+// make the plot
+function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumTypes,refH,compH) {
+    /* plot the shift
 
-d3.text("static/hedonometer/data/labMT/labMTscores-"+lang+".csv", function (text) {
-    var tmp = text.split("\n");
-    //console.log(tmp.length);
-    //console.log(tmp[tmp.length-1]);
-    lens = tmp.map(parseFloat);
-    var len = lens.length - 1;
-    while (!lens[len]) {
-        //console.log("in while loop");
-        lens = lens.slice(0, len);
-        len--;
+       -take a d3 selection, and draw the shift SVG on it
+       -requires sorted vectors of the shift magnitude, type and word
+       for each word
+
+    */
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = parseInt(d3.select('#figure01').style('width')) - margin.left - margin.right,
+    figheight = 600 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = .8875*figheight,
+    figcenter = width/2,
+    yHeight = 101,
+    clipHeight = 100,
+    barHeight = 95,
+    numWords = 24,
+    shiftTypeSelect = false,
+    leftOffsetStatic = 0.125*figwidth;
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    var canvas = figure.append("svg")
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas")
+
+    // create the x and y axis
+    // scale in x by width of the top word
+    // could still run into a problem if top magnitudes are similar
+    // and second word is longer
+    var x = d3.scale.linear()
+	.domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
+	.range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
+
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([numWords,1])
+	.range([height, yHeight]); 
+
+    // zoom object for the axes
+    var zoom = d3.behavior.zoom()
+	.y(y) //pass linear scale function
+    //.translate([10,10])
+	.scaleExtent([1,1])
+	.on("zoom",zoomed);
+
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	      ((1 - 0.215 - 0.775) * figheight) + ")")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main")
+	.call(zoom);
+
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
+
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .ticks(4)
+	    .scale(x)
+	    .orient("bottom"); }
+
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .scale(y) //linear scale function
+	    .orient("left"); }
+
+    // draw the axes
+    var yAxis = create_yAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    axes.append("g")
+	.attr("class", "y axis ")
+	.attr("font-size", "14.0px")
+	.attr("transform", "translate(0,0)")
+	.call(yAxis);
+
+    var xAxis = create_xAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    axes.append("g")
+	.attr("class", "x axis ")
+	.attr("font-size", "14.0px")
+	.attr("transform", "translate(0," + (height) + ")")
+	.call(xAxis);
+
+    d3.selectAll(".tick line").style({'stroke':'black'});
+
+    // create the clip boundary
+    var clip = axes.append("svg:clipPath")
+	.attr("id","clip")
+	.append("svg:rect")
+	.attr("x",0)
+	.attr("y",clipHeight)
+	.attr("width",width)
+	.attr("height",height-clipHeight);
+
+    // now something else
+    var unclipped_axes = axes;
+
+    // draw the summary things
+    var sepline = unclipped_axes.append("line")
+	.attr("x1",0)
+	.attr("x2",width)
+	.attr("y1",barHeight)
+	.attr("y2",barHeight)
+	.style({"stroke-width" : "2", "stroke": "black"});
+
+    var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
+
+    var topScale = d3.scale.linear()
+	.domain([-maxShiftSum,maxShiftSum])
+	.range([width*.1,width*.9]);
+
+    // define the RHS summary bars so I can add if needed
+    var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
+
+    unclipped_axes.selectAll(".sumrectR")
+	.data(summaryArray)
+	.enter()
+	.append("rect")
+	.attr("fill", function(d,i) { 
+	    if (i==0) { return "#FFFF4C"; } 
+	    else if (i==1) { return "#B3B3FF"; } 
+	    else if (i==2) {
+		// if positive, the postive increasing words won, color dark yellow
+		if (d>0) { return "#FFFF4C";}
+		// positive decreasing words won, color light yellow
+		else { return "#FFFFB3";}
+	    }
+	    else {
+		// always dark grey
+		return "#272727";
+	    } })
+	.attr("class", "sumrectR")
+	.attr("x",function(d,i) { 
+            if (d>0) { return figcenter; } 
+            else { return topScale(d)} } )
+        // don't move the fourth bar down as much
+	.attr("y",function(d,i) { if (i<3) { return i*22+7;} else { return i*22+1;} } )
+	.style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+	.attr("height",function(d,i) { return 17; } )
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
+	.on('mouseover', function(d){
+            var rectSelection = d3.select(this).style({opacity:'1.0'});
+	})
+	.on('mouseout', function(d){
+            var rectSelection = d3.select(this).style({opacity:'0.7'});
+	})
+	.on('click', function(d,i) { 
+	    shiftTypeSelect = true;
+	    resetButton();
+	    if (i==0) {
+		d3.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform","translate(0,0)");
+		d3.selectAll("text.shifttext.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform","translate(0,0)");
+	    }
+	    else if (i==1) {
+		d3.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform","translate(0,0)");
+		d3.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform","translate(0,0)");
+		d3.selectAll("text.shifttext.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+	    }
+	} );
+
+    unclipped_axes.selectAll(".sumtextR")
+	.data([sumTypes[3],sumTypes[0],d3.sum(sumTypes)])
+	.enter()
+	.append("text")
+	.attr("class", "sumtextR")
+	.style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
+	.attr("y",function(d,i) { if (i<2) {return i*22+22;} else if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {return i*22+39; } else {return i*22+30; } })
+	.text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} if (i==1) { return"\u2211-\u2193";} else { return "\u2211";} } )
+    // push to the side of d
+	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+
+    var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
+
+    unclipped_axes.selectAll(".sumrectL")
+	.data(summaryArray)
+	.enter()
+	.append("rect")
+	.attr("fill", function(d,i) { 
+	    if (i==0) {
+		return "#FFFFB3";
+	    } 
+	    else if (i==1) {
+		return "#4C4CFF";
+	    } 
+	    else {
+		// choose color based on whether increasing/decreasing wins
+		if (d>0) {
+		    return "#B3B3FF";
+		}
+		else {
+		    return "#4C4CFF";
+		}
+	    }
+	})
+	.attr("class", "sumrectL")
+	.attr("x",function(d,i) { 
+	    if (i<2) { 
+		return topScale(d);
+	    } 
+	    else { 
+		// place the sum of negatives bar
+		// if they are not opposing
+		if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+		    // if positive, place at end of other bar
+		    if (d>0) {
+			return topScale((sumTypes[3]+sumTypes[1]));
+		    }
+		    // if negative, place at left of other bar, minus length (+topScale(d))
+		    else {
+			return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+		    }
+		} 
+		else { 
+		    if (d>0) {return figcenter} 
+		    else { return topScale(d)} }
+	    }
+	})
+	.attr("y",function(d,i) { return i*22+7; } )
+	.style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+	.attr("height",function(d,i) { return 17; } )
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
+	.on('mouseover', function(d){
+            var rectSelection = d3.select(this).style({opacity:'1.0'});
+	})
+	.on('mouseout', function(d){
+            var rectSelection = d3.select(this).style({opacity:'0.7'});
+	})
+	.on('click', function(d,i) { 
+	    shiftTypeSelect = true;
+	    resetButton();
+            if (i==0) {
+		d3.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform","translate(0,0)");
+		d3.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform","translate(0,0)");
+		d3.selectAll("text.shifttext.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+            }
+            else if (i==1) {
+		d3.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform","translate(0,0)");
+		d3.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1); }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.zero").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.two").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform","translate(0,0)");
+		d3.selectAll("text.shifttext.one").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+		d3.selectAll("text.shifttext.three").transition().duration(1000).attr("y",function(d,i) { return y(i+1)+11; }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else { return "translate(500,0)"; } });
+            }
+	} );
+
+    unclipped_axes.selectAll(".sumtextL")
+	.data([sumTypes[1],sumTypes[2]])
+	.enter()
+	.append("text")
+	.attr("class", "sumtextL")
+	.style("text-anchor", "end")
+	.attr("y",function(d,i) { return i*22+22; } )
+	.text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
+	.attr("x",function(d,i) { return topScale(d)-5; });
+    
+    axes = axes.append("g")
+	.attr("clip-path","url(#clip)");
+
+    var ylabel = canvas.append("text")
+	.text("Word Rank")
+	.attr("class","axes-text")
+	.attr("x",(figwidth-width)/4)
+	.attr("y",figheight/2+30)
+	.attr("font-size", "16.0px")
+	.attr("fill", "#000000")
+	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+
+    var xlabel = canvas.append("text")
+	.text("Per word average happiness shift")
+	.attr("class","axes-text")
+	.attr("x",width/2+(figwidth-width)/2)
+	.attr("y",3*(figheight-height)/4+height)
+	.attr("font-size", "16.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+
+    if (compH >= refH) {
+	var happysad = "happier";
     }
-    d3.text("static/hedonometer/data/labMT/labMTwords-"+lang+".csv", function (text2) {
-	var tmp2 = text2.split("\n");
-	words = tmp2;
-	var len = words.length - 1;
-	while (!words[len]) {
-            //console.log("in while loop");
-            words = words.slice(0, len);
-            len--;
-	}
+    else { 
+	var happysad = "less happy";
+    }
 
-    });
-});
+    d3.selectAll("p.sumtext")
+	.data(["Why ",refH,compH])
+	.text(function(d,i) { 
+	    if (i==0) {
+		// if there are names of the texts, put them here
+		if (Math.abs(refH-compH) < 0.01) { return "How the words of reference and comparison differ";}
+		else { return d+"comparison "+" is "+happysad+" than "+"reference ";}
+	    }
+	    else if (i==1) {
+		return "Reference happiness " + (d.toFixed(2));
+	    }
+	    else {
+		return "Comparison happiness " + (d.toFixed(2));
+	    }});
+	// .attr("x",width/2+(figwidth-width)/2)
+	// .attr("y",function(d,i) { return i*20+13 })
+	// .attr("font-size", "16.0px")
+	// .attr("fill", "#000000")
+	// .attr("style", "text-anchor: middle;");
+
+    intStr = ["zero","one","two","three"];
+
+    axes.selectAll("rect.shiftrect")
+	.data(sortedMag)
+	.enter()
+	.append("rect")
+	.attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+	.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
+	.attr("x",function(d,i) { 
+            if (d>0) { 
+                return figcenter;
+            } 
+            else { return x(d)} }
+             )
+	.attr("y",function(d,i) { return y(i+1); } )
+	.style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+	.attr("height",function(d,i) { return 15; } )
+	.attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } )
+	.on('mouseover', function(d){
+            var rectSelection = d3.select(this).style({opacity:'1.0'});
+	})
+	.on('mouseout', function(d){
+            var rectSelection = d3.select(this).style({opacity:'0.7'});
+	});
+
+    // flipVector keeps track of the translation state
+    // it is one longer than the words, the last entry being what
+    // everything will be set to on "translate all"
+    var flipVector = Array(sortedWords.length+1);
+    for (var i=0; i<flipVector.length; i++) { flipVector[i] = 0; }
+    flipVector[flipVector.length-1] = 1;
+
+    axes.selectAll("text.shifttext")
+	.data(sortedMag)
+	.enter()
+	.append("text")
+    //.attr("fill", function(d,i) { if (sortedType[i] == 0 || sortedType[i] == 2) {return "blue";} else { return "yellow"; }})
+	.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
+	.style("text-anchor", function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}})
+	.attr("y",function(d,i) { return y(i+1)+11; } )
+	.text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+			      else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+			      if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+	.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
+	.on("click",function(d,i){
+	    // goal is to toggle translation
+	    // need translation vector
+	    //console.log(flipVector[i]);
+	    if (flipVector[i]) { 
+		if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+		else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+		if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
+		flipVector[i] = 0;}
+	    else {
+		if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+		else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+		else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+		else {tmpStr = "+\u2191";}
+		if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+		else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+		flipVector[i] = 1; }
+	    //console.log(tmpStr);
+	    newText = d3.select(this).text(tmpStr);
+	    //console.log(d);
+	    //console.log(i);
+	});
+
+    function resetButton() {
+	d3.selectAll(".resetbutton").remove();
+
+	var resetGroup = canvas.append("g")
+	     .attr("transform","translate("+(8)+","+(clipHeight+52)+") rotate(-90)")
+	     .attr("class","resetbutton");
+
+	resetGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",48)
+	    .attr("height",19)
+	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+	    .style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
+
+	resetGroup.append("text")
+	    .text("Reset")
+	    .attr("x",6)
+	    .attr("y",13)
+	    .attr("font-size", "11.0px")
+
+	resetGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",48)
+	    .attr("height",19)
+	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"opacity": "0.0"})
+	    .on("click",function() { 
+		//console.log("clicked reset");
+		shiftTypeSelect = false;		
+		axes.selectAll("rect.shiftrect").transition().duration(1000)
+		    .attr("y", function(d,i) { return y(i+1) })
+		    .attr("transform","translate(0,0)")
+	            .attr("x",function(d,i) { if (d<0) { return x(d);} 
+					      else { return figcenter; }});
+		axes.selectAll("text.shifttext").transition().duration(1000)
+		    .attr("y", function(d,i) { return y(i+1)+11; } )
+	            .attr("x",function(d,i) { if (d<0) { return x(d)-2; }
+					      else { return x(d)+2; } })
+		    .attr("transform","translate(0,0)");
+		d3.selectAll(".resetbutton").remove();
+	    });
+    }
+
+    function translateButton() {
+	var translateGroup = canvas.append("g")
+	    .attr("class","translatebutton")
+	    .attr("transform","translate("+(8)+","+(clipHeight-5)+") rotate(-90)");
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",19)
+	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+	    .style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
+
+	translateGroup.append("text")
+	    .text("Translate All")
+	    .attr("x",5)
+	    .attr("y",13)
+	    .attr("font-size", "11.0px")
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",19)
+	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"opacity": "0.0"})
+	    .on("click",function() { 
+		for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
+		flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
+		console.log("clicked translate");
+
+		axes.selectAll("text.shifttext").transition().duration(1000)
+		    .text(function(d,i) { 
+			// goal is to toggle translation
+			// need translation vector
+			//console.log(flipVector[i]);
+			if (flipVector[i]) { 
+			    if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+			    else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+			    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+			    else {tmpStr = "+\u2191";}
+			    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+			    else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+			}
+			else {
+			    if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+			    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+			    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
+			}
+			return tmpStr;
+		    });
+	        });
+    };
+
+    translateButton();
+
+    function zoomed() {
+	if (shiftTypeSelect) {
+	    for (var j=0; j<4; j++) {
+		axes.selectAll("rect.shiftrect."+intStr[j]).attr("y", function(d,i) { return y(i+1) });
+		axes.selectAll("text.shifttext."+intStr[j]).attr("y", function(d,i) { return y(i+1)+11 }); }
+	}
+	else {
+	    axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return y(i+1) });
+	    axes.selectAll("text.shifttext").attr("y", function(d,i) { return y(i+1)+11 });
+	}
+	d3.select(".y.axis").call(yAxis);
+	d3.selectAll(".tick line").style({'stroke':'black'});
+    };
+
+    //console.log(leftOffsetStatic+width);
+
+    var credit = axes.insert("text","rect")
+        .attr("class","credit")
+	.text("by Andy Reagan")
+        .attr("fill","#B8B8B8")
+	.attr("x",width-7)
+	.attr("y",527)
+	.attr("font-size", "8.0px")
+        .style({"text-anchor": "end"});
+
+    d3.select(window).on("resize.shiftplot",resizeshift);
+    
+    function resizeshift() {
+	figwidth = parseInt(d3.select("#figure01").style('width')) - margin.left - margin.right,
+	width = .775*figwidth
+	figcenter = width/2;
+
+	canvas.attr("width",figwidth);
+
+	x.range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
+	topScale.range([width*.1,width*.9]);
+
+	bgrect.attr("width",width);
+	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	//      ((1 - 0.125 - 0.775) * figheight) + ")");
+	
+	// mainline.attr("d",line);
+
+	// fix the x axis
+	canvas.select(".x.axis").call(xAxis);
+
+	clip.attr("width",width);
+
+	// get the x label
+	xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	// the andy reagan credit
+	credit.attr("x",width-7);
+
+	// line separating summary
+	sepline.attr("x2",width);
+
+	// all of the lower shift text
+	axes.selectAll("text.shifttext").attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+
+    unclipped_axes.selectAll(".sumrectR")
+	.attr("x",function(d,i) { 
+            if (d>0) { return figcenter; } 
+            else { return topScale(d)} } )
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+    unclipped_axes.selectAll(".sumtextR")
+	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+
+
+    unclipped_axes.selectAll(".sumrectL")
+	.attr("x",function(d,i) { 
+	    if (i<2) { 
+		return topScale(d);
+	    } 
+	    else { 
+		// place the sum of negatives bar
+		// if they are not opposing
+		if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+		    // if positive, place at end of other bar
+		    if (d>0) {
+			return topScale((sumTypes[3]+sumTypes[1]));
+		    }
+		    // if negative, place at left of other bar, minus length (+topScale(d))
+		    else {
+			return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+		    }
+		} 
+		else { 
+		    if (d>0) {return figcenter} 
+		    else { return topScale(d)} }
+	    }
+	})
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+    unclipped_axes.selectAll(".sumtextL")
+	.attr("x",function(d,i) { return topScale(d)-5; });
+
+    axes.selectAll("rect.shiftrect")
+	.attr("x",function(d,i) { 
+            if (d>0) { 
+                return figcenter;
+            } 
+            else { return x(d)} }
+             )
+	.attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } );
+
+	// //create_xAxis.scale(x);
+	// //xAxisHandle.call(xAxis);
+	// canvas.select(".x.axis").call(xAxis);
+
+	// canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+	
+	// // xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	// d3.selectAll(".tick line").style({'stroke':'black'});
+
+	// // //brushX.range([figwidth*.125,width+figwidth*.125]);
+	// brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
+	// brush.x(brushX);
+	// d3.select(".lensbrush") //.transition()
+	//     .call(brush.extent(lensExtent))
+	//     .call(brush.event);
+	//brushing();
+	//brush.event();
+    }
+};
+
+
+
+
+
+
+
+
+
 function shift(rrefF,ccompF,lens,words) {
 /* shift two frequency vectors
    -assume they've been zero-ed for stop words
@@ -13105,15 +12060,14 @@ function shift(rrefF,ccompF,lens,words) {
 */
 
     //normalize frequencies
-    Nref = d3.sum(rrefF);
-    Ncomp = d3.sum(ccompF);
+    var Nref = d3.sum(rrefF);
+    var Ncomp = d3.sum(ccompF);
 
     // compute reference happiness
     var refH = 0.0;
     for (var i=0; i<rrefF.length; i++) {
         refH += rrefF[i]*lens[i];
     }
-    // console.log(refH);
     refH = refH/Nref;
 
     // compute comparison happiness
@@ -13143,13 +12097,13 @@ function shift(rrefF,ccompF,lens,words) {
     var sortedMag = Array(rrefF.length);
     var sortedType = Array(rrefF.length);
     var sortedWords = Array(rrefF.length);
-    //var sortedWordsEn = Array(rrefF.length);
+    var sortedWordsEn = Array(rrefF.length);
 
     for (var i = 0; i < rrefF.length; i++) { 
 	sortedMag[i] = shiftMag[indices[i]]; 
 	sortedType[i] = shiftType[indices[i]]; 
 	sortedWords[i] = words[indices[i]];
-	//sortedWordsEn[i] = words_en[indices[i]]; 
+	sortedWordsEn[i] = words_en[indices[i]]; 
     }
 
     // compute the sum of contributions of different types
@@ -13164,7 +12118,7 @@ function shift(rrefF,ccompF,lens,words) {
       sortedMag: sortedMag,
       sortedType: sortedType,
       sortedWords: sortedWords,
-      //sortedWordsEn: sortedWordsEn,
+      sortedWordsEn: sortedWordsEn,
       sumTypes: sumTypes,
       refH: refH,
       compH: compH,
@@ -13179,2236 +12133,1549 @@ function shift(rrefF,ccompF,lens,words) {
 
 
 
-// main context
-(function() {
-
-    alert("You've somehow arrived at the development version. Navigate back to hedonometer.org, or beware of strange behavior and you can help us by reporting bugs to @hedonometer. Thanks for visiting :)");
-    var tmp = location.href;
-    tmp = tmp.replace("wordshift","index");
-    history.pushState("something","something",tmp);
-
-    // console.log("running timeline viz");
-
-    String.prototype.width = function(font) {
-	var f = font || '12px arial',
-	o = $('<div>' + this + '</div>')
-	    .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
-	    .appendTo($('body')),
-	w = o.width();
-	o.remove();
-	return w;
-    }
-
-    function splitWidth(s,w) {
-	// s is the string
-	// w is the width that we want to split it to
-	var t = s.split(" ");
-	var n = [t[0]];
-	var i = 1;
-	var j = 0;
-	while (i<t.length) {
-	    if ((n[j]+t[i]).width() < w) {
-		n[j] += " "+t[i]
-	    }
-	    else {
-		j++;
-		n.push(t[i]);
-	    }
-	    i++;
-	}
-	return n;
-    }
-
-    var dur =  550,
-    ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"],
-    bigdays = {},
-    shiftTypeSelect = false,
-    formatDate = d3.time.format("%b %Y"),
-    today = new Date(),
-    beginningOfTime = new Date(2008,8,10),
-    cformat = d3.time.format("%Y-%m-%d"),
-    dformat = d3.time.format("%Y-%m-%dT00:00:00"),
-    longformat = d3.time.format("%B %e, %Y"),
-    longerformat = d3.time.format("%A, %B %e, %Y"),
-    fromencoder = d3.urllib.encoder().varname("from");
-    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-18))),
-    toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
-    dateencoder = d3.urllib.encoder().varname("date"),
-    datedecoder = d3.urllib.decoder().varname("date"),
-    shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
-    shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none"),
-    weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"],
-    weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-    popupExitDur = 500,
-    popupEnterDur = 400,
-    intStr = ["zero","one","two","three"],
-    // min radius for day circles
-    rmin = 0,
-    // max radius for day circles
-    // these get reset when the day toggle is called
-    rmax = 3.25,
-    legendDict = {
-	"mon": "on",
-	"tue": "on",
-	"wed": "on",
-	"thu": "on",
-	"fri": "on",
-	"sat": "on",
-	"sun": "on",
-	"hilite": "on",
-	"togall": "on",
-	toggle: function (name,r) {
-	    this[name] =  this[name] === "on" ? "off" : "on";
-	    toggleDays(r);
-	}
-    }
-    timeseries = {};
-
-    // no longer in use
-    function getDay(d) {
-    	return weekDays[d.date.getDay()];
-    };
+ function drawLens(figure,lens) {
+/* takes a d3 selection and draws the lens distribution
+   on slide of the stop-window
+     -reload data csv's
+     -cut out stops words (0 the frequencies)
+     -call shift on these frequency vectors */
 
 
-    // Boston will be ran whenever we mouse over a circle
-    function myMouseDownOpenWordShiftFunction() {
-	var circle = d3.select(this);
-	popdate = cformat.parse(circle.attr("shortdate"));
-	transitionBigShift(popdate);
-    };
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
+    figheight = 150 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = .775*figheight-10,
+    leftOffsetStatic = 0.125*figwidth;
 
-    function toggleAll(r) {
-	if (legendDict['togall'] == 'on') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", r);
-	}
-	if (legendDict['togall'] == 'off') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", rmin);
-	}
-    };
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
 
-    function toggleDays(r) {
-	//run through the legendDict to see what's on or off...
-	for (var i=0; i < weekDays.length; i=i+1) {
-	    if (legendDict[weekDaysShort[i]] == 'on') {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", r);
-	    }
-	    else {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", rmin);
-	    }
-	}
-	// check the highlight individually
-	if (legendDict['hilite'] == 'on') { 
-	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "visible");
-	}
-	else { 
-	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "hidden");
-	}
-    };
-
-    // not in use
-    function myMouseDownHideDiv() {
-	var item = d3.select(this);
-	item.attr("style", "display: none;")
-    };
-
-    // not in use
-    function myMouseDownClearMinibox() {
-	var item = d3.select("#minibox");
-	item.attr("style", "display: hidden;")
-    };
-
-    function popitup(url) {
-	newwindow = window.open(url, 'name', 'height=820,width=780,scrollbars=no,resizeable=0');
-	if (window.focus) {
-	    newwindow.focus()
-	}
-	return false;
-    };
-
-    function myMouseOutFunction() {
-	// don't remove the popup
-	// d3.select("#minilist").remove();
-	var circle = d3.select(this);
-	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	circle.transition().duration(250).attr("r",rScale(currRange)).style("stroke-width", .7);
-	clearTimeout(hovertimer);
-    };
-
-    // this will run whenever we mouse over a circle
-    function myMouseOverFunction() {
-	// context is invoked inside mouseover event
-	var circle = d3.select(this);
-	popdate = cformat.parse(circle.attr("shortdate"));
-	hovertimer = setTimeout(function(){drawSmallShift(parseFloat(circle.attr("cx")),parseFloat(circle.attr("cy")),popdate,false)},popupEnterDur);
-    };
-
-    function getDate(d) {
-	return new Date(d.date);
-    };
-
-    var mainMargin = {
-	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    secMargin = {
-	top: 430,
-	right: 10,
-	bottom: 20,
-	left: 0
-    },
-    mainWidth = document.documentElement.clientWidth * 0.9,
-    mainHeight = document.documentElement.clientHeight* 0.5,
-    sliderHeight = 50;
-
-    // min radius for day circles
-    var rmin = 0;
-    // max radius for day circles
-    // these get reset when the day toggle is called
-    var rmax = 2.75; // scale down to 1.25 for whole timeseries
+    var canvas = figure.append("svg")
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas");
 
 
-
-    var symbol = d3.scale.ordinal().range(d3.svg.symbolTypes),
-    color = d3.scale.category10();
+    // create the x and y axis
+    var x = d3.scale.linear()
+	//.domain([d3.min(lens),d3.max(lens)])
+	.domain([1.00,9.00])
+	.range([0,width]);
     
-    var margin = {
-	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    width = parseInt(d3.select("#bigbox").style("width")),
-    height = width*0.5,
-    // width = document.documentElement.clientWidth * 0.9,
-    // height = document.documentElement.clientHeight* 0.5,
-    height2 = 50;
-    // height2 = document.documentElement.clientHeight/10;
+    // use d3.layout http://bl.ocks.org/mbostock/3048450
+    var data = d3.layout.histogram()
+        .bins(x.ticks(65))
+        (lens);
 
-    var formatDate = d3.time.format("%b %Y");
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([0,d3.max(data,function(d) { return d.y; } )])
+	.range([height, 0]); 
 
-    var wrp = d3.select("#wrap");
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	      ((1 - 0.125 - 0.775) * figheight) + ")")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
 
-    function selectYear(year) {
-	d3.select("#timeseries").remove();
-	d3.select(".infobox h4").remove();
-	d3.selectAll("rect:not(#shortlist)").style("fill", "lightgrey");
-	d3.select("#rect" + year).style("fill", "black");
-	timeline(year);
-	//if (year == "Full") d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, September 2008 to present");
-	//else d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, " + year);
-    }
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FFFFF0");
 
-    // console.log("timeline");
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
 
-    var margin = {
-	top: 10,
-	right: 40,
-	bottom: 100,
-	left: 0
-    },
-    width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
-    height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
-    height2 = 50;
-    // vertical space to give the bottom brush selection
-    var MainxAxisSpace = 40;
-    //height2 = document.documentElement.clientHeight * 0.5;
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(3)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
 
-    var bigdayscale = d3.scale.linear()
-    	.domain([0,today.getTime()-beginningOfTime.getTime()])
-        .range([-100,99.5]);
+    // draw the axes
+    var yAxis = create_yAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
 
-    var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
-    var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
+    axes.append("g")
+	.attr("class", "top")
+	.attr("transform", "translate(0,0)")
+	.attr("font-size", "12.0px")
+	.call(yAxis);
 
-    y = d3.scale.linear().range([height, 0]);
-    var y2 = d3.scale.linear().range([height2, 0]);
+    var xAxis = create_xAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
 
-    var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-    xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-    yAxis = d3.svg.axis().scale(y).orient("left");
-    yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
+    axes.append("g")
+	.attr("class", "x axis ")
+	.attr("font-size", "12.0px")
+	.attr("transform", "translate(0," + (height) + ")")
+	.call(xAxis);
 
-    // console.log([d3.time.month.offset(today,-18),today]);
-    // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
-    // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(today,-18),today]).on("brush", brushing).on("brushend",brushended);
-    var brush = d3.svg.brush().x(x2).extent([cformat.parse(fromdecoder().cached),cformat.parse(todecoder().cached)]).on("brush", brushing).on("brushend",brushended);
+    d3.selectAll(".tick line").style({'stroke':'black'});
 
-    // console.log(brush.extent());
-    // console.log([fromdecoder().current,todecoder().current]);
+    // create the clip boundary
+    var clip = axes.append("svg:clipPath")
+	.attr("id","clip")
+	.append("svg:rect")
+	.attr("x",0)
+	.attr("y",80)
+	.attr("width",width)
+	.attr("height",height-80);
 
-    // var fisheye = d3.fisheye.circular()
-    // 	.radius(120);
+    var unclipped_axes = axes;
+ 
+    //axes = axes.append("g")
+	//.attr("clip-path","url(#clip)");
+
+    canvas.append("text")
+	.text("Num Words")
+	.attr("class","axes-text")
+	.attr("x",(figwidth-width)/4)
+	.attr("y",figheight/2+30)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+
+    var xlabel = canvas.append("text")
+	.text("Word score")
+	.attr("class","axes-text")
+	.attr("x",width/2+(figwidth-width)/2)
+	.attr("y",figheight)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+
+    var lensMean = d3.mean(lens);
+
+    var bar = axes.selectAll(".distrect")
+        .data(data)
+        .enter()
+        .append("g")
+        .attr("class","distrect")
+        .attr("fill",function(d,i) { if (d.x > lensMean) {return "#D3D3D3";} else { return "#D3D3D3";}})
+        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+
+    var mainrect = bar.append("rect")
+	.attr("x", 1)
+	.attr("width", x(data[0].dx+1)-2 )
+	.attr("height", function(d) { return height - y(d.y); });
 
     var line = d3.svg.line()
-	.x(function(d) {
-	    return x(d.date);
-	})
-	.y(function(d) {
-	    return y(d.value);
-	});
+	.x(function(d,i) { return x(d.x); })
+	.y(function(d) { return y(d.y); })
+	.interpolate("linear");
 
-    var line0 = d3.svg.line();
-    // var fishline0 = d3.svg.line();
-    // 	// .x(function(d) { return d.x })
-    // 	// .y(function(d) { return d.y });
+    var mainline = axes.append("path")
+	.datum(data)
+	.attr("class", "line")
+	.attr("d", line)
+	.attr("stroke","black")
+	.attr("stroke-width",3)
+	.attr("fill","none");
 
-    var date1 = new Date(0000, 11, 25);
-    var format = d3.time.format("%m-%d");
+    //console.log(x(d3.min(lens)));
 
-    var prevx = 0;
-    var prevy = 0;
-
-    //This attempts to draw a line that connects all dates that match 11/25
-    var line3 = d3.svg.line().x(function(d) {
-	if ((format(d.date) == format(date1))) {
-	    prevx = d.date;
-	    return x(d.date);
-	} else {
-	    return x(prevx);
-	}
-    }).y(function(d) {
-	if ((format(d.date) == format(date1))) {
-	    prevy = d.value;
-	    return y(d.value);
-	} else {
-	    return y(prevy);
-	}
-    });
-
-    var area2 = d3.svg.area().interpolate("linear").x(function(d) {
-	return x2(d.date);
-    }).y0(height2).y1(function(d) {
-	return y2(d.value);
-    });
-
-    var svg = d3.select("#bigbox").append("svg").attr("id", "timeseries")
-	.attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
-
-    svg.append("defs").append("clipPath").attr("id", "clip").append("rect").attr("width", width).attr("height", height);
-
-    var focus = svg.append("g")
-	.attr("id", "focus")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-    var focus2 = svg.append("g")
-	.attr("id", "focus2")
-	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // remove the popup wordshift for any click on this group
-    // which should be behind the wordshift
-    // doesn't work in chrome
-    // .on("mousedown",function() { d3.select("#minilist").remove() });
-
-    var legendgroup = svg.append("g")
-	.attr({"class": "legendgroup",
-	       "transform": "translate("+(width-10-366)+","+1+")",});
-
-    legendgroup.append("rect")
-	.attr({"class": "legendbox",
-	       "x": 0,
-	       "y": 0,
-	       "rx": 3,
-	       "ry": 3,
-	       "width": 366,
-	       "height": 19,
-	       "fill": "#F0F0F0",
-	       'stroke-width': '0.5',
-	       'stroke': 'rgb(0,0,0)'});
-
-    var legendboxwidth = 43;
-
-    legendgroup.selectAll("circle")
-	.data(weekDaysShort)
-	.enter()
-	.append("circle").on("mousedown", function(d,i) {
-	    var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	    legendDict.toggle(d,rScale(currRange));
-	    //toggleDays();
-	})
-	.attr("cx", function(d,i) { return 8+legendboxwidth*i; })
-	.attr("cy", 9)
-	.attr("r", rmax)
-	.attr("stroke", "black")
-	.attr("stroke-width", 0.7)
-	.attr("class", function(d,i) { return weekDays[i]; });
-
-    legendgroup.selectAll("text")
-	.data(weekDaysShort)
-	.enter()
-	.append("text")
-	.attr("x", function(d,i) { return 15+legendboxwidth*i; })
-	.attr("y", 14)
-	.on("mousedown", function(d,i) {
-	    var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	    legendDict.toggle(d,rScale(currRange));
-	    //toggleDays();
-	})
-    // return first three letters for the name
-	.text(function(d,i) { return weekDays[i][0]+weekDays[i][1]+weekDays[i][2] });
-    //.attr("class",function(d,i) { return weekDays[i] });
-
-    legendgroup.selectAll("rect.legendclick")
-	.data(weekDaysShort)
-	.enter()
-	.append("rect")
-	.attr({"class": "legendrect",
-	       "x": function(d,i) { return legendboxwidth*i; },
-	       "y": 0,
-	       "width": legendboxwidth-2,
-	       "height": 19,
-	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-	       "opacity": "0.0",})
-	.on("mousedown", function(d,i) {
-	    var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	    legendDict.toggle(d,rScale(currRange));
-	});
-
-    legendgroup.selectAll("line")
-	.data([0,0,0,0,0,0,0])
-	.enter()
-	.append("line")
-	.attr("stroke","grey")
-	.attr("stroke-width","2")
-	.attr("x1", function(d,i) { return 42+legendboxwidth*i+d; })
- 	.attr("x2", function(d,i) { return 42+legendboxwidth*i+d; })
-	.attr("y1", 0)
-	.attr("y2", 19);
+    var brushX = d3.scale.linear()
+        .domain([1,9])
+        .range([figwidth*.125,width+figwidth*.125]);
     
-    // was at 350
-    legendgroup.append("svg:circle").on("mousedown", function() {
-	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	legendDict.toggle('togall',rScale(currRange));
-	//toggleAll();
-    }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
-    
-    legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id","togall");
-    
-    legendgroup.append("rect")
-	.attr({"class": "legendrect",
-	       "x": 301,
-	       "y": 0,
-	       "width": 66,
-	       "height": 20,
-	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-	       "opacity": "0.0",})
-	.on("mousedown", function() {
-	    legendDict.toggle('togall');
-	    legendDict['mon'] = legendDict['togall'];
-	    legendDict['tue'] = legendDict['togall'];
-	    legendDict['wed'] = legendDict['togall'];
-	    legendDict['thu'] = legendDict['togall'];
-	    legendDict['fri'] = legendDict['togall'];
-	    legendDict['sat'] = legendDict['togall'];
-	    legendDict['sun'] = legendDict['togall'];
-	    // the call inside .toggle above won't get that all the days
-	    // were reset
-	    var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-	    toggleDays(rScale(currRange));
-	});
+    var brush = d3.svg.brush()
+        .x(brushX)
+        .extent(lensExtent)
+        .on("brushend",brushended);
 
+    var gBrush = canvas.append("g")
+        .attr("class","lensbrush")
+        .call(brush)
+        .call(brush.event);
 
-    var datearray = [
-	[beginningOfTime, new Date(2009,11,31)],
-	[new Date(2010,00,01), new Date(2010,11,31)],
-	[new Date(2011,00,01), new Date(2011,11,31)],
-	[new Date(2012,00,01), new Date(2012,11,31)],
-	[new Date(2013,00,01), new Date(2013,11,31)],
-	[beginningOfTime, today],
-	[d3.time.month.offset(today,-18), today],
-    ],
-    yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
-    yearstringslen = yearstrings.map(function(d) { return d.width(); }),
-    initialpadding = 2,
-    boxpadding = 5,
-    fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
+    gBrush.selectAll("rect")
+        .attr("height",height)
+        .attr("y",15)
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
+	.attr("fill", "#FCFCFC");
 
+     //console.log(lensExtent);
 
-    svg.append("text")
-	.attr({
-	    "x": (width-10-fullyearboxwidth-53),
-	    "y": 44,
-	    "fill": "grey",
-	    })
-	.text("Jump to:");
+     lensencoder = d3.urllib.encoder().varname("lens"); //.varval(lensExtent);
 
-    var yeargroup = svg.append("g")
-	.attr({"class": "yeargroup",
-	       "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
+     function brushended() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0;
+	// round to nearest tenth (set 4 to 10)
+	// round to nearest quarter
 
-    yeargroup.append("rect")
-	.attr({"class": "yearbox",
-	       "x": 0,
-	       "y": 0,
-	       "rx": 3,
-	       "ry": 3,
-	       "width": fullyearboxwidth,
-	       "height": 19,
-	       "fill": "#F0F0F0",
-	       'stroke-width': '0.5',
-	       'stroke': 'rgb(0,0,0)'});
+	if ((extent1[0] !== lensExtent[0]) || (extent1[1] !== lensExtent[1]))
+	{	    
 
-    yeargroup.selectAll("text")
-    	.data(yearstrings)
-    	.enter()
-    	.append("text")
-    	.attr("x", function(d,i) { 
-	    // start at 2
-	    if (i==0) { return initialpadding; }
-	    // then use 2+width+10+width+10+width...
-	    // for default padding of 5 on L/R
-	    else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
-	})
-    	.attr("y", 14)
-    	.text(function(d,i) { return d; });
+	    lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
 
-    yeargroup.selectAll("rect.yearclick")
-    	.data(datearray)
-    	.enter()
-    	.append("rect")
-    	.attr({"class": "yearrect",
-    	       "x": function(d,i) { if (i === 0) { return 0; }
-	    else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
-    	       "y": 0,
-    	       "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
-    	       "height": 19,
-    	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-    	       "opacity": "0.0",})
-    	.on("mousedown", function(d,i) {
-	    // console.log(yearstrings[i]);
-	    // do everything brush related
-	    brush.extent(d);
-	    brushing();
-	    brushended();
-	    context.select(".x.brush")
-		.call(brush);
-	    var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
-	    d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
-	    d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
-    	});
+	    // initialize new values
+	    var refF = Array(allDataRaw[0].length);
+	    var compF = Array(allDataRaw[0].length);
+	    allData = Array(allDataRaw.length);
+	    // fill them with 0's
+	    for (var i=0; i<allDataRaw[0].length; i++) {
+		refF[i]= 0;
+		compF[i]= 0;
+	    }
+	    for (var i=0; i<allDataRaw.length; i++) {
+		allData[i] = Array(allDataRaw[i].length);
+	    }
+	    // loop over each slice of data
+	    for (var i=0; i<allDataRaw[0].length; i++) {
+		var include = true;
+		for (var k=0; k<ignoreWords.length; k++) {
+		    if (ignoreWords[k] == words[i]) {
+			include = false;
+		    }
+		}
+		if (lens[i] >= lensExtent[0] && lens[i] <= lensExtent[1]) {
+		    include = false;
+		}
+		// grab the shift vectors
+		if (include) {
+		    for (var k=refFextent[0]; k<refFextent[1]; k++) {
+			refF[i] += parseFloat(allDataRaw[k][i]);
+		    }
+		    for (var k=compFextent[0]; k<compFextent[1]; k++) {
+			compF[i] += parseFloat(allDataRaw[k][i]);
+		    }
+		    for (var k=0; k<allDataRaw.length; k++) {
+			allData[k][i] = allDataRaw[k][i];
+		    }
+		}
+		// slice up the data
+		// for quicker redraw on window selection
+		// and happiness calculation
+		// double overhead for storage
+		else { 
+	    	    for (var k=0; k<allData.length; k++) { allData[k][i] = 0; }
+		}
+	    }
+	    
+	    //console.log("redrawing timeserires");
+	    var timeseries = computeHapps();
+	    drawBookTimeseries(d3.select("#chapters03"),timeseries);
 
-    yeargroup.selectAll("line")
-    	.data(yearstrings.slice(0,yearstrings.length-1))
-    	.enter()
-    	.append("line")
-    	.attr("stroke","grey")
-    	.attr("stroke-width","2")
-    	.attr("x1", function(d,i) { 
-	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-	})
-    	.attr("x2", function(d,i) { 
-	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-	})
-    	.attr("y1", 0)
-    	.attr("y2", 19);
+	    //console.log("redrawing shift");
+	    var shiftObj = shift(refF,compF,lens,words);
+	    plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+		      shiftObj.sortedType.slice(0,200),
+		      shiftObj.sortedWords.slice(0,200),
+		      shiftObj.sortedWordsEn.slice(0,200),
+		      shiftObj.sumTypes,
+		      shiftObj.refH,
+		      shiftObj.compH);
 
-    var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height+MainxAxisSpace) + ")");
+	    // set the lens extent in the browser, if it didn't already exist
+	    // break down the current window.location
 
-    var minDate,maxDate;
-
-    d3.csv("/static/hedonometer/data/word-vectors/sumhapps.csv", function(data) {
-	minDate = getDate(data[0]);
-	maxDate = getDate(data[data.length - 1]);
-	var parse = d3.time.format("%Y-%m-%d").parse;
-
-	for (i = 0; i < data.length; i++) {
-	    data[i].shortDate = data[i].date;
-	    data[i].date = parse(data[i].date);
-	    data[i].value = +data[i].value;
 	}
 
-	timeseries = data;
+	d3.select(this).transition()
+	    .call(brush.extent(lensExtent))
+	    .call(brush.event);
 
-	x.domain(d3.extent(data.map(function(d) {
-	    return d.date;
-	})));
-	y.domain([5.8, 6.40]);
-	//x2.domain(x.domain());
-	y2.domain(y.domain());
-
-	// var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
-	var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line);
-
-	// focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
-
-	focus.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").transition().duration(dur).call(xAxis);
-	// text for legend h_avg
-	// focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
-	//focus.append("g").attr("class", "y axis").call(yAxis);
-	focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
-
-	horizontalLineGroup = focus.append("g")
-	horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
-	    .attr("class", "horizontalLines") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
-	    .attr("x1",0)
-	    .attr("x2",width)
-	    .attr("y1",function(d){ return y(d); })
-	    .attr("y2",function(d){ return y(d); })
-	    .attr("fill","none")
-	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
-	    .attr("stroke-dasharray",function(d,i) { if (i===0) {return "5";} else {return "5";} })
-	    .attr("stroke-width","0.3px");
-
-	horizontalLineGroup.append("line")
-	    .attr("class", "horizontalLinesFirst") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
-	    .attr("x1",0)
-	    .attr("x2",width)
-	    .attr("y1",function(d){ return y(y.ticks(7)[0]); })
-	    .attr("y2",function(d){ return y(y.ticks(7)[0]); })
-	    .attr("fill","none")
-	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
-	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
-	    .attr("stroke-width","1.7px");
-	
-	// focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
-
-	// console.log(data);
-	
-	var circle = focus2.selectAll("circle").data(data);
-
-    	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-    	    //yearDict.toggle(d,);
-
-	circle.enter().append("circle")
-	    .attr({
-		"class": function(d) { return weekDays[d.date.getDay()]; },
-		"cx": function(d, i) { return x(d.date); },
-		"clip-path": "url(#clip)",
-		"shortdate": function(d) { return d.shortDate;  },
-		"havg": function(d) { d.value.toFixed(2); },
-		"day": function(d) { return weekDays[d.date.getDay()]; },
-		"date": function(d) { return d.date; },
-		"cy": function(d) { return y(d.value); },
-		"r": function(d) { return rScale(currRange); }, })
-	    .on("mouseover.enlarge", function() { d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5); })
-	    .on("mouseover.popup",myMouseOverFunction) 
-	    .on("mouseout", myMouseOutFunction)
-	    .on("mousedown", myMouseDownOpenWordShiftFunction);
-
-	context.append("path").data([data]).attr("class", "mini").attr("d", area2);
-	context.append("g").attr("class", "x axis")
-	    .attr("transform", "translate("+"0"+"," + height2 + ")")
-	    .call(xAxis2);
-
-	var format = d3.time.format("%m-%d");
-
-	// http://hedonometer.org/api/v1/events/?format=json
-	d3.json('/api/v1/events/?format=json',function(json) { 
-	// d3.json('/static/hedonometer/data/bigdays.json',function(json) { 
-	    bigdays = json.objects;
-	    
-	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
-				       d.x = parseFloat(d.x);
-				       d.shorter = d.shorter.split(',');
-				       // don't let them overflow the bottom
-				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]); 
-				       d.importance = parseFloat(d.importance);})
-
-	    var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
-		.append("line")
-		.attr({
-		    // the x and y get set upon brushing
-		    "stroke": "grey",
-		    "stroke-width": 0.5,
-		    "class": "bigdayline",
-		    "visibility": "hidden",
-		});
-
-	    var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
-		.append("g")
-	        .attr("class","bigdaygroup")
-		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
-	    
-	    var textwidth = 6;
-	    // width of characters
-	    var charwidth = 3;
-
-	    var line0 = bigdaygroups
-		.append("text")
-		.text(function(d) { // console.log(d.shorter.length); 
- return d.shorter[0]; } )
-		.attr("class","bigdaytext")
- 	    // .attr("stroke-width","0.1")
-		.attr("dx", 0)
-		      //function(d) { 
-		    // return -d.shorter[0].width()/2; 
-		    // return 0; 
-		    //return -d.shorter[0].length*charwidth/2; 
-		    // return -d3.select(this).attr("width")/2;
-		//})
-		.attr("dy", function(d) { return 0; })
-		.attr("stroke","")
-		.attr("fill","grey")
-		.attr("visibility","hidden");
-
-	    bigdaygroups
-		.append("text")
-		.text(function(d) { if (d.shorter.length > 1) { return d.shorter[1]; }
-				    else { return ""; } })
-		.attr("class","bigdaytext")
-		.attr("dx", 0) // function(d) { 
-		//     if (d.shorter.length > 1) {
-		// 	// return -d.shorter[1].width()/2; 
-		// 	// return 0;
-		// 	return -d.shorter[1].length*charwidth/2; 
-		//     } 
-		//     else { 
-		// 	return 0; 
-		//     } 
-		// })
-		.attr("dy", function(d) { return 15; })
-		.attr("stroke","")
-		.attr("fill","grey")
-		.attr("visibility","hidden");
-
-	    bigdaygroups
-		.append("text")
-		.text(function(d) { if (d.shorter.length > 2) { return d.shorter[2]; }
-				    else { return ""; } })
-		.attr("class","bigdaytext")
-		.attr("dx", 0)
-		.attr("dy", function(d) { return 30; })
-		.attr("stroke","")
-		.attr("fill","grey")
-		.attr("visibility","hidden");
-
-	    bigdaygroups
-		.append("text")
-		.text(function(d) { if (d.shorter.length > 3) { return d.shorter[3]; }
-				    else { return ""; } })
-		.attr("class","bigdaytext")
-		.attr("dx", 0)
-		.attr("dy", function(d) { return 45; })
-		.attr("stroke","")
-		.attr("fill","grey")
-		.attr("visibility","hidden");
-	    
-	    // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
-	    // 	return -d3.select(this).attr("width")/2;
-	    // })
-
-	    // call the brush initially
-	    brushing();
-	    focus.selectAll(".brushingline")
-		.attr({ 
-		    "visibility": "hidden",
-		});
-
-	    // now go and fix all of the offsets
-	    d3.selectAll("text.bigdaytext").attr("dx",function(d,i) { return -this.clientWidth/2; })
-	    // d3.selectAll("text.bigdaytext").attr("fill","white")
-	    // d3.selectAll("line.bigdayline").attr("stroke","white")
-	} )
-
-	// d3.select(".x.brush").call(brush.event);
-	var brushgroup = context.append("g").attr("class", "x brush")
-	    .call(brush);
-	// .call(brush.event);
-	
-	brushgroup
-	    .selectAll("rect")
-	    .attr("y", -6)
-	    .attr("height", height2 + 7);
-
-	// call the brush initially
-	brushing();
-
-	focus.selectAll(".brushingline")
-	    .attr({ 
-		"visibility": "hidden",
-	    });
-
-
-    }); // main data load
-
-    // function fishline(d) { 
-    // 	return fishline0(d.map(function(d) {
-    // 	    d = fisheye({x: x(d.date), y: y(d.value)});
-    // 	    return [d.x, d.y];
-    // 	}));
-    // };
-
-    function line(d) { 
-	return line0(d.map(function(d) {
-	    return [d.x, d.y];
-	}));
-    };
-
-    function brushended() {
-	// console.log("brushended");
-	fromencoder.varval(cformat(x.domain()[0]));
-	toencoder.varval(cformat(x.domain()[1]));
-	focus.selectAll(".brushingline")
-	    .attr({ 
-		"visibility": "hidden",
-	    });
+	lensencoder.varval(lensExtent);
     }
 
-    focus.selectAll("brushingline").data([0,width]).enter().append("line")
-	.attr({
-	    "class": "brushingline",
-	    "x1": function(d,i) { return d; },
-	    "x2": function(d,i) { return x2(brush.extent()[i]); },
-	    "y1": 475,
-	    "y2": 500,
-	    "stroke": "#C0C0C0",
-	    "stroke-width": 2,
-	    "visibility": "hidden",
-	});
+    d3.select(window).on("resize.selectlens",resizelens);
+    
+    function resizelens() {
+	figwidth = parseInt(d3.select("#lens01").style('width')) - margin.left - margin.right,
+	width = .775*figwidth;
+
+	canvas.attr("width",figwidth);
+
+	x.range([0,width]);
+	bgrect.attr("width",width);
+	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	//      ((1 - 0.125 - 0.775) * figheight) + ")");
+	
+	mainline.attr("d",line);
+
+	//create_xAxis.scale(x);
+	//xAxisHandle.call(xAxis);
+	canvas.select(".x.axis").call(xAxis);
+
+	canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+	
+	// xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	d3.selectAll(".tick line").style({'stroke':'black'});
+
+	// //brushX.range([figwidth*.125,width+figwidth*.125]);
+	brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
+	brush.x(brushX);
+	d3.select(".lensbrush") //.transition()
+	    .call(brush.extent(lensExtent))
+	    .call(brush.event);
+	//brushing();
+	//brush.event();
+    }
+
+}
+
+
+
+
+
+function selectChapter(figure,numSections) {
+/* takes a d3 selection and draws the lens distribution
+   on slide of the stop-window
+     -reload data csv's
+     -cut out stops words (0 the frequencies)
+     -call shift on these frequency vectors */
+
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = parseInt(d3.select('#chapters02').style('width')) - margin.left - margin.right,
+    figheight = 70 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = .775*figheight-20,
+    leftOffsetStatic = .125*figwidth;
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    var canvas = figure.append("svg")
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas");
+
+    // create the x and y axis
+    var x = d3.scale.linear()
+	//.domain([d3.min(lens),d3.max(lens)])
+	.domain([0,100])
+	.range([0,width]);
+    
+    // use d3.layout http://bl.ocks.org/mbostock/3048450
+    // data = d3.layout.histogram()
+    //     .bins(x.ticks(65))
+    //     (lens);
+
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([0,1])
+	.range([height, 0]); 
+
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
+
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
+
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
+
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(3)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
+
+    // draw the axes
+    // var yAxis = create_yAxis()
+    // 	.innerTickSize(6)
+    // 	.outerTickSize(0);
+
+    // axes.append("g")
+    // 	.attr("class", "top")
+    // 	.attr("transform", "(0,0)")
+    // 	.attr("font-size", "12.0px")
+    // 	.call(yAxis);
+
+    var xAxis = create_xAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    var xAxisHandle = axes.append("g")
+	.attr("class", "x axis ")
+	.attr("font-size", "12.0px")
+	.attr("transform", "translate(0," + (height) + ")")
+	.call(xAxis);
+
+    d3.selectAll(".tick line").style({'stroke':'black'});
+
+    // create the clip boundary
+    var clip = axes.append("svg:clipPath")
+	.attr("id","clip")
+	.append("svg:rect")
+	.attr("x",0)
+	.attr("y",80)
+	.attr("width",width)
+	.attr("height",height-30);
+
+    var unclipped_axes = axes;
+ 
+    //axes = axes.append("g")
+	//.attr("clip-path","url(#clip)");
+
+    // canvas.append("text")
+    // 	.text("Happs")
+    // 	.attr("class","axes-text")
+    // 	.attr("x",(figwidth-width)/4)
+    // 	.attr("y",figheight/2+30)
+    // 	.attr("font-size", "12.0px")
+    // 	.attr("fill", "#000000")
+    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+
+    var xlabel = canvas.append("text")
+	.text("Percentage of book")
+	.attr("class","axes-text")
+	.attr("x",width/2+(figwidth-width)/2)
+	.attr("y",figheight)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+
+    var brushX = d3.scale.linear()
+        .domain([0,allDataRaw.length])
+        .range([figwidth*.125,width+figwidth*.125]);
+
+    canvas.append("text")
+	.text("Comparison")
+	.attr("class","complabel")
+	.attr("x",brushX((compFextent[0]+compFextent[1])/2))
+	.attr("y",figheight-48)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+    
+    var brush = d3.svg.brush()
+        .x(brushX)
+        .extent(compFextent)
+        .on("brush",brushing)
+        .on("brushend",brushended);
+
+    var gBrush = canvas.append("g")
+        .attr("class","bottombrush")
+        .call(brush)
+        .call(brush.event);
+
+    gBrush.selectAll("rect")
+        .attr("height",height)
+        .attr("y",0)
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	.attr("fill", "rgb(90,90,90)");
 
     function brushing() {
-	// console.log("brushing");
-	// console.log(x.domain()[0].getTime());
-	// console.log(x.domain()[1].getTime());
-	// console.log(x2.domain());
-	// console.log(brush.extent());
-
-	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
-
-	//x.domain(brush.empty() ? x2.domain() : brush.extent());
-	x.domain(brush.empty() ? x2.domain() : brush.extent());
-	//focus.select("#path").attr("d", fishline);
-	focus.select("#path").attr("d", line);
-	focus.select(".x.axis").call(xAxis);
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0.map(Math.round); // should round it to bins
 	
-	focus.selectAll(".brushingline")
-	    .attr({ 
-		"x2": function(d,i) { return x2(brush.extent()[i]) },
-		"visibility": "visible",
-	    });
+	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+    };
 
-	var circle = focus2.selectAll("circle").attr("cx", function(d) {
-	    return x(d.date);
-	}).attr("cy", function(d) {
-	    return y(d.value);
-	})
- 	    .attr("r", function(d) {
-		return rScale(currRange);
-	    });
+    compFencoder = d3.urllib.encoder().varname("compExtent"); //.varval(compFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
 
-	var rect = focus2.selectAll("rect").attr("x", function(d) {
-	    return x(d.date);
-	}).attr("y", function(d) {
-	    return y(d.value + .02);
-	});
+    function brushended() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0 .map(Math.round); // should round it to bins
 
-	var lines = focus2.selectAll("line.bigdayline")
-	    .attr({
-		"x1": function(d,i) { return x(d.date); },
-		"x2": function(d,i) { return x(d.date)+d.x; },
-		"y1": function(d,i) { return y(d.value)+3*(d.y/Math.abs(d.y)); }, // 2 in the direction of the offset +2*(d.y/d.y)
-		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*12-6;} },
-	    });
+	//d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+
+	if ((extent1[0] !== compFextent[0]) || (extent1[1] !== compFextent[1]))
+	{	    
+
+	compFextent = extent1;
+
+	compFencoder.varval(compFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+
+	// initialize new values
+	var refF = Array(allDataRaw[0].length);
+	var compF = Array(allDataRaw[0].length);
+	for (var i=0; i<allDataRaw[0].length; i++) {
+            refF[i]= 0;
+            compF[i]= 0;
+	}
+	// loop over each slice of data
+	for (var i=0; i<allDataRaw[0].length; i++) {
+		for (var k=refFextent[0]; k<refFextent[1]; k++) {
+                    refF[i] += allData[k][i];
+		}
+		for (var k=compFextent[0]; k<compFextent[1]; k++) {
+                    compF[i] += allData[k][i];
+		}
+	}
 	
-	var groups = focus2.selectAll("g.bigdaygroup")
-	    .attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
+	console.log("redrawing shift");
+	var shiftObj = shift(refF,compF,lens,words);
+	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+		  shiftObj.sortedType.slice(0,200),
+		  shiftObj.sortedWords.slice(0,200),
+		  shiftObj.sortedWordsEn.slice(0,200),
+		  shiftObj.sumTypes,
+		  shiftObj.refH,
+		  shiftObj.compH);
+	}
 
-	d3.select("#minilist").remove();
-	
-	var cutoff = bigdayscale(currRange);
-	// console.log(cutoff);
-
-	// d3.selectAll("text.bigdaytext").attr("fill",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
-	// d3.selectAll("line.bigdayline").attr("stroke",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
-	d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
-	d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
+	d3.select(this).transition()
+	    .call(brush.extent(extent1))
+	    .call(brush.event);
     }
 
-    var fullRange = (today.getTime()-1222964002773);
-    var rScale = d3.scale.linear().range([rmax,1.25]);
-    rScale.domain([0,fullRange]);
-
-    function offsetXY(x, y, s) {
-	// if on the right
-	if (x >= 600) {
-	    x = x - 220;
-	    // if on the top
-	    if (y <= 210) { 
-		y = y - 10;
-		x = x - 30;
-	    } 
-	    else { y = y - 224; }
-	} 
-	// on the left
-	else {
-	    x = x - 7;
-	    // if on the top
-	    if (y <= 210) {
-		y = y - 10;
-		x = x + 20;
-	    } else {
-		y = y - 224;
-	    }
-	}
-	if (s == 'X') {
-	    return x;
-	}
-	if (s == 'Y') {
-	    return y;
-	}
-    };
-
-    function triangleptsXY(x, y) {
-	var trianglepointsA = ["10 0, 10 225, 20 215, 230 215, 230 0, 10 0"]
-	var trianglepointsB = ["205 215, 215 225, 215 215, 230 215, 230 0, 10 0, 10 215, 205 215"]
-	var trianglepointsC = ["10 10, 0 20, 10 20, 10 215, 230 215, 230 0, 10 0, 10 10"]
-	var trianglepointsD = ["230 10, 240 20, 230 20, 230 215, 10 215, 10 0, 230 0, 230 10"]
-	var result = []
-	if (x >= 600) {
-	    if (y <= 210) {
-		result = trianglepointsD;
-	    } else {
-		result = trianglepointsB;
-	    }
-	} else {
-	    if (y <= 210) {
-		result = trianglepointsC;
-	    } else {
-		result = trianglepointsA;
-	    }
-	}
-	return result;
-    };
-
-    function transitionBigShift(popdate) {
-	// called directly on "expand detailed shift" click
-	// resizes the #minilist group and the svg within it
-	//   -> the svg gets both it's transform and width, height updated
-
-	// console.log(cformat(circle));
-
-	d3.select('#moveshifthere').selectAll('svg').remove();
-	d3.select('#minilist').remove();
-
-	var modalwidth = 558;
-	// this call will work only once the modal is active
-	// parseInt(d3.select("#moveshifthere").style("width"));
-	var modalheight = 495;
-
-	// now trying to load in data from zoo
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
-	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
-		refFvec = tmp2.split('\n').slice(0,10222);
-
-		for (var i = 0; i < words.length; i++) {
-		    var exclude = false;
-		    for (var k = 0; k < ignoreWords.length; k++) {
-			if (ignoreWords[k] == words[i]) {
-			    exclude = true;
-			    // console.log("excluding");
-			}
-		    }
-		    // console.log(i);
-		    if (lens[i] > 4 && lens[i] < 6) {
-			exclude = true;
-			// console.log("excluding");
-		    }
-		    if (exclude) {
-			refFvec[i] = 0;
-			compFvec[i] = 0;
-		    }
-		}
-		shiftObj = shift(refFvec,compFvec,lens,words);
-		var sortedMag = shiftObj.sortedMag.slice(0,1000),
-		sortedType = shiftObj.sortedType.slice(0,1000),
-		sortedWords = shiftObj.sortedWords.slice(0,1000),
-		sumTypes = shiftObj.sumTypes.slice(0,1000),
-		havg = shiftObj.refH,
-		tcomp = shiftObj.compH;
-
-		//console.log(circle);
-		dateencoder.varval(cformat(popdate));
-
-		//console.log(cformat.parse(circle.attr("shortdate")));
-		var bigdaytest = false;
-		var bigdaywiki = ''; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
-
-		addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
-
-		for (var i=0; i<bigdays.length; i++) {
-		    //console.log(bigdays[i].date);
-		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
-		    if (bigdays[i].date.getTime() === popdate.getTime()) {
-			// console.log("major event wiki");
-			bigdaytest = true;
-			bigdaywiki = bigdays[i].wiki;
-			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-			break;
-		    }
-		}
-		if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
-		else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
-		//Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span>
-
-		// grab the modal body
-		var modalbody = d3.select("#moveshifthere");
-		var modalfooter = d3.select("#moveshiftherefooter");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.append("p").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(popdate)+"</b>"; });
-		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === popdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
-		}
-		else {
-		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}
-		modalbody.append("p").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.append("p").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		if (popdate.getTime() === timeseries[0].date.getTime()) {
-		    modalfooter.select(".left").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".left").attr("disabled",null);
-		}
-                if (popdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-		    modalfooter.select(".right").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".right").attr("disabled",null);
-		}
-
- 		// new one
-		var newsmalllist = d3.select('#moveshifthere').append('svg')
-		    .attr('height',modalheight).attr('width',modalwidth)
-		    .attr('id','modalsvg');
-
-		newsmalllist.append("svg")
-		    .attr("id","shiftcanvas")
-		    .attr("width",function () { return modalwidth-20-10; })
-		    .attr("height",function () { return modalheight-25; });
-
-		// x label of shift, outside of the SVG
-		newsmalllist.append("text")
-		    .text("Per word average happiness shift")
-		    .attr("class","axes-text")
-		    .attr("x",(modalwidth-20-10)/2+20) // 350-20-10 for svg width,  
-		    .attr("y",modalheight-7)
-		    .attr("font-size", "18.0px")
-		    .attr("fill", "#000000")
-		    .attr("style", "text-anchor: middle;");
-		
-		// var canvas = smallList.select("svg"),
-		var canvas = newsmalllist.select("svg"),
-		boxwidth = (modalwidth-20-10),
-		boxheight = (modalheight-40-25),
-
-		// d3.select("#smallshiftgroup").attr("transform","translate(20,0)");
-
-		shiftTypeSelect = false;
-
-		var margin = {top: 0, right: 0, bottom: 0, left: 0},
-		figwidth = boxwidth - margin.left - margin.right,
-		figheight = boxheight - margin.top - margin.bottom,
-		iBarH = 11;
-
-		var yHeight = (7+17*3+14+5-13), // 101
-		clipHeight = 100-20-13,
-		barHeight = (7+17*3+15-13), // 95
-		width = (figwidth-20), 	// give just enough room for the labels
-		height = (figheight-20);
-
-		var bigfigcenter = width/2;
-
-		// take the longest of the top five words
-		// console.log("appending to sorted words");
-		// console.log(sortedWords);
-		sortedWords = sortedWords.map(function(d,i) { 
-		    if (sortedType[i] == 0) {
-			return d.concat("-\u2193");
-		    } 
-		    else if (sortedType[i] == 1) {
-			return "\u2193+".concat(d);
-		    }
-		    else if (sortedType[i] == 2) {
-			return "\u2191-".concat(d);
-		    } else {
-			return d.concat("+\u2191");
-		    }
-		});
-		// console.log(sortedWords);
-		var maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
-		// console.log(maxWidth);
-
-		var bigshiftx = d3.scale.linear()
-		    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
-		    .range([maxWidth+10,width-maxWidth-10]);
-
-		// linear scale function
-		var bigshifty = d3.scale.linear()
-		    .domain([numWords+1,1])
-		    .range([height+2, yHeight]); 
-
-		// zoom object for the axes
-		var zoom = d3.behavior.zoom()
-		    .y(bigshifty) // pass linear scale function
-		// .translate([10,10])
-		    .scaleExtent([1,1])
-		    .on("zoom",zoomed);
-
-		// create the axes themselves
-		// var axes = canvas.select("g")
-		var axes = canvas.append("g")
-		    .attr("transform","translate(20,0)")
-		    .attr("width", width)
-		    .attr("height", height)
-		    .attr("class", "main")
-		    .call(zoom);
-
-		// create the axes background
-		axes.append("rect")
-		    .attr("width", width)
-		    .attr("height", height+60)
-		    //.attr("transform","translate(0,40)")
-		    .attr("class", "bg")
-		    .style({'stroke-width':'3','stroke':'rgb(0,0,0)'})
-		    .attr("fill", "#FCFCFC")
-		    .attr("opacity","0.96");
-
-		canvas.append("text")
-		    .text("Word Rank")
-		    .attr("class","axes-text")
-		    .attr("x",15)
-		    .attr("y",figheight/2+60)
-		    .attr("font-size", "18.0px")
-		    .attr("fill", "#000000")
-		    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
-
-		// going to append this outside the svg		       
-		// canvas.append("text")
-		//     .text("Per word average happiness shift")
-		//     .attr("class","axes-text")
-		//     .attr("x",width/2+(figwidth-width)/2)
-		//     .attr("y",3*(figheight-height)/4+height+15)
-		//     .attr("font-size", "15.0px")
-		//     .attr("fill", "#000000")
-		//     .attr("style", "text-anchor: middle;");
-
-		var bigshifttextsize = 13;
-
-		axes.selectAll("rect.shiftrect")
-		    .data(sortedMag)
-		    .enter()
-		    .append("rect")
-		// color
-		    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-		    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
-		    .attr("x",function(d,i) { 
-			if (d>0) { return bigfigcenter; } 
-			else { return bigshiftx(d)} })
-		    .attr("y",function(d,i) { return bigshifty(i+1); } )
-		    .attr("height",function(d,i) { return iBarH; } )
-		    .attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
-		    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'});
-		// .on('mouseover', function(d){
-		//     var rectSelection = d3.select(this).style({opacity:'1.0'});
-		// })
-		// .on('mouseout', function(d){
-		//     var rectSelection = d3.select(this).style({opacity:'0.7'});
-		// });
-
-		axes.selectAll("text.shifttext")
-		    .data(sortedMag)
-		    .enter()
-		    .append("text")
-		    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
-		    .attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } )
-		    .attr("y",function(d,i) { return bigshifty(i+1)+iBarH; } )
-		    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
-		    .text(function(d,i) { return sortedWords[i]; });
-
-		// check if there is a word selection to apply
-		if (shiftseldecoder().current === "posup") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		}
-		else if (shiftseldecoder().current === "negdown") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
-		}
-		else if (shiftseldecoder().current === "posdown") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		}
-		else if (shiftseldecoder().current === "negup") {
-		    shiftTypeSelect = true;
-		    resetButton();
-		    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		}
-		
-		// draw a white rectangle to hide the shift bars behind the summary shifts
-		// move x,y to 3 and width to -6 to give the bg a little space
-		axes.append("rect").attr("x",3).attr("y",3).attr("width",width-6).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
-
-		// draw the summary things
-		axes.append("line")
-		    .attr("x1",0)
-		    .attr("x2",width)
-		    .attr("y1",barHeight)
-		    .attr("y2",barHeight)
-		    .style({"stroke-width" : "1", "stroke": "black"});
-
-		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
-
-		topScale = d3.scale.linear()
-		    .domain([-maxShiftSum,maxShiftSum])
-		    .range([width*.12,width*.88]);
-
-		// define the RHS summary bars so I can add if needed
-		// var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
-		var summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
-
-		axes.selectAll(".sumrectR")
-		    .data(summaryArray)
-		    .enter()
-		    .append("rect")
-		    .attr("fill", function(d,i) { 
-			if (i==0) {
-			    return "#FFFF4C";
-			} 
-			else if (i==1) {
-			    return "#B3B3FF";
-			} 
-			else {
-			    // always dark grey
-			    return "#272727";
-			}
-		    })
-		    .attr("class", "sumrectR")
-		    .attr("x",function(d,i) { 
-			if (d>0) { 
-			    return bigfigcenter;
-			} 
-			else { return topScale(d)} }
-			 )
-		    .attr("y",function(d,i) { if (i<3) { return i*17+7;} else { return i*17+7-2;} } )
-		    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
-		    .attr("height",function(d,i) { return 14; } )
-		    .attr("width",function(d,i) { if (d>0) {return topScale(d)-bigfigcenter;} else {return bigfigcenter-topScale(d); } } )
-		    .on('mouseover', function(d){
-			var rectSelection = d3.select(this).style({opacity:'1.0'});
-		    })
-		    .on('mouseout', function(d){
-			var rectSelection = d3.select(this).style({opacity:'0.7'});
-		    })
-		    .on('click', function(d,i) { 
-			if (i==0) {
-			    shiftTypeSelect = true;
-			    resetButton();
-			    shiftselencoder.varval("posup");
-			    // shoot them all away
-			    //d3.selectAll("rect.shiftrect, text.shifttext").transition().duration(1000).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    // keep the ones with class "three"
-			    //d3.selectAll("rect.shiftrect.three, text.shifttext.three").transition().duration(1000)
-			    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			}
-			else if (i==1) {
-			    shiftTypeSelect = true;
-			    resetButton();
-			    shiftselencoder.varval("negdown");
-			    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			}
-			else if (i==2) {
-			    // shiftTypeSelect = true;
-			    reset();
-			    // shiftselencoder.varval("negdown");
-			}
-		    });
-
-		axes.selectAll(".sumtextR")
-		    .data([sumTypes[3],sumTypes[0],d3.sum(sumTypes)])
-		    .enter()
-		    .append("text")
-		    .attr("class", "sumtextR")
-		    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
-		//.attr("y",function(d,i) { if (i<2) {return i*17+17;} else if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])<0) {return i*17+33; } else {return i*17+33; } })
-		// for only three days
-		    .attr("y",function(d,i) { return i*17+17; })
-		    .text(function(d,i) { if (i == 0) {return "\u2211+\u2191";} if (i==1) { return"\u2211-\u2193";} else { return "\u2211";} } )
-		// push to the side of d
-		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
-
-		// var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-		var summaryArray = [sumTypes[2],sumTypes[1]];
-
-		axes.selectAll(".sumrectL")
-		    .data(summaryArray)
-		    .enter()
-		    .append("rect")
-		    .attr("fill", function(d,i) { 
-			if (i==0) {
-			    return "#FFFFB3";
-			} 
-			else if (i==1) {
-			    return "#4C4CFF";
-			} 
-			else {
-			    // choose color based on whether increasing/decreasing wins
-			    if (d>0) {
-				return "#B3B3FF";
-			    }
-			    else {
-				return "#4C4CFF";
-			    }
-			}
-		    })
-		    .attr("class", "sumrectL")
-		    .attr("x",function(d,i) { 
-			if (i<2) { 
-			    return topScale(d);
-			} 
-			else { 
-			    // place the sum of negatives bar
-			    // if they are not opposing
-			    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
-				// if positive, place at end of other bar
-				if (d>0) {
-				    return topScale((sumTypes[3]+sumTypes[1]));
-				}
-				// if negative, place at left of other bar, minus length (+topScale(d))
-				else {
-				    return topScale(d)-(bigfigcenter-topScale((sumTypes[3]+sumTypes[1])));
-				}
-			    } 
-			    else { 
-				if (d>0) {return bigfigcenter} 
-				else { return topScale(d)} }
-			}
-		    })
-		    .attr("y",function(d,i) { return i*17+7; } )
-		    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
-		    .attr("height",function(d,i) { return 14; } )
-		    .attr("width",function(d,i) { if (d>0) {return topScale(d)-bigfigcenter;} else {return bigfigcenter-topScale(d); } } )
-		    .on('mouseover', function(d){
-			var rectSelection = d3.select(this).style({opacity:'1.0'});
-		    })
-		    .on('mouseout', function(d){
-			var rectSelection = d3.select(this).style({opacity:'0.7'});
-		    })
-		    .on('click', function(d,i) {
-			shiftTypeSelect = true;
-			resetButton();
-			if (i==0) {
-			    shiftselencoder.varval("posdown");
-			    // together
-			    // axes.selectAll("rect.shiftrect.zero, text.shifttext.zero, rect.shiftrect.three, text.shifttext.three, rect.shiftrect.two, text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    // separate
-			    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			}
-			else if (i==1) {
-			    shiftselencoder.varval("negup");
-			    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			}
-		    } );
-
-		axes.selectAll(".sumtextL")
-		    .data([sumTypes[2],sumTypes[1]])
-		    .enter()
-		    .append("text")
-		    .attr("class", "sumtextL")
-		    .style("text-anchor", "end")
-		    .attr("y",function(d,i) { return i*17+17; } )
-		    .text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
-		    .attr("x",function(d,i) { return topScale(d)-5; });
-
-
-
-		// axes.append("rect")
-		//     .attr("width", width)
-		//     .attr("height", height+20)
-		//     .attr("x",20)
-		//     .attr("y",0)
-		//     //.attr("transform","translate(0,40)")
-		//     .attr("class", "bgborder")
-		//     .style({'stroke-width':'3','stroke':'rgb(0,0,0)'})
-		//     .attr("fill", "#FCFCFC")
-		//     .attr("opacity","0.01");
-
-		function zoomed() {
-		    // if we have zoomed in, we set the y values for each subselection
-		    // console.log(shiftTypeSelect);
-		    if (shiftTypeSelect) {
-			for (var j=0; j<4; j++) {
-			    axes.selectAll("rect.shiftrect."+intStr[j]).attr("y", function(d,i) { return bigshifty(i+1) });
-			    axes.selectAll("text.shifttext."+intStr[j]).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } )
-			}
-		    }
-		    else {
-			axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return bigshifty(i+1) });
-			axes.selectAll("text.shifttext").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } );
-		    }
-
-		}; // zoomed
-
-		function reset() {
-		    // console.log("reset function");
-		    shiftTypeSelect = false;		
-		    d3.selectAll("rect.shiftrect").transition().duration(1000)
-			.attr("y", function(d,i) { return bigshifty(i+1) })
-			.attr("transform","translate(0,0)");
-		    d3.selectAll("text.shifttext").transition().duration(1000)
-			.attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } )
-			.attr("transform","translate(0,0)");
-		    // d3.selectAll(".resetbutton").remove();
-		    shiftselencoder.varval("none");
-		    shiftselencoder.destroy();
-		} // reset
-
-		function resetButton() {
-		    // console.log("resetbutton function");
-
-		    d3.selectAll(".resetbutton").remove();
-		    
-		    var shiftsvg = d3.select("#modalsvg");
-
-		    var resetGroup = shiftsvg.append("g")
-			.attr("transform","translate("+(0)+","+(56)+") rotate(-90)")
-			.attr("class","resetbutton");
-
-		    resetGroup.append("rect")
-			.attr("x",0)
-			.attr("y",0)
-			.attr("rx",3)
-			.attr("ry",3)
-			.attr("width",48)
-			.attr("height",17)
-			.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-			.style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
-
-		    resetGroup.append("text")
-			.text("Reset")
-			.attr("x",6)
-			.attr("y",13)
-			.attr("font-size", "13.0px");
-
-		    resetGroup.append("rect")
-			.attr("x",0)
-			.attr("y",0)
-			.attr("rx",3)
-			.attr("ry",3)
-			.attr("width",48)
-			.attr("height",189)
-			.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-			.style({"opacity": "0.0"})
-			.on("click",function() { 
-			    reset();
-			});
-		    
-		}; // resetButton
-
-		// call it
-		resetButton();
-
-		// now go ahead and move everthing to the modal
-		// this is not straightforward:
-		// http://stackoverflow.com/questions/20910147/how-to-move-all-html-element-children-to-another-parent-using-javascript
-
-		// console.log("moving parents");
-		// // remove old svg
-		// d3.select('#moveshifthere').selectAll('svg').remove();
-		// // new one
-		// d3.select('#moveshifthere').append('svg')
-		//     .attr('height',modalheight).attr('width',modalwidth)
-		//     .attr('id','modalsvg');
-
-		// var newParent = document.getElementById('modalsvg');
-		// var oldParent = document.getElementById('minilist');
-
-		// while (oldParent.childNodes.length > 0) {
-		//     newParent.appendChild(oldParent.childNodes[0]);
-		// }
-
-		$('#myModal').modal('toggle'); 
-
-	    }) // data
-	    
-	}) // metadata
-
-	// d3.select("#dp1").attr("value",function() { return cformat(popdate); });
-
-	// $('#dp1').datepicker({
-	//     autoclose: true,
-	//     format: 'yyyy-mm-dd',
-	//     orientation: 'top-left',
-	//     language: 'en',
-	// });
-
-	$('#dp1').datepicker('setDate',popdate);
-	
-    }; // transitionBigShift
-
-    var numWords = 27;
+    d3.select(window).on("resize.selectbottom",resizebottom);
     
-    // global declaration
-    // drawSmallShift = function drawSmallShift(circle) {
-    // inside function closure
-    function drawSmallShift(cx,cy,popdate) {
-	// remove old guys
-	d3.select("#minilist").remove();
+    function resizebottom() {
+	figwidth = parseInt(d3.select("#chapters03").style('width')) - margin.left - margin.right,
+	width = .775*figwidth;
 
-	// var circleX = parseFloat(circle.attr("cx"));
-	// var circleY = parseFloat(circle.attr("cy"));
-	var circleX = parseFloat(cx);
-	var circleY = parseFloat(cy);
+	canvas.attr("width",figwidth);
+
+	x.range([0,width]);
+	bgrect.attr("width",width);
+	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	//      ((1 - 0.125 - 0.775) * figheight) + ")");
 	
-	var miniboxX = offsetXY(circleX, circleY, "X");
-	var miniboxY = offsetXY(circleX, circleY, "Y");
-
-	// console.log(miniboxX);
-	// console.log(miniboxY);
-
-	// not sure what these are
-	var py = 5;
-	var px = 210;
-	// number of bars
-	var barcount = 9;
+	//create_xAxis.scale(x);
+	//xAxisHandle.call(xAxis);
+	canvas.select(".x.axis").call(xAxis);
 	
-	// append the main svg
-	var shortlist = d3.select("#timeseries").append("g")
-	    .attr("transform", "translate(" + miniboxX + "," + miniboxY + ")")
-	    .attr("id", "minilist")
-	    .on("mouseleave",function(d,i) {
-		//console.log("mouseleave");
-		minilistMouseLeaveTimer = setTimeout(function() {
-		    d3.select("#minilistbg").transition().duration(200).remove(); 
-		    d3.select("#minilist").transition().duration(200).remove();
-		},popupExitDur);
-	    })
-	    .on("mouseenter",function(d,i) { 
-		//console.log("mouseenter");
-		try {
-		    clearTimeout(minilistMouseLeaveTimer);
-		}
-		catch(err) {
-		    // console.log(err);
-		}
-	    });
-	// these are for logging the events
-	// I was having issues when the minilistbg was appended
-	// before the shortlist. I appended it after, and attached
-	// these (the above) events to the group, not the rect
-	// .on("mouseout",function(d,i) { 
-	// 	console.log("mouseout");
-	// });
-	// .on("mouseover",function(d,i) { 
-	// 	console.log("mouseover");
-	// });
+	xlabel.attr("x",(leftOffsetStatic+width/2));
 
-	// draw a background rectangle to remove the popup on click out
-	// d3.select("#timeseries").insert("rect","#minilist")
-	// d3.select("#timeseries").append("rect")
-	// and now it's inside the list, just to make the group the right size
-	    shortlist.append("rect")
-		.attr("id","minilistbg")
-	    // .attr("width", mainWidth + mainMargin.left + mainMargin.right + 35)
-	    // .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
-		.attr("width", 315)
-		.attr("height", 260)
-	    //.attr("transform", "translate(" + (miniboxX-40) + "," + (miniboxY-40) + ")")
-		.attr("transform", "translate(-40,-40)") // it is 40 wider
-	    // than the pop-up, in every dimension
-		.attr("fill","grey")
-		.attr("opacity",0.01); // it needs some opacity to be clickable
-	    // these events are now on the group
-	    //.on("mousedown",function(d,i) { d3.select(this).remove(); d3.select("#minilist").remove(); } );
+	d3.selectAll(".tick line").style({'stroke':'black'});
 
-	    shortlist.append("svg:polyline").attr("id", "shadow").attr("points", function(d) {
-		return triangleptsXY(circleX, circleY); })
-		.attr("transform", "translate(4,4)")
-		.attr("stroke", "grey").attr("fill", "grey").attr("opacity", 0.2).attr("stroke-width", "1");
-
-	    shortlist.append("svg:polyline").attr("id", "bg").attr("points", function(d) {
-		return triangleptsXY(circleX, circleY);
-	    }).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
-
-	    // shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
-	    shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate"); 
-
-	for (var i=0; i<bigdays.length; i++) {
-	    //console.log(bigdays[i].date);
-	    if (bigdays[i].date.getTime() === popdate.getTime()) {
-		// console.log("major event");
-		shortlist.append("text").attr("x", 200).attr("y", 24)
-		    .attr('font-family', 'FontAwesome')
-		    .attr('font-size', function(d) { return '2em'} )
-		    .text(function() { return '\uF012' }); 
-		var tmp = splitWidth(bigdays[i].longer,230);
-		shortlist.append("text").attr("x", 20).attr("y", 38)
-		//.html(function() { return '<b>'+bigdays[i].caption+'</b>'; })
-		    .text(function() { return tmp[0]; })
-		    .attr("font-weight","bold")
-		    .attr("font-size", "10px")
-		    .attr("class","shifttitlebigdaytext");
-		if (tmp.length > 1) {
-		    shortlist.append("text").attr("x", 20).attr("y", 49)
-			.text(function() { return tmp[1]; })
-			.attr("font-weight","bold")
-			.attr("font-size", "10px")
-			.attr("class","shifttitlebigdaytext");
-		}
-		break;
-	    }
-	}
-
-	d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
-	    var names = csv.map(function(d) { return d.word; });
-	    var sizes = csv.map(function(d) { return d.mag; });
-	    var types = csv.map(function(d) { return d.type; });
-
-	    // set the width for bars
-	    //var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
-	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
-	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
-
-	    d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
-		var havg = csv.map(function(d) { return d.refH; });
-		var tcomp = csv.map(function(d) { return d.compH; });
-
-		shortlist.append("svg:text").attr("x", 20).attr("y", 25).text("Average Happiness: " + parseFloat(tcomp).toFixed(2)).attr("font-size", "10px").attr("class","shifttitlehavg");
-
-		// wrap the longer sentence
-		shortlist.append("svg:text").attr("x", 20).attr("y", 62).attr("font-size", "10px").text(function() {
-		    var head = "What's making this day ";
-		    // longer
-		    // return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		    // shorter
-		    return havg <= tcomp ? head + "happier" : head + "sadder";
-		}).attr("class","shifttitlewhatisone");
-		shortlist.append("svg:text").attr("x", 20).attr("y", 72).attr("font-size", "10px").text(function() {
-		    return "than the last seven days:"
-		}).attr("class","shifttitlewhatistwo");
-
-		shortlist.append("line")
-		    .attr("x1", 20)
-		    .attr("x2",220)
-		    .attr("y1", 76)
-		    .attr("y2", 76)
-		    .attr("stroke", "grey")
-		    .attr("stroke-width", ".3px")
-		    .attr("class","shiftsepline");
-		shortlist.append("line")
-		    .attr("x1", 20)
-		    .attr("x2",220)
-		    .attr("y1", 198)
-		    .attr("y2", 198)
-		    .attr("stroke", "grey")
-		    .attr("stroke-width", ".3px")
-		    .attr("class","shiftsepline");
-
-		// add the link to bigger wordshift
-		shortlist.append("g").attr("transform","translate(40,211)")
-		//.insert("g","rect").attr("transform","translate(20,177)")
-		    .append("text")
-		    .text("Click for interactive word shift.")
-		//.attr("data-toggle","modal")
-		//.attr("href","#myModal")
-		    .attr("class","expanderbutton")
-	            .on("click",function() { 
-		                             transitionBigShift(popdate);
-					   });
-
-		var innerlist = shortlist.append("svg:g").attr("transform", "translate(20,79)").attr("id","smallshiftgroup");
-
-		var figwidth = 190,
-		figheight = 115,
-		numWords = 10;
-		var shiftsvg = innerlist.append("svg")
-		    .attr("width",figwidth)
-		    .attr("height",figheight)
-		    .attr("id","shiftcanvas");
-		summaryStats = false;
-
-		//plotShift: function(canvas,boxwidth,boxheight,numWords,sizes,sortedType,sortedWords)
-		plotShift(shiftsvg,figwidth,figheight,numWords,sizes,types,names);
-
-		shortlist.append("rect").attr({
-		    "x": 0,
-		    "y": 0,
-		    "width": 220,
-		    "height": 200,
-		    "fill": "white",
-		    "opacity": 0.01,})
-		    .on("click",function() { 
-		        transitionBigShift(popdate);
-		    });
+	//brushX.range([figwidth*.125,width+figwidth*.125]);
+	brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
+	brush.x(brushX);
+	d3.select(".bottombrush") //.transition()
+	    .call(brush.extent(compFextent))
+	    .call(brush.event);
+	//brushing();
+	//brush.event();
+    }
+}
 
 
-		// .attr("class","btn btn-primary expanderbutton");
-		// .attr("x",20)
-		// .attr("y",167)
-		// .attr("font-size","10px")
-		// .on("mousedown",function() { transitionBigShift(circle,sizes,types,names); });
 
-	    }); // d3.json metadata
 
-	}); // d3.json data
 
-    }; // drawSmallShift
+function selectChapterTop(figure,numSections) {
+/* takes a d3 selection and draws the lens distribution
+   on slide of the stop-window
+     -reload data csv's
+     -cut out stops words (0 the frequencies)
+     -call shift on these frequency vectors */
 
-    function plotShift(canvas,boxwidth,boxheight,numWords,sortedMag,sortedType,sortedWords) {
-	/* plot the shift
 
-	   -take a d3 selection, and draw the shift SVG on it
-	   -requires sorted vectors of the shift magnitude, type and word
-	   for each word
-	   
-	   selection: will append an svg to this on which to draw
-	   boxwidth: will use all of this
-	   boxheight: will use all of this
-	   numWords: number of words to plot
-	   sorted...: the data
-	   sumTypes: the summary information (array of four summary values)
-	   big: whether to draw axis and summary bars
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = parseInt(d3.select('#chapters01').style('width')) - margin.left - margin.right,
+    figheight = 38 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = figheight-4,
+    leftOffsetStatic = .125*figwidth;
 
-	*/
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
 
-	// console.log(big);
-	// console.log(sortedMag);
-	// console.log(sortedWords);
-	// console.log(sortedType);
+    var canvas = figure.append("svg")
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas");
 
-	var margin = {top: 0, right: 0, bottom: 0, left: 0},
-	figwidth = boxwidth - margin.left - margin.right,
-	figheight = boxheight - margin.top - margin.bottom,
-	iBarH = 9;
+    // create the x and y axis
+    var x = d3.scale.linear()
+	//.domain([d3.min(lens),d3.max(lens)])
+	.domain([0,100])
+	.range([0,width]);
+    
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([0,1])
+	.range([height, 0]); 
 
-	var yHeight = 1,
-	clipHeight = 0,
-	barHeight = 0,
-	width = .99*figwidth,
-	height = .99*figheight;
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	      ((1 - 0.125 - 0.775) * figheight) + ")")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
 
-	var figcenter = width/2;
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
 
-	// create the x and y axis
-	// scale in x by width of the top word
-	// could still run into a problem if top magnitudes are similar
-	// and second word is longer
-	// make these local
-	// var x0 = Math.max(-d3.min(sortedMag) * 1.33, d3.max(sortedMag) * 1.33);
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
 
-	sortedWords = sortedWords.map(function(d,i) { 
-	    if (sortedType[i] == 0) {
-		return d.concat("-\u2193");
-	    } 
-	    else if (sortedType[i] == 1) {
-		return "\u2193+".concat(d);
-	    }
-	    else if (sortedType[i] == 2) {
-		return "\u2191-".concat(d);
-	    } else {
-		return d.concat("+\u2191");
-	    }
-	});
-	var maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
-	var x = d3.scale.linear()
-	    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
-	//.range([-x0,x0]);
-	    .range([maxWidth-5, boxwidth-maxWidth+5]);
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(3)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
 
-	// linear scale function
-	var y =  d3.scale.linear()
-	    .domain([numWords+1,1])
-	    .range([height+2, yHeight]); 
+    // create the clip boundary
+    var clip = axes.append("svg:clipPath")
+	.attr("id","clip")
+	.append("svg:rect")
+	.attr("x",0)
+	.attr("y",38)
+	.attr("width",width)
+	.attr("height",height-30);
 
-	// zoom object for the axes
-	var zoom = d3.behavior.zoom()
-	    .y(y) // pass linear scale function
-	// .translate([10,10])
-	    .scaleExtent([1,1])
-	    .on("zoom",zoomed);
+    var unclipped_axes = axes;
 
-	// create the axes themselves
-	var axes = canvas.append("g")
-	    .attr("width", width)
-	    .attr("height", height)
-	    .attr("class", "main")
-	    .call(zoom);
 
-	// create the axes background
-	axes.append("svg:rect")
-	    .attr("width", width)
-	    .attr("height", height)
-	    .attr("class", "bg")
-	//.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
-	    .attr("fill", "#FCFCFC")
-	    .attr("opacity","0.96");
+ 
+    var brushX = d3.scale.linear()
+        .domain([0,allDataRaw.length])
+        .range([figwidth*.125,width+figwidth*.125]);
 
-	intStr = ["zero","one","two","three"];
+    canvas.append("text")
+	.text("Reference")
+	.attr("class","reflabel")
+	.attr("x",brushX((refFextent[0]+refFextent[1])/2))
+	.attr("y",figheight-figheight/3)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
+    
+    var brush = d3.svg.brush()
+        .x(brushX)
+        .extent(refFextent)
+        .on("brush",brushing)
+        .on("brushend",brushended);
 
-	axes.selectAll("rect.shiftrect")
-	    .data(sortedMag)
-	    .enter()
-	    .append("rect")
-	// color
-	    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
-	    .attr("x",function(d,i) { 
-                if (d>0) { return figcenter; } 
-                else { return x(d)} })
-	    .attr("y",function(d,i) { return y(i+1); } )
-	    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
-	    .attr("height",function(d,i) { return iBarH; } )
-	    .attr("width",function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } )
-	    .on('mouseover', function(d){
-		// var rectSelection = d3.select(this).style({opacity:'1.0'});
-	    })
-	    .on('mouseout', function(d){
-		var rectSelection = d3.select(this).style({opacity:'0.7'});
-	    });
+    var gBrush = canvas.append("g")
+        .attr("class","topbrush")
+        .call(brush)
+        .call(brush.event);
 
-	axes.selectAll("text.shifttext")
-	    .data(sortedMag)
-	    .enter()
-	    .append("text")
-	    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
-	    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-	    .attr("y",function(d,i) { return y(i+1)+iBarH; } )
-	    .text(function(d,i) { return sortedWords[i]; })
-	    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+    gBrush.selectAll("rect")
+        .attr("height",height-2)
+        .attr("y",4)
+	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	.attr("fill", "rgb(90,90,90)");
 
-	function zoomed() {
-	    //axes.selectAll("rect.shiftrect").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
-	    //axes.selectAll("text.shifttext").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
-	    axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return y(i+1) });
-	    axes.selectAll("text.shifttext").attr("y", function(d,i) { return y(i+1)+iBarH; } )
-	};
+    function brushing() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0.map(Math.round); // should round it to bins
+	
+	d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
 
-    // store the function in a object of the same name globally
-    // nextDay = function nextDay(offset) {
-    nextDay = function nextDay(update) {
-	// trying to get this function to remember it's context
-	var that = this;
+    refFencoder = d3.urllib.encoder().varname("refExtent"); //.varval(refFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+
+    function brushended() {
+	if (!d3.event.sourceEvent) return;
+	var extent0 = brush.extent(),
+	    extent1 = extent0.map(Math.round); // should round it to bins
+	
+	//d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+
+	if ((extent1[0] !== refFextent[0]) || (extent1[1] !== refFextent[1]))
+	{	    
+	refFextent = extent1;
+
+	refFencoder.varval(refFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+
+	// initialize new values
+	var refF = Array(allDataRaw[0].length);
+	var compF = Array(allDataRaw[0].length);
+	for (var i=0; i<allDataRaw[0].length; i++) {
+            refF[i]= 0;
+            compF[i]= 0;
+	}
+	// loop over each slice of data
+	for (var i=0; i<allDataRaw[0].length; i++) {
+		for (var k=refFextent[0]; k<refFextent[1]; k++) {
+                    refF[i] += allData[k][i];
+		}
+		for (var k=compFextent[0]; k<compFextent[1]; k++) {
+                    compF[i] += allData[k][i];
+		}
+	}
+	
+	console.log("redrawing shift");
+	var shiftObj = shift(refF,compF,lens,words);
+	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+		  shiftObj.sortedType.slice(0,200),
+		  shiftObj.sortedWords.slice(0,200),
+		  shiftObj.sortedWordsEn.slice(0,200),
+		  shiftObj.sumTypes,
+		  shiftObj.refH,
+		  shiftObj.compH);
+	}
+
+	d3.select(this).transition()
+	    .call(brush.extent(extent1))
+	    .call(brush.event);
+
+    }
+
+    d3.select(window).on("resize.selecttop",resizetop);
+    
+    function resizetop() {
+	// var that = this;
 	// console.log(this);
 	// console.log(that);
+	// console.log(figwidth);
+	figwidth = parseInt(d3.select('#chapters01').style('width')) - margin.left - margin.right,
+	width = .775*figwidth;
+	
+	canvas.attr("width",figwidth);
 
-	// shiftselencoder.varval("none");
-	// shiftselencoder.destroy();
+	x.range([0,width]);
+	bgrect.attr("width",width);
+	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	//      ((1 - 0.125 - 0.775) * figheight) + ")");
 
-	// var date = datedecoder().current;
-	// console.log(date);
-	// console.log(cformat.parse(date));
-	var bigshiftdiv = d3.select("#moveshifthere");
-	// var newdate = d3.time.day.offset(cformat.parse(date),offset);
-	var newdate = update;
-	// console.log(newdate);
-	// console.log(cformat(newdate));	
-	dateencoder.varval(cformat(newdate));
-	// grab the date
+	//brushX.range([figwidth*.125,width+figwidth*.125]);
+	brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
+	brush.x(brushX);
+	d3.select(".topbrush") //.transition()
+	    .call(brush.extent(refFextent))
+	    .call(brush.event);
+	//brushing();
+	//brush.event();
+    }
+}
 
-	addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
 
-	//console.log(cformat.parse(circle.attr("shortdate")));
-	var bigdaytest = false;
-	var bigdaywiki = '';
-	for (var i=0; i<bigdays.length; i++) {
-	    //console.log(bigdays[i].date);
-	    if (bigdays[i].date.getTime() === newdate.getTime()) {
-		//console.log("major event");
-		bigdaytest = true;
-		bigdaywiki = bigdays[i].wiki;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-		break;
-	    }
+
+
+
+function drawBookTimeseries(figure,data) {
+/* takes a d3 selection and draws the lens distribution
+   on slide of the stop-window
+     -reload data csv's
+     -cut out stops words (0 the frequencies)
+     -call shift on these frequency vectors */
+
+
+    margin = {top: 0, right: 0, bottom: 0, left: 0},
+    figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
+    figheight = 200 - margin.top - margin.bottom,
+    width = .775*figwidth,
+    height = figheight-2;
+
+    // console.log(data);
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    var canvas = figure.append("svg")
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas");
+
+    //console.log(data.length);
+
+    // create the x and y axis
+    var x = d3.scale.linear()
+	//.domain([d3.min(lens),d3.max(lens)])
+	.domain([-minWindows/2,data.length+minWindows/2])
+	.range([0,width]);
+    
+    // use d3.layout http://bl.ocks.org/mbostock/3048450
+    // data = d3.layout.histogram()
+    //     .bins(x.ticks(65))
+    //     (lens);
+
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([d3.min(data),d3.max(data)])
+	.range([height-10, 10]); 
+
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	      ((0) * figheight) + ")") // 99 percent
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
+
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
+
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
+
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(3)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
+
+    // // create the clip boundary
+    // var clip = axes.append("svg:clipPath")
+    // 	.attr("id","clip")
+    // 	.append("svg:rect")
+    // 	.attr("x",0)
+    // 	.attr("y",0)
+    // 	.attr("width",width)
+    // 	.attr("height",height);
+
+    // var unclipped_axes = axes;
+
+    // axes = axes.append("g")
+    // 	.attr("clip-path","url(#clip)");
+ 
+    var line = d3.svg.line()
+	.x(function(d,i) { return x(i); })
+	.y(function(d) { return y(d); })
+	.interpolate("linear");
+
+    var mainline = axes.append("path")
+	.datum(data)
+	.attr("class", "line")
+	.attr("d", line)
+	.attr("stroke","black")
+	.attr("stroke-width",3)
+	.attr("fill","none");
+
+    var area = d3.svg.area()
+	.x(function(d,i) { return x(i); })
+	.y0(height)
+	.y1(function(d) { return y(d); });
+
+    var mainarea = axes.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("fill","#D3D3D3");
+
+    d3.select(window).on("resize.booktimeseries",resize);
+    
+    function resize() {
+	figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
+	width = .775*figwidth;
+
+	canvas.attr("width",figwidth);
+
+	x.range([0,width]);
+
+	mainarea.attr("d",area);
+	mainline.attr("d",line);
+
+	bgrect.attr("width",width);
+    }
+}
+
+
+
+
+
+function computeHapps() {
+    // rolling timeseries of happiness
+    // 
+    var timeseries = Array(allDataRaw.length-minWindows);
+    
+    // initialize the frequency and N with 0
+    var N = 0;//d3.sum(allData[0]);
+    var freq = Array(allData[0].length);
+    for (var i=0; i<allData[0].length; i++) {
+        freq[i] = 0; //allData[0][i];
+    }
+    // add until we have the min number of windows
+    for (var j=0; j<minWindows; j++) {
+	N+=d3.sum(allData[j]);
+	for (var i=0; i<allData[j].length; i++) {
+            freq[i] += allData[j][i];
 	}
-	if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
-	else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
-
-	var modalfooter = d3.select("#moveshiftherefooter");
-
-	if (newdate.getTime() === timeseries[0].date.getTime()) {
-	    modalfooter.select(".left").attr("disabled","disabled");
+    }
+    // compute the first point of happiness
+    var happs = 0.0;
+    for (var i=0; i<allData[j].length; i++) {
+	happs += freq[i]*lens[i];
+    }
+    timeseries[0] = happs/N;
+    // console.log(N);
+    // console.log(freq);
+    // console.log(d3.sum(freq));
+    // roll forward
+    for (var j=1; j<timeseries.length; j++) {
+	var happs = 0.0
+	N+=d3.sum(allData[j+minWindows-1])
+	//console.log(N);
+	//console.log(allData[0]);
+	N-=d3.sum(allData[j-1])
+	for (var i=0; i<allData[j+minWindows-1].length; i++) {
+	    freq[i] += allData[j+minWindows-1][i];
+	    freq[i] -= allData[j-1][i];
+	    //console.log(freq[i]);
+	    happs += freq[i]*lens[i];
 	}
-	else {
-	    modalfooter.select(".left").attr("disabled",null);
-	}
-        if (newdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-	    modalfooter.select(".right").attr("disabled","disabled");
-	}
-	else {
-	    modalfooter.select(".right").attr("disabled",null);
-	}
+	//console.log(happs);
+	//console.log(happs/N);
+	timeseries[j] = happs/N;
+    }
+    // console.log("inside computeHappsChapters");
+    // console.log(timeseries);
+    return timeseries;
+}
 
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
-	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
-		refFvec = tmp2.split('\n').slice(0,10222);
 
-		for (var i = 0; i < words.length; i++) {
-		    var exclude = false;
-		    for (var k = 0; k < ignoreWords.length; k++) {
-			if (ignoreWords[k] == words[i]) {
-			    exclude = true;
-			    // console.log("excluding");
-			}
-		    }
-		    // console.log(i);
-		    if (lens[i] > 4 && lens[i] < 6) {
-			exclude = true;
-			// console.log("excluding");
-		    }
-		    if (exclude) {
-			refFvec[i] = 0;
-			compFvec[i] = 0;
-		    }
-		}
-		shiftObj = shift(refFvec,compFvec,lens,words);
-		var sizes = shiftObj.sortedMag.slice(0,1000),
-		types = shiftObj.sortedType.slice(0,1000),
-		names = shiftObj.sortedWords.slice(0,1000),
-		sumTypes = shiftObj.sumTypes.slice(0,1000),
-		havg = shiftObj.refH,
-		tcomp = shiftObj.compH;
 
-		var modalwidth = 558;
-		var modalheight = 495;
-		var boxwidth = modalwidth-20-10;
-		var boxheight = modalheight-40-25;
 
-		// select the innermost svg on the modal
-		var axes = bigshiftdiv.select("#shiftcanvas");
 
-		// reconstruct the scales
-		var margin = {top: 0, right: 0, bottom: 0, left: 0},
-		figwidth = boxwidth - margin.left - margin.right,
-		figheight = boxheight - margin.top - margin.bottom,
-		iBarH = 11;
 
-		var yHeight = (7+17*3+14+5), // 101
-		clipHeight = 100,
-		barHeight = (7+17*3+15), // 95
-		width = (figwidth-20), 	// give just enough room for the labels
-		height = (figheight-20);
 
-		var bigfigcenter = width/2;
 
-		var bigshiftx = d3.scale.linear()
-		    .domain([-Math.abs(sizes[0]),Math.abs(sizes[0])])
-		//.range([-x0,x0]);
-		    .range([(names[0].length+4.5)*5, width-(names[0].length+4.5)*5]);
 
-		// linear scale function
-		var bigshifty = d3.scale.linear()
-		    .domain([numWords+1,1])
-		    .range([height+2, yHeight]); 
+var bookDecoder = d3.urllib.decoder().varresult("moby_dick").varname("book");
 
-		var newbars = axes.selectAll("rect.shiftrect").data(sizes);
-		var newwords = axes.selectAll("text.shifttext").data(sizes);
-		
-		// if we haven't dont a subselection, apply with a transition
-		if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
-		    newbars.transition()
-			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-			.attr("x",function(d,i) { 
-			    if (d>0) { return bigfigcenter; } 
-			    else { return bigshiftx(d)} })
-			.attr("height",function(d,i) { return iBarH; } )
-			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
+var books = {
+    "blank": {
+	language: "",
+	fulltitle: "",
+	wiki: "",
+	ignore: [],
+    },
+    "moby_dick": {
+	language: "english",
+	fulltitle: "Moby Dick",
+	wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
+	ignore: ["cried", "cry", "coffin"],
+    },
+    "luther": {
+	language: "english",
+	fulltitle: "I Have a Dream",
+	wiki: "",
+	ignore: [],
+    },
+    "luther": {
+	language: "english",
+	fulltitle: "I Have a Dream",
+	wiki: "",
+	ignore: [],
+    },
+    "anna_karenina": {
+	language: "russian",
+	fulltitle: "Anna Karenina",
+	wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
+	ignore: [],
+    },
+    "count_of_monte_cristo": {
+	language: "french",
+	fulltitle: "Count of Monte Cristo",
+	wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
+	ignore: [],
+    },
+    "crime_and_punishment": {
+	language: "russian",
+	fulltitle: "Crime and Punishment",
+	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+	ignore: [],
+    },
+    "crime_and_punishment_en": {
+	language: "english",
+	fulltitle: "Crime and Punishment: English Translation",
+	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+	ignore: [],
+    },
+    "die_verwandlung_en": { 
+	language: "english", 
+	fulltitle: "Die Verwandlung: English Translation",
+	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+	ignore: [],
+    },
+    "die_verwandlung": { 
+	language: "german",
+	fulltitle: "Die Verwandlung",
+	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+	ignore: [],
+    },
+    "don_quixote": {
+	language: "spanish",
+	fulltitle: "Don Quixote",
+	wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
+	ignore: [],
+    },
+    "the_three_musketeers": {
+	language: "french",
+	fulltitle: "The Three Musketeers",
+	wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
+	ignore: [],
+    },
+    "twoCities": {
+	language: "english",
+	fulltitle: "A Tale of Two Cities",
+	wiki: "",
+	ignore: [],
+    },
+    "expectations": {
+	language: "english",
+	fulltitle: "Great Expectations",
+	wiki: "",
+	ignore: [],
+    },
+    "pride": {
+	language: "english",
+	fulltitle: "Pride and Prejudice",
+	wiki: "",
+	ignore: [],
+    },
+    "huck": {
+	language: "english",
+	fulltitle: "Adventures of Huckleberry Finn",
+	wiki: "",
+	ignore: [],
+    },
+    "alice": {
+	language: "english",
+	fulltitle: "Alice's Adventures in Wonderland",
+	wiki: "",
+	ignore: [],
+    },
+    "tom": {
+	language: "english",
+	fulltitle: "The Adventures of Tom Sawyer",
+	wiki: "",
+	ignore: [],
+    },
+    "sherlock": {
+	language: "english",
+	fulltitle: "The Adventures of Sherlock Holmes",
+	wiki: "",
+	ignore: [],
+    },
+    "leaves": {
+	language: "english",
+	fulltitle: "Leaves of Grass",
+	wiki: "",
+	ignore: [],
+    },
+    "ulysses": {
+	language: "english",
+	fulltitle: "Ulysses",
+	wiki: "",
+	ignore: [],
+    },
+    "frankenstein": {
+	language: "english",
+	fulltitle: "Frakenstein; Or the Modern Prometheus",
+	wiki: "",
+	ignore: [],
+    },
+    "heights": {
+	language: "english",
+	fulltitle: "Wuthering Heights",
+	wiki: "",
+	ignore: [],
+    },
+    "sense": {
+	language: "english",
+	fulltitle: "Sense and Sensibility",
+	wiki: "",
+	ignore: [],
+    },
+    "twist": {
+	language: "english",
+	fulltitle: "Oliver Twist",
+	wiki: "",
+	ignore: [],
+    },
+};
 
-		    newwords.transition()
-			.attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
-			.style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-			.text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
-	    				      else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-	    				      if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
-			.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
-		}
-		// else apply without a transition
-		else {
-		    newbars
-			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-			.attr("x",function(d,i) { 
-			    if (d>0) { return bigfigcenter; } 
-			    else { return bigshiftx(d)} })
-			.attr("height",function(d,i) { return iBarH; } )
-			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
+var ignoreWords = [];
 
-		    newwords
-			.attr("class", function(d,i) { return "shifttext "+intStr[types[i]]; })
-			.style({"text-anchor": function(d,i) { if (sizes[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-			.text(function(d,i) { if (types[i] == 0) {tmpStr = "-\u2193";} else if (types[i] == 1) {tmpStr = "\u2193+";}
-	    				      else if (types[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-	    				      if (sizes[i] < 0) {return tmpStr.concat(names[i]);} else { return names[i].concat(tmpStr); } })
-			.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } );
+function initializePlot() {
+    book = bookDecoder().current;
+    lang = books[book].language;
+    var booktitle = d3.select("#booktitle");
+    var title = booktitle.append("h2").text(books[book].fulltitle+" ");
+    for (var i=0; i<books[book].ignore.length; i++) {
+	ignoreWords.push(books[book].ignore[i]);
+    }
+    title.append("small").append("a").attr("href",books[book].wiki).attr("target","_blank").text("(wiki)");
+    loadCsv();
+}
 
-		    if (shiftseldecoder().current === "posup") {
-			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    }
-		    else if (shiftseldecoder().current === "negdown") {
-			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
-		    }
-		    else if (shiftseldecoder().current === "posdown") {
-			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    }
-		    else if (shiftseldecoder().current === "negup") {
-			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    }
-		}
-
-		var modalbody = d3.select("#moveshifthere");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.insert("p","svg").attr("class","shifttitle pullleft").html(function(d,i) { return "<b>"+""+longerformat(newdate)+"</b>"; });
-		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === newdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
-		}
-		else {
-		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}	    
-		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.insert("p","svg").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		// var sumTypes = [8,-10,-6,14];
-		// var sumTypes = [json2[0].normnegdown,-json2[0].normnegup,-json2[0].normposdown,json2[0].normposup]
-
-		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
-
-		topScale = d3.scale.linear()
-		    .domain([-maxShiftSum,maxShiftSum])
-		    .range([width*.1,width*.9]);
-
-		// define the RHS summary bars so I can add if needed
-		// var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
-		var summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
-
-		var newRtopbars = axes.selectAll(".sumrectR")
-		    .data(summaryArray);
-		
-		newRtopbars.transition()
-		    .attr("x",function(d,i) { 
-			if (d>0) { 
-			    return bigfigcenter;
-			} 
-			else { return topScale(d)} })
-		    .attr("width",function(d,i) { if (d>0) {return topScale(d)-bigfigcenter;} else {return bigfigcenter-topScale(d); } } );
-
-		var newRtoptext = axes.selectAll(".sumtextR")
-		    .data([sumTypes[3],sumTypes[0],d3.sum(sumTypes)]);
-
-		newRtoptext.transition().attr("class", "sumtextR")
-		    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
-		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
-
-		
-		var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
-
-		var newLtopbars = axes.selectAll(".sumrectL")
-		    .data(summaryArray);
-
-		newLtopbars.transition().attr("fill", function(d,i) { 
-		    if (i==0) {
-			return "#FFFFB3";
-		    } 
-		    else if (i==1) {
-			return "#4C4CFF";
-		    } 
-		    else {
-			// choose color based on whether increasing/decreasing wins
-			if (d>0) {
-			    return "#B3B3FF";
-			}
-			else {
-			    return "#4C4CFF";
-			}
-		    }
-		})
-		    .attr("x",function(d,i) { 
-			if (i<2) { 
-			    return topScale(d);
-			} 
-			else { 
-			    // place the sum of negatives bar
-			    // if they are not opposing
-			    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
-				// if positive, place at end of other bar
-				if (d>0) {
-				    return topScale((sumTypes[3]+sumTypes[1]));
-				}
-				// if negative, place at left of other bar, minus length (+topScale(d))
-				else {
-				    return topScale(d)-(bigfigcenter-topScale((sumTypes[3]+sumTypes[1])));
-				}
-			    } 
-			    else { 
-				if (d>0) {return bigfigcenter} 
-				else { return topScale(d)} }
-			}
-		    })
-		    .attr("width",function(d,i) { if (d>0) {return topScale(d)-bigfigcenter;} else {return bigfigcenter-topScale(d); } } );
-
-		var newLtoptext = axes.selectAll(".sumtextL")
-		    .data([sumTypes[1],sumTypes[2]]);
-
-		newLtoptext.transition().attr("x",function(d,i) { return topScale(d)-5; });
-
-	    }); // d3.json metadata
-
-	}); // d3.json 
-
-	// d3.select("#dp1").attr("value",function() { return cformat(newdate); });
-
-	// $('#dp1').datepicker('setDate',newdate);
-
-    } // nextDay
-
-    // make sure to remvoe the url bar junk when closed
-    $('#myModal').on('hidden.bs.modal', function (e) {
-	dateencoder.varval("none");
-	dateencoder.destroy();
-	shiftselencoder.varval("none");
-	shiftselencoder.destroy();
+function loadCsv() {
+    var csvLoadsRemaining = 4;
+    d3.text("/static/hedonometer/data/bookdata/"+book+".csv", function (text) {
+        tmp = text.split("\n");
+        // kill extra rows
+        var len = tmp.length - 1;
+        //while (!tmp[len]) { console.log("in while loop"); tmp = tmp.slice(0,len); len--; } 
+        // build the full data, terrible
+        allDataRaw = Array(tmp[0].split(',').length);
+        //allData = Array(tmp[0].split(',').length);
+        for (var i = 0; i < tmp[0].split(',').length; i++) {
+            allDataRaw[i] = Array(tmp.length);
+            //allData[i] = Array(tmp.length);
+        }
+        for (var i = 0; i < tmp.length; i++) {
+            var tmpTmp = tmp[i].split(',');
+            for (var j = 0; j < tmpTmp.length; j++) {
+                allDataRaw[j][i] = parseFloat(tmpTmp[j]);
+            }
+        }
+        //console.log(d3.sum(allDataRaw[0]));
+        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
     });
+    d3.text("/static/hedonometer/data/bookdata/labMTscores-"+lang+".csv", function (text) {
+        var tmp = text.split("\n");
+        //console.log(tmp.length);
+        //console.log(tmp[tmp.length-1]);
+        lens = tmp.map(parseFloat);
+        var len = lens.length - 1;
+        while (!lens[len]) {
+            //console.log("in while loop");
+            lens = lens.slice(0, len);
+            len--;
+        }
+        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+    });
+    d3.text("/static/hedonometer/data/bookdata/labMTwords-"+lang+".csv", function (text) {
+        var tmp = text.split("\n");
+        words = tmp;
+        var len = words.length - 1;
+        while (!words[len]) {
+            //console.log("in while loop");
+            words = words.slice(0, len);
+            len--;
+        }
+        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+    });
+    d3.text("/static/hedonometer/data/bookdata/labMTwordsEn-"+lang+".csv", function (text) {
+        var tmp = text.split("\n");
+        words_en = tmp;
+        var len = words_en.length - 1;
+        while (!words_en[len]) {
+            //console.log("in while loop");
+            words_en = words_en.slice(0, len);
+            len--;
+        }
+        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+    });
+};
 
-    $('#dp1').datepicker({
-	autoclose: true,
-	format: 'yyyy-mm-dd',
-	orientation: 'top-left',
-	language: 'en',
-	startDate: minDate,
-	endDate: maxDate,
-    }).on('changeDate',function(e) {
-	// compute the offset
-	// console.log(e.date);
-	nextDay(e.date);
-	});
+function initializePlotPlot(allDataRaw, lens, words) {
+    // initially apply the lens
+    var minSize = 10000;
+    var dataSize = 1000;
+    minWindows = Math.round(minSize / dataSize);
 
-    // d3.select(".x.brush").call(brush.event);
+    lensDecoder = d3.urllib.decoder().varresult([3,7]).varname("lens");
 
-    if (datedecoder().current !== "none" && datedecoder().current.length > 0) {
-	var pulldate = cformat.parse(datedecoder().current);
-	// drawSmallShift(100,100,cformat.parse(datedecoder().current),true);
-	//resetButton();
-	transitionBigShift(pulldate);
+    lensExtent = lensDecoder().cached.map(parseFloat);
+    
+    // ignore these on all
+    var alwaysIgnore = ["nigga","niggaz","niggas","nigger"]; //["cried", "cry", "coffin"];
+    for (var i=0; i<alwaysIgnore.length; i++) {
+	ignoreWords.push(alwaysIgnore[i]);
+    }
+    refFextentDecoder = d3.urllib.decoder().varresult([0,.2]).varname("refExtent");				      
+    refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*allDataRaw.length), Math.round(parseFloat(refFextentDecoder().cached[1])*allDataRaw.length)];
+    compFextentDecoder = d3.urllib.decoder().varresult([.8,1]).varname("compExtent");				      
+    compFextent = [Math.round(parseFloat(compFextentDecoder().cached[0])*allDataRaw.length), Math.round(parseFloat(compFextentDecoder().cached[1])*allDataRaw.length)];
+    
+    // initialize new values
+    var refF = Array(allDataRaw[0].length);
+    var compF = Array(allDataRaw[0].length);
+    allData = Array(allDataRaw.length);
+    // fill them with 0's
+    for (var i = 0; i < allDataRaw[0].length; i++) {
+        refF[i] = 0;
+        compF[i] = 0;
+    }
+    for (var i = 0; i < allDataRaw.length; i++) {
+        allData[i] = Array(allDataRaw[i].length);
+    }
+    // loop over each slice of data
+    for (var i = 0; i < allDataRaw[0].length; i++) {
+        var include = true;
+        for (var k = 0; k < ignoreWords.length; k++) {
+            if (ignoreWords[k] == words[i]) {
+                include = false;
+            }
+        }
+        if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
+            include = false;
+        }
+        // grab the shift vectors
+        if (include) {
+            for (var k = refFextent[0]; k < refFextent[1]; k++) {
+                refF[i] += parseFloat(allDataRaw[k][i]);
+            }
+            for (var k = compFextent[0]; k < compFextent[1]; k++) {
+                compF[i] += parseFloat(allDataRaw[k][i]);
+            }
+            for (var k = 0; k < allDataRaw.length; k++) {
+                allData[k][i] = allDataRaw[k][i];
+            }
+        }
+        // slice up the data
+        // for quicker redraw on window selection
+        // and happiness calculation
+        // double overhead for storage
+        else {
+            for (var k = 0; k < allData.length; k++) {
+                allData[k][i] = 0;
+            }
+        }
     }
 
-    addDays = function addDays(date, days) {
-	var result = new Date(date);
-	result.setDate(date.getDate() + days);
-	return result;
+    drawLens(d3.select("#lens01"), lens);
+    timeseries = computeHapps();
+    selectChapterTop(d3.select("#chapters01"), allDataRaw.length);
+
+    //console.log(timeseries);
+    drawBookTimeseries(d3.select("#chapters03"), timeseries);
+    selectChapter(d3.select("#chapters02"), allDataRaw.length);
+
+    shiftObj = shift(refF, compF, lens, words);
+    plotShift(d3.select("#figure01"), shiftObj.sortedMag.slice(0, 200),
+              shiftObj.sortedType.slice(0, 200),
+              shiftObj.sortedWords.slice(0, 200),
+              shiftObj.sortedWordsEn.slice(0, 200),
+              shiftObj.sumTypes,
+              shiftObj.refH,
+              shiftObj.compH);
+
+};
+
+initializePlot();
+
+var searchEncoder = d3.urllib.encoder().varname("book");
+
+var books = {
+    "blank": {
+	language: "",
+	fulltitle: "",
+	wiki: "",
+    },
+    "moby_dick": {
+	language: "english",
+	fulltitle: "Moby Dick",
+	wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
+    },
+    "luther": {
+	language: "english",
+	fulltitle: "I Have a Dream",
+	wiki: "",
+    },
+    "luther": {
+	language: "english",
+	fulltitle: "I Have a Dream",
+	wiki: "",
+    },
+    "anna_karenina": {
+	language: "russian",
+	fulltitle: "Anna Karenina",
+	wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
+    },
+    "count_of_monte_cristo": {
+	language: "french",
+	fulltitle: "Count of Monte Cristo",
+	wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
+    },
+    "crime_and_punishment": {
+	language: "russian",
+	fulltitle: "Crime and Punishment",
+	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+    },
+    "crime_and_punishment_en": {
+	language: "english",
+	fulltitle: "Crime and Punishment: English Translation",
+	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+    },
+    "die_verwandlung_en": { 
+	language: "english", 
+	fulltitle: "Die Verwandlung: English Translation",
+	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+    },
+    "die_verwandlung": { 
+	language: "german",
+	fulltitle: "Die Verwandlung",
+	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+    },
+    "don_quixote": {
+	language: "spanish",
+	fulltitle: "Don Quixote",
+	wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
+    },
+    "the_three_musketeers": {
+	language: "french",
+	fulltitle: "The Three Musketeers",
+	wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
+    },
+    "twoCities": {
+	language: "english",
+	fulltitle: "A Tale of Two Cities",
+	wiki: "",
+    },
+    "expectations": {
+	language: "english",
+	fulltitle: "Great Expectations",
+	wiki: "",
+    },
+    "pride": {
+	language: "english",
+	fulltitle: "Pride and Prejudice",
+	wiki: "",
+    },
+    "huck": {
+	language: "english",
+	fulltitle: "Adventures of Huckleberry Finn",
+	wiki: "",
+    },
+    "alice": {
+	language: "english",
+	fulltitle: "Alice's Adventures in Wonderland",
+	wiki: "",
+    },
+    "tom": {
+	language: "english",
+	fulltitle: "The Adventures of Tom Sawyer",
+	wiki: "",
+    },
+    "sherlock": {
+	language: "english",
+	fulltitle: "The Adventures of Sherlock Holmes",
+	wiki: "",
+    },
+    "leaves": {
+	language: "english",
+	fulltitle: "Leaves of Grass",
+	wiki: "",
+    },
+    "ulysses": {
+	language: "english",
+	fulltitle: "Ulysses",
+	wiki: "",
+    },
+    "frankenstein": {
+	language: "english",
+	fulltitle: "Frakenstein; Or the Modern Prometheus",
+	wiki: "",
+    },
+    "heights": {
+	language: "english",
+	fulltitle: "Wuthering Heights",
+	wiki: "",
+    },
+    "sense": {
+	language: "english",
+	fulltitle: "Sense and Sensibility",
+	wiki: "",
+    },
+    "twist": {
+	language: "english",
+	fulltitle: "Oliver Twist",
+	wiki: "",
+    },
+};
+
+var booklist = [
+    { caption: "moby_dick",
+      language: "english",
+      fulltitle: "Moby Dick",
+      wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
+    },
+    { caption: "luther",
+      language: "english",
+      fulltitle: "I Have a Dream",
+      wiki: "",
+    },
+    { caption: "luther",
+      language: "english",
+      fulltitle: "I Have a Dream",
+      wiki: "",
+    },
+    { caption:"anna_karenina",
+      language: "russian",
+      fulltitle: "Anna Karenina",
+      wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
+    },
+    { caption:"count_of_monte_cristo",
+      language: "french",
+      fulltitle: "Count of Monte Cristo",
+      wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
+    },
+    { caption: "crime_and_punishment",
+      language: "russian",
+      fulltitle: "Crime and Punishment",
+      wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+    },
+    { caption: "crime_and_punishment_en",
+      language: "english",
+      fulltitle: "Crime and Punishment: English Translation",
+      wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
+    },
+    { caption:"die_verwandlung_en", 
+      language: "english", 
+      fulltitle: "Die Verwandlung: English Translation",
+      wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+    },
+    { caption: "die_verwandlung", 
+      language: "german",
+      fulltitle: "Die Verwandlung",
+      wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
+    },
+    { caption: "don_quixote",
+      language: "spanish",
+      fulltitle: "Don Quixote",
+      wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
+    },
+    { caption: "the_three_musketeers",
+      language: "french",
+      fulltitle: "The Three Musketeers",
+      wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
+    },
+    { caption: "twoCities",
+      language: "english",
+      fulltitle: "A Tale of Two Cities",
+      wiki: "",
+    },
+    { caption: "expectations",
+      language: "english",
+      fulltitle: "Great Expectations",
+      wiki: "",
+    },
+    { caption: "pride",
+      language: "english",
+      fulltitle: "Pride and Prejudice",
+      wiki: "",
+    },
+    { caption: "huck",
+      language: "english",
+      fulltitle: "Adventures of Huckleberry Finn",
+      wiki: "",
+    },
+    { caption: "alice",
+      language: "english",
+      fulltitle: "Alice's Adventures in Wonderland",
+      wiki: "",
+    },
+    { caption: "tom",
+      language: "english",
+      fulltitle: "The Adventures of Tom Sawyer",
+      wiki: "",
+    },
+    { caption: "sherlock",
+      language: "english",
+      fulltitle: "The Adventures of Sherlock Holmes",
+      wiki: "",
+    },
+    { caption: "leaves",
+      language: "english",
+      fulltitle: "Leaves of Grass",
+      wiki: "",
+    },
+    { caption: "ulysses",
+      language: "english",
+      fulltitle: "Ulysses",
+      wiki: "",
+    },
+    { caption: "frankenstein",
+      language: "english",
+      fulltitle: "Frakenstein; Or the Modern Prometheus",
+      wiki: "",
+    },
+    { caption: "heights",
+      language: "english",
+      fulltitle: "Wuthering Heights",
+      wiki: "",
+    },
+    { caption: "sense",
+      language: "english",
+      fulltitle: "Sense and Sensibility",
+      wiki: "",
+    },
+    { caption: "twist",
+      language: "english",
+      fulltitle: "Oliver Twist",
+      wiki: "",
+    },
+];
+
+var substringMatcher = function(strs) {
+    return function findMatches(q,cb) {
+        var matches, substringRegex;
+        console.log("matching "+q);
+        matches = [];
+        for (var i=0; i<booklist.length; i++) {
+            if (booklist[i].fulltitle.toLowerCase().match(q)) {
+     		matches.push({ value: booklist[i].fulltitle})   
+            }
+        }
+        if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
+        cb(matches);
+    };
+};
+
+$(document).ready(function() {
+    $("#wordsearch").typeahead(
+        {
+            hint: false,
+            highlight: true,
+            minLength: 1,
+        },
+        {
+            name: "books",
+            source: substringMatcher(["one","two"])
+        });
+}).on("typeahead:selected",function(event,sugg,dataset) {
+    console.log(event);
+    console.log(sugg);
+    console.log(dataset);
+  
+    //if (parseFloat(allDecoder().current)) { allEncoder.varval("0"); }
+    for (var i=0; i<booklist.length; i++) {
+        if (booklist[i].fulltitle === sugg.value) {
+    	    // console.log(i);
+    	    console.log(booklist[i].fulltitle);
+    	    console.log(booklist[i].caption);
+	    searchEncoder.varval(booklist[i].caption);
+	    window.location.replace("http://www.uvm.edu/storylab/share/papers/dodds2014a/books.html?book="+booklist[i].caption);
+            break;
+        }
     }
-
-    var leftbutton = d3.select("button.left").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1)) 
-    });
-
-    var rightbutton = d3.select("button.right").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
-    });
-
-    console.log("enjoy :)");
-
-})();
-
+});
 

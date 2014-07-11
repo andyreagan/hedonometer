@@ -1,65 +1,118 @@
 {% extends "hedonometer/base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container">
-      <div class="infobox">
-        <h4>Average Happiness for Twitter: Maps</h4>
+<div class="container">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-xs-12 col-lg-5">
+	<h3>Average Happiness of United States for </h3>
       </div>
-      <p style="margin-bottom:0px; font-size: 11px;">
-      </p>
-
-      <noscript>
-        <div id='unsupported' class='container error'>
-          <h5>JavaScript Not Detected</h5>
-          <p>The Hedonometer requires JavaScript to be enabled.</p>
-        </div>
-      </noscript>
-
-      <!--[if lte IE 8]>
-          <div class='ie' id='unsupported'>
-	    <h4>Incompatible Browser</h4>
-	    <p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a h\ref="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
-	  </div>
-      <![endif]-->
-
-      <div id="bigbox" class="container"></div>
-
-    </div>
-
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
-          </div>
-          <div class="modal-body" id="moveshifthere">
-          </div>
-          <div class="modal-footer" id="moveshiftherefooter">
-            <div class="addthis_sharing_toolbox pull-left"></div>
-
-            <div class="input-group restrain pull-right">
-              <span class="input-group-btn">
-                <button class="btn btn-default left" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
-                  Prev Day
-                </button>
-              </span>
-              <input type="text" class="form-control" value="2013-04-15" id="dp1">
-              <span class="input-group-btn">
-                <button class="btn btn-default right" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
-                  Next Day
-                </button>
-              </span>
-            </div>
-          </div>
-        </div>
+      <div class="col-xs-6 col-lg-2">
+	<h3>
+	  <select class="form-control" id="timeSelect">
+	    <option value="2011">2011</option>
+	  </select>
+	</h3>
       </div>
     </div>
+
+
+    <!-- <div class="row"> -->
+    <!--   <div class="col-xs-12"> -->
+    <!-- 	<h3>Average Happiness of United States for  -->
+    <!-- 	  <div class="dropdown"> -->
+    <!-- 	    <a data-target="#" href="page.html" data-toggle="dropdown" class="dropdown-toggle">2011<b class="caret"></b></a> -->
+    <!-- 	    <ul class="dropdown-menu"> -->
+    <!-- 	      <li><a href="#">Action</a></li> -->
+    <!-- 	      <li><a href="#">Another action</a></li> -->
+    <!-- 	      <li class="divider"></li> -->
+    <!-- 	      <li><a href="#">Separated link</a></li> -->
+    <!-- 	    </ul>    -->
+    <!-- 	  </div> -->
+    <!-- 	</h3> -->
+    <!--   </div> -->
+    <!-- </div> -->
+
+    <!-- <div class="row"> -->
+    <!--   <div class="col-xs-12"> -->
+    <!-- 	<div id="booktitle"> -->
+    <!-- 	    <\!-- <select id="timeSelect"><option value="2011">2011</option></select> -\-> -->
+    <!-- 	    <div class="dropdown"> -->
+    <!-- 	      <h3>Average Happiness of United States for  -->
+    <!-- 	      <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"> -->
+    <!-- 		2011 -->
+    <!-- 		<span class="caret"></span> -->
+    <!-- 	      </button> -->
+    <!-- 	      <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1"> -->
+    <!-- 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li> -->
+    <!-- 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li> -->
+    <!-- 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li> -->
+    <!-- 		<li role="presentation" class="divider"></li> -->
+    <!-- 		<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li> -->
+    <!-- 	      </ul> -->
+    <!-- 	      </h3> -->
+    <!-- 	    </div> -->
+    <!-- 	</div> -->
+
+    <!--   </div><\!-- col -\-> -->
+    <!-- </div><\!-- row -\-> -->
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-9">
+	<h5>Map</h5>
+	<div id="map01" class="figure"></div>
+      </div>
+      <div class="hidden-xs col-sm-3">
+	<h5>List</h5>
+	<div id="table01" class="table"></div>
+	<div id="bars01" class="figure"></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="hidden-xs col-sm-7">
+	<div id="caption01">
+	  Slide and resize the stop-window to change the lens:
+	</div>
+	<br>
+	<div id="lens01" class="figure"></div>
+      </div>
+
+      <!-- Add the extra clearfix for only the required viewport -->
+      <div class="clearfix visible-xs"></div>
+
+      <div class="col-xs-12 col-sm-5">
+	<h5>Shift</h5>
+	<p>Click on the graph and drag up to reveal additional words.</p>
+
+	<div id="shift01" class="figure">
+	  <center>
+	    <p class="sumtext"></p>
+	    <p class="sumtext"></p>
+	    <p class="sumtext"></p>
+	  </center>
+	</div>
+      </div>
+    </div>
+  </div><!-- /.container-fluid -->
+</div><!-- /.container -->
+
 {% endblock %}
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/dev-all.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/plotShift-main.js" %}"></script>
+    <script src="{% static "hedonometer/js/shift-geo.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawLens-geo.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawMap.js" %}"></script>
+    <script src="{% static "hedonometer/js/computeHapps-geo.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawList.js" %}"></script>
+    <script src="{% static "hedonometer/js/maps-on-load.js" %}"></script>
 
 {% endblock %}
 

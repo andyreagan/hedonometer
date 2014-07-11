@@ -16,3 +16,59 @@ input[type="text"] {width:100px;}
 
 /* #timeseries{margin-left:-27px;} */
 
+p.sumtext { margin-bottom: 2px; }
+
+
+
+#footer{border-top:1px solid #dddddd;}
+#footer a{font-weight:bold;color:#777777;}
+#footer p.logo{font-size:15px;line-height:1.8;margin-top:15px;} 
+#footer ul#footer-nav{float:left;width:700px;margin:3px 0 10px 0;}
+#footer-nav li{float:left;margin:0 10px 0 0;padding:0 10px 0 0;line-height:1;border-right:1px solid #cccccc;}
+ol,ul{list-style:none;}
+
+svg{font:12px sans-serif;}
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 120px;
+}
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 120px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+body > .container {
+  padding: 60px 15px 0;
+}
+.container .text-muted {
+  margin: 20px 0;
+}
+
+#footer > .container {
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+code {
+  font-size: 80%;
+}
+
+.legendrect { cursor: pointer; }
+.yearrect { cursor: pointer; }
+.expanderbutton { cursor: pointer; }
+.sumrectL { cursor: pointer; }
+.sumrectR { cursor: pointer; }
+.resetbutton { cursor: pointer; }

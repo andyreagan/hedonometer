@@ -19,3 +19,16 @@ class Event(models.Model):
 
     class Meta:
         ordering = ('date',)
+
+
+class Book(models.Model):
+    filename = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
+    author = models.CharField(max_length=200)
+    language = models.CharField(max_length=100)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('author',)

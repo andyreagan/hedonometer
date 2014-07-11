@@ -1,66 +1,80 @@
 {% extends "hedonometer/base.html" %}
 {% load staticfiles %}
 {% block content %}
-    <div class="container">
-      <div class="infobox">
-        <h4>Average Happiness for Twitter: Books</h4>
-      </div>
-      <p style="margin-bottom:0px; font-size: 11px;">
-      </p>
-
-      <noscript>
-        <div id='unsupported' class='container error'>
-          <h5>JavaScript Not Detected</h5>
-          <p>The Hedonometer requires JavaScript to be enabled.</p>
-        </div>
-      </noscript>
-
-      <!--[if lte IE 8]>
-          <div class='ie' id='unsupported'>
-	    <h4>Incompatible Browser</h4>
-	    <p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a h\ref="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
+<div class="container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+	<div id="booktitle" class="pullleft"></div>
+      </div><!-- col -->
+      <div class="col-xs-12 col-md-1">
+      </div><!-- col -->
+      <div class="col-xs-12 col-md-5">
+	<!-- <label class="col-sm-2 input-label">Search:</label> -->
+	<h2>
+	  <div class="input-group">
+	    <!-- <h4>Search:</h4> -->
+	    <!-- <input type="text" class="form-control typeahead" id="wordsearch" placeholder="Moby Dick"> -->
+	    <input type="text" class="form-control" placeholder="Moby Dick">
+	    <div class="input-group-btn">
+	      <!-- Button and dropdown menu -->
+	      <!-- <button class="btn btn-default" type="submit" id="showallmatching">Search</button> -->
+              <button type="button" class="btn btn-default" tabindex="-1">Search All</button>
+              <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" tabindex="-1">
+		Classics
+		<span class="caret"></span>
+		<span class="sr-only">Toggle Dropdown</span>
+              </button>
+              <ul class="dropdown-menu dropdown-menu-right" role="menu">
+		<li><a href="#">Moby Dick</a></li>
+		<li><a href="#">Etc.</a></li>
+              </ul>
+	    </div>
 	  </div>
-      <![endif]-->
+	</h2>
+      </div><!-- col -->
+    </div><!-- row -->
+    <div class="row">
+      <div class="col-xs-12 col-sm-7">
+	<h5>Timeseries and lens</h5>
 
-      <div id="bigbox" class="container"></div>
+	<div id="chapters01" class="figure"></div>
+	<div id="chapters03" class="figure"></div>
+	<div id="chapters02" class="figure"></div>
 
-    </div>
+	<br>
 
-    <div class="modal" id="myModal">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
-          </div>
-          <div class="modal-body" id="moveshifthere">
-          </div>
-          <div class="modal-footer" id="moveshiftherefooter">
-            <div class="addthis_sharing_toolbox pull-left"></div>
+	<div id="caption01">
+	  Slide and resize the stop-window to change the lens:
+	</div>
 
-            <div class="input-group restrain pull-right">
-              <span class="input-group-btn">
-                <button class="btn btn-default left" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
-                  Prev Day
-                </button>
-              </span>
-              <input type="text" class="form-control" value="2013-04-15" id="dp1">
-              <span class="input-group-btn">
-                <button class="btn btn-default right" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
-                  Next Day
-                </button>
-              </span>
-            </div>
-          </div>
-        </div>
+	<br>
+
+	<div id="lens01" class="figure"></div>
+
+      </div>
+
+      <!-- Add the extra clearfix for only the required viewport -->
+      <div class="clearfix visible-xs"></div>
+
+      <div class="col-xs-12 col-sm-5">
+	<h5>Shift</h5>
+	<p>Click on the graph and drag up to reveal additional words.</p>
+	<div id="figure01" class="figure">
+	  <center>
+	    <p class="sumtext"></p>
+	    <p class="sumtext"></p>
+	    <p class="sumtext"></p>
+	  </center>
+	</div>
       </div>
     </div>
+  </div><!-- /.container-fluid -->
+</div><!-- /.container -->
 {% endblock %}
 
 {% block bottomjs %}
-
-    <script src="{% static "hedonometer/js/dev-all.min.js" %}"></script>
-
+    <script src="{% static "hedonometer/js/books-all.min.js" %}"></script>
 {% endblock %}
 
 

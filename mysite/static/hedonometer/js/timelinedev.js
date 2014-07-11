@@ -2219,12 +2219,10 @@
     }
 
     var leftbutton = d3.select("button.left").on("click",function(d) { 
-	// console.log("clicked");
 	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1)) 
     });
 
     var rightbutton = d3.select("button.right").on("click",function(d) { 
-	// console.log("clicked");
 	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
     });
 

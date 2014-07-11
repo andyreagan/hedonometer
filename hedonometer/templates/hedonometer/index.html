@@ -1,5 +1,8 @@
 {% extends "hedonometer/base.html" %}
 {% load staticfiles %}
+{% block headercss %}
+<link href="{% static "hedonometer/css/timeline-all.min.css" %}" rel="stylesheet">
+{% endblock %}
 {% block content %}
     <div class="container">
       <div class="infobox">
@@ -68,4 +71,3 @@
     <script src="{% static "hedonometer/js/index-all.min.js" %}"></script>
 
 {% endblock %}
-
