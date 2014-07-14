@@ -17,6 +17,12 @@
 	return w;
     }
 
+    String.prototype.safe = function() {
+	var tmp = this.split("/")
+	tmp[tmp.length-1] = escape(tmp[tmp.length-1])
+	return tmp.join("/");
+    }
+
     function splitWidth(s,w) {
 	// s is the string
 	// w is the width that we want to split it to
@@ -956,7 +962,7 @@
 			break;
 		    }
 		}
-		if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
+		if (bigdaytest) { d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');	}
 		else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
 		//Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span>
 
@@ -1901,7 +1907,8 @@
 		break;
 	    }
 	}
-	if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
+	if (bigdaytest) { d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');	}
+	
 	else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
 
 	var modalfooter = d3.select("#moveshiftherefooter");

@@ -26,6 +26,8 @@ class Book(models.Model):
     title = models.CharField(max_length=200)
     author = models.CharField(max_length=200)
     language = models.CharField(max_length=100)
+    happs = models.FloatField()
+    length = models.IntegerField()
 
     def __unicode__(self):
         return self.title

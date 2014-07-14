@@ -1,4 +1,14 @@
-function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) {
+// make the plot
+function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumTypes,refH,compH) {
+    /* plot the shift
+
+       -take a d3 selection, and draw the shift SVG on it
+       -requires sorted vectors of the shift magnitude, type and word
+       for each word
+
+       this version takes from plotShfit-main, and the plotShift (which words for the books) to make a version of plotShift-main that works with multiple languages.
+
+    */
 
     figure.selectAll("svg").remove();
 
@@ -133,17 +143,19 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 	var happysad = "less happy";
     }
 
-    figure.selectAll("p.sumtext")
+    d3.selectAll("p.sumtext")
 	.data(["Why ",refH,compH])
 	.text(function(d,i) { 
 	    if (i==0) {
-		return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name;
+		// if there are names of the texts, put them here
+		if (Math.abs(refH-compH) < 0.01) { return "How the words of reference and comparison differ";}
+		else { return d+"comparison "+" is "+happysad+" than "+"reference ";}
 	    }
 	    else if (i==1) {
-		return "Reference happiness " + (d.toFixed(3));
+		return "Reference happiness " + (d.toFixed(2));
 	    }
 	    else {
-		return "Comparison happiness " + (d.toFixed(3));
+		return "Comparison happiness " + (d.toFixed(2));
 	    }});
 
     axes.selectAll("rect.shiftrect")
@@ -167,15 +179,36 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
     //     var rectSelection = d3.select(this).style({opacity:'0.7'});
     // });
 
+    // it is one longer than the words, the last entry being what
+    // everything will be set to on "translate all"
+    var flipVector = Array(sortedWords.length+1);
+    for (var i=0; i<flipVector.length; i++) { flipVector[i] = 0; }
+    flipVector[flipVector.length-1] = 1;
+
     axes.selectAll("text.shifttext")
 	.data(sortedMag)
 	.enter()
 	.append("text")
+    //.attr("fill", function(d,i) { if (sortedType[i] == 0 || sortedType[i] == 2) {return "blue";} else { return "yellow"; }})
 	.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
-	.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } )
+ 	.attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } )
 	.attr("y",function(d,i) { return bigshifty(i+1)+iBarH; } )
 	.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
-	.text(function(d,i) { return sortedWords[i]; });
+	.text(function(d,i) { return sortedWords[i]; })
+	.on("click",function(d,i){
+	    // goal is to toggle translation
+	    // need translation vector
+	    //console.log(flipVector[i]);
+	    if (flipVector[i]) { 
+		if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+		else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+		if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
+		flipVector[i] = 0; }
+	    else {
+		tmpStr = sortedWordsEn[i];
+		flipVector[i] = 1; }
+	    newText = d3.select(this).text(tmpStr);
+	});
 
     // check if there is a word selection to apply
     if (shiftseldecoder().current === "posup") {
@@ -430,19 +463,6 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 	.text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
 	.attr("x",function(d,i) { return topScale(d)-5; });
 
-
-
-    // axes.append("rect")
-    //     .attr("width", width)
-    //     .attr("height", height+20)
-    //     .attr("x",20)
-    //     .attr("y",0)
-    //     //.attr("transform","translate(0,40)")
-    //     .attr("class", "bgborder")
-    //     .style({'stroke-width':'3','stroke':'rgb(0,0,0)'})
-    //     .attr("fill", "#FCFCFC")
-    //     .attr("opacity","0.01");
-
     function zoomed() {
 	// if we have zoomed in, we set the y values for each subselection
 	// console.log(shiftTypeSelect);
@@ -517,4 +537,181 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 
     // call it
     resetButton();
+
+    function translateButton() {
+
+	var translateGroup = canvas.append("g")
+	    .attr("class","translatebutton")
+	    .attr("transform","translate("+(0)+","+(136)+") rotate(-90)");
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",17)
+	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+	    .style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
+
+	translateGroup.append("text")
+	    .text("Translate All")
+	    .attr("x",6)
+	    .attr("y",13)
+	    .attr("font-size", "11.0px")
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",18)
+	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"opacity": "0.0"})
+	    .on("click",function() { 
+		for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
+		flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
+		console.log("clicked translate");
+
+		axes.selectAll("text.shifttext").transition().duration(1000)
+		    .text(function(d,i) { 
+			// goal is to toggle translation
+			// need translation vector
+			//console.log(flipVector[i]);
+			if (flipVector[i]) { 
+			    if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+			    else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+			    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+			    else {tmpStr = "+\u2191";}
+			    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+			    else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+			}
+			else {
+			    tmpStr = sortedWords[i];
+			}
+			return tmpStr;
+		    });
+	        });
+    };
+
+    translateButton();
+
+    var credit = axes.insert("text","rect")
+        .attr("class","credit")
+	.text("by Andy Reagan")
+        .attr("fill","#B8B8B8")
+	.attr("x",width-7)
+	.attr("y",527)
+	.attr("font-size", "8.0px")
+        .style({"text-anchor": "end"});
+
+    d3.select(window).on("resize.shiftplot",resizeshift);
+    
+    function resizeshift() {
+	figwidth = parseInt(d3.select("#figure01").style('width')) - margin.left - margin.right,
+	width = .775*figwidth
+	figcenter = width/2;
+
+	canvas.attr("width",figwidth);
+
+	x.range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
+	topScale.range([width*.1,width*.9]);
+
+	bgrect.attr("width",width);
+	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	//      ((1 - 0.125 - 0.775) * figheight) + ")");
+	
+	// mainline.attr("d",line);
+
+	// fix the x axis
+	canvas.select(".x.axis").call(xAxis);
+
+	clip.attr("width",width);
+
+	// get the x label
+	xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	// the andy reagan credit
+	credit.attr("x",width-7);
+
+	// line separating summary
+	sepline.attr("x2",width);
+
+	// all of the lower shift text
+	axes.selectAll("text.shifttext").attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+
+    unclipped_axes.selectAll(".sumrectR")
+	.attr("x",function(d,i) { 
+            if (d>0) { return figcenter; } 
+            else { return topScale(d)} } )
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+    unclipped_axes.selectAll(".sumtextR")
+	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+
+
+    unclipped_axes.selectAll(".sumrectL")
+	.attr("x",function(d,i) { 
+	    if (i<2) { 
+		return topScale(d);
+	    } 
+	    else { 
+		// place the sum of negatives bar
+		// if they are not opposing
+		if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+		    // if positive, place at end of other bar
+		    if (d>0) {
+			return topScale((sumTypes[3]+sumTypes[1]));
+		    }
+		    // if negative, place at left of other bar, minus length (+topScale(d))
+		    else {
+			return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+		    }
+		} 
+		else { 
+		    if (d>0) {return figcenter} 
+		    else { return topScale(d)} }
+	    }
+	})
+	.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+    unclipped_axes.selectAll(".sumtextL")
+	.attr("x",function(d,i) { return topScale(d)-5; });
+
+    axes.selectAll("rect.shiftrect")
+	.attr("x",function(d,i) { 
+            if (d>0) { 
+                return figcenter;
+            } 
+            else { return x(d)} }
+             )
+	.attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } );
+
+	// //create_xAxis.scale(x);
+	// //xAxisHandle.call(xAxis);
+	// canvas.select(".x.axis").call(xAxis);
+
+	// canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+	
+	// // xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	// d3.selectAll(".tick line").style({'stroke':'black'});
+
+	// // //brushX.range([figwidth*.125,width+figwidth*.125]);
+	// brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
+	// brush.x(brushX);
+	// d3.select(".lensbrush") //.transition()
+	//     .call(brush.extent(lensExtent))
+	//     .call(brush.event);
+	//brushing();
+	//brush.event();
+    }
+
 };
+
+
+
+
+
+
