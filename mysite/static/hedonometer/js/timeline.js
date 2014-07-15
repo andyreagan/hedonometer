@@ -87,7 +87,16 @@
 	    toggleDays(r);
 	}
     }
-    timeseries = {};
+    timeseries = [
+	{
+	    date: beginningOfTime,
+	    value: 6.00,
+	},
+	{
+	    date: today,
+	    value: 6.00,
+	},
+    ];
 
     // no longer in use
     function getDay(d) {
@@ -723,7 +732,28 @@
 	    d3.selectAll("text.bigdaytext").attr("dx",function(d,i) { return -this.clientWidth/2; })
 	    // d3.selectAll("text.bigdaytext").attr("fill","white")
 	    // d3.selectAll("line.bigdayline").attr("stroke","white")
-	} )
+
+	    // add a catch to update the popup based on whether there was a big event
+	    // console.log(datedecoder().current);
+	    if (datedecoder().current.length > 0) {
+		// console.log("checking for popup event");
+		var pulldate = cformat.parse(datedecoder().current);
+		for (var i=0; i<bigdays.length; i++) {
+		    if (bigdays[i].date.getTime() === pulldate.getTime()) {
+			bigdaytest = true;
+			bigdaywiki = bigdays[i].wiki;
+			bigdaytext = bigdays[i].longer;
+			console.log(addthis_share.passthrough.twitter.text);
+			addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
+			d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
+			var modalbody = d3.select("#moveshifthere");
+			var ps = modalbody.selectAll("p").data(["<b>"+longerformat(pulldate)+"</b>",bigdaytext]).enter();
+			ps.append("p").attr("class","shifttitle").html(function(d,i) { return d; } );
+			break;
+		    };
+		};
+	    };
+	} );
 
 	// d3.select(".x.brush").call(brush.event);
 	var brushgroup = context.append("g").attr("class", "x brush")
@@ -958,13 +988,13 @@
 			// console.log("major event wiki");
 			bigdaytest = true;
 			bigdaywiki = bigdays[i].wiki;
+			bigdaytext = bigdays[i].longer;
 			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
 			break;
 		    }
 		}
 		if (bigdaytest) { d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');	}
 		else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
-		//Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span>
 
 		// grab the modal body
 		var modalbody = d3.select("#moveshifthere");
@@ -973,18 +1003,12 @@
 		modalbody.selectAll("p").remove();
 		modalbody.append("p").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(popdate)+"</b>"; });
 		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === popdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
+		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext+"</b>"; });
 		}
 		else {
 		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
 		}
+
 		modalbody.append("p").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
 		modalbody.append("p").text(function() {
 		    var head = "What's making this day ";
@@ -1903,7 +1927,8 @@
 		//console.log("major event");
 		bigdaytest = true;
 		bigdaywiki = bigdays[i].wiki;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
+		bigdaytext = bigdays[i].longer;
+		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(newdate)+", word shift:"
 		break;
 	    }
 	}
@@ -2077,14 +2102,7 @@
 		modalbody.selectAll("p").remove();
 		modalbody.insert("p","svg").attr("class","shifttitle pullleft").html(function(d,i) { return "<b>"+""+longerformat(newdate)+"</b>"; });
 		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === newdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
+		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext+"</b>"; });
 		}
 		else {
 		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });

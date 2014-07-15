@@ -13268,7 +13268,16 @@ function shift(rrefF,ccompF,lens,words) {
 	    toggleDays(r);
 	}
     }
-    timeseries = {};
+    timeseries = [
+	{
+	    date: beginningOfTime,
+	    value: 6.00,
+	},
+	{
+	    date: today,
+	    value: 6.00,
+	},
+    ];
 
     // no longer in use
     function getDay(d) {
@@ -13904,7 +13913,28 @@ function shift(rrefF,ccompF,lens,words) {
 	    d3.selectAll("text.bigdaytext").attr("dx",function(d,i) { return -this.clientWidth/2; })
 	    // d3.selectAll("text.bigdaytext").attr("fill","white")
 	    // d3.selectAll("line.bigdayline").attr("stroke","white")
-	} )
+
+	    // add a catch to update the popup based on whether there was a big event
+	    // console.log(datedecoder().current);
+	    if (datedecoder().current.length > 0) {
+		// console.log("checking for popup event");
+		var pulldate = cformat.parse(datedecoder().current);
+		for (var i=0; i<bigdays.length; i++) {
+		    if (bigdays[i].date.getTime() === pulldate.getTime()) {
+			bigdaytest = true;
+			bigdaywiki = bigdays[i].wiki;
+			bigdaytext = bigdays[i].longer;
+			console.log(addthis_share.passthrough.twitter.text);
+			addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
+			d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
+			var modalbody = d3.select("#moveshifthere");
+			var ps = modalbody.selectAll("p").data(["<b>"+longerformat(pulldate)+"</b>",bigdaytext]).enter();
+			ps.append("p").attr("class","shifttitle").html(function(d,i) { return d; } );
+			break;
+		    };
+		};
+	    };
+	} );
 
 	// d3.select(".x.brush").call(brush.event);
 	var brushgroup = context.append("g").attr("class", "x brush")
@@ -15084,7 +15114,7 @@ function shift(rrefF,ccompF,lens,words) {
 		//console.log("major event");
 		bigdaytest = true;
 		bigdaywiki = bigdays[i].wiki;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
+		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(newdate)+", word shift:"
 		break;
 	    }
 	}

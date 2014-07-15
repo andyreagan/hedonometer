@@ -21,8 +21,9 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr('height',modalheight).attr('width',modalwidth)
 	.attr('id','modalsvg');
 
-    newsmalllist.append("svg")
+    var canvas = newsmalllist.append("svg")
 	.attr("id","shiftcanvas")
+    	.attr("x","10")
 	.attr("width",function () { return modalwidth-20-10; })
 	.attr("height",function () { return modalheight-25; });
 
@@ -36,12 +37,8 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr("fill", "#000000")
 	.attr("style", "text-anchor: middle;");
 
-    // var canvas = smallList.select("svg"),
-    var canvas = newsmalllist.select("svg"),
-    boxwidth = (modalwidth-20-10),
+    var boxwidth = (modalwidth-20-10),
     boxheight = (modalheight-40-25),
-
-    // d3.select("#smallshiftgroup").attr("transform","translate(20,0)");
 
     shiftTypeSelect = false;
 
@@ -509,7 +506,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	    .attr("y",0)
 	    .attr("rx",3)
 	    .attr("ry",3)
-	    .attr("width",48)
+	    .attr("width",45)
 	    .attr("height",17)
 	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
 	    .style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
@@ -518,14 +515,14 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	    .text("Reset")
 	    .attr("x",6)
 	    .attr("y",13)
-	    .attr("font-size", "13.0px");
+	    .attr("font-size", "11.0px");
 
 	resetGroup.append("rect")
 	    .attr("x",0)
 	    .attr("y",0)
 	    .attr("rx",3)
 	    .attr("ry",3)
-	    .attr("width",48)
+	    .attr("width",45)
 	    .attr("height",18)
 	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
 	    .style({"opacity": "0.0"})
@@ -540,7 +537,9 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 
     function translateButton() {
 
-	var translateGroup = canvas.append("g")
+	var shiftsvg = d3.select("#modalsvg");
+
+	var translateGroup = shiftsvg.append("g")
 	    .attr("class","translatebutton")
 	    .attr("transform","translate("+(0)+","+(136)+") rotate(-90)");
 

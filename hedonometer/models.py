@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+class Happs(models.Model):
+    date = models.DateTimeField()
+    value = models.FloatField()
 
 class Event(models.Model):
     date = models.DateTimeField()
@@ -13,6 +16,8 @@ class Event(models.Model):
     shorter = models.CharField(max_length=200, help_text="Use commas to make new lines on the main visualization label.")
     longer = models.TextField(max_length=200, help_text="Shows up in the description of the event inside shift popups (big and small).")
     wiki = models.URLField()
+    imagelink = models.URLField(null=True, blank=True)
+    # happs = models.OneToOneField('Happs')
 
     def __unicode__(self):
         return self.caption

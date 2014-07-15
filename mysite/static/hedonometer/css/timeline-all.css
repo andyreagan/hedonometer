@@ -5859,7 +5859,8 @@ code {
 .expanderbutton { cursor: pointer; }
 .sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }
-.resetbutton { cursor: pointer; }.twitter-typeahead{ float:left; width:100%}
+.resetbutton { cursor: pointer; }
+.translatebutton { cursor: pointer; }.twitter-typeahead{ float:left; width:100%}
 
 .tt-hint {
     color: #999

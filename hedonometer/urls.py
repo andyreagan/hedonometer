@@ -3,10 +3,11 @@ from django.views.generic import TemplateView
 
 from hedonometer import views
 from tastypie.api import Api
-from hedonometer.api import EventResource,BookResource,RandomBookResource
+from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
+v1_api.register(HappsResource())
 v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
 
