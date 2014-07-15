@@ -37,6 +37,9 @@ if [ ! -f word-vectors/parsed.${DAY}.csv ]; then
 
     echo "python preshift.py prevvectors ${DAY} ${DAY}"
     python preshift.py ${DAY} ${DAY}
+
+    echo "python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)"
+    python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)
 else
     echo "word-vectors/parsed.${DAY}.csv found"
 fi

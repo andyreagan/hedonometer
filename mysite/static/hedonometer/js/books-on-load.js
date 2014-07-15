@@ -195,7 +195,7 @@ function initializePlot() {
 		bookEncoder.varval(result.title);
 		title.append("small").text("by "+result.author);
 		// set the filename
-		book = result.filename;
+		book = result.reference;
 		sumWords = result['length'];
 		loadCsv();
 	    })
@@ -209,7 +209,7 @@ function initializePlot() {
 		var title = booktitle.append("h2").text(result.title+" ");
 		title.append("small").text("by "+result.author);
 		// set the filename
-		book = result.filename;
+		book = result.reference;
 		sumWords = result['length'];
 		loadCsv();
 	    })

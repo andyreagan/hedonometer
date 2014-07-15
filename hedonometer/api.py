@@ -50,9 +50,14 @@ class HappsResource(ModelResource):
         }
 
 class BookResource(ModelResource):
+    happiness = FixedFloatField(attribute='happs')
+    reference = fields.CharField('filename')
     class Meta:
         queryset = Book.objects.filter(length__gte=10000)
         resource_name = 'gutenberg'
+        excludes = ['happs','id','filename',]
+        include_resource_uri = False
+        max_limit = None
         limit = 500
         filtering = {
             'title': ALL_WITH_RELATIONS,
@@ -60,6 +65,7 @@ class BookResource(ModelResource):
         }
 
 class RandomBookResource(ModelResource):
+    reference = fields.CharField('filename')
     class Meta:
         queryset = Book.objects.filter(length__gte=10000).order_by('?')
         resource_name = 'randombook'

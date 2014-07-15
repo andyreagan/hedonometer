@@ -52,6 +52,10 @@ urlpatterns = patterns('',
     url(r'^books.html',
         TemplateView.as_view(template_name='hedonometer/books.html'),
         name='books'),
+    url(r'^api.html',
+        TemplateView.as_view(template_name='hedonometer/api.html'),
+        name='api'),
+
 
     (r'^api/', include(v1_api.urls)),
     # url(r'^$', views.index, name='index'),

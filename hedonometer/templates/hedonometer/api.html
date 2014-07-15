@@ -1,0 +1,137 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-md-7">
+	  <h3>API Endpoints</h3>
+
+	  <p>This RESTful API is intended to allow researchers and developers to access the data behind the Hedonometer.
+	  Twitter data is updated daily.
+
+	  <br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License </a>
+<span class="fa-stack">
+<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img height="20" alt="Creative Commons License" src="/static/hedonometer/graphics/cc.png" />
+</a></span>
+<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> -->
+<!-- <span class="fa-stack"> -->
+<!--     <i class="fa fa-circle-o fa-stack-2x"></i> -->
+<!--     <i class="fa fa-stack-1x" style="font-weight: bold; font-size: .7em;">CC</i> -->
+<!-- </span></a> -->
+</p>
+
+	  <hr>
+
+	  <h4>Twitter Daily Timeseries <span class="label label-default">New</span></h4>
+	  <br>
+
+	  <a href="http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/timeseries/?format=json</button></a>
+
+	  <br>
+	  <br>
+
+	  <p>Example query and response:</p>
+
+	  <pre>
+http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100
+
+{
+    meta: {
+	limit: 3,
+	next: "?format=json&limit=3&offset=2103",
+	offset: 2100,
+	previous: "?format=json&limit=3&offset=2097",
+	total_count: 2121
+    },
+    objects: [
+	{
+	    date: "2014-06-24T00:00:00",
+	    happiness: "5.988"
+	},
+	{
+	    date: "2014-06-25T00:00:00",
+	    happiness: "5.998"
+	},
+	{
+	    date: "2014-06-26T00:00:00",
+	    happiness: "6.009"
+	}
+    ]
+}
+</pre>
+
+	  <hr>
+
+<!-- 	  <h4>Project Gutenberg Books <span class="label label-default">New</span></h4> -->
+
+<!-- 	  <br> -->
+
+<!-- 	  <a href="http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/gutenberg/?format=json</button></a> -->
+
+<!-- 	  <br> -->
+<!-- 	  <br> -->
+
+<!-- 	  <p>Example query and response:</p> -->
+
+<!-- 	  <pre> -->
+<!-- http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200 -->
+
+<!-- { -->
+<!--     meta: { -->
+<!-- 	limit: 3, -->
+<!-- 	next: "?format=json&limit=3&offset=203", -->
+<!-- 	offset: 200, -->
+<!-- 	previous: "?format=json&limit=3&offset=197", -->
+<!-- 	total_count: 12437 -->
+<!--     }, -->
+<!--     objects: [ -->
+<!-- 	{ -->
+<!-- 	    author: "Albert Delpit", -->
+<!-- 	    happiness: "5.278", -->
+<!-- 	    language: "french", -->
+<!-- 	    length: 100113, -->
+<!-- 	    title: "Jean-nu-pieds, Vol. 2" -->
+<!-- 	}, -->
+<!-- 	{ -->
+<!-- 	    author: "Albert E. McKinley, Charles A. Coulomb, and Armand J. Gerson", -->
+<!-- 	    happiness: "5.293", -->
+<!-- 	    language: "english", -->
+<!-- 	    length: 45937, -->
+<!-- 	    title: "A School History of the Great War" -->
+<!-- 	}, -->
+<!-- 	{ -->
+<!-- 	    author: "Albert F. Blaisdell", -->
+<!-- 	    happiness: "5.298", -->
+<!-- 	    language: "english", -->
+<!-- 	    length: 141641, -->
+<!-- 	    title: "A Practical Physiology" -->
+<!-- 	} -->
+<!--     ] -->
+<!-- } -->
+<!-- </pre> -->
+
+<!-- 	  <hr> -->
+
+	</div> <!-- column -->
+      </div>
+    </div><!--container-->
+
+{% endblock %}
+
+{% block bottomjs %}
+    <!-- Javascript
+     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/js/bootstrap.js"></script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
