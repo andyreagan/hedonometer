@@ -743,12 +743,13 @@
 			bigdaytest = true;
 			bigdaywiki = bigdays[i].wiki;
 			bigdaytext = bigdays[i].longer;
-			console.log(addthis_share.passthrough.twitter.text);
+			// console.log(addthis_share.passthrough.twitter.text);
 			addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
+			// console.log(addthis_share.passthrough.twitter.text);
 			d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
 			var modalbody = d3.select("#moveshifthere");
-			var ps = modalbody.selectAll("p").data(["<b>"+longerformat(pulldate)+"</b>",bigdaytext]).enter();
-			ps.append("p").attr("class","shifttitle").html(function(d,i) { return d; } );
+			var paragraphs = modalbody.selectAll("p").data(["<b>"+longerformat(pulldate)+"</b>","<b>"+bigdaytext+"</b>"]);
+			paragraphs.attr("class","shifttitle").html(function(d,i) { return d; } );
 			break;
 		    };
 		};
@@ -2143,7 +2144,6 @@
 		newRtoptext.transition().attr("class", "sumtextR")
 		    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
 		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
-
 		
 		var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
 
