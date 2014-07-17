@@ -7,7 +7,7 @@
 cd /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/data
 
 # today
-DAY=$(date +%Y-%m-%d)
+# DAY=$(date +%Y-%m-%d)
 # yesterday
 DAY=$(date +%Y-%m-%d -d "yesterday")
 # some other date
@@ -26,20 +26,22 @@ if [ ! -f word-vectors/parsed.${DAY}.csv ]; then
     # get rid of the file
     # rm word-vectors/parsed.$(date +%Y-%m-%d).csv 
 
-    echo "python transform10k.py parsed.${DAY}.csv"
-    python transform10k.py parsed.${DAY}.csv
+    if [ -f word-vectors/parsed.${DAY}.csv ]; then
+	echo "python transform10k.py parsed.${DAY}.csv"
+	python transform10k.py parsed.${DAY}.csv
 
-    echo "python rest.py prevvectors ${DAY} ${DAY}"
-    python rest.py prevvectors ${DAY} ${DAY}
+	echo "python rest.py prevvectors ${DAY} ${DAY}"
+	python rest.py prevvectors ${DAY} ${DAY}
 
-    echo "python timeseries.py prevvectors ${DAY} ${DAY} append"
-    python timeseries.py ${DAY} ${DAY} append
+	echo "python timeseries.py prevvectors ${DAY} ${DAY} append"
+	python timeseries.py ${DAY} ${DAY} append
 
-    echo "python preshift.py prevvectors ${DAY} ${DAY}"
-    python preshift.py ${DAY} ${DAY}
+	echo "python preshift.py prevvectors ${DAY} ${DAY}"
+	python preshift.py ${DAY} ${DAY}
 
-    echo "python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)"
-    python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)
+	echo "python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)"
+	python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)
+    fi
 else
     echo "word-vectors/parsed.${DAY}.csv found"
 fi
