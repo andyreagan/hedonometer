@@ -6,7 +6,6 @@
 {% block content %}
     <div class="container">
       <div class="infobox">
-        <h4>Average Happiness for Twitter: Development Version</h4>
       </div>
       <p style="margin-bottom:0px; font-size: 11px;">
       </p>
@@ -24,16 +23,10 @@
 	    <p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a h\ref="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
 	  </div>
       <![endif]-->
-
-      <div id="datapanel"></div>
-      <div id="chart"></div>
-
-      <div id="wrap"></div>
-      <div id="bigbox" class="container"></div>
-      <div id="subrow"></div>
-      <div id="yearsrow" style="margin-left:-57px;"></div>
-
     </div>
+
+    <h4>Average Happiness for Twitter: Development Version</h4>
+    <div id="bigbox"></div>
 
     <div class="modal" id="myModal">
       <div class="modal-dialog">
@@ -68,7 +61,7 @@
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/dev-all.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/dev-all.js" %}"></script>
 
 {% endblock %}
 

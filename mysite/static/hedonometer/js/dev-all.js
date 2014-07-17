@@ -13182,7 +13182,7 @@ function shift(rrefF,ccompF,lens,words) {
 // main context
 (function() {
 
-    alert("You've somehow arrived at the development version. Navigate back to hedonometer.org, or beware of strange behavior and you can help us by reporting bugs to @hedonometer. Thanks for visiting :)");
+    // alert("You've somehow arrived at the development version. Navigate back to hedonometer.org, or beware of strange behavior and you can help us by reporting bugs to @hedonometer. Thanks for visiting :)");
     var tmp = location.href;
     tmp = tmp.replace("wordshift","index");
     history.pushState("something","something",tmp);
@@ -13347,73 +13347,17 @@ function shift(rrefF,ccompF,lens,words) {
 	return new Date(d.date);
     };
 
-    var mainMargin = {
-	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    secMargin = {
-	top: 430,
-	right: 10,
-	bottom: 20,
-	left: 0
-    },
-    mainWidth = document.documentElement.clientWidth * 0.9,
-    mainHeight = document.documentElement.clientHeight* 0.5,
-    sliderHeight = 50;
-
-    // min radius for day circles
-    var rmin = 0;
-    // max radius for day circles
-    // these get reset when the day toggle is called
-    var rmax = 2.75; // scale down to 1.25 for whole timeseries
-
-
-
-    var symbol = d3.scale.ordinal().range(d3.svg.symbolTypes),
-    color = d3.scale.category10();
-    
     var margin = {
 	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    width = parseInt(d3.select("#bigbox").style("width")),
-    height = width*0.5,
-    // width = document.documentElement.clientWidth * 0.9,
-    // height = document.documentElement.clientHeight* 0.5,
-    height2 = 50;
-    // height2 = document.documentElement.clientHeight/10;
-
-    var formatDate = d3.time.format("%b %Y");
-
-    var wrp = d3.select("#wrap");
-
-    function selectYear(year) {
-	d3.select("#timeseries").remove();
-	d3.select(".infobox h4").remove();
-	d3.selectAll("rect:not(#shortlist)").style("fill", "lightgrey");
-	d3.select("#rect" + year).style("fill", "black");
-	timeline(year);
-	//if (year == "Full") d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, September 2008 to present");
-	//else d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, " + year);
-    }
-
-    // console.log("timeline");
-
-    var margin = {
-	top: 10,
-	right: 40,
-	bottom: 100,
-	left: 0
+	right: 60,
+	bottom: 140,
+	left: 50
     },
     width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
-    height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
+    height = d3.min([600,d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top])]),
     height2 = 50;
     // vertical space to give the bottom brush selection
-    var MainxAxisSpace = 40;
+    var MainxAxisSpace = 80;
     //height2 = document.documentElement.clientHeight * 0.5;
 
     var bigdayscale = d3.scale.linear()
@@ -13423,7 +13367,7 @@ function shift(rrefF,ccompF,lens,words) {
     var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
     var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
 
-    y = d3.scale.linear().range([height, 0]);
+    var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
