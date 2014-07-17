@@ -1,0 +1,95 @@
+.shapes {
+    fill: none;
+    stroke: #fff;
+    stroke-width:0.3px;
+    stroke-linejoin: round;
+}
+
+.states {
+    fill: none;
+    stroke: #fff;
+    stroke-width:1.2px;
+    stroke-linejoin: round;
+    pointer-events: none;
+}
+
+.q0-8 { fill: #367B7F; }
+.q1-8 { fill: #76A5A8; }
+.q2-8 { fill: #A6C5C6; }
+.q3-8 { fill: #EBE3D7; }
+.q4-8 { fill: #F9C79E; }
+.q5-8 { fill: #F5A361; }
+.q6-8 { fill: #F28124; }
+.undefined { fill: #666; }
+
+/* .q0-8 { fill: #b35806; } */
+/* .q1-8 { fill: #f1a340; } */
+/* .q2-8 { fill: #fee0b6; } */
+/* .q3-8 { fill: #f7f7f7; } */
+/* .q4-8 { fill: #d8daeb; } */
+/* .q5-8 { fill: #998ec3; } */
+/* .q6-8 { fill: #542788; } */
+
+p.sumtext { margin-bottom: 6px;
+	    margin-top: 12px; }
+
+/* rect.shiftrect.zero { fill: #B3B3FF; } */
+/* rect.shiftrect.one { fill: #FFFFB3; } */
+/* rect.shiftrect.two { fill: #4C4CFF; } */
+/* rect.shiftrect.three { fill: #FFFF4C; } */
+/* rect.sumrectL.zero { fill: #FFFFB3; } */
+/* rect.sumrectL.one { fill: #4C4CFF; } */
+/* rect.sumrectR.zero { fill: #FFFF4C; } */
+/* rect.sumrectR.one { fill: #B3B3FF; } */
+/* rect.sumrectR.two { fill: #272727; } */
+
+/* normal colors */
+.negdown { fill: #B3B3FF; }
+.posdown { fill: #FFFFB3; }
+.negup { fill: #4C4CFF; }
+.posup { fill: #FFFF4C; }
+.sumgrey { fill: #272727; }
+
+/* new colors */
+.negup { fill: #367B7F; }
+.negdown { fill: #76A5A8; }
+.posdown { fill: #F5A361; }
+.posup { fill: #F28124; }
+
+/* .map.canvas { z-index: 10000; } */
+
+.hoverinfotext { fill: #585858; }
+
+.halfCircleLeft{
+     height:90px;
+     width:45px;
+     border-radius: 90px 0 0 90px;
+     background:green;
+}
+
+/* #rotate {   */
+/*   .rotate(120deg);  */
+/* } */
+
+#rotate {  
+  -webkit-transform-origin: bottom;
+  -webkit-transform:rotate(-90deg);
+  -moz-transform-origin: bottom;
+  -moz-transform:rotate(-90deg);
+  -o-transform-origin: bottom;
+  -o-transform:rotate(-90deg);
+  /* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); */
+  -ms-transform-origin: bottom;
+  -ms-transform:rotate(-90deg);
+  /* -webkit-transform:translate(-10,-20); */
+  /* -moz-transform:translate(-10,-20); */
+  /* -o-transform:translate(-10,-20); */
+  /* /\* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); *\/ */
+  /* -ms-transform:translate(-10,-20); */
+  z-index: 1000;
+}
+
+p.pull-left { padding-left: 1px; }
+
+#thisone { padding-left: 3px;
+	   padding-top: 3px; }

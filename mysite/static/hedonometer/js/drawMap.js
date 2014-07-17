@@ -12,6 +12,180 @@ function drawMap(figure) {
     var w = parseInt(figure.style('width')),
     h = w*650/900;
 
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    //Create SVG element
+    var canvas = figure
+	.append("svg")
+	.attr("class", "map canvas")
+	.attr("width", w)
+	.attr("height", h);
+
+
+
+    var selarray = [false,true],
+    selstrings = ["Reference","Comparison"],
+    selstringslen = selstrings.map(function(d) { return d.width(); }),
+    initialpadding = 5,
+    boxpadding = 5,
+    fullselboxwidth = selarray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(selstringslen);
+
+
+
+
+
+    function makeSelector() {
+
+    canvas.append("text")
+	.attr({
+	    "x": (w-70-fullselboxwidth-56),
+	    "y": 54,
+	    "fill": "grey",
+	    })
+	.text("Selecting ");
+
+	var selgroup = canvas.append("g")
+	    .attr({"class": "selgroup",
+		   "transform": "translate("+(w-70-fullselboxwidth)+","+40+")",});
+
+	selgroup.append("rect")
+	    .attr({"class": "selbox",
+		   "x": 0,
+		   "y": 0,
+		   "rx": 3,
+		   "ry": 3,
+		   "width": fullselboxwidth,
+		   "height": 19,
+		   "fill": "#F8F8F8",
+		   'stroke-width': '0.5',
+		   'stroke': 'rgb(0,0,0)'});
+	
+	selgroup.selectAll("rect.colorclick")
+    	    .data(selarray)
+    	    .enter()
+    	    .append("rect")
+    	    .attr({"class": function(d,i) { return "colorclick "+intStr[i]; },
+    		   "x": function(d,i) { if (i === 0) { return 0; }
+					else { return d3.sum(selstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
+    		   "y": 0,
+		   "rx": 3,
+		   "ry": 3,
+    		   "width": function(d,i) { if (i === 0) { return selstringslen[i]+initialpadding+boxpadding; } else { return selstringslen[i]+boxpadding*2; }},
+    		   "height": 19,
+    		   "fill": "#F8F8F8", //http://www.w3schools.com/html/html_colors.asp
+		   'stroke-width': '0.5',
+		   'stroke': 'rgb(0,0,0)'});
+
+	selgroup.selectAll("text")
+    	    .data(selstrings)
+    	    .enter()
+    	    .append("text")
+    	    .attr({ "x": function(d,i) { 
+		// start at 2
+		if (i==0) { return initialpadding; }
+		// then use 2+width+10+width+10+width...
+		// for default padding of 5 on L/R
+		else { return d3.sum(selstringslen.slice(0,i))+initialpadding+i*boxpadding*2; } },
+    		    "y": 14, 
+    		    "class": function(d,i) { return "seltext "+intStr[i]; },
+		  })
+    	    .text(function(d,i) { return d; });
+
+	selgroup.selectAll("rect.selclick")
+    	    .data(selarray)
+    	    .enter()
+    	    .append("rect")
+    	    .attr({"class": "selrect",
+    		   "x": function(d,i) { if (i === 0) { return 0; }
+					else { return d3.sum(selstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
+    		   "y": 0,
+    		   "width": function(d,i) { if (i === 0) { return selstringslen[i]+initialpadding+boxpadding; } else { return selstringslen[i]+boxpadding*2; }},
+    		   "height": 19,
+    		   "fill": "white", //http://www.w3schools.com/html/html_colors.asp
+    		   "opacity": "0.0",})
+    	    .on("mousedown", function(d,i) {
+		if (stateSelType !== d) {
+		    stateSelType = d;
+		    activeHover = true;
+		    d3.selectAll("text.seltext").attr("fill","black")
+		    d3.select("text.seltext."+intStr[i]).attr("fill","white")
+		    d3.selectAll("rect.colorclick").attr("fill","#F8F8F8").attr("stroke","rgb(0,0,0)")
+		    d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca"); 
+		    d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one");
+		    d3.select(".selbutton.two").attr("class","btn btn-default btn-xs pull-right selbutton two");
+		    d3.select(".selbutton."+intStr[i]).attr("class","btn btn-primary btn-xs pull-right selbutton "+intStr[i]);
+		    d3.selectAll(".state").attr("stroke-width",0.7);
+		}
+    	    });
+
+	selgroup.selectAll("line")
+    	    .data(selstrings.slice(0,selstrings.length-1))
+    	    .enter()
+    	    .append("line")
+    	    .attr("stroke","grey")
+    	    .attr("stroke-width","2")
+    	    .attr("x1", function(d,i) { 
+		return d3.sum(selstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+	    })
+    	    .attr("x2", function(d,i) { 
+		return d3.sum(selstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+	    })
+    	    .attr("y1", 0)
+    	    .attr("y2", 19); 
+
+	if (stateSelType) {
+	    var i = 1; 
+	}
+	else { 
+	    var i = 0; 
+	}
+
+	d3.selectAll("text.seltext").attr("fill","black")
+	d3.select("text.seltext."+intStr[i]).attr("fill","white")
+	d3.selectAll("rect.colorclick").attr("fill","#F8F8F8").attr("stroke","rgb(0,0,0)")
+	d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca");
+
+    }
+
+    var legendarray = [0,1,2,3,4,5,6],
+    legendwidth = 30,
+    legendstringslen = [legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,],
+    initialpadding = 0,
+    boxpadding = 0.25,
+    fulllegendboxwidth = legendarray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(legendstringslen);
+
+    var legendgroup = canvas.append("g")
+	.attr({"class": "legendgroup",
+	       "transform": "translate("+(w-50-fulllegendboxwidth)+","+(h-40)+")",});
+
+    legendgroup.selectAll("rect.legendrect")
+    	.data(legendarray)
+    	.enter()
+    	.append("rect")
+    	.attr({"class": function(d,i) { return "q"+i+"-8"; },
+    	       "x": function(d,i) { if (i === 0) { return 0; }
+	    else { return d3.sum(legendstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
+    	       "y": 0,
+	       // "rx": 3,
+	       // "ry": 3,
+    	       "width": function(d,i) { return legendstringslen[i]; },
+    	       "height": 13,
+	       'stroke-width': '1',
+	       'stroke': 'rgb(0,0,0)'});
+
+    legendgroup.selectAll("text.legendtext")
+	.data(["less happy","happier"])
+	.enter()
+        .append("text")
+	.attr({"x": function(d,i) {
+	    if (i==0) { return 0; }
+	    else { return fulllegendboxwidth-d.width(); } },
+    	       "y": 25, 
+    	       "class": function(d,i) { return "legendtext"; },
+	      })
+    	.text(function(d,i) { return d; });
+
     //Define map projection
     var projection = d3.geo.albersUsa()
 	.translate([w/2, h/2])
@@ -33,8 +207,8 @@ function drawMap(figure) {
 	colors[i] = hslToRgb((hueRange[0]+(hueRange[1]-hueRange[0])/(numColors-1)*i)/360, saturation, lightness);
 	colorStrings[i] = "rgb(" + colors[i][0] + "," + colors[i][1] + "," + colors[i][2] + ")"
     }
-    console.log(colors);
-    console.log(colorStrings);
+    // console.log(colors);
+    // console.log(colorStrings);
     
     
     //Define quantize scale to sort data values into buckets of color
@@ -45,17 +219,21 @@ function drawMap(figure) {
 	    d3.min(allData, function(d) { return d.avhapps; }), 
 	    d3.max(allData, function(d) { return d.avhapps; })
 	]);
+
+    classColor = d3.scale.quantize()
+        .range([0,1,2,3,4,5,6])
+	.domain([50,1]);
     //Colors taken from colorbrewer.js, included in the D3 download
 
-    // remove an old figure if it exists
-    figure.select(".canvas").remove();
-
-    //Create SVG element
-    var canvas = figure
-	.append("svg")
-	.attr("class", "canvas")
-	.attr("width", w)
-	.attr("height", h);
+    // do the sorting
+    indices = Array(allData.length);
+    for (var i = 0; i < allData.length; i++) { indices[i] = i; }
+    indices.sort(function(a,b) { return Math.abs(allData[a].avhapps) < Math.abs(allData[b].avhapps) ? 1 : Math.abs(allData[a].avhapps) > Math.abs(allData[b].avhapps) ? -1 : 0; });
+    sortedStates = Array(allData.length-1);
+    for (var i = 0; i < allData.length-1; i++) { sortedStates[i] = [i,indices[i],allStateNames[indices[i]]]; }
+    // console.log(sortedStates);
+    sortedStateList = Array(allData.length);
+    for (var i = 0; i < allData.length; i++) { sortedStateList[indices[i]] = i+1; }
 
     stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 
@@ -67,7 +245,7 @@ function drawMap(figure) {
 	.append("path")
 	.attr("d", function(d,i) { return path(d.geometry); } )
 	.attr("id", function(d,i) { return d.properties.name; } )
-	.attr("class",function(d,i) { return "state map "+d.properties.name[0]+d.properties.name.split(" ")[d.properties.name.split(" ").length-1]; } )
+	.attr("class",function(d,i) { return "state map "+d.properties.name[0]+d.properties.name.split(" ")[d.properties.name.split(" ").length-1]+" "+"q"+classColor(sortedStateList[i])+"-8"; } )
         .on("mousedown",state_clicked)
         .on("mouseover",state_hover)
         .on("mouseout",state_unhover);
@@ -75,90 +253,198 @@ function drawMap(figure) {
     states.exit().remove();
 
     states
-         .style("fill", function(d,i) {
-	    // need to get the variable map right
-    	    var value = allData[i].avhapps;
-	    var numWords = d3.sum(allData[i].freq); // d3.sum(d.properties.freq);
-    	    if (numWords > 10000) {
-    		return color(value);
-    	    } else {
-    		return "#ccc";
-    	    }
-    	})
 	.attr("stroke","black")
 	.attr("stroke-width",".7");
 
     function state_clicked(d,i) { 
 	// next line verifies that the data and json line up
-	// console.log(d.properties.name); console.log(allData[i].name); 
+	// console.log(d.properties.name); console.log(allData[i].name);
 
-	// toggle the reference
-	if (shiftRef !== i) {
-	    //console.log("reference "+allData[i].name);
-	    shiftRef = i;
-	    d3.selectAll(".state.map").attr("stroke-width",".7");
-	    d3.selectAll(".state.list").attr("stroke","none");
-	    d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
-		.attr("stroke-width",3);
+	if (activeHover) { 
+	    // stop hovering
+	    activeHover = false;
+	    // remove the color
+	    d3.selectAll(".state").style("fill",null);
+	    if (stateSelType) {
+		// select the comparison
+		d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
+		    .attr("stroke-width",3);
+	    }
+	    else {
+		// toggle the reference
+		d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
+		    .attr("stroke-width",3);
+	    }
 	}
-	else { 
-	    //console.log("reference everything");
-	    shiftRef = 51;
-	    d3.selectAll(".state.map").attr("stroke-width","0.7");
-	    d3.selectAll(".state.list").attr("stroke","none");
-	        //.attr("stroke-width",3);
+	else {
+	    activeHover = true;
+	    d3.selectAll(".state").attr("stroke-width",0.7);
 	}
+
+	//.text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
+
 	
-	if (shiftRef !== shiftComp) {
-	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
-		      shiftObj.sortedType.slice(0,200),
-		      shiftObj.sortedWords.slice(0,200),
-		      shiftObj.sumTypes,
-		      shiftObj.refH,
-		      shiftObj.compH);
-	}
+
+	// if (shiftRef !== i) {
+	//     //console.log("reference "+allData[i].name);
+	//     shiftRef = i;
+	//     d3.selectAll(".state.map").attr("stroke-width",".7");
+	//     d3.selectAll(".state.list").attr("stroke","none");
+	//     d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
+	// 	.attr("stroke-width",3);
+	// }
+	// else { 
+	//     //console.log("reference everything");
+	//     shiftRef = 51;
+	//     d3.selectAll(".state.map").attr("stroke-width","0.7");
+	//     d3.selectAll(".state.list").attr("stroke","none");
+	//         //.attr("stroke-width",3);
+	// }
+	
+	// if (shiftRef !== shiftComp) {
+	//     shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	//     plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+	// 	      shiftObj.sortedType.slice(0,200),
+	// 	      shiftObj.sortedWords.slice(0,200),
+	// 	      shiftObj.sumTypes,
+	// 	      shiftObj.refH,
+	// 	      shiftObj.compH);
+	// }
     }
 
     function state_hover(d,i) { 
-	// next line verifies that the data and json line up
-	// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
-	shiftComp = i;
-	d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","red");
+	var bbox = this.getBBox(); 
+	var x = Math.floor(bbox.x + bbox.width/2.0); 
+	var y = Math.floor(bbox.y + bbox.height/2.0);
+	console.log(x);
+	console.log(y);
 
-	if (shiftRef !== shiftComp) {
-	    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-	    plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
-		      shiftObj.sortedType.slice(0,200),
-		      shiftObj.sortedWords.slice(0,200),
-		      shiftObj.sumTypes,
-		      shiftObj.refH,
-		      shiftObj.compH);
+	var wordsstring = "Words Used: "+commaSeparateNumber(d3.sum(allData[i].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	wordsstring2 = "Total Words: "+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	happsstring = "Average Happiness: "+allData[i].avhapps.toFixed(2)
+	//hoverboxheight = 115,
+	hoverboxheight = 131,
+	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial')])+20,
+	hoverboxxoffset = 60;
+	
+	// if it would wrap it over, move it to the left side
+	if ((x+hoverboxwidth+hoverboxxoffset)>w) {
+	    hoverboxxoffset = -hoverboxxoffset-hoverboxwidth;
 	}
-	if (shiftRef !== shiftComp) { 
-	    //console.log("comparison "+allData[shiftComp].name);
-	    //shift(); 
+	
+	var hovergroup = canvas.append("g").attr({
+	    "class": "hoverinfogroup",
+	    "transform": "translate("+(x+hoverboxxoffset)+","+(y-hoverboxheight/2)+")",	    });
+
+	var hoverbox = hovergroup.append("rect").attr({
+	    "class": "hoverinfobox",
+	    "x": 0,
+	    "y": 0,
+	    "width": hoverboxwidth,
+	    "height": hoverboxheight,
+	    "fill": "white",
+	    "stroke": "black",
+	    });
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    "y": 15,
+	    "fill": "black",
+	    "font-size": 15,
+	    })
+	    .text(allData[i].name);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    "y": 55,
+	    "font-size": 40,
+	    //"stroke": "428bca",
+	    })
+	    .text("Rank: "+sortedStateList[i]); // +"/51");
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 100,
+	    "y": 75,
+	    "font-size": 20,
+	    //"stroke": "428bca",
+	    })
+	    .text("out of 51");
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 73,
+	    "y": 89,
+	    "font-size": 15,
+	    //"stroke": "428bca",
+	    })
+	    .text(happsstring);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 89,
+	    "y": 105,
+	    "font-size": 13,
+	    //"stroke": "428bca",
+	    })
+	    .text(wordsstring);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 106,
+	    "y": 122,
+	    "font-size": 13,
+	    //"stroke": "428bca",
+	    })
+	    .text(wordsstring2);
+
+	if (activeHover) {
+	    if (stateSelType) {
+		shiftComp = i;
+		d3.select(".complabel").text(allData[i].name);
+		compencoder.varval(allData[i].name);
+	    }
+	    else {
+		shiftRef = i;
+		d3.select(".reflabel").text(allData[i].name);
+		refencoder.varval(allData[i].name);
+	    }
+
+	    // next line verifies that the data and json line up
+	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
+	    d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","#428bca");
+
+	    if (shiftRef !== shiftComp) {
+		shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
+			  shiftObj.sortedType.slice(0,200),
+			  shiftObj.sortedWords.slice(0,200),
+			  shiftObj.sumTypes,
+			  shiftObj.refH,
+			  shiftObj.compH);
+	    }
 	}
     }
 
     function state_unhover(d,i) { 
-	// next line verifies that the data and json line up
-	// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
-	shiftComp = i;
-	console.log(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
-	d3.selectAll(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
-	    .style("fill",color(allData[i].avhapps));
-	d3.select(this)
-         .style("fill", function() {
-	    // need to get the variable map right
-    	    var value = allData[i].avhapps;
-	    var numWords = d3.sum(allData[i].freq); // d3.sum(d.properties.freq);
-    	    if (numWords > 10000) {
-    		return color(value);
-    	    } else {
-    		return "#ccc";
-    	    }
-    	});
+
+	d3.select(".hoverinfogroup").remove();
+
+	if (activeHover) {
+	    // next line verifies that the data and json line up
+	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
+	    // shiftComp = i;
+	    //console.log(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
+	    //d3.selectAll(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
+		//.style("fill",null);
+	    d3.select(this)
+		.style("fill",null);
+	}
     }
 
     function resizemap() {

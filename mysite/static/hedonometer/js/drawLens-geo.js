@@ -5,7 +5,7 @@ function drawLensGeo(figure,lens) {
        -cut out stops words (0 the frequencies)
        -call shift on these frequency vectors */
     
-    lensExtent = [4,6];
+    lensExtent = lensdecoder().cached;
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
@@ -179,8 +179,6 @@ function drawLensGeo(figure,lens) {
 
 	//console.log(lensExtent);
 
-	lensencoder = d3.urllib.encoder().varname("lens"); //.varval(lensExtent);
-
 	function brushended() {
 	    if (!d3.event.sourceEvent) return;
 	    var extent0 = brush.extent(),
@@ -218,7 +216,7 @@ function drawLensGeo(figure,lens) {
 		}
 		computeHapps();
 		drawMap(d3.select('#map01'));
-		sortStates(d3.select('#table01'));
+		// sortStates(d3.select('#table01'));
 
 		if (shiftRef !== shiftComp) {
 		    shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
@@ -234,6 +232,8 @@ function drawLensGeo(figure,lens) {
 	    d3.select(this).transition()
 		.call(brush.extent(lensExtent))
 		.call(brush.event);
+
+	    // console.log(lensExtent);
 
 	    lensencoder.varval(lensExtent);
 	}

@@ -5,11 +5,11 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
     var shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
     shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none");
     var modalwidth = parseInt(figure.style('width'));
-    var modalheight = 600;
+    var modalheight = 450;
 
     var newsmalllist = figure.append('svg') // figure = d3.select('#moveshifthere')
 	.attr('height',modalheight).attr('width',modalwidth)
-	.attr('id','modalsvg');
+	.attr('id','shiftsvg');
 
     newsmalllist.append("svg")
 	.attr("id","shiftcanvas")
@@ -39,7 +39,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
     figwidth = boxwidth - margin.left - margin.right,
     figheight = boxheight - margin.top - margin.bottom,
     iBarH = 11,
-    numWords = 35,
+    numWords = 24,
     intStr = ["zero","one","two","three"];
 
     var yHeight = (7+17*3+14+5-13), // 101
@@ -133,26 +133,45 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 	var happysad = "less happy";
     }
 
-    figure.selectAll("p.sumtext")
-	.data(["Why ",refH,compH])
+    // figure.selectAll("p.sumtext.ref")
+    // 	.data([refH,])
+    // 	.html(function(d,i) { 
+    // 	    if (i===0) {
+    // 		return "Reference: happiness " + (d.toFixed(3));
+    // 	    }
+    // 	});
+
+    // figure.selectAll("p.sumtext.comp")
+    // 	.data([compH,])
+    // 	.html(function(d,i) { 
+    // 	    if (i===0) {
+    // 		return "Comparison: happiness " + (d.toFixed(3));
+    // 	    }
+    // 	});
+
+    addthis_share.passthrough.twitter.text = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
+
+    addthis_share.title = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
+
+    addthis_share.url = document.URL;
+
+    // d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
+
+    figure.selectAll("p.sumtext.text")
+	.data(["Why ",])
 	.text(function(d,i) { 
-	    if (i==0) {
-		return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name;
+	    if (i===0) {
+		return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
 	    }
-	    else if (i==1) {
-		return "Reference happiness " + (d.toFixed(3));
-	    }
-	    else {
-		return "Comparison happiness " + (d.toFixed(3));
-	    }});
+	});
+    
+    var typeClass = ["negdown","posdown","negup","posup"];
 
     axes.selectAll("rect.shiftrect")
 	.data(sortedMag)
 	.enter()
 	.append("rect")
-        // color
-	.attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-	.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
+	.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; })
 	.attr("x",function(d,i) { 
 	    if (d>0) { return bigfigcenter; } 
 	    else { return bigshiftx(d)} })
@@ -249,23 +268,13 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
     // var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
     var summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
 
+    var typeClass = ["posup","negdown","sumgrey"];
+
     axes.selectAll(".sumrectR")
 	.data(summaryArray)
 	.enter()
 	.append("rect")
-	.attr("fill", function(d,i) { 
-	    if (i==0) {
-		return "#FFFF4C";
-	    } 
-	    else if (i==1) {
-		return "#B3B3FF";
-	    } 
-	    else {
-		// always dark grey
-		return "#272727";
-	    }
-	})
-	.attr("class", "sumrectR")
+	.attr("class", function(d,i) { return "sumrectR "+intStr[i]+" "+typeClass[i]; })
 	.attr("x",function(d,i) { 
 	    if (d>0) { 
 		return bigfigcenter;
@@ -336,28 +345,13 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
     // var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
     var summaryArray = [sumTypes[2],sumTypes[1]];
 
+    var typeClass = ["posdown","negup"];
+
     axes.selectAll(".sumrectL")
 	.data(summaryArray)
 	.enter()
 	.append("rect")
-	.attr("fill", function(d,i) { 
-	    if (i==0) {
-		return "#FFFFB3";
-	    } 
-	    else if (i==1) {
-		return "#4C4CFF";
-	    } 
-	    else {
-		// choose color based on whether increasing/decreasing wins
-		if (d>0) {
-		    return "#B3B3FF";
-		}
-		else {
-		    return "#4C4CFF";
-		}
-	    }
-	})
-	.attr("class", "sumrectL")
+	.attr("class",function(d,i) { return "sumrectL "+intStr[i]+" "+typeClass[i]; })
 	.attr("x",function(d,i) { 
 	    if (i<2) { 
 		return topScale(d);
@@ -430,19 +424,6 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 	.text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
 	.attr("x",function(d,i) { return topScale(d)-5; });
 
-
-
-    // axes.append("rect")
-    //     .attr("width", width)
-    //     .attr("height", height+20)
-    //     .attr("x",20)
-    //     .attr("y",0)
-    //     //.attr("transform","translate(0,40)")
-    //     .attr("class", "bgborder")
-    //     .style({'stroke-width':'3','stroke':'rgb(0,0,0)'})
-    //     .attr("fill", "#FCFCFC")
-    //     .attr("opacity","0.01");
-
     function zoomed() {
 	// if we have zoomed in, we set the y values for each subselection
 	// console.log(shiftTypeSelect);
@@ -478,7 +459,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sumTypes,refH,compH) 
 
 	d3.selectAll(".resetbutton").remove();
 	
-	var shiftsvg = d3.select("#modalsvg");
+	var shiftsvg = d3.select("#shiftsvg");
 
 	var resetGroup = shiftsvg.append("g")
 	    .attr("transform","translate("+(0)+","+(56)+") rotate(-90)")
