@@ -27,6 +27,8 @@
     <meta name="twitter:app:id:iphone" content="">
     <meta name="twitter:app:id:ipad" content="">
     <meta name="twitter:app:id:googleplay" content="">	
+    {% block headerextrameta %}
+    {% endblock %}
     <!-- Styles -->
     {% block headercss %}
     <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
@@ -50,7 +52,7 @@
     <script type="text/javascript">
       var addthis_config = addthis_config || {};
       addthis_config.data_track_addressbar = false;
-      addthis_config.data_track_clickback = false;
+      addthis_config.data_track_clickback = false; 
 
       var addthis_share = addthis_share || {}
       addthis_share = {

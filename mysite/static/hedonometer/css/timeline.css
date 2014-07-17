@@ -75,11 +75,6 @@ twitter-widget-1 {
 width: 80px; //input the value of width u desire
 }
 
-
-
-
-
-
 .y.axis line { stroke: white; }
 .y.axis text { fill: #585858; }
 .x.axis text { fill: #585858; }
@@ -87,7 +82,7 @@ width: 80px; //input the value of width u desire
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; }
+.sumrectL { cursor: pointer; } 
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 
@@ -110,3 +105,7 @@ width: 80px; //input the value of width u desire
 	   }
 .restrain { width: 266px !important; }
 #dp1 { width: 100px !important; }
+
+
+
+p.sumtext { margin-bottom: 2px; }

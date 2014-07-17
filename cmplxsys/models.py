@@ -98,6 +98,7 @@ class Paper(models.Model):
     img = models.CharField(max_length=200, null=True, blank=True,)
     status = models.CharField(max_length=200)
     arxiv = models.CharField(max_length=200, null=True, blank=True)
+    arxivpw = models.CharField(max_length=200, null=True, blank=True)
     journal = models.CharField(max_length=200, null=True, blank=True)
     volume = models.CharField(max_length=200, null=True, blank=True)
     pages = models.CharField(max_length=200, null=True, blank=True)
