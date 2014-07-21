@@ -93,3 +93,10 @@ p.pull-left { padding-left: 1px; }
 
 #thisone { padding-left: 3px;
 	   padding-top: 3px; }
+
+#nopadding { padding-left: 0px;
+	     padding-right: 0px;
+	     padding-top: 10px; }
+
+#allleftpadding { padding-left: 30px;
+		  padding-right: 0px; }

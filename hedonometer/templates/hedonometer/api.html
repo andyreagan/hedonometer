@@ -70,6 +70,23 @@ http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100
 }
 </pre>
 
+	  <p>We are aware that the following days are missing from the dataset, due to either backend issues experienced by Twitter or missing data from our end:</p>
+<ul class="missing">
+<li>2012-04-22</li>
+<li>2009-12-18</li>
+<li>2009-12-19</li>
+<li>2009-12-20</li>
+<li>2009-08-03</li>
+<li>2009-08-04</li>
+<li>2009-08-05</li>
+<li>2009-05-19</li>
+<li>2009-05-18</li>
+<li>2009-05-17</li>
+<li>2009-05-16</li>
+<li>2009-05-15</li>
+<li>2009-05-14</li>
+</ul>
+
 	  <hr>
 
 <!-- 	  <h4>Project Gutenberg Books <span class="label label-default">New</span></h4> -->
@@ -121,6 +138,73 @@ http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100
 <!-- </pre> -->
 
 <!-- 	  <hr> -->
+
+	  <h4>LabMT Words <span class="label label-default">New</span></h4>
+	  <br>
+
+	  <a href="http://hedonometer.org/api/v1/words/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire dataset</button></a>
+
+	  <br>
+	  <br>
+
+	  <p>Example query and response, where we looking for words with happiness greater than 6, rank less than 500, and standard deviation less than 1, and limiting our result to the first three.</p>
+
+	  <a href="http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1</button></a>
+
+	  <br>
+	  <br>
+
+
+	  <pre>
+http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1&limit=3
+
+{
+    meta: {
+	limit: 3,
+	next: null,
+	offset: 0,
+	previous: null,
+	total_count: 9
+    },
+    objects: [
+	{
+	    googleBooksRank: -1,
+	    happs: 8.5,
+	    lyricsRank: 1728,
+	    newYorkTimesRank: -1,
+	    rank: 1,
+	    stdDev: 0.9313,
+	    twitterRank: 3600,
+	    word: "laughter"
+	},
+	{
+	    googleBooksRank: 2458,
+	    happs: 8.44,
+	    lyricsRank: 1230,
+	    newYorkTimesRank: -1,
+	    rank: 2,
+	    stdDev: 0.9723,
+	    twitterRank: 1853,
+	    word: "happiness"
+	},
+	{
+	    googleBooksRank: 1372,
+	    happs: 8.3,
+	    lyricsRank: 375,
+	    newYorkTimesRank: 1313,
+	    rank: 4,
+	    stdDev: 0.9949,
+	    twitterRank: 65,
+	    word: "happy"
+	}
+    ]
+}
+</pre>
+
+	  <p>The API is searchable by word, happiness, rank, and standard deviation.
+	    To search any of these, append the URL option like in the above query, where the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/" target="_blank">documentation</a>).
+
+	  <hr>
 
 	</div> <!-- column -->
       </div>

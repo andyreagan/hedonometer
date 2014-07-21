@@ -1,10 +1,6 @@
 // main context
 (function() {
 
-    var tmp = location.href;
-    tmp = tmp.replace("wordshift","index");
-    history.pushState("something","something",tmp);
-
     // console.log("running timeline viz");
 
     String.prototype.width = function(font) {
@@ -43,6 +39,15 @@
 	return n;
     }
 
+    var initialMonthScale = d3.scale.linear
+
+    if ( document.documentElement.clientWidth < 500 ) { 
+	var initialMonths = 3;
+    }
+    else { 
+	var initialMonths = 18;
+    }
+
     var dur =  550,
     ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"],
     bigdays = {},
@@ -55,7 +60,7 @@
     longformat = d3.time.format("%B %e, %Y"),
     longerformat = d3.time.format("%A, %B %e, %Y"),
     fromencoder = d3.urllib.encoder().varname("from");
-    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-18))),
+    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths))),
     toencoder = d3.urllib.encoder().varname("to"),
     todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
     dateencoder = d3.urllib.encoder().varname("date"),
@@ -180,61 +185,11 @@
 	return new Date(d.date);
     };
 
-    var mainMargin = {
-	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    secMargin = {
-	top: 430,
-	right: 10,
-	bottom: 20,
-	left: 0
-    },
-    mainWidth = document.documentElement.clientWidth * 0.9,
-    mainHeight = document.documentElement.clientHeight* 0.5,
-    sliderHeight = 50;
-
     // min radius for day circles
     var rmin = 0;
     // max radius for day circles
     // these get reset when the day toggle is called
     var rmax = 2.75; // scale down to 1.25 for whole timeseries
-
-
-
-    var symbol = d3.scale.ordinal().range(d3.svg.symbolTypes),
-    color = d3.scale.category10();
-    
-    var margin = {
-	top: 10,
-	right: 10,
-	bottom: 100,
-	left: 0
-    },
-    width = parseInt(d3.select("#bigbox").style("width")),
-    height = width*0.5,
-    // width = document.documentElement.clientWidth * 0.9,
-    // height = document.documentElement.clientHeight* 0.5,
-    height2 = 50;
-    // height2 = document.documentElement.clientHeight/10;
-
-    var formatDate = d3.time.format("%b %Y");
-
-    var wrp = d3.select("#wrap");
-
-    function selectYear(year) {
-	d3.select("#timeseries").remove();
-	d3.select(".infobox h4").remove();
-	d3.selectAll("rect:not(#shortlist)").style("fill", "lightgrey");
-	d3.select("#rect" + year).style("fill", "black");
-	timeline(year);
-	//if (year == "Full") d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, September 2008 to present");
-	//else d3.select(".infobox").append("h4").text("Daily Average Happiness for Twitter, " + year);
-    }
-
-    // console.log("timeline");
 
     var margin = {
 	top: 10,

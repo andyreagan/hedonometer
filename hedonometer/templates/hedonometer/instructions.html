@@ -1,0 +1,145 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+    {% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
+    <style>
+      .relative { position: relative; } 
+      .hedo-sidebar { position: fixed; }
+      .hedo-sidenav {
+      margin-top: 20px;
+      margin-bottom: 20px;
+      }
+      .hedo-sidebar .nav>li>a {
+      display: block;
+      padding: 4px 20px;
+      font-size: 13px;
+      font-weight: 500;
+      color: #999;
+      }
+      .hedo-sidebar .nav>li>a:hover {
+      color: #563d7c;
+      text-decoration: none;
+      }
+      .hedo-sidebar .nav .nav>li>a:hover, .hedo-sidebar .nav .nav>li>a:focus {
+      padding-left: 29px;
+      }
+      .hedo-sidebar .nav .nav>li>a {
+      padding-top: 1px;
+      padding-bottom: 1px;
+      padding-left: 30px;
+      font-size: 12px;
+      font-weight: 400;
+      }
+      .hedo-sidebar .nav .nav>li>a:hover {
+      color: #563d7c;
+      text-decoration: none;
+      }
+      .back-to-top {
+      <!-- display: none; -->
+      padding: 4px 20px;
+      margin-top: 10px;
+      margin-left: 20px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #999;
+      }
+      .back-to-top:hover {
+      color: #563d7c;
+      text-decoration: none;
+      }
+      /* all links */
+      .hedo-sidebar .nav>li>a {
+      /*add trasnparent border */
+      border-left: 2px solid transparent;
+      }
+      /* active & hover links */
+      .hedo-sidebar .nav>.active>a, 
+      .hedo-sidebar .nav>li>a:hover, 
+      .hedo-sidebar .nav>li>a:focus {
+      color: #563d7c;                 
+      text-decoration: none;          
+      background-color: transparent;  
+      border-left: 2px solid #563d7c; 
+      }
+      /* all active links */
+      .hedo-sidebar .nav>.active>a, 
+      .hedo-sidebar .nav>.active:hover>a,
+      .hedo-sidebar .nav>.active:focus>a {
+      font-weight: 700;
+      }
+      /* nested active links */
+      .hedo-sidebar .nav .nav>.active>a, 
+      .hedo-sidebar .nav .nav>.active:hover>a,
+      .hedo-sidebar .nav .nav>.active:focus>a {
+      font-weight: 500;
+      }
+      /* hide all (inactive) nested list */
+      .hedo-sidebar .nav ul.nav {
+      display: none;           
+      }
+      /* show active nested list */
+      .hedo-sidebar .nav>.active>ul.nav {
+      display: block;           
+      }
+    </style>
+    {% endblock %}
+
+{% block content %}
+
+    <div class="container" id="top">
+      <div class="row">
+	<div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-12 col-sm-7 relative">
+	  <h3 id="wordshifts">How our word shifts work &mdash; a diagram plus a two minute video</h3>
+
+	  <h4 id="wordshifts-diagram">Diagram:</h4>
+
+	  <img src="{% static "hedonometer/graphics/wordshift-explanation005.jpg" %}" class="img-responsive">
+
+	  <h4 id="wordshifts-video">Video:</h4>
+	  <p>Word shifts explained in two minutes:</p>
+ 
+	  <!-- width="640" height="340" -->
+	  <iframe class="col-xs-12" height="300" src="http://www.youtube.com/embed/Kat9vyo5xQA" frameborder="0" allowfullscreen></iframe>
+	  
+	</div>
+	<div class="col-xs-0 col-sm-0">
+	</div>
+	<div class="col-xs-0 col-sm-3">
+	  <div class="hedo-sidebar hidden-print hidden-xs hidden-sm" role="complementary">
+	    <ul class="nav hedo-sidenav">
+	      <li>
+		<a href="#wordshifts">Wordshifts</a>
+		<ul class="nav">
+		  <li><a href="#wordshifts-diagram">Diagram</a></li>
+		  <li><a href="#wordshifts-video">Video</a></li>
+		</ul>
+	      </li>
+	    <a class="back-to-top" href="#top">
+              Back to top
+            </a>
+	    </ul>
+
+	  </div>
+	</div>
+      </div>
+    </div>
+
+{% endblock %}
+
+{% block bottomjs %}
+    <!-- Javascript
+     ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/hedonometer/js/jquery-1.11.0.min.js"></script>
+    <script src="/static/hedonometer/js/bootstrap.js"></script>
+    <script type="text/javascript">
+      $('body').scrollspy({
+      target: '.hedo-sidebar',
+      offset: 40
+      });
+    </script>
+
+{% endblock %}

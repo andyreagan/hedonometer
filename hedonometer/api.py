@@ -1,4 +1,4 @@
-from hedonometer.models import Event,Book,Happs
+from hedonometer.models import Event,Book,Happs,Word
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
@@ -47,6 +47,23 @@ class HappsResource(ModelResource):
         include_resource_uri = False
         filtering = {
             'date': ALL,
+        }
+
+class WordResource(ModelResource):
+    # happiness = FixedFloatField(attribute='value')
+    class Meta:
+        queryset = Word.objects.all()
+        excludes = ['id',]
+        resource_name = 'words'
+        limit = 20000
+        # default_format = ['json']
+        max_limit = None
+        include_resource_uri = False
+        filtering = {
+            'word': ALL,
+            'rank': ALL,
+            'happs': ALL,
+            'stdDev': ALL,
         }
 
 class BookResource(ModelResource):

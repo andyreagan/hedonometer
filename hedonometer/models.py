@@ -5,6 +5,16 @@ class Happs(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
 
+class Word(models.Model):
+    word = models.CharField(max_length=100)
+    rank = models.IntegerField()
+    happs = models.FloatField()
+    stdDev = models.FloatField()
+    twitterRank = models.IntegerField()
+    googleBooksRank = models.IntegerField()
+    newYorkTimesRank = models.IntegerField()
+    lyricsRank = models.IntegerField()
+
 class Event(models.Model):
     date = models.DateTimeField()
     value = models.CharField(max_length=20)

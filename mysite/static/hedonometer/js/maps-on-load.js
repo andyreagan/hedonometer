@@ -49,7 +49,14 @@ function initializePlot() {
     timeDrop();
     refcompdrops();
     d3.select(".timelabel").text(timeseldecoder().cached);
-    loadCsv(timeseldecoder().cached);
+    var timeF = timeseldecoder().cached;
+    for (var i=0; i<timeFrames.length; i++) { 
+	if (timeF === timeFrameText[i]) {
+	    timeF = timeFrames[i];
+	    break;
+	}
+    }
+    loadCsv(timeF);
 }
 
 allStateNames = ["Alabama","Alaska","Arizona","Arkansas","California","Colorado","Connecticut"
@@ -103,7 +110,7 @@ compListDrop.enter().append("li").append("a").text(function(d,i) { return d; });
 shiftselencoder = d3.urllib.encoder().varname("selection"); //.varval(lensExtent);
 shiftseldecoder = d3.urllib.decoder().varname("selection").varresult("none"); //.varval(lensExtent);
 
-timeFrames = ["2013","2012","2011","l30","l7","l1"];
+timeFrames = ["2013","2012","2011","lastquarter","lastmonth","lastweek"];
 timeFrameText = ["2013","2012","2011","Last Quarter","Last Month","Last Week"];
 
 function refcompdrops() {
@@ -193,22 +200,57 @@ function timeDrop() {
             timeName = timeFrames[key];
 	    d3.select(".timelabel").text(timeFrameText[key]);
 	    timeselencoder.varval(timeFrameText[key]);
+	    console.log(timeName);
             loadCsv(timeName); 
 	});
 }
 
 function loadCsv(time) {
     var csvLoadsRemaining = 4;
-    d3.text("/static/hedonometer/data/geodata/wordScores.csv", function(text) {
-	var tmp = text.split(",");
-	lens = tmp.map(parseFloat);
-	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
-    });
-    d3.text("/static/hedonometer/data/geodata/words.csv", function(text) {
-	var tmp = text.split(",");
-	words = tmp;
-	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
-    });
+    if (time === "2011" || time === "2012" || time === "2013") {
+	// load files from lewis
+	var scoresFile = "/static/hedonometer/data/geodata/wordScores.csv";
+	var wordsFile = "/static/hedonometer/data/geodata/words.csv";
+	d3.text(scoresFile, function(text) {
+	    var tmp = text.split(",");
+	    lens = tmp.map(parseFloat);
+	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
+	});
+	d3.text(wordsFile, function(text) {
+	    var tmp = text.split(",");
+	    words = tmp;
+	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
+	});
+    }
+    else {
+	// load labMT files
+	var scoresFile = "/static/hedonometer/data/labMT/labMTscores-english.csv";
+	var wordsFile = "/static/hedonometer/data/labMT/labMTwords-english.csv";
+	d3.text(scoresFile, function(text) {
+	    var tmp = text.split("\n");
+	    //console.log(tmp.length);
+	    //console.log(tmp[tmp.length-1]);
+	    lens = tmp.map(parseFloat);
+	    var len = lens.length - 1;
+	    while (!lens[len]) {
+		//console.log("in while loop");
+		lens = lens.slice(0, len);
+		len--;
+	    }
+	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
+	});
+	d3.text(wordsFile, function(text) {
+	    var tmp = text.split("\n");
+	    words = tmp;
+	    var len = words.length - 1;
+	    while (!words[len]) {
+		//console.log("in while loop");
+		words = words.slice(0, len);
+		len--;
+	    }
+	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
+	});
+    }
     d3.json("/static/hedonometer/data/geodata/us-states.topojson", function(data) {
 	geoJson = data;
 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;

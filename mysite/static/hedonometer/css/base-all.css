@@ -5861,3 +5861,5 @@ code {
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 .translatebutton { cursor: pointer; }
+
+ul.missing { list-style: square; }

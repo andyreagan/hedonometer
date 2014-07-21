@@ -1,31 +1,32 @@
 from django.conf.urls import patterns, url, include
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView,RedirectView
 
 from hedonometer import views
 from tastypie.api import Api
-from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource
+from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
 v1_api.register(HappsResource())
 v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
+v1_api.register(WordResource())
 
 urlpatterns = patterns('',
-    # ex: /swn/         
-    url(r'^index.html', 
+    url(r'^index.html',
         TemplateView.as_view(template_name='hedonometer/index.html'),
         name='index'),
     url(r'^wordshift.html', 
-        TemplateView.as_view(template_name='hedonometer/index.html'),
-        name='index'),
+        RedirectView.as_view(url='index.html',query_string=True),),
     url(r'^about.html', 
         TemplateView.as_view(template_name='hedonometer/about.html'),
         name='about'),
     url(r'^shifts.html', 
-        TemplateView.as_view(template_name='hedonometer/shifts.html'),
-        name='shifts'),
-    url(r'^words.html', 
+        RedirectView.as_view(url='instructions.html#wordshifts'),),
+    url(r'^instructions.html', 
+        TemplateView.as_view(template_name='hedonometer/instructions.html'),
+        name='instructions'),
+    url(r'^words.html',
         TemplateView.as_view(template_name='hedonometer/words.html'),
         name='words'),
     url(r'^table.html', 

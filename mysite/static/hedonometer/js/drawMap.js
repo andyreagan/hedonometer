@@ -316,14 +316,14 @@ function drawMap(figure) {
 	var bbox = this.getBBox(); 
 	var x = Math.floor(bbox.x + bbox.width/2.0); 
 	var y = Math.floor(bbox.y + bbox.height/2.0);
-	console.log(x);
-	console.log(y);
+	// console.log(x);
+	// console.log(y);
 
 	var wordsstring = "Words Used: "+commaSeparateNumber(d3.sum(allData[i].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
 	wordsstring2 = "Total Words: "+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
 	happsstring = "Average Happiness: "+allData[i].avhapps.toFixed(2)
 	//hoverboxheight = 115,
-	hoverboxheight = 131,
+	hoverboxheight = 125,
 	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial')])+20,
 	hoverboxxoffset = 60;
 	
@@ -350,7 +350,14 @@ function drawMap(figure) {
 	    "class": "hoverinfotext",
 	    "x": 10,
 	    "y": 15,
-	    "fill": "black",
+	    "font-size": 15,
+	    })
+	    .text(allData[i].name);
+
+	hovergroup.append("line").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    "y": 15,
 	    "font-size": 15,
 	    })
 	    .text(allData[i].name);
@@ -358,18 +365,25 @@ function drawMap(figure) {
 	hovergroup.append("text").attr({
 	    "class": "hoverinfotext",
 	    "x": 10,
-	    "y": 55,
-	    "font-size": 40,
-	    //"stroke": "428bca",
+	    //"y": 55,
+	    "y": 38,
+	    "font-size": 17,
 	    })
-	    .text("Rank: "+sortedStateList[i]); // +"/51");
+	    .text("Rank:"); // +"/51");
 
 	hovergroup.append("text").attr({
 	    "class": "hoverinfotext",
-	    "x": 100,
-	    "y": 75,
+	    "x": 59,
+	    "y": 55,
+	    "font-size": 40,
+	    })
+	    .text(sortedStateList[i]); // +"/51");
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 105,
+	    "y": 56,
 	    "font-size": 20,
-	    //"stroke": "428bca",
 	    })
 	    .text("out of 51");
 
@@ -377,9 +391,8 @@ function drawMap(figure) {
 	    "class": "hoverinfotext",
 	    "x": 10,
 	    //"y": 73,
-	    "y": 89,
+	    "y": 79,
 	    "font-size": 15,
-	    //"stroke": "428bca",
 	    })
 	    .text(happsstring);
 
@@ -387,9 +400,8 @@ function drawMap(figure) {
 	    "class": "hoverinfotext",
 	    "x": 10,
 	    //"y": 89,
-	    "y": 105,
+	    "y": 97,
 	    "font-size": 13,
-	    //"stroke": "428bca",
 	    })
 	    .text(wordsstring);
 
@@ -397,9 +409,8 @@ function drawMap(figure) {
 	    "class": "hoverinfotext",
 	    "x": 10,
 	    //"y": 106,
-	    "y": 122,
+	    "y": 114,
 	    "font-size": 13,
-	    //"stroke": "428bca",
 	    })
 	    .text(wordsstring2);
 

@@ -22,10 +22,17 @@ function shift(refF,compF,lens,words) {
     
     // compute reference happiness
     var refH = 0.0;
+    var refV = 0.0;
     for (var i=0; i<refF.length; i++) {
         refH += refF[i]*parseFloat(lens[i]);
     }
     refH = refH/Nref;
+    // console.log(refH);
+    for (var i=0; i<refF.length; i++) {
+	refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
+    }
+    refV = refV/Nref; 
+    // console.log(refV);
 
     // compute comparison happiness
     var compH = 0.0;

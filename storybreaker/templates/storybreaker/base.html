@@ -1,11 +1,11 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+ <head>
     <meta http-equiv="X-UA-Compatible" content="IE=9"/>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     
-    <title>Hedonometer</title>
+    <title>Storybreaker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="application-name" content="Hedonometer"/>
     <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
@@ -71,7 +71,7 @@
   <body>
     <noscript>
       <div id="informational" class="container" itemscope itemtype="http://schema.org/WebApplication">
-	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Hedonometer</strong></div>
+	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Storybreaker</strong></div>
 	</a><div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
 	<div itemprop="creator" itemscope itemtype="http://schema.org/Organization">
 	  Created by: <span itemprop="name">The MITRE Corporation</span> &amp; <span itemprop="name">University of Vermont Complex Systems Center</span></div>
@@ -81,33 +81,33 @@
 
     {% block nav %}
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-	<div class="navbar-header">
-	  <div class="navbar-brand">
-	  <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle" width="23px">
-	  </div>
-	  <a class="navbar-brand" href="/index.html">hedonometer</a>
-	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-	    <span class="icon-bar"></span>
-	    <span class="icon-bar"></span>
+    <!-- <div class="navbar navbar-default navbar-fixed-top" role="navigation"> -->
+    <!--   <div class="container"> -->
+    <!-- 	<div class="navbar-header"> -->
+    <!-- 	  <div class="navbar-brand"> -->
+    <!-- 	  <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle" width="23px"> -->
+    <!-- 	  </div> -->
+    <!-- 	  <a class="navbar-brand" href="/index.html">hedonometer</a> -->
+    <!-- 	  <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> -->
+    <!-- 	    <span class="icon-bar"></span> -->
+    <!-- 	    <span class="icon-bar"></span> -->
 
-	  </button>
-	</div>
-	<div class="navbar-collapse collapse">
-	  <ul class="nav navbar-nav">
-	    <li><a href="/about.html">About</a></li>
-	    <li><a href="/instructions.html">Shifts</a></li>
-	    <li><a href="/words.html">Words</a></li>
-	    <li><a href="http://onehappybird.com" target="_blank">Blog</a></li>
-	    <li><a href="/press.html">Press</a></li>
-	    <li><a href="/papers.html">Papers</a></li>
-	    <li><a href="/talks.html">Talks</a></li>
-	    <li><a href="/api.html">API</a></li>
-	  </ul>
-	</div>
-      </div>
-    </div>
+    <!-- 	  </button> -->
+    <!-- 	</div> -->
+    <!-- 	<div class="navbar-collapse collapse"> -->
+    <!-- 	  <ul class="nav navbar-nav"> -->
+    <!-- 	    <li><a href="/about.html">About</a></li> -->
+    <!-- 	    <li><a href="/instructions.html">Shifts</a></li> -->
+    <!-- 	    <li><a href="/words.html">Words</a></li> -->
+    <!-- 	    <li><a href="http://onehappybird.com" target="_blank">Blog</a></li> -->
+    <!-- 	    <li><a href="/press.html">Press</a></li> -->
+    <!-- 	    <li><a href="/papers.html">Papers</a></li> -->
+    <!-- 	    <li><a href="/talks.html">Talks</a></li> -->
+    <!-- 	    <li><a href="/api.html">API</a></li> -->
+    <!-- 	  </ul> -->
+    <!-- 	</div> -->
+    <!--   </div> -->
+    <!-- </div> -->
 
     {% endblock %}
 
