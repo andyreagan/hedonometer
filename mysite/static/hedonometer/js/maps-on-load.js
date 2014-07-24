@@ -42,14 +42,16 @@ lensencoder = d3.urllib.encoder().varname("lens"); //.varval(lensExtent);
 lensdecoder = d3.urllib.decoder().varname("lens").varresult([4,6]); //.varval(lensExtent);
 
 timeselencoder = d3.urllib.encoder().varname("time"); //.varval(lensExtent);
-timeseldecoder = d3.urllib.decoder().varname("time").varresult("2013"); //.varval(lensExtent);
+timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 30 Days"); //.varval(lensExtent);
 
 
 function initializePlot() {
     timeDrop();
     refcompdrops();
-    d3.select(".timelabel").text(timeseldecoder().cached);
-    var timeF = timeseldecoder().cached;
+    console.log(timeseldecoder().cached);
+    var timeF = timeseldecoder().cached.replace(/\+/g,' ');
+    console.log(timeF);
+    d3.select(".timelabel").text(timeF);
     for (var i=0; i<timeFrames.length; i++) { 
 	if (timeF === timeFrameText[i]) {
 	    timeF = timeFrames[i];
@@ -86,13 +88,13 @@ function stateIndex(name) {
     }
 }
 
-ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa",];
+ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","hawaii","virginia","grand","springs","falls",];
 
 var refencoder = d3.urllib.encoder().varname("ref"), //.varval(lensExtent);
 refdecoder = d3.urllib.decoder().varname("ref").varresult(allStateNames[51]); //.varval(lensExtent);
 
 var compencoder = d3.urllib.encoder().varname("comp"), //.varval(lensExtent);
-compdecoder = d3.urllib.decoder().varname("comp").varresult(allStateNames[0]); //.varval(lensExtent);
+compdecoder = d3.urllib.decoder().varname("comp").varresult(allStateNames[0]); //.varval(lensExtent); 
 
 // need to get these from the state name in the browser
 var shiftRef = stateIndex(refdecoder().cached),
@@ -111,7 +113,7 @@ shiftselencoder = d3.urllib.encoder().varname("selection"); //.varval(lensExtent
 shiftseldecoder = d3.urllib.decoder().varname("selection").varresult("none"); //.varval(lensExtent);
 
 timeFrames = ["2013","2012","2011","lastquarter","lastmonth","lastweek"];
-timeFrameText = ["2013","2012","2011","Last Quarter","Last Month","Last Week"];
+timeFrameText = ["2013","2012","2011","Last 90 Days","Last 30 Days","Last 7 Days"];
 
 function refcompdrops() {
     d3.select("#compSelect").selectAll("a")

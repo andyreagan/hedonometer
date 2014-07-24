@@ -13070,7 +13070,6 @@ I like this feature
 
 
 var lang = "english";
-var ignoreWords=["nigger"];
 
 d3.text("static/hedonometer/data/labMT/labMTscores-"+lang+".csv", function (text) {
     var tmp = text.split("\n");

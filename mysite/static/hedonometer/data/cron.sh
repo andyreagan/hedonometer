@@ -4,6 +4,7 @@
 # for the vacc
 # cd /users/s/t/storylab/website/data/hedonometer
 # for linode
+echo $(date)
 cd /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/data
 
 # today
@@ -41,6 +42,9 @@ if [ ! -f word-vectors/parsed.${DAY}.csv ]; then
 
 	echo "python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)"
 	python addtomodel.py $(tail -n 1 word-vectors/sumhapps.csv)
+
+	echo "python hedotweet.py ${DAY}"
+        python hedotweet.py ${DAY}
     fi
 else
     echo "word-vectors/parsed.${DAY}.csv found"

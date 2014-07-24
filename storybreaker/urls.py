@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView
 
-# from storybreaker import views
+from storybreaker import views
 # from tastypie.api import Api
 # from hedonometer.api import EventResource
 
@@ -13,9 +13,7 @@ urlpatterns = patterns('',
     url(r'^index.html', 
         TemplateView.as_view(template_name='storybreaker/index.html'),
         name='index'),
-    url(r'^api$',
-        TemplateView.as_view(template_name='storybreaker/api.html'),
-        name='api'),
+    url(r'^api/(?P<call>.+)$',views.api,name='api'),
     # (r'^api/', include(v1_api.urls)),
     # url(r'^$', views.index, name='index'),
     # ex: /swn/5

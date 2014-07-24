@@ -5862,7 +5862,14 @@ code {
 .resetbutton { cursor: pointer; }
 .translatebutton { cursor: pointer; }
 
-ul.missing { list-style: square; }.twitter-typeahead{ float:left; width:100%}
+ul.missing { list-style: square; }
+
+/* don't make the main dropdown darker */
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus { 
+    color: #555;
+    background-color: #f8f8f8;
+}
+.twitter-typeahead{ float:left; width:100%}
 
 .tt-hint {
     color: #999
