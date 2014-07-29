@@ -13,9 +13,7 @@ cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js p
 echo "minifying books"
 minify --type js books-all.js > books-all.min.js
 
-# not using yet
-# echo "catting maps"
-# cat d3.andy.js jquery-1.11.0.min.js bootstrap.js urllib.js plotShift-geo.js shift-maps.js maps-on-load.js > maps-all.js
-# echo "minifying maps"
-# minify --type js maps-all.js > maps-all.min.js
-
+echo "catting maps"
+cat jquery-1.11.0.min.js bootstrap.min.js d3.andy.js urllib.js topojson.v1.min.js plotShift-main.js shift-geo.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
+echo "minifying maps"
+minify --type js maps-all.js > maps-all.min.js

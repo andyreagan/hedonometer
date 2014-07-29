@@ -11,7 +11,7 @@
 <!-- <meta property="og:video:type" content="application/x-shockwave-flash" />  -->
 {% endblock %}
 {% block headercss %}
-<link href="{% static "hedonometer/css/maps-all.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -169,7 +169,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 		  </div> <!-- column -->
 		  <div class="col-xs-9">
 		    <div class="btn-group" id="refSelect">
-		      <button type="button" class="btn btn-default btn-xs reflabel">All U.S.</button>
+		      <button type="button" class="btn btn-default btn-xs reflabel">U.S. as a whole</button>
 		      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
 			<span class="caret"></span>
 			<span class="sr-only">Toggle Dropdown</span>
@@ -177,7 +177,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 		      <ul class="dropdown-menu" role="menu">
 		      </ul>
 		    </div>
-		    <button type="button" class="btn btn-default btn-xs pull-right selbutton one">Select On Map</button>
+		    <button type="button" class="btn btn-default btn-xs pull-right selbutton one">Select on Map</button>
 		  </div>
 		</div> <!-- column -->
 
@@ -197,7 +197,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 		      <ul class="dropdown-menu" role="menu">
 		      </ul>
 		    </div>
-		    <button type="button" class="btn btn-primary btn-xs pull-right selbutton two">Select On Map</button>
+		    <button type="button" class="btn btn-primary btn-xs pull-right selbutton two">Select on Map</button>
 		  </div> <!-- column -->
 		</div> <!-- row -->
 
@@ -217,7 +217,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
       </div> <!-- column -->
       <div class="col-xs-12 col-sm-6">
 	<div id="caption01">
-	  Slide and resize the stop-window to change the lens:
+	  <b>Word lens:</b> Slide and resize the stop-window to adjust.
 	</div> <!-- caption -->
 	<br>
 	<div id="lens01" class="figure"></div>

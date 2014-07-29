@@ -4,6 +4,7 @@
     {% block headercss %}
     <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
     <style>
+      .youtube { padding-bottom: 50px; }
       .relative { position: relative; } 
       .hedo-sidebar { position: fixed; }
       .hedo-sidenav {
@@ -102,7 +103,16 @@
 	  <p>Word shifts explained in two minutes:</p>
  
 	  <!-- width="640" height="340" -->
-	  <iframe class="col-xs-12" height="300" src="http://www.youtube.com/embed/Kat9vyo5xQA" frameborder="0" allowfullscreen></iframe>
+	  <iframe class="col-xs-12 col-sm-12 youtube" height="370" src="http://www.youtube.com/embed/Kat9vyo5xQA" frameborder="0" allowfullscreen></iframe>
+	  <p>
+	    <br />
+	  </p>
+
+	  <h4 id="maps">Maps:</h4>
+	  <p>
+	  Funny story: we were lying when we said there'd be instructions for maps.
+	  We will redeem ourselves soon.
+	  </p>
 	  
 	</div>
 	<div class="col-xs-0 col-sm-0">
@@ -116,6 +126,9 @@
 		  <li><a href="#wordshifts-diagram">Diagram</a></li>
 		  <li><a href="#wordshifts-video">Video</a></li>
 		</ul>
+	      </li>
+	      <li>
+		<a href="#maps">Maps</a>
 	      </li>
 	    <a class="back-to-top" href="#top">
               Back to top

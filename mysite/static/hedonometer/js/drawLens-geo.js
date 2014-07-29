@@ -7,18 +7,18 @@ function drawLensGeo(figure,lens) {
     
     lensExtent = lensdecoder().cached;
 
-    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    var margin = {top: 0, right: 55, bottom: 0, left: 0},
     figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
     figheight = 150 - margin.top - margin.bottom,
-    width = .775*figwidth,
-    height = .775*figheight-10,
+    width = .875*figwidth-5,
+    height = .875*figheight-5,
     leftOffsetStatic = 0.125*figwidth;
 
 
     if (figwidth > 10) {
 
 	// remove an old figure if it exists
-	figure.select(".canvas").remove();
+	figure.selectAll(".canvas").remove();
 
 	var canvas = figure.append("svg")
 	    .attr("width",figwidth)
@@ -45,7 +45,7 @@ function drawLensGeo(figure,lens) {
 	// create the axes themselves
 	var axes = canvas.append("g")
 	    .attr("transform", "translate(" + (0.125 * figwidth) + "," +
-		  ((1 - 0.125 - 0.775) * figheight) + ")")
+		  ((1 - 0.125 - 0.875) * figheight) + ")")
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("class", "main");
@@ -161,23 +161,7 @@ function drawLensGeo(figure,lens) {
             .domain([1,9])
             .range([figwidth*.125,width+figwidth*.125]);
 	
-	var brush = d3.svg.brush()
-            .x(brushX)
-            .extent(lensExtent)
-            .on("brushend",brushended);
 
-	var gBrush = canvas.append("g")
-            .attr("class","lensbrush")
-            .call(brush)
-            .call(brush.event);
-
-	gBrush.selectAll("rect")
-            .attr("height",height)
-            .attr("y",15)
-	    .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
-	    .attr("fill", "#FCFCFC");
-
-	//console.log(lensExtent);
 
 	function brushended() {
 	    if (!d3.event.sourceEvent) return;
@@ -238,8 +222,24 @@ function drawLensGeo(figure,lens) {
 	    lensencoder.varval(lensExtent);
 	}
 
-	d3.select(window).on("resize.selectlens",resizelens);
-	
+	var brush = d3.svg.brush()
+            .x(brushX)
+            .extent(lensExtent)
+            .on("brushend",brushended);
+
+	var gBrush = canvas.append("g")
+            .attr("class","lensbrush")
+            .call(brush)
+            .call(brush.event);
+
+	gBrush.selectAll("rect")
+            .attr("height",height)
+            .attr("y",0)
+	    .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
+	    .attr("fill", "#FCFCFC");
+
+	//console.log(lensExtent);
+
 	function resizelens() {
 	    figwidth = parseInt(d3.select("#lens01").style('width')) - margin.left - margin.right,
 	    width = .775*figwidth;
@@ -273,5 +273,37 @@ function drawLensGeo(figure,lens) {
 	    //brush.event();
 	};
 
-    };
+	d3.select(window).on("resize.selectlens",resizelens);
+
+	// var buttongroup = figure.append("div").attr({"class":"btn-group-vertical",});
+	//buttongroup.html('<button type="button" class="btn btn-default">Button</button><button type="button" class="btn btn-default">Button</button><div class="btn-group"><button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span>        </button>     <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">          <li><a href="#">Dropdown link</a></li>          <li><a href="#">Dropdown link</a></li>        </ul></div>      <button type="button" class="btn btn-default">Button</button>'
+
+	var buttongroup = figure.append("div").attr({"class":"btn-group-vertical pull-right",})
+	// var defaults = [[4,6],[3,7],[3,9],[1,7],[5,5]];
+	var defaults = [[4,6],[3,7],[5,5]];
+	// var defaultnames = ["Default","Wide","Sad","Happy","None"];
+	var defaultnames = ["Default","Wide","None"];
+	buttongroup.selectAll("button").data(defaults).enter()
+	    .append("button")
+	    .attr({"type":"button",
+                   "class": function(d,i) { return "btn btn-default btn-xs "+defaultnames[i]; },})
+	    .html(function(d,i) { return defaultnames[i]; })
+	    .on("click",function(d,i) { 
+		figure.selectAll("button").attr("class","btn btn-default btn-xs"); 
+		d3.select(this).attr("class","btn btn-primary btn-xs"); 
+		d3.select(".lensbrush") //.transition()
+		    .call(brush.extent(d))
+		    .call(brush.event);
+	    });
+	// initially check if any are matched
+	console.log(lensExtent);
+	for (var i=0; i<defaults.length; i++) {
+	    if (defaults[i][0] === parseFloat(lensExtent[0]) && defaults[i][1] === parseFloat(lensExtent[1])) {
+		// make it active
+		buttongroup.select("button."+defaultnames[i]).attr("class","btn btn-primary btn-xs");
+	    }
+	}
+	// lensExtent = lensdecoder().cached;
+
+    }; // if figwidth > 10
 }

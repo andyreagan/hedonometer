@@ -18,17 +18,30 @@
 	<h4>The Storybreaker</h4>
       </div>
       <div class="col-xs-12 col-sm-9">
-	<div id="maprange" class="pull-right">
-	  <i class="fa fa-language fa-lg"></i>
-	  <span>Language: English</span> <b class="caret"></b>
+	<div id="maprange" class="pull-right dropdown language" >
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-language fa-lg" id="dropdownMenu1"></i>
+	  <span>Language: English</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	  </ul>
 	</div>
-	<div id="maprange" class="pull-right">
-	  <i class="fa fa-language fa-lg"></i>
-	  <span>Phrases: All</span> <b class="caret"></b>
+	<div id="maprange" class="pull-right dropdown" >
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-language fa-lg" id="dropdownMenu1"></i>
+	  <span>Phrases: All</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">All</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">1-Grams</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">2-Grams</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">...</a></li>
+	  </ul>
 	</div>
-	<div id="maprange" class="pull-right">
-	  <i class="fa fa-smile-o fa-lg"></i>
-	  <span>Metric: Happiness</span> <b class="caret"></b>
+	<div id="maprange" class="pull-right dropdown" >
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-smile-o fa-lg" id="dropdownMenu1"></i>
+	  <span>Metric: Valence</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Valence</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Entropy</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Count</a></li>
+	  </ul>
 	</div>
 	<p style="margin-bottom:0px; font-size: 11px;">
 	</p>
@@ -59,31 +72,40 @@
 	    </h5>
 	  </div>
 	  <div class="col-xs-10">
-	    <div id="maprange" class="pull-right">
-	      <i class="fa fa-map-marker fa-lg"></i>
-	      <span>Country: USA</span> <b class="caret"></b>
-	    </div>
+	<div id="maprange" class="pull-right dropdown" >
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-marker fa-lg" id="dropdownMenu1"></i>
+	  <span>Country: USA</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">USA</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Canada</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mexico</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">...</a></li>
+	  </ul>
+	</div>
 	    <br>
 	    <br>
-	    <div id="maprange" class="pull-right">
-	      <i class="fa fa-map-marker fa-lg"></i>
-	      <span>Region: All</span> <b class="caret"></b>
-	    </div>
+	<div id="maprange" class="pull-right dropdown">
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-marker fa-lg" id="dropdownMenu1"></i>
+	  <span>Region: All</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">USA</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Canada</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mexico</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">...</a></li>
+	  </ul>
+	</div>
 	    <br>
 	    <br>
-	    <div id="maprange" class="pull-right">
-	      <i class="fa fa-map-marker fa-lg"></i>
-	      <span>Locale: All</span> <b class="caret"></b>
-	    </div>
-	    <!-- <div id="maprange"> -->
-	    <!--   Country: <span>USA</span> <b class="caret"></b> -->
- 	    <!-- </div>  -->
-	    <!-- <div id="maprange"> -->
-	    <!--   Region: <span>All</span> <b class="caret"></b> -->
-	    <!-- </div>  -->
-	    <!-- <div id="maprange"> -->
-	    <!--   Locale: <span>All</span> <b class="caret"></b> -->
-	    <!-- </div> -->
+	<div id="maprange" class="pull-right dropdown" >
+	  <div class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-map-marker fa-lg" id="dropdownMenu1"></i>
+	  <span>Locale: All</span> <b class="caret"></b></div>
+	  <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">USA</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Canada</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">Mexico</a></li>
+	    <li role="presentation"><a role="menuitem" tabindex="-1" href="#">...</a></li>
+	  </ul>
+	</div>
 	  </div>
 	</div>
 	<div id="map01" class="figure">
@@ -225,7 +247,8 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <!--   </div> <\!-- map/shift column -\-> -->
     <!-- </div> <\!-- main row -\- -->
 
-<!-- put this in a modal next -->
+    
+
 
 {% endblock %}
 
@@ -238,7 +261,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <script src="{% static "storybreaker/js/d3.andy.js" %}"></script>
     <script src="{% static "storybreaker/js/d3.geo.zoom.js" %}"></script>
     <script src="{% static "storybreaker/js/topojson.v1.min.js" %}"></script>
-    <script src="{% static "storybreaker/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "storybreaker/js/jquery-1.11.1.js" %}"></script>
     <script src="{% static "storybreaker/js/bootstrap.js" %}"></script>
     <script src="{% static "storybreaker/js/moment.js" %}"></script>
     <script src="{% static "storybreaker/js/daterangepicker.js" %}"></script>
@@ -247,4 +270,8 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <script src="{% static "storybreaker/js/plotShift.js" %}"></script>
     <script src="{% static "storybreaker/js/index-on-load.js" %}"></script>
 
+{% endblock %}
+
+
+{% block lastinbody %}
 {% endblock %}

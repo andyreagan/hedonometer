@@ -32,7 +32,9 @@ function drawMap(figure) {
     fullselboxwidth = selarray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(selstringslen);
 
 
-
+    var legendscale = d3.scale.linear()
+        .domain([340,730])
+        .range([0,1]);
 
 
     function makeSelector() {
@@ -148,8 +150,9 @@ function drawMap(figure) {
 
     }
 
+    function makeLegend(legendwidth,legendheight,textsize) { 
+
     var legendarray = [0,1,2,3,4,5,6],
-    legendwidth = 30,
     legendstringslen = [legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,],
     initialpadding = 0,
     boxpadding = 0.25,
@@ -157,7 +160,7 @@ function drawMap(figure) {
 
     var legendgroup = canvas.append("g")
 	.attr({"class": "legendgroup",
-	       "transform": "translate("+(w-50-fulllegendboxwidth)+","+(h-40)+")",});
+	       "transform": "translate("+(w-50-fulllegendboxwidth)+","+(h-legendheight-legendheight-2)+")",});
 
     legendgroup.selectAll("rect.legendrect")
     	.data(legendarray)
@@ -170,7 +173,7 @@ function drawMap(figure) {
 	       // "rx": 3,
 	       // "ry": 3,
     	       "width": function(d,i) { return legendstringslen[i]; },
-    	       "height": 13,
+    	       "height": legendheight,
 	       'stroke-width': '1',
 	       'stroke': 'rgb(0,0,0)'});
 
@@ -180,11 +183,17 @@ function drawMap(figure) {
         .append("text")
 	.attr({"x": function(d,i) {
 	    if (i==0) { return 0; }
-	    else { return fulllegendboxwidth-d.width(); } },
-    	       "y": 25, 
+	    else { return fulllegendboxwidth-d.width(textsize+"px arial"); } },
+    	       "y": legendheight+legendheight, 
     	       "class": function(d,i) { return "legendtext"; },
+	       "font-size": textsize+"px",
 	      })
     	.text(function(d,i) { return d; });
+    }
+
+    var scaleFactor = legendscale(w);
+
+    makeLegend((20+10*scaleFactor),(8+5*scaleFactor),(9+3*scaleFactor));
 
     //Define map projection
     var projection = d3.geo.albersUsa()

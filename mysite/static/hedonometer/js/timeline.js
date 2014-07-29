@@ -211,7 +211,7 @@
     var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
     var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
 
-    y = d3.scale.linear().range([height, 0]);
+    var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
@@ -931,59 +931,6 @@
 		//console.log(circle);
 		dateencoder.varval(cformat(popdate));
 
-		//console.log(cformat.parse(circle.attr("shortdate")));
-		var bigdaytest = false;
-		var bigdaywiki = ''; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
-
-		addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
-
-		for (var i=0; i<bigdays.length; i++) {
-		    //console.log(bigdays[i].date);
-		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
-		    if (bigdays[i].date.getTime() === popdate.getTime()) {
-			// console.log("major event wiki");
-			bigdaytest = true;
-			bigdaywiki = bigdays[i].wiki;
-			bigdaytext = bigdays[i].longer;
-			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-			break;
-		    }
-		}
-		if (bigdaytest) { d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');	}
-		else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
-
-		// grab the modal body
-		var modalbody = d3.select("#moveshifthere");
-		var modalfooter = d3.select("#moveshiftherefooter");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.append("p").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(popdate)+"</b>"; });
-		if (bigdaytest) {
-		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext+"</b>"; });
-		}
-		else {
-		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}
-
-		modalbody.append("p").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.append("p").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		if (popdate.getTime() === timeseries[0].date.getTime()) {
-		    modalfooter.select(".left").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".left").attr("disabled",null);
-		}
-                if (popdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-		    modalfooter.select(".right").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".right").attr("disabled",null);
-		}
-
  		// new one
 		var newsmalllist = d3.select('#moveshifthere').append('svg')
 		    .attr('height',modalheight).attr('width',modalwidth)
@@ -1508,6 +1455,7 @@
 	//     language: 'en',
 	// });
 
+	// danger! this calls next day
 	$('#dp1').datepicker('setDate',popdate);
 	
     }; // transitionBigShift
@@ -1874,38 +1822,10 @@
 
 	addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
 
-	//console.log(cformat.parse(circle.attr("shortdate")));
-	var bigdaytest = false;
-	var bigdaywiki = '';
-	for (var i=0; i<bigdays.length; i++) {
-	    //console.log(bigdays[i].date);
-	    if (bigdays[i].date.getTime() === newdate.getTime()) {
-		//console.log("major event");
-		bigdaytest = true;
-		bigdaywiki = bigdays[i].wiki;
-		bigdaytext = bigdays[i].longer;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(newdate)+", word shift:"
-		break;
-	    }
-	}
-	if (bigdaytest) { d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');	}
-	
-	else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
 
-	var modalfooter = d3.select("#moveshiftherefooter");
 
-	if (newdate.getTime() === timeseries[0].date.getTime()) {
-	    modalfooter.select(".left").attr("disabled","disabled");
-	}
-	else {
-	    modalfooter.select(".left").attr("disabled",null);
-	}
-        if (newdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-	    modalfooter.select(".right").attr("disabled","disabled");
-	}
-	else {
-	    modalfooter.select(".right").attr("disabled",null);
-	}
+
+
 
 	d3.text("static/hedonometer/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
@@ -2053,25 +1973,6 @@
 		    }
 		}
 
-		var modalbody = d3.select("#moveshifthere");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.insert("p","svg").attr("class","shifttitle pullleft").html(function(d,i) { return "<b>"+""+longerformat(newdate)+"</b>"; });
-		if (bigdaytest) {
-		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext+"</b>"; });
-		}
-		else {
-		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}	    
-		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.insert("p","svg").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		// var sumTypes = [8,-10,-6,14];
-		// var sumTypes = [json2[0].normnegdown,-json2[0].normnegup,-json2[0].normposdown,json2[0].normposup]
-
 		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 
 		topScale = d3.scale.linear()
@@ -2151,6 +2052,75 @@
 
 		newLtoptext.transition().attr("x",function(d,i) { return topScale(d)-5; });
 
+		// console.log("in the next day bigday add");
+
+		var bigdaytest = false;
+		var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
+		var bigdaytext = [];
+
+		addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
+
+		for (var i=0; i<bigdays.length; i++) {
+		    //console.log(bigdays[i].date);
+		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
+		    if (bigdays[i].date.getTime() === newdate.getTime()) {
+			// console.log("major event wiki");
+			bigdaytest = true;
+			bigdaywiki.push(bigdays[i].wiki);
+			bigdaytext.push(bigdays[i].longer);
+			// always share the last event
+			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(newdate)+", word shift:"
+			// don't break for multiple events
+			// break;
+		    }
+		}
+		if (bigdaytest) { 
+		    var tmpStr = 'Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> ';
+		    for (var i=0; i<bigdaywiki.length; i++) { 
+			tmpStr += '<a href="'+bigdaywiki[i].safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35" class="wikilogo"/></a>';
+		    }
+		    d3.select('#modaltitle').html(tmpStr);
+		}
+		else { 
+		    d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>");
+		}
+
+		// grab the modal body
+		var modalbody = d3.select("#moveshifthere");
+		var modalfooter = d3.select("#moveshiftherefooter");
+		// remove the text at the top
+		modalbody.selectAll("p").remove();
+		modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(newdate)+"</b>"; });
+		if (bigdaytest) {
+		    // console.log(bigdaytext);
+		    for (var bc=0; bc<bigdaytext.length; bc++) {
+			// console.log("appending event "+bc+" text");
+			modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
+		    }
+		}
+		else {
+		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
+		}
+
+		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
+		modalbody.insert("p","svg").text(function() {
+		    var head = "What's making this day ";
+		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
+		});
+
+		if (newdate.getTime() === timeseries[0].date.getTime()) {
+		    modalfooter.select(".left").attr("disabled","disabled");
+		}
+		else {
+		    modalfooter.select(".left").attr("disabled",null);
+		}
+		if (newdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
+		    modalfooter.select(".right").attr("disabled","disabled");
+		}
+		else {
+		    modalfooter.select(".right").attr("disabled",null);
+		}
+
 	    }); // d3.json metadata
 
 	}); // d3.json 
@@ -2208,5 +2178,4 @@
     console.log("enjoy :)");
 
 })();
-
 
