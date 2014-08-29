@@ -1,0 +1,76 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <title>Hedonometer</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="application-name" content="Hedonometer"/>
+    <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
+    <meta name="developer" content="Andy Reagan, UVM"/>
+    {% block headerextrameta %}
+    {% endblock %}
+    <!-- Styles -->
+    {% block headercss %}
+    <link href="{% static "hedonometer/css/hedotools.shift.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/embed.css" %}" rel="stylesheet">
+    {% endblock %}
+
+    {% block headerjs %}
+    <script>
+      var embedDetails = {
+      "h": "{{ h }}",
+      "refFile": "{{ refFile }}",
+      "refFileName": "{{ refFileName }}",
+      "compFile": "{{ compFile }}",
+      "compFileName": "{{ compFileName }}",
+      }
+    </script>
+    {% endblock %}
+
+  </head>
+
+  <body>
+    <noscript>
+	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Hedonometer</strong></div>
+	</a><div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
+	<hr>
+      </div>
+    </noscript>
+
+    {% block content %}
+	<div id="shift01" class="figure">
+    {% endblock %}
+
+    {% block test %} 
+    {% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+
+    {% block bottomjs %}
+
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/embed-on-load.js" %}"></script>
+
+    {% endblock %}
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-45564756-3', 'auto');
+      ga('send', 'pageview');
+    </script>
+
+  </body>
+</html>
+
+

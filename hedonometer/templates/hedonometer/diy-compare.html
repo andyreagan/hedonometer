@@ -1,0 +1,70 @@
+{% extends "hedonometer/base.html" %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+      textarea { resize: vertical; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="jumbotron">
+	  <h1>Use the hedonometer yourself.</h1>
+	  <p>On this page you can compare two texts with a wordshift plot.</p>
+	</div>
+      </div>
+      <form action="/embed.html" method="post" class="form">
+	{% csrf_token %}
+	<div class="row">
+	  <div class="col-xs-12 col-md-1">
+	  </div> <!-- column -->
+	  <div class="col-xs-12 col-md-5">
+	    <textarea class="form-control" rows="3" name="referenceText">Enter Text Here</textarea>
+	  </div> <!-- column -->
+	  <div class="col-xs-12 col-md-5">
+	    <textarea class="form-control" rows="3" name="comparisonText">Enter Text Here</textarea>
+	  </div> <!-- column -->
+	</div>
+	<br>
+	<div class="row">
+	  <div class="col-xs-12 col-md-1">
+	  </div> <!-- column -->
+	  <div class="col-xs-12 col-md-11">
+	    <button type="submit" class="btn btn-primary" id="makewordshift">Generate Wordshift</button>
+	  </div> <!-- column -->
+	</div>
+      </form>
+      <div class="row">
+	<div class="col-xs-12 col-md-1">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-11">
+	  <div id="wordshift"></div>
+	</div> <!-- column -->
+      </div>
+    </div><!--container-->
+{% endblock %}
+
+{% block bottomjs %}
+
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/plotShift-main.js" %}"></script>
+    <script src="{% static "hedonometer/js/shift.js" %}"></script>
+    <script src="{% static "hedonometer/js/compare-on-load.js" %}"></script>
+
+{% endblock %}
+
+
+
+
+
+
+
