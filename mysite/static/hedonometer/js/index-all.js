@@ -13018,7 +13018,12 @@ I like this feature
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			if (GET[varname][GET[varname].length-1] === "]") { 
+			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			}
+			else {
+			    var tmpArray = GET[varname].substring(1, GET[varname].length).split(',');
+			}
 			varresult = tmpArray;
 			defvalue = tmpArray;
 		    }
@@ -13236,7 +13241,7 @@ function shift(rrefF,ccompF,lens,words) {
     fromencoder = d3.urllib.encoder().varname("from");
     fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths))),
     toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
+    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10))),
     dateencoder = d3.urllib.encoder().varname("date"),
     datedecoder = d3.urllib.decoder().varname("date"),
     shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
@@ -14104,74 +14109,6 @@ function shift(rrefF,ccompF,lens,words) {
 
 		//console.log(circle);
 		dateencoder.varval(cformat(popdate));
-
-		// //console.log(cformat.parse(circle.attr("shortdate")));
-		// var bigdaytest = false;
-		// var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
-		// var bigdaytext = [];
-
-		// addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
-
-		// for (var i=0; i<bigdays.length; i++) {
-		//     //console.log(bigdays[i].date);
-		//     //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
-		//     if (bigdays[i].date.getTime() === popdate.getTime()) {
-		// 	console.log("major event wiki");
-		// 	bigdaytest = true;
-		// 	bigdaywiki.push(bigdays[i].wiki);
-		// 	bigdaytext.push(bigdays[i].longer);
-		// 	// always share the last event
-		// 	addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-		// 	// don't break for multiple events
-		// 	// break;
-		//     }
-		// }
-		// if (bigdaytest) { 
-		//     var tmpStr = 'Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> ';
-		//     for (var i=0; i<bigdaywiki.length; i++) { 
-		// 	tmpStr += '<a href="'+bigdaywiki[i].safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35" class="wikilogo"/></a>';
-		//     }
-		//     d3.select('#modaltitle').html(tmpStr);
-		// }
-		// else { 
-		//     d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>");
-		// }
-
-		// // grab the modal body
-		// var modalbody = d3.select("#moveshifthere");
-		// var modalfooter = d3.select("#moveshiftherefooter");
-		// // remove the text at the top
-		// modalbody.selectAll("p").remove();
-		// modalbody.append("p").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(popdate)+"</b>"; });
-		// if (bigdaytest) {
-		//     console.log(bigdaytext);
-		//     for (var bc=0; bc<bigdaytext.length; bc++) {
-		// 	console.log("appending event "+bc+" text");
-		// 	modalbody.append("p").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
-		//     }
-		// }
-		// else {
-		//     modalbody.append("p").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		// }
-
-		// modalbody.append("p").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
-		// modalbody.append("p").text(function() {
-		//     var head = "What's making this day ";
-		//     return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		// });
-
-		// if (popdate.getTime() === timeseries[0].date.getTime()) {
-		//     modalfooter.select(".left").attr("disabled","disabled");
-		// }
-		// else {
-		//     modalfooter.select(".left").attr("disabled",null);
-		// }
-                // if (popdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-		//     modalfooter.select(".right").attr("disabled","disabled");
-		// }
-		// else {
-		//     modalfooter.select(".right").attr("disabled",null);
-		// }
 
  		// new one
 		var newsmalllist = d3.select('#moveshifthere').append('svg')
@@ -15294,7 +15231,7 @@ function shift(rrefF,ccompF,lens,words) {
 
 		newLtoptext.transition().attr("x",function(d,i) { return topScale(d)-5; });
 
-		console.log("in the next day bigday add");
+		// console.log("in the next day bigday add");
 
 		var bigdaytest = false;
 		var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
@@ -15306,7 +15243,7 @@ function shift(rrefF,ccompF,lens,words) {
 		    //console.log(bigdays[i].date);
 		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
 		    if (bigdays[i].date.getTime() === newdate.getTime()) {
-			console.log("major event wiki");
+			// console.log("major event wiki");
 			bigdaytest = true;
 			bigdaywiki.push(bigdays[i].wiki);
 			bigdaytext.push(bigdays[i].longer);
@@ -15334,9 +15271,9 @@ function shift(rrefF,ccompF,lens,words) {
 		modalbody.selectAll("p").remove();
 		modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(newdate)+"</b>"; });
 		if (bigdaytest) {
-		    console.log(bigdaytext);
+		    // console.log(bigdaytext);
 		    for (var bc=0; bc<bigdaytext.length; bc++) {
-			console.log("appending event "+bc+" text");
+			// console.log("appending event "+bc+" text");
 			modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
 		    }
 		}
@@ -15420,5 +15357,4 @@ function shift(rrefF,ccompF,lens,words) {
     console.log("enjoy :)");
 
 })();
-
 

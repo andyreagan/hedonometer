@@ -331,8 +331,6 @@ function initializePlotPlot(lens,words) {
 
     // sortStates(d3.select('#table01'))
 
-
-    
     // compute the shift initially
     shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
     plotShift(d3.select("#shift01"),shiftObj.sortedMag.slice(0,200),
@@ -341,6 +339,20 @@ function initializePlotPlot(lens,words) {
               shiftObj.sumTypes,
               shiftObj.refH,
               shiftObj.compH);
+
+    var stateHappsListNorm = Array(51);
+    for (var i=0; i<stateHappsListNorm.length; i++) {
+	stateHappsListNorm[i] = allData[i].avhapps-allData[51].avhapps;
+    }
+
+    // plotBarChart(d3.select("#barChart"),stateHappsListNorm,stateFeatures);
+
+    // var stateHappsList = Array(51);
+    // for (var i=0; i<stateHappsList.length; i++) {
+    // 	stateHappsList[i] = allData[i].avhapps;
+    // }
+    // randomHapps = stateHappsList.map(function(d) { return d+(Math.random()-0.5)/5; } )
+    // plotSankey(d3.select("#sankeyChart"),stateHappsList,randomHapps,stateFeatures);
 };
 
 initializePlot();

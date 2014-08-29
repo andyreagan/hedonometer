@@ -1,5 +1,5 @@
 function computeHapps() {
-    for (var j=0; j<51; j++) {
+    for (var j=0; j<52; j++) {
 	// compute total frequency
 	var N = 0.0;
 	for (var i=0; i<allData[j].freq.length; i++) {

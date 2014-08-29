@@ -13062,7 +13062,12 @@ I like this feature
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			if (GET[varname][GET[varname].length-1] === "]") { 
+			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			}
+			else {
+			    var tmpArray = GET[varname].substring(1, GET[varname].length).split(',');
+			}
 			varresult = tmpArray;
 			defvalue = tmpArray;
 		    }
@@ -13255,13 +13260,13 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	    if (i==0) {
 		// if there are names of the texts, put them here
 		if (Math.abs(refH-compH) < 0.01) { return "How the words of reference and comparison differ";}
-		else { return d+"comparison "+" is "+happysad+" than "+"reference ";}
+		else { return d+"comparison section"+" is "+happysad+" than the "+"reference one";}
 	    }
 	    else if (i==1) {
-		return "Reference happiness " + (d.toFixed(2));
+		return "Reference sections's happiness = " + (d.toFixed(2));
 	    }
 	    else {
-		return "Comparison happiness " + (d.toFixed(2));
+		return "Comparison section's happiness = " + (d.toFixed(2));
 	    }});
 
     axes.selectAll("rect.shiftrect")
@@ -14208,6 +14213,363 @@ function shift(rrefF,ccompF,lens,words) {
 
 
 
+function drawBookTimeseries(figure,data) {
+/* takes a d3 selection and draws the lens distribution
+   on slide of the stop-window
+     -reload data csv's
+     -cut out stops words (0 the frequencies)
+     -call shift on these frequency vectors */
+
+    // some colors
+    // #1193c0 #759ae8
+
+    var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40},
+    // full width
+    figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
+    // fixed height
+    figheight = 200 - margin.top - margin.bottom,
+    // don't shrink this
+    width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
+    // tiny bit of space
+    height = figheight-2;
+
+    // console.log(data);
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    var canvas = figure.append("svg")
+        // full width and height
+	.attr("width",figwidth)
+	.attr("height",figheight)
+	.attr("class","canvas");
+
+    //console.log(data.length);
+
+    // create the x and y axis
+    var x = d3.scale.linear()
+	//.domain([d3.min(lens),d3.max(lens)])
+        // map from the start of the timeseries point to the max
+	.domain([-minWindows/2,data.length+minWindows/2-1])
+	.range([0,width]);
+    
+    // use d3.layout http://bl.ocks.org/mbostock/3048450
+    // data = d3.layout.histogram()
+    //     .bins(x.ticks(65))
+    //     (lens);
+
+    // linear scale function
+    var y =  d3.scale.linear()
+	.domain([d3.min(data),d3.max(data)])
+	.range([height-10, 10]); 
+
+    // console.log([d3.min(data),d3.max(data)])
+
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
+	      ((0) * figheight) + ")") // 99 percent
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
+
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
+
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
+
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(5)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
+
+    // draw the axes
+    var yAxis = create_yAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    axes.append("g")
+	.attr("class", "top")
+	.attr("transform", "translate(0,0)")
+	.attr("font-size", "12.0px")
+	.call(yAxis);
+
+    // // create the clip boundary
+    // var clip = axes.append("svg:clipPath")
+    // 	.attr("id","clip")
+    // 	.append("svg:rect")
+    // 	.attr("x",0)
+    // 	.attr("y",0)
+    // 	.attr("width",width)
+    // 	.attr("height",height);
+
+    // var unclipped_axes = axes;
+
+    // axes = axes.append("g")
+    // 	.attr("clip-path","url(#clip)");
+
+    var line = d3.svg.line()
+	.x(function(d,i) { return x(i); })
+	.y(function(d) { return y(d); })
+	.interpolate("cardinal");
+	// .interpolate("linear");
+
+    var mainline = axes.append("path")
+	.datum(data)
+	.attr("class", "line")
+	.attr("d", line)
+	.attr("stroke","black")
+	.attr("stroke-width",3)
+	.attr("fill","none");
+
+    var beglineline = d3.svg.line()
+	.x(function(d,i) { return x(i-minWindows/2); })
+	.y(function(d) { return y(d); })
+	.interpolate("cardinal");
+	// .interpolate("linear");
+
+    begtimeseries.push(data[0]);
+    
+    var begline = axes.append("path")
+	.datum(begtimeseries)
+	.attr("class", "line")
+	.attr("d", beglineline)
+	.attr("stroke","black")
+	.attr("stroke-dasharray","2,2")
+	.attr("stroke-width",3)
+	.attr("fill","none");
+
+    var endlineline = d3.svg.line()
+	.x(function(d,i) { return x(i+data.length-1); })
+	.y(function(d) { return y(d); })
+	.interpolate("cardinal");
+	// .interpolate("linear");
+
+    endtimeseries.unshift(data[data.length-1]);
+
+    var endline = axes.append("path")
+	.datum(endtimeseries)
+	.attr("class", "line")
+	.attr("d", endlineline)
+	.attr("stroke","black")
+	.attr("stroke-dasharray","2,2")
+	.attr("stroke-width",3)
+	.attr("fill","none");
+
+    var area = d3.svg.area()
+	.x(function(d,i) { return x(i); })
+	.y0(height-1)
+	.y1(function(d) { return y(d); });
+
+    var mainarea = axes.append("path")
+        .datum(data)
+        .attr("class", "area")
+        .attr("d", area)
+        .attr("fill","#D3D3D3");
+
+    axes.append("div").attr("class","dummy");
+
+    drawRefArea = function drawRefArea(extent) {
+
+	var refarea = d3.svg.area()
+	    .x(function(d,i) { return x(extent[0]+i-minWindows/2); })
+	    .y0(height-1)
+	    .y1(function(d) { return y(d)+2; });
+	
+	axes.selectAll(".refarea").remove();
+
+	var refareaarea = axes.insert("path","div.dummy")
+            .datum(fulltimeseries.slice(extent[0],extent[1]))
+            .attr("class", "refarea")
+            .attr("d", refarea)
+            .attr("fill","#fefe81")
+    }
+
+    drawRefArea(refFextent);
+    // d3.selectAll(".refarea").attr("visibility","hidden");
+
+    drawCompArea = function drawCompArea(extent) {
+
+	var comparea = d3.svg.area()
+	    .x(function(d,i) { return x(extent[0]+i-minWindows/2-1); })
+	    .y0(height-1)
+	    .y1(function(d) { return y(d)+2; });
+	
+	axes.selectAll(".comparea").remove();
+
+	var compareaarea = axes.insert("path","div.dummy")
+            .datum(fulltimeseries.slice(extent[0]-1,extent[1]))
+            .attr("class", "comparea")
+            .attr("d", comparea)
+            .attr("fill","#fefe81")
+    }
+
+    drawCompArea(compFextent);
+    // d3.selectAll(".comparea").attr("visibility","hidden");
+
+    // console.log(d3.mean(data));
+    var avhapps = d3.mean(data);
+
+    var linearline = d3.svg.line()
+	.x(function(d,i) { if (i===0) { return x(d.index); } else { return x(d.index)+3 } })
+	.y(function(d) { return y(d.value); })
+	.interpolate("linear");
+
+    var averageline = axes.append("path")
+	.datum([
+	    { "index": 0, 
+	       "value": avhapps, },
+	    { "index": data.length+minWindows/2, 
+	       "value": avhapps, }]
+	      )
+	.attr("class", "line")
+	.attr("d",linearline)
+	.attr("stroke","#1193c0")
+	.attr("stroke-dasharray","5,5")
+	.attr("stroke-width",0.5)
+	.attr("fill","none");
+
+    var averagetext1 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(avhapps)-3,
+		"fill": "#606060",
+		"text-anchor": "start",
+	      })
+	    .text("Average");
+
+    var averagetext2 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(avhapps)+12,
+		"fill": "#606060",
+		"font-weight": "bold",
+		"text-anchor": "start",
+	      })
+	    .text(avhapps.toFixed(2));
+
+    // console.log(d3.min(data));
+    var minhapps = d3.min(data);
+    // console.log(d3.max(data));
+    var maxhapps = d3.max(data);
+    for (var i=0; i<data.length; i++) {
+	if (data[i] === minhapps) {
+	    var minhappsindex = i;
+	}
+	if (data[i] === maxhapps) {
+	    var maxhappsindex = i;
+	}
+    }
+
+    var mincircle  = axes.append("circle")
+    	.attr("cx",x(minhappsindex))
+	.attr("cy",y(minhapps))
+    	.attr("fill","#1193c0")
+	// .attr("stroke","#1193c0")
+	// .attr("stroke-width",0.5)
+    	.attr("r",4);
+
+
+    var minline = axes.append("path")
+	.datum([
+	    { "index": minhappsindex, 
+	       "value": minhapps, },
+	    { "index": data.length+minWindows/2, 
+	       "value": minhapps, }]
+	      )
+	.attr("class", "line")
+	.attr("d",linearline)
+	.attr("stroke","#1193c0")
+	.attr("stroke-width",0.5)
+	.attr("fill","none");
+
+    var mintext1 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(minhapps)-3,
+		"fill": "#606060",
+		"text-anchor": "start",
+	      })
+	    .text("Least Happy");
+
+    var mintext2 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(minhapps)+12,
+		"fill": "#606060",
+		"font-weight": "bold",
+		"text-anchor": "start",
+	      })
+	    .text(minhapps.toFixed(2));
+
+    var maxcircle  = axes.append("circle")
+    	.attr("cx",x(maxhappsindex))
+	.attr("cy",y(maxhapps))
+    	.attr("fill","#1193c0")
+	// .attr("stroke","#1193c0")
+	// .attr("stroke-width",0.5)
+    	.attr("r",4);
+
+    var maxline = axes.append("path")
+	.datum([
+	    { "index": maxhappsindex, 
+	       "value": maxhapps, },
+	    { "index": data.length+minWindows/2, 
+	       "value": maxhapps, }]
+	      )
+	.attr("class", "line")
+	.attr("d",linearline)
+	.attr("stroke","#1193c0")
+	.attr("stroke-width",0.5)
+	.attr("fill","none");
+
+    var mintext1 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(maxhapps),
+		"fill": "#606060",
+		"text-anchor": "start",
+	      })
+	    .text("Happiest");
+
+    var maxtext2 = axes.append("text")
+	.attr({ "x": width+5,
+		"y": y(maxhapps)+15,
+		"fill": "#606060",
+		"font-weight": "bold",
+		"text-anchor": "start",
+	      })
+	    .text(maxhapps.toFixed(2));
+
+    d3.select(window).on("resize.booktimeseries",resize);
+    
+    function resize() {
+	figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
+	width = .775*figwidth;
+
+	canvas.attr("width",figwidth);
+
+	x.range([0,width]);
+
+	mainarea.attr("d",area);
+	mainline.attr("d",line);
+
+	bgrect.attr("width",width);
+    }
+}
+
+
+
+
+
 function selectChapter(figure,numSections) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
@@ -14217,11 +14579,12 @@ function selectChapter(figure,numSections) {
 
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40},
     figwidth = parseInt(d3.select('#chapters02').style('width')) - margin.left - margin.right,
     figheight = 70 - margin.top - margin.bottom,
-    width = .775*figwidth,
+    width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
     height = .775*figheight-20,
-    leftOffsetStatic = .125*figwidth;
+    leftOffsetStatic = axeslabelmargin.left;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -14249,7 +14612,7 @@ function selectChapter(figure,numSections) {
 
     // create the axes themselves
     var axes = canvas.append("g")
-	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
 	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
@@ -14334,7 +14697,7 @@ function selectChapter(figure,numSections) {
 
     var brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
-        .range([figwidth*.125,width+figwidth*.125]);
+        .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
 	.text("Comparison")
@@ -14356,16 +14719,22 @@ function selectChapter(figure,numSections) {
         .call(brush)
         .call(brush.event);
 
+
+
     gBrush.selectAll("rect")
         .attr("height",height)
         .attr("y",0)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
-	.attr("fill", "rgb(90,90,90)");
+	// .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	// .attr("fill", "rgb(90,90,90)")
+        // .on("mouseout",function() { d3.selectAll(".comparea").attr("visibility","hidden"); })
+        .on("mouseover",function() { d3.selectAll(".comparea").attr("visibility","visible"); });
 
     function brushing() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
+
+	drawCompArea(extent1);
 	
 	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
@@ -14464,11 +14833,12 @@ function selectChapterTop(figure,numSections) {
 
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40},
     figwidth = parseInt(d3.select('#chapters01').style('width')) - margin.left - margin.right,
     figheight = 38 - margin.top - margin.bottom,
-    width = .775*figwidth,
+    width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
     height = figheight-4,
-    leftOffsetStatic = .125*figwidth;
+    leftOffsetStatic = axeslabelmargin.left;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -14491,7 +14861,7 @@ function selectChapterTop(figure,numSections) {
 
     // create the axes themselves
     var axes = canvas.append("g")
-	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
 	      ((1 - 0.125 - 0.775) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
@@ -14531,10 +14901,11 @@ function selectChapterTop(figure,numSections) {
     var unclipped_axes = axes;
 
 
+
  
     var brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
-        .range([figwidth*.125,width+figwidth*.125]);
+        .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
 	.text("Reference")
@@ -14559,13 +14930,19 @@ function selectChapterTop(figure,numSections) {
     gBrush.selectAll("rect")
         .attr("height",height-2)
         .attr("y",4)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
-	.attr("fill", "rgb(90,90,90)");
+	// .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	// .attr("fill", "rgb(90,90,90)")
+        // .on("mouseout",function() { d3.selectAll(".refarea").attr("visibility","hidden"); })
+        .on("mouseover",function() { d3.selectAll(".refarea").attr("visibility","visible"); });
+
 
     function brushing() {
 	if (!d3.event.sourceEvent) return;
+	
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
+
+	drawRefArea(extent1);
 	
 	d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
@@ -14651,141 +15028,15 @@ function selectChapterTop(figure,numSections) {
 
 
 
-function drawBookTimeseries(figure,data) {
-/* takes a d3 selection and draws the lens distribution
-   on slide of the stop-window
-     -reload data csv's
-     -cut out stops words (0 the frequencies)
-     -call shift on these frequency vectors */
-
-
-    margin = {top: 0, right: 0, bottom: 0, left: 0},
-    figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
-    figheight = 200 - margin.top - margin.bottom,
-    width = .775*figwidth,
-    height = figheight-2;
-
-    // console.log(data);
-
-    // remove an old figure if it exists
-    figure.select(".canvas").remove();
-
-    var canvas = figure.append("svg")
-	.attr("width",figwidth)
-	.attr("height",figheight)
-	.attr("class","canvas");
-
-    //console.log(data.length);
-
-    // create the x and y axis
-    var x = d3.scale.linear()
-	//.domain([d3.min(lens),d3.max(lens)])
-	.domain([-minWindows/2,data.length+minWindows/2])
-	.range([0,width]);
-    
-    // use d3.layout http://bl.ocks.org/mbostock/3048450
-    // data = d3.layout.histogram()
-    //     .bins(x.ticks(65))
-    //     (lens);
-
-    // linear scale function
-    var y =  d3.scale.linear()
-	.domain([d3.min(data),d3.max(data)])
-	.range([height-10, 10]); 
-
-    // create the axes themselves
-    var axes = canvas.append("g")
-	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
-	      ((0) * figheight) + ")") // 99 percent
-	.attr("width", width)
-	.attr("height", height)
-	.attr("class", "main");
-
-    // create the axes background
-    var bgrect = axes.append("svg:rect")
-	.attr("width", width)
-	.attr("height", height)
-	.attr("class", "bg")
-	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
-	.attr("fill", "#FCFCFC");
-
-    // axes creation functions
-    var create_xAxis = function() {
-	return d3.svg.axis()
-	    .scale(x)
-	    .ticks(9)
-	    .orient("bottom"); }
-
-    // axis creation function
-    var create_yAxis = function() {
-	return d3.svg.axis()
-	    .ticks(3)
-	    .scale(y) //linear scale function
-	    .orient("left"); }
-
-    // // create the clip boundary
-    // var clip = axes.append("svg:clipPath")
-    // 	.attr("id","clip")
-    // 	.append("svg:rect")
-    // 	.attr("x",0)
-    // 	.attr("y",0)
-    // 	.attr("width",width)
-    // 	.attr("height",height);
-
-    // var unclipped_axes = axes;
-
-    // axes = axes.append("g")
-    // 	.attr("clip-path","url(#clip)");
- 
-    var line = d3.svg.line()
-	.x(function(d,i) { return x(i); })
-	.y(function(d) { return y(d); })
-	.interpolate("linear");
-
-    var mainline = axes.append("path")
-	.datum(data)
-	.attr("class", "line")
-	.attr("d", line)
-	.attr("stroke","black")
-	.attr("stroke-width",3)
-	.attr("fill","none");
-
-    var area = d3.svg.area()
-	.x(function(d,i) { return x(i); })
-	.y0(height)
-	.y1(function(d) { return y(d); });
-
-    var mainarea = axes.append("path")
-        .datum(data)
-        .attr("class", "area")
-        .attr("d", area)
-        .attr("fill","#D3D3D3");
-
-    d3.select(window).on("resize.booktimeseries",resize);
-    
-    function resize() {
-	figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
-	width = .775*figwidth;
-
-	canvas.attr("width",figwidth);
-
-	x.range([0,width]);
-
-	mainarea.attr("d",area);
-	mainline.attr("d",line);
-
-	bgrect.attr("width",width);
-    }
-}
-
-
-
-
-
 function computeHapps() {
     // rolling timeseries of happiness
     // 
     var timeseries = Array(allDataRaw.length-minWindows);
+    begtimeseries = Array(minWindows/2);
+    endtimeseries = Array(minWindows/2);
+    var vtimeseries = Array(allDataRaw.length-minWindows);
+    var begvtimeseries = Array(minWindows/2);
+    var endvtimeseries = Array(minWindows/2);
     
     // initialize the frequency and N with 0
     var N = 0;//d3.sum(allData[0]);
@@ -14793,19 +15044,49 @@ function computeHapps() {
     for (var i=0; i<allData[0].length; i++) {
         freq[i] = 0; //allData[0][i];
     }
+
     // add until we have the min number of windows
-    for (var j=0; j<minWindows; j++) {
+    for (var j=0; j<minWindows/2; j++) {
 	N+=d3.sum(allData[j]);
 	for (var i=0; i<allData[j].length; i++) {
             freq[i] += allData[j][i];
 	}
     }
+    for (var j=minWindows/2; j<minWindows; j++) {
+
+
+	// compute the beginning happs and and variance
+	var happs = 0.0;
+	for (var i=0; i<allData[j].length; i++) {
+	    happs += freq[i]*lens[i];
+	}
+	//console.log(happs);
+	//console.log(happs/N);
+	begtimeseries[j-minWindows/2] = happs/N;
+	var variance = 0.0;
+	for (var i=0; i<allData[j].length; i++) {
+	    variance += freq[i]*Math.pow(parseFloat(lens[i])-begtimeseries[j-minWindows/2],2);
+	}
+	begvtimeseries[j-minWindows/2] = variance/N;
+
+	N+=d3.sum(allData[j]);
+	for (var i=0; i<allData[j].length; i++) {
+            freq[i] += allData[j][i];
+	}
+
+    }
+
     // compute the first point of happiness
     var happs = 0.0;
     for (var i=0; i<allData[j].length; i++) {
 	happs += freq[i]*lens[i];
     }
     timeseries[0] = happs/N;
+    var variance = 0.0;
+    for (var i=0; i<allData[j].length; i++) {
+	variance += freq[i]*Math.pow(parseFloat(lens[i])-timeseries[0],2);
+    }
+    vtimeseries[0] = variance/N;
     // console.log(N);
     // console.log(freq);
     // console.log(d3.sum(freq));
@@ -14825,9 +15106,39 @@ function computeHapps() {
 	//console.log(happs);
 	//console.log(happs/N);
 	timeseries[j] = happs/N;
+	var variance = 0.0;
+	for (var i=0; i<allData[j+minWindows-1].length; i++) {
+	    variance += freq[i]*Math.pow(parseFloat(lens[i])-timeseries[j],2);
+	}
+	vtimeseries[j] = variance/N;
+    }
+
+    for (var j=timeseries.length; j<timeseries.length+minWindows/2; j++) {
+	var happs = 0.0
+	N-=d3.sum(allData[j-1])
+	for (var i=0; i<allData[j-1].length; i++) {
+	    freq[i] -= allData[j-1][i];
+	    //console.log(freq[i]);
+	    happs += freq[i]*lens[i];
+	}
+	//console.log(happs);
+	//console.log(happs/N);
+	endtimeseries[j-timeseries.length] = happs/N;
+	var variance = 0.0;
+	for (var i=0; i<allData[j-1].length; i++) {
+	    variance += freq[i]*Math.pow(parseFloat(lens[i])-endtimeseries[j-timeseries.length],2);
+	}
+	endvtimeseries[j-timeseries.length] = variance/N;
     }
     // console.log("inside computeHappsChapters");
     // console.log(timeseries);
+    // console.log(vtimeseries);
+    // console.log(begtimeseries);
+    // console.log(endtimeseries);
+    fulltimeseries = begtimeseries.concat(timeseries).concat(endtimeseries);
+    // console.log(fulltimeseries);
+    // console.log(begvtimeseries);
+    // console.log(endvtimeseries);
     return timeseries;
 }
 
@@ -14839,6 +15150,18 @@ function computeHapps() {
 
 
 
+
+
+// begin with some helper functions
+// http://stackoverflow.com/a/1026087/3780153
+function capitaliseFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// this works really well, but it's deadly slow (working max 5 elements)
+// and it's coupled to jquery
+// http://stackoverflow.com/a/5047712/3780153
 String.prototype.width = function(font) {
     var f = font || '12px arial',
     o = $('<div>' + this + '</div>')
@@ -14849,175 +15172,218 @@ String.prototype.width = function(font) {
     return w;
 }
 
-var bookDecoder = d3.urllib.decoder().varresult("moby_dick").varname("book");
+// yup
+// http://stackoverflow.com/questions/3883342/add-commas-to-a-number-in-jquery
+function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+	val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+}
+
+// set the default here
+var bookDecoder = d3.urllib.decoder().varresult("frankenstein").varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
+// static data for the classics
 var classics = {
     "blank": {
 	language: "",
 	fulltitle: "",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "moby_dick": {
 	language: "english",
 	fulltitle: "Moby Dick",
 	wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
 	ignore: ["cried", "cry", "coffin"],
+	author: "Herman Melville",
     },
     "luther": {
 	language: "english",
 	fulltitle: "I Have a Dream",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "luther": {
 	language: "english",
 	fulltitle: "I Have a Dream",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "anna_karenina": {
 	language: "russian",
 	fulltitle: "Anna Karenina",
 	wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
 	ignore: [],
+	author: "Leo Tolstoy",
     },
     "count_of_monte_cristo": {
 	language: "french",
 	fulltitle: "Count of Monte Cristo",
 	wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
 	ignore: [],
+	author: "Alexandre Dumas",
     },
     "crime_and_punishment": {
 	language: "russian",
 	fulltitle: "Crime and Punishment",
 	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
 	ignore: [],
+	author: "Fyodor Dostoyevsky",
     },
     "crime_and_punishment_en": {
 	language: "english",
 	fulltitle: "Crime and Punishment: English Translation",
 	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
 	ignore: [],
+	author: "Fyodor Dostoyevsky",
     },
     "die_verwandlung_en": { 
 	language: "english", 
 	fulltitle: "Die Verwandlung: English Translation",
 	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
 	ignore: [],
+	author: "Franz Kafka",
     },
     "die_verwandlung": { 
 	language: "german",
 	fulltitle: "Die Verwandlung",
 	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
 	ignore: [],
+	author: "Franz Kafka",
     },
     "don_quixote": {
 	language: "spanish",
 	fulltitle: "Don Quixote",
 	wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
 	ignore: [],
+	author: "Miguel de Cervantes Saavedra",
     },
     "the_three_musketeers": {
 	language: "french",
 	fulltitle: "The Three Musketeers",
 	wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
 	ignore: [],
+	author: "Alexandre Dumas",
     },
     "twoCities": {
 	language: "english",
 	fulltitle: "A Tale of Two Cities",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/A_Tale_of_Two_Cities",
 	ignore: [],
+	author: "Charles Dickens",
     },
     "expectations": {
 	language: "english",
 	fulltitle: "Great Expectations",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Great_Expectations",
 	ignore: [],
+	author: "Charles Dickens",
     },
     "pride": {
 	language: "english",
 	fulltitle: "Pride and Prejudice",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Pride_and_Prejudice",
 	ignore: [],
+	author: "Jane Austen",
     },
     "huck": {
 	language: "english",
 	fulltitle: "Adventures of Huckleberry Finn",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Adventures_of_Huckleberry_Finn",
 	ignore: [],
+	author: "Mark Twain",
     },
     "alice": {
 	language: "english",
 	fulltitle: "Alice's Adventures in Wonderland",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
 	ignore: [],
+	author: "Charles Lutwidge Dodgson",
     },
     "tom": {
 	language: "english",
 	fulltitle: "The Adventures of Tom Sawyer",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer",
 	ignore: [],
+	author: "Mark Twain",
     },
     "sherlock": {
 	language: "english",
 	fulltitle: "The Adventures of Sherlock Holmes",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Sherlock_Holmes",
 	ignore: [],
+	author: "Sir Arthur Conan Doyle",
     },
     "leaves": {
 	language: "english",
 	fulltitle: "Leaves of Grass",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Leaves_of_Grass",
 	ignore: [],
+	author: "Walt Whitman",
     },
     "ulysses": {
 	language: "english",
 	fulltitle: "Ulysses",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Ulysses_(novel)",
 	ignore: [],
+	author: "James Joyce",
     },
     "frankenstein": {
 	language: "english",
 	fulltitle: "Frankenstein; Or the Modern Prometheus",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Frankenstein",
 	ignore: [],
+	author: "Mary Shelley",
     },
     "heights": {
 	language: "english",
 	fulltitle: "Wuthering Heights",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Wuthering_Heights",
 	ignore: [],
+	author: "Emily Brontë",
     },
     "sense": {
 	language: "english",
 	fulltitle: "Sense and Sensibility",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Sense_and_Sensibility",
 	ignore: [],
+	author: "Jane Austen",
     },
     "twist": {
 	language: "english",
 	fulltitle: "Oliver Twist",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Oliver_Twist",
 	ignore: [],
+	author: "Charles Dickens",
     },
 };
 
+
 var ignoreWords = [];
+// this guy is for the catalog card infomation
+var bookinfo = {};
 
 function initializePlot() {
     book = bookDecoder().cached;
     if (classics[book]) { 
 	isclassic = true;
 	lang = classics[book].language;
+	bookinfo.lang = classics[book].language;
 	var booktitle = d3.select("#booktitle");
 	var title = booktitle.append("h2").text(classics[book].fulltitle+" ");
+	bookinfo.title = classics[book].fulltitle;
+	var author = booktitle.append("h2").append("small").text("by "+classics[book].author);
 	for (var i=0; i<classics[book].ignore.length; i++) {
 	    ignoreWords.push(classics[book].ignore[i]);
 	}
 	title.append("small").append("a").attr("href",classics[book].wiki).attr("target","_blank").text("(wiki)");
+	bookinfo.author = classics[book].author;
 	// more than 10000 for no alert
 	sumWords = 20000;
 	loadCsv();
@@ -15034,10 +15400,15 @@ function initializePlot() {
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
 		bookEncoder.varval(result.title);
-		title.append("small").text("by "+result.author);
+		// title.append("small").text("by "+result.author);
+		var bookauthor = d3.select("#bookauthor");
+		var author = booktitle.append("h2").append("small").text("by "+result.author);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
+		bookinfo.lang = lang;
+		bookinfo.title = result.title;
+		bookinfo.author = result.author;
 		loadCsv();
 	    })
 	}
@@ -15048,10 +15419,15 @@ function initializePlot() {
 		lang = result.language;
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
-		title.append("small").text("by "+result.author);
+		// title.append("small").text("by "+result.author);
+		var bookauthor = d3.select("#bookauthor");
+		var author = booktitle.append("h2").append("small").text("by "+result.author);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
+		bookinfo.lang = lang;
+		bookinfo.title = result.title;
+		bookinfo.author = result.author;
 		loadCsv();
 	    })
 	}
@@ -15192,7 +15568,13 @@ function initializePlotPlot(allDataRaw, lens, words) {
         }
     }
 
-    drawLens(d3.select("#lens01"), lens);
+    // only draw the lens is the page is wide enough
+    // this approach is terrible
+    if (parseInt(d3.select("#lens01").style("width")) > 100) {
+	drawLens(d3.select("#lens01"), lens);
+    }
+
+    // doesn't need to return anything, uses globals
     timeseries = computeHapps();
     selectChapterTop(d3.select("#chapters01"), allDataRaw.length);
 
@@ -15209,12 +15591,36 @@ function initializePlotPlot(allDataRaw, lens, words) {
               shiftObj.refH,
               shiftObj.compH);
 
+
+    // build the catalog card
+    bookinfo.avhapps = d3.mean(timeseries);
+    bookinfo.len = 0;
+    for (var i=0; i<allDataRaw.length; i++) {
+	bookinfo.len += d3.sum(allDataRaw[i]);
+    }
+    var infobox = d3.select("p.basicinfobox");
+    
+    infobox.html(
+	"Title: "+bookinfo.title+"<br>"+
+	"Author: "+bookinfo.author+"<br>"+
+	"Language: "+capitaliseFirstLetter(bookinfo.lang)+"<br>"+
+	"Number of Words: "+commaSeparateNumber(bookinfo.len)+"<br>"+
+	"Average Happiness: "+bookinfo.avhapps.toFixed(3)+"<br>"+
+	"Hedonometric Analysis: "+"<a href=\""+window.location.href+"\" >"+window.location.href+"</a>"+"<br>"+
+// someday	    
+//	"Taxonomy: "+"Thriller"+"<br>"+
+//	"10 Most Similar: "+"Coming soon!"+"<br>"
+	    ""
+    );
 };
 
+// make the whole thing
 initializePlot();
 
+// for pushing up a selected search
 var searchEncoder = d3.urllib.encoder().varname("book");
 
+// api access method for the book API
 var substringMatcher = function(strs) {
     return function findMatches(q,cb) {
         var matches, substringRegex;
@@ -15239,6 +15645,8 @@ var substringMatcher = function(strs) {
     };
 };
 
+// use jquery to build the book search
+// (and twitter typeahead)
 $(document).ready(function() {
     $('#randombook').on("click",function() {
 	window.location.replace("/books.html?book=random");
@@ -15259,4 +15667,5 @@ $(document).ready(function() {
     console.log(dataset);
     window.location.replace("/books.html?book="+sugg.value);
 });
+
 

@@ -178,6 +178,7 @@ function drawMap() {
 
 	var intstr = ["zero","one","two","three","four","five","six","seven","eight","nine",];
 	
+	// credit: andy reagan
 	function integerify(num) {
 	    var tmp = '';
 	    for (var i=0; i<num.toString().length; i++) {
@@ -189,10 +190,12 @@ function drawMap() {
 	// console.log(integerify(1015));
 
 	svg.selectAll("path.country").data(topojson.feature(world,world.objects.countries).features).enter().append("path")
-            .attr("class",function(d,i) { return "country "+integerify(d.id); })
-    	    .attr("d", function(d,i) { return path(d.geometry); } )
-            .on("click",function(d,i) { console.log("clicked country number "+d.id); } )
-            .on("dblclick",function(d,i) { console.log(d.id); } );
+            .attr("class",function(d,i) { return "country "+integerify(d.id)+" "+"q"+Math.floor(Math.random()*7)+"-8"; })
+    	    .attr("d", function(d,i) { return path(d.geometry); } );
+            // .on("click",function(d,i) { console.log("clicked country number "+d.id); 
+	    // 				d3.select(this).attr({ "stroke":"black","stroke-width":2});
+	    // 			      } )
+            // .on("dblclick",function(d,i) { console.log(d.id); } );
 
 	svg.selectAll(".foreground")
             .call(d3.geo.zoom().projection(projection)
@@ -381,7 +384,6 @@ function drawTimeseries(apicall) {
 
 } // drawTimeseries
 // call it
-
 
 
 function drawShift() {

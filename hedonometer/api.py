@@ -1,4 +1,4 @@
-from hedonometer.models import Event,Book,Happs,Word
+from hedonometer.models import Event,Book,Happs,Word,GeoHapps
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
@@ -49,6 +49,22 @@ class HappsResource(ModelResource):
             'date': ALL,
         }
 
+class GeoHappsResource(ModelResource):
+    happiness = FixedFloatField(attribute='value')
+    class Meta:
+        queryset = GeoHapps.objects.all()
+        excludes = ['value','id',]
+        resource_name = 'geohapps'
+        limit = 500
+        # default_format = ['json']
+        max_limit = None
+        include_resource_uri = False
+        filtering = {
+            'date': ALL,
+            'stateName': ALL,
+            'stateId': ALL,
+        }
+
 class WordResource(ModelResource):
     # happiness = FixedFloatField(attribute='value')
     class Meta:
@@ -75,16 +91,17 @@ class BookResource(ModelResource):
         excludes = ['happs','id','filename',]
         include_resource_uri = False
         max_limit = None
-        limit = 500
+        limit = 50000
         filtering = {
             'title': ALL_WITH_RELATIONS,
             'id': ALL,
+            'length': ALL_WITH_RELATIONS,
         }
 
 class RandomBookResource(ModelResource):
     reference = fields.CharField('filename')
     class Meta:
-        queryset = Book.objects.filter(length__gte=10000).order_by('?')
+        queryset = Book.objects.filter(length__gte=20000).order_by('?')
         resource_name = 'randombook'
         limit = 1
 

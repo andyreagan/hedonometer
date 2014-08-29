@@ -43,10 +43,11 @@
 	<h3><div class="addthis_sharing_toolbox pull-right"></div></h3>
       </div>
     </div>
-
+    <br>
     <div class="row">
       <div class="col-xs-12 col-sm-8">
 	<!-- <h5>Map</h5> -->
+	<div class="notpaper">
 	<div id="map01" class="figure">
 	  <svg class="canvas" height="527" width="730">
 	    <g transform="translate(0,100)">
@@ -152,9 +153,11 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 </g>
 	  </svg>
 	</div>
+	</div>
       </div>
       <div class="clearfix visible-xs"></div>
       <div class="col-xs-12 col-sm-4">
+	<div class="notpaper">
 	<h5>Word Shift:</h5>
 	<div id="shift01" class="figure">
 	  <div class="row">
@@ -210,17 +213,21 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 	    </div> <!-- column -->
 	  </div> <!-- text row -->
 	</div> <!-- shift figure -->
+	</div> <!-- paper -->
       </div> <!-- map/shift column -->
     </div> <!-- main row -->
     <div class="row">
       <div class="hidden-xs col-sm-3">
       </div> <!-- column -->
       <div class="col-xs-12 col-sm-6">
+	<div class="notpaper">
 	<div id="caption01">
 	  <b>Word lens:</b> Slide and resize the stop-window to adjust.
 	</div> <!-- caption -->
 	<br>
 	<div id="lens01" class="figure"></div>
+	</div> <!-- paper -->
+	
       </div> <!-- column -->
 
       <div class="hidden-xs col-sm-3">
@@ -255,6 +262,7 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
     <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/sankey.js" %}"></script>
     <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
     <script src="{% static "hedonometer/js/plotShift-main.js" %}"></script>
     <script src="{% static "hedonometer/js/shift-geo.js" %}"></script>

@@ -13018,7 +13018,12 @@ I like this feature
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			if (GET[varname][GET[varname].length-1] === "]") { 
+			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			}
+			else {
+			    var tmpArray = GET[varname].substring(1, GET[varname].length).split(',');
+			}
 			varresult = tmpArray;
 			defvalue = tmpArray;
 		    }

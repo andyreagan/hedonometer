@@ -9407,7 +9407,12 @@ I like this feature
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			if (GET[varname][GET[varname].length-1] === "]") { 
+			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			}
+			else {
+			    var tmpArray = GET[varname].substring(1, GET[varname].length).split(',');
+			}
 			varresult = tmpArray;
 			defvalue = tmpArray;
 		    }
@@ -9982,12 +9987,12 @@ function shift(refF,compF,lens,words) {
         refH += refF[i]*parseFloat(lens[i]);
     }
     refH = refH/Nref;
-    // console.log(refH);
+    console.log(refH);
     for (var i=0; i<refF.length; i++) {
 	refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
     }
     refV = refV/Nref; 
-    // console.log(refV);
+    console.log(refV);
 
     // compute comparison happiness
     var compH = 0.0;
@@ -10060,11 +10065,10 @@ function drawLensGeo(figure,lens) {
 
     var margin = {top: 0, right: 55, bottom: 0, left: 0},
     figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
-    figheight = 150 - margin.top - margin.bottom,
+    figheight = 100 - margin.top - margin.bottom,
     width = .875*figwidth-5,
     height = .875*figheight-5,
     leftOffsetStatic = 0.125*figwidth;
-
 
     if (figwidth > 10) {
 
@@ -10329,6 +10333,7 @@ function drawLensGeo(figure,lens) {
 	// var buttongroup = figure.append("div").attr({"class":"btn-group-vertical",});
 	//buttongroup.html('<button type="button" class="btn btn-default">Button</button><button type="button" class="btn btn-default">Button</button><div class="btn-group"><button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span>        </button>     <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">          <li><a href="#">Dropdown link</a></li>          <li><a href="#">Dropdown link</a></li>        </ul></div>      <button type="button" class="btn btn-default">Button</button>'
 
+	figure.selectAll("div.btn-group-vertical").remove();
 	var buttongroup = figure.append("div").attr({"class":"btn-group-vertical pull-right",})
 	// var defaults = [[4,6],[3,7],[3,9],[1,7],[5,5]];
 	var defaults = [[4,6],[3,7],[5,5]];
@@ -10382,8 +10387,6 @@ function drawMap(figure) {
 	.attr("width", w)
 	.attr("height", h);
 
-
-
     var selarray = [false,true],
     selstrings = ["Reference","Comparison"],
     selstringslen = selstrings.map(function(d) { return d.width(); }),
@@ -10391,11 +10394,9 @@ function drawMap(figure) {
     boxpadding = 5,
     fullselboxwidth = selarray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(selstringslen);
 
-
     var legendscale = d3.scale.linear()
         .domain([340,730])
         .range([0,1]);
-
 
     function makeSelector() {
 
@@ -10595,8 +10596,8 @@ function drawMap(figure) {
     //Colors taken from colorbrewer.js, included in the D3 download
 
     // do the sorting
-    indices = Array(allData.length);
-    for (var i = 0; i < allData.length; i++) { indices[i] = i; }
+    indices = Array(allData.length-1);
+    for (var i = 0; i < allData.length-1; i++) { indices[i] = i; }
     indices.sort(function(a,b) { return Math.abs(allData[a].avhapps) < Math.abs(allData[b].avhapps) ? 1 : Math.abs(allData[a].avhapps) > Math.abs(allData[b].avhapps) ? -1 : 0; });
     sortedStates = Array(allData.length-1);
     for (var i = 0; i < allData.length-1; i++) { sortedStates[i] = [i,indices[i],allStateNames[indices[i]]]; }
@@ -10690,10 +10691,12 @@ function drawMap(figure) {
 
 	var wordsstring = "Words Used: "+commaSeparateNumber(d3.sum(allData[i].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
 	wordsstring2 = "Total Words: "+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	USwordsstring = "US Words Used: "+commaSeparateNumber(d3.sum(allData[51].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	USwordsstring2 = "US Total Words: "+commaSeparateNumber(d3.sum(allData[51].rawFreq)),
 	happsstring = "Average Happiness: "+allData[i].avhapps.toFixed(2)
 	//hoverboxheight = 115,
-	hoverboxheight = 125,
-	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial')])+20,
+	hoverboxheight = 125+51,
+	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial'),USwordsstring.width('13px arial'),USwordsstring2.width('13px arial')])+20,
 	hoverboxxoffset = 60;
 	
 	// if it would wrap it over, move it to the left side
@@ -10782,6 +10785,33 @@ function drawMap(figure) {
 	    "font-size": 13,
 	    })
 	    .text(wordsstring2);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 106,
+	    "y": 131,
+	    "font-size": 13,
+	    })
+	    .text("US Average Happiness: "+allData[51].avhapps.toFixed(2));
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 89,
+	    "y": 97+51,
+	    "font-size": 13,
+	    })
+	    .text(USwordsstring);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 106,
+	    "y": 114+51,
+	    "font-size": 13,
+	    })
+	    .text(USwordsstring2);
 
 	if (activeHover) {
 	    if (stateSelType) {
@@ -10882,7 +10912,7 @@ function hslToRgb(h, s, l){
 
 
 function computeHapps() {
-    for (var j=0; j<51; j++) {
+    for (var j=0; j<52; j++) {
 	// compute total frequency
 	var N = 0.0;
 	for (var i=0; i<allData[j].freq.length; i++) {
@@ -11473,8 +11503,6 @@ function initializePlotPlot(lens,words) {
 
     // sortStates(d3.select('#table01'))
 
-
-    
     // compute the shift initially
     shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
     plotShift(d3.select("#shift01"),shiftObj.sortedMag.slice(0,200),
@@ -11483,6 +11511,20 @@ function initializePlotPlot(lens,words) {
               shiftObj.sumTypes,
               shiftObj.refH,
               shiftObj.compH);
+
+    var stateHappsListNorm = Array(51);
+    for (var i=0; i<stateHappsListNorm.length; i++) {
+	stateHappsListNorm[i] = allData[i].avhapps-allData[51].avhapps;
+    }
+
+    // plotBarChart(d3.select("#barChart"),stateHappsListNorm,stateFeatures);
+
+    // var stateHappsList = Array(51);
+    // for (var i=0; i<stateHappsList.length; i++) {
+    // 	stateHappsList[i] = allData[i].avhapps;
+    // }
+    // randomHapps = stateHappsList.map(function(d) { return d+(Math.random()-0.5)/5; } )
+    // plotSankey(d3.select("#sankeyChart"),stateHappsList,randomHapps,stateFeatures);
 };
 
 initializePlot();

@@ -146,13 +146,13 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	    if (i==0) {
 		// if there are names of the texts, put them here
 		if (Math.abs(refH-compH) < 0.01) { return "How the words of reference and comparison differ";}
-		else { return d+"comparison "+" is "+happysad+" than "+"reference ";}
+		else { return d+"comparison section"+" is "+happysad+" than the "+"reference one";}
 	    }
 	    else if (i==1) {
-		return "Reference happiness " + (d.toFixed(2));
+		return "Reference sections's happiness = " + (d.toFixed(2));
 	    }
 	    else {
-		return "Comparison happiness " + (d.toFixed(2));
+		return "Comparison section's happiness = " + (d.toFixed(2));
 	    }});
 
     axes.selectAll("rect.shiftrect")

@@ -7,11 +7,12 @@ function selectChapter(figure,numSections) {
 
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
+    axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40},
     figwidth = parseInt(d3.select('#chapters02').style('width')) - margin.left - margin.right,
     figheight = 70 - margin.top - margin.bottom,
-    width = .775*figwidth,
+    width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
     height = .775*figheight-20,
-    leftOffsetStatic = .125*figwidth;
+    leftOffsetStatic = axeslabelmargin.left;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -39,7 +40,7 @@ function selectChapter(figure,numSections) {
 
     // create the axes themselves
     var axes = canvas.append("g")
-	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
 	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
@@ -124,7 +125,7 @@ function selectChapter(figure,numSections) {
 
     var brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
-        .range([figwidth*.125,width+figwidth*.125]);
+        .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
 	.text("Comparison")
@@ -146,16 +147,22 @@ function selectChapter(figure,numSections) {
         .call(brush)
         .call(brush.event);
 
+
+
     gBrush.selectAll("rect")
         .attr("height",height)
         .attr("y",0)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
-	.attr("fill", "rgb(90,90,90)");
+	// .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
+	// .attr("fill", "rgb(90,90,90)")
+        // .on("mouseout",function() { d3.selectAll(".comparea").attr("visibility","hidden"); })
+        .on("mouseover",function() { d3.selectAll(".comparea").attr("visibility","visible"); });
 
     function brushing() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
+
+	drawCompArea(extent1);
 	
 	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };

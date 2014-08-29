@@ -22,8 +22,6 @@ function drawMap(figure) {
 	.attr("width", w)
 	.attr("height", h);
 
-
-
     var selarray = [false,true],
     selstrings = ["Reference","Comparison"],
     selstringslen = selstrings.map(function(d) { return d.width(); }),
@@ -31,11 +29,9 @@ function drawMap(figure) {
     boxpadding = 5,
     fullselboxwidth = selarray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(selstringslen);
 
-
     var legendscale = d3.scale.linear()
         .domain([340,730])
         .range([0,1]);
-
 
     function makeSelector() {
 
@@ -235,8 +231,8 @@ function drawMap(figure) {
     //Colors taken from colorbrewer.js, included in the D3 download
 
     // do the sorting
-    indices = Array(allData.length);
-    for (var i = 0; i < allData.length; i++) { indices[i] = i; }
+    indices = Array(allData.length-1);
+    for (var i = 0; i < allData.length-1; i++) { indices[i] = i; }
     indices.sort(function(a,b) { return Math.abs(allData[a].avhapps) < Math.abs(allData[b].avhapps) ? 1 : Math.abs(allData[a].avhapps) > Math.abs(allData[b].avhapps) ? -1 : 0; });
     sortedStates = Array(allData.length-1);
     for (var i = 0; i < allData.length-1; i++) { sortedStates[i] = [i,indices[i],allStateNames[indices[i]]]; }
@@ -330,10 +326,12 @@ function drawMap(figure) {
 
 	var wordsstring = "Words Used: "+commaSeparateNumber(d3.sum(allData[i].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
 	wordsstring2 = "Total Words: "+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	USwordsstring = "US Words Used: "+commaSeparateNumber(d3.sum(allData[51].freq)),// +"/"+commaSeparateNumber(d3.sum(allData[i].rawFreq)),
+	USwordsstring2 = "US Total Words: "+commaSeparateNumber(d3.sum(allData[51].rawFreq)),
 	happsstring = "Average Happiness: "+allData[i].avhapps.toFixed(2)
 	//hoverboxheight = 115,
-	hoverboxheight = 125,
-	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial')])+20,
+	hoverboxheight = 125+51,
+	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial'),USwordsstring.width('13px arial'),USwordsstring2.width('13px arial')])+20,
 	hoverboxxoffset = 60;
 	
 	// if it would wrap it over, move it to the left side
@@ -422,6 +420,33 @@ function drawMap(figure) {
 	    "font-size": 13,
 	    })
 	    .text(wordsstring2);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 106,
+	    "y": 131,
+	    "font-size": 13,
+	    })
+	    .text("US Average Happiness: "+allData[51].avhapps.toFixed(2));
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 89,
+	    "y": 97+51,
+	    "font-size": 13,
+	    })
+	    .text(USwordsstring);
+
+	hovergroup.append("text").attr({
+	    "class": "hoverinfotext",
+	    "x": 10,
+	    //"y": 106,
+	    "y": 114+51,
+	    "font-size": 13,
+	    })
+	    .text(USwordsstring2);
 
 	if (activeHover) {
 	    if (stateSelType) {

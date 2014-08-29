@@ -7,12 +7,14 @@ from hedonometer.models import Event,Book,Happs
 
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
+    ordering = ('-date',)
+    save_as = True
     list_display = ('date','caption','importance','x','y','shorter',)
     list_display_links = ('caption',)
     list_editable = ('importance','x','y',)
 
 class HappsAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('date','value',)
 
 class BookAdmin(admin.ModelAdmin):
     search_fields = ('title',)

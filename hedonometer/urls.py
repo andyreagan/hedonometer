@@ -3,7 +3,7 @@ from django.views.generic import TemplateView,RedirectView
 
 from hedonometer import views
 from tastypie.api import Api
-from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource
+from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
@@ -11,6 +11,7 @@ v1_api.register(HappsResource())
 v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
 v1_api.register(WordResource())
+v1_api.register(GeoHappsResource())
 
 urlpatterns = patterns('',
     url(r'^index.html',
@@ -50,14 +51,23 @@ urlpatterns = patterns('',
     url(r'^maps.html',
         TemplateView.as_view(template_name='hedonometer/maps.html'),
         name='maps'),
+    url(r'^devmaps.html',
+        TemplateView.as_view(template_name='hedonometer/devmaps.html'),
+        name='maps'),
     url(r'^books.html',
         TemplateView.as_view(template_name='hedonometer/books.html'),
         name='books'),
     url(r'^api.html',
         TemplateView.as_view(template_name='hedonometer/api.html'),
         name='api'),
-
-
+    url(r'^diy-compare.html',
+        TemplateView.as_view(template_name='hedonometer/diy-compare.html'),
+        name='api'),
+    url(r'^diy-analyze.html',
+        TemplateView.as_view(template_name='hedonometer/diy-analyze.html'),
+        name='api'),
+    url(r'^embed/main/(?P<dateref>[\w-]+)/(?P<datecomp>[\w-]+)/$',views.embedMain,name='embed'),
+    url(r'^embed/(?P<some_hash>\w+)/$',views.embedUpload,name='embed'),
     (r'^api/', include(v1_api.urls)),
     # url(r'^$', views.index, name='index'),
     # ex: /swn/5

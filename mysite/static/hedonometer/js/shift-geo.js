@@ -1,11 +1,11 @@
 function shift(refF,compF,lens,words) {
-/* shift two frequency vectors
-   -assume they've been zero-ed for stop words
-   -lens is of full length
-   -words is a list of utf8 strings
+    /* shift two frequency vectors
+       -assume they've been zero-ed for stop words
+       -lens is of full length
+       -words is a list of utf8 strings
 
-   return an object with the sorted quantities for plotting the shift
-*/
+       return an object with the sorted quantities for plotting the shift
+    */
 
     //normalize frequencies
     var Nref = 0.0;
@@ -27,12 +27,12 @@ function shift(refF,compF,lens,words) {
         refH += refF[i]*parseFloat(lens[i]);
     }
     refH = refH/Nref;
-    // console.log(refH);
+    console.log(refH);
     for (var i=0; i<refF.length; i++) {
 	refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
     }
     refV = refV/Nref; 
-    // console.log(refV);
+    console.log(refV);
 
     // compute comparison happiness
     var compH = 0.0;
@@ -85,6 +85,8 @@ function shift(refF,compF,lens,words) {
       compH: compH,
     };
 };
+
+
 
 
 

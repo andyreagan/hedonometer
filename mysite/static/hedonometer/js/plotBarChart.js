@@ -8,13 +8,15 @@ function plotBarChart(figure,data,geodata) {
 
     */
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
-    figwidth = parseInt(d3.select('#bars01').style('width')) - margin.left - margin.right,
-    aspectRatio = 2.5,
-    figheight = parseInt(d3.select('#bars01').style('width'))*aspectRatio - margin.top - margin.bottom,
-    width = .775*figwidth,
-    height = .8875*figheight,
+    axeslabelmargin = {top: 0, right: 0, bottom: 50, left: 0},
+    figwidth = parseInt(d3.select('#barChart').style('width')) - margin.left - margin.right,
+    // aspectRatio = 1.9,
+    // figheight = parseInt(d3.select('#barChart').style('width'))*aspectRatio - margin.top - margin.bottom,
+    figheight = 730,
+    width = figwidth-axeslabelmargin.left-axeslabelmargin.right,
+    height = figheight-axeslabelmargin.top-axeslabelmargin.bottom,
     figcenter = width/2,
-    leftOffsetStatic = 0.125*figwidth;
+    leftOffsetStatic = axeslabelmargin.left;
 
     // do the sorting
     indices = Array(data.length);
@@ -22,7 +24,7 @@ function plotBarChart(figure,data,geodata) {
     // sort by abs magnitude
     // indices.sort(function(a,b) { return Math.abs(data[a]) < Math.abs(data[b]) ? 1 : Math.abs(data[a]) > Math.abs(data[b]) ? -1 : 0; });
     // sort by magnitude, parity preserving
-    indices.sort(function(a,b) { return data[a] < data[b] ? -1 : data[a] > data[b] ? 1 : 0; });
+    indices.sort(function(a,b) { return data[a] < data[b] ? 1 : data[a] > data[b] ? -1 : 0; });
     var sortedStates = Array(data.length);
     for (var i = 0; i < data.length; i++) { sortedStates[i] = [i,indices[i],geodata[indices[i]].properties.name,data[indices[i]]]; }
     console.log(sortedStates);
@@ -55,20 +57,30 @@ function plotBarChart(figure,data,geodata) {
 
     // create the axes themselves
     var axes = canvas.append("g")
-	.attr("transform", "translate(" + (0.125 * figwidth) + "," +
-	      ((1 - 0.215 - 0.775) * figheight) + ")")
+	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
+	      (axeslabelmargin.top) + ")")
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "main");
 	// .call(zoom);
 
     // create the axes background
-    var bgrect = axes.append("svg:rect")
-	.attr("width", width)
-	.attr("height", height)
-	.attr("class", "bg")
-	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
-	.attr("fill", "#FCFCFC");
+    // var bgrect = axes.append("svg:rect")
+    // 	.attr("width", width)
+    // 	.attr("height", height)
+    // 	.attr("class", "bg")
+    // 	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+    // 	.attr("fill", "#FCFCFC");
+
+    // create the x axes
+    var bgrect = axes.append("svg:line")
+    	.attr("x1", width)
+    	.attr("y1", height)
+    	.attr("x2", axeslabelmargin.left)
+    	.attr("y2", height)
+    	//.attr("class", "bg")
+    	.style({'stroke-width':'1','stroke':'rgb(10,10,10)'});
+    	//.attr("fill", "#FCFCFC");
 
     // axes creation functions
     var create_xAxis = function() {
@@ -77,22 +89,22 @@ function plotBarChart(figure,data,geodata) {
 	    .scale(x)
 	    .orient("bottom"); }
 
-    // axis creation function
-    var create_yAxis = function() {
-	return d3.svg.axis()
-	    .scale(y) //linear scale function
-	    .orient("left"); }
+    // // axis creation function
+    // var create_yAxis = function() {
+    // 	return d3.svg.axis()
+    // 	    .scale(y) //linear scale function
+    // 	    .orient("left"); }
 
-    // draw the axes
-    var yAxis = create_yAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
+    // // draw the axes
+    // var yAxis = create_yAxis()
+    // 	.innerTickSize(6)
+    // 	.outerTickSize(0);
 
-    axes.append("g")
-	.attr("class", "y axis ")
-	.attr("font-size", "14.0px")
-	.attr("transform", "translate(0,0)")
-	.call(yAxis);
+    // axes.append("g")
+    // 	.attr("class", "y axis ")
+    // 	.attr("font-size", "14.0px")
+    // 	.attr("transform", "translate(0,0)")
+    // 	.call(yAxis);
 
     var xAxis = create_xAxis()
 	.innerTickSize(6)
@@ -121,17 +133,17 @@ function plotBarChart(figure,data,geodata) {
     // axes = axes.append("g")
     // 	.attr("clip-path","url(#clip)");
 
-    var ylabel = canvas.append("text")
-	.text("State Rank")
-	.attr("class","axes-text")
-	.attr("x",(figwidth-width)/4)
-	.attr("y",figheight/2+30)
-	.attr("font-size", "16.0px")
-	.attr("fill", "#000000")
-	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+    // var ylabel = canvas.append("text")
+    // 	.text("State Rank")
+    // 	.attr("class","axes-text")
+    // 	.attr("x",(figwidth-width)/4)
+    // 	.attr("y",figheight/2+30)
+    // 	.attr("font-size", "16.0px")
+    // 	.attr("fill", "#000000")
+    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
 
     var xlabel = canvas.append("text")
-	.text("Flux")
+	.text("Happiness")
 	.attr("class","axes-text")
 	.attr("x",width/2+(figwidth-width)/2)
 	.attr("y",3*(figheight-height)/4+height)
@@ -143,18 +155,19 @@ function plotBarChart(figure,data,geodata) {
 	.data(sortedStates)
 	.enter()
 	.append("rect")
-	.attr("fill", function(d,i) { if (data[3]>0) {return color(data[3]);} else {return color(d[3]); } })
-	.attr("class", function(d,i) { return d[2]+" staterect"; })
+	// .attr("fill", function(d,i) { if (data[3]>0) {return color(data[3]);} else {return color(d[3]); } })
+	.attr("class", function(d,i) { return d[2]+" staterect"+" q"+classColor(i+1)+"-8"; })
 	.attr("x", function(d,i) { if (d[3]>0) { return figcenter; } else { return x(d[3]); } })
 	.attr("y", function(d,i) { return y(i+1); })
-	.style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
-	.attr("height",function(d,i) { return 15; } )
+	.style({'opacity':'1.0','stroke-width':'1.0','stroke':'rgb(100,100,100)'})
+	.attr("height",function(d,i) { return 11; } )
 	.attr("width",function(d,i) { if (d[3]>0) {return x(d[3])-figcenter;} else {return figcenter-x(d[3]); } } )
 	.on('mouseover', function(d){
-            var rectSelection = d3.select(this).style({opacity:'1.0'});
+            var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'black','stroke-width':'1.0',});
 	})
 	.on('mouseout', function(d){
-            var rectSelection = d3.select(this).style({opacity:'0.7'});
+            var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'rgb(100,100,100)','stroke-width':'1.0',});
+            // var rectSelection = d3.select(this).style({opacity:'0.7'});
 	});
 
     axes.selectAll("text.statetext")
@@ -165,7 +178,7 @@ function plotBarChart(figure,data,geodata) {
 	.attr("x", function(d,i) { if (d[3]>0) { return figcenter-6; } else { return figcenter+6; } })
 	.style("text-anchor", function(d,i) { if (d[3]>0) { return "end";} else { return "start";}})
 	.attr("y",function(d,i) { return y(i+1)+11; } )
-        .text(function(d,i) { return d[2]; });
+        .text(function(d,i) { return (i+1)+". "+d[2]; });
 
     // d3.select(window).on("resize.shiftplot",resizeshift);
     

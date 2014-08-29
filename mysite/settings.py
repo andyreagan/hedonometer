@@ -20,8 +20,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = False
 
@@ -81,6 +81,7 @@ INSTALLED_APPS = (
     'cmplxsys',
     'tastypie',
     'storybreaker',
+    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -89,7 +90,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+#    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 # also for the likes/secretballot combo
 #    'likes.middleware.SecretBallotUserIpUseragentMiddleware',
 )
@@ -132,3 +133,38 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = '/usr/share/nginx/wiki/mysite/mysite/static'
+
+# from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'mysite.log',
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers':['file'],
+            'propagate': True,
+            'level':'DEBUG',
+        },
+        'hedonometer': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
+    }
+}

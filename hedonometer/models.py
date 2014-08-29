@@ -5,6 +5,12 @@ class Happs(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
 
+class GeoHapps(models.Model):
+    date = models.DateTimeField()
+    stateId = models.IntegerField()
+    stateName = models.CharField(max_length=100)
+    value = models.FloatField()
+
 class Word(models.Model):
     word = models.CharField(max_length=100)
     rank = models.IntegerField()
@@ -49,3 +55,13 @@ class Book(models.Model):
 
     class Meta:
         ordering = ('author',)
+
+class Embeddable(models.Model):
+    # the hash
+    # will look things up by this
+    h = models.CharField(max_length=64)
+    # store the filenames and some titles for the things
+    refFile = models.CharField(max_length=200, null=True, blank=True)
+    refFileName = models.CharField(max_length=200, null=True, blank=True)
+    compFile = models.CharField(max_length=200, null=True, blank=True)
+    compFileName = models.CharField(max_length=200, null=True, blank=True)

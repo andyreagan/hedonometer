@@ -5,7 +5,7 @@ echo "catting dev"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.js loadlabMT.js shift.js timelinedev.js > dev-all.js
 
 echo "catting books"
-cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js plotShift-books.js shift-foreign.js drawLens-chapters.js selectChapter.js selectChapterTop.js drawBookTimeseries.js computeHappsChapters.js books-on-load.js > books-all.js
+cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js plotShift-books.js shift-foreign.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
 
 # not using yet
 # echo "catting maps"

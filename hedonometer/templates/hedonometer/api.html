@@ -23,7 +23,7 @@
 
 	  <hr>
 
-	  <h4>Twitter Daily Timeseries <span class="label label-default">New</span></h4>
+	  <h4>Twitter Daily Timeseries</h4>
 	  <br>
 
 
@@ -139,7 +139,7 @@ http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100
 
 <!-- 	  <hr> -->
 
-	  <h4>LabMT Words <span class="label label-default">New</span></h4>
+	  <h4>LabMT Words</h4>
 	  <br>
 
 	  <a href="http://hedonometer.org/api/v1/words/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire dataset</button></a>
@@ -205,7 +205,49 @@ http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev
 	    To search any of these, append the URL option like in the above query, where the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/" target="_blank">documentation</a>).
 
 	  <hr>
+	  
+	  <br>
 
+	  <h4>Happiness by State in US  <span class="label label-default">New</span></h4>
+
+	  <!-- <a href="http://hedonometer.org/api/v1/words/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire dataset</button></a> -->
+
+	  <br>
+
+	  <p>Example query and response, where we looking for happiness in California on August 10, 2014.</p>
+
+	  <a href="http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5</button></a>
+
+	  <br>
+	  <br>
+
+
+	  <pre>
+http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5
+
+{
+    meta: {
+	limit: 500,
+	next: null,
+	offset: 0,
+	previous: null,
+	total_count: 1
+    },
+    objects: [
+	{
+	    date: "2014-08-10T00:00:00",
+	    happiness: "5.979",
+	    stateId: 5,
+	    stateName: "California"
+	}
+    ]
+}
+</pre>
+
+	  <p>The API is searchable by state name, state ID, and date.
+	    To search any of these, append the URL option like in the above query, where again the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/" target="_blank">documentation</a>).
+
+	  <hr>
 	</div> <!-- column -->
       </div>
     </div><!--container-->

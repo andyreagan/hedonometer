@@ -36,3 +36,20 @@
 }
 
 p.sumtext { margin-bottom: 2px; }
+
+div.refslider rect.extent {
+    stroke-width: 2;
+    stroke: rgb(100,100,100);
+    opacity: 0.35;
+    fill: rgb(100,100,100);
+}
+
+div.compslider rect.extent {
+    stroke-width: 2;
+    stroke: rgb(100,100,100);
+    opacity: 0.35;
+    fill: rgb(100,100,100);
+    /* fill: #fefe81; */
+}
+
+#booktitle > h2 { margin-top: 3px; }

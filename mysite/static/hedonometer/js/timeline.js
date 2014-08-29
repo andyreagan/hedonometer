@@ -62,7 +62,7 @@
     fromencoder = d3.urllib.encoder().varname("from");
     fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths))),
     toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
+    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10))),
     dateencoder = d3.urllib.encoder().varname("date"),
     datedecoder = d3.urllib.decoder().varname("date"),
     shiftselencoder = d3.urllib.encoder().varname("wordtypes"),

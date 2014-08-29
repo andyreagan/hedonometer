@@ -1,8 +1,15 @@
-path.country { fill: #9ecae1;
-	       stroke-width: 0.5;
+path.country {  /* fill: #9ecae1; */
+	       stroke-width: 1;
 	       stroke: #f0f0f0; }
 
-
+.q0-8 { fill: #367B7F; }
+.q1-8 { fill: #76A5A8; }
+.q2-8 { fill: #A6C5C6; }
+.q3-8 { fill: #EBE3D7; }
+.q4-8 { fill: #F9C79E; }
+.q5-8 { fill: #F5A361; }
+.q6-8 { fill: #F28124; }
+.undefined { fill: #666; }
 
 .graticule {
   fill: none;

@@ -1,3 +1,13 @@
+// begin with some helper functions
+// http://stackoverflow.com/a/1026087/3780153
+function capitaliseFirstLetter(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// this works really well, but it's deadly slow (working max 5 elements)
+// and it's coupled to jquery
+// http://stackoverflow.com/a/5047712/3780153
 String.prototype.width = function(font) {
     var f = font || '12px arial',
     o = $('<div>' + this + '</div>')
@@ -8,175 +18,218 @@ String.prototype.width = function(font) {
     return w;
 }
 
-var bookDecoder = d3.urllib.decoder().varresult("moby_dick").varname("book");
+// yup
+// http://stackoverflow.com/questions/3883342/add-commas-to-a-number-in-jquery
+function commaSeparateNumber(val){
+    while (/(\d+)(\d{3})/.test(val.toString())){
+	val = val.toString().replace(/(\d+)(\d{3})/, '$1'+','+'$2');
+    }
+    return val;
+}
+
+// set the default here
+var bookDecoder = d3.urllib.decoder().varresult("frankenstein").varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
+// static data for the classics
 var classics = {
     "blank": {
 	language: "",
 	fulltitle: "",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "moby_dick": {
 	language: "english",
 	fulltitle: "Moby Dick",
 	wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
 	ignore: ["cried", "cry", "coffin"],
+	author: "Herman Melville",
     },
     "luther": {
 	language: "english",
 	fulltitle: "I Have a Dream",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "luther": {
 	language: "english",
 	fulltitle: "I Have a Dream",
 	wiki: "",
 	ignore: [],
+	author: "",
     },
     "anna_karenina": {
 	language: "russian",
 	fulltitle: "Anna Karenina",
 	wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
 	ignore: [],
+	author: "Leo Tolstoy",
     },
     "count_of_monte_cristo": {
 	language: "french",
 	fulltitle: "Count of Monte Cristo",
 	wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
 	ignore: [],
+	author: "Alexandre Dumas",
     },
     "crime_and_punishment": {
 	language: "russian",
 	fulltitle: "Crime and Punishment",
 	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
 	ignore: [],
+	author: "Fyodor Dostoyevsky",
     },
     "crime_and_punishment_en": {
 	language: "english",
 	fulltitle: "Crime and Punishment: English Translation",
 	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
 	ignore: [],
+	author: "Fyodor Dostoyevsky",
     },
     "die_verwandlung_en": { 
 	language: "english", 
 	fulltitle: "Die Verwandlung: English Translation",
 	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
 	ignore: [],
+	author: "Franz Kafka",
     },
     "die_verwandlung": { 
 	language: "german",
 	fulltitle: "Die Verwandlung",
 	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
 	ignore: [],
+	author: "Franz Kafka",
     },
     "don_quixote": {
 	language: "spanish",
 	fulltitle: "Don Quixote",
 	wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
 	ignore: [],
+	author: "Miguel de Cervantes Saavedra",
     },
     "the_three_musketeers": {
 	language: "french",
 	fulltitle: "The Three Musketeers",
 	wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
 	ignore: [],
+	author: "Alexandre Dumas",
     },
     "twoCities": {
 	language: "english",
 	fulltitle: "A Tale of Two Cities",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/A_Tale_of_Two_Cities",
 	ignore: [],
+	author: "Charles Dickens",
     },
     "expectations": {
 	language: "english",
 	fulltitle: "Great Expectations",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Great_Expectations",
 	ignore: [],
+	author: "Charles Dickens",
     },
     "pride": {
 	language: "english",
 	fulltitle: "Pride and Prejudice",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Pride_and_Prejudice",
 	ignore: [],
+	author: "Jane Austen",
     },
     "huck": {
 	language: "english",
 	fulltitle: "Adventures of Huckleberry Finn",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Adventures_of_Huckleberry_Finn",
 	ignore: [],
+	author: "Mark Twain",
     },
     "alice": {
 	language: "english",
 	fulltitle: "Alice's Adventures in Wonderland",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
 	ignore: [],
+	author: "Charles Lutwidge Dodgson",
     },
     "tom": {
 	language: "english",
 	fulltitle: "The Adventures of Tom Sawyer",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer",
 	ignore: [],
+	author: "Mark Twain",
     },
     "sherlock": {
 	language: "english",
 	fulltitle: "The Adventures of Sherlock Holmes",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Sherlock_Holmes",
 	ignore: [],
+	author: "Sir Arthur Conan Doyle",
     },
     "leaves": {
 	language: "english",
 	fulltitle: "Leaves of Grass",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Leaves_of_Grass",
 	ignore: [],
+	author: "Walt Whitman",
     },
     "ulysses": {
 	language: "english",
 	fulltitle: "Ulysses",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Ulysses_(novel)",
 	ignore: [],
+	author: "James Joyce",
     },
     "frankenstein": {
 	language: "english",
 	fulltitle: "Frankenstein; Or the Modern Prometheus",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Frankenstein",
 	ignore: [],
+	author: "Mary Shelley",
     },
     "heights": {
 	language: "english",
 	fulltitle: "Wuthering Heights",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Wuthering_Heights",
 	ignore: [],
+	author: "Emily Brontë",
     },
     "sense": {
 	language: "english",
 	fulltitle: "Sense and Sensibility",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Sense_and_Sensibility",
 	ignore: [],
+	author: "Jane Austen",
     },
     "twist": {
 	language: "english",
 	fulltitle: "Oliver Twist",
-	wiki: "",
+	wiki: "http://en.wikipedia.org/wiki/Oliver_Twist",
 	ignore: [],
+	author: "Charles Dickens",
     },
 };
 
+
 var ignoreWords = [];
+// this guy is for the catalog card infomation
+var bookinfo = {};
 
 function initializePlot() {
     book = bookDecoder().cached;
     if (classics[book]) { 
 	isclassic = true;
 	lang = classics[book].language;
+	bookinfo.lang = classics[book].language;
 	var booktitle = d3.select("#booktitle");
 	var title = booktitle.append("h2").text(classics[book].fulltitle+" ");
+	bookinfo.title = classics[book].fulltitle;
+	var author = booktitle.append("h2").append("small").text("by "+classics[book].author);
 	for (var i=0; i<classics[book].ignore.length; i++) {
 	    ignoreWords.push(classics[book].ignore[i]);
 	}
 	title.append("small").append("a").attr("href",classics[book].wiki).attr("target","_blank").text("(wiki)");
+	bookinfo.author = classics[book].author;
 	// more than 10000 for no alert
 	sumWords = 20000;
 	loadCsv();
@@ -193,10 +246,15 @@ function initializePlot() {
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
 		bookEncoder.varval(result.title);
-		title.append("small").text("by "+result.author);
+		// title.append("small").text("by "+result.author);
+		var bookauthor = d3.select("#bookauthor");
+		var author = booktitle.append("h2").append("small").text("by "+result.author);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
+		bookinfo.lang = lang;
+		bookinfo.title = result.title;
+		bookinfo.author = result.author;
 		loadCsv();
 	    })
 	}
@@ -207,10 +265,15 @@ function initializePlot() {
 		lang = result.language;
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
-		title.append("small").text("by "+result.author);
+		// title.append("small").text("by "+result.author);
+		var bookauthor = d3.select("#bookauthor");
+		var author = booktitle.append("h2").append("small").text("by "+result.author);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
+		bookinfo.lang = lang;
+		bookinfo.title = result.title;
+		bookinfo.author = result.author;
 		loadCsv();
 	    })
 	}
@@ -351,7 +414,13 @@ function initializePlotPlot(allDataRaw, lens, words) {
         }
     }
 
-    drawLens(d3.select("#lens01"), lens);
+    // only draw the lens is the page is wide enough
+    // this approach is terrible
+    if (parseInt(d3.select("#lens01").style("width")) > 100) {
+	drawLens(d3.select("#lens01"), lens);
+    }
+
+    // doesn't need to return anything, uses globals
     timeseries = computeHapps();
     selectChapterTop(d3.select("#chapters01"), allDataRaw.length);
 
@@ -368,12 +437,36 @@ function initializePlotPlot(allDataRaw, lens, words) {
               shiftObj.refH,
               shiftObj.compH);
 
+
+    // build the catalog card
+    bookinfo.avhapps = d3.mean(timeseries);
+    bookinfo.len = 0;
+    for (var i=0; i<allDataRaw.length; i++) {
+	bookinfo.len += d3.sum(allDataRaw[i]);
+    }
+    var infobox = d3.select("p.basicinfobox");
+    
+    infobox.html(
+	"Title: "+bookinfo.title+"<br>"+
+	"Author: "+bookinfo.author+"<br>"+
+	"Language: "+capitaliseFirstLetter(bookinfo.lang)+"<br>"+
+	"Number of Words: "+commaSeparateNumber(bookinfo.len)+"<br>"+
+	"Average Happiness: "+bookinfo.avhapps.toFixed(3)+"<br>"+
+	"Hedonometric Analysis: "+"<a href=\""+window.location.href+"\" >"+window.location.href+"</a>"+"<br>"+
+// someday	    
+//	"Taxonomy: "+"Thriller"+"<br>"+
+//	"10 Most Similar: "+"Coming soon!"+"<br>"
+	    ""
+    );
 };
 
+// make the whole thing
 initializePlot();
 
+// for pushing up a selected search
 var searchEncoder = d3.urllib.encoder().varname("book");
 
+// api access method for the book API
 var substringMatcher = function(strs) {
     return function findMatches(q,cb) {
         var matches, substringRegex;
@@ -398,6 +491,8 @@ var substringMatcher = function(strs) {
     };
 };
 
+// use jquery to build the book search
+// (and twitter typeahead)
 $(document).ready(function() {
     $('#randombook').on("click",function() {
 	window.location.replace("/books.html?book=random");
@@ -418,4 +513,5 @@ $(document).ready(function() {
     console.log(dataset);
     window.location.replace("/books.html?book="+sugg.value);
 });
+
 

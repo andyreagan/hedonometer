@@ -12,7 +12,7 @@ cd /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/data
 # yesterday
 DAY=$(date +%Y-%m-%d -d "yesterday")
 # some other date
-# DAY="2014-07-08"
+# DAY="2014-08-18"
 
 echo "processing $DAY"
 

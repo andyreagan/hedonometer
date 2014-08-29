@@ -9,11 +9,10 @@ function drawLensGeo(figure,lens) {
 
     var margin = {top: 0, right: 55, bottom: 0, left: 0},
     figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
-    figheight = 150 - margin.top - margin.bottom,
+    figheight = 100 - margin.top - margin.bottom,
     width = .875*figwidth-5,
     height = .875*figheight-5,
     leftOffsetStatic = 0.125*figwidth;
-
 
     if (figwidth > 10) {
 
@@ -278,6 +277,7 @@ function drawLensGeo(figure,lens) {
 	// var buttongroup = figure.append("div").attr({"class":"btn-group-vertical",});
 	//buttongroup.html('<button type="button" class="btn btn-default">Button</button><button type="button" class="btn btn-default">Button</button><div class="btn-group"><button id="btnGroupVerticalDrop1" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">Dropdown<span class="caret"></span>        </button>     <ul class="dropdown-menu" role="menu" aria-labelledby="btnGroupVerticalDrop1">          <li><a href="#">Dropdown link</a></li>          <li><a href="#">Dropdown link</a></li>        </ul></div>      <button type="button" class="btn btn-default">Button</button>'
 
+	figure.selectAll("div.btn-group-vertical").remove();
 	var buttongroup = figure.append("div").attr({"class":"btn-group-vertical pull-right",})
 	// var defaults = [[4,6],[3,7],[3,9],[1,7],[5,5]];
 	var defaults = [[4,6],[3,7],[5,5]];
