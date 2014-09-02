@@ -82,6 +82,14 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    var comparisonText = "";
+
+    var setText = function(_) {
+	if (!arguments.length) return _;
+	comparisonText = _;
+	return hedotools.shifter;
+    }
+
     var numwordstoplot = 200;
 
     var shift = function(refF,compF,lens,words) {
@@ -312,13 +320,13 @@ hedotools.shifter = function()
 
 	// d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
 
+	// if there wasn't any text passed, make it
+	if (comparisonText.length < 1) {
+	    comparisonText = "Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
+	}
+
 	figure.selectAll("p.sumtext.text")
-	    .data(["Why ",])
-	    .text(function(d,i) { 
-		if (i===0) {
-		    return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
-		}
-	    });
+	    .text(comparisonText);
 	
 	var typeClass = ["negdown","posdown","negup","posup"];
 
@@ -682,8 +690,8 @@ hedotools.shifter = function()
     var opublic = { shift: shift,
 		    setfigure: setfigure,
 		    setdata: setdata,
-		    plot: plot, } 
+		    plot: plot, 
+		    setText: setText, } 
 
     return opublic;
-
 }();

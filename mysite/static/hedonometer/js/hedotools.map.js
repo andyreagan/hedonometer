@@ -242,9 +242,6 @@ hedotools.map = function() {
 		d3.max(allData, function(d) { return d.avhapps; })
 	    ]);
 
-	classColor = d3.scale.quantize()
-            .range([0,1,2,3,4,5,6])
-	    .domain([50,1]);
 	//Colors taken from colorbrewer.js, included in the D3 download
 
 	// do the sorting

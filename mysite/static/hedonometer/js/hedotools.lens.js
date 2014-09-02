@@ -1,3 +1,44 @@
+// on call as a module
+// in the test function, can set the function that gets called
+// when the lens is moved
+// full flexibility
+hedotools.lensoncall = function() { 
+    var test = function(extent1) {
+	console.log("set on load");
+	// reset
+	for (var j=0; j<allData.length; j++) {
+	    for (var i=0; i<allData[j].rawFreq.length; i++) {
+		var include = true;
+		// check if in removed word list
+		for (var k=0; k<ignoreWords.length; k++) {
+		    if (ignoreWords[k] == words[i]) {
+			include = false;
+			//console.log("ignored "+ignoreWords[k]);
+		    }
+		}
+		// check if underneath lens cover
+		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		    include = false;
+		}
+		// include it, or set to 0
+		if (include) {
+		    allData[j].freq[i] = allData[j].rawFreq[i];
+		}
+		else { allData[j].freq[i] = 0; }
+		
+	    }
+	}
+	hedotools.computeHapps.go();
+	hedotools.map.setfigure(d3.select('#map01')).setdata(geoJson).plot();
+	if (shiftRef !== shiftComp) {
+	    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    shiftObj.setfigure(d3.select('#shift01')).plot();
+	}
+    }
+    var opublic = { test: test, };
+    return opublic;
+}();
+
 hedotools.lens = function() {
 
     // for now, keep track of which page we're in
@@ -190,6 +231,8 @@ hedotools.lens = function() {
 		if (!d3.event.sourceEvent) return;
 		var extent0 = brush.extent(),
 		extent1 = extent0; // should round it to bins
+
+		onredrawfunction();
 		
 		// window.stopVals = extent1;
 		// console.log(extent1);
@@ -197,36 +240,7 @@ hedotools.lens = function() {
 		{	    
 
 		    lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
-
-		    // reset
-		    for (var j=0; j<allData.length; j++) {
-			for (var i=0; i<allData[j].rawFreq.length; i++) {
-			    var include = true;
-			    // check if in removed word list
-			    for (var k=0; k<ignoreWords.length; k++) {
-				if (ignoreWords[k] == words[i]) {
-				    include = false;
-				    //console.log("ignored "+ignoreWords[k]);
-				}
-			    }
-			    // check if underneath lens cover
-			    if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
-				include = false;
-			    }
-			    // include it, or set to 0
-			    if (include) {
-				allData[j].freq[i] = allData[j].rawFreq[i];
-			    }
-			    else { allData[j].freq[i] = 0; }
-			    
-			}
-		    }
-		    hedotools.computeHapps.go();
-		    hedotools.map.setfigure(d3.select('#map01')).setdata(geoJson).plot();
-		    if (shiftRef !== shiftComp) {
-			var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-			shiftObj.setfigure(d3.select('#shift01')).plot();
-		    }
+		    hedotools.lensoncall.test(extent1);
 		}
 
 		d3.select(this).transition()
@@ -322,10 +336,15 @@ hedotools.lens = function() {
 	}; // if figwidth > 10
     }
 
+    var onredrawfunction = function() {
+	console.log("I got called");
+    }
+
     var opublic = { setfigure: setfigure,
 		    setdata: setdata,
-		    plot: plot, };
+		    plot: plot,
+		    onredrawfunction: onredrawfunction,
+		  };
 
     return opublic;
-
 }();

@@ -45,9 +45,12 @@
     </div>
     <br>
     <div class="row">
-      <div class="col-xs-12 col-sm-8">
+      <div class="col-xs-12 col-sm-7">
 	<!-- <h5>Map</h5> -->
-	<div class="notpaper">
+
+
+
+	<div class="paper">
 	<div id="map01" class="figure">
 	  <svg class="canvas" height="527" width="730">
 	    <g transform="translate(0,100)">
@@ -154,10 +157,19 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 	  </svg>
 	</div>
 	</div>
+	<div class="paper">
+	<div id="caption01">
+	  <b>Bar Chart:</b> Happiness difference from US as a whole.
+	</div> <!-- caption -->
+	<br>
+	<div id="barChart" class="figure"></div>
+	</div> <!-- paper -->
+
+
       </div>
       <div class="clearfix visible-xs"></div>
-      <div class="col-xs-12 col-sm-4">
-	<div class="notpaper">
+      <div class="col-xs-12 col-sm-5">
+	<div class="paper">
 	<h5>Word Shift:</h5>
 	<div id="shift01" class="figure">
 	  <div class="row">
@@ -167,10 +179,10 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 	    <div class="col-xs-10">
 	      <div class="row">
 		<div class="row xtra-btm-padding">
-		  <div class="col-xs-3">
-		    <p class="pull-left">Reference:</p>
+		  <div class="col-xs-2">
+		    <p class="pull-left">Ref:</p>
 		  </div> <!-- column -->
-		  <div class="col-xs-9">
+		  <div class="col-xs-10">
 		    <div class="btn-group" id="refSelect">
 		      <button type="button" class="btn btn-default btn-xs reflabel">U.S. as a whole</button>
 		      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -187,10 +199,10 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 		<div class="clearfix visible-xs"></div>
 
 		<div class="row xtra-btm-padding">
-		  <div class="col-xs-3">
-		    <p class="pull-left">Comparison:</p>
+		  <div class="col-xs-2">
+		    <p class="pull-left">Comp:</p>
 		  </div> <!-- column -->
-		  <div class="col-xs-9">
+		  <div class="col-xs-10">
 		    <div class="btn-group" id="compSelect">
 		      <button type="button" class="btn btn-default btn-xs complabel">Alaska</button>
 		      <button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
@@ -214,20 +226,38 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 	  </div> <!-- text row -->
 	</div> <!-- shift figure -->
 	</div> <!-- paper -->
-      </div> <!-- map/shift column -->
-    </div> <!-- main row -->
-    <div class="row">
-      <div class="hidden-xs col-sm-3">
-      </div> <!-- column -->
-      <div class="col-xs-12 col-sm-6">
-	<div class="notpaper">
+
+	<div class="paper">
 	<div id="caption01">
 	  <b>Word lens:</b> Slide and resize the stop-window to adjust.
 	</div> <!-- caption -->
 	<br>
 	<div id="lens01" class="figure"></div>
 	</div> <!-- paper -->
+
+      </div> <!-- map/shift column -->
+    </div> <!-- main row -->
+    <div class="row">
+      <div class="hidden-xs col-sm-3">
+      </div> <!-- column -->
+      <div class="col-xs-12 col-sm-7">
+
 	
+	<br>
+
+
+
+
+	<!-- <br> -->
+
+	<!-- <div class="paper"> -->
+	<!--   <div id="caption01"> -->
+	<!--     <b>Sankey Diagram:</b> The movement of state ranks from the previous block of time. -->
+	<!--   </div> <\!-- caption -\-> -->
+	<!--   <br> -->
+	<!--   <div id="sankeyChart" class="figure"></div> -->
+	<!-- </div> <\!-- paper -\-> -->
+
       </div> <!-- column -->
 
       <div class="hidden-xs col-sm-3">
@@ -264,13 +294,14 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
     <script src="{% static "hedonometer/js/sankey.js" %}"></script>
     <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/plotShift-main.js" %}"></script>
-    <script src="{% static "hedonometer/js/shift-geo.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawLens-geo.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawMap.js" %}"></script>
-    <script src="{% static "hedonometer/js/computeHapps-geo.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawList.js" %}"></script>
-    <script src="{% static "hedonometer/js/maps-on-load.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.map.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
+    <!-- <script src="{% static "hedonometer/js/stateSankey.js" %}"></script> -->
+    <script src="{% static "hedonometer/js/maps-on-load-dev.js" %}"></script>
 
 {% endblock %}
 
