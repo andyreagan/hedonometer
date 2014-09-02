@@ -1,3 +1,5 @@
+# /usr/share/nginx/wiki/mysite/hedonometer/urls.py
+
 from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView,RedirectView
 
@@ -69,9 +71,4 @@ urlpatterns = patterns('',
     url(r'^embed/main/(?P<dateref>[\w-]+)/(?P<datecomp>[\w-]+)/$',views.embedMain,name='embed'),
     url(r'^embed/(?P<some_hash>\w+)/$',views.embedUpload,name='embed'),
     (r'^api/', include(v1_api.urls)),
-    # url(r'^$', views.index, name='index'),
-    # ex: /swn/5
-    # url(r'^(?P<swn_id>\d+)/$', views.detail, name='detail'),
-    # url(r'^(?P<swn_id>\d+)_vote/$', views.voteswn, name='detail'),
-    # url(r'^(?P<swn_id>\d+)_submit/$', views.addswn, name='detail'),
 )

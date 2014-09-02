@@ -1,3 +1,5 @@
+# /usr/share/nginx/wiki/mysite/hedonometer/views.py
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.core.context_processors import csrf

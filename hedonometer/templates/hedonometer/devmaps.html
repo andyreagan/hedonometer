@@ -248,15 +248,15 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
 
 
 
-	<br>
+	<!-- <br> -->
 
-	<div class="paper">
-	<div id="caption01">
-	  <b>Sankey Diagram:</b> The movement of state ranks from the previous block of time.
-	</div> <!-- caption -->
-	<br>
-	<div id="sankeyChart" class="figure"></div>
-	</div> <!-- paper -->
+	<!-- <div class="paper"> -->
+	<!--   <div id="caption01"> -->
+	<!--     <b>Sankey Diagram:</b> The movement of state ranks from the previous block of time. -->
+	<!--   </div> <\!-- caption -\-> -->
+	<!--   <br> -->
+	<!--   <div id="sankeyChart" class="figure"></div> -->
+	<!-- </div> <\!-- paper -\-> -->
 
       </div> <!-- column -->
 
@@ -296,12 +296,11 @@ l-221 221 -22 -31 c-19 -26 -20 -33 -9 -44 7 -6 67 -61 133 -121 279 -255 315
     <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
     <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
     <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawLens-geo.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawMap.js" %}"></script>
-    <script src="{% static "hedonometer/js/computeHapps-geo.js" %}"></script>
-    <script src="{% static "hedonometer/js/drawList.js" %}"></script>
-    <script src="{% static "hedonometer/js/plotBarChart.js" %}"></script>
-    <script src="{% static "hedonometer/js/stateSankey.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.map.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
+    <!-- <script src="{% static "hedonometer/js/stateSankey.js" %}"></script> -->
     <script src="{% static "hedonometer/js/maps-on-load-dev.js" %}"></script>
 
 {% endblock %}

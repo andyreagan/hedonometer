@@ -1,3 +1,5 @@
+# /usr/share/nginx/wiki/mysite/mysite/urls.py
+
 from django.conf.urls import patterns, include, url
 
 from django.contrib import admin
@@ -26,3 +28,5 @@ urlpatterns = patterns('',
     # url(r'^notify/', get_notify_pattern()),
     # url(r'^wiki/', get_wiki_pattern()),
 )
+
+

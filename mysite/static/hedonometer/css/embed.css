@@ -1,1 +1,8 @@
 /* nothing yet */
+
+#shift01 {     border: 2px solid;
+	       border-radius: 7px;
+	       background: white; 
+	       padding: 5px;
+	       z-index: 1000;
+	 }

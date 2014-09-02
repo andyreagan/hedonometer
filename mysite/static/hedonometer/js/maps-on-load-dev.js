@@ -49,9 +49,6 @@ d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
 		d3.select(this).attr("class",d3.select(this).attr("class").replace("default","primary"));
 	    } } );
 
-lensencoder = d3.urllib.encoder().varname("lens"); //.varval(lensExtent);
-lensdecoder = d3.urllib.decoder().varname("lens").varresult([4,6]); //.varval(lensExtent);
-
 timeselencoder = d3.urllib.encoder().varname("time"); //.varval(lensExtent);
 timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 30 Days"); //.varval(lensExtent);
 
@@ -207,6 +204,7 @@ function loadCsv(time) {
     var csvLoadsRemaining = 4;
     if (time === "2011" || time === "2012" || time === "2013") {
 	// load files from lewis
+	console.log("loading year words and scores");
 	var scoresFile = "/static/hedonometer/data/geodata/wordScores.csv";
 	var wordsFile = "/static/hedonometer/data/geodata/words.csv";
 	d3.text(scoresFile, function(text) {
@@ -255,9 +253,9 @@ function loadCsv(time) {
 	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     });
     // trying to load from a new format for the more recent tweets
-    // d3.text("/static/hedonometer/data/geodata/wordCounts"+(time)+".csv", function(text) {
-    var time = "2014-08-25-week"
-    d3.text("/static/hedonometer/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    d3.text("/static/hedonometer/data/geodata/wordCounts"+(time)+".csv", function(text) {
+    // var time = "2014-08-25-week"
+    // d3.text("/static/hedonometer/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 	tmp = text.split("\n");
 	allData = Array(52);
 	for (var i=0; i<51; i++) {
@@ -283,9 +281,9 @@ function loadCsv(time) {
 
 function initializePlotPlot(lens,words) {
     // draw the lens
-    drawLensGeo(d3.select("#lens01"),lens);
+    hedotools.lens.setfigure(d3.select("#lens01")).setdata(lens).plot();
+    // drawLensGeo(d3.select("#lens01"),lens);
 
-    lensExtent = lensdecoder().cached;
     // initially apply the lens, and draw the shift
     for (var j=0; j<allData.length; j++) {
 	for (var i=0; i<allData[j].rawFreq.length; i++) {
@@ -323,10 +321,10 @@ function initializePlotPlot(lens,words) {
 	}
     }
 
-    computeHapps();
+    hedotools.computeHapps.go();
 
     // draw the map
-    drawMap(d3.select('#map01'));
+    hedotools.map.setfigure(d3.select('#map01')).setdata(geoJson).plot();
 
     // sortStates(d3.select('#table01'))
 
@@ -339,7 +337,7 @@ function initializePlotPlot(lens,words) {
 	stateHappsListNorm[i] = allData[i].avhapps-allData[51].avhapps;
     }
 
-    plotBarChart(d3.select("#barChart"),stateHappsListNorm,stateFeatures);
+    hedotools.barchart.setfigure(d3.select("#barChart")).setdata(stateHappsListNorm,stateFeatures).plot();
 
     var stateHappsList = Array(51);
     for (var i=0; i<stateHappsList.length; i++) {
@@ -387,7 +385,7 @@ function initializePlotPlot(lens,words) {
 	    stateHappsListOld[i] = allDataOld[i].avhapps;
 	}
 
-	plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);	
+	// plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);	
     });
 };
 

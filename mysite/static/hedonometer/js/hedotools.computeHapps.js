@@ -1,0 +1,18 @@
+hedotools.computeHapps = function() {
+    var go = function () {
+	for (var j=0; j<52; j++) {
+	    // compute total frequency
+	    var N = 0.0;
+	    for (var i=0; i<allData[j].freq.length; i++) {
+		N += parseFloat(allData[j].freq[i]);
+	    }
+	    var happs = 0.0;
+	    for (var i=0; i<allData[j].freq.length; i++) {
+		happs += parseFloat(allData[j].freq[i])*parseFloat(lens[i]);
+	    }
+	    allData[j].avhapps = happs/N;
+	}
+    }
+    var opublic = { go: go, };
+    return opublic;
+}();

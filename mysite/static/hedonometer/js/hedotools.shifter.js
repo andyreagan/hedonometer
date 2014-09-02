@@ -341,6 +341,27 @@ hedotools.shifter = function()
 	//     var rectSelection = d3.select(this).style({opacity:"0.7"});
 	// });
 
+	axes.selectAll("rect.shiftrect")
+	    .data(sortedMag)
+	    .enter()
+	    .append("rect")
+	    .attr({ 
+		"class": function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; },
+		"x": function(d,i) { 
+		    if (d>0) { return figcenter; } 
+		    else { return bigshiftx(d)}
+		},
+		"y": function(d,i) { return bigshifty(i+1); },
+		"height": function(d,i) { return iBarH; },
+		"width": function(d,i) { 
+		    if ((d)>0) { return bigshiftx(d)-bigshiftx(0); }
+		    else { return bigshiftx(0)-bigshiftx(d); } 
+		},
+		"opacity": "0.7",
+		"stroke-width": "1",
+		"stroke": "rgb(0,0,0)"
+	    });
+
 	axes.selectAll("text.shifttext")
 	    .data(sortedMag)
 	    .enter()
