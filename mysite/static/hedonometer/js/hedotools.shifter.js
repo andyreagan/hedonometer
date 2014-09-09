@@ -1,3 +1,5 @@
+// /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/hedotools.shifter.js
+
 // define the shifter module 
 hedotools.shifter = function()
 {
@@ -61,6 +63,14 @@ hedotools.shifter = function()
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
 	figcenter = figwidth/2;
+    }
+
+    // pull the width, set the height static
+    var setHeight = function(_) {
+	fullheight = _;
+	boxheight = fullheight-margin.top-margin.bottom;
+	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
+	return hedotools.shifter;
     }
 
     // will be set by setdata() or shift() functions
@@ -691,7 +701,9 @@ hedotools.shifter = function()
 		    setfigure: setfigure,
 		    setdata: setdata,
 		    plot: plot, 
-		    setText: setText, } 
+		    setText: setText,
+		    setHeight: setHeight, } 
 
     return opublic;
 }();
+

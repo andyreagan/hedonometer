@@ -92,14 +92,14 @@ hedotools.lens = function() {
 
 	    // create the x and y axis
 	    var x = d3.scale.linear()
-	    //.domain([d3.min(lens),d3.max(lens)])
-		.domain([1.00,9.00])
+	        .domain([1.00,9.00])
+		// .domain(d3.extent(lens))
 		.range([0,width]);
 	    
 	    // use d3.layout http://bl.ocks.org/mbostock/3048450
 	    var data = d3.layout.histogram()
 		.bins(x.ticks(65))
-            (lens);
+                (lens);
 
 	    // linear scale function
 	    var y =  d3.scale.linear()
@@ -182,14 +182,14 @@ hedotools.lens = function() {
 		.attr("fill", "#000000")
 		.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
 
-	    var xlabel = canvas.append("text")
-		.text("Word score")
-		.attr("class","axes-text")
-		.attr("x",width/2+(figwidth-width)/2)
-		.attr("y",figheight)
-		.attr("font-size", "12.0px")
-		.attr("fill", "#000000")
-		.attr("style", "text-anchor: middle;");
+	    // var xlabel = canvas.append("text")
+	    // 	.text("Word score")
+	    // 	.attr("class","axes-text")
+	    // 	.attr("x",width/2+(figwidth-width)/2)
+	    // 	.attr("y",figheight)
+	    // 	.attr("font-size", "12.0px")
+	    // 	.attr("fill", "#000000")
+	    // 	.attr("style", "text-anchor: middle;");
 
 	    var lensMean = d3.mean(lens);
 
@@ -223,6 +223,7 @@ hedotools.lens = function() {
 
 	    var brushX = d3.scale.linear()
 		.domain([1,9])
+		// .domain(d3.extent(lens))
 		.range([figwidth*.125,width+figwidth*.125]);
 	    
 
@@ -241,7 +242,7 @@ hedotools.lens = function() {
 
 		    lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
 		    hedotools.lensoncall.test(extent1);
-		}
+		} 
 
 		d3.select(this).transition()
 		    .call(brush.extent(lensExtent))

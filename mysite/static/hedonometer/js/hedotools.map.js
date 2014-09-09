@@ -333,7 +333,7 @@ hedotools.map = function() {
 
 	function state_hover(d,i) { 
 	    var bbox = this.getBBox(); 
-	    var x = Math.floor(bbox.x + bbox.width/2.0); 
+	    var x = Math.floor(bbox.x + bbox.width/2.0);
 	    var y = Math.floor(bbox.y + bbox.height/2.0);
 	    // console.log(x);
 	    // console.log(y);
@@ -347,15 +347,21 @@ hedotools.map = function() {
 	    hoverboxheight = 125+51,
 	    hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial'),USwordsstring.width('13px arial'),USwordsstring2.width('13px arial')])+20,
 	    hoverboxxoffset = 60;
+	    var hoverboxyoffset = 30;
 	    
 	    // if it would wrap it over, move it to the left side
 	    if ((x+hoverboxwidth+hoverboxxoffset)>w) {
 		hoverboxxoffset = -hoverboxxoffset-hoverboxwidth;
 	    }
+
+	    // if it would wrap it over, move it to the left side
+	    if ((y-hoverboxheight/2-hoverboxyoffset)<0) {
+		hoverboxyoffset = -30;
+	    }
 	    
 	    var hovergroup = canvas.append("g").attr({
 		"class": "hoverinfogroup",
-		"transform": "translate("+(x+hoverboxxoffset)+","+(y-hoverboxheight/2)+")",	    });
+		"transform": "translate("+(x+hoverboxxoffset)+","+(y-hoverboxheight/2-hoverboxyoffset)+")",});
 
 	    var hoverbox = hovergroup.append("rect").attr({
 		"class": "hoverinfobox",
@@ -480,7 +486,7 @@ hedotools.map = function() {
 
 		if (shiftRef !== shiftComp) {
 		    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		    shiftObj.setfigure(d3.select('#shift01')).plot();
+		    shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
 		}
 	    }
 	}

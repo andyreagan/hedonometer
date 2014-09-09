@@ -92,7 +92,7 @@ hedotools.loader = function() {
 	    }
 	}
 	var shiftObj = hedotools.shifter.shift(refFvec,compFvec,lens,words);
-	shiftObj.setfigure(d3.select('#shift01')).plot();
+	shiftObj.setfigure(d3.select('#shift01')).setText("title text").plot();
     };
 
     var opublic = { load: load,

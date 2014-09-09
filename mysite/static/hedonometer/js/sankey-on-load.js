@@ -1,8 +1,9 @@
 // override the lensoncall module
 hedotools.lensoncall = function() { 
-    var test = function(extent1) {
-	console.log("reset");
+    var test = function() {
 	// reset
+	console.log(lensExtent);
+	console.log(ignoreWords);
 	for (var j=0; j<allData.length; j++) {
 	    for (var i=0; i<allData[j].rawFreq.length; i++) {
 		var include = true;
@@ -14,7 +15,7 @@ hedotools.lensoncall = function() {
 		    }
 		}
 		// check if underneath lens cover
-		if (lens[i] >= extent1[0] && lens[i] <= extent1[1]) {
+		if (lens[i] >= lensExtent[0] && lens[i] <= lensExtent[1]) {
 		    include = false;
 		}
 		// include it, or set to 0
@@ -30,7 +31,6 @@ hedotools.lensoncall = function() {
 	    }
 	}
 
-	
 	hedotools.computeHapps.go();
 
 	stateHappsList = Array(51);
@@ -98,7 +98,7 @@ timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 30 Days"); 
 
 
 function initializePlot() {
-    timeDrop();
+    // timeDrop();
     // refcompdrops();
     console.log(timeseldecoder().cached);
     var timeF = timeseldecoder().cached.replace(/\+/g,' ');
@@ -167,70 +167,6 @@ shiftseldecoder = d3.urllib.decoder().varname("selection").varresult("none"); //
 timeFrames = ["lastquarter","lastmonth","lastweek"];
 timeFrameText = ["Last 90 Days","Last 30 Days","Last 7 Days"];
 
-// function refcompdrops() {
-//     d3.select("#compSelect").selectAll("a")
-//         .on("click", function(d,i) {
-// 	    // console.log(i);
-// 	    d3.selectAll(".state").attr("stroke-width",0.7);
-// 	    activeHover = true;
-// 	    shiftComp = stateIndex(d);
-// 	    d3.select(".complabel").text(d);
-// 	    compencoder.varval(d);
-//             // key = this.selectedIndex;
-// 	    // key = i;
-//             // timeName = timeFrames[key];
-// 	    // d3.select(".timelabel").text(timeFrameText[key]);
-// 	    // timeselencoder.varval(timeFrameText[key]);
-//             // loadCsv(timeName); 
-
-// 	    if (shiftRef !== shiftComp) {
-// 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-// 		shiftObj.setfigure(d3.select('#shift01')).plot();
-// 	    }
-// 	});
-
-//     d3.select("#refSelect").selectAll("a")
-//         .on("click", function(d,i) {
-// 	    // console.log(i);
-// 	    d3.selectAll(".state").attr("stroke-width",0.7);
-// 	    activeHover = true;
-// 	    shiftRef = stateIndex(d);
-// 	    d3.select(".reflabel").text(d);
-// 	    refencoder.varval(d);
-
-// 	    if (shiftRef !== shiftComp) {
-// 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-// 		shiftObj.setfigure(d3.select('#shift01')).plot();
-// 	    }
-//             // key = this.selectedIndex;
-// 	    // key = i;
-//             // timeName = timeFrames[key];
-// 	    // d3.select(".timelabel").text(timeFrameText[key]);
-// 	    // timeselencoder.varval(timeFrameText[key]);
-//             // loadCsv(timeName); 
-// 	});
-
-//     d3.select("#rotate")
-//         .on("click", function(d,i) {
-// 	    // console.log(i);
-// 	    d3.selectAll(".state").attr("stroke-width",0.7);
-// 	    activeHover = true;
-// 	    var tmp = shiftComp;
-// 	    shiftComp = shiftRef;
-// 	    shiftRef = tmp;
-// 	    var tmp = d3.select(".complabel").text();
-// 	    d3.select(".complabel").text(d3.select(".reflabel").text());
-// 	    d3.select(".reflabel").text(tmp);
-// 	    refencoder.varval(allData[shiftRef].name);
-// 	    compencoder.varval(allData[shiftComp].name);
-	    
-// 	    if (shiftRef !== shiftComp) {
-// 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-// 		shiftObj.setfigure(d3.select('#shift01')).plot();
-// 	    }
-// 	});
-// }
-
 function timeDrop() {
     d3.select("#timeSelect").selectAll("a")
         .on("click", function(d,i) {
@@ -253,7 +189,7 @@ function loadCsv(time) {
 	var tmp = text.split("\n");
 	//console.log(tmp.length);
 	//console.log(tmp[tmp.length-1]);
-	lens = tmp.map(parseFloat);
+	lens = tmp.map(function(d) { return parseFloat(d); });
 	var len = lens.length - 1;
 	while (!lens[len]) {
 	    //console.log("in while loop");
@@ -309,50 +245,7 @@ function initializePlotPlot(lens,words) {
     // draw the lens
     hedotools.lens.setfigure(d3.select("#lens01")).setdata(lens).plot();
 
-    // initially apply the lens, and draw the shift
-    for (var j=0; j<allData.length; j++) {
-	for (var i=0; i<allData[j].rawFreq.length; i++) {
-	    if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
-		allData[j].freq[i] = 0;
-            }
-	    else {
-		allData[j].freq[i] = allData[j].rawFreq[i];
-	    }
-	}
-    }
-    // refill the avhapps value in the main data
 
-    // reset
-    for (var j=0; j<allData.length; j++) {
-	for (var i=0; i<allData[j].rawFreq.length; i++) {
-	    var include = true;
-	    // check if in removed word list
-	    for (var k=0; k<ignoreWords.length; k++) {
-		if (ignoreWords[k] == words[i]) {
-		    include = false;
-		    //console.log("ignored "+ignoreWords[k]);
-		}
-	    }
-	    // check if underneath lens cover
-	    if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
-		include = false;
-	    }
-	    // include it, or set to 0
-	    if (include) {
-		allData[j].freq[i] = allData[j].rawFreq[i];
-	    }
-	    else { 
-		allData[j].freq[i] = 0;
-	    }
-	}
-    }
-
-    hedotools.computeHapps.go();
-
-    stateHappsList = Array(51);
-    for (var i=0; i<stateHappsList.length; i++) {
-	stateHappsList[i] = allData[i].avhapps;
-    }
 
     // randomHapps = stateHappsList.map(function(d) { return d+(Math.random()-0.5)/5; } )
 
@@ -380,9 +273,8 @@ function initializePlotPlot(lens,words) {
 	    }
 	}
 
-	// reset
-	for (var j=0; j<allDataOld.length; j++) {
-	    for (var i=0; i<allDataOld[j].rawFreq.length; i++) {
+	for (var j=0; j<allData.length; j++) {
+	    for (var i=0; i<allData[j].rawFreq.length; i++) {
 		var include = true;
 		// check if in removed word list
 		for (var k=0; k<ignoreWords.length; k++) {
@@ -392,19 +284,29 @@ function initializePlotPlot(lens,words) {
 		    }
 		}
 		// check if underneath lens cover
-		if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
+		if (lens[i] >= lensExtent[0] && lens[i] <= lensExtent[1]) {
 		    include = false;
 		}
 		// include it, or set to 0
 		if (include) {
+		    allData[j].freq[i] = allData[j].rawFreq[i];
 		    allDataOld[j].freq[i] = allDataOld[j].rawFreq[i];
 		}
 		else { 
+		    allData[j].freq[i] = 0;
 		    allDataOld[j].freq[i] = 0;
 		}
+		
 	    }
 	}
-	
+
+	hedotools.computeHapps.go();
+
+	stateHappsList = Array(51);
+	for (var i=0; i<stateHappsList.length; i++) {
+	    stateHappsList[i] = allData[i].avhapps;
+	}
+
 	// this is computeHapps() with allData -> allDataOld
 	for (var j=0; j<52; j++) {
 	    // compute total frequency
@@ -426,10 +328,10 @@ function initializePlotPlot(lens,words) {
 
 	hedotools.sankey.setfigure(d3.select("#sankeyChart")).setdata(stateHappsListOld,stateHappsList,allStateNames.slice(0,51)).plot();
 
-	// compute the shift initially
-	// use the top state from the new time
+	// // compute the shift initially
+	// // use the top state from the new time
 	var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
-	shiftObj.setfigure(d3.select('#shift01')).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+	shiftObj.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
 
     });
 };

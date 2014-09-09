@@ -1,3 +1,5 @@
+// /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/hedotools.init.js
+
 // namespace it
 var hedotools = hedotools || {};
 

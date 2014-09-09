@@ -161,7 +161,8 @@ hedotools.barchart = function() {
 	// 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
 
 	var xlabel = canvas.append("text")
-	    .text("Happiness")
+	    // .text("Happiness")
+	    .text("Happiness difference from US as a whole")
 	    .attr("class","axes-text")
 	    .attr("x",width/2+(figwidth-width)/2)
 	    .attr("y",3*(figheight-height)/4+height)
@@ -180,8 +181,30 @@ hedotools.barchart = function() {
 	    .style({'opacity':'1.0','stroke-width':'1.0','stroke':'rgb(100,100,100)'})
 	    .attr("height",function(d,i) { return 11; } )
 	    .attr("width",function(d,i) { if (d[3]>0) {return x(d[3])-figcenter;} else {return figcenter-x(d[3]); } } )
-	    .on('mouseover', function(d){
+	    .on('mouseover', function(d,i){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'black','stroke-width':'1.0',});
+		console.log(i);
+		i = indices[i];
+		if (stateSelType) {
+		    shiftComp = i;
+		    d3.select(".complabel").text(allData[i].name);
+		    compencoder.varval(allData[i].name);
+		}
+		else {
+		    shiftRef = i;
+		    d3.select(".reflabel").text(allData[i].name);
+		    refencoder.varval(allData[i].name);
+		}
+
+		// next line verifies that the data and json line up
+		// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
+
+		// d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","#428bca");
+
+		if (shiftRef !== shiftComp) {
+		    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		    shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+		}
 	    })
 	    .on('mouseout', function(d){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'rgb(100,100,100)','stroke-width':'1.0',});

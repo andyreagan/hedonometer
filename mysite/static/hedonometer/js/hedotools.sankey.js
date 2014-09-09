@@ -13,8 +13,6 @@ hedotools.sankey = function() {
     var newlist;
     var stateNames;
 
-    var sortedStatesNew;
-    var sortedStatesOld;
     var oldindices;
     var newindices;
     var data;
@@ -41,15 +39,6 @@ hedotools.sankey = function() {
 
 	newindices.sort(function(a,b) { return newlist[a] < newlist[b] ? 1 : newlist[a] > newlist[b] ? -1 : 0; });
 
-	sortedStatesNew = Array(newlist.length);
-	for (var i = 0; i < newlist.length; i++) { sortedStatesNew[i] = [i,newindices[i],stateNames[newindices[i]],newlist[newindices[i]]]; }
-	console.log(sortedStatesNew);
-	
-	// now build the old list, with an additional entry
-	sortedStatesOld = Array(oldlist.length);
-	for (var i = 0; i < oldlist.length; i++) { sortedStatesOld[i] = [i,oldindices[i],stateNames[oldindices[i]],oldlist[oldindices[i]],Math.abs(oldlist[oldindices[i]]-newlist[oldindices[i]]),newindices.indexOf(oldindices[i])]; }
-	console.log(sortedStatesOld);
-
 	data = Array(51);
 	for (var i=0; i<data.length; i++) {
 	    data[i] = {
@@ -57,6 +46,7 @@ hedotools.sankey = function() {
 		"index": i,
 		"oldindex": oldindices.indexOf(i),
 		"newindex": newindices.indexOf(i),
+		"change": newlist[i]-oldlist[i],
 	    };
 	}
 
@@ -96,6 +86,7 @@ hedotools.sankey = function() {
 	figwidth = parseInt(figure.style('width')) - margin.left - margin.right;
 	aspectRatio = 2.2;
 	figheight = parseInt(figure.style('width'))*aspectRatio - margin.top - margin.bottom;
+	// figheight = 7;
 	width = figwidth-axeslabelmargin.left-axeslabelmargin.right;
 	height = figheight-axeslabelmargin.top-axeslabelmargin.bottom;
 	figcenter = width/2;
@@ -173,7 +164,7 @@ hedotools.sankey = function() {
 	}
 
 	pathwidth = d3.scale.linear()
-	    .domain(d3.extent(sortedStatesOld.map(function(d) { return d[4]; })))
+	    .domain(d3.extent(data.map(function(d) { return Math.abs(d.change); })))
 	    .range([2,13]);
 
 	pathselection = axes.selectAll("path.sankey").data(sankeydata)
@@ -181,14 +172,14 @@ hedotools.sankey = function() {
 	    .append("path")
             .attr({ "d": path,
 		    "fill": "none",
-		    "class": function(d,i) { return "r"+classColor(i)+"-8"; },
-		    "stroke-width": function(d,i) { return pathwidth(sortedStatesOld[i][4]); } })
+		    "class": function(d,i) { return "r"+classColor(data[i].oldindex)+"-8"; },
+		    "stroke-width": function(d,i) { return pathwidth(Math.abs(data[i].change)); } })
 	    .on("mouseover", function(d,i) { 
-		console.log(i);
-		console.log(sortedStatesOld[i]);
+		// console.log(i);
+		// console.log(data[i]);
 
-		var shiftObj = hedotools.shifter.shift(allDataOld[sortedStatesOld[i][1]].freq,allData[sortedStatesOld[i][1]].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).setText("Why "+sortedStatesOld[i][2]+" has become "+((allDataOld[sortedStatesOld[i][1]].avhapps < allData[sortedStatesOld[i][1]].avhapps) ? "happier" : "less happy")+":").plot();
+		var shiftObj = hedotools.shifter.shift(allDataOld[data[i].index].freq,allData[data[i].index].freq,lens,words);
+		shiftObj.setfigure(d3.select('#shift01')).setText("Why "+data[i].name+" has become "+((allDataOld[data[i].index].avhapps < allData[data[i].index].avhapps) ? "happier" : "less happy")+":").plot();
 
 		var rectSelection = d3.select(this)
 		    .style({'opacity':'0.7',
@@ -208,71 +199,54 @@ hedotools.sankey = function() {
 
     var replot = function() {
 	// assuming that the data has been updated
-	oldstateselection.data(sortedStatesOld)
-	    //.transition()
-	    .attr("y",function(d,i) { return y(d[1]+1)+11; } )
-            .text(function(d,i) { return (i+1)+". "+d[2]; });
+	// console.log(oldstateselection);
+	// console.log(newstateselection);
+	
+	oldstateselection.data(data)
+	    .transition()
+            .text(function(d,i) { return (d.oldindex+1)+". "+d.name; })
+	    .attr("y",function(d,i) { return y(d.oldindex+1)+11; } );
 
-    	newstateselction.data(sortedStatesNew)
-    	    .attr("y",function(d,i) { return y(i+1)+11; } )
-            .text(function(d,i) { return (i+1)+". "+d[2]; });
+    	newstateselection.data(data)
+	    .transition()
+            .text(function(d,i) { return (d.newindex+1)+". "+d.name; })
+    	    .attr("y",function(d,i) { return y(d.newindex+1)+11; } );
 
-    	for (var i=0; i<51; i++) {
-    	    sankeydata[i] = {
-    		"source": {
-    		    "x": 20, 
-    		    "dx": 2,
-    		    "y": y(i+1)-8, 
-    		},
-    		"target": {
-    		    "x": width-22,
-    		    "dx": 2,
-    		    "y": y(sortedStatesOld[i][5]+1)-8,
-    		},
-    		"sy": 10,
-    		"ty": 10,
-    		"dy": 10,
-    	    };
-    	}
+	for (var i=0; i<data.length; i++) {
+	    sankeydata[i] = {
+		"source": {
+		    "x": 20,
+		    "dx": 2,
+		    "y": y(data[i].oldindex+1)-8, 
+		},
+		"target": {
+		    "x": width-22,
+		    "dx": 2,
+		    "y": y(data[i].newindex+1)-8,
+		},
+		"sy": 10,
+		"ty": 10,
+		"dy": 10,
+	    };
+	}
 
-    // 	pathwidth = d3.scale.linear()
-    // 	    .domain(d3.extent(sortedStatesOld.map(function(d) { return d[4]; })))
-    // 	    .range([2,13]);
+	// update the width function
+	pathwidth.domain(d3.extent(data.map(function(d) { return Math.abs(d.change); })));
 
-    // 	pathselection = axes.selectAll("path.sankey").data(sankeydata)
-    // 	    .enter()
-    // 	    .append("path")
-    //         .attr({ "d": path,
-    // 		    "fill": "none",
-    // 		    "class": function(d,i) { return "r"+classColor(i)+"-8"; },
-    // 		    "stroke-width": function(d,i) { return pathwidth(sortedStatesOld[i][4]); } })
-    // 	    .on("mouseover", function(d,i) { 
-    // 		console.log(i);
-    // 		console.log(sortedStatesOld[i]);
+	pathselection.data(sankeydata)
+	    .transition()
+            .attr({ "d": path,
+		    // don't update this
+		    // because the transition is applied by the css at the end
+		    // and it messes up the whole effect
+		    // "class": function(d,i) { return "r"+classColor(data[i].oldindex)+"-8"; },
+		    "stroke-width": function(d,i) { return pathwidth(Math.abs(data[i].change)); } });
 
-    // 		var shiftObj = hedotools.shifter.shift(allDataOld[sortedStatesOld[i][1]].freq,allData[sortedStatesOld[i][1]].freq,lens,words);
-    // 		shiftObj.setfigure(d3.select('#shift01')).setText("Why "+sortedStatesOld[i][2]+" has become "+((allDataOld[sortedStatesOld[i][1]].avhapps < allData[sortedStatesOld[i][1]].avhapps) ? "happier" : "less happy")+":").plot();
-
-    // 		var rectSelection = d3.select(this)
-    // 		    .style({'opacity':'0.7',
-    // 			    // 'stroke-width':'1.0',
-    // 			   });
-    // 	    })
-    // 	    .on("mouseout", function(d,i) { 
-    // 		var rectSelection = d3.select(this)
-    // 		    .style({'opacity':'1.0',
-    // 			    // 'stroke':'black',
-    // 			    // "stroke-width": function(d,i) { 
-    // 			    //     return sortedStatesOld[i][4]*100; 
-    // 			    // }, 
-    // 			   }) 
-    // 	    });
-    // };
     };
 
     // need functions to access updated properties
-    var GETsortedStatesOld = function() {
-	return sortedStatesOld;
+    var GETdata = function() {
+	return data;
     };
 
     var GETnewindices = function() {
@@ -283,7 +257,7 @@ hedotools.sankey = function() {
 	plot: plot,
 	setfigure: setfigure,
 	setdata: setdata,
-	sortedStatesOld: GETsortedStatesOld,
+	data: GETdata,
 	newindices: GETnewindices,
 	replot: replot,
     };

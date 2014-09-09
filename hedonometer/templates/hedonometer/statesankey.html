@@ -11,42 +11,48 @@
 <!-- <meta property="og:video:type" content="application/x-shockwave-flash" />  -->
 {% endblock %}
 {% block headercss %}
-<link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 50px; }
+      .relative { position: relative; } 
+      .hedo-sidebar { position: relative; }
+      p.sumtext { margin-top: 0; }
+    </style>
 {% endblock %}
 {% block content %}
 <div class="container">
   <div class="container-fluid">
 
     <div class="row">
-      <div class="col-xs-12 col-lg-5" id="allleftpadding">
-	<h3>Movement of Average Happiness in United States over</h3>
+      <div class="col-xs-12 col-lg-10" id="allleftpadding">
+	<h3>Movement of Average Happiness in United States in last seven days</h3>
       </div> <!-- column -->
-      <div class="col-xs-6 col-lg-2" id="nopadding">
-	<!-- Split button -->
-	<div class="btn-group" id="timeSelect">
-	  <button type="button" class="btn btn-default btn-lg timelabel">Last 30 Days</button>
-	  <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown">
-	    <span class="caret"></span>
-	    <span class="sr-only">Toggle Dropdown</span>
-	  </button>
-	  <ul class="dropdown-menu" role="menu">
-	    <!-- <li><a>2013</a></li> -->
-	    <!-- <li><a>2012</a></li> -->
-	    <!-- <li><a>2011</a></li> -->
-	    <li><a>Last 90 Days</a></li>
-	    <li><a>Last 30 Days</a></li>
-	    <li><a>Last 7 Days</a></li>
-	  </ul>
-	</div>
-      </div>
-      <div class="col-xs-6 col-lg-5">
+      <!-- <div class="col-xs-6 col-lg-2" id="nopadding"> -->
+      <!-- 	<\!-- Split button -\-> -->
+      <!-- 	<div class="btn-group" id="timeSelect"> -->
+      <!-- 	  <button type="button" class="btn btn-default btn-lg timelabel">Last 30 Days</button> -->
+      <!-- 	  <button type="button" class="btn btn-default btn-lg dropdown-toggle" data-toggle="dropdown"> -->
+      <!-- 	    <span class="caret"></span> -->
+      <!-- 	    <span class="sr-only">Toggle Dropdown</span> -->
+      <!-- 	  </button> -->
+      <!-- 	  <ul class="dropdown-menu" role="menu"> -->
+      <!-- 	    <\!-- <li><a>2013</a></li> -\-> -->
+      <!-- 	    <\!-- <li><a>2012</a></li> -\-> -->
+      <!-- 	    <\!-- <li><a>2011</a></li> -\-> -->
+      <!-- 	    <li><a>Last 90 Days</a></li> -->
+      <!-- 	    <li><a>Last 30 Days</a></li> -->
+      <!-- 	    <li><a>Last 7 Days</a></li> -->
+      <!-- 	  </ul> -->
+      <!-- 	</div> -->
+      <!-- </div> -->
+      <div class="col-xs-6 col-lg-2">
 	<h3><div class="addthis_sharing_toolbox pull-right"></div></h3>
       </div>
     </div>
     <br>
     <div class="row">
       <div class="col-xs-12 col-sm-7">
-	<div class="paper">
+	<div class="paper paper-curl-left">
 	  <div id="caption01">
 	    <b>Sankey Diagram:</b> The movement of state ranks from the previous block of time. (I.e. last 7 days versus 7 days previous to those).
 	  </div> <!-- caption -->
@@ -56,8 +62,8 @@
       </div> <!-- map/shift column -->
       <div class="clearfix visible-xs"></div>
       <div class="col-xs-12 col-sm-5">
+	<div class="hedo-sidebar">
 	<div class="paper">
-	  <h5>Word Shift:</h5>
 	  <div id="shift01" class="figure">
 	    <div class="row">
 	      <div class="col-xs-12">
@@ -68,14 +74,14 @@
 	</div> <!-- paper -->
 
 
-	<div class="paper">
+	<div class="paper paper-curl-right">
 	<div id="caption01">
 	  <b>Word lens:</b> Slide and resize the stop-window to adjust.
 	</div> <!-- caption -->
 	<br>
 	<div id="lens01" class="figure"></div>
 	</div> <!-- paper -->
-
+	</div> <!-- paper -->
       </div> <!-- map/shift column -->
     </div> <!-- main row -->
   </div><!-- /.container-fluid -->

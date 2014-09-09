@@ -15437,10 +15437,10 @@ function initializePlot() {
 function loadCsv() {
     var csvLoadsRemaining = 4;
     if (isclassic) { 
-	var bookfile = "/static/hedonometer/data/bookdata/"+book+".csv";
+	var bookfile = "/static/hedonometer/data/bookdata/processed/"+book+".csv";
     }
     else {
-	var bookfile = "/static/hedonometer/data/bookdata/"+book+".csv";
+	var bookfile = "/static/hedonometer/data/bookdata/processed/"+book+".csv";
     }
     d3.text(bookfile, function (text) {
         tmp = text.split("\n");
@@ -15465,7 +15465,7 @@ function loadCsv() {
         //console.log(d3.sum(allDataRaw[0]));
         if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
     });
-    d3.text("/static/hedonometer/data/bookdata/labMTscores-"+lang+".csv", function (text) {
+    d3.text("/static/hedonometer/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         //console.log(tmp.length);
         //console.log(tmp[tmp.length-1]);
@@ -15478,7 +15478,7 @@ function loadCsv() {
         }
         if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
     });
-    d3.text("/static/hedonometer/data/bookdata/labMTwords-"+lang+".csv", function (text) {
+    d3.text("/static/hedonometer/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         words = tmp;
         var len = words.length - 1;
@@ -15489,7 +15489,7 @@ function loadCsv() {
         }
         if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
     });
-    d3.text("/static/hedonometer/data/bookdata/labMTwordsEn-"+lang+".csv", function (text) {
+    d3.text("/static/hedonometer/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         words_en = tmp;
         var len = words_en.length - 1;

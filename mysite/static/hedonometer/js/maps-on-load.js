@@ -141,7 +141,7 @@ function refcompdrops() {
 
 	    if (shiftRef !== shiftComp) {
 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).plot();
+		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
 	    }
 	});
 
@@ -156,7 +156,7 @@ function refcompdrops() {
 
 	    if (shiftRef !== shiftComp) {
 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).plot();
+		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
 	    }
             // key = this.selectedIndex;
 	    // key = i;
@@ -182,7 +182,7 @@ function refcompdrops() {
 	    
 	    if (shiftRef !== shiftComp) {
 		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).plot();
+		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
 	    }
 	});
 }
