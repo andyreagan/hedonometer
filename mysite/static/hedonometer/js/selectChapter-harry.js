@@ -1,4 +1,4 @@
-function selectChapterTop(figure,numSections) {
+function selectChapter(figure,numSections) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
@@ -8,10 +8,10 @@ function selectChapterTop(figure,numSections) {
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
     axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40},
-    figwidth = parseInt(d3.select('#chapters01').style('width')) - margin.left - margin.right,
-    figheight = 38 - margin.top - margin.bottom,
+    figwidth = parseInt(d3.select('#chapters02').style('width')) - margin.left - margin.right,
+    figheight = 70 - margin.top - margin.bottom,
     width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
-    height = figheight-4,
+    height = .775*figheight-20,
     leftOffsetStatic = axeslabelmargin.left;
 
     // remove an old figure if it exists
@@ -28,6 +28,11 @@ function selectChapterTop(figure,numSections) {
 	.domain([0,100])
 	.range([0,width]);
     
+    // use d3.layout http://bl.ocks.org/mbostock/3048450
+    // data = d3.layout.histogram()
+    //     .bins(x.ticks(65))
+    //     (lens);
+
     // linear scale function
     var y =  d3.scale.linear()
 	.domain([0,1])
@@ -36,7 +41,7 @@ function selectChapterTop(figure,numSections) {
     // create the axes themselves
     var axes = canvas.append("g")
 	.attr("transform", "translate(" + (axeslabelmargin.left) + "," +
-	      ((1 - 0.125 - 0.775) * figheight) + ")")
+	      ((1 - 0.125 - 0.775 -0.095) * figheight) + ")")
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "main");
@@ -63,75 +68,120 @@ function selectChapterTop(figure,numSections) {
 	    .scale(y) //linear scale function
 	    .orient("left"); }
 
+    // draw the axes
+    // var yAxis = create_yAxis()
+    // 	.innerTickSize(6)
+    // 	.outerTickSize(0);
+
+    // axes.append("g")
+    // 	.attr("class", "top")
+    // 	.attr("transform", "(0,0)")
+    // 	.attr("font-size", "12.0px")
+    // 	.call(yAxis);
+
+    var xAxis = create_xAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    var xAxisHandle = axes.append("g")
+	.attr("class", "x axis ")
+	.attr("font-size", "12.0px")
+	.attr("transform", "translate(0," + (height) + ")")
+	.call(xAxis);
+
+    d3.selectAll(".tick line").style({'stroke':'black'});
+
     // create the clip boundary
     var clip = axes.append("svg:clipPath")
 	.attr("id","clip")
 	.append("svg:rect")
 	.attr("x",0)
-	.attr("y",38)
+	.attr("y",80)
 	.attr("width",width)
 	.attr("height",height-30);
 
     var unclipped_axes = axes;
+ 
+    //axes = axes.append("g")
+	//.attr("clip-path","url(#clip)");
+
+    // canvas.append("text")
+    // 	.text("Happs")
+    // 	.attr("class","axes-text")
+    // 	.attr("x",(figwidth-width)/4)
+    // 	.attr("y",figheight/2+30)
+    // 	.attr("font-size", "12.0px")
+    // 	.attr("fill", "#000000")
+    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
+
+    var xlabel = canvas.append("text")
+	.text("Percentage of book")
+	.attr("class","axes-text")
+	.attr("x",width/2+(figwidth-width)/2)
+	.attr("y",figheight)
+	.attr("font-size", "12.0px")
+	.attr("fill", "#000000")
+	.attr("style", "text-anchor: middle;");
 
     var brushX = d3.scale.linear()
-        .domain([0,allDataRaw.length])
+        .domain([0,fulltimeseries.length])
         .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
-	.text("Reference")
-	.attr("class","reflabel")
-	.attr("x",brushX((refFextent[0]+refFextent[1])/2))
-	.attr("y",figheight-figheight/3)
+	.text("Comparison")
+	.attr("class","complabel")
+	.attr("x",brushX((compFextent[0]+compFextent[1])/2))
+	.attr("y",figheight-48)
 	.attr("font-size", "12.0px")
 	.attr("fill", "#000000")
 	.attr("style", "text-anchor: middle;");
     
     var brush = d3.svg.brush()
         .x(brushX)
-        .extent(refFextent)
+        .extent(compFextent)
         .on("brush",brushing)
         .on("brushend",brushended);
 
     var gBrush = canvas.append("g")
-        .attr("class","topbrush")
+        .attr("class","bottombrush")
         .call(brush)
         .call(brush.event);
 
+
+
     gBrush.selectAll("rect")
-        .attr("height",height-2)
-        .attr("y",4)
+        .attr("height",height)
+        .attr("y",0)
 	// .style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.35})
 	// .attr("fill", "rgb(90,90,90)")
-        // .on("mouseout",function() { d3.selectAll(".refarea").attr("visibility","hidden"); })
-        .on("mouseover",function() { d3.selectAll(".refarea").attr("visibility","visible"); });
-
+        // .on("mouseout",function() { d3.selectAll(".comparea").attr("visibility","hidden"); })
+        .on("mouseover",function() { d3.selectAll(".comparea").attr("visibility","visible"); });
 
     function brushing() {
 	if (!d3.event.sourceEvent) return;
-	
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
-	drawRefArea(extent1);
+	drawCompArea(extent1);
 	
-	d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
 
-    refFencoder = d3.urllib.encoder().varname("refExtent"); //.varval(refFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+    compFencoder = d3.urllib.encoder().varname("compExtent"); //.varval(compFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
 
     function brushended() {
 	if (!d3.event.sourceEvent) return;
 	var extent0 = brush.extent(),
-	    extent1 = extent0.map(Math.round); // should round it to bins
-	
-	//d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+	    extent1 = extent0 .map(Math.round); // should round it to bins
 
-	if ((extent1[0] !== refFextent[0]) || (extent1[1] !== refFextent[1]))
+	//d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
+
+	if ((extent1[0] !== compFextent[0]) || (extent1[1] !== compFextent[1]))
 	{	    
-	refFextent = extent1;
 
-	refFencoder.varval(refFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+	compFextent = extent1;
+
+	compFencoder.varval(compFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
 
 	// initialize new values
 	var refF = Array(allDataRaw[0].length);
@@ -164,31 +214,34 @@ function selectChapterTop(figure,numSections) {
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
 	    .call(brush.event);
-
     }
 
-    d3.select(window).on("resize.selecttop",resizetop);
+    d3.select(window).on("resize.selectbottom",resizebottom);
     
-    function resizetop() {
-	// var that = this;
-	// console.log(this);
-	// console.log(that);
-	// console.log(figwidth);
-	figwidth = parseInt(d3.select('#chapters01').style('width')) - margin.left - margin.right,
+    function resizebottom() {
+	figwidth = parseInt(d3.select("#chapters03").style('width')) - margin.left - margin.right,
 	width = .775*figwidth;
-	
+
 	canvas.attr("width",figwidth);
 
 	x.range([0,width]);
 	bgrect.attr("width",width);
 	//axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
 	//      ((1 - 0.125 - 0.775) * figheight) + ")");
+	
+	//create_xAxis.scale(x);
+	//xAxisHandle.call(xAxis);
+	canvas.select(".x.axis").call(xAxis);
+	
+	xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	d3.selectAll(".tick line").style({'stroke':'black'});
 
 	//brushX.range([figwidth*.125,width+figwidth*.125]);
 	brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
 	brush.x(brushX);
-	d3.select(".topbrush") //.transition()
-	    .call(brush.extent(refFextent))
+	d3.select(".bottombrush") //.transition()
+	    .call(brush.extent(compFextent))
 	    .call(brush.event);
 	//brushing();
 	//brush.event();

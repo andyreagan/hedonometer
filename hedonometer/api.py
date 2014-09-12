@@ -85,6 +85,7 @@ class WordResource(ModelResource):
 class BookResource(ModelResource):
     happiness = FixedFloatField(attribute='happs')
     reference = fields.CharField('filename')
+    ignorewords = fields.CharField('ignorewords')
     class Meta:
         queryset = Book.objects.filter(length__gte=10000)
         resource_name = 'gutenberg'

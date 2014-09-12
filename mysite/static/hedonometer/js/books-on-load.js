@@ -249,6 +249,11 @@ function initializePlot() {
 		// title.append("small").text("by "+result.author);
 		var bookauthor = d3.select("#bookauthor");
 		var author = booktitle.append("h2").append("small").text("by "+result.author);
+		var newignore = result.ignorewords.split(",");
+		for (var i=0; i<newignore.length-1; i++) {
+		    ignoreWords.push(newignore[i]);
+		}
+		console.log(ignoreWords);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
@@ -261,13 +266,18 @@ function initializePlot() {
 	else {
 	    d3.json("/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
 		var result = data.objects[0];
-		// console.log(result);
+		console.log(result);
 		lang = result.language;
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
 		// title.append("small").text("by "+result.author);
 		var bookauthor = d3.select("#bookauthor");
 		var author = booktitle.append("h2").append("small").text("by "+result.author);
+		var newignore = result.ignorewords.split(",");
+		for (var i=0; i<newignore.length-1; i++) {
+		    ignoreWords.push(newignore[i]);
+		}
+		console.log(ignoreWords);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
@@ -474,11 +484,11 @@ var substringMatcher = function(strs) {
         matches = [];
         // for (var i=0; i<booklist.length; i++) {
         //     if (booklist[i].fulltitle.toLowerCase().match(q)) {
-     	// 	matches.push({ value: booklist[i].fulltitle}) 
+     	// 	matches.push({ value: booklist[i].fulltitle})
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("/api/v1/gutenberg/?format=json&title__contains="+q,function(data) {
+	d3.json("/api/v1/gutenberg/?format=json&title__icontains="+q,function(data) {
 	    var result = data.objects;
 	    console.log(result);
 	    var newresult = [];

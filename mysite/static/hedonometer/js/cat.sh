@@ -6,6 +6,7 @@ cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.
 
 echo "catting books"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js plotShift-books.js shift-foreign.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
+cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js plotShift-books.js shift-foreign.js drawLens-chapters.js drawBookTimeseries-harry.js selectChapter-harry.js selectChapterTop-harry.js computeHappsChapters.js books-on-load-harry.js > books-all-harry.js
 
 # not using yet
 # echo "catting maps"

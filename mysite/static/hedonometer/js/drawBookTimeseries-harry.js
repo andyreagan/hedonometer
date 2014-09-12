@@ -5,7 +5,7 @@ function drawBookTimeseries(figure,data) {
      -cut out stops words (0 the frequencies)
      -call shift on these frequency vectors */
 
-    // some colors
+    // some colors 
     // #1193c0 #759ae8
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
@@ -13,7 +13,7 @@ function drawBookTimeseries(figure,data) {
     // full width
     figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
     // fixed height
-    figheight = 200 - margin.top - margin.bottom,
+    figheight = 300 - margin.top - margin.bottom,
     // don't shrink this
     width = figwidth - axeslabelmargin.left - axeslabelmargin.right,
     // tiny bit of space
@@ -339,6 +339,16 @@ function drawBookTimeseries(figure,data) {
 	    .text(maxhapps.toFixed(2));
 
     d3.select(window).on("resize.booktimeseries",resize);
+
+    var trademark = axes.append("text")
+	.attr({ "x": 3,
+		"y": height-7,
+		"fill": "#606060",
+		// "font-weight": "bold",
+		"font-size": ".8em",
+		"text-anchor": "start",
+	      })
+	    .text("visualization by @hedonometer team and @andyreagan");
     
     function resize() {
 	figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,

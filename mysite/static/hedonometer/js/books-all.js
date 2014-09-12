@@ -13478,7 +13478,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
     // var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-    var summaryArray = [sumTypes[2],sumTypes[1]];
+    var summaryArray = [sumTypes[1],sumTypes[2]];
 
     axes.selectAll(".sumrectL")
 	.data(summaryArray)
@@ -13565,7 +13565,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	} );
 
     axes.selectAll(".sumtextL")
-	.data([sumTypes[2],sumTypes[1]])
+	.data(summaryArray)
 	.enter()
 	.append("text")
 	.attr("class", "sumtextL")
@@ -13835,6 +13835,17 @@ function shift(rrefF,ccompF,lens,words) {
    -words is a list of utf8 strings
 
    return an object with the sorted quantities for plotting the shift
+
+   if (freqDiff > 0) { shiftType[i] = 2; }
+   else { shiftType[i] = 0}
+   if (lens[i] > refH) { shiftType[i] += 1;}
+
+   note that the shift types and sumtypes are
+   0: negative words down in frequency
+   1: positive words down in frequency
+   2: negative words up in frequency
+   3: positive words up in frequency
+
 */
 
     //normalize frequencies
@@ -14391,6 +14402,8 @@ function drawBookTimeseries(figure,data) {
 	
 	axes.selectAll(".refarea").remove();
 
+	console.log(extent);
+
 	var refareaarea = axes.insert("path","div.dummy")
             .datum(fulltimeseries.slice(extent[0],extent[1]))
             .attr("class", "refarea")
@@ -14409,6 +14422,8 @@ function drawBookTimeseries(figure,data) {
 	    .y1(function(d) { return y(d)+2; });
 	
 	axes.selectAll(".comparea").remove();
+
+	console.log(extent);
 
 	var compareaarea = axes.insert("path","div.dummy")
             .datum(fulltimeseries.slice(extent[0]-1,extent[1]))
@@ -14900,9 +14915,6 @@ function selectChapterTop(figure,numSections) {
 
     var unclipped_axes = axes;
 
-
-
- 
     var brushX = d3.scale.linear()
         .domain([0,allDataRaw.length])
         .range([axeslabelmargin.left,width+axeslabelmargin.left]);
@@ -15403,6 +15415,11 @@ function initializePlot() {
 		// title.append("small").text("by "+result.author);
 		var bookauthor = d3.select("#bookauthor");
 		var author = booktitle.append("h2").append("small").text("by "+result.author);
+		var newignore = result.ignorewords.split(",");
+		for (var i=0; i<newignore.length-1; i++) {
+		    ignoreWords.push(newignore[i]);
+		}
+		console.log(ignoreWords);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
@@ -15415,13 +15432,18 @@ function initializePlot() {
 	else {
 	    d3.json("/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
 		var result = data.objects[0];
-		// console.log(result);
+		console.log(result);
 		lang = result.language;
 		var booktitle = d3.select("#booktitle");
 		var title = booktitle.append("h2").text(result.title+" ");
 		// title.append("small").text("by "+result.author);
 		var bookauthor = d3.select("#bookauthor");
 		var author = booktitle.append("h2").append("small").text("by "+result.author);
+		var newignore = result.ignorewords.split(",");
+		for (var i=0; i<newignore.length-1; i++) {
+		    ignoreWords.push(newignore[i]);
+		}
+		console.log(ignoreWords);
 		// set the filename
 		book = result.reference;
 		sumWords = result['length'];
@@ -15628,11 +15650,11 @@ var substringMatcher = function(strs) {
         matches = [];
         // for (var i=0; i<booklist.length; i++) {
         //     if (booklist[i].fulltitle.toLowerCase().match(q)) {
-     	// 	matches.push({ value: booklist[i].fulltitle}) 
+     	// 	matches.push({ value: booklist[i].fulltitle})
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("/api/v1/gutenberg/?format=json&title__contains="+q,function(data) {
+	d3.json("/api/v1/gutenberg/?format=json&title__icontains="+q,function(data) {
 	    var result = data.objects;
 	    console.log(result);
 	    var newresult = [];

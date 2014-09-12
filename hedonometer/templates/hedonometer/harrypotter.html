@@ -1,0 +1,68 @@
+5{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block headercss %}
+<link href="{% static "hedonometer/css/books-all.min.css" %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-md-5">
+	<div id="booktitle" class="pullleft"></div>
+      </div><!-- col -->
+      <div class="col-xs-12 col-md-7">
+      </div><!-- col -->
+    </div><!-- row -->
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+	<div id="bookauthor" class="pullleft"></div>
+      </div><!-- col -->
+    </div><!-- row -->
+    <br>
+    <div class="row">
+    </div><!-- row -->
+    <div class="row">
+      <div class="col-xs-12">
+
+	<div class="paper">
+	  <b>Book happiness time series:</b>
+	  <p>Explore the work's emotional dynamics by sliding and resizing the reference and comparison sections.</p>
+	  <div id="chapters01" class="figure refslider"></div>
+	  <div id="chapters03" class="figure"></div>
+	  <div id="chapters02" class="figure compslider"></div>
+	</div>
+      </div><!-- col -->
+    </div><!-- row -->
+
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-4">
+      </div> <!-- col -->
+      <div class="col-xs-12 col-sm-5">
+	<p>Inspired by Kurt Vonnegut's <a href="https://www.youtube.com/watch?v=oP3c1h8v2ZQ">Shapes of Stories</a>.</p>
+	<p>More details can also be found in the online appendices of the full paper <a href="http://www.uvm.edu/storylab/share/papers/dodds2014a/index.html">Human language reveals a universal positivity bias</a>.</p>
+      </div>
+      <div class="col-xs-12 col-sm-2">
+      </div>
+    </div> <!-- row? -->
+    <br>
+  </div><!-- /.container-fluid -->
+</div><!-- /.container -->
+
+
+<!-- <div class="paper paper-curl-right"> -->
+<!--   <b>Word Shift:</b> -->
+<!--   <div id="figure01" class="figure"> -->
+<!--     <p class="sumtext"></p> -->
+<!--     <p class="sumtext"></p> -->
+<!--     <p class="sumtext"></p> -->
+<!--   </div> <\!-- figure -\-> -->
+<!-- </div> <\!-- paper -\-> -->
+{% endblock %}
+
+{% block bottomjs %}
+    <script src="{% static "hedonometer/js/books-all-harry.js" %}"></script>
+{% endblock %}
+
+
+

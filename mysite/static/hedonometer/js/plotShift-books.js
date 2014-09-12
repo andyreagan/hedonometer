@@ -364,7 +364,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
     // var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-    var summaryArray = [sumTypes[2],sumTypes[1]];
+    var summaryArray = [sumTypes[1],sumTypes[2]];
 
     axes.selectAll(".sumrectL")
 	.data(summaryArray)
@@ -451,7 +451,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	} );
 
     axes.selectAll(".sumtextL")
-	.data([sumTypes[2],sumTypes[1]])
+	.data(summaryArray)
 	.enter()
 	.append("text")
 	.attr("class", "sumtextL")

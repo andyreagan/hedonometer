@@ -1,0 +1,59 @@
+{% extends "storybreaker/base.html" %}
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+
+    <!-- Styles -->
+{% block headercss %}
+<link href="{% static "storybreaker/css/jquery.dropdown.local.css" %}" rel="stylesheet">
+<link href="{% static "storybreaker/css/daterangepicker-bs3.css" %}" rel="stylesheet">
+<link href="{% static "storybreaker/css/font-awesome.min.css" %}" rel="stylesheet">
+<link href="{% static "storybreaker/css/site.css" %}" rel="stylesheet">
+<link href="{% static "storybreaker/css/index.css" %}" rel="stylesheet">
+{% endblock %}
+
+    </script>
+
+  </head>
+
+  <body>
+
+    {% block bottomjs %}
+
+    <script src="{% static "storybreaker/js/d3.andy.js" %}"></script>
+    <script src="{% static "storybreaker/js/d3.geo.zoom.js" %}"></script>
+    <script src="{% static "storybreaker/js/topojson.v1.min.js" %}"></script>
+    <script src="{% static "storybreaker/js/jquery-1.11.1.js" %}"></script>
+    <script src="{% static "storybreaker/js/bootstrap.js" %}"></script>
+    <script src="{% static "storybreaker/js/jquery.dropdown.local.js" %}"></script>
+    <script src="{% static "storybreaker/js/moment.js" %}"></script>
+    <script src="{% static "storybreaker/js/daterangepicker.js" %}"></script>
+    <script src="{% static "storybreaker/js/urllib.js" %}"></script>
+    <script src="{% static "storybreaker/js/shift.js" %}"></script>
+    <script src="{% static "storybreaker/js/plotShift.js" %}"></script>
+    <script src="{% static "storybreaker/js/index-on-load.js" %}"></script>
+
+    {% endblock %}
+
+    {% block lastinbody %}
+
+    <a href="#" data-dropdown="#dropdown-1">dropdown</a>
+
+    <div id="dropdown-1" class="dropdown dropdown-tip">
+      <ul class="dropdown-menu">
+        <li><a href="#1">Item 1</a></li>
+        <li><a href="#2">Item 2</a></li>
+        <li><a href="#3">Item 3</a></li>
+        <li class="dropdown-divider"></li>
+        <li><a href="#4">Item 4</a></li>
+        <li><a href="#5">Item 5</a></li>
+        <li><a href="#5">Item 6</a></li>
+      </ul>
+    </div>
+
+    {% endblock %}
+  </body>
+</html>
+
+

@@ -5,6 +5,17 @@ function shift(rrefF,ccompF,lens,words) {
    -words is a list of utf8 strings
 
    return an object with the sorted quantities for plotting the shift
+
+   if (freqDiff > 0) { shiftType[i] = 2; }
+   else { shiftType[i] = 0}
+   if (lens[i] > refH) { shiftType[i] += 1;}
+
+   note that the shift types and sumtypes are
+   0: negative words down in frequency
+   1: positive words down in frequency
+   2: negative words up in frequency
+   3: positive words up in frequency
+
 */
 
     //normalize frequencies

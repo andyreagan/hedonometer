@@ -49,6 +49,7 @@ class Book(models.Model):
     language = models.CharField(max_length=100)
     happs = models.FloatField()
     length = models.IntegerField()
+    ignorewords = models.CharField(max_length=400)
 
     def __unicode__(self):
         return self.title

@@ -73,9 +73,9 @@ function selectChapterTop(figure,numSections) {
 	.attr("height",height-30);
 
     var unclipped_axes = axes;
-
+ 
     var brushX = d3.scale.linear()
-        .domain([0,allDataRaw.length])
+        .domain([0,fulltimeseries.length])
         .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
@@ -131,7 +131,7 @@ function selectChapterTop(figure,numSections) {
 	{	    
 	refFextent = extent1;
 
-	refFencoder.varval(refFextent.map(function(d) { return (d/allDataRaw.length).toFixed(2); }));
+	refFencoder.varval(refFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
 
 	// initialize new values
 	var refF = Array(allDataRaw[0].length);

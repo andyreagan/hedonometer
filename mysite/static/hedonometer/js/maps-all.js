@@ -9802,7 +9802,7 @@ I like this feature
 	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
     // var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-    var summaryArray = [sumTypes[2],sumTypes[1]];
+    var summaryArray = [sumTypes[1],sumTypes[2]];
 
     var typeClass = ["posdown","negup"];
 
@@ -9874,7 +9874,7 @@ I like this feature
 	} );
 
     axes.selectAll(".sumtextL")
-	.data([sumTypes[2],sumTypes[1]])
+	.data(summaryArray)
 	.enter()
 	.append("text")
 	.attr("class", "sumtextL")
