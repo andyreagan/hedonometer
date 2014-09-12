@@ -19,8 +19,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = '3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
  
 TEMPLATE_DEBUG = False
 
@@ -55,28 +55,14 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-# for the tutorial
-#     'polls',
-    'swn',
-    'vaccv',
     'hedonometer',
     'consulting',
-# for the wiki, keep
     'django.contrib.humanize',
     'south',
     'django_notify',
     'mptt',
     'sekizai',
     'sorl.thumbnail',
-# the wiki itself...not going to use
-#    'wiki',
-#    'wiki.plugins.attachments',
-#    'wiki.plugins.notifications',
-#    'wiki.plugins.images',
-#    'wiki.plugins.macros',
-# these were a good idea but they're both out of date
-#    'secretballot',
-#    'likes'
     'cmplxsys',
     'tastypie',
     'storybreaker',
@@ -131,7 +117,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/usr/share/nginx/wiki/mysite/mysite/static'
+STATIC_ROOT = '/usr/share/nginx/prod/mysite/static'
 
 # from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
 # settings.py

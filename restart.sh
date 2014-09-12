@@ -1,4 +1,4 @@
-PIDFILE="/usr/share/nginx/wiki/mysite/django.pid"
+PIDFILE="/usr/share/nginx/prod/django.pid"
 
 echo "old PID is $(cat ${PIDFILE}), issuing"
 echo "kill -9 $(cat ${PIDFILE})"
