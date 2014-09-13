@@ -1,3 +1,0 @@
-wget http://hedonometer.org/api/v1/events/?format=json bigdays.json
-
-mv index.html\?format\=json bigdaysnew.json
