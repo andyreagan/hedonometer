@@ -34,13 +34,13 @@ path.dot{fill:white;stroke-width:1.5px;}
 .Saturday{fill:transparent;stroke:#F70012;stroke-width:0.5;}
 */
 
-.Sunday{fill:#FFCCFF;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Monday{fill:#9933FF;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Tuesday{fill:#4BFFFE;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Wednesday{fill:#8AFF82;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Thursday{fill:#009900;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Friday{fill:#F87D15;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
-.Saturday{fill:#F70012;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.sunday{fill:#FFCCFF;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.monday{fill:#9933FF;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.tuesday{fill:#4BFFFE;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.wednesday{fill:#8AFF82;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.thursday{fill:#009900;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.friday{fill:#F87D15;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
+.saturday{fill:#F70012;stroke:#000;stroke-width:0.5;opacity:0.7; cursor: hand; cursor: pointer;}
 .Hilite{fill:#000;stroke:transparent;stroke-width:0.5;opacity:0.8; cursor: hand; cursor: pointer;}
 .Togall{fill:#000;stroke:transparent;stroke-width:0.5;opacity:0.8; cursor: hand; cursor: pointer;}
 
