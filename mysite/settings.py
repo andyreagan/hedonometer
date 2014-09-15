@@ -62,11 +62,9 @@ INSTALLED_APPS = (
     'django_notify',
     'mptt',
     'sekizai',
-    'sorl.thumbnail',
     'cmplxsys',
     'tastypie',
     'storybreaker',
-    'bootstrap3',
 )
 
 MIDDLEWARE_CLASSES = (
