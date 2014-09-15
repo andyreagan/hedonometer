@@ -13247,7 +13247,7 @@ function shift(rrefF,ccompF,lens,words) {
     shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
     shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none"),
     weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"],
-    weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+    weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"],
     popupExitDur = 500,
     popupEnterDur = 400,
     intStr = ["zero","one","two","three"],
@@ -13513,7 +13513,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    //toggleDays();
 	})
     // return first three letters for the name
-	.text(function(d,i) { return weekDays[i][0]+weekDays[i][1]+weekDays[i][2] });
+	.text(function(d,i) { return weekDays[i][0].toUpperCase()+weekDays[i][1]+weekDays[i][2] });
     //.attr("class",function(d,i) { return weekDays[i] });
 
     legendgroup.selectAll("rect.legendclick")
