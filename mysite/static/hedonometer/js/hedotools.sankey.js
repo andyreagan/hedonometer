@@ -16,6 +16,8 @@ hedotools.sankeyoncall = function() {
 
 hedotools.sankey = function() { 
 
+    var popuptimer;
+
     var figure;
 
     var setfigure = function(_) {
@@ -217,85 +219,91 @@ hedotools.sankey = function() {
 		    .style({'opacity':'0.7',
 			    // 'stroke-width':'1.0',
 			   });
+		var thispath = this;
 
 		hedotools.sankeyoncall.test(i,data);
 
 		if (useTip) {
-		    // var bbox = this.getBBox(); 
-		    // var x = Math.floor(bbox.x + bbox.width/2.0); 
-		    // var y = Math.floor(bbox.y + bbox.height/2.0);
 
-		    var hoverboxheight = 90;
-		    var hoverboxwidth = 200;
-		    var hoverboxyoffset = 0;
-		    var hoverboxxoffset = 0;
+		    showpopup = function(thispath) { 
 
-		    var x = d3.mouse(this)[0];
-		    var y = d3.mouse(this)[1];
+			// var bbox = this.getBBox(); 
+			// var x = Math.floor(bbox.x + bbox.width/2.0); 
+			// var y = Math.floor(bbox.y + bbox.height/2.0);
 
-		    // tip.show;
-		    console.log(d);
+			var hoverboxheight = 90;
+			var hoverboxwidth = 200;
+			var hoverboxyoffset = 0;
+			var hoverboxxoffset = 0;
 
-		    var hovergroup = canvas.append("g").attr({
-			"class": "hoverinfogroup",
-			"transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", });
+			var x = d3.mouse(thispath)[0];
+			var y = d3.mouse(thispath)[1];
 
-		    var hoverbox = hovergroup.append("rect").attr({
-			"class": "hoverinfobox",
-			"x": 0,
-			"y": 0,
-			"width": hoverboxwidth,
-			"height": hoverboxheight,
-			"fill": "white",
-			"stroke": "black",
-		    });
+			// tip.show;
+			console.log(d);
 
-		    hovergroup.append("text").attr({
-			"class": "hoverinfotext",
-			"x": 10,
-			"y": 15,
-			"font-size": "1.2em",
-		    })
-			.text(d.name);
+			var hovergroup = canvas.append("g").attr({
+			    "class": "hoverinfogroup",
+			    "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", });
 
-		    hovergroup.append("text").attr({
-		    	"class": "hoverinfotext",
-		    	"x": 10,
-		    	"y": 30,
-		    	"font-size": "1em",
-		    })
-		    	.text(reftimeseldecoder().cached+" Happiness: "+parseFloat(d.oldhapps).toFixed(2));
+			var hoverbox = hovergroup.append("rect").attr({
+			    "class": "hoverinfobox",
+			    "x": 0,
+			    "y": 0,
+			    "width": hoverboxwidth,
+			    "height": hoverboxheight,
+			    "fill": "white",
+			    "stroke": "black",
+			});
 
-		    hovergroup.append("text").attr({
-		    	"class": "hoverinfotext",
-		    	"x": 10,
-		    	"y": 44,
-		    	"font-size": "1em",
-		    })
-		    	.text(reftimeseldecoder().cached+" Rank: "+(d.oldindex+1));
+			hovergroup.append("text").attr({
+			    "class": "hoverinfotext",
+			    "x": 10,
+			    "y": 15,
+			    "font-size": "1.2em",
+			})
+			    .text(d.name);
 
-		    hovergroup.append("text").attr({
-		    	"class": "hoverinfotext",
-		    	"x": 10,
-		    	"y": 59,
-		    	"font-size": "1em",
-		    })
-		    	.text(comptimeseldecoder().cached+" Happiness: "+parseFloat(d.newhapps).toFixed(2));
+			hovergroup.append("text").attr({
+		    	    "class": "hoverinfotext",
+		    	    "x": 10,
+		    	    "y": 30,
+		    	    "font-size": "1em",
+			})
+		    	    .text(reftimeseldecoder().cached+" Happiness: "+parseFloat(d.oldhapps).toFixed(2));
 
-		    hovergroup.append("text").attr({
-		    	"class": "hoverinfotext",
-		    	"x": 10,
-		    	"y": 73,
-		    	"font-size": "1em",
-		    })
-		    	.text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
+			hovergroup.append("text").attr({
+		    	    "class": "hoverinfotext",
+		    	    "x": 10,
+		    	    "y": 44,
+		    	    "font-size": "1em",
+			})
+		    	    .text(reftimeseldecoder().cached+" Rank: "+(d.oldindex+1));
 
+			hovergroup.append("text").attr({
+		    	    "class": "hoverinfotext",
+		    	    "x": 10,
+		    	    "y": 59,
+		    	    "font-size": "1em",
+			})
+		    	    .text(comptimeseldecoder().cached+" Happiness: "+parseFloat(d.newhapps).toFixed(2));
+
+			hovergroup.append("text").attr({
+		    	    "class": "hoverinfotext",
+		    	    "x": 10,
+		    	    "y": 73,
+		    	    "font-size": "1em",
+			})
+		    	    .text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
+
+		    }
+		    popuptimer = setTimeout(showpopup(thispath),3000);
 		}
 	    })
 	    .on("mouseout", function(d,i) { 
 		if (useTip) {
 		    // tip.hide;
-		    d3.selectAll(".hoverinfogroup").remove();
+		    setTimeout(d3.selectAll(".hoverinfogroup").remove(),2000);
 		}
 		var rectSelection = d3.select(this)
 		    .style({ 'opacity':'1.0', }) 
