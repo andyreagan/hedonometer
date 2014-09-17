@@ -48,36 +48,36 @@
 	var initialMonths = 18;
     }
 
-    var dur =  550,
-    ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"],
-    bigdays = {},
-    shiftTypeSelect = false,
-    formatDate = d3.time.format("%b %Y"),
-    today = new Date(),
-    beginningOfTime = new Date(2008,8,10),
-    cformat = d3.time.format("%Y-%m-%d"),
-    dformat = d3.time.format("%Y-%m-%dT00:00:00"),
-    longformat = d3.time.format("%B %e, %Y"),
-    longerformat = d3.time.format("%A, %B %e, %Y"),
-    fromencoder = d3.urllib.encoder().varname("from");
-    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths))),
-    toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10))),
-    dateencoder = d3.urllib.encoder().varname("date"),
-    datedecoder = d3.urllib.decoder().varname("date"),
-    shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
-    shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none"),
-    weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"],
-    weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"],
-    popupExitDur = 500,
-    popupEnterDur = 400,
-    intStr = ["zero","one","two","three"],
+    var dur =  550;
+    var ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"];
+    var bigdays = {};
+    var shiftTypeSelect = false;
+    var formatDate = d3.time.format("%b %Y");
+    var today = new Date();
+    var beginningOfTime = new Date(2008,8,10);
+    var cformat = d3.time.format("%Y-%m-%d");
+    var dformat = d3.time.format("%Y-%m-%dT00:00:00");
+    var longformat = d3.time.format("%B %e, %Y");
+    var longerformat = d3.time.format("%A, %B %e, %Y");
+    var fromencoder = d3.urllib.encoder().varname("from");
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
+    var toencoder = d3.urllib.encoder().varname("to");
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10)));
+    var dateencoder = d3.urllib.encoder().varname("date");
+    var datedecoder = d3.urllib.decoder().varname("date");
+    var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
+    var shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none");
+    var weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"];
+    var weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    var popupExitDur = 500;
+    var popupEnterDur = 400;
+    var intStr = ["zero","one","two","three"];
     // min radius for day circles
-    rmin = 0,
+    var rmin = 0;
     // max radius for day circles
     // these get reset when the day toggle is called
-    rmax = 3.25,
-    legendDict = {
+    var rmax = 3.25;
+    var legendDict = {
 	"mon": "on",
 	"tue": "on",
 	"wed": "on",
@@ -90,9 +90,9 @@
 	toggle: function (name,r) {
 	    this[name] =  this[name] === "on" ? "off" : "on";
 	    toggleDays(r);
-	}
+	},
     }
-    timeseries = [
+    var timeseries = [
 	{
 	    date: beginningOfTime,
 	    value: 6.00,

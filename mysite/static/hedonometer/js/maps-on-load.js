@@ -96,7 +96,7 @@ function stateIndex(name) {
     }
 }
 
-ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","hawaii","virginia","grand","springs","falls",];
+ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz","nigger","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","ma","hawaii","virginia","grand","springs","falls",];
 
 var refencoder = d3.urllib.encoder().varname("ref"), //.varval(lensExtent);
 refdecoder = d3.urllib.decoder().varname("ref").varresult(allStateNames[51]); //.varval(lensExtent);
