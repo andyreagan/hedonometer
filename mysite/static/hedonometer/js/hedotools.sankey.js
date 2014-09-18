@@ -1,4 +1,22 @@
+hedotools.sankeyoncall = function() { 
+    var test = function(i,data) {
+	console.log("set in module");
+
+	console.log(allDataOld);
+	
+	var shiftObj = hedotools.shifter.shift(allDataOld[data[i].index].freq,allData[data[i].index].freq,lens,words);
+
+	shiftObj.setfigure(d3.select('#shift01')).setText("Why "+data[i].name+" has become "+((allDataOld[data[i].index].avhapps < allData[data[i].index].avhapps) ? "happier" : "less happy")+":").plot();
+
+
+    }
+    var opublic = { test: test, };
+    return opublic;
+}();
+
 hedotools.sankey = function() { 
+
+    var popuptimer;
 
     var figure;
 
@@ -21,7 +39,9 @@ hedotools.sankey = function() {
 	oldlist = a;
 	newlist = b;
 	stateNames = c;
-	stateNames[50] = "DC";
+	if ( stateNames[50] === "District of Columbia" ) {
+	    stateNames[50] = "DC";
+	}
 
 	// do the sorting
 	oldindices = Array(oldlist.length);
@@ -39,7 +59,7 @@ hedotools.sankey = function() {
 
 	newindices.sort(function(a,b) { return newlist[a] < newlist[b] ? 1 : newlist[a] > newlist[b] ? -1 : 0; });
 
-	data = Array(51);
+	data = Array(oldlist.length);
 	for (var i=0; i<data.length; i++) {
 	    data[i] = {
 		"name": stateNames[i],
@@ -47,6 +67,8 @@ hedotools.sankey = function() {
 		"oldindex": oldindices.indexOf(i),
 		"newindex": newindices.indexOf(i),
 		"change": newlist[i]-oldlist[i],
+		"oldhapps": oldlist[i],
+		"newhapps": newlist[i],
 	    };
 	}
 
@@ -79,18 +101,44 @@ hedotools.sankey = function() {
     var pathwidth;
     var pathselection;
 
+    var listlabels;
+    var extraSideWidth = [0,0];
+
+    var useTip = false;
+    var tip;
+
+
+
     // make the plot
     var plot = function() {
 	margin = {top: 0, right: 0, bottom: 0, left: 0};
-	axeslabelmargin = {top: 0, right: 90, bottom: 0, left: 90};
+	axeslabelmargin = {top: 0, right: 90+extraSideWidth[0], bottom: 0, left: 90+extraSideWidth[1]};
 	figwidth = parseInt(figure.style('width')) - margin.left - margin.right;
-	aspectRatio = 2.2;
+	aspectRatio = 1.8 + 3.4 * ( oldlist.length-51)/(304-51);
 	figheight = parseInt(figure.style('width'))*aspectRatio - margin.top - margin.bottom;
 	// figheight = 7;
 	width = figwidth-axeslabelmargin.left-axeslabelmargin.right;
 	height = figheight-axeslabelmargin.top-axeslabelmargin.bottom;
 	figcenter = width/2;
 	leftOffsetStatic = axeslabelmargin.left;
+
+	var hovergroup = figure.append("div").attr({
+	    "class": "hoverinfogroup",
+	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
+	})
+	    .style({
+		"position": "absolute",
+		"top": "100px",
+		"left": "100px",
+		"visibility": "hidden",
+	    });
+
+	function hidehover() {
+	    console.log("hiding hover");
+	    hovergroup.style({
+		"visibility": "hidden",
+	    });
+	}
 
 	// remove an old figure if it exists
 	figure.select(".canvas").remove();
@@ -117,7 +165,12 @@ hedotools.sankey = function() {
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("class", "main");
-	// .call(zoom);
+
+	// if (useTip) {
+	//     console.log("setting tip");
+	//     tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return d; });
+	//     axes.call(tip);
+	// }
 
 	oldstateselection = axes.selectAll("text.statetext.old")
 	    .data(data)
@@ -144,7 +197,7 @@ hedotools.sankey = function() {
 	path = sankey.link();
 
 	// create the sankey data thingy
-	sankeydata = Array(51);
+	sankeydata = Array(oldlist.length);
 	for (var i=0; i<data.length; i++) {
 	    sankeydata[i] = {
 		"source": {
@@ -157,6 +210,11 @@ hedotools.sankey = function() {
 		    "dx": 2,
 		    "y": y(data[i].newindex+1)-8,
 		},
+		"name": data[i].name,
+		"oldhapps": data[i].oldhapps,
+		"newhapps": data[i].newhapps,
+		"oldindex": data[i].oldindex,
+		"newindex": data[i].newindex,
 		"sy": 10,
 		"ty": 10,
 		"dy": 10,
@@ -177,41 +235,136 @@ hedotools.sankey = function() {
 	    .on("mouseover", function(d,i) { 
 		// console.log(i);
 		// console.log(data[i]);
-
-		var shiftObj = hedotools.shifter.shift(allDataOld[data[i].index].freq,allData[data[i].index].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).setText("Why "+data[i].name+" has become "+((allDataOld[data[i].index].avhapps < allData[data[i].index].avhapps) ? "happier" : "less happy")+":").plot();
-
 		var rectSelection = d3.select(this)
 		    .style({'opacity':'0.7',
 			    // 'stroke-width':'1.0',
 			   });
+
+		var thispath = this;
+
+		hedotools.sankeyoncall.test(i,data);
+
+		if (useTip) {
+
+		    // var bbox = this.getBBox(); 
+		    // var x = Math.floor(bbox.x + bbox.width/2.0); 
+		    // var y = Math.floor(bbox.y + bbox.height/2.0);
+
+		    var hoverboxheight = 90;
+		    var hoverboxwidth = 200;
+		    var hoverboxyoffset = 0;
+		    var hoverboxxoffset = 0;
+
+		    var x = d3.mouse(thispath)[0];
+		    var y = d3.mouse(thispath)[1];
+
+		    // tip.show;
+		    // console.log(d);
+
+		    hovergroup.style({
+			"position": "absolute",
+			"top": y+"px",
+			"left": x+"px",
+			"visibility": "visible",
+		    });
+
+		    hovergroup.selectAll("p,h3,button").remove();
+
+		    hovergroup.append("h3")
+			.attr("class","cityname")
+			.text(d.name);
+
+		    hovergroup.append("p")
+			.attr("class","refhapps")
+		    	.text(reftimeseldecoder().cached+" Happiness: "+parseFloat(d.oldhapps).toFixed(2));
+
+		    hovergroup.append("p")
+			.attr("class","refrank")
+		    	.text(reftimeseldecoder().cached+" Rank: "+(d.oldindex+1));
+
+		    hovergroup.append("p")
+			.attr("class","comphapps")
+		    	.text(comptimeseldecoder().cached+" Happiness: "+parseFloat(d.newhapps).toFixed(2));
+
+		    hovergroup.append("p")
+			.attr("class","comprank")
+		    	.text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
+
+		    hovergroup.append("button")
+			.attr("class","btn")
+		    	.text("Generate Wordshift")
+			.on("click", function() {
+			    console.log(d);
+			    console.log(i);
+			    // write a function to call on the load
+			    drawShift = function() {
+				hedotools.shifter._refF(refF);
+				hedotools.shifter._compF(compF);
+				hedotools.shifter.shifter();
+				hedotools.shifter.setText("Why "+d.name+" has become "+"happier"+":").plot();
+				$('#myModal').modal('show');
+			    }
+			    // load both of the files
+			    var csvLoadsRemaining = 2;
+			    var reffile = "/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
+			    var compfile = "/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
+			    console.log(reffile);
+			    console.log(compfile);
+			    var refF;
+			    var compF;
+			    d3.text(reffile,function(text) {
+				refF = text.split(",");
+				console.log(refF);
+				if (!--csvLoadsRemaining) drawShift();
+			    });
+			    d3.text(compfile,function(text) {
+				compF = text.split(",");
+				console.log(compF);
+				if (!--csvLoadsRemaining) drawShift();
+			    });
+			});
+		}
+		
+		clearTimeout(popuptimer);
+
+		popuptimer = setTimeout(hidehover,3000);
 	    })
 	    .on("mouseout", function(d,i) { 
+		if (useTip) {
+		    // hovergroup.style({
+		    // 	"visibility": "hidden",
+		    // });
+		    clearTimeout(popuptimer);
+
+		    popuptimer = setTimeout(hidehover,3000);
+		}
 		var rectSelection = d3.select(this)
-		    .style({'opacity':'1.0',
-			    // 'stroke':'black',
-			    // "stroke-width": function(d,i) { 
-			    //     return sortedStatesOld[i][4]*100; 
-			    // }, 
-			   }) 
+		    .style({ 'opacity':'1.0', }) 
 	    });
+
+	return hedotools.sankey;
     };
 
     var replot = function() {
 	// assuming that the data has been updated
 	// console.log(oldstateselection);
 	// console.log(newstateselection);
+
+	console.log(data);
 	
 	oldstateselection.data(data)
 	    .transition()
+	    .duration(3000)
             .text(function(d,i) { return (d.oldindex+1)+". "+d.name; })
 	    .attr("y",function(d,i) { return y(d.oldindex+1)+11; } );
 
     	newstateselection.data(data)
 	    .transition()
+	    .duration(3000)
             .text(function(d,i) { return (d.newindex+1)+". "+d.name; })
     	    .attr("y",function(d,i) { return y(d.newindex+1)+11; } );
 
+	// create the sankey data thingy
 	for (var i=0; i<data.length; i++) {
 	    sankeydata[i] = {
 		"source": {
@@ -224,6 +377,11 @@ hedotools.sankey = function() {
 		    "dx": 2,
 		    "y": y(data[i].newindex+1)-8,
 		},
+		"name": data[i].name,
+		"oldhapps": data[i].oldhapps,
+		"newhapps": data[i].newhapps,
+		"oldindex": data[i].oldindex,
+		"newindex": data[i].newindex,
 		"sy": 10,
 		"ty": 10,
 		"dy": 10,
@@ -235,6 +393,7 @@ hedotools.sankey = function() {
 
 	pathselection.data(sankeydata)
 	    .transition()
+	    .duration(3000)
             .attr({ "d": path,
 		    // don't update this
 		    // because the transition is applied by the css at the end
@@ -242,6 +401,7 @@ hedotools.sankey = function() {
 		    // "class": function(d,i) { return "r"+classColor(data[i].oldindex)+"-8"; },
 		    "stroke-width": function(d,i) { return pathwidth(Math.abs(data[i].change)); } });
 
+	return hedotools.sankey;
     };
 
     // need functions to access updated properties
@@ -253,6 +413,21 @@ hedotools.sankey = function() {
 	return newindices;
     };
 
+    var setTitles = function(titles) {
+	listlabels = titles;
+	return hedotools.sankey;
+    };
+
+    var setSideWidth = function(listTwoByOne) {
+	extraSideWidth = listTwoByOne;
+	return hedotools.sankey;
+    };
+
+    var setTipOn = function() {
+	useTip = true;
+	return hedotools.sankey;
+    };
+
     var opublic = {
 	plot: plot,
 	setfigure: setfigure,
@@ -260,6 +435,9 @@ hedotools.sankey = function() {
 	data: GETdata,
 	newindices: GETnewindices,
 	replot: replot,
+	setTitles: setTitles,
+	setSideWidth: setSideWidth,
+	setTipOn: setTipOn,
     };
 
     return opublic;

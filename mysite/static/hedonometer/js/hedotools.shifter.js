@@ -1,4 +1,10 @@
 // /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/hedotools.shifter.js
+// current usage example:
+//
+// var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
+// shiftObj.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+// can also use the setText method to set the text
+// need to do this outside of maps page
 
 // define the shifter module 
 hedotools.shifter = function()
@@ -28,7 +34,7 @@ hedotools.shifter = function()
     // but just initialize the width-related variables
 
     // full width and height. we'll draw the outer svg this big
-    var fullwidth = 450;
+    var fullwidth = 550;
     var fullheight = 500;
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -59,6 +65,7 @@ hedotools.shifter = function()
     // pull the width, set the height static
     var grabwidth = function() {
 	console.log("setting width from figure");
+	console.log(parseInt(figure.style("width")));
 	fullwidth = d3.min([parseInt(figure.style("width")),fullwidth]);
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
@@ -72,6 +79,8 @@ hedotools.shifter = function()
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
 	return hedotools.shifter;
     }
+
+
 
     // will be set by setdata() or shift() functions
     var sortedMag;
@@ -102,7 +111,45 @@ hedotools.shifter = function()
 
     var numwordstoplot = 200;
 
-    var shift = function(refF,compF,lens,words) {
+    var refF;
+    var compF;
+    var lens;
+    var words;
+
+    var _refF = function(_) {
+	if (!arguments.length) return refF;
+	refF = _;
+	return hedotools.shifter;
+    }
+
+    var _compF = function(_) {
+	if (!arguments.length) return compF;
+	compF = _;
+	return hedotools.shifter;
+    }
+
+    var _lens = function(_) {
+	if (!arguments.length) return lens;
+	lens = _;
+	return hedotools.shifter;
+    }
+
+    var _words = function(_) {
+	if (!arguments.length) return words;
+	words = _;
+	return hedotools.shifter;
+    }
+    
+    var shift = function(a,b,c,d) {
+	refF = a;
+	compF = b;
+	lens = c;
+	words = d;
+	shifter();
+	return hedotools.shifter;
+    }	
+
+    var shifter = function() {
 	/* shift two frequency vectors
 	   -assume they've been zero-ed for stop words
 	   -lens is of full length
@@ -332,11 +379,22 @@ hedotools.shifter = function()
 
 	// if there wasn't any text passed, make it
 	if (comparisonText.length < 1) {
+	    console.log("generating text for wordshift");
 	    comparisonText = "Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
 	}
+	else { 
+	    console.log("word shift text is:");
+	    console.log(comparisonText);
+	}
 
-	figure.selectAll("p.sumtext.text")
-	    .text(comparisonText);
+	figure.selectAll("p")
+	    .remove();
+
+	figure.selectAll("p")
+	    .data([comparisonText])
+	    .enter()
+	    .insert("p","svg")
+	    .text(function(d) { return d; });
 	
 	var typeClass = ["negdown","posdown","negup","posup"];
 
@@ -698,11 +756,17 @@ hedotools.shifter = function()
     }; // hedotools.shifter.plot
 
     var opublic = { shift: shift,
+		    shifter: shifter,
 		    setfigure: setfigure,
 		    setdata: setdata,
 		    plot: plot, 
 		    setText: setText,
-		    setHeight: setHeight, } 
+		    setHeight: setHeight,
+		    _refF: _refF,
+		    _compF: _compF,
+		    _lens: _lens,
+		    _words: _words,
+		  } 
 
     return opublic;
 }();
