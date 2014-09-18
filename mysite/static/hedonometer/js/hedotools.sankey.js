@@ -107,6 +107,8 @@ hedotools.sankey = function() {
     var useTip = false;
     var tip;
 
+
+
     // make the plot
     var plot = function() {
 	margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -119,6 +121,24 @@ hedotools.sankey = function() {
 	height = figheight-axeslabelmargin.top-axeslabelmargin.bottom;
 	figcenter = width/2;
 	leftOffsetStatic = axeslabelmargin.left;
+
+	var hovergroup = figure.append("div").attr({
+	    "class": "hoverinfogroup",
+	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
+	})
+	    .style({
+		"position": "absolute",
+		"top": "100px",
+		"left": "100px",
+		"visibility": "hidden",
+	    });
+
+	function hidehover() {
+	    console.log("hiding hover");
+	    hovergroup.style({
+		"visibility": "hidden",
+	    });
+	}
 
 	// remove an old figure if it exists
 	figure.select(".canvas").remove();
@@ -219,91 +239,104 @@ hedotools.sankey = function() {
 		    .style({'opacity':'0.7',
 			    // 'stroke-width':'1.0',
 			   });
+
 		var thispath = this;
 
 		hedotools.sankeyoncall.test(i,data);
 
 		if (useTip) {
 
-		    showpopup = function(thispath) { 
+		    // var bbox = this.getBBox(); 
+		    // var x = Math.floor(bbox.x + bbox.width/2.0); 
+		    // var y = Math.floor(bbox.y + bbox.height/2.0);
 
-			// var bbox = this.getBBox(); 
-			// var x = Math.floor(bbox.x + bbox.width/2.0); 
-			// var y = Math.floor(bbox.y + bbox.height/2.0);
+		    var hoverboxheight = 90;
+		    var hoverboxwidth = 200;
+		    var hoverboxyoffset = 0;
+		    var hoverboxxoffset = 0;
 
-			var hoverboxheight = 90;
-			var hoverboxwidth = 200;
-			var hoverboxyoffset = 0;
-			var hoverboxxoffset = 0;
+		    var x = d3.mouse(thispath)[0];
+		    var y = d3.mouse(thispath)[1];
 
-			var x = d3.mouse(thispath)[0];
-			var y = d3.mouse(thispath)[1];
+		    // tip.show;
+		    // console.log(d);
 
-			// tip.show;
-			console.log(d);
+		    hovergroup.style({
+			"position": "absolute",
+			"top": y+"px",
+			"left": x+"px",
+			"visibility": "visible",
+		    });
 
-			var hovergroup = canvas.append("g").attr({
-			    "class": "hoverinfogroup",
-			    "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", });
+		    hovergroup.selectAll("p,h3,button").remove();
 
-			var hoverbox = hovergroup.append("rect").attr({
-			    "class": "hoverinfobox",
-			    "x": 0,
-			    "y": 0,
-			    "width": hoverboxwidth,
-			    "height": hoverboxheight,
-			    "fill": "white",
-			    "stroke": "black",
+		    hovergroup.append("h3")
+			.attr("class","cityname")
+			.text(d.name);
+
+		    hovergroup.append("p")
+			.attr("class","refhapps")
+		    	.text(reftimeseldecoder().cached+" Happiness: "+parseFloat(d.oldhapps).toFixed(2));
+
+		    hovergroup.append("p")
+			.attr("class","refrank")
+		    	.text(reftimeseldecoder().cached+" Rank: "+(d.oldindex+1));
+
+		    hovergroup.append("p")
+			.attr("class","comphapps")
+		    	.text(comptimeseldecoder().cached+" Happiness: "+parseFloat(d.newhapps).toFixed(2));
+
+		    hovergroup.append("p")
+			.attr("class","comprank")
+		    	.text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
+
+		    hovergroup.append("button")
+			.attr("class","btn")
+		    	.text("Generate Wordshift")
+			.on("click", function() {
+			    console.log(d);
+			    console.log(i);
+			    // write a function to call on the load
+			    drawShift = function() {
+				hedotools.shifter._refF(refF);
+				hedotools.shifter._compF(compF);
+				hedotools.shifter.shifter();
+				hedotools.shifter.setText("Why "+d.name+" has become "+"happier"+":").plot();
+				$('#myModal').modal('show');
+			    }
+			    // load both of the files
+			    var csvLoadsRemaining = 2;
+			    var reffile = "/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
+			    var compfile = "/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
+			    console.log(reffile);
+			    console.log(compfile);
+			    var refF;
+			    var compF;
+			    d3.text(reffile,function(text) {
+				refF = text.split(",");
+				console.log(refF);
+				if (!--csvLoadsRemaining) drawShift();
+			    });
+			    d3.text(compfile,function(text) {
+				compF = text.split(",");
+				console.log(compF);
+				if (!--csvLoadsRemaining) drawShift();
+			    });
 			});
-
-			hovergroup.append("text").attr({
-			    "class": "hoverinfotext",
-			    "x": 10,
-			    "y": 15,
-			    "font-size": "1.2em",
-			})
-			    .text(d.name);
-
-			hovergroup.append("text").attr({
-		    	    "class": "hoverinfotext",
-		    	    "x": 10,
-		    	    "y": 30,
-		    	    "font-size": "1em",
-			})
-		    	    .text(reftimeseldecoder().cached+" Happiness: "+parseFloat(d.oldhapps).toFixed(2));
-
-			hovergroup.append("text").attr({
-		    	    "class": "hoverinfotext",
-		    	    "x": 10,
-		    	    "y": 44,
-		    	    "font-size": "1em",
-			})
-		    	    .text(reftimeseldecoder().cached+" Rank: "+(d.oldindex+1));
-
-			hovergroup.append("text").attr({
-		    	    "class": "hoverinfotext",
-		    	    "x": 10,
-		    	    "y": 59,
-		    	    "font-size": "1em",
-			})
-		    	    .text(comptimeseldecoder().cached+" Happiness: "+parseFloat(d.newhapps).toFixed(2));
-
-			hovergroup.append("text").attr({
-		    	    "class": "hoverinfotext",
-		    	    "x": 10,
-		    	    "y": 73,
-		    	    "font-size": "1em",
-			})
-		    	    .text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
-
-		    }
-		    popuptimer = setTimeout(showpopup(thispath),3000);
 		}
+		
+		clearTimeout(popuptimer);
+
+		popuptimer = setTimeout(hidehover,3000);
 	    })
 	    .on("mouseout", function(d,i) { 
 		if (useTip) {
-		    // tip.hide;
-		    setTimeout(d3.selectAll(".hoverinfogroup").remove(),2000);
+		    // hovergroup.style({
+		    // 	"visibility": "hidden",
+		    // });
+		    clearTimeout(popuptimer);
+
+		    popuptimer = setTimeout(hidehover,3000);
 		}
 		var rectSelection = d3.select(this)
 		    .style({ 'opacity':'1.0', }) 

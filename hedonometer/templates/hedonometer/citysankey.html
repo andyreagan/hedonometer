@@ -12,6 +12,7 @@
 {% endblock %}
 {% block headercss %}
     <link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/sankey.css" %}" rel="stylesheet">
     <style>
       .youtube { padding-bottom: 50px; }
       .relative { position: relative; } 
@@ -100,6 +101,23 @@
   </div><!-- /.container-fluid -->
 </div><!-- /.container -->
 
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+	<h3>Interactive Wordshift</h3>
+      </div>
+      <div class="modal-body">
+	<div id="shift"></div>
+      </div>
+      <div class="modal-footer" id="moveshiftherefooter">
+        <div class="addthis_sharing_toolbox pull-left"></div>
+	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 {% endblock %}
 
 {% block bottomjs %}
@@ -110,6 +128,7 @@
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
     <script src="{% static "hedonometer/js/sankey.js" %}"></script>
     <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
     <script src="{% static "hedonometer/js/hedotools.sankey.js" %}"></script>
     <script src="{% static "hedonometer/js/city-sankey-on-load.js" %}"></script>
 

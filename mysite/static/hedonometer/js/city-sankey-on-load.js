@@ -94,6 +94,36 @@ function initializePlotPlot() {
     classColor.domain([cities.length,1]);
     
     hedotools.sankey.setSideWidth([100,100]).setfigure(d3.select("#sankeyChart")).setdata(ref,comp,cities).setTipOn().plot().setTitles(['2011','2012']);
+    
+    // set the figure initially
+    hedotools.shifter.setfigure(d3.select('#shift')).setHeight(400);
+    // set some data
+    var scoresFile = "/data/cities/labMTscores-twitter.csv";
+    var wordsFile = "/data/cities/labMTwords-twitter.csv";
+    d3.text(scoresFile, function(text) {
+	var tmp = text.split("\n");
+	console.log("loaded words");
+	//console.log(tmp[tmp.length-1]);
+	var lens = tmp.map(function(d) { return parseFloat(d); });
+	var len = lens.length - 1;
+	while (!lens[len]) {
+	    //console.log("in while loop");
+	    lens = lens.slice(0, len);
+	    len--;
+	}
+	hedotools.shifter._lens(lens);
+    });
+    d3.text(wordsFile, function(text) {
+	var tmp = text.split("\n");
+	var words = tmp;
+	var len = words.length - 1;
+	while (!words[len]) {
+	    //console.log("in while loop");
+	    words = words.slice(0, len);
+	    len--;
+	}
+	hedotools.shifter._words(words);
+    });
 };
 
 initializePlot();
