@@ -49,7 +49,7 @@
     }
 
     var dur =  550;
-    var ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"];
+    var ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty","pakistan","india"];
     var bigdays = {};
     var shiftTypeSelect = false;
     var formatDate = d3.time.format("%b %Y");
