@@ -139,6 +139,36 @@ hedotools.shifter = function()
 	words = _;
 	return hedotools.shifter;
     }
+
+    var ignoreWords = ["nigga","niggas","niggaz","nigger"];
+
+    var ignore = function(_) {
+	if (!arguments.length) return ignoreWords;
+	ignoreWords.concat(_);
+	return hedotools.shifter;
+    }
+
+    var stop = function() {
+	for (var i=0; i<lens.length; i++) {
+	    var include = true;
+	    // check if in removed word list
+	    for (var k=0; k<ignoreWords.length; k++) {
+		if (ignoreWords[k] == words[i]) {
+		    include = false;
+		}
+	    }
+	    // check if underneath lens cover
+	    if (lens[i] > 4 && lens[i] < 6) {
+		include = false;
+	    }
+	    // include it, or set to 0
+	    if (!include) {
+		refF[i] = 0;
+		compF[i] = 0;
+	    }
+	}
+	return hedotools.shifter;
+    }
     
     var shift = function(a,b,c,d) {
 	refF = a;
@@ -756,6 +786,8 @@ hedotools.shifter = function()
     }; // hedotools.shifter.plot
 
     var opublic = { shift: shift,
+		    ignore: ignore,
+		    stop: stop,
 		    shifter: shifter,
 		    setfigure: setfigure,
 		    setdata: setdata,

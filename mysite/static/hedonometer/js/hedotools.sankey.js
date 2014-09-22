@@ -300,14 +300,17 @@ hedotools.sankey = function() {
 			    drawShift = function() {
 				hedotools.shifter._refF(refF);
 				hedotools.shifter._compF(compF);
+				hedotools.shifter.stop();
 				hedotools.shifter.shifter();
-				hedotools.shifter.setText("Why "+d.name+" has become "+"happier"+":").plot();
+				hedotools.shifter.setText("Why "+d.name+" has moved "+( ( d.newindex < d.oldindex ) ? "up" : "down" )+":").plot();
 				$('#myModal').modal('show');
 			    }
 			    // load both of the files
 			    var csvLoadsRemaining = 2;
 			    var reffile = "/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
+			    if (parseInt(reftimeseldecoder().cached) < 2014) reffile+=".new"
 			    var compfile = "/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
+			    if (parseInt(comptimeseldecoder().cached) < 2014) compfile+=".new"
 			    console.log(reffile);
 			    console.log(compfile);
 			    var refF;
