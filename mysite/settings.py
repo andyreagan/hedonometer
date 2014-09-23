@@ -26,7 +26,7 @@ f.close()
 # DEBUG = False
 DEBUG = True
  
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR,'templates')]
 
