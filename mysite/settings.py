@@ -23,8 +23,8 @@ f.write(str(os.environ))
 f.close()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-# DEBUG = True
+# DEBUG = False
+DEBUG = True
  
 TEMPLATE_DEBUG = False
 
