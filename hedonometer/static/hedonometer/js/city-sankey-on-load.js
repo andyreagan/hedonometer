@@ -31,7 +31,7 @@ function timeDrop() {
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -43,7 +43,7 @@ function timeDrop() {
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -54,7 +54,7 @@ function timeDrop() {
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -66,7 +66,7 @@ function timeDrop() {
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -75,15 +75,15 @@ function timeDrop() {
 
 function loadCsv() {
     var csvLoadsRemaining = 3;
-    d3.text("/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 	ref = text.split("\n").slice(0,304);
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_mutualHapps.csv", function(text) {
 	comp = text.split("\n").slice(0,304);;
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("/data/cities/mutualCities.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/mutualCities.csv", function(text) {
 	cities = text.split("\n").slice(0,304);;
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
@@ -100,8 +100,8 @@ function initializePlotPlot() {
     var ignoreWords = ["severe","flood","warning","earthquake","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","ma","hawaii","virginia","grand","springs","falls",];
     hedotools.shifter.ignore(ignoreWords);
     // set some data
-    var scoresFile = "/data/labMT/labMTscores-english.csv";
-    var wordsFile = "/data/labMT/labMTwords-english.csv";
+    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	console.log("loaded words");
