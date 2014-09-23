@@ -18,9 +18,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = '3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^'
 SECRET_KEY = os.getenv('DJ_SECRET_KEY') # ,'3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^')
-f = open('/home/dev/environ','w')
-f.write(str(os.environ))
-f.close()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJ_DEBUG') in ['TRUE','1','true','True']
