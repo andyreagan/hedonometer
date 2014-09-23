@@ -42,8 +42,8 @@ hedotools.loader = function() {
     var lensExtent = [4,6];
     var csvLoadsRemaining = 4;
     // load labMT files
-    var scoresFile = "/static/hedonometer/data/labMT/labMTscores-english.csv";
-    var wordsFile = "/static/hedonometer/data/labMT/labMTwords-english.csv";
+    var scoresFile = "/data/labMT/labMTscores-english.csv";
+    var wordsFile = "/data/labMT/labMTwords-english.csv";
     var lens;
     var words;
     var refFvec;

@@ -13070,7 +13070,7 @@ I like this feature
 
 var lang = "english";
 
-d3.text("static/hedonometer/data/labMT/labMTscores-"+lang+".csv", function (text) {
+d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
     var tmp = text.split("\n");
     //console.log(tmp.length);
     //console.log(tmp[tmp.length-1]);
@@ -13081,7 +13081,7 @@ d3.text("static/hedonometer/data/labMT/labMTscores-"+lang+".csv", function (text
         lens = lens.slice(0, len);
         len--;
     }
-    d3.text("static/hedonometer/data/labMT/labMTwords-"+lang+".csv", function (text2) {
+    d3.text("/data/labMT/labMTwords-"+lang+".csv", function (text2) {
 	var tmp2 = text2.split("\n");
 	words = tmp2;
 	var len = words.length - 1;
@@ -13227,36 +13227,36 @@ function shift(rrefF,ccompF,lens,words) {
 	var initialMonths = 18;
     }
 
-    var dur =  550,
-    ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"],
-    bigdays = {},
-    shiftTypeSelect = false,
-    formatDate = d3.time.format("%b %Y"),
-    today = new Date(),
-    beginningOfTime = new Date(2008,8,10),
-    cformat = d3.time.format("%Y-%m-%d"),
-    dformat = d3.time.format("%Y-%m-%dT00:00:00"),
-    longformat = d3.time.format("%B %e, %Y"),
-    longerformat = d3.time.format("%A, %B %e, %Y"),
-    fromencoder = d3.urllib.encoder().varname("from");
-    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths))),
-    toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10))),
-    dateencoder = d3.urllib.encoder().varname("date"),
-    datedecoder = d3.urllib.decoder().varname("date"),
-    shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
-    shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none"),
-    weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"],
-    weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"],
-    popupExitDur = 500,
-    popupEnterDur = 400,
-    intStr = ["zero","one","two","three"],
+    var dur =  550;
+    var ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty","pakistan","india"];
+    var bigdays = {};
+    var shiftTypeSelect = false;
+    var formatDate = d3.time.format("%b %Y");
+    var today = new Date();
+    var beginningOfTime = new Date(2008,8,10);
+    var cformat = d3.time.format("%Y-%m-%d");
+    var dformat = d3.time.format("%Y-%m-%dT00:00:00");
+    var longformat = d3.time.format("%B %e, %Y");
+    var longerformat = d3.time.format("%A, %B %e, %Y");
+    var fromencoder = d3.urllib.encoder().varname("from");
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
+    var toencoder = d3.urllib.encoder().varname("to");
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10)));
+    var dateencoder = d3.urllib.encoder().varname("date");
+    var datedecoder = d3.urllib.decoder().varname("date");
+    var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
+    var shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none");
+    var weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"];
+    var weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    var popupExitDur = 500;
+    var popupEnterDur = 400;
+    var intStr = ["zero","one","two","three"];
     // min radius for day circles
-    rmin = 0,
+    var rmin = 0;
     // max radius for day circles
     // these get reset when the day toggle is called
-    rmax = 3.25,
-    legendDict = {
+    var rmax = 3.25;
+    var legendDict = {
 	"mon": "on",
 	"tue": "on",
 	"wed": "on",
@@ -13269,9 +13269,9 @@ function shift(rrefF,ccompF,lens,words) {
 	toggle: function (name,r) {
 	    this[name] =  this[name] === "on" ? "off" : "on";
 	    toggleDays(r);
-	}
+	},
     }
-    timeseries = [
+    var timeseries = [
 	{
 	    date: beginningOfTime,
 	    value: 6.00,
@@ -13674,7 +13674,7 @@ function shift(rrefF,ccompF,lens,words) {
 
     var minDate,maxDate;
 
-    d3.csv("/static/hedonometer/data/word-vectors/sumhapps.csv", function(data) {
+    d3.csv("/data/word-vectors/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -13762,7 +13762,7 @@ function shift(rrefF,ccompF,lens,words) {
 
 	// http://hedonometer.org/api/v1/events/?format=json
 	d3.json('/api/v1/events/?format=json',function(json) { 
-	// d3.json('/static/hedonometer/data/bigdays.json',function(json) { 
+	// d3.json('/data/bigdays.json',function(json) { 
 	    bigdays = json.objects;
 	    
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
@@ -14076,9 +14076,9 @@ function shift(rrefF,ccompF,lens,words) {
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {
@@ -14752,7 +14752,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    }
 	}
 
-	d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
@@ -14762,7 +14762,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -15006,9 +15006,9 @@ function shift(rrefF,ccompF,lens,words) {
 
 
 
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
+	d3.text("/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {

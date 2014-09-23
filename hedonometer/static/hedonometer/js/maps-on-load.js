@@ -205,8 +205,8 @@ function loadCsv(time) {
     if (time === "2011" || time === "2012" || time === "2013") {
 	// load files from lewis
 	console.log("loading year words and scores");
-	var scoresFile = "/static/hedonometer/data/geodata/wordScores.csv";
-	var wordsFile = "/static/hedonometer/data/geodata/words.csv";
+	var scoresFile = "/data/geodata/wordScores.csv";
+	var wordsFile = "/data/geodata/words.csv";
 	d3.text(scoresFile, function(text) {
 	    var tmp = text.split(",");
 	    lens = tmp.map(parseFloat);
@@ -220,8 +220,8 @@ function loadCsv(time) {
     }
     else {
 	// load labMT files
-	var scoresFile = "/static/hedonometer/data/labMT/labMTscores-english.csv";
-	var wordsFile = "/static/hedonometer/data/labMT/labMTwords-english.csv";
+	var scoresFile = "/data/labMT/labMTscores-english.csv";
+	var wordsFile = "/data/labMT/labMTwords-english.csv";
 	d3.text(scoresFile, function(text) {
 	    var tmp = text.split("\n");
 	    //console.log(tmp.length);
@@ -247,15 +247,15 @@ function loadCsv(time) {
 	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 	});
     }
-    d3.json("/static/hedonometer/data/geodata/us-states.topojson", function(data) {
+    d3.json("/data/geodata/us-states.topojson", function(data) {
 	geoJson = data;
 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     });
     // trying to load from a new format for the more recent tweets
-    d3.text("/static/hedonometer/data/geodata/wordCounts"+(time)+".csv", function(text) {
+    d3.text("/data/geodata/wordCounts"+(time)+".csv", function(text) {
     // var time = "2014-08-25-week"
-    // d3.text("/static/hedonometer/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    // d3.text("/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 	tmp = text.split("\n");
 	allData = Array(52);
 	for (var i=0; i<51; i++) {
@@ -346,7 +346,7 @@ function initializePlotPlot(lens,words) {
     // randomHapps = stateHappsList.map(function(d) { return d+(Math.random()-0.5)/5; } )
     // the previous week
     var time = "2014-08-18-week"
-    d3.text("/static/hedonometer/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    d3.text("/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 	var tmp = text.split("\n");
 	var allDataOld = Array(52);
 	for (var i=0; i<51; i++) {

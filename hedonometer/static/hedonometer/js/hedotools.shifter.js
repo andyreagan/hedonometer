@@ -1,4 +1,3 @@
-// /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/hedotools.shifter.js
 // current usage example:
 //
 // var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
@@ -62,7 +61,7 @@ hedotools.shifter = function()
     var barHeight = (7+17*3+15-13); // 95
     var figcenter = figwidth/2;
 
-    // pull the width, set the height static
+    // pull the width, set the height fixed
     var grabwidth = function() {
 	console.log("setting width from figure");
 	console.log(parseInt(figure.style("width")));
@@ -72,7 +71,7 @@ hedotools.shifter = function()
 	figcenter = figwidth/2;
     }
 
-    // pull the width, set the height static
+    // pull the width, set the height fixed
     var setHeight = function(_) {
 	fullheight = _;
 	boxheight = fullheight-margin.top-margin.bottom;
