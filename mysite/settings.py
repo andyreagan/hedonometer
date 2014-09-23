@@ -85,15 +85,26 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# DATABASES = {
+#     # for the sql database on the linode
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'swndb',
+#         'USER': 'root',
+#         'PASSWORD': 'm@candch33s#',
+#         'HOST': '127.0.0.1',
+#         'PORT': '3306',
+#     }
+# }
+
 DATABASES = {
-    # for the sql database on the linode
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'swndb',
-        'USER': 'root',
-        'PASSWORD': 'm@candch33s#',
-        'HOST': '127.0.0.1',
-        'PORT': '3306',
+        'ENGINE': os.getenv('DJ_DB_ENGINE'),
+        'NAME': os.getenv('DJ_DB_NAME'),
+        'USER': os.getenv('DJ_DB_USER'),
+        'PASSWORD': os.getenv('DJ_DB_PASSWORD'),
+        'HOST': os.getenv('DJ_DB_HOST'),
+        'PORT': os.getenv('DJ_DB_PORT'),
     }
 }
 
