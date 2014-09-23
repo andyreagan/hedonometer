@@ -23,8 +23,7 @@ f.write(str(os.environ))
 f.close()
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False
-DEBUG = True
+DEBUG = os.getenv('DJ_DEBUG') in ['TRUE','1','true','True']
  
 TEMPLATE_DEBUG = DEBUG
 
