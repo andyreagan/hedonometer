@@ -16,7 +16,7 @@ function shift(rrefF,ccompF,lens,words) {
     for (var i=0; i<rrefF.length; i++) {
         refH += rrefF[i]*lens[i];
     }
-    console.log(refH);
+    // console.log(refH);
     refH = refH/Nref;
 
     // compute comparison happiness

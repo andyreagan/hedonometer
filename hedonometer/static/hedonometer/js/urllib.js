@@ -17,6 +17,13 @@ documentation
 -------------
 slightly more documentation in the README
 
+new:
+
+decoder returns { current, cached } values
+the current will be blank if there is nothing in the url
+but the cached remains
+I like this feature
+
 */
 (function() {
     d3.urllib = {
@@ -108,10 +115,12 @@ slightly more documentation in the README
 	decoder: function() {
 	    var varname = "tmp";
 	    var varresult = [];
+	    var defvalue = [];
 	    
 	    function urllib(d) {
 		parseurl();
-		return {current: varresult,};
+		return {current: varresult,
+		       cached: defvalue};
 	    }
 
 	    function parseurl() {
@@ -126,12 +135,24 @@ slightly more documentation in the README
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			if (GET[varname][GET[varname].length-1] === "]") { 
+			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
+			}
+			else {
+			    var tmpArray = GET[varname].substring(1, GET[varname].length).split(',');
+			}
 			varresult = tmpArray;
+			defvalue = tmpArray;
 		    }
 		    else {
 			varresult = GET[varname];
+			defvalue = GET[varname];
 		    }
+		}
+		else {
+		    // if there is nothing in the url...we'll let the value
+		    // live. this next line would kill the value
+		    varresult = ""
 		}
 		return urllib;
 	    }
@@ -145,6 +166,7 @@ slightly more documentation in the README
 	    urllib.varresult = function(_) {
 		if (!arguments.length) return varresult;
 		varresult = _;
+		defvalue = _;
 		return urllib;
 	    }
 

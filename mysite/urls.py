@@ -27,6 +27,15 @@ urlpatterns = patterns('',
     # url(r'^polls/', include('polls.urls', namespace='polls')),
     # url(r'^notify/', get_notify_pattern()),
     # url(r'^wiki/', get_wiki_pattern()),
-)
+) 
+
+# load the static files if in debug
+from settings import DEBUG
+if DEBUG:
+    from django.conf.urls.static import static
+    from django.conf import settings
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+
+
 
 

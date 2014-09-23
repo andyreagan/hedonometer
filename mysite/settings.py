@@ -16,8 +16,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# SECRET_KEY = '3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^'
-SECRET_KEY = os.getenv('DJ_SECRET_KEY') # ,'3*qr%3v27!)_cfml*uffm3n9glfdy%16!#4wm5@8t)rc@do_z^')
+SECRET_KEY = os.getenv('DJ_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJ_DEBUG') in ['TRUE','1','true','True']
@@ -78,7 +77,6 @@ ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
@@ -106,12 +104,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/usr/share/nginx/prod/mysite/static'
+STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 
 # from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
 # settings.py
