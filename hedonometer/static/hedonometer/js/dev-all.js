@@ -13070,7 +13070,7 @@ I like this feature
 
 var lang = "english";
 
-d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
+d3.text("http://hedonometer.org/data/labMT/labMTscores-"+lang+".csv", function (text) {
     var tmp = text.split("\n");
     //console.log(tmp.length);
     //console.log(tmp[tmp.length-1]);
@@ -13081,7 +13081,7 @@ d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
         lens = lens.slice(0, len);
         len--;
     }
-    d3.text("/data/labMT/labMTwords-"+lang+".csv", function (text2) {
+    d3.text("http://hedonometer.org/data/labMT/labMTwords-"+lang+".csv", function (text2) {
 	var tmp2 = text2.split("\n");
 	words = tmp2;
 	var len = words.length - 1;

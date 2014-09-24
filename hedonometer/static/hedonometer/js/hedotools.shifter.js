@@ -89,6 +89,37 @@ hedotools.shifter = function()
     var refH;
     var compH;
 
+    var _sortedMag = function(_) {
+	if (!arguments.length) return sortedMag;
+	sortedMag = _;
+	return hedotools.shifter;
+    }
+    var _sortedType = function(_) {
+	if (!arguments.length) return sortedType;
+	sortedType = _;
+	return hedotools.shifter;
+    }
+    var _sortedWords = function(_) {
+	if (!arguments.length) return sortedWords;
+	sortedWords = _;
+	return hedotools.shifter;
+    }
+    var _sumTypes = function(_) {
+	if (!arguments.length) return sumTypes;
+	sumTypes = _;
+	return hedotools.shifter;
+    }
+    var _refH = function(_) {
+	if (!arguments.length) return refH;
+	refH = _;
+	return hedotools.shifter;
+    }
+    var _compH = function(_) {
+	if (!arguments.length) return compH;
+	compH = _;
+	return hedotools.shifter;
+    }
+
     var setdata = function(a,b,c,d,e,f) {
 	console.log("setting data");
 	sortedMag = a;
@@ -797,6 +828,13 @@ hedotools.shifter = function()
 		    _compF: _compF,
 		    _lens: _lens,
 		    _words: _words,
+		    // boatload more accessor functions
+		    _sortedMag: _sortedMag,
+		    _sortedType: _sortedType,
+		    _sortedWords: _sortedWords,
+		    _sumTypes: _sumTypes,
+		    _refH: _refH,
+		    _compH: _compH,
 		  } 
 
     return opublic;

@@ -13070,7 +13070,7 @@ I like this feature
 
 var lang = "english";
 
-d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
+d3.text("http://hedonometer.org/data/labMT/labMTscores-"+lang+".csv", function (text) {
     var tmp = text.split("\n");
     //console.log(tmp.length);
     //console.log(tmp[tmp.length-1]);
@@ -13081,7 +13081,7 @@ d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
         lens = lens.slice(0, len);
         len--;
     }
-    d3.text("/data/labMT/labMTwords-"+lang+".csv", function (text2) {
+    d3.text("http://hedonometer.org/data/labMT/labMTwords-"+lang+".csv", function (text2) {
 	var tmp2 = text2.split("\n");
 	words = tmp2;
 	var len = words.length - 1;
@@ -13674,7 +13674,7 @@ function shift(rrefF,ccompF,lens,words) {
 
     var minDate,maxDate;
 
-    d3.csv("/data/word-vectors/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -13761,10 +13761,8 @@ function shift(rrefF,ccompF,lens,words) {
 	var format = d3.time.format("%m-%d");
 
 	// http://hedonometer.org/api/v1/events/?format=json
-	d3.json('/api/v1/events/?format=json',function(json) { 
-	// d3.json('/data/bigdays.json',function(json) { 
+	d3.json('http://hedonometer.org/api/v1/events/?format=json',function(json) { 
 	    bigdays = json.objects;
-	    
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
 				       d.shorter = d.shorter.split(',');
@@ -14076,9 +14074,9 @@ function shift(rrefF,ccompF,lens,words) {
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {
@@ -14752,7 +14750,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    }
 	}
 
-	d3.csv("/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
@@ -14762,7 +14760,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.csv("/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -15006,9 +15004,9 @@ function shift(rrefF,ccompF,lens,words) {
 
 
 
-	d3.text("/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {

@@ -268,7 +268,7 @@ hedotools.sankey = function() {
 			"visibility": "visible",
 		    });
 
-		    hovergroup.selectAll("p,h3,button").remove();
+		    hovergroup.selectAll("p,h3,button,br").remove();
 
 		    hovergroup.append("h3")
 			.attr("class","cityname")
@@ -290,42 +290,114 @@ hedotools.sankey = function() {
 			.attr("class","comprank")
 		    	.text(comptimeseldecoder().cached+" Rank: "+(d.newindex+1));
 
+		    var popupshift = function(refyear,refname,compyear,compname) {
+			refshifttimeencoder.varval(refyear);
+			refshiftcityencoder.varval(refname);
+			compshifttimeencoder.varval(compyear);
+			compshiftcityencoder.varval(compname);
+			// write a function to call on the load
+			drawShift = function() {
+			    hedotools.shifter._refF(refF);
+			    hedotools.shifter._compF(compF);
+			    hedotools.shifter.stop();
+			    hedotools.shifter.shifter();
+			    hedotools.shifter.setText("Why "+compname+" in "+compyear+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+refname+" in "+refyear+":").plot();
+			    $('#myModal').modal('show');
+			}
+			// load both of the files
+			var csvLoadsRemaining = 2;
+			// var reffile = "http://hedonometer.org/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
+			// if (parseInt(reftimeseldecoder().cached) < 2014) reffile+=".new"
+			// var compfile = "http://hedonometer.org/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
+			// if (parseInt(comptimeseldecoder().cached) < 2014) compfile+=".new"
+			var reffile = "http://hedonometer.org/data/cities/word-vectors/"+refyear+"/"+refname+".csv";
+			if (parseInt(refyear) < 2014) reffile+=".new"
+			var compfile = "http://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
+			if (parseInt(compyear) < 2014) compfile+=".new"
+			console.log(reffile);
+			console.log(compfile);
+			var refF;
+			var compF;
+			d3.text(reffile,function(text) {
+			    refF = text.split(",");
+			    console.log(refF);
+			    if (!--csvLoadsRemaining) drawShift();
+			});
+			d3.text(compfile,function(text) {
+			    compF = text.split(",");
+			    console.log(compF);
+			    if (!--csvLoadsRemaining) drawShift();
+			});
+		    }
+
 		    hovergroup.append("button")
-			.attr("class","btn")
-		    	.text("Generate Wordshift")
+			.attr("class","btn btn-sm btn-primary")
+		    	.text("Shift city vs previous year")
 			.on("click", function() {
 			    console.log(d);
 			    console.log(i);
-			    // write a function to call on the load
-			    drawShift = function() {
-				hedotools.shifter._refF(refF);
-				hedotools.shifter._compF(compF);
-				hedotools.shifter.stop();
-				hedotools.shifter.shifter();
-				hedotools.shifter.setText("Why "+d.name+" has moved "+( ( d.newindex < d.oldindex ) ? "up" : "down" )+":").plot();
-				$('#myModal').modal('show');
-			    }
-			    // load both of the files
-			    var csvLoadsRemaining = 2;
-			    var reffile = "/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
-			    if (parseInt(reftimeseldecoder().cached) < 2014) reffile+=".new"
-			    var compfile = "/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
-			    if (parseInt(comptimeseldecoder().cached) < 2014) compfile+=".new"
-			    console.log(reffile);
-			    console.log(compfile);
-			    var refF;
-			    var compF;
-			    d3.text(reffile,function(text) {
-				refF = text.split(",");
-				console.log(refF);
-				if (!--csvLoadsRemaining) drawShift();
-			    });
-			    d3.text(compfile,function(text) {
-				compF = text.split(",");
-				console.log(compF);
-				if (!--csvLoadsRemaining) drawShift();
-			    });
+			    popupshift(reftimeseldecoder().cached,d.name,comptimeseldecoder().cached,d.name);
 			});
+
+		    hovergroup.append("br");
+		    hovergroup.append("br");
+
+		    hovergroup.append("button")
+			.attr("class","btn btn-sm btn-primary")
+		    	.text("Shift city in "+reftimeseldecoder().cached+" vs sum "+reftimeseldecoder().cached)
+			.on("click", function() {
+			    console.log(d);
+			    console.log(i);
+			    popupshift(reftimeseldecoder().cached,"all",reftimeseldecoder().cached,d.name);
+			});
+
+		    hovergroup.append("br");
+		    hovergroup.append("br");
+
+		    hovergroup.append("button")
+			.attr("class","btn btn-sm btn-primary")
+		    	.text("Shift city in "+comptimeseldecoder().cached+" vs sum "+comptimeseldecoder().cached)
+			.on("click", function() {
+			    console.log(d);
+			    console.log(i);
+			    popupshift(comptimeseldecoder().cached,"all",comptimeseldecoder().cached,d.name);
+			});
+
+		    hovergroup.append("br");
+		    hovergroup.append("br");
+
+
+		    hovergroup.append("button")
+			.attr("class","btn btn-xs btn-primary")
+		    	.text("Select as reference for city-city comparison")
+			.on("click", function() {
+			    console.log(d);
+			    console.log(i);
+			    refcity = d.name;
+			});
+
+		    if (refcity.length > 0) {
+			hovergroup.append("br");
+			hovergroup.append("br");
+			hovergroup.append("button")
+			    .attr("class","btn btn-xs btn-primary")
+		    	    .text("Compare against "+refcity+" in "+comptimeseldecoder().cached)
+			    .on("click", function() {
+				console.log(d);
+				console.log(i);
+				popupshift(comptimeseldecoder().cached,refcity,comptimeseldecoder().cached,d.name);
+			    });
+			hovergroup.append("br");
+			hovergroup.append("br");
+			hovergroup.append("button")
+			    .attr("class","btn btn-xs btn-primary")
+		    	    .text("Compare against "+refcity+" in "+reftimeseldecoder().cached)
+			    .on("click", function() {
+				console.log(d);
+				console.log(i);
+				popupshift(reftimeseldecoder().cached,refcity,reftimeseldecoder().cached,d.name);
+			    });
+		    }
 		}
 		
 		clearTimeout(popuptimer);
