@@ -257,6 +257,8 @@ hedotools.sankey = function() {
 
 		    var x = d3.mouse(thispath)[0];
 		    var y = d3.mouse(thispath)[1];
+		    
+		    if ((y+270)>height) { y-=(y+270-height); }
 
 		    // tip.show;
 		    // console.log(d);
