@@ -107,16 +107,23 @@ hedotools.sankey = function() {
     var useTip = false;
     var tip;
 
-
+    var minwidth = 450;
 
     // make the plot
     var plot = function() {
 	margin = {top: 0, right: 0, bottom: 0, left: 0};
 	axeslabelmargin = {top: 0, right: 90+extraSideWidth[0], bottom: 0, left: 90+extraSideWidth[1]};
 	figwidth = parseInt(figure.style('width')) - margin.left - margin.right;
-	aspectRatio = 1.8 + 3.4 * ( oldlist.length-51)/(304-51);
+	if (figwidth<minwidth) {
+	    console.log("width is too small...");
+	    d3.selectAll(".reftimelabel,.comptimelabel,.reftimelabelbottom,.comptimelabelbottom").remove();
+	    figure.append("text").text("Unfortunately, this visualization will look terrible on your device. If you're on a phone, try rotating and refreshing, or looking from a desktop. Thanks :)");
+	    return hedotools.sankey;
+	}
+	aspectRatio = 1.8+3.4*(oldlist.length-51)/(304-51);
 	figheight = parseInt(figure.style('width'))*aspectRatio - margin.top - margin.bottom;
-	// figheight = 7;
+	// console.log("figheight is "+figheight);
+	// figheight = 4576; // for the city sankey this seems good
 	width = figwidth-axeslabelmargin.left-axeslabelmargin.right;
 	height = figheight-axeslabelmargin.top-axeslabelmargin.bottom;
 	figcenter = width/2;
