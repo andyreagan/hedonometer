@@ -174,7 +174,9 @@ hedotools.shifter = function()
 
     var ignore = function(_) {
 	if (!arguments.length) return ignoreWords;
-	ignoreWords.concat(_);
+	ignoreWords = ignoreWords.concat(_);
+	console.log(_);
+	console.log(ignoreWords);
 	return hedotools.shifter;
     }
 

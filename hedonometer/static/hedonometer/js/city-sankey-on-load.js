@@ -122,7 +122,7 @@ function initializePlotPlot() {
     
     // set the figure initially
     hedotools.shifter.setfigure(d3.select('#shift')).setHeight(400);
-    var ignoreWords = ["severe","flood","warning","earthquake","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","ma","hawaii","virginia","grand","springs","falls",];
+    var ignoreWords = ["severe","flood","warning","earthquake","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","ma","hawaii","virginia","grand","springs","falls","battle"];
     hedotools.shifter.ignore(ignoreWords);
 
     var popupshiftct = 4;
