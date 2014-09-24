@@ -1,0 +1,139 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block headerextrameta %}
+<meta property="og:url" id="fburl" content="http://hedonometer.org/maps.html" /> 
+<meta property="og:title" id="fbtitle" content="Hedonometer Maps" /> 
+<meta property="og:description" id="fbcontent" content="Explore the dynamics of emotion across both space and time in this interactive visualization. Brought to you by the University of Vermont's Computational Story Lab, a research group run by Peter Dodds and Chris Danforth. Front end visualization and back end code by Andy Reagan." />  
+<meta property="og:image" id="fbimage" content="http://hedonometer.org/static/hedonometer/graphics/map.png" /> 
+<!-- <meta property="og:video" content="http://www.youtube.com/v/1F7DKyFt5pY&fs=1" />  -->
+<!-- <meta property="og:video:width" content="560" />   -->
+<!-- <meta property="og:video:height" content="340" />   -->
+<!-- <meta property="og:video:type" content="application/x-shockwave-flash" />  -->
+{% endblock %}
+{% block headercss %}
+    <link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/sankey.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 50px; }
+      .relative { position: relative; } 
+      .hedo-sidebar { position: relative; }
+      p.sumtext { margin-top: 0; }
+      // .refTimeLabel { padding-left: 40px; }
+    </style>
+{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="container-fluid">
+
+    <div class="row">
+      <div class="col-xs-12 col-lg-10" id="allleftpadding">
+	<h3>Movement of Average Happiness in United States Cities</h3>
+      </div> <!-- column -->
+      <div class="col-xs-6 col-lg-2">
+	<h3><div class="addthis_sharing_toolbox pull-right"></div></h3>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-xs-0 col-sm-1">
+      </div> <!-- map/shift column -->
+      <div class="col-xs-12 col-lg-10">
+	<div class="paper paper-curl-left">
+	  <div id="caption01">
+	    <b>Lists:</b> The movement of city ranks over years.
+	    <br>
+	    <br>
+	    <div class="btn-group">
+	      <button type="button" class="btn btn-default dropdown-toggle reftimelabel" data-toggle="dropdown">
+		2011 <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu" id="refSelect">
+		<li><a>2011</a></li>
+		<li><a>2012</a></li>
+		<li><a>2013</a></li>
+		<li><a>2014</a></li>
+	      </ul>
+	    </div>
+	    compared to
+	    <div class="btn-group">
+	      <button type="button" class="btn btn-default dropdown-toggle comptimelabel" data-toggle="dropdown">
+		2012 <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu" id="compSelect">
+		<li><a>2011</a></li>
+		<li><a>2012</a></li>
+		<li><a>2013</a></li>
+		<li><a>2014</a></li>
+	      </ul>
+	    </div>
+	  </div> <!-- caption -->
+	  <br>
+	  <div id="sankeyChart" class="figure"></div>
+	  <div class="btn-group">
+	    <button type="button" class="btn btn-default dropdown-toggle reftimelabelbottom" data-toggle="dropdown">
+	      2011 <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu" role="menu" id="refSelectBottom">
+	      <li><a>2011</a></li>
+	      <li><a>2012</a></li>
+	      <li><a>2013</a></li>
+	      <li><a>2014</a></li>
+	    </ul>
+	  </div>
+	  compared to
+	  <div class="btn-group">
+	    <button type="button" class="btn btn-default dropdown-toggle comptimelabelbottom" data-toggle="dropdown">
+	      2012 <span class="caret"></span>
+	    </button>
+	    <ul class="dropdown-menu" role="menu" id="compSelectBottom">
+	      <li><a>2011</a></li>
+	      <li><a>2012</a></li>
+	      <li><a>2013</a></li>
+	      <li><a>2014</a></li>
+	    </ul>
+	  </div>
+	  <br>
+	  <br>
+	</div> <!-- paper -->
+      </div> <!-- map/shift column -->
+      <div class="col-xs-0 col-sm-1">
+      </div> <!-- map/shift column -->
+    </div> <!-- main row -->
+  </div><!-- /.container-fluid -->
+</div><!-- /.container -->
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+	<h3>Interactive Wordshift</h3>
+      </div>
+      <div class="modal-body">
+	<div id="shift"></div>
+      </div>
+      <div class="modal-footer" id="moveshiftherefooter">
+        <div class="addthis_sharing_toolbox pull-left"></div>
+	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block bottomjs %}
+
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/sankey.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.nonsankey.js" %}"></script>
+    <script src="{% static "hedonometer/js/city-nonsankey-on-load.js" %}"></script>
+
+{% endblock %}
+
+
+
