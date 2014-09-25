@@ -264,8 +264,13 @@ hedotools.sankey = function() {
 
 		    var x = d3.mouse(thispath)[0];
 		    var y = d3.mouse(thispath)[1];
+
+                    var hoverboxheightguess = 190;
+		    if (refcity.length > 0) {
+			hoverboxheightguess = 270;
+		    }
+		    if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
 		    
-		    if ((y+270)>height) { y-=(y+270-height); }
 
 		    // tip.show;
 		    // console.log(d);

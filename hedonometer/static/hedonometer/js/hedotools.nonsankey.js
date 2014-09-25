@@ -189,15 +189,19 @@ hedotools.sankey = function() {
 	    .attr("y",function(d,i) { return y(d.oldindex+1)+11; } )
             .text(function(d,i) { return (d.oldindex+1)+". "+d.name; })
 	    .on("mouseover", function(d,i) { 
-		    var hoverboxheight = 90;
-		    var hoverboxwidth = 200;
-		    var hoverboxyoffset = 0;
-		    var hoverboxxoffset = 0;
+		var hoverboxheight = 90;
+		var hoverboxwidth = 200;
+		var hoverboxyoffset = 0;
+		var hoverboxxoffset = 0;
 
-		    var x = d3.mouse(this)[0];
-		    var y = d3.mouse(this)[1];
-		    
-		    if ((y+270)>height) { y-=(y+270-height); }
+		var x = d3.mouse(this)[0];
+		var y = d3.mouse(this)[1];
+		
+                var hoverboxheightguess = 190;
+		if (refcity.length > 0) {
+		    hoverboxheightguess = 270;
+		}
+		if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
 
 		    hovergroup.style({
 			"position": "absolute",
@@ -360,9 +364,13 @@ hedotools.sankey = function() {
 
 		    var x = d3.mouse(this)[0];
 		    var y = d3.mouse(this)[1];
-		    
-		    if ((y+270)>height) { y-=(y+270-height); }
 
+                var hoverboxheightguess = 190;
+		if (refcity.length > 0) {
+		    hoverboxheightguess = 270;
+		}
+		if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
+		    
 		    hovergroup.style({
 			"position": "absolute",
 			"top": y+"px",

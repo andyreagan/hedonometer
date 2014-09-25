@@ -36,3 +36,9 @@ function commaSeparateNumber(val){
     }
     return val;
 }
+
+// look away
+var intStr = ["one","two","three","four"];
+
+
+

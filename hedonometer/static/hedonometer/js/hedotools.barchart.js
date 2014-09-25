@@ -1,3 +1,28 @@
+hedotools.barchartoncall = function() {
+    var test = function(d,i) {
+	console.log(i);
+	i = indices[i];
+	if (stateSelType) {
+	    shiftComp = i;
+	    d3.select(".complabel").text(allData[i].name);
+	    compencoder.varval(allData[i].name);
+	}
+	else {
+	    shiftRef = i;
+	    d3.select(".reflabel").text(allData[i].name);
+	    refencoder.varval(allData[i].name);
+	}
+
+	if (shiftRef !== shiftComp) {
+	    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+	}
+    }
+    var opublic = { test: test,
+		  };
+    return opublic;
+}();
+
 // make the plot
 hedotools.barchart = function() {
     var figure;
@@ -9,13 +34,50 @@ hedotools.barchart = function() {
     }
 
     var data;
+    var datanames;
     var geodata;
 
     var setdata = function(a,b) {
 	data = a;
 	geodata = b;
+	datanames = Array(geodata.length);
+	for (var i=0; i<geodata.length; i++) {
+	    datanames[i] = geodata[i].properties.name;
+	}
 	return hedotools.barchart;
     }
+    
+    var _data = function(_) {
+	if (!arguments.length) return data;
+	data = _;
+	return hedotools.barchart;
+    }
+
+    var _datanames = function(_) {
+	if (!arguments.length) return datanames;
+	datanames = _;
+	return hedotools.barchart;
+    }
+    
+    var figheight = 730;
+    var _figheight = function(_) {
+	if (!arguments.length) return figheight;
+	figheight = _;
+	return hedotools.barchart;
+    }
+
+    var sortedStates;
+    var getSorted = function(_) {
+	if (!arguments.length) return sortedStates.map(function(d) { return d[2]; });
+	if (_) {
+	    return sortedStates.map(function(d,i) { return (i+1)+". "+d[2]; });
+	}
+	else {
+	    return sortedStates.map(function(d) { return d[2]; });
+	}
+	return hedotools.barchart;
+    }
+
 
     var plot = function() {
 	/* plot the bar chart
@@ -30,7 +92,6 @@ hedotools.barchart = function() {
 	var figwidth = parseInt(figure.style('width')) - margin.left - margin.right;
 	// aspectRatio = 1.9,
 	// figheight = parseInt(d3.select('#barChart').style('width'))*aspectRatio - margin.top - margin.bottom,
-	var figheight = 730;
 	var width = figwidth-axeslabelmargin.left-axeslabelmargin.right;
 	var height = figheight-axeslabelmargin.top-axeslabelmargin.bottom;
 	var figcenter = width/2;
@@ -43,8 +104,8 @@ hedotools.barchart = function() {
 	// indices.sort(function(a,b) { return Math.abs(data[a]) < Math.abs(data[b]) ? 1 : Math.abs(data[a]) > Math.abs(data[b]) ? -1 : 0; });
 	// sort by magnitude, parity preserving
 	indices.sort(function(a,b) { return data[a] < data[b] ? 1 : data[a] > data[b] ? -1 : 0; });
-	var sortedStates = Array(data.length);
-	for (var i = 0; i < data.length; i++) { sortedStates[i] = [i,indices[i],geodata[indices[i]].properties.name,data[indices[i]]]; }
+	sortedStates = Array(data.length);
+	for (var i = 0; i < data.length; i++) { sortedStates[i] = [i,indices[i],datanames[indices[i]],data[indices[i]]]; }
 	console.log(sortedStates);
 
 	// remove an old figure if it exists
@@ -183,28 +244,7 @@ hedotools.barchart = function() {
 	    .attr("width",function(d,i) { if (d[3]>0) {return x(d[3])-figcenter;} else {return figcenter-x(d[3]); } } )
 	    .on('mouseover', function(d,i){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'black','stroke-width':'1.0',});
-		console.log(i);
-		i = indices[i];
-		if (stateSelType) {
-		    shiftComp = i;
-		    d3.select(".complabel").text(allData[i].name);
-		    compencoder.varval(allData[i].name);
-		}
-		else {
-		    shiftRef = i;
-		    d3.select(".reflabel").text(allData[i].name);
-		    refencoder.varval(allData[i].name);
-		}
-
-		// next line verifies that the data and json line up
-		// console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
-
-		// d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","#428bca");
-
-		if (shiftRef !== shiftComp) {
-		    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		    shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
-		}
+		hedotools.barchartoncall.test(d,i);
 	    })
 	    .on('mouseout', function(d){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'rgb(100,100,100)','stroke-width':'1.0',});
@@ -260,6 +300,10 @@ hedotools.barchart = function() {
 
     var opublic = { setfigure: setfigure,
 		    setdata: setdata,
+		    _data: _data,
+		    _datanames: _datanames,
+		    _figheight: _figheight, 
+		    getSorted: getSorted, 
 		    plot: plot, };
 
     return opublic;
