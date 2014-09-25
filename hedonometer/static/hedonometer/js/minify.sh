@@ -1,5 +1,9 @@
 # /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/minify.sh
 
+if [ $USER == "andyreagan" ]; then
+    alias minify="yuicompressor"
+fi
+
 echo "catting index"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.js loadlabMT.js shift.js timeline.js > index-all.js
 echo "minifying index"

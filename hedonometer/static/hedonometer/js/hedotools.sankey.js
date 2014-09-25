@@ -153,6 +153,7 @@ hedotools.sankey = function() {
 	canvas = figure.append("svg")
 	    .attr("width",figwidth)
 	    .attr("height",figheight)
+	    .attr("id","sankeysvg")
 	    .attr("class","canvas")
 
 	// x scale, maps all the data to 

@@ -13136,7 +13136,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr('id','modalsvg');
 
     var canvas = newsmalllist.append("svg")
-	.attr("id","shiftcanvas")
+	.attr("id","shiftsvg")
     	.attr("x","10")
 	.attr("width",function () { return modalwidth-20-10; })
 	.attr("height",function () { return modalheight-25; });
@@ -13943,6 +13943,7 @@ function shift(rrefF,ccompF,lens,words) {
     var canvas = figure.append("svg")
 	.attr("width",figwidth)
 	.attr("height",figheight)
+	.attr("id","lenssvg")
 	.attr("class","canvas");
 
 
@@ -14254,6 +14255,7 @@ function drawBookTimeseries(figure,data) {
         // full width and height
 	.attr("width",figwidth)
 	.attr("height",figheight)
+	.attr("id","booktimeseriessvg")
 	.attr("class","canvas");
 
     //console.log(data.length);

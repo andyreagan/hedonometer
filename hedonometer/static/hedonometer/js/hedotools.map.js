@@ -36,6 +36,7 @@ hedotools.map = function() {
 	var canvas = figure
 	    .append("svg")
 	    .attr("class", "map canvas")
+	    .attr("id", "mapsvg")
 	    .attr("width", w)
 	    .attr("height", h);
 

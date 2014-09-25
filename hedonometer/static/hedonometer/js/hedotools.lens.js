@@ -87,6 +87,7 @@ hedotools.lens = function() {
 	    var canvas = figure.append("svg")
 		.attr("width",figwidth)
 		.attr("height",figheight)
+		.attr("id","lenssvg")
 		.attr("class","canvas");
 
 

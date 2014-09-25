@@ -28,6 +28,7 @@ function drawBookTimeseries(figure,data) {
         // full width and height
 	.attr("width",figwidth)
 	.attr("height",figheight)
+	.attr("id","booktimeseriessvg")
 	.attr("class","canvas");
 
     //console.log(data.length);

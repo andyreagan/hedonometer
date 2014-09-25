@@ -22,7 +22,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr('id','modalsvg');
 
     var canvas = newsmalllist.append("svg")
-	.attr("id","shiftcanvas")
+	.attr("id","shiftsvg")
     	.attr("x","10")
 	.attr("width",function () { return modalwidth-20-10; })
 	.attr("height",function () { return modalheight-25; });

@@ -115,6 +115,7 @@ hedotools.barchart = function() {
 	    .attr("width",figwidth)
 	    .attr("height",figheight)
 	    .attr("class","canvas")
+	    .attr("id","barchartsvg");
 
 	// x scale, maps all the data to 
 	var absDataMax = d3.max([d3.max(data),-d3.min(data)]);
