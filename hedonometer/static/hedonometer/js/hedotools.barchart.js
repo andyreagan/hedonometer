@@ -1,6 +1,6 @@
 hedotools.barchartoncall = function() {
     var test = function(d,i) {
-	console.log(i);
+	// console.log(i);
 	i = indices[i];
 	if (stateSelType) {
 	    shiftComp = i;
@@ -28,7 +28,7 @@ hedotools.barchart = function() {
     var figure;
 
     var setfigure = function(_) {
-	console.log("setting figure");
+	// console.log("setting figure");
 	figure = _;
 	return hedotools.barchart;
     }
@@ -106,7 +106,7 @@ hedotools.barchart = function() {
 	indices.sort(function(a,b) { return data[a] < data[b] ? 1 : data[a] > data[b] ? -1 : 0; });
 	sortedStates = Array(data.length);
 	for (var i = 0; i < data.length; i++) { sortedStates[i] = [i,indices[i],datanames[indices[i]],data[indices[i]]]; }
-	console.log(sortedStates);
+	// console.log(sortedStates);
 
 	// remove an old figure if it exists
 	figure.select(".canvas").remove();
@@ -236,13 +236,12 @@ hedotools.barchart = function() {
 	    .data(sortedStates)
 	    .enter()
 	    .append("rect")
-	// .attr("fill", function(d,i) { if (data[3]>0) {return color(data[3]);} else {return color(d[3]); } })
 	    .attr("class", function(d,i) { return d[2]+" staterect"+" q"+classColor(i+1)+"-8"; })
 	    .attr("x", function(d,i) { if (d[3]>0) { return figcenter; } else { return x(d[3]); } })
 	    .attr("y", function(d,i) { return y(i+1); })
 	    .style({'opacity':'1.0','stroke-width':'1.0','stroke':'rgb(100,100,100)'})
 	    .attr("height",function(d,i) { return 11; } )
-	    .attr("width",function(d,i) { if (d[3]>0) {return x(d[3])-figcenter;} else {return figcenter-x(d[3]); } } )
+	    .attr("width",function(d,i) { if (d[3]>0) {return d3.max([x(d[3])-figcenter,0]);} else {return d3.max([figcenter-x(d[3]),0]); } } )
 	    .on('mouseover', function(d,i){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'black','stroke-width':'1.0',});
 		hedotools.barchartoncall.test(d,i);
@@ -260,7 +259,10 @@ hedotools.barchart = function() {
 	    .attr("x", function(d,i) { if (d[3]>0) { return figcenter-6; } else { return figcenter+6; } })
 	    .style("text-anchor", function(d,i) { if (d[3]>0) { return "end";} else { return "start";}})
 	    .attr("y",function(d,i) { return y(i+1)+11; } )
-            .text(function(d,i) { return (i+1)+". "+d[2]; });
+            .text(function(d,i) { return (i+1)+". "+d[2]; })
+	    .on('mouseover', function(d,i){
+		hedotools.barchartoncall.test(d,i);
+	    });
 
 	// d3.select(window).on("resize.shiftplot",resizeshift);
 	

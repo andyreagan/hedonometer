@@ -22,7 +22,7 @@ hedotools.shifter = function()
     var figure = d3.select("body");
 
     var setfigure = function(_) {
-	console.log("setting figure");
+	// console.log("setting figure");
 	figure = _;
 	grabwidth();
 	return hedotools.shifter;
@@ -63,8 +63,8 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var grabwidth = function() {
-	console.log("setting width from figure");
-	console.log(parseInt(figure.style("width")));
+	// console.log("setting width from figure");
+	// console.log(parseInt(figure.style("width")));
 	fullwidth = d3.min([parseInt(figure.style("width")),fullwidth]);
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
@@ -121,7 +121,7 @@ hedotools.shifter = function()
     }
 
     var setdata = function(a,b,c,d,e,f) {
-	console.log("setting data");
+	// console.log("setting data");
 	sortedMag = a;
 	sortedType = b;
 	sortedWords = c;
@@ -175,8 +175,8 @@ hedotools.shifter = function()
     var ignore = function(_) {
 	if (!arguments.length) return ignoreWords;
 	ignoreWords = ignoreWords.concat(_);
-	console.log(_);
-	console.log(ignoreWords);
+	// console.log(_);
+	// console.log(ignoreWords);
 	return hedotools.shifter;
     }
 
@@ -239,7 +239,7 @@ hedotools.shifter = function()
             refH += refF[i]*parseFloat(lens[i]);
 	}
 	refH = refH/Nref;
-	console.log(refH);
+	// console.log(refH);
 
 	// compute reference variance
 	// var refV = 0.0;
@@ -247,7 +247,7 @@ hedotools.shifter = function()
 	//     refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
 	// }
 	// refV = refV/Nref; 
-	// console.log(refV);
+	// // console.log(refV);
 
 	// compute comparison happiness
 	compH = 0.0;
@@ -317,7 +317,7 @@ hedotools.shifter = function()
 	   for each word
 
 	*/
-	console.log("plotting shift");
+	// console.log("plotting shift");
 
 	figure.selectAll("svg").remove();
 
@@ -441,12 +441,12 @@ hedotools.shifter = function()
 
 	// if there wasn't any text passed, make it
 	if (comparisonText.length < 1) {
-	    console.log("generating text for wordshift");
+	    // console.log("generating text for wordshift");
 	    comparisonText = "Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
 	}
 	else { 
-	    console.log("word shift text is:");
-	    console.log(comparisonText);
+	    // console.log("word shift text is:");
+	    // console.log(comparisonText);
 	}
 
 	figure.selectAll("p")

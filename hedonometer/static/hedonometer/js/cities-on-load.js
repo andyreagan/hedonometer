@@ -34,9 +34,9 @@ var timeseldecoder = d3.urllib.decoder().varname("time").varresult("2014");
 
 function initializePlot() {
     timeDrop();
-    console.log(timeseldecoder().cached);
+    // console.log(timeseldecoder().cached);
     var timeF = timeseldecoder().cached.replace(/\+/g,' ');
-    console.log(timeF);
+    // console.log(timeF);
     d3.select(".timelabel").text(timeF);
     for (var i=0; i<timeFrames.length; i++) { 
 	if (timeF === timeFrameText[i]) {
@@ -96,7 +96,7 @@ var refcompdrops = function() {
 	});
     d3.select("#refSelect").selectAll("a")
         .on("click", function(d,i) {
-	    console.log(i);
+	    // console.log(i);
 	    shiftRef = cityIndex(cityListSortedUSFirst[i]);
 	    d3.select(".reflabel").text(cityListSortedUSFirst[i]);
 	    refencoder.varval(cityListSortedUSFirst[i]);
@@ -127,7 +127,7 @@ var timeDrop = function() {
             timeName = timeFrames[key];
 	    d3.select(".timelabel").text(timeFrameText[key]);
 	    timeselencoder.varval(timeFrameText[key]);
-	    console.log(timeName);
+	    // console.log(timeName);
             loadCsv(timeName); 
 	});
 }
@@ -172,7 +172,8 @@ function loadCsv(time) {
 	if (!--allLoadsRemaining) initializeBoth();
     });
     d3.text("http://hedonometer.org/data/cities/mutualCities.csv", function(text) {
-	cityList = text.split("\n").slice(0,304);;
+	cityList = text.split("\n").slice(0,304);
+	classColor.domain([cityList.length,1]);
 	if (!--allLoadsRemaining) initializeBoth();
     });
 };
@@ -238,20 +239,20 @@ var drawTheFreakingShift = function() {
     var compfile = "http://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
     if (parseInt(compyear) < 2014) compfile+=".new"
 
-    console.log(reffile);
-    console.log(compfile);
+    // console.log(reffile);
+    // console.log(compfile);
 
     var refF;
     var compF;
 
     d3.text(reffile,function(text) {
 	refF = text.split(",");
-	console.log(refF);
+	// console.log(refF);
 	if (!--finalLoadsRemaining) drawShift();
     });
     d3.text(compfile,function(text) {
 	compF = text.split(",");
-	console.log(compF);
+	// console.log(compF);
 	if (!--finalLoadsRemaining) drawShift();
     });
 }
