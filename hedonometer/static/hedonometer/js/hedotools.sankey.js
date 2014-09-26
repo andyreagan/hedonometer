@@ -142,9 +142,12 @@ hedotools.sankey = function() {
 
 	function hidehover() {
 	    console.log("hiding hover");
-	    hovergroup.style({
-		"visibility": "hidden",
-	    });
+	    d3.selectAll("path").transition().duration(500).style("opacity","1.0");
+	    if (useTip) {
+		hovergroup.style({
+		    "visibility": "hidden",
+		});
+	    }
 	}
 
 	// remove an old figure if it exists
@@ -243,14 +246,17 @@ hedotools.sankey = function() {
 	    .on("mouseover", function(d,i) { 
 		// console.log(i);
 		// console.log(data[i]);
-		var rectSelection = d3.select(this)
-		    .style({'opacity':'0.7',
-			    // 'stroke-width':'1.0',
-			   });
+		// var rectSelection = d3.select(this)
+		//     .style({'opacity':'0.7',
+		// 	    // 'stroke-width':'1.0',
+		// 	   });
 
 		var thispath = this;
 
 		hedotools.sankeyoncall.test(i,data);
+
+		d3.selectAll("path").transition().duration(750).style("opacity","0.1");
+		d3.select(this).transition().duration(5).style("opacity","1.0");
 
 		if (useTip) {
 
@@ -416,18 +422,22 @@ hedotools.sankey = function() {
 		}
 		
 		clearTimeout(popuptimer);
-
 		popuptimer = setTimeout(hidehover,3000);
 	    })
 	    .on("mouseout", function(d,i) { 
+		var timeout = 500;
 		if (useTip) {
 		    // hovergroup.style({
 		    // 	"visibility": "hidden",
 		    // });
+
+		    timeout = 3000;
 		    clearTimeout(popuptimer);
 
-		    popuptimer = setTimeout(hidehover,3000);
+		    popuptimer = setTimeout(hidehover,timeout);
 		}
+		clearTimeout(popuptimer);
+		popuptimer = setTimeout(hidehover,timeout);
 		var rectSelection = d3.select(this)
 		    .style({ 'opacity':'1.0', }) 
 	    });
