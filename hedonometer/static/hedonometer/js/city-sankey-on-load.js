@@ -56,7 +56,7 @@ function timeDrop() {
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -68,7 +68,7 @@ function timeDrop() {
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -79,7 +79,7 @@ function timeDrop() {
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -91,7 +91,7 @@ function timeDrop() {
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+	    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -100,11 +100,11 @@ function timeDrop() {
 
 function loadCsv() {
     var csvLoadsRemaining = 3;
-    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 	ref = text.split("\n").slice(0,304);
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
 	comp = text.split("\n").slice(0,304);;
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
