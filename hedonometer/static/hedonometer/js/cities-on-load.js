@@ -208,7 +208,7 @@ var initializeList = function() {
 };
 
 var initializeShift = function() {
-    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "hi", "me", "new", "humidity", "pressure", "burns", "emergency", "in", "la", "ms", "mt", "oh", "ok", "or", "pa", "ma", "grand", "springs", "falls", "battle", "old", "miami","pearl", "new", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "hawaii", "california", "washington", "florida", "virginia","war","mercy","gren","beach"];
+    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "hi", "me", "new", "humidity", "pressure", "burns", "emergency", "in", "la", "ms", "mt", "oh", "ok", "or", "pa", "ma", "grand", "springs", "falls", "battle", "old", "miami","pearl", "new", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "hawaii", "california", "washington", "florida", "virginia","war","mercy","gren","beach","bills","health","springfield","falling"];
     hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
     shiftRef = cityIndex(refdecoder().cached);
