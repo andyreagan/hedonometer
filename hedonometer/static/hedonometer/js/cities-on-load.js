@@ -66,13 +66,13 @@ var refencoder = d3.urllib.encoder().varname("ref");
 var refdecoder = d3.urllib.decoder().varname("ref").varresult("US");
 
 var compencoder = d3.urllib.encoder().varname("comp");
-var compdecoder = d3.urllib.decoder().varname("comp").varresult("Boise City, ID");
+var compdecoder = d3.urllib.decoder().varname("comp").varresult("Boulder, CO");
 
 // need to get these from the state name in the browser
 // var shiftRef = cityIndex(refdecoder().cached);
 // var shiftComp = cityIndex(compdecoder().cached);
 var shiftRef = 0;
-var shiftComp = 100;
+var shiftComp = 50;
 
 d3.select(".reflabel").text(refdecoder().cached);
 d3.select(".complabel").text(compdecoder().cached);
@@ -208,7 +208,7 @@ var initializeList = function() {
 };
 
 var initializeShift = function() {
-    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "hi", "me", "new", "humidity", "pressure", "burns", "emergency", "in", "la", "ms", "mt", "oh", "ok", "or", "pa", "ma", "grand", "springs", "falls", "battle", "old", "miami","pearl", "new", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "hawaii", "california", "washington", "florida", "virginia","war","mercy","gren","beach","bills","health","springfield","falling"];
+    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "hi", "me", "new", "humidity", "pressure", "burns", "emergency", "in", "la", "ms", "mt", "oh", "ok", "or", "pa", "ma", "grand", "springs", "falls", "battle", "old", "miami","pearl", "new", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "hawaii", "california", "washington", "florida", "virginia","war","mercy","gren","beach","bills","health","springfield","falling","international","terminal"];
     hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
     shiftRef = cityIndex(refdecoder().cached);
