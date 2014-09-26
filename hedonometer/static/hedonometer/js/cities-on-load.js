@@ -167,7 +167,7 @@ function loadCsv(time) {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text("http://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_mutualHapps.csv", function(text) {
+    d3.text("http://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
 	cityHappsList = text.split("\n").slice(0,304).map(parseFloat);
 	if (!--allLoadsRemaining) initializeBoth();
     });
