@@ -60,8 +60,6 @@ function cityIndex(name) {
     }
 }
 
-ignoreWords = ["severe","flood","warning","earthquake","nigga","niggas","niggaz","nigger","hi","me","new","humidity","pressure","burns","emergency","in","la","ms","mt","oh","ok","or","pa","ma","hawaii","virginia","grand","springs","falls",];
-
 var refencoder = d3.urllib.encoder().varname("ref");
 var refdecoder = d3.urllib.decoder().varname("ref").varresult("US");
 
@@ -208,7 +206,8 @@ var initializeList = function() {
 };
 
 var initializeShift = function() {
-    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "hi", "me", "new", "humidity", "pressure", "burns", "emergency", "in", "la", "ms", "mt", "oh", "ok", "or", "pa", "ma", "grand", "springs", "falls", "battle", "old", "miami","pearl", "new", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "hawaii", "california", "washington", "florida", "virginia","war","mercy","gren","beach","bills","health","springfield","falling","international","terminal"];
+    var ignoreWords = ["nigga", "niggas", "niggaz", "nigger","thirsty","pakistan","india", "severe", "flood", "warning", "earthquake", "humidity", "pressure", "burns", "emergency", "grand", "springs", "falls", "battle", "old", "miami","pearl", "santa", "atlantic", "grand", "green", "falls", "lake", "haven", "sin", "con", "war","mercy","gren","beach","bills","health","springfield","falling","international","terminal","mad", "al","ak","az","ar","ca","co","ct","de","fl","ga","hi","id","il","in","ia","ks","ky","la","me","md","ma","mi","mn","ms","mo","mt","ne","nv","nh","nj","nm","ny","nc","nd","oh","ok","or","pa","ri","sc","sd","tn","tx","ut","vt","va","wa","wv","wi","wy", "alabama", "alaska", "arizona", "arkansas", "california", "colorado", "connecticut", "delaware", "florida", "georgia", "hawaii", "idaho", "illinois", "indiana", "iowa", "kansas", "kentucky", "louisiana", "maine", "maryland", "massachusetts", "michigan", "minnesota", "mississippi", "missouri", "montana", "nebraska", "nevada", "new", "hampshire", "jersey", "mexico", "york", "north", "carolina", "dakota", "ohio", "oklahoma", "oregon", "pennsylvania", "rhode", "island", "south", "carolina", "dakota", "tennessee", "texas", "utah", "vermont", "virginia", "washington", "west", "virginia", "wisconsin",];
+
     hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
     shiftRef = cityIndex(refdecoder().cached);
