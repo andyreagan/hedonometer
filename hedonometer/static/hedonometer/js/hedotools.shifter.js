@@ -1,7 +1,21 @@
 // current usage example:
+// (from the sankey page)
 //
-// var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
-// shiftObj.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+// hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
+// hedotools.shifter.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+//
+// there are two options for having it compute the shift
+// calling the .shift() with four arguments does the trick
+// or calling .shifter() with no arguments also does it
+// for the latter, need to have defined the variables beforehand
+// using the _lens, _words, etc accessors
+//
+// if the text isn't set, will attempt to grab it using the
+// allData structure (which works in the maps.html)
+//
+// the text setting here removes all p instances in the figure,
+// and then inserts a new one before the svg, inside the figure (using d3.insert)
+//
 // can also use the setText method to set the text
 // need to do this outside of maps page
 
@@ -267,6 +281,14 @@ hedotools.shifter = function()
 	    else { shiftType[i] = 0}
 	    if (parseFloat(lens[i]) > refH) { shiftType[i] += 1;}
 	}
+
+	// +2 for frequency up
+	// +1 for happier
+	// => 
+	// 0 sad, down
+	// 1 happy, down
+	// 2 sad, up
+	// 3 happy, up
 
 	// do the sorting
 	var indices = Array(refF.length);
@@ -656,8 +678,8 @@ hedotools.shifter = function()
 	// push to the side of d
 	    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
-	// var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-	var summaryArray = [sumTypes[2],sumTypes[1]];
+	// var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
+	var summaryArray = [sumTypes[1],sumTypes[2]];
 
 	var typeClass = ["posdown","negup"];
 
@@ -729,7 +751,7 @@ hedotools.shifter = function()
 	    } );
 
 	axes.selectAll(".sumtextL")
-	    .data([sumTypes[2],sumTypes[1]])
+	    .data(summaryArray)
 	    .enter()
 	    .append("text")
 	    .attr("class", "sumtextL")
