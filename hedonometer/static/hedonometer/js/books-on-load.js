@@ -528,9 +528,9 @@ $(document).ready(function() {
 		source: substringMatcher($(this).text())
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	// console.log(event);
-	// console.log(sugg);
-	// console.log(dataset);
+	console.log(event);
+	console.log(sugg);
+	console.log(dataset);
 	window.location.replace("/books.html?book="+sugg.value);
 
     });
