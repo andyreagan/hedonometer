@@ -90,7 +90,7 @@ class BookResource(ModelResource):
     class Meta:
         queryset = Book.objects.filter(length__gte=10000)
         resource_name = 'gutenberg'
-        excludes = ['happs','id','filename',]
+        # excludes = ['happs','id','filename',]
         include_resource_uri = False
         max_limit = None
         limit = 50000
