@@ -17,7 +17,7 @@ class HappsAdmin(admin.ModelAdmin):
     list_display = ('date','value',)
 
 class BookAdmin(admin.ModelAdmin):
-    search_fields = ('title',)
+    search_fields = ('title','author',)
     list_display = ('title','author','language',)
     list_display_links = ('title',)
     list_editable = ('language',)
