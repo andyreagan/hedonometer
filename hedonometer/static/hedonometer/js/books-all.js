@@ -15662,7 +15662,9 @@ var substringMatcher = function(apik) {
 	    // console.log(result);
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
-		newresult.push({value: result[i].title+" by "+result.author})
+		console.log(result);
+		console.log(result[i].title+" by "+result[i].author);
+		newresult.push({value: result[i].title+" by "+result[i].author})
 	    }
 	    // result.map(function(d) { return d.value = d.title; }));
             cb(newresult)
