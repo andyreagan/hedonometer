@@ -55,12 +55,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hedonometer',
-    'consulting',
     'django.contrib.humanize',
     'south',
-    'cmplxsys',
     'tastypie',
-    'storybreaker',
 )
 
 MIDDLEWARE_CLASSES = (
