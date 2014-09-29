@@ -528,10 +528,8 @@ $(document).ready(function() {
 		source: substringMatcher($(this).text())
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	console.log(event);
-	console.log(sugg);
-	console.log(dataset);
-	window.location.replace("/books.html?book="+sugg.value);
+	window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
+
     });
     $("#wordsearch").typeahead(
         {
@@ -544,10 +542,10 @@ $(document).ready(function() {
             source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
-    console.log(event);
-    console.log(sugg);
-    console.log(dataset);
-    // window.location.replace("/books.html?book="+sugg.value);
+    // console.log(event);
+    // console.log(sugg);
+    // console.log(dataset);
+    window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
 });
 
 
