@@ -532,7 +532,6 @@ $(document).ready(function() {
 	console.log(sugg);
 	console.log(dataset);
 	window.location.replace("/books.html?book="+sugg.value);
-
     });
     $("#wordsearch").typeahead(
         {
@@ -545,10 +544,10 @@ $(document).ready(function() {
             source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
-    // console.log(event);
-    // console.log(sugg);
-    // console.log(dataset);
-    window.location.replace("/books.html?book="+sugg.value);
+    console.log(event);
+    console.log(sugg);
+    console.log(dataset);
+    // window.location.replace("/books.html?book="+sugg.value);
 });
 
 
