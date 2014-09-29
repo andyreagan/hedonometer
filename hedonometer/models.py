@@ -50,6 +50,7 @@ class Book(models.Model):
     happs = models.FloatField()
     length = models.IntegerField()
     ignorewords = models.CharField(max_length=400)
+    wiki = models.URLField()
 
     def __unicode__(self):
         return self.title
