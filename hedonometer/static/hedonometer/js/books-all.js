@@ -15196,7 +15196,7 @@ function commaSeparateNumber(val){
 }
 
 // set the default here
-var bookDecoder = d3.urllib.decoder().varresult("Frankenstein;%20Or%20the%20Modern%20Prometheus").varname("book");
+var bookDecoder = d3.urllib.decoder().varresult("Frankenstein,%20Or%20the%20Modern%20Prometheus").varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
 var ignoreWords = [];
