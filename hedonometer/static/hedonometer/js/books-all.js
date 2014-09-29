@@ -13478,7 +13478,7 @@ function plotShift(figure,sortedMag,sortedType,sortedWords,sortedWordsEn,sumType
 	.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
     // var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-    var summaryArray = [sumTypes[1],sumTypes[2]];
+    var summaryArray = [sumTypes[2],sumTypes[1]];
 
     axes.selectAll(".sumrectL")
 	.data(summaryArray)
@@ -15645,10 +15645,11 @@ initializePlot();
 var searchEncoder = d3.urllib.encoder().varname("book");
 
 // api access method for the book API
-var substringMatcher = function(strs) {
+var substringMatcher = function(apik) {
     return function findMatches(q,cb) {
         var matches, substringRegex;
-        console.log("matching "+q);
+        // console.log("matching "+q);
+	// console.log(apik);
         matches = [];
         // for (var i=0; i<booklist.length; i++) {
         //     if (booklist[i].fulltitle.toLowerCase().match(q)) {
@@ -15656,7 +15657,7 @@ var substringMatcher = function(strs) {
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("/api/v1/gutenberg/?format=json&title__icontains="+q,function(data) {
+	d3.json("/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
 	    var result = data.objects;
 	    console.log(result);
 	    var newresult = [];
@@ -15675,6 +15676,29 @@ $(document).ready(function() {
     $('#randombook').on("click",function() {
 	window.location.replace("/books.html?book=random");
 	});
+    $('#randombook').on("click",function() {
+	window.location.replace("/books.html?book=random");
+	});
+    $(".dropdown-menu li a").click(function(){
+
+	$(this).parents(".btn-group").find('.selection').text($(this).text());
+	$("#wordsearch").typeahead(
+            {
+		hint: false,
+		highlight: true,
+		minLength: 3,
+            },
+            {
+		name: "books",
+		source: substringMatcher($(this).text())
+            });
+    }).on("typeahead:selected",function(event,sugg,dataset) {
+	console.log(event);
+	console.log(sugg);
+	console.log(dataset);
+	window.location.replace("/books.html?book="+sugg.value);
+
+    });
     $("#wordsearch").typeahead(
         {
             hint: false,
@@ -15683,7 +15707,7 @@ $(document).ready(function() {
         },
         {
             name: "books",
-            source: substringMatcher(["one","two"])
+            source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
     console.log(event);

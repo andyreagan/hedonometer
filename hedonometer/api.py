@@ -95,6 +95,7 @@ class BookResource(ModelResource):
         limit = 50000
         filtering = {
             'title': ALL_WITH_RELATIONS,
+            'author': ALL_WITH_RELATIONS,
             'id': ALL,
             'length': ALL_WITH_RELATIONS,
         }
