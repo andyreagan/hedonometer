@@ -514,6 +514,7 @@ $(document).ready(function() {
     $(".dropdown-menu li a").click(function(){
 
 	$(this).parents(".btn-group").find('.selection').text($(this).text());
+	$("#wordsearch").unbind();
 	$("#wordsearch").typeahead(
             {
 		hint: false,
