@@ -3,6 +3,7 @@ import sys, os
 sys.path.append('/Users/andyreagan/work/2014/2014-09hedonometer')
 os.environ.setdefault('DJANGO_SETTINGS_MODULE','mysite.settings')
 from django.conf import settings
+import re
 
 classics = {
     "blank": {
@@ -187,9 +188,10 @@ print classics
 from hedonometer.models import Book
 
 for book in classics:
-    print book
+    # print book
     b = classics[book]
-    print b
-    c = Book(title=b["fulltitle"],language=b["language"],wiki=b["wiki"],length=50000,filename=book,happs=-1,ignorewords="")
-    c.save()
+    # print b
+    # c = Book(title=b["fulltitle"],language=b["language"],wiki=b["wiki"],length=50000,filename=book,happs=-1,ignorewords="")
+    # c.save()
+    print "<li><a href=\"/books.html?book={0}\">{1}</a></li>".format(re.sub(" ","%20",b["fulltitle"]),b["fulltitle"])
 

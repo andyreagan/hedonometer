@@ -15199,273 +15199,73 @@ function commaSeparateNumber(val){
 var bookDecoder = d3.urllib.decoder().varresult("frankenstein").varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
-// static data for the classics
-var classics = {
-    "blank": {
-	language: "",
-	fulltitle: "",
-	wiki: "",
-	ignore: [],
-	author: "",
-    },
-    "moby_dick": {
-	language: "english",
-	fulltitle: "Moby Dick",
-	wiki: "http://en.wikipedia.org/wiki/Moby-Dick",
-	ignore: ["cried", "cry", "coffin"],
-	author: "Herman Melville",
-    },
-    "luther": {
-	language: "english",
-	fulltitle: "I Have a Dream",
-	wiki: "",
-	ignore: [],
-	author: "",
-    },
-    "luther": {
-	language: "english",
-	fulltitle: "I Have a Dream",
-	wiki: "",
-	ignore: [],
-	author: "",
-    },
-    "anna_karenina": {
-	language: "russian",
-	fulltitle: "Anna Karenina",
-	wiki: "http://en.wikipedia.org/wiki/Anna_Karenina",
-	ignore: [],
-	author: "Leo Tolstoy",
-    },
-    "count_of_monte_cristo": {
-	language: "french",
-	fulltitle: "Count of Monte Cristo",
-	wiki: "http://en.wikipedia.org/wiki/The_Count_of_Monte_Cristo",
-	ignore: [],
-	author: "Alexandre Dumas",
-    },
-    "crime_and_punishment": {
-	language: "russian",
-	fulltitle: "Crime and Punishment",
-	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
-	ignore: [],
-	author: "Fyodor Dostoyevsky",
-    },
-    "crime_and_punishment_en": {
-	language: "english",
-	fulltitle: "Crime and Punishment: English Translation",
-	wiki: "http://en.wikipedia.org/wiki/Crime_and_Punishment",
-	ignore: [],
-	author: "Fyodor Dostoyevsky",
-    },
-    "die_verwandlung_en": { 
-	language: "english", 
-	fulltitle: "Die Verwandlung: English Translation",
-	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
-	ignore: [],
-	author: "Franz Kafka",
-    },
-    "die_verwandlung": { 
-	language: "german",
-	fulltitle: "Die Verwandlung",
-	wiki: "http://en.wikipedia.org/wiki/The_Metamorphosis",
-	ignore: [],
-	author: "Franz Kafka",
-    },
-    "don_quixote": {
-	language: "spanish",
-	fulltitle: "Don Quixote",
-	wiki: "http://en.wikipedia.org/wiki/Don_Quixote",
-	ignore: [],
-	author: "Miguel de Cervantes Saavedra",
-    },
-    "the_three_musketeers": {
-	language: "french",
-	fulltitle: "The Three Musketeers",
-	wiki: "http://en.wikipedia.org/wiki/The_Three_Musketeers",
-	ignore: [],
-	author: "Alexandre Dumas",
-    },
-    "twoCities": {
-	language: "english",
-	fulltitle: "A Tale of Two Cities",
-	wiki: "http://en.wikipedia.org/wiki/A_Tale_of_Two_Cities",
-	ignore: [],
-	author: "Charles Dickens",
-    },
-    "expectations": {
-	language: "english",
-	fulltitle: "Great Expectations",
-	wiki: "http://en.wikipedia.org/wiki/Great_Expectations",
-	ignore: [],
-	author: "Charles Dickens",
-    },
-    "pride": {
-	language: "english",
-	fulltitle: "Pride and Prejudice",
-	wiki: "http://en.wikipedia.org/wiki/Pride_and_Prejudice",
-	ignore: [],
-	author: "Jane Austen",
-    },
-    "huck": {
-	language: "english",
-	fulltitle: "Adventures of Huckleberry Finn",
-	wiki: "http://en.wikipedia.org/wiki/Adventures_of_Huckleberry_Finn",
-	ignore: [],
-	author: "Mark Twain",
-    },
-    "alice": {
-	language: "english",
-	fulltitle: "Alice's Adventures in Wonderland",
-	wiki: "http://en.wikipedia.org/wiki/Alice's_Adventures_in_Wonderland",
-	ignore: [],
-	author: "Charles Lutwidge Dodgson",
-    },
-    "tom": {
-	language: "english",
-	fulltitle: "The Adventures of Tom Sawyer",
-	wiki: "http://en.wikipedia.org/wiki/The_Adventures_of_Tom_Sawyer",
-	ignore: [],
-	author: "Mark Twain",
-    },
-    "sherlock": {
-	language: "english",
-	fulltitle: "The Adventures of Sherlock Holmes",
-	wiki: "http://en.wikipedia.org/wiki/Sherlock_Holmes",
-	ignore: [],
-	author: "Sir Arthur Conan Doyle",
-    },
-    "leaves": {
-	language: "english",
-	fulltitle: "Leaves of Grass",
-	wiki: "http://en.wikipedia.org/wiki/Leaves_of_Grass",
-	ignore: [],
-	author: "Walt Whitman",
-    },
-    "ulysses": {
-	language: "english",
-	fulltitle: "Ulysses",
-	wiki: "http://en.wikipedia.org/wiki/Ulysses_(novel)",
-	ignore: [],
-	author: "James Joyce",
-    },
-    "frankenstein": {
-	language: "english",
-	fulltitle: "Frankenstein; Or the Modern Prometheus",
-	wiki: "http://en.wikipedia.org/wiki/Frankenstein",
-	ignore: [],
-	author: "Mary Shelley",
-    },
-    "heights": {
-	language: "english",
-	fulltitle: "Wuthering Heights",
-	wiki: "http://en.wikipedia.org/wiki/Wuthering_Heights",
-	ignore: [],
-	author: "Emily Brontë",
-    },
-    "sense": {
-	language: "english",
-	fulltitle: "Sense and Sensibility",
-	wiki: "http://en.wikipedia.org/wiki/Sense_and_Sensibility",
-	ignore: [],
-	author: "Jane Austen",
-    },
-    "twist": {
-	language: "english",
-	fulltitle: "Oliver Twist",
-	wiki: "http://en.wikipedia.org/wiki/Oliver_Twist",
-	ignore: [],
-	author: "Charles Dickens",
-    },
-};
-
-
 var ignoreWords = [];
 // this guy is for the catalog card infomation
 var bookinfo = {};
 
 function initializePlot() {
     book = bookDecoder().cached;
-    if (classics[book]) { 
-	isclassic = true;
-	lang = classics[book].language;
-	bookinfo.lang = classics[book].language;
-	var booktitle = d3.select("#booktitle");
-	var title = booktitle.append("h2").text(classics[book].fulltitle+" ");
-	bookinfo.title = classics[book].fulltitle;
-	var author = booktitle.append("h2").append("small").text("by "+classics[book].author);
-	for (var i=0; i<classics[book].ignore.length; i++) {
-	    ignoreWords.push(classics[book].ignore[i]);
-	}
-	title.append("small").append("a").attr("href",classics[book].wiki).attr("target","_blank").text("(wiki)");
-	bookinfo.author = classics[book].author;
-	// more than 10000 for no alert
-	sumWords = 20000;
-	loadCsv();
+    // hit the random api
+    if (book === 'random') {
+	d3.json("/api/v1/randombook/?format=json",function(data) {
+	    var result = data.objects[0];
+	    // console.log(result);
+	    lang = result.language;
+	    var booktitle = d3.select("#booktitle");
+	    var title = booktitle.append("h2").text(result.title+" ");
+	    bookEncoder.varval(result.title);
+	    // title.append("small").text("by "+result.author);
+	    var bookauthor = d3.select("#bookauthor");
+	    var author = booktitle.append("h2").append("small").text("by "+result.author);
+	    var newignore = result.ignorewords.split(",");
+	    for (var i=0; i<newignore.length-1; i++) {
+		ignoreWords.push(newignore[i]);
+	    }
+	    if ( result.wiki.length > 0 ) {
+		title.append("small").append("a").attr("href",result.wiki).attr("target","_blank").text("(wiki)");
+	    }
+	    console.log(ignoreWords);
+	    // set the filename
+	    book = result.reference;
+	    sumWords = result['length'];
+	    bookinfo.lang = lang;
+	    bookinfo.title = result.title;
+	    bookinfo.author = result.author;
+	    loadCsv();
+	})
     }
     else {
-	isclassic = false;
-	// console.log("not a classic");
-	// hit the random api
-	if (book === 'random') {
-	    d3.json("/api/v1/randombook/?format=json",function(data) {
-		var result = data.objects[0];
-		// console.log(result);
-		lang = result.language;
-		var booktitle = d3.select("#booktitle");
-		var title = booktitle.append("h2").text(result.title+" ");
-		bookEncoder.varval(result.title);
-		// title.append("small").text("by "+result.author);
-		var bookauthor = d3.select("#bookauthor");
-		var author = booktitle.append("h2").append("small").text("by "+result.author);
-		var newignore = result.ignorewords.split(",");
-		for (var i=0; i<newignore.length-1; i++) {
-		    ignoreWords.push(newignore[i]);
-		}
-		console.log(ignoreWords);
-		// set the filename
-		book = result.reference;
-		sumWords = result['length'];
-		bookinfo.lang = lang;
-		bookinfo.title = result.title;
-		bookinfo.author = result.author;
-		loadCsv();
-	    })
-	}
-	else {
-	    d3.json("/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
-		var result = data.objects[0];
-		console.log(result);
-		lang = result.language;
-		var booktitle = d3.select("#booktitle");
-		var title = booktitle.append("h2").text(result.title+" ");
-		// title.append("small").text("by "+result.author);
-		var bookauthor = d3.select("#bookauthor");
-		var author = booktitle.append("h2").append("small").text("by "+result.author);
-		var newignore = result.ignorewords.split(",");
-		for (var i=0; i<newignore.length-1; i++) {
-		    ignoreWords.push(newignore[i]);
-		}
-		console.log(ignoreWords);
-		// set the filename
-		book = result.reference;
-		sumWords = result['length'];
-		bookinfo.lang = lang;
-		bookinfo.title = result.title;
-		bookinfo.author = result.author;
-		loadCsv();
-	    })
-	}
+	d3.json("/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
+	    var result = data.objects[0];
+	    console.log(result);
+	    lang = result.language;
+	    var booktitle = d3.select("#booktitle");
+	    var title = booktitle.append("h2").text(result.title+" ");
+	    // title.append("small").text("by "+result.author);
+	    var bookauthor = d3.select("#bookauthor");
+	    var author = booktitle.append("h2").append("small").text("by "+result.author);
+	    var newignore = result.ignorewords.split(",");
+	    for (var i=0; i<newignore.length-1; i++) {
+		ignoreWords.push(newignore[i]);
+	    }
+	    if ( result.wiki.length > 0 ) {
+		title.append("small").append("a").attr("href",result.wiki).attr("target","_blank").text("(wiki)");
+	    }
+	    console.log(ignoreWords);
+	    // set the filename
+	    book = result.reference;
+	    sumWords = result['length'];
+	    bookinfo.lang = lang;
+	    bookinfo.title = result.title;
+	    bookinfo.author = result.author;
+	    loadCsv();
+	})
     }
 }
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
-    if (isclassic) { 
-	var bookfile = "http://hedonometer.org/data/bookdata/processed/"+book+".csv";
-    }
-    else {
-	var bookfile = "http://hedonometer.org/data/bookdata/processed/"+book+".csv";
-    }
+    var bookfile = "http://hedonometer.org/data/bookdata/processed/"+book+".csv";
     d3.text(bookfile, function (text) {
         tmp = text.split("\n");
         // kill extra rows
