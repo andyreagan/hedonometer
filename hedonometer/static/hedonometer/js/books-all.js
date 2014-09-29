@@ -15662,8 +15662,8 @@ var substringMatcher = function(apik) {
 	    // console.log(result);
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
-		console.log(result);
-		console.log(result[i].title+" by "+result[i].author);
+		// console.log(result);
+		// console.log(result[i].title+" by "+result[i].author);
 		newresult.push({value: result[i].title+" by "+result[i].author})
 	    }
 	    // result.map(function(d) { return d.value = d.title; }));
@@ -15696,11 +15696,10 @@ $(document).ready(function() {
 		source: substringMatcher($(this).text())
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	// console.log(event);
-	// console.log(sugg);
-	// console.log(dataset);
+	console.log(event);
+	console.log(sugg);
+	console.log(dataset);
 	window.location.replace("/books.html?book="+sugg.value);
-
     });
     $("#wordsearch").typeahead(
         {
@@ -15713,10 +15712,10 @@ $(document).ready(function() {
             source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
-    // console.log(event);
-    // console.log(sugg);
-    // console.log(dataset);
-    window.location.replace("/books.html?book="+sugg.value);
+    console.log(event);
+    console.log(sugg);
+    console.log(dataset);
+    // window.location.replace("/books.html?book="+sugg.value);
 });
 
 
