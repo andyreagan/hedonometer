@@ -15659,7 +15659,7 @@ var substringMatcher = function(apik) {
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
 	d3.json("/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
 	    var result = data.objects;
-	    console.log(result);
+	    // console.log(result);
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
 		newresult.push({value: result[i].title})
@@ -15682,6 +15682,7 @@ $(document).ready(function() {
     $(".dropdown-menu li a").click(function(){
 
 	$(this).parents(".btn-group").find('.selection').text($(this).text());
+	$("#wordsearch").unbind();
 	$("#wordsearch").typeahead(
             {
 		hint: false,
@@ -15693,9 +15694,9 @@ $(document).ready(function() {
 		source: substringMatcher($(this).text())
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	console.log(event);
-	console.log(sugg);
-	console.log(dataset);
+	// console.log(event);
+	// console.log(sugg);
+	// console.log(dataset);
 	window.location.replace("/books.html?book="+sugg.value);
 
     });
@@ -15710,9 +15711,9 @@ $(document).ready(function() {
             source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
-    console.log(event);
-    console.log(sugg);
-    console.log(dataset);
+    // console.log(event);
+    // console.log(sugg);
+    // console.log(dataset);
     window.location.replace("/books.html?book="+sugg.value);
 });
 
