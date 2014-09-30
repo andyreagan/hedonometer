@@ -13295,23 +13295,14 @@ function shift(rrefF,ccompF,lens,words) {
 	transitionBigShift(popdate);
     };
 
-    function toggleAll(r) {
-	if (legendDict['togall'] == 'on') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", r);
-	}
-	if (legendDict['togall'] == 'off') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", rmin);
-	}
-    };
-
     function toggleDays(r) {
 	//run through the legendDict to see what's on or off...
 	for (var i=0; i < weekDays.length; i=i+1) {
 	    if (legendDict[weekDaysShort[i]] == 'on') {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", r);
+		d3.selectAll("."+weekDays[i]).style("visibility", "visible");
 	    }
 	    else {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", rmin);
+		d3.selectAll("."+weekDays[i]).style("visibility", "hidden");
 	    }
 	}
 	// check the highlight individually
@@ -13547,7 +13538,6 @@ function shift(rrefF,ccompF,lens,words) {
     legendgroup.append("svg:circle").on("mousedown", function() {
 	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	legendDict.toggle('togall',rScale(currRange));
-	//toggleAll();
     }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
     
     legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id","togall");
@@ -13952,6 +13942,8 @@ function shift(rrefF,ccompF,lens,words) {
 	// console.log(brush.extent());
 
 	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
+	// var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
+	// toggleDays(rScale(currRange));
 
 	//x.domain(brush.empty() ? x2.domain() : brush.extent());
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
@@ -13969,9 +13961,11 @@ function shift(rrefF,ccompF,lens,words) {
 	    return x(d.date);
 	}).attr("cy", function(d) {
 	    return y(d.value);
-	})
+	});
+	
+	focus2.selectAll("circle")
  	    .attr("r", function(d) {
-		return rScale(currRange);
+	    	return rScale(currRange);
 	    });
 
 	var rect = focus2.selectAll("rect").attr("x", function(d) {
