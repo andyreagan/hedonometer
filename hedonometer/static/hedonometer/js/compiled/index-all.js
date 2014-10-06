@@ -13180,13 +13180,6 @@ function shift(rrefF,ccompF,lens,words) {
 // main context
 (function() {
 
-    // alert("You've somehow arrived at the development version. Navigate back to hedonometer.org, or beware of strange behavior and you can help us by reporting bugs to @hedonometer. Thanks for visiting :)");
-    var tmp = location.href;
-    tmp = tmp.replace("wordshift","index");
-    history.pushState("something","something",tmp);
-
-    // console.log("running timeline viz");
-
     String.prototype.width = function(font) {
 	var f = font || '12px arial',
 	o = $('<div>' + this + '</div>')
@@ -13195,6 +13188,12 @@ function shift(rrefF,ccompF,lens,words) {
 	w = o.width();
 	o.remove();
 	return w;
+    }
+
+    String.prototype.safe = function() {
+	var tmp = this.split("/")
+	tmp[tmp.length-1] = escape(tmp[tmp.length-1])
+	return tmp.join("/");
     }
 
     function splitWidth(s,w) {
@@ -13217,36 +13216,43 @@ function shift(rrefF,ccompF,lens,words) {
 	return n;
     }
 
-    var dur =  550,
-    ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty"],
-    bigdays = {},
-    shiftTypeSelect = false,
-    formatDate = d3.time.format("%b %Y"),
-    today = new Date(),
-    beginningOfTime = new Date(2008,8,10),
-    cformat = d3.time.format("%Y-%m-%d"),
-    dformat = d3.time.format("%Y-%m-%dT00:00:00"),
-    longformat = d3.time.format("%B %e, %Y"),
-    longerformat = d3.time.format("%A, %B %e, %Y"),
-    fromencoder = d3.urllib.encoder().varname("from");
-    fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-18))),
-    toencoder = d3.urllib.encoder().varname("to"),
-    todecoder = d3.urllib.decoder().varname("to").varresult(cformat(today)),
-    dateencoder = d3.urllib.encoder().varname("date"),
-    datedecoder = d3.urllib.decoder().varname("date"),
-    shiftselencoder = d3.urllib.encoder().varname("wordtypes"),
-    shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none"),
-    weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"],
-    weekDays = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
-    popupExitDur = 500,
-    popupEnterDur = 400,
-    intStr = ["zero","one","two","three"],
+    if ( document.documentElement.clientWidth < 500 ) { 
+	var initialMonths = 3;
+    }
+    else { 
+	var initialMonths = 18;
+    }
+
+    var dur =  550;
+    var ignoreWords = ["nigga","nigger","niggaz","niggas","thirsty","pakistan","india"];
+    var bigdays = {};
+    var shiftTypeSelect = false;
+    var formatDate = d3.time.format("%b %Y");
+    var today = new Date();
+    var beginningOfTime = new Date(2008,8,10);
+    var cformat = d3.time.format("%Y-%m-%d");
+    var dformat = d3.time.format("%Y-%m-%dT00:00:00");
+    var longformat = d3.time.format("%B %e, %Y");
+    var longerformat = d3.time.format("%A, %B %e, %Y");
+    var fromencoder = d3.urllib.encoder().varname("from");
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
+    var toencoder = d3.urllib.encoder().varname("to");
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10)));
+    var dateencoder = d3.urllib.encoder().varname("date");
+    var datedecoder = d3.urllib.decoder().varname("date");
+    var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
+    var shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none");
+    var weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"];
+    var weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
+    var popupExitDur = 500;
+    var popupEnterDur = 400;
+    var intStr = ["zero","one","two","three"];
     // min radius for day circles
-    rmin = 0,
+    var rmin = 0;
     // max radius for day circles
     // these get reset when the day toggle is called
-    rmax = 3.25,
-    legendDict = {
+    var rmax = 3.25;
+    var legendDict = {
 	"mon": "on",
 	"tue": "on",
 	"wed": "on",
@@ -13259,9 +13265,18 @@ function shift(rrefF,ccompF,lens,words) {
 	toggle: function (name,r) {
 	    this[name] =  this[name] === "on" ? "off" : "on";
 	    toggleDays(r);
-	}
+	},
     }
-    timeseries = {};
+    var timeseries = [
+	{
+	    date: beginningOfTime,
+	    value: 6.00,
+	},
+	{
+	    date: today,
+	    value: 6.00,
+	},
+    ];
 
     // no longer in use
     function getDay(d) {
@@ -13276,23 +13291,14 @@ function shift(rrefF,ccompF,lens,words) {
 	transitionBigShift(popdate);
     };
 
-    function toggleAll(r) {
-	if (legendDict['togall'] == 'on') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", r);
-	}
-	if (legendDict['togall'] == 'off') {
-	    d3.selectAll(".Monday, .Tuesday, .Wednesday, .Thursday, .Friday, .Saturday, .Sunday, .Togall").transition().duration(250).attr("r", rmin);
-	}
-    };
-
     function toggleDays(r) {
 	//run through the legendDict to see what's on or off...
 	for (var i=0; i < weekDays.length; i=i+1) {
 	    if (legendDict[weekDaysShort[i]] == 'on') {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", r);
+		d3.selectAll("."+weekDays[i]).style("visibility", "visible");
 	    }
 	    else {
-		d3.selectAll("."+weekDays[i]).transition().duration(250).attr("r", rmin);
+		d3.selectAll("."+weekDays[i]).style("visibility", "hidden");
 	    }
 	}
 	// check the highlight individually
@@ -13345,17 +13351,23 @@ function shift(rrefF,ccompF,lens,words) {
 	return new Date(d.date);
     };
 
+    // min radius for day circles
+    var rmin = 0;
+    // max radius for day circles
+    // these get reset when the day toggle is called
+    var rmax = 2.75; // scale down to 1.25 for whole timeseries
+
     var margin = {
 	top: 10,
-	right: 60,
-	bottom: 140,
-	left: 50
+	right: 40,
+	bottom: 100,
+	left: 0
     },
     width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
-    height = d3.min([600,d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top])]),
+    height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
     height2 = 50;
     // vertical space to give the bottom brush selection
-    var MainxAxisSpace = 80;
+    var MainxAxisSpace = 40;
     //height2 = document.documentElement.clientHeight * 0.5;
 
     var bigdayscale = d3.scale.linear()
@@ -13488,7 +13500,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    //toggleDays();
 	})
     // return first three letters for the name
-	.text(function(d,i) { return weekDays[i][0]+weekDays[i][1]+weekDays[i][2] });
+	.text(function(d,i) { return weekDays[i][0].toUpperCase()+weekDays[i][1]+weekDays[i][2] });
     //.attr("class",function(d,i) { return weekDays[i] });
 
     legendgroup.selectAll("rect.legendclick")
@@ -13522,7 +13534,6 @@ function shift(rrefF,ccompF,lens,words) {
     legendgroup.append("svg:circle").on("mousedown", function() {
 	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	legendDict.toggle('togall',rScale(currRange));
-	//toggleAll();
     }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
     
     legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id","togall");
@@ -13649,7 +13660,7 @@ function shift(rrefF,ccompF,lens,words) {
 
     var minDate,maxDate;
 
-    d3.csv("/static/hedonometer/data/word-vectors/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -13736,10 +13747,8 @@ function shift(rrefF,ccompF,lens,words) {
 	var format = d3.time.format("%m-%d");
 
 	// http://hedonometer.org/api/v1/events/?format=json
-	d3.json('/api/v1/events/?format=json',function(json) { 
-	// d3.json('/static/hedonometer/data/bigdays.json',function(json) { 
+	d3.json('http://hedonometer.org/api/v1/events/?format=json',function(json) { 
 	    bigdays = json.objects;
-	    
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
 				       d.shorter = d.shorter.split(',');
@@ -13841,7 +13850,29 @@ function shift(rrefF,ccompF,lens,words) {
 	    d3.selectAll("text.bigdaytext").attr("dx",function(d,i) { return -this.clientWidth/2; })
 	    // d3.selectAll("text.bigdaytext").attr("fill","white")
 	    // d3.selectAll("line.bigdayline").attr("stroke","white")
-	} )
+
+	    // add a catch to update the popup based on whether there was a big event
+	    // console.log(datedecoder().current);
+	    if (datedecoder().current.length > 0) {
+		// console.log("checking for popup event");
+		var pulldate = cformat.parse(datedecoder().current);
+		for (var i=0; i<bigdays.length; i++) {
+		    if (bigdays[i].date.getTime() === pulldate.getTime()) {
+			bigdaytest = true;
+			bigdaywiki = bigdays[i].wiki;
+			bigdaytext = bigdays[i].longer;
+			// console.log(addthis_share.passthrough.twitter.text);
+			addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
+			// console.log(addthis_share.passthrough.twitter.text);
+			d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
+			var modalbody = d3.select("#moveshifthere");
+			var paragraphs = modalbody.selectAll("p").data(["<b>"+longerformat(pulldate)+"</b>","<b>"+bigdaytext+"</b>"]);
+			paragraphs.attr("class","shifttitle").html(function(d,i) { return d; } );
+			break;
+		    };
+		};
+	    };
+	} );
 
 	// d3.select(".x.brush").call(brush.event);
 	var brushgroup = context.append("g").attr("class", "x brush")
@@ -13907,6 +13938,8 @@ function shift(rrefF,ccompF,lens,words) {
 	// console.log(brush.extent());
 
 	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
+	// var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
+	// toggleDays(rScale(currRange));
 
 	//x.domain(brush.empty() ? x2.domain() : brush.extent());
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
@@ -13924,9 +13957,11 @@ function shift(rrefF,ccompF,lens,words) {
 	    return x(d.date);
 	}).attr("cy", function(d) {
 	    return y(d.value);
-	})
+	});
+	
+	focus2.selectAll("circle")
  	    .attr("r", function(d) {
-		return rScale(currRange);
+	    	return rScale(currRange);
 	    });
 
 	var rect = focus2.selectAll("rect").attr("x", function(d) {
@@ -14029,9 +14064,9 @@ function shift(rrefF,ccompF,lens,words) {
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {
@@ -14062,65 +14097,6 @@ function shift(rrefF,ccompF,lens,words) {
 
 		//console.log(circle);
 		dateencoder.varval(cformat(popdate));
-
-		//console.log(cformat.parse(circle.attr("shortdate")));
-		var bigdaytest = false;
-		var bigdaywiki = ''; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
-
-		addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
-
-		for (var i=0; i<bigdays.length; i++) {
-		    //console.log(bigdays[i].date);
-		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
-		    if (bigdays[i].date.getTime() === popdate.getTime()) {
-			// console.log("major event wiki");
-			bigdaytest = true;
-			bigdaywiki = bigdays[i].wiki;
-			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-			break;
-		    }
-		}
-		if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
-		else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
-		//Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span>
-
-		// grab the modal body
-		var modalbody = d3.select("#moveshifthere");
-		var modalfooter = d3.select("#moveshiftherefooter");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.append("p").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(popdate)+"</b>"; });
-		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === popdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
-		}
-		else {
-		    modalbody.append("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}
-		modalbody.append("p").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.append("p").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		if (popdate.getTime() === timeseries[0].date.getTime()) {
-		    modalfooter.select(".left").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".left").attr("disabled",null);
-		}
-                if (popdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-		    modalfooter.select(".right").attr("disabled","disabled");
-		}
-		else {
-		    modalfooter.select(".right").attr("disabled",null);
-		}
 
  		// new one
 		var newsmalllist = d3.select('#moveshifthere').append('svg')
@@ -14428,7 +14404,7 @@ function shift(rrefF,ccompF,lens,words) {
 		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
 		// var summaryArray = [sumTypes[2],sumTypes[1],sumTypes[0]+sumTypes[2]];
-		var summaryArray = [sumTypes[2],sumTypes[1]];
+		var summaryArray = [sumTypes[1],sumTypes[2]];
 
 		axes.selectAll(".sumrectL")
 		    .data(summaryArray)
@@ -14515,7 +14491,7 @@ function shift(rrefF,ccompF,lens,words) {
 		    } );
 
 		axes.selectAll(".sumtextL")
-		    .data([sumTypes[2],sumTypes[1]])
+		    .data([sumTypes[1],sumTypes[2]])
 		    .enter()
 		    .append("text")
 		    .attr("class", "sumtextL")
@@ -14646,6 +14622,7 @@ function shift(rrefF,ccompF,lens,words) {
 	//     language: 'en',
 	// });
 
+	// danger! this calls next day
 	$('#dp1').datepicker('setDate',popdate);
 	
     }; // transitionBigShift
@@ -14763,7 +14740,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    }
 	}
 
-	d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
@@ -14773,7 +14750,7 @@ function shift(rrefF,ccompF,lens,words) {
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.csv("/static/hedonometer/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -15012,40 +14989,14 @@ function shift(rrefF,ccompF,lens,words) {
 
 	addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
 
-	//console.log(cformat.parse(circle.attr("shortdate")));
-	var bigdaytest = false;
-	var bigdaywiki = '';
-	for (var i=0; i<bigdays.length; i++) {
-	    //console.log(bigdays[i].date);
-	    if (bigdays[i].date.getTime() === newdate.getTime()) {
-		//console.log("major event");
-		bigdaytest = true;
-		bigdaywiki = bigdays[i].wiki;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
-		break;
-	    }
-	}
-	if (bigdaytest) { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'>Major Event <i class='fa fa-signal'></i></span> <a href='"+bigdaywiki+"' target='_blank'><img src='https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300' height='35'/></a>"); }
-	else { d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>"); }
 
-	var modalfooter = d3.select("#moveshiftherefooter");
 
-	if (newdate.getTime() === timeseries[0].date.getTime()) {
-	    modalfooter.select(".left").attr("disabled","disabled");
-	}
-	else {
-	    modalfooter.select(".left").attr("disabled",null);
-	}
-        if (newdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
-	    modalfooter.select(".right").attr("disabled","disabled");
-	}
-	else {
-	    modalfooter.select(".right").attr("disabled",null);
-	}
 
-	d3.text("static/hedonometer/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
+
+
+	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(newdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("static/hedonometer/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(newdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		for (var i = 0; i < words.length; i++) {
@@ -15189,32 +15140,6 @@ function shift(rrefF,ccompF,lens,words) {
 		    }
 		}
 
-		var modalbody = d3.select("#moveshifthere");
-		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.insert("p","svg").attr("class","shifttitle pullleft").html(function(d,i) { return "<b>"+""+longerformat(newdate)+"</b>"; });
-		if (bigdaytest) {
-		    for (var i=0; i<bigdays.length; i++) {
-			//console.log(bigdays[i].date);
-			if (bigdays[i].date.getTime() === newdate.getTime()) {
-			    // console.log("major event");
-			    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdays[i].longer+"</b>"; });
-			    break;
-			}
-		    }
-		}
-		else {
-		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}	    
-		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
-		modalbody.insert("p","svg").text(function() {
-		    var head = "What's making this day ";
-		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
-
-		// var sumTypes = [8,-10,-6,14];
-		// var sumTypes = [json2[0].normnegdown,-json2[0].normnegup,-json2[0].normposdown,json2[0].normposup]
-
 		var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 
 		topScale = d3.scale.linear()
@@ -15242,7 +15167,6 @@ function shift(rrefF,ccompF,lens,words) {
 		newRtoptext.transition().attr("class", "sumtextR")
 		    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
 		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
-
 		
 		var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
 
@@ -15294,6 +15218,75 @@ function shift(rrefF,ccompF,lens,words) {
 		    .data([sumTypes[1],sumTypes[2]]);
 
 		newLtoptext.transition().attr("x",function(d,i) { return topScale(d)-5; });
+
+		// console.log("in the next day bigday add");
+
+		var bigdaytest = false;
+		var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
+		var bigdaytext = [];
+
+		addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
+
+		for (var i=0; i<bigdays.length; i++) {
+		    //console.log(bigdays[i].date);
+		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
+		    if (bigdays[i].date.getTime() === newdate.getTime()) {
+			// console.log("major event wiki");
+			bigdaytest = true;
+			bigdaywiki.push(bigdays[i].wiki);
+			bigdaytext.push(bigdays[i].longer);
+			// always share the last event
+			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(newdate)+", word shift:"
+			// don't break for multiple events
+			// break;
+		    }
+		}
+		if (bigdaytest) { 
+		    var tmpStr = 'Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> ';
+		    for (var i=0; i<bigdaywiki.length; i++) { 
+			tmpStr += '<a href="'+bigdaywiki[i].safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35" class="wikilogo"/></a>';
+		    }
+		    d3.select('#modaltitle').html(tmpStr);
+		}
+		else { 
+		    d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>");
+		}
+
+		// grab the modal body
+		var modalbody = d3.select("#moveshifthere");
+		var modalfooter = d3.select("#moveshiftherefooter");
+		// remove the text at the top
+		modalbody.selectAll("p").remove();
+		modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(newdate)+"</b>"; });
+		if (bigdaytest) {
+		    // console.log(bigdaytext);
+		    for (var bc=0; bc<bigdaytext.length; bc++) {
+			// console.log("appending event "+bc+" text");
+			modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
+		    }
+		}
+		else {
+		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
+		}
+
+		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(tcomp).toFixed(3); });
+		modalbody.insert("p","svg").text(function() {
+		    var head = "What's making this day ";
+		    return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
+		});
+
+		if (newdate.getTime() === timeseries[0].date.getTime()) {
+		    modalfooter.select(".left").attr("disabled","disabled");
+		}
+		else {
+		    modalfooter.select(".left").attr("disabled",null);
+		}
+		if (newdate.getTime() === timeseries[timeseries.length-1].date.getTime()) {
+		    modalfooter.select(".right").attr("disabled","disabled");
+		}
+		else {
+		    modalfooter.select(".right").attr("disabled",null);
+		}
 
 	    }); // d3.json metadata
 
@@ -15352,5 +15345,4 @@ function shift(rrefF,ccompF,lens,words) {
     console.log("enjoy :)");
 
 })();
-
 
