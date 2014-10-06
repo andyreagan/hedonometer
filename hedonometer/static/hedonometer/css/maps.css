@@ -60,10 +60,10 @@ p.sumtext { margin-bottom: 6px;
 .sumgrey { fill: #272727; }
 
 /* new colors */
-.negup { fill: #367B7F; }
-.negdown { fill: #76A5A8; }
-.posdown { fill: #F5A361; }
-.posup { fill: #F28124; }
+/* .negup { fill: #367B7F; } */
+/* .negdown { fill: #76A5A8; } */
+/* .posdown { fill: #F5A361; } */
+/* .posup { fill: #F28124; } */
 
 /* .map.canvas { z-index: 10000; } */
 
