@@ -190,67 +190,21 @@
 
 	    lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
 
-	    // initialize new values
-	    var refF = Array(allDataRaw[0].length);
-	    var compF = Array(allDataRaw[0].length);
-	    allData = Array(allDataRaw.length);
-	    // fill them with 0's
-	    for (var i=0; i<allDataRaw[0].length; i++) {
-		refF[i]= 0;
-		compF[i]= 0;
-	    }
-	    for (var i=0; i<allDataRaw.length; i++) {
-		allData[i] = Array(allDataRaw[i].length);
-	    }
-	    // loop over each slice of data
-	    for (var i=0; i<allDataRaw[0].length; i++) {
-		var include = true;
-		for (var k=0; k<ignoreWords.length; k++) {
-		    if (ignoreWords[k] == words[i]) {
-			include = false;
-		    }
-		}
-		if (lens[i] >= lensExtent[0] && lens[i] <= lensExtent[1]) {
-		    include = false;
-		}
-		// grab the shift vectors
-		if (include) {
-		    for (var k=refFextent[0]; k<refFextent[1]; k++) {
-			refF[i] += parseFloat(allDataRaw[k][i]);
-		    }
-		    for (var k=compFextent[0]; k<compFextent[1]; k++) {
-			compF[i] += parseFloat(allDataRaw[k][i]);
-		    }
-		    for (var k=0; k<allDataRaw.length; k++) {
-			allData[k][i] = allDataRaw[k][i];
-		    }
-		}
-		// slice up the data
-		// for quicker redraw on window selection
-		// and happiness calculation
-		// double overhead for storage
-		else { 
-	    	    for (var k=0; k<allData.length; k++) { allData[k][i] = 0; }
-		}
-	    }
-	    
-	    //console.log("redrawing timeserires");
+	    hedotools.shifter._stoprange(lensExtent);
+
+	    console.log("redrawing timeserires with new lens");
 	    var timeseries = computeHapps();
 	    drawBookTimeseries(d3.select("#chapters03"),timeseries);
-
-	    //console.log("redrawing shift");
-	    var shiftObj = shift(refF,compF,lens,words);
-	    plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
-		      shiftObj.sortedType.slice(0,200),
-		      shiftObj.sortedWords.slice(0,200),
-		      shiftObj.sortedWordsEn.slice(0,200),
-		      shiftObj.sumTypes,
-		      shiftObj.refH,
-		      shiftObj.compH);
+	    
+	    console.log("redrawing shift with new lens");
+	    hedotools.shifter.stop();
+	    hedotools.shifter.shifter();
+	    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+hedotools.shifter._refH().toFixed(2),"Comparison section's happiness: "+hedotools.shifter._compH().toFixed(2)]
+	    hedotools.shifter.setText(shifttext).plot();
 
 	    // set the lens extent in the browser, if it didn't already exist
 	    // break down the current window.location
-
 	}
 
 	d3.select(this).transition()

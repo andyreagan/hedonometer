@@ -3,11 +3,11 @@ cat bootstrap.css font-awesome.min.css site.css > base-all.css
 minify --type css base-all.css > base-all.min.css
 
 echo "timeline"
-cat bootstrap.css font-awesome.min.css site.css timeline.css datepicker.css > timeline-all.css
+cat bootstrap.css font-awesome.min.css site.css timeline.css datepicker.css hedotools.shift.css > timeline-all.css
 minify --type css timeline-all.css > timeline-all.min.css
 
 echo "books"
-cat bootstrap.css font-awesome.min.css site.css books.css datepicker.css paper.css > books-all.css
+cat bootstrap.css font-awesome.min.css site.css books.css datepicker.css paper.css hedotools.shift.css > books-all.css
 minify --type css books-all.css > books-all.min.css
 
 echo "maps"

@@ -193,22 +193,31 @@ function selectChapter(figure,numSections) {
 	// loop over each slice of data
 	for (var i=0; i<allDataRaw[0].length; i++) {
 		for (var k=refFextent[0]; k<refFextent[1]; k++) {
-                    refF[i] += allData[k][i];
+                    refF[i] += allDataRaw[k][i];
 		}
 		for (var k=compFextent[0]; k<compFextent[1]; k++) {
-                    compF[i] += allData[k][i];
+                    compF[i] += allDataRaw[k][i];
 		}
 	}
 	
 	console.log("redrawing shift");
-	var shiftObj = shift(refF,compF,lens,words);
-	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
-		  shiftObj.sortedType.slice(0,200),
-		  shiftObj.sortedWords.slice(0,200),
-		  shiftObj.sortedWordsEn.slice(0,200),
-		  shiftObj.sumTypes,
-		  shiftObj.refH,
-		  shiftObj.compH);
+	    hedotools.shifter._refF(refF);
+	    hedotools.shifter._compF(compF);
+	    hedotools.shifter.stop();
+	    hedotools.shifter.shifter();
+	    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+hedotools.shifter._refH().toFixed(2),"Comparison section's happiness: "+hedotools.shifter._compH().toFixed(2)]
+	    hedotools.shifter.setText(shifttext).plot();
+	
+	// var shiftObj = shift(refF,compF,lens,words);
+	// plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
+	// 	  shiftObj.sortedType.slice(0,200),
+	// 	  shiftObj.sortedWords.slice(0,200),
+	// 	  shiftObj.sortedWordsEn.slice(0,200),
+	// 	  shiftObj.sumTypes,
+	// 	  shiftObj.refH,
+	// 	  shiftObj.compH);
+
 	}
 
 	d3.select(this).transition()

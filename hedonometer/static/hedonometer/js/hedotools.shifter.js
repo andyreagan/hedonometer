@@ -99,6 +99,7 @@ hedotools.shifter = function()
     var sortedMag;
     var sortedType;
     var sortedWords;
+    var sortedWordsEn;
     var sumTypes;
     var refH;
     var compH;
@@ -118,6 +119,11 @@ hedotools.shifter = function()
 	sortedWords = _;
 	return hedotools.shifter;
     }
+    var _sortedWordsEn = function(_) {
+	if (!arguments.length) return sortedWordsEn;
+	sortedWordsEn = _;
+	return hedotools.shifter;
+    }
     var _sumTypes = function(_) {
 	if (!arguments.length) return sumTypes;
 	sumTypes = _;
@@ -131,6 +137,13 @@ hedotools.shifter = function()
     var _compH = function(_) {
 	if (!arguments.length) return compH;
 	compH = _;
+	return hedotools.shifter;
+    }
+
+    var reset = true;
+    var _reset = function(_) {
+	if (!arguments.length) return reset;
+	reset = _;
 	return hedotools.shifter;
     }
 
@@ -158,7 +171,16 @@ hedotools.shifter = function()
     var refF;
     var compF;
     var lens;
+    var stoprange = [4,6];
     var words;
+    var words_en;
+    var translate = false;
+
+    var _stoprange = function(_) {
+	if (!arguments.length) return stoprange;
+	stoprange = _;
+	return hedotools.shifter;
+    }
 
     var _refF = function(_) {
 	if (!arguments.length) return refF;
@@ -184,6 +206,13 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    var _words_en = function(_) {
+	if (!arguments.length) return words_en;
+	words_en = _;
+	translate = true;
+	return hedotools.shifter;
+    }
+
     var ignoreWords = ["nigga","niggas","niggaz","nigger"];
 
     var ignore = function(_) {
@@ -204,7 +233,7 @@ hedotools.shifter = function()
 		}
 	    }
 	    // check if underneath lens cover
-	    if (lens[i] > 4 && lens[i] < 6) {
+	    if (lens[i] > stoprange[0] && lens[i] < stoprange[1]) {
 		include = false;
 	    }
 	    // include it, or set to 0
@@ -214,6 +243,28 @@ hedotools.shifter = function()
 	    }
 	}
 	return hedotools.shifter;
+    }
+
+    // stop an individual vector
+    var istopper = function(fvec) {
+	for (var i=0; i<lens.length; i++) {
+	    var include = true;
+	    // check if in removed word list
+	    for (var k=0; k<ignoreWords.length; k++) {
+		if (ignoreWords[k] == words[i]) {
+		    include = false;
+		}
+	    }
+	    // check if underneath lens cover
+	    if (lens[i] > stoprange[0] && lens[i] < stoprange[1]) {
+		include = false;
+	    }
+	    // include it, or set to 0
+	    if (!include) {
+		fvec[i] = 0;
+	    }
+	}
+	return fvec;
     }
     
     var shift = function(a,b,c,d) {
@@ -295,11 +346,11 @@ hedotools.shifter = function()
 	for (var i = 0; i < refF.length; i++) { indices[i] = i; }
 	indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
 
-	sortedMag = Array(refF.length);
-	sortedType = Array(refF.length);
-	sortedWords = Array(refF.length);
+	sortedMag = Array(numwordstoplot);
+	sortedType = Array(numwordstoplot);
+	sortedWords = Array(numwordstoplot);
 
-	for (var i = 0; i < refF.length; i++) { 
+	for (var i = 0; i < numwordstoplot; i++) { 
 	    sortedMag[i] = shiftMag[indices[i]]; 
 	    sortedType[i] = shiftType[indices[i]]; 
 	    sortedWords[i] = words[indices[i]]; 
@@ -313,9 +364,16 @@ hedotools.shifter = function()
 	}
 
 	// slice them
-	sortedMag = sortedMag.slice(0,numwordstoplot);
-	sortedWords = sortedWords.slice(0,numwordstoplot);
-	sortedType = sortedType.slice(0,numwordstoplot);
+	// sortedMag = sortedMag.slice(0,numwordstoplot);
+	// sortedWords = sortedWords.slice(0,numwordstoplot);
+	// sortedType = sortedType.slice(0,numwordstoplot);
+
+	if (translate) {
+	    sortedWordsEn = Array(numwordstoplot);
+	    for (var i = 0; i < sortedWordsEn.length; i++) { 
+		sortedWordsEn[i] = words_en[indices[i]]; 
+	    }   
+	}
 
 	// // return as an object
 	// return {
@@ -523,7 +581,9 @@ hedotools.shifter = function()
 		"stroke": "rgb(0,0,0)"
 	    });
 
-	axes.selectAll("text.shifttext")
+
+
+	var shifttext = axes.selectAll("text.shifttext")
 	    .data(sortedMag)
 	    .enter()
 	    .append("text")
@@ -532,6 +592,28 @@ hedotools.shifter = function()
 	    .attr("y",function(d,i) { return bigshifty(i+1)+iBarH; } )
 	    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
 	    .text(function(d,i) { return sortedWords[i]; });
+
+	if (translate) {
+	    // it is one longer than the words, the last entry being what
+	    // everything will be set to on "translate all"
+	    var flipVector = Array(sortedWords.length+1);
+	    for (var i=0; i<flipVector.length; i++) { flipVector[i] = 0; }
+	    flipVector[flipVector.length-1] = 1;
+	    shifttext.on("click",function(d,i) {
+		// goal is to toggle translation
+		// need translation vector
+		//console.log(flipVector[i]);
+		if (flipVector[i]) { 
+		    if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+		    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+		    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
+		    flipVector[i] = 0; }
+		else {
+		    tmpStr = sortedWordsEn[i];
+		    flipVector[i] = 1; }
+		newText = d3.select(this).text(tmpStr);
+	    });
+	}
 
 	// check if there is a word selection to apply
 	if (shiftseldecoder().current === "posup") {
@@ -833,8 +915,166 @@ hedotools.shifter = function()
 	    
 	}; // resetButton
 
-	// call it
-	resetButton();
+	if (reset) {
+	    // call it
+	    resetButton();
+	}
+
+	function translateButton() {
+
+	    var shiftsvg = d3.select("#shiftsvg");
+
+	    var translateGroup = shiftsvg.append("g")
+		.attr("class","translatebutton")
+		.attr("transform","translate("+(0)+","+(136)+") rotate(-90)");
+
+	    translateGroup.append("rect")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("rx",3)
+		.attr("ry",3)
+		.attr("width",75)
+		.attr("height",17)
+		.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+		.style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
+
+	    translateGroup.append("text")
+		.text("Translate All")
+		.attr("x",6)
+		.attr("y",13)
+		.attr("font-size", "11.0px")
+
+	    translateGroup.append("rect")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("rx",3)
+		.attr("ry",3)
+		.attr("width",75)
+		.attr("height",18)
+		.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+		.style({"opacity": "0.0"})
+		.on("click",function() { 
+		    for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
+		    flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
+		    console.log("clicked translate");
+
+		    axes.selectAll("text.shifttext").transition().duration(1000)
+			.text(function(d,i) { 
+			    // goal is to toggle translation
+			    // need translation vector
+			    //console.log(flipVector[i]);
+			    if (flipVector[i]) { 
+				if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+				else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+				else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+				else {tmpStr = "+\u2191";}
+				if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+				else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+			    }
+			    else {
+				tmpStr = sortedWords[i];
+			    }
+			    return tmpStr;
+			}); // .text()
+	        }); // on("click")
+	}; // translateButton
+
+	if (translate) {
+	    translateButton();
+	}
+
+	// var credit = axes.insert("text","rect")
+        //     .attr("class","credit")
+	//     .text("by Andy Reagan")
+        //     .attr("fill","#B8B8B8")
+	//     .attr("x",width-7)
+	//     .attr("y",527)
+	//     .attr("font-size", "8.0px")
+        //     .style({"text-anchor": "end"});
+
+	d3.select(window).on("resize.shiftplot",resizeshift);
+	
+	function resizeshift() {
+	    figwidth = parseInt(d3.select("#figure01").style('width')) - margin.left - margin.right,
+	    width = .775*figwidth
+	    figcenter = width/2;
+
+	    canvas.attr("width",figwidth);
+
+	    x.range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
+	    topScale.range([width*.1,width*.9]);
+
+	    bgrect.attr("width",width);
+	    //axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
+	    //      ((1 - 0.125 - 0.775) * figheight) + ")");
+	    
+	    // mainline.attr("d",line);
+
+	    // fix the x axis
+	    canvas.select(".x.axis").call(xAxis);
+
+	    clip.attr("width",width);
+
+	    // get the x label
+	    xlabel.attr("x",(leftOffsetStatic+width/2));
+
+	    // the andy reagan credit
+	    credit.attr("x",width-7);
+
+	    // line separating summary
+	    sepline.attr("x2",width);
+
+	    // all of the lower shift text
+	    axes.selectAll("text.shifttext").attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+
+	    unclipped_axes.selectAll(".sumrectR")
+		.attr("x",function(d,i) { 
+		    if (d>0) { return figcenter; } 
+		    else { return topScale(d)} } )
+		.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	    unclipped_axes.selectAll(".sumtextR")
+		.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+
+
+	    unclipped_axes.selectAll(".sumrectL")
+		.attr("x",function(d,i) { 
+		    if (i<2) { 
+			return topScale(d);
+		    } 
+		    else { 
+			// place the sum of negatives bar
+			// if they are not opposing
+			if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+			    // if positive, place at end of other bar
+			    if (d>0) {
+				return topScale((sumTypes[3]+sumTypes[1]));
+			    }
+			    // if negative, place at left of other bar, minus length (+topScale(d))
+			    else {
+				return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+			    }
+			} 
+			else { 
+			    if (d>0) {return figcenter} 
+			    else { return topScale(d)} }
+		    }
+		})
+		.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	    unclipped_axes.selectAll(".sumtextL")
+		.attr("x",function(d,i) { return topScale(d)-5; });
+
+	    axes.selectAll("rect.shiftrect")
+		.attr("x",function(d,i) { 
+		    if (d>0) { 
+			return figcenter;
+		    } 
+		    else { return x(d)} }
+		     )
+		.attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } );
+	}
+
 
 	return hedotools.shifter;
 
@@ -843,16 +1083,20 @@ hedotools.shifter = function()
     var opublic = { shift: shift,
 		    ignore: ignore,
 		    stop: stop,
+		    istopper: istopper,
 		    shifter: shifter,
 		    setfigure: setfigure,
 		    setdata: setdata,
 		    plot: plot, 
 		    setText: setText,
 		    setHeight: setHeight,
+		    _reset: _reset,
+		    _stoprange: _stoprange,
 		    _refF: _refF,
 		    _compF: _compF,
 		    _lens: _lens,
 		    _words: _words,
+		    _words_en: _words_en,
 		    // boatload more accessor functions
 		    _sortedMag: _sortedMag,
 		    _sortedType: _sortedType,

@@ -31,7 +31,6 @@ function commaSeparateNumber(val){
 var bookDecoder = d3.urllib.decoder().varresult("Frankenstein,%20Or%20the%20Modern%20Prometheus").varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
-var ignoreWords = [];
 // this guy is for the catalog card infomation
 var bookinfo = {};
 
@@ -39,7 +38,7 @@ function initializePlot() {
     book = bookDecoder().cached;
     // hit the random api
     if (book === 'random') {
-	d3.json("/api/v1/randombook/?format=json",function(data) {
+	d3.json("http://hedonomter.org/api/v1/randombook/?format=json",function(data) {
 	    var result = data.objects[0];
 	    // console.log(result);
 	    lang = result.language;
@@ -50,13 +49,10 @@ function initializePlot() {
 	    var bookauthor = d3.select("#bookauthor");
 	    var author = booktitle.append("h2").append("small").text("by "+result.author);
 	    var newignore = result.ignorewords.split(",");
-	    for (var i=0; i<newignore.length-1; i++) {
-		ignoreWords.push(newignore[i]);
-	    }
+	    hedotools.shifter.ignore(newignore);
 	    if ( result.wiki.length > 0 ) {
 		title.append("small").append("a").attr("href",result.wiki).attr("target","_blank").text("(wiki)");
 	    }
-	    console.log(ignoreWords);
 	    // set the filename
 	    book = result.reference;
 	    sumWords = result['length'];
@@ -67,7 +63,7 @@ function initializePlot() {
 	})
     }
     else {
-	d3.json("/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
+	d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
 	    var result = data.objects[0];
 	    console.log(result);
 	    lang = result.language;
@@ -77,13 +73,10 @@ function initializePlot() {
 	    var bookauthor = d3.select("#bookauthor");
 	    var author = booktitle.append("h2").append("small").text("by "+result.author);
 	    var newignore = result.ignorewords.split(",");
-	    for (var i=0; i<newignore.length-1; i++) {
-		ignoreWords.push(newignore[i]);
-	    }
+	    hedotools.shifter.ignore(newignore);
 	    if ( result.wiki.length > 0 ) {
 		title.append("small").append("a").attr("href",result.wiki).attr("target","_blank").text("(wiki)");
 	    }
-	    console.log(ignoreWords);
 	    // set the filename
 	    book = result.reference;
 	    sumWords = result['length'];
@@ -105,10 +98,8 @@ function loadCsv() {
         //while (!tmp[len]) { console.log("in while loop"); tmp = tmp.slice(0,len); len--; } p
         // build the full data, terrible
         allDataRaw = Array(tmp[0].split(',').length);
-        //allData = Array(tmp[0].split(',').length);
         for (var i = 0; i < tmp[0].split(',').length; i++) {
 	    allDataRaw[i] = Array(tmp.length);
-	    //allData[i] = Array(tmp.length);
         }
         for (var i = 0; i < tmp.length; i++) {
 	    var tmpTmp = tmp[i].split(',');
@@ -119,7 +110,7 @@ function loadCsv() {
 	// console.log(allDataRaw);
 	if (sumWords < 10000) { alert("There are too few words in this book for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this book has "+sumWords+"."); }
         //console.log(d3.sum(allDataRaw[0]));
-        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+        if (!--csvLoadsRemaining) initializePlotPlot();
     });
     d3.text("http://hedonometer.org/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
@@ -132,7 +123,8 @@ function loadCsv() {
             lens = lens.slice(0, len);
             len--;
         }
-        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+	hedotools.shifter._lens(lens);
+        if (!--csvLoadsRemaining) initializePlotPlot();
     });
     d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
@@ -143,7 +135,8 @@ function loadCsv() {
             words = words.slice(0, len);
             len--;
         }
-        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+	hedotools.shifter._words(words);
+        if (!--csvLoadsRemaining) initializePlotPlot();
     });
     d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
@@ -154,11 +147,12 @@ function loadCsv() {
             words_en = words_en.slice(0, len);
             len--;
         }
-        if (!--csvLoadsRemaining) initializePlotPlot(allDataRaw, lens, words);
+	hedotools.shifter._words_en(words_en);
+        if (!--csvLoadsRemaining) initializePlotPlot();
     });
 };
 
-function initializePlotPlot(allDataRaw, lens, words) {
+function initializePlotPlot() {
     // initially apply the lens
     var minSize = 10000;
     var dataSize = 1000;
@@ -168,11 +162,6 @@ function initializePlotPlot(allDataRaw, lens, words) {
 
     lensExtent = lensDecoder().cached.map(parseFloat);
     
-    // ignore these on all
-    var alwaysIgnore = ["nigga","niggaz","niggas","nigger"]; //["cried", "cry", "coffin"];
-    for (var i=0; i<alwaysIgnore.length; i++) {
-	ignoreWords.push(alwaysIgnore[i]);
-    }
     refFextentDecoder = d3.urllib.decoder().varresult([0,.2]).varname("refExtent");				      
     refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*allDataRaw.length), Math.round(parseFloat(refFextentDecoder().cached[1])*allDataRaw.length)];
     compFextentDecoder = d3.urllib.decoder().varresult([.8,1]).varname("compExtent");				      
@@ -181,46 +170,18 @@ function initializePlotPlot(allDataRaw, lens, words) {
     // initialize new values
     var refF = Array(allDataRaw[0].length);
     var compF = Array(allDataRaw[0].length);
-    allData = Array(allDataRaw.length);
     // fill them with 0's
     for (var i = 0; i < allDataRaw[0].length; i++) {
         refF[i] = 0;
         compF[i] = 0;
     }
-    for (var i = 0; i < allDataRaw.length; i++) {
-        allData[i] = Array(allDataRaw[i].length);
-    }
-    // loop over each slice of data
+    // loop over each
     for (var i = 0; i < allDataRaw[0].length; i++) {
-        var include = true;
-        for (var k = 0; k < ignoreWords.length; k++) {
-            if (ignoreWords[k] == words[i]) {
-                include = false;
-            }
+        for (var k = refFextent[0]; k < refFextent[1]; k++) {
+            refF[i] += parseFloat(allDataRaw[k][i]);
         }
-        if (lens[i] > lensExtent[0] && lens[i] < lensExtent[1]) {
-            include = false;
-        }
-        // grab the shift vectors
-        if (include) {
-            for (var k = refFextent[0]; k < refFextent[1]; k++) {
-                refF[i] += parseFloat(allDataRaw[k][i]);
-            }
-            for (var k = compFextent[0]; k < compFextent[1]; k++) {
-                compF[i] += parseFloat(allDataRaw[k][i]);
-            }
-            for (var k = 0; k < allDataRaw.length; k++) {
-                allData[k][i] = allDataRaw[k][i];
-            }
-        }
-        // slice up the data
-        // for quicker redraw on window selection
-        // and happiness calculation
-        // double overhead for storage
-        else {
-            for (var k = 0; k < allData.length; k++) {
-                allData[k][i] = 0;
-            }
+        for (var k = compFextent[0]; k < compFextent[1]; k++) {
+            compF[i] += parseFloat(allDataRaw[k][i]);
         }
     }
 
@@ -231,6 +192,7 @@ function initializePlotPlot(allDataRaw, lens, words) {
     }
 
     // doesn't need to return anything, uses globals
+    hedotools.shifter._stoprange(lensExtent);
     timeseries = computeHapps();
     selectChapterTop(d3.select("#chapters01"), allDataRaw.length);
 
@@ -238,14 +200,22 @@ function initializePlotPlot(allDataRaw, lens, words) {
     drawBookTimeseries(d3.select("#chapters03"), timeseries);
     selectChapter(d3.select("#chapters02"), allDataRaw.length);
 
-    shiftObj = shift(refF, compF, lens, words);
-    plotShift(d3.select("#figure01"), shiftObj.sortedMag.slice(0, 200),
-              shiftObj.sortedType.slice(0, 200),
-              shiftObj.sortedWords.slice(0, 200),
-              shiftObj.sortedWordsEn.slice(0, 200),
-              shiftObj.sumTypes,
-              shiftObj.refH,
-              shiftObj.compH);
+    hedotools.shifter._refF(refF);
+    hedotools.shifter._compF(compF);
+    hedotools.shifter.stop();
+    hedotools.shifter.shifter();
+    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+hedotools.shifter._refH().toFixed(2),"Comparison section's happiness: "+hedotools.shifter._compH().toFixed(2)]
+    hedotools.shifter.setfigure(d3.select('#figure01')).setText(shifttext).plot();
+
+    // shiftObj = shift(refF, compF, lens, words);
+    // plotShift(d3.select("#figure01"), shiftObj.sortedMag.slice(0, 200),
+    //           shiftObj.sortedType.slice(0, 200),
+    //           shiftObj.sortedWords.slice(0, 200),
+    //           shiftObj.sortedWordsEn.slice(0, 200),
+    //           shiftObj.sumTypes,
+    //           shiftObj.refH,
+    //           shiftObj.compH);
 
 
     // build the catalog card
@@ -289,7 +259,7 @@ var substringMatcher = function(apik) {
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
+	d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
 	    var result = data.objects;
 	    // console.log(result);
 	    var newresult = [];

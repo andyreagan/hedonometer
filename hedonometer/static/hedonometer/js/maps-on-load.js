@@ -140,7 +140,7 @@ function refcompdrops() {
             // loadCsv(timeName); 
 
 	    if (shiftRef !== shiftComp) {
-		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);n
 		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
 		hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":"]).plot();
 	    }

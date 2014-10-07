@@ -6770,3 +6770,9 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .datepicker.dropdown-menu td {
   padding: 4px 5px;
 }
+/* normal colors */
+.negdown { fill: #B3B3FF; }
+.posdown { fill: #FFFFB3; }
+.negup { fill: #4C4CFF; }
+.posup { fill: #FFFF4C; }
+.sumgrey { fill: #272727; }
