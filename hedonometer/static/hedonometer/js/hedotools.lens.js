@@ -4,7 +4,7 @@
 // full flexibility
 hedotools.lensoncall = function() { 
     var test = function(extent1) {
-	console.log("set on load");
+	console.log("set on load (works for maps.html)");
 	// reset
 	for (var j=0; j<allData.length; j++) {
 	    for (var i=0; i<allData[j].rawFreq.length; i++) {
@@ -31,8 +31,9 @@ hedotools.lensoncall = function() {
 	hedotools.computeHapps.go();
 	hedotools.map.setfigure(d3.select('#map01')).setdata(geoJson).plot();
 	if (shiftRef !== shiftComp) {
-	    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-	    shiftObj.setfigure(d3.select('#shift01')).plot();
+	    hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+	    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	    hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 	}
     }
     var opublic = { test: test, };

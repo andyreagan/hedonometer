@@ -11314,8 +11314,8 @@ function refcompdrops() {
             // loadCsv(timeName); 
 
 	    if (shiftRef !== shiftComp) {
-		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 	    }
 	});
 
@@ -11329,8 +11329,8 @@ function refcompdrops() {
 	    refencoder.varval(d);
 
 	    if (shiftRef !== shiftComp) {
-		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 	    }
             // key = this.selectedIndex;
 	    // key = i;
@@ -11355,8 +11355,8 @@ function refcompdrops() {
 	    compencoder.varval(allData[shiftComp].name);
 	    
 	    if (shiftRef !== shiftComp) {
-		var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 	    }
 	});
 }
@@ -11503,8 +11503,8 @@ function initializePlotPlot(lens,words) {
     // sortStates(d3.select('#table01'))
 
     // compute the shift initially
-    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-    shiftObj.setfigure(d3.select('#shift01')).plot();
+    hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+    hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 
     var stateHappsListNorm = Array(51);
     for (var i=0; i<stateHappsListNorm.length; i++) {

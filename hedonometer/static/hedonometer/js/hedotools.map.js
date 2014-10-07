@@ -486,8 +486,9 @@ hedotools.map = function() {
 		d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","#428bca");
 
 		if (shiftRef !== shiftComp) {
-		    var shiftObj = hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
-		    shiftObj.setfigure(d3.select('#shift01')).setText("").plot();
+		    hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
+		    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+		    hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
 		}
 	    }
 	}

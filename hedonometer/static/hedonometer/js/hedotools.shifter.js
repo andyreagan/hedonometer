@@ -478,7 +478,7 @@ hedotools.shifter = function()
 	    .data([comparisonText])
 	    .enter()
 	    .insert("p","svg")
-	    .text(function(d) { return d; });
+	    .html(function(d) { return d; });
 	
 	var typeClass = ["negdown","posdown","negup","posup"];
 

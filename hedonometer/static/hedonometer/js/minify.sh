@@ -11,19 +11,19 @@ cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.
 echo "catting books"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js plotShift-books.js shift-foreign.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
 
-echo "catting maps"
-cat jquery-1.11.0.min.js bootstrap.min.js d3.andy.js urllib.js topojson.v1.min.js plotShift-main.js shift-geo.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
+# echo "catting maps"
+# cat jquery-1.11.0.min.js bootstrap.min.js d3.andy.js urllib.js topojson.v1.min.js plotShift-main.js shift-geo.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
 
 # minify second
 echo "minifying index"
 minify --type js index-all.js > index-all.min.js
-echo "minifying books"
-minify --type js books-all.js > books-all.min.js
-echo "minifying maps"
-minify --type js maps-all.js > maps-all.min.js
+# echo "minifying books"
+# minify --type js books-all.js > books-all.min.js
+# echo "minifying maps"
+# minify --type js maps-all.js > maps-all.min.js
 
 # could move them, but copy for now
 cp index-all{,.min}.js compiled
 cp books-all{,.min}.js compiled
-cp maps-all{,.min}.js compiled
+# cp maps-all{,.min}.js compiled
 
