@@ -145,7 +145,7 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
-    var comparisonText = "";
+    var comparisonText = [""];
 
     var setText = function(_) {
 	if (!arguments.length) return _;
@@ -462,9 +462,9 @@ hedotools.shifter = function()
 	// d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
 
 	// if there wasn't any text passed, make it
-	if (comparisonText.length < 1) {
+	if (comparisonText[0].length < 1) {
 	    // console.log("generating text for wordshift");
-	    comparisonText = "Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
+	    comparisonText[0] = "Why comparison is "+happysad+" than reference:";
 	}
 	else { 
 	    // console.log("word shift text is:");
@@ -475,9 +475,10 @@ hedotools.shifter = function()
 	    .remove();
 
 	figure.selectAll("p")
-	    .data([comparisonText])
+	    .data(comparisonText)
 	    .enter()
 	    .insert("p","svg")
+	    .attr("class","shifttitle")
 	    .html(function(d) { return d; });
 	
 	var typeClass = ["negdown","posdown","negup","posup"];

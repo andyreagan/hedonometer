@@ -142,7 +142,7 @@ function refcompdrops() {
 	    if (shiftRef !== shiftComp) {
 		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
-		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":"]).plot();
 	    }
 	});
 
@@ -158,7 +158,7 @@ function refcompdrops() {
 	    if (shiftRef !== shiftComp) {
 		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
-		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":"]).plot();
 	    }
             // key = this.selectedIndex;
 	    // key = i;
@@ -185,7 +185,7 @@ function refcompdrops() {
 	    if (shiftRef !== shiftComp) {
 		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
-		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
+		hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":"]).plot();
 	    }
 	});
 }
@@ -334,7 +334,7 @@ function initializePlotPlot(lens,words) {
     // compute the shift initially
     hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
     var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
-    hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
+    hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":"]).plot();
 
     var stateHappsListNorm = Array(51);
     for (var i=0; i<stateHappsListNorm.length; i++) {
