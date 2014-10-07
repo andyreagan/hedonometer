@@ -63,8 +63,9 @@ hedotools.lensoncall = function() {
 
 	// compute the shift initially
 	// use the top state from the new time
-	var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
-	shiftObj.setfigure(d3.select('#shift01')).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+	hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
+	var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+happysad+":"]).plot();
 
     }
     var opublic = { test: test, };
@@ -330,8 +331,9 @@ function initializePlotPlot(lens,words) {
 
 	// // compute the shift initially
 	// // use the top state from the new time
-	var shiftObj = hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
-	shiftObj.setfigure(d3.select('#shift01')).setHeight(400).setText("Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+"happier"+":").plot();
+	hedotools.shifter.shift(allDataOld[hedotools.sankey.newindices()[0]].freq,allData[hedotools.sankey.newindices()[0]].freq,lens,words);
+	var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	hedotools.shifter.setfigure(d3.select('#shift01')).setHeight(400).setText(["Why "+allDataOld[hedotools.sankey.newindices()[0]].name+" has become "+happysad+":"]).plot();
 
     });
 };

@@ -139,7 +139,7 @@ function initializePlotPlot() {
 	hedotools.shifter._compF(compF);
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
-	hedotools.shifter.setText("Why "+compname+" in "+compyear+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+refname+" in "+refyear+":").plot();
+	hedotools.shifter.setText(["Why "+compname+" in "+compyear+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+refname+" in "+refyear+":"]).plot();
 	$('#myModal').modal('show');
     }
     // load both of the files

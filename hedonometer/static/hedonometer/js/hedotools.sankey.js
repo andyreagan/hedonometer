@@ -4,9 +4,9 @@ hedotools.sankeyoncall = function() {
 
 	console.log(allDataOld);
 	
-	var shiftObj = hedotools.shifter.shift(allDataOld[data[i].index].freq,allData[data[i].index].freq,lens,words);
-
-	shiftObj.setfigure(d3.select('#shift01')).setText("Why "+data[i].name+" has become "+((allDataOld[data[i].index].avhapps < allData[data[i].index].avhapps) ? "happier" : "less happy")+":").plot();
+	hedotools.shifter.shift(allDataOld[data[i].index].freq,allData[data[i].index].freq,lens,words);
+	var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+	hedotools.shifter.setfigure(d3.select('#shift01')).setText(["Why "+data[i].name+" has become "+happysad+":"]).plot();
 
 
     }
@@ -322,7 +322,7 @@ hedotools.sankey = function() {
 			    hedotools.shifter._compF(compF);
 			    hedotools.shifter.stop();
 			    hedotools.shifter.shifter();
-			    hedotools.shifter.setText("Why "+compname+" in "+compyear+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+refname+" in "+refyear+":").plot();
+			    hedotools.shifter.setText(["Why "+compname+" in "+compyear+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+refname+" in "+refyear+":"]).plot();
 			    $('#myModal').modal('show');
 			}
 			// load both of the files

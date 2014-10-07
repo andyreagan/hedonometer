@@ -42,8 +42,8 @@ hedotools.loader = function() {
     var lensExtent = [4,6];
     var csvLoadsRemaining = 4;
     // load labMT files
-    var scoresFile = "/data/labMT/labMTscores-english.csv";
-    var wordsFile = "/data/labMT/labMTwords-english.csv";
+    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
     var lens;
     var words;
     var refFvec;
@@ -91,8 +91,8 @@ hedotools.loader = function() {
 		compFvec[i] = 0;
 	    }
 	}
-	var shiftObj = hedotools.shifter.shift(refFvec,compFvec,lens,words);
-	shiftObj.setfigure(d3.select('#shift01')).setText("title text").plot();
+	hedotools.shifter.shift(refFvec,compFvec,lens,words);
+	hedotools.shifter.setfigure(d3.select('#shift01')).plot();
     };
 
     var opublic = { load: load,

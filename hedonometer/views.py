@@ -19,9 +19,9 @@ def embedMain(request,dateref,datecomp):
     # logger.debug(some_hash)
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/static/hedonometer/data/word-vectors/%s.csv' % dateref,
+                 'refFile': 'http://hedonometer.org/data/word-vectors/%s.csv' % dateref,
                  "refFileName": dateref,
-                 'compFile': '/static/hedonometer/data/word-vectors/%s.csv' % datecomp,
+                 'compFile': 'http://hedonometer.org/data/word-vectors/%s.csv' % datecomp,
                  "compFileName": datecomp,
     }
 
