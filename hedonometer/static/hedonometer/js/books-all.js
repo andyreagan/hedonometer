@@ -13186,6 +13186,11 @@ hedotools.shifter = function()
     // initialize that we have't selected a shift
     var shiftTypeSelect = false;
 
+    // set a special variable to make sure all necessary things
+    // have been set before shifting
+    // (this is a double check on the page loading)
+    var loadsremaining = 4;
+
     // we'll use this thing
     var intStr = ["zero","one","two","three"];
 
@@ -13193,10 +13198,13 @@ hedotools.shifter = function()
     // this needs to be set by setfigure() before plotting
     var figure = d3.select("body");
 
+    var widthsetexplicitly = false;
     var setfigure = function(_) {
 	// console.log("setting figure");
 	figure = _;
-	grabwidth();
+	if (!widthsetexplicitly) {
+	    grabwidth();
+	}
 	return hedotools.shifter;
     }
 
@@ -13205,7 +13213,7 @@ hedotools.shifter = function()
     // but just initialize the width-related variables
 
     // full width and height. we'll draw the outer svg this big
-    var fullwidth = 550;
+    var fullwidth = 700;
     var fullheight = 500;
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -13221,6 +13229,7 @@ hedotools.shifter = function()
     // used for the axes
     var figwidth = boxwidth - axeslabelmargin.left - axeslabelmargin.right;
     var figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
+    var leftOffsetStatic = axeslabelmargin.left;
 
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
@@ -13237,7 +13246,17 @@ hedotools.shifter = function()
     var grabwidth = function() {
 	// console.log("setting width from figure");
 	// console.log(parseInt(figure.style("width")));
+	// use d3.min to set a max width of fullwidth
 	fullwidth = d3.min([parseInt(figure.style("width")),fullwidth]);
+	boxwidth = fullwidth-margin.left-margin.right;
+	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
+	figcenter = figwidth/2;
+    }
+
+    var setWidth = function(_) {
+	if (!arguments.length) return fullwidth;
+	widthsetexplicitly = true;
+	fullwidth = _;
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
 	figcenter = figwidth/2;
@@ -13250,8 +13269,6 @@ hedotools.shifter = function()
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
 	return hedotools.shifter;
     }
-
-
 
     // will be set by setdata() or shift() functions
     var sortedMag;
@@ -13313,6 +13330,7 @@ hedotools.shifter = function()
 	sumTypes = d;
 	refH = e;
 	compH = f;
+	loadsremaining = 0;
 	return hedotools.shifter;
     }
 
@@ -13343,24 +13361,28 @@ hedotools.shifter = function()
     var _refF = function(_) {
 	if (!arguments.length) return refF;
 	refF = _;
+	loadsremaining--;
 	return hedotools.shifter;
     }
 
     var _compF = function(_) {
 	if (!arguments.length) return compF;
 	compF = _;
+	loadsremaining--;
 	return hedotools.shifter;
     }
 
     var _lens = function(_) {
 	if (!arguments.length) return lens;
 	lens = _;
+	loadsremaining--;
 	return hedotools.shifter;
     }
 
     var _words = function(_) {
 	if (!arguments.length) return words;
 	words = _;
+	loadsremaining--;
 	return hedotools.shifter;
     }
 
@@ -13382,6 +13404,11 @@ hedotools.shifter = function()
     }
 
     var stop = function() {
+	// first check if all the loads are done
+	// WARNING
+	// could not get this loop to stop!
+	// even when the other variables are set
+	// while (loadsremaining > 0) { console.log("waiting"); };
 	for (var i=0; i<lens.length; i++) {
 	    var include = true;
 	    // check if in removed word list
@@ -13430,6 +13457,7 @@ hedotools.shifter = function()
 	compF = b;
 	lens = c;
 	words = d;
+	loadsremaining = 0;
 	shifter();
 	return hedotools.shifter;
     }	
@@ -13547,6 +13575,28 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    // declare a boat load of private variables
+    // to be accessed by the other methods
+    var canvas;
+    var maxWidth;
+    var x;
+    var y;
+    var topScale;
+    var bgrect;
+    var xlabel;
+    var topbgrect;
+    var ylabel;
+    var sepline;
+    var zoom;
+    var axes;
+    var bigshifttextsize;
+    var typeClass = ["negdown","posdown","negup","posup"];
+    var shiftrects;
+    var shifttext;
+    var flipVector;
+    var maxShiftSum;
+    var summaryArray;
+
     var plot = function() {
 	/* plot the shift
 
@@ -13559,22 +13609,12 @@ hedotools.shifter = function()
 
 	figure.selectAll("svg").remove();
 
-	var canvas = figure.append("svg")
+	canvas = figure.append("svg")
 	    .attr("id","shiftsvg")
 	    .attr("width",function () { return boxwidth; })
 	    .attr("height",function () { return boxheight; });
 
-	// x label of shift, outside of the SVG
-	canvas.append("text")
-	    .text("Per word average happiness shift")
-	    .attr("class","axes-text")
-	    .attr("x",axeslabelmargin.left+figcenter) // 350-20-10 for svg width,  
-	    .attr("y",boxheight-7)
-	    .attr("font-size", "18.0px")
-	    .attr("fill", "#000000")
-	    .attr("style", "text-anchor: middle;");
 
-	// var canvas = newsmalllist.select("svg");
 
 	// take the longest of the top five words
 	// console.log("appending to sorted words");
@@ -13593,58 +13633,53 @@ hedotools.shifter = function()
 	    }
 	});
 
-	// console.log(sortedWords);
-	var maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
-	// console.log(maxWidth);
+	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
 
-	var bigshiftx = d3.scale.linear()
+	// linear scale function
+	x = d3.scale.linear()
 	    .domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
 	    .range([maxWidth+10,figwidth-maxWidth-10]);
 
 	// linear scale function
-	var bigshifty = d3.scale.linear()
+	y = d3.scale.linear()
 	    .domain([numWords+1,1])
 	    .range([figheight+2, yHeight]); 
 
 	// zoom object for the axes
-	var zoom = d3.behavior.zoom()
-	    .y(bigshifty) // pass linear scale function
+	zoom = d3.behavior.zoom()
+	    .y(y) // pass linear scale function
 	// .translate([10,10])
 	    .scaleExtent([1,1])
 	    .on("zoom",zoomed);
 
 	// create the axes themselves
-	// var axes = canvas.select("g")
-	var axes = canvas.append("svg")
-	    .attr("width", figwidth)
-	    .attr("height", figheight)
-	    .attr("class", "shiftcanvas")
+	axes = canvas
+	    // .append("svg")
+	    // .attr("width", figwidth)
+	    // .attr("height", figheight)
+	    // .attr("class", "shiftcanvas")
 	    .append("g")
 	    .attr("transform","translate("+(axeslabelmargin.left)+","+axeslabelmargin.top+")")
 	    .attr("width", figwidth)
 	    .attr("height", figheight)
-	    .attr("class", "main")
-	    .call(zoom);
+	    .attr("class", "main");
+	
+	axes.call(zoom);
 
 	// create the axes background
-	axes.append("rect")
-	    .attr("width", figwidth-axeslabelmargin.left)
-	    .attr("height", figheight)
+	bgrect = axes.append("rect")
+	    .attr("x",0)
+	    .attr("y",1)
+	    .attr("width", figwidth-2)
+	    .attr("height", figheight-2)
 	    .attr("class", "bg")
-	    .style({"stroke-width":"3","stroke":"rgb(0,0,0)"})
+	    .style({"stroke-width":"2","stroke":"rgb(0,0,0)"})
 	    .attr("fill", "#FCFCFC")
 	    .attr("opacity","0.96");
 
-	canvas.append("text")
-	    .text("Word Rank")
-	    .attr("class","axes-text")
-	    .attr("x",15)
-	    .attr("y",figheight/2+60)
-	    .attr("font-size", "18.0px")
-	    .attr("fill", "#000000")
-	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
 
-	var bigshifttextsize = 13;
+
+	bigshifttextsize = 13;
 
 	if (compH >= refH) {
 	    var happysad = "happier";
@@ -13696,9 +13731,9 @@ hedotools.shifter = function()
 	    .insert("p","svg")
 	    .attr("class","shifttitle")
 	    .html(function(d) { return d; });
-	
-	var typeClass = ["negdown","posdown","negup","posup"];
 
+	typeClass = ["negdown","posdown","negup","posup"];
+	
 	axes.selectAll("rect.shiftrect")
 	    .data(sortedMag)
 	    .enter()
@@ -13706,11 +13741,12 @@ hedotools.shifter = function()
 	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; })
 	    .attr("x",function(d,i) { 
 		if (d>0) { return figcenter; } 
-		else { return bigshiftx(d)} })
-	    .attr("y",function(d,i) { return bigshifty(i+1); } )
+		else { return x(d)} })
+	    .attr("y",function(d,i) { return y(i+1); } )
 	    .attr("height",function(d,i) { return iBarH; } )
-	    .attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
+	    .attr("width",function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } )
 	    .style({"opacity":"0.7","stroke-width":"1","stroke":"rgb(0,0,0)"});
+  	    // these add some hover niceness to the rectangles
 	// .on("mouseover", function(d){
 	//     var rectSelection = d3.select(this).style({opacity:"1.0"});
 	// })
@@ -13718,7 +13754,7 @@ hedotools.shifter = function()
 	//     var rectSelection = d3.select(this).style({opacity:"0.7"});
 	// });
 
-	axes.selectAll("rect.shiftrect")
+	shiftrects = axes.selectAll("rect.shiftrect")
 	    .data(sortedMag)
 	    .enter()
 	    .append("rect")
@@ -13726,35 +13762,33 @@ hedotools.shifter = function()
 		"class": function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; },
 		"x": function(d,i) { 
 		    if (d>0) { return figcenter; } 
-		    else { return bigshiftx(d)}
+		    else { return x(d)}
 		},
-		"y": function(d,i) { return bigshifty(i+1); },
+		"y": function(d,i) { return y(i+1); },
 		"height": function(d,i) { return iBarH; },
 		"width": function(d,i) { 
-		    if ((d)>0) { return bigshiftx(d)-bigshiftx(0); }
-		    else { return bigshiftx(0)-bigshiftx(d); } 
+		    if ((d)>0) { return x(d)-x(0); }
+		    else { return x(0)-x(d); } 
 		},
 		"opacity": "0.7",
 		"stroke-width": "1",
 		"stroke": "rgb(0,0,0)"
 	    });
 
-
-
-	var shifttext = axes.selectAll("text.shifttext")
+	shifttext = axes.selectAll("text.shifttext")
 	    .data(sortedMag)
 	    .enter()
 	    .append("text")
 	    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
-	    .attr("x",function(d,i) { if (d>0) {return bigshiftx(d)+2;} else {return bigshiftx(d)-2; } } )
-	    .attr("y",function(d,i) { return bigshifty(i+1)+iBarH; } )
+	    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } )
+	    .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": bigshifttextsize})
 	    .text(function(d,i) { return sortedWords[i]; });
 
 	if (translate) {
 	    // it is one longer than the words, the last entry being what
 	    // everything will be set to on "translate all"
-	    var flipVector = Array(sortedWords.length+1);
+	    flipVector = Array(sortedWords.length+1);
 	    for (var i=0; i<flipVector.length; i++) { flipVector[i] = 0; }
 	    flipVector[flipVector.length-1] = 1;
 	    shifttext.on("click",function(d,i) {
@@ -13777,75 +13811,77 @@ hedotools.shifter = function()
 	if (shiftseldecoder().current === "posup") {
 	    shiftTypeSelect = true;
 	    resetButton();
-	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
 	}
 	else if (shiftseldecoder().current === "negdown") {
 	    shiftTypeSelect = true;
 	    resetButton();
-	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
 	}
 	else if (shiftseldecoder().current === "posdown") {
 	    shiftTypeSelect = true;
 	    resetButton();
-	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
 	}
 	else if (shiftseldecoder().current === "negup") {
 	    shiftTypeSelect = true;
 	    resetButton();
-	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.one").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+	    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	}
 	
 	// draw a white rectangle to hide the shift bars behind the summary shifts
 	// move x,y to 3 and width to -6 to give the bg a little space
-	axes.append("rect").attr("x",3).attr("y",3).attr("width",figwidth-axeslabelmargin.left-5).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
+	topbgrect = axes.append("rect").attr("x",3).attr("y",3).attr("width",figwidth-axeslabelmargin.left-5).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
+
+	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
 
 	// draw the summary things
-	axes.append("line")
+	sepline = axes.append("line")
 	    .attr("x1",0)
 	    .attr("x2",figwidth)
 	    .attr("y1",barHeight)
 	    .attr("y2",barHeight)
 	    .style({"stroke-width" : "1", "stroke": "black"});
 
-	var maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
+	maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 
 	topScale = d3.scale.linear()
 	    .domain([-maxShiftSum,maxShiftSum])
 	    .range([figwidth*.12,figwidth*.88]);
 
 	// define the RHS summary bars so I can add if needed
-	// var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
-	var summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
+	// summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
+	summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
 
-	var typeClass = ["posup","negdown","sumgrey"];
+	typeClass = ["posup","negdown","sumgrey"];
 
 	axes.selectAll(".sumrectR")
 	    .data(summaryArray)
@@ -13877,27 +13913,27 @@ hedotools.shifter = function()
 		    //d3.selectAll("rect.shiftrect, text.shifttext").transition().duration(1000).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    // keep the ones with class "three"
 		    //d3.selectAll("rect.shiftrect.three, text.shifttext.three").transition().duration(1000)
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
 		}
 		else if (i==1) {
 		    shiftTypeSelect = true;
 		    resetButton();
 		    shiftselencoder.varval("negdown");
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		}
 		else if (i==2) {
 		    // shiftTypeSelect = true;
@@ -13919,10 +13955,10 @@ hedotools.shifter = function()
 	// push to the side of d
 	    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
-	// var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
-	var summaryArray = [sumTypes[1],sumTypes[2]];
+	// summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
+	summaryArray = [sumTypes[1],sumTypes[2]];
 
-	var typeClass = ["posdown","negup"];
+	typeClass = ["posdown","negup"];
 
 	axes.selectAll(".sumrectL")
 	    .data(summaryArray)
@@ -13967,27 +14003,27 @@ hedotools.shifter = function()
 		if (i==0) {
 		    shiftselencoder.varval("posdown");
 		    // together
-		    // axes.selectAll("rect.shiftrect.zero, text.shifttext.zero, rect.shiftrect.three, text.shifttext.three, rect.shiftrect.two, text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    // axes.selectAll("rect.shiftrect.zero, text.shifttext.zero, rect.shiftrect.three, text.shifttext.three, rect.shiftrect.two, text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    // separate
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
 		}
 		else if (i==1) {
 		    shiftselencoder.varval("negup");
-		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform","translate(0,0)");
-		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform","translate(0,0)");
-		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		    axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		    axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		    axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		}
 	    } );
 
@@ -14001,18 +14037,37 @@ hedotools.shifter = function()
 	    .text(function(d,i) { if (i == 0) {return "\u2211+\u2193";} else { return"\u2211-\u2191";} })
 	    .attr("x",function(d,i) { return topScale(d)-5; });
 
+	// x label of shift, outside of the SVG
+	xlabel = canvas.append("text")
+	    .text("Per word average happiness shift")
+	    .attr("class","axes-text")
+	    .attr("x",axeslabelmargin.left+figcenter) // 350-20-10 for svg width,  
+	    .attr("y",boxheight-7)
+	    .attr("font-size", "18.0px")
+	    .attr("fill", "#000000")
+	    .attr("style", "text-anchor: middle;");
+
+	ylabel = canvas.append("text")
+	    .text("Word Rank")
+	    .attr("class","axes-text")
+	    .attr("x",15)
+	    .attr("y",figheight/2+60)
+	    .attr("font-size", "18.0px")
+	    .attr("fill", "#000000")
+	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
+
 	function zoomed() {
 	    // if we have zoomed in, we set the y values for each subselection
 	    // console.log(shiftTypeSelect);
 	    if (shiftTypeSelect) {
 		for (var j=0; j<4; j++) {
-		    axes.selectAll("rect.shiftrect."+intStr[j]).attr("y", function(d,i) { return bigshifty(i+1) });
-		    axes.selectAll("text.shifttext."+intStr[j]).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } )
+		    axes.selectAll("rect.shiftrect."+intStr[j]).attr("y", function(d,i) { return y(i+1) });
+		    axes.selectAll("text.shifttext."+intStr[j]).attr("y", function(d,i) { return y(i+1)+iBarH; } )
 		}
 	    }
 	    else {
-		axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return bigshifty(i+1) });
-		axes.selectAll("text.shifttext").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } );
+		axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return y(i+1) });
+		axes.selectAll("text.shifttext").attr("y", function(d,i) { return y(i+1)+iBarH; } );
 	    }
 
 	}; // zoomed
@@ -14021,10 +14076,10 @@ hedotools.shifter = function()
 	    // console.log("reset function");
 	    shiftTypeSelect = false;		
 	    d3.selectAll("rect.shiftrect").transition().duration(1000)
-		.attr("y", function(d,i) { return bigshifty(i+1) })
+		.attr("y", function(d,i) { return y(i+1) })
 		.attr("transform","translate(0,0)");
 	    d3.selectAll("text.shifttext").transition().duration(1000)
-		.attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } )
+		.attr("y", function(d,i) { return y(i+1)+iBarH; } )
 		.attr("transform","translate(0,0)");
 	    // d3.selectAll(".resetbutton").remove();
 	    shiftselencoder.varval("none");
@@ -14036,9 +14091,7 @@ hedotools.shifter = function()
 
 	    d3.selectAll(".resetbutton").remove();
 	    
-	    var shiftsvg = d3.select("#shiftsvg");
-
-	    var resetGroup = shiftsvg.append("g")
+	    var resetGroup = canvas.append("g")
 		.attr("transform","translate("+(0)+","+(56)+") rotate(-90)")
 		.attr("class","resetbutton");
 
@@ -14080,9 +14133,7 @@ hedotools.shifter = function()
 
 	function translateButton() {
 
-	    var shiftsvg = d3.select("#shiftsvg");
-
-	    var translateGroup = shiftsvg.append("g")
+	    var translateGroup = canvas.append("g")
 		.attr("class","translatebutton")
 		.attr("transform","translate("+(0)+","+(136)+") rotate(-90)");
 
@@ -14150,93 +14201,262 @@ hedotools.shifter = function()
 	//     .attr("font-size", "8.0px")
         //     .style({"text-anchor": "end"});
 
-	d3.select(window).on("resize.shiftplot",resizeshift);
-	
-	function resizeshift() {
-	    figwidth = parseInt(d3.select("#figure01").style('width')) - margin.left - margin.right,
-	    width = .775*figwidth
-	    figcenter = width/2;
-
-	    canvas.attr("width",figwidth);
-
-	    x.range([(sortedWords[0].length+3)*9, width-(sortedWords[0].length+3)*9]);
-	    topScale.range([width*.1,width*.9]);
-
-	    bgrect.attr("width",width);
-	    //axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
-	    //      ((1 - 0.125 - 0.775) * figheight) + ")");
-	    
-	    // mainline.attr("d",line);
-
-	    // fix the x axis
-	    canvas.select(".x.axis").call(xAxis);
-
-	    clip.attr("width",width);
-
-	    // get the x label
-	    xlabel.attr("x",(leftOffsetStatic+width/2));
-
-	    // the andy reagan credit
-	    credit.attr("x",width-7);
-
-	    // line separating summary
-	    sepline.attr("x2",width);
-
-	    // all of the lower shift text
-	    axes.selectAll("text.shifttext").attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
-
-	    unclipped_axes.selectAll(".sumrectR")
-		.attr("x",function(d,i) { 
-		    if (d>0) { return figcenter; } 
-		    else { return topScale(d)} } )
-		.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
-
-	    unclipped_axes.selectAll(".sumtextR")
-		.attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
-
-
-	    unclipped_axes.selectAll(".sumrectL")
-		.attr("x",function(d,i) { 
-		    if (i<2) { 
-			return topScale(d);
-		    } 
-		    else { 
-			// place the sum of negatives bar
-			// if they are not opposing
-			if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
-			    // if positive, place at end of other bar
-			    if (d>0) {
-				return topScale((sumTypes[3]+sumTypes[1]));
-			    }
-			    // if negative, place at left of other bar, minus length (+topScale(d))
-			    else {
-				return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
-			    }
-			} 
-			else { 
-			    if (d>0) {return figcenter} 
-			    else { return topScale(d)} }
-		    }
-		})
-		.attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
-
-	    unclipped_axes.selectAll(".sumtextL")
-		.attr("x",function(d,i) { return topScale(d)-5; });
-
-	    axes.selectAll("rect.shiftrect")
-		.attr("x",function(d,i) { 
-		    if (d>0) { 
-			return figcenter;
-		    } 
-		    else { return x(d)} }
-		     )
-		.attr("width",function(d,i) { if (d>0) {return x(d)-figcenter;} else {return figcenter-x(d); } } );
-	}
-
-
 	return hedotools.shifter;
 
     }; // hedotools.shifter.plot
+
+    function replot() {
+	// apply new data to the bars, transition everything
+	// tricky to get the transition right
+
+	var newbars = axes.selectAll("rect.shiftrect").data(sortedMag);
+	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
+	
+	// if we haven't dont a subselection, apply with a transition
+	if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
+	    newbars.transition()
+		.attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+		.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
+		.attr("x",function(d,i) { 
+		    if (d>0) { return figcenter; } 
+		    else { return x(d)} })
+		.attr("height",function(d,i) { return iBarH; } )
+		.attr("width",function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } )
+
+	    newwords.transition()
+		.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
+		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+		.text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+				      else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+				      if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+	}
+	// else apply without a transition
+	else {
+	    newbars
+		.attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
+		.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
+		.attr("x",function(d,i) { 
+		    if (d>0) { return figcenter; } 
+		    else { return x(d)} })
+		.attr("height",function(d,i) { return iBarH; } )
+		.attr("width",function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } )
+
+	    newwords
+		.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
+		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
+		.text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+				      else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
+				      if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+
+	    if (shiftseldecoder().current === "posup") {
+		axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    }
+	    else if (shiftseldecoder().current === "negdown") {
+		axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+	    }
+	    else if (shiftseldecoder().current === "posdown") {
+		axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+	    }
+	    else if (shiftseldecoder().current === "negup") {
+		axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.one").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
+		axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
+		axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+		axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
+	    }
+	}
+
+	maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
+
+	topScale.domain([-maxShiftSum,maxShiftSum]);
+
+	// define the RHS summary bars so I can add if needed
+	// var summaryArray = [sumTypes[3],sumTypes[0],sumTypes[3]+sumTypes[1],d3.sum(sumTypes)];
+	summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
+
+	var newRtopbars = axes.selectAll(".sumrectR")
+	    .data(summaryArray);
+	
+	newRtopbars.transition()
+	    .attr("x",function(d,i) { 
+		if (d>0) { 
+		    return figcenter;
+		} 
+		else { return topScale(d)} })
+	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	var newRtoptext = axes.selectAll(".sumtextR")
+	    .data([sumTypes[3],sumTypes[0],d3.sum(sumTypes)]);
+
+	newRtoptext.transition().attr("class", "sumtextR")
+	    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
+	    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+	
+	summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
+
+	var newLtopbars = axes.selectAll(".sumrectL")
+	    .data(summaryArray);
+
+	newLtopbars.transition().attr("fill", function(d,i) { 
+	    if (i==0) {
+		return "#FFFFB3";
+	    } 
+	    else if (i==1) {
+		return "#4C4CFF";
+	    } 
+	    else {
+		// choose color based on whether increasing/decreasing wins
+		if (d>0) {
+		    return "#B3B3FF";
+		}
+		else {
+		    return "#4C4CFF";
+		}
+	    }
+	})
+	    .attr("x",function(d,i) { 
+		if (i<2) { 
+		    return topScale(d);
+		} 
+		else { 
+		    // place the sum of negatives bar
+		    // if they are not opposing
+		    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+			// if positive, place at end of other bar
+			if (d>0) {
+			    return topScale((sumTypes[3]+sumTypes[1]));
+			}
+			// if negative, place at left of other bar, minus length (+topScale(d))
+			else {
+			    return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+			}
+		    } 
+		    else { 
+			if (d>0) {return figcenter} 
+			else { return topScale(d)} }
+		}
+	    })
+	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	var newLtoptext = axes.selectAll(".sumtextL")
+	    .data([sumTypes[1],sumTypes[2]]);
+
+	newLtoptext.transition().attr("x",function(d,i) { return topScale(d)-5; });
+
+	return hedotools.shifter;
+	
+    }; // hedotools.shifter.replot
+
+
+    d3.select(window).on("resize.shiftplot",resizeshift);
+    
+    function resizeshift() {
+	fullwidth = parseInt(figure.style("width"));
+	boxwidth = fullwidth-margin.left-margin.right;
+	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
+	figcenter = figwidth/2;
+	console.log(figcenter);
+
+	canvas.attr("width", boxwidth);
+	axes.attr("width", figwidth);
+
+	x.range([maxWidth+10,figwidth-maxWidth-10]);
+	
+	topScale.range([figwidth*.12,figwidth*.88]);
+
+	bgrect.attr("width",figwidth);
+	topbgrect.attr("width",figwidth-5);
+	bottombgrect.attr("width",figwidth-5);
+
+	// fix the x axis
+	// canvas.select(".x.axis").call(xAxis);
+
+	// get the x label
+	xlabel.attr("x",(leftOffsetStatic+figwidth/2));
+
+	// the andy reagan credit
+	// credit.attr("x",width-7);
+
+	// line separating summary
+	sepline.attr("x2",figwidth);
+
+	axes.selectAll(".sumrectR")
+	    .attr("x",function(d,i) { 
+		if (d>0) { return figcenter; } 
+		else { return topScale(d)} } )
+	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	axes.selectAll(".sumtextR")
+	    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
+
+	axes.selectAll(".sumrectL")
+	    .attr("x",function(d,i) { 
+		if (i<2) { 
+		    return topScale(d);
+		} 
+		else { 
+		    // place the sum of negatives bar
+		    // if they are not opposing
+		    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+			// if positive, place at end of other bar
+			if (d>0) {
+			    return topScale((sumTypes[3]+sumTypes[1]));
+			}
+			// if negative, place at left of other bar, minus length (+topScale(d))
+			else {
+			    return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+			}
+		    } 
+		    else { 
+			if (d>0) {return figcenter} 
+			else { return topScale(d)} }
+		}
+	    })
+	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } );
+
+	axes.selectAll(".sumtextL")
+	    .attr("x",function(d,i) { return topScale(d)-5; });
+
+	axes.selectAll("rect.shiftrect")
+	// this variable does not seem to do the trick...
+	// shiftrects
+	    .attr("x",function(d,i) { 
+		if (d>0) { return figcenter; } 
+		else { return x(d); } })
+	    .attr("width",function(d,i) { 
+		if ((d)>0) { return x(d)-x(0); } 
+		else { return x(0)-x(d); } });
+
+	// all of the lower shift text
+	shifttext.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
+
+    }
 
     var opublic = { shift: shift,
 		    ignore: ignore,
@@ -14246,7 +14466,9 @@ hedotools.shifter = function()
 		    setfigure: setfigure,
 		    setdata: setdata,
 		    plot: plot, 
+		    replot: replot, 
 		    setText: setText,
+		    setWidth: setWidth,
 		    setHeight: setHeight,
 		    _reset: _reset,
 		    _stoprange: _stoprange,

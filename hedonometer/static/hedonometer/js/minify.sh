@@ -6,7 +6,7 @@ fi
 
 # cat first
 echo "catting index"
-cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.js loadlabMT.js shift.js timeline.js > index-all.js
+cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.js loadlabMT.js shift.js hedotools.init.js hedotools.shifter.js timeline.js > index-all.js
 
 echo "catting books"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js hedotools.init.js hedotools.shifter.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
