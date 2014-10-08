@@ -9,10 +9,10 @@ echo "catting index"
 cat d3.andy.js jquery-1.11.0.min.js bootstrap.js bootstrap-datepicker.js urllib.js loadlabMT.js shift.js timeline.js > index-all.js
 
 echo "catting books"
-cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js hedotools.init.js hedotools.shifter.js plotShift-books.js shift-foreign.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
+cat d3.andy.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js hedotools.init.js hedotools.shifter.js drawLens-chapters.js drawBookTimeseries.js selectChapter.js selectChapterTop.js computeHappsChapters.js books-on-load.js > books-all.js
 
 # echo "catting maps"
-# cat jquery-1.11.0.min.js bootstrap.min.js d3.andy.js urllib.js topojson.v1.min.js plotShift-main.js shift-geo.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
+# cat jquery-1.11.0.min.js bootstrap.min.js d3.andy.js urllib.js topojson.v1.min.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
 
 # minify second
 echo "minifying index"
