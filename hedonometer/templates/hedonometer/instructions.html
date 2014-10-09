@@ -93,17 +93,56 @@
 	<div class="col-xs-0 col-sm-0">
 	</div>
 	<div class="col-xs-12 col-sm-7 relative">
-	  <h3 id="wordshifts">How our word shifts work &mdash; a diagram plus a two minute video</h3>
+	  <h3 id="timeseries">Exploring Hedonometer 2.0′s global Twitter time series</h3>
 
-	  <h4 id="wordshifts-diagram">Diagram:</h4>
+	  <h4 id="timeseries-overview">Overview</h4>
 
-	  <img src="{% static "hedonometer/graphics/wordshift-explanation005.jpg" %}" class="img-responsive">
+	  <p>In this post, we’ll run through the basic features of our new interactive happiness time series for Twitter. We’ll first use words and pictures to orient your experience, and then finish with a video explanation.</p>
+
+	  <p>Our method for measuring happiness, which we describe in a companion post and more fully in our foundational papers, relies on perceived happiness scores for individual words. The scale we use is 1 to 9, with 1 meaning extremely negative, 5 neutral, and 9 extremely positive. Our general experience with our measure is that scores for texts range between 5 and 7.</p>
+
+	  <p>When you first visit hedonometer.org, you’ll see the daily happiness time series for the most recent 18 months of Twitter. For this overall visualization, we’ve analysed around 10% of all tweets going back to the end of 2008 using our English language Hedonometer (we’ll be adding time series for more languages soon).</p>
+
+	  <p>Read the full post <a href="http://www.uvm.edu/storylab/2014/10/06/exploring-hedonometer-2-0s-global-twitter-time-series/" target="_blank">here.</a></p>
+
+
+	  <h4 id="timeseries-video">Video:</h4>
+	  <p>Time series explained:</p>
+ 
+	  <iframe class="col-xs-12 col-sm-12 youtube" height="370" src="http://www.youtube.com/embed/ItfMpW9pSoI" frameborder="0" allowfullscreen></iframe>
+
+	  <p>
+	    <br />
+	  </p>
+
+	  <h3 id="wordshifts">Measuring happiness and using wordshifts</h3>
+
+	  <h4 id="wordshifts-overview">Overview</h4>
+
+	  <p>With our Hedonometer, we’re measuring how a (very capable) individual might feel when reading a large text—a day’s worth of tweets from New York City, the first chapter of Moby Dick, or the music lyrics from all UK pop songs released in 1983.</p>
+
+	  <h5>Measuring happiness:</h5>
+
+	  <p>We measure the happiness of large-scale texts using what we call a lexical meter. (We’ll be introducing two other kinds of meters in the near future: ground truth meters and bootstrap meters.)</p>
+
+<p>We’ll describe two fundamental pieces of the Hedonometer in this post:</p>
+
+<ol><li>1. How our simple measure works;</li>
+<li>2. How to understand changes in happiness scores through our interactive word shifts.</li>
+</ol>
+
+	  <h5>Interactive Word shifts:</h5>
+
+	  <p>Okay, now that we can measure happiness (or any other quantity for which we have a lexical, ground-truth, or bootstrap meter), we need to understand why scores go up and down. There are many sentiment measures around but for the most part they are opaque in their workings. The linearity of our measure allows us to show in great detail why one text is happier than another through what we call word shifts.</p>
+
+	  <p>Read the full post <a href="http://www.uvm.edu/storylab/2014/10/06/hedonometer-2-0-measuring-happiness-and-using-word-shifts/" target="_blank">here.</a></p>
+
 
 	  <h4 id="wordshifts-video">Video:</h4>
-	  <p>Word shifts explained in two minutes:</p>
+	  <p>Word shifts explained:</p>
  
-	  <!-- width="640" height="340" -->
-	  <iframe class="col-xs-12 col-sm-12 youtube" height="370" src="http://www.youtube.com/embed/Kat9vyo5xQA" frameborder="0" allowfullscreen></iframe>
+	  <iframe class="col-xs-12 col-sm-12 youtube" height="370" src="http://www.youtube.com/embed/Z0M2k8TQ-t8" frameborder="0" allowfullscreen></iframe>
+
 	  <p>
 	    <br />
 	  </p>
@@ -113,6 +152,10 @@
 	  Funny story: we were lying when we said there'd be instructions for maps.
 	  We will redeem ourselves soon.
 	  </p>
+
+	  <p>
+	    <br />
+	  </p>
 	  
 	</div>
 	<div class="col-xs-0 col-sm-0">
@@ -121,9 +164,16 @@
 	  <div class="hedo-sidebar hidden-print hidden-xs hidden-sm" role="complementary">
 	    <ul class="nav hedo-sidenav">
 	      <li>
+		<a href="#timeseries">Timeseries</a>
+		<ul class="nav">
+		  <li><a href="#timeseries-overview">Overview</a></li>
+		  <li><a href="#timeseries-video">Video</a></li>
+		</ul>
+	      </li>
+	      <li>
 		<a href="#wordshifts">Wordshifts</a>
 		<ul class="nav">
-		  <li><a href="#wordshifts-diagram">Diagram</a></li>
+		  <li><a href="#wordshifts-overview">Overview</a></li>
 		  <li><a href="#wordshifts-video">Video</a></li>
 		</ul>
 	      </li>
