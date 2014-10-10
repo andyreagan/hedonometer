@@ -5,10 +5,14 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
+from mysite.settings import STATIC_ROOT
 import logging
 logger = logging.getLogger(__name__)
 from hedonometer.models import Embeddable
 import csv
+import subprocess
+import codecs
+
 
 # Create your views here.
 def dummy(request):
@@ -78,7 +82,7 @@ class csv_view(View):
 
     # Create the HttpResponse object with the appropriate CSV header.
     def get(self, request):
-        print request
+        # print request
         response = HttpResponse(content_type='text/csv')
         response['Content-Disposition'] = 'attachment; filename="shift.csv"'
 
@@ -89,13 +93,31 @@ class csv_view(View):
         return response
 
     def post(self, request):
-        print request
+        # print request
 
-        response = HttpResponse(content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="shift.csv"'
+        print STATIC_ROOT
+    
+        output_format = request.POST['output_format']
 
-        writer = csv.writer(response)
-        writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
-        writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+        f = codecs.open('tmp.svg','w','utf8')
+        f.write(request.POST['data'])
+        f.close()
+
+        if output_format == 'pdf':
+            subprocess.call(['inkscape','-f','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','-A','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.pdf'])
+            f = open('tmp.pdf','r')
+            response = HttpResponse(f.read(), content_type='application/pdf')
+            f.close()
+            response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.pdf"'.format(request.POST['date'])
+            subprocess.call(['rm','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.pdf'])
+        else:
+            subprocess.call(['inkscape','-f','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','-e','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.png'])
+            f = open('tmp.png','r')
+            response = HttpResponse(f.read(), content_type='application/png')
+            f.close()
+            response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.png"'.format(request.POST['date'])
+            subprocess.call(['rm','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.png'])
 
         return response
+
+

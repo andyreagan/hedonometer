@@ -79,13 +79,8 @@
 	    <h4>Download</h4>
 	    <div class="btn-group">
 	      <a type="button" class="btn btn-default" id="svgbutton">SVG</a>
-	      <!-- <form id="svgform" method="post" action=""> -->
-	      <!-- 	<input type="hidden" id="output_format" name="output_format" value=""> -->
-	      <!-- 	<input type="hidden" id="data" name="data" value=""> -->
-	      <!-- 	<button type="submit" class="btn btn-default" id="pdfbutton" value="submit">PDF</button> -->
-	      <!-- </form> -->
-	      <!-- <button type="button" class="btn btn-default" id="pdfbutton2">PDFAJAX</button> -->
-	      <!-- <a type="button" class="btn btn-default" id="pngbutton">PNG</a> -->
+	      <button type="button" class="btn btn-default" id="pdfbutton">PDF</button>
+	      <button type="button" class="btn btn-default" id="pngbutton">PNG</button>
 	    </div>
 	    <h4>Embed</h4>
 	    <p>Copy this code:</p>
@@ -98,6 +93,13 @@
 	</div>
       </div>
     </div>
+
+    <!-- hidden form -->
+    <form id="svgform" method="post" action="convertSVG">{% csrf_token %}
+      <input type="hidden" id="output_format" name="output_format" value="">
+      <input type="hidden" id="data" name="data" value="">
+      <input type="hidden" id="date" name="date" value="">
+    </form>
 {% endblock %}
 
 {% block bottomjs %}

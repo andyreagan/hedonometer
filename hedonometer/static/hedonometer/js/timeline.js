@@ -1417,40 +1417,27 @@
 	$('#linktextarea').text(window.location.href);
 	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'-prev7/'+datedecoder().current+'-sum/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
 
-	
 	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
 	string = crowbar('shiftsvg');
 	url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(string);
 	document.getElementById('svgbutton').setAttribute("download", filename + ".svg")
 	document.getElementById('svgbutton').setAttribute("href", url);
 	
-	// // hit the view that converts
-	// // document.getElementById('pngbutton')['data'].value = url;
-	// document.getElementById('pngbutton').setAttribute("href", "convertSVG");
+	$('#pdfbutton').click(function() {
+	    var form = document.getElementById('svgform');
+	    form['output_format'].value = 'pdf';
+	    form['date'].value = cformat($('#dp1').datepicker('getDate'));
+	    form['data'].value = string;
+	    form.submit();
+	})
 
-	// var form = document.getElementById('svgform')
-	// form['data'].value = url;
-	// // should submit with the pdf button
-	// // document.getElementById('pngbutton').setAttribute("href", "/convertSVG");
-
-	// $('#pdfbutton2').on('click', function() {
-	//     $.ajax({
-	// 	type: "POST",
-	// 	url: 'convertSVG',
-	// 	data: {
-	// 	    // csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
-	// 	    // board: board,
-	// 	    // move_list: move_list.join(','),
-	// 	    svgdata: url,
-	// 	},
-	// 	success: function(data) {
-	// 	    alert("Congratulations! You scored: "+data);
-	// 	},
-	// 	error: function(xhr, textStatus, errorThrown) {
-	// 	    alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
-	// 	}
-	//     });
-	// });
+	$('#pngbutton').click(function() {
+	    var form = document.getElementById('svgform');
+	    form['output_format'].value = 'png';
+	    form['date'].value = cformat($('#dp1').datepicker('getDate'));
+	    form['data'].value = string;
+	    form.submit();
+	})
 
 
     })

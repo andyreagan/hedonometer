@@ -16007,6 +16007,22 @@ hedotools.shifter = function()
 	// 	}
 	//     });
 	// });
+	
+	$('#pdfbutton').click(function() {
+	    var form = document.getElementById('svgform');
+	    form['output_format'].value = 'pdf';
+	    form['date'].value = cformat($('#dp1').datepicker('getDate'));
+	    form['data'].value = string;
+	    form.submit();
+	})
+
+	$('#pngbutton').click(function() {
+	    var form = document.getElementById('svgform');
+	    form['output_format'].value = 'png';
+	    form['date'].value = cformat($('#dp1').datepicker('getDate'));
+	    form['data'].value = string;
+	    form.submit();
+	})
 
 
     })
