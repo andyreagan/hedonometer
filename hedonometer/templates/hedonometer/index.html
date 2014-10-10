@@ -47,6 +47,8 @@
           <div class="modal-footer" id="moveshiftherefooter">
             <div class="addthis_sharing_toolbox pull-left"></div>
 
+            <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button>
+	    
             <div class="input-group restrain pull-right">
               <span class="input-group-btn">
                 <button class="btn btn-default left" type="button">
@@ -64,11 +66,43 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="myModal2" data-backdrop="static">
+      <div class="modal-dialog modal-sm">
+	<div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title">Use wordshift</h4>
+          </div><div class="container"></div>
+          <div class="modal-body">
+	    <h4>Direct Link</h4>
+	    <textarea class="form-control input-sm" rows="2" id="linktextarea">http://hedonometer.org/index.html?date=2014-07-07</textarea>
+	    <h4>Download</h4>
+	    <div class="btn-group">
+	      <a type="button" class="btn btn-default" id="svgbutton">SVG</a>
+	      <!-- <form id="svgform" method="post" action=""> -->
+	      <!-- 	<input type="hidden" id="output_format" name="output_format" value=""> -->
+	      <!-- 	<input type="hidden" id="data" name="data" value=""> -->
+	      <!-- 	<button type="submit" class="btn btn-default" id="pdfbutton" value="submit">PDF</button> -->
+	      <!-- </form> -->
+	      <!-- <button type="button" class="btn btn-default" id="pdfbutton2">PDFAJAX</button> -->
+	      <!-- <a type="button" class="btn btn-default" id="pngbutton">PNG</a> -->
+	    </div>
+	    <h4>Embed</h4>
+	    <p>Copy this code:</p>
+	    <textarea class="form-control input-sm" rows="4" id="embedtextarea"><iframe src="http://hedonometer.org/embed/main/2014-07-07-prev7/2014-07-07-sum/?wordtypes=negup" width="590" height="800" frameborder="0" scrolling="no"></iframe></textarea>
+          </div>
+          <div class="modal-footer">
+            <a href="#" data-dismiss="modal" class="btn">Close</a>
+            <!-- <a href="#" class="btn btn-primary">Save changes</a> -->
+          </div>
+	</div>
+      </div>
+    </div>
 {% endblock %}
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/index-all.min.js" %}"></script>
-    <!-- <script src="{% static "hedonometer/js/index-all.js" %}"></script> -->
+    <!-- <script src="{% static "hedonometer/js/index-all.min.js" %}"></script> -->
+    <script src="{% static "hedonometer/js/index-all.js" %}"></script>
 
 {% endblock %}

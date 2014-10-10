@@ -107,8 +107,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 
-# from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
-# settings.py
+# # from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
+# # settings.py
 # LOGGING = {
 #     'version': 1,
 #     'disable_existing_loggers': False,
@@ -141,3 +141,6 @@ STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 #         },
 #     }
 # }
+
+
+

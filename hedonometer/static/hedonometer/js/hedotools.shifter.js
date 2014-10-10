@@ -1215,8 +1215,9 @@ hedotools.shifter = function()
 	
     }; // hedotools.shifter.replot
 
-
-    d3.select(window).on("resize.shiftplot",resizeshift);
+    if (!widthsetexplicitly) {
+	d3.select(window).on("resize.shiftplot",resizeshift);
+    }
     
     function resizeshift() {
 	fullwidth = parseInt(figure.style("width"));

@@ -891,14 +891,13 @@
 	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
-		console.log("see if all four vectors are here:");
-		console.log(lens);
-		console.log(words);
-		console.log(refFvec);
-		console.log(compFvec);
-		console.log(d3.select('#moveshifthere'));
+		// console.log("see if all four vectors are here:");
+		// console.log(lens);
+		// console.log(words);
+		// console.log(refFvec);
+		// console.log(compFvec);
+		// console.log(d3.select('#moveshifthere'));
 
-		console.log("no shift will be drawn");
 		hedotools.shifter._refF(refFvec);
 		hedotools.shifter._compF(compFvec);
 		hedotools.shifter._words(words);
@@ -915,6 +914,10 @@
 	}) // metadata
 
 	// danger! this calls next day
+	// so, it's replotting
+	// but this does get the main text up, and set the date
+	// the previous call should really just initialize the plot with blank data
+	// since we're loading twice as much!
 	$('#dp1').datepicker('setDate',popdate);
 	
     }; // transitionBigShift
@@ -1408,6 +1411,104 @@
     var rightbutton = d3.select("button.right").on("click",function(d) { 
 	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
     });
+
+    $('#myModal2').on('show.bs.modal', function (e) {
+	console.log("embed modal shown");
+	$('#linktextarea').text(window.location.href);
+	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'-prev7/'+datedecoder().current+'-sum/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
+
+	
+	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
+	string = crowbar('shiftsvg');
+	url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(string);
+	document.getElementById('svgbutton').setAttribute("download", filename + ".svg")
+	document.getElementById('svgbutton').setAttribute("href", url);
+	
+	// // hit the view that converts
+	// // document.getElementById('pngbutton')['data'].value = url;
+	// document.getElementById('pngbutton').setAttribute("href", "convertSVG");
+
+	// var form = document.getElementById('svgform')
+	// form['data'].value = url;
+	// // should submit with the pdf button
+	// // document.getElementById('pngbutton').setAttribute("href", "/convertSVG");
+
+	// $('#pdfbutton2').on('click', function() {
+	//     $.ajax({
+	// 	type: "POST",
+	// 	url: 'convertSVG',
+	// 	data: {
+	// 	    // csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value,
+	// 	    // board: board,
+	// 	    // move_list: move_list.join(','),
+	// 	    svgdata: url,
+	// 	},
+	// 	success: function(data) {
+	// 	    alert("Congratulations! You scored: "+data);
+	// 	},
+	// 	error: function(xhr, textStatus, errorThrown) {
+	// 	    alert("Please report this error: "+errorThrown+xhr.status+xhr.responseText);
+	// 	}
+	//     });
+	// });
+
+
+    })
+
+    var crowbar = function(s) {
+	// actually get the svg out, using a lot of the crowbar code
+	var source = '';
+	var doctype = '<?xml version="1.0" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">';
+	var prefix = {
+	    xmlns: "http://www.w3.org/2000/xmlns/",
+	    xlink: "http://www.w3.org/1999/xlink",
+	    svg: "http://www.w3.org/2000/svg"
+	}
+
+	var styles = '';
+        var styleSheets = document.styleSheets;
+
+	for (var i=0; i < styleSheets.length; i++) {
+	    processStyleSheet(styleSheets[i]);
+	}
+
+	// much simplified code from the crowbar
+	// don't care about illustrator
+	// and i don't use import rules
+	function processStyleSheet(ss) {
+	    if (ss.cssRules) {
+		for (var i = 0; i < ss.cssRules.length; i++) {
+		    var rule = ss.cssRules[i];
+		    styles += "\n" + rule.cssText;
+		}
+	    }
+	}
+
+	// mostly untouched from the crowbar
+	var svg = document.getElementById(s);
+	svg.setAttribute("version", "1.1");
+
+	var defsEl = document.createElement("defs");
+	svg.insertBefore(defsEl, svg.firstChild); 
+	var styleEl = document.createElement("style")
+	defsEl.appendChild(styleEl);
+	styleEl.setAttribute("type", "text/css");
+	svg.removeAttribute("xmlns");
+	svg.removeAttribute("xlink");
+	// These are needed for the svg
+	if (!svg.hasAttributeNS(prefix.xmlns, "xmlns")) {
+	    svg.setAttributeNS(prefix.xmlns, "xmlns", prefix.svg);
+	}
+	if (!svg.hasAttributeNS(prefix.xmlns, "xmlns:xlink")) {
+	    svg.setAttributeNS(prefix.xmlns, "xmlns:xlink", prefix.xlink);
+	}
+	
+	var svgxml = (new XMLSerializer()).serializeToString(svg)
+	    .replace('</style>', '<![CDATA[' + styles + ']]></style>');
+	source += doctype + svgxml;
+
+	return source;
+    }
 
     console.log("enjoy :)");
 

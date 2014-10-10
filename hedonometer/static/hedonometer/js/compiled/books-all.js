@@ -14373,8 +14373,9 @@ hedotools.shifter = function()
 	
     }; // hedotools.shifter.replot
 
-
-    d3.select(window).on("resize.shiftplot",resizeshift);
+    if (!widthsetexplicitly) {
+	d3.select(window).on("resize.shiftplot",resizeshift);
+    }
     
     function resizeshift() {
 	fullwidth = parseInt(figure.style("width"));
@@ -14488,7 +14489,6 @@ hedotools.shifter = function()
 
     return opublic;
 }();
-
  function drawLens(figure,lens) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window

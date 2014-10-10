@@ -2,11 +2,13 @@
 
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
+from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
 import logging
 logger = logging.getLogger(__name__)
 from hedonometer.models import Embeddable
+import csv
 
 # Create your views here.
 def dummy(request):
@@ -72,3 +74,28 @@ def parser(request):
     
     # return HttpResponseRedirect("/embed/"+some_hash+"/")
 
+class csv_view(View):
+
+    # Create the HttpResponse object with the appropriate CSV header.
+    def get(self, request):
+        print request
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="shift.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+        writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+        return response
+
+    def post(self, request):
+        print request
+
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="shift.csv"'
+
+        writer = csv.writer(response)
+        writer.writerow(['First row', 'Foo', 'Bar', 'Baz'])
+        writer.writerow(['Second row', 'A', 'B', 'C', '"Testing"', "Here's a quote"])
+
+        return response
