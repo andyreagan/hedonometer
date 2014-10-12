@@ -37,6 +37,20 @@ def embedMain(request,dateref,datecomp):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
+def shifttest(request,reffile,compfile):
+    # # but I do need a dates
+    # logger.debug(some_hash)
+
+    filenames = {'refFile': "/static/hedonometer/"+reffile+".csv",
+                 'compFile': "/static/hedonometer/"+compfile+".csv",
+    }
+
+    logger.debug(filenames)
+    # logger.debug(Context(filenames))
+
+    # now pass those into the view
+    return render(request, 'hedonometer/shifttest.html', Context(filenames))
+
 def embedUpload(request,some_hash):
     # don't expect any post data
     # logger.debug(request.POST)
