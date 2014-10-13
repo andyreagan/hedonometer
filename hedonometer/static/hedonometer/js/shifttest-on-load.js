@@ -64,6 +64,7 @@ hedotools.loader = function() {
 	}
 	hedotools.shifter.shift(refFvec,compFvec,lens,words);
 	hedotools.shifter.setfigure(d3.select('#shift01')).plot();
+	hedotools.shifter.drawlogo();
     };
 
     var opublic = { load: load,

@@ -1345,7 +1345,7 @@
 
 		// modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
 
-		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3)]);
+		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(2)]);
 
 		// modalbody.insert("p","svg").text(function() {
 		//     var head = "What's making this day ";
@@ -1426,12 +1426,19 @@
 	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
     });
 
+    $('#myModal2').on('hidden.bs.modal', function (e) {
+	hedotools.shifter.resetbuttontoggle(true);
+    });
+
     $('#myModal2').on('show.bs.modal', function (e) {
 	console.log("embed modal shown");
 	$('#linktextarea').text(window.location.href);
 	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'-prev7/'+datedecoder().current+'-sum/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
 
 	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
+
+	// turn off the reset button
+	hedotools.shifter.resetbuttontoggle(false);
 	string = crowbar('shiftsvg');
 	url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(string);
 	document.getElementById('svgbutton').setAttribute("download", filename + ".svg")

@@ -13332,7 +13332,7 @@ hedotools.shifter = function()
     var boxheight = fullheight-margin.top-margin.bottom;
 
     // margin inside
-    var axeslabelmargin = {top: 0, right: 0, bottom: 25, left: 20};
+    var axeslabelmargin = {top: 0, right: 3, bottom: 25, left: 23};
     
     // inner width and height
     // used for the axes
@@ -13428,6 +13428,12 @@ hedotools.shifter = function()
     var _reset = function(_) {
 	if (!arguments.length) return reset;
 	reset = _;
+	return hedotools.shifter;
+    }
+
+    var resetbuttontoggle = function(_) {
+	if (!arguments.length) return reset;
+	resetButton(_);
 	return hedotools.shifter;
     }
 
@@ -13717,7 +13723,7 @@ hedotools.shifter = function()
 	logowidth = 120;
 	// not working yet
 	canvas.append('image')
-	    .attr({ 'x': (boxwidth-80), 
+	    .attr({ 'x': (boxwidth-80-10), 
 		    'y': '0',
 		    'width': '80',
 		    'height': '80',
@@ -13945,7 +13951,7 @@ hedotools.shifter = function()
 	// check if there is a word selection to apply
 	if (shiftseldecoder().current === "posup") {
 	    shiftTypeSelect = true;
-	    resetButton();
+	    resetButton(true);
 	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -13957,7 +13963,7 @@ hedotools.shifter = function()
 	}
 	else if (shiftseldecoder().current === "negdown") {
 	    shiftTypeSelect = true;
-	    resetButton();
+	    resetButton(true);
 	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
 	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
 	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -13969,7 +13975,7 @@ hedotools.shifter = function()
 	}
 	else if (shiftseldecoder().current === "posdown") {
 	    shiftTypeSelect = true;
-	    resetButton();
+	    resetButton(true);
 	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -13981,7 +13987,7 @@ hedotools.shifter = function()
 	}
 	else if (shiftseldecoder().current === "negup") {
 	    shiftTypeSelect = true;
-	    resetButton();
+	    resetButton(true);
 	    axes.selectAll("rect.shiftrect.zero").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("text.shifttext.zero").attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	    axes.selectAll("rect.shiftrect.one").attr("y", function(d,i) { return y(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -14004,7 +14010,7 @@ hedotools.shifter = function()
 	    .enter()
 	    .append("text")
 	    .attr("y",function(d,i) { return (i+1)*17; })
-	    .attr("x",0)
+	    .attr("x",3)
 	    .attr("class","titletext")
 	    .style({ 'font-family': 'Helvetica Neue',
 		     'font-size': '14px',
@@ -14088,7 +14094,7 @@ hedotools.shifter = function()
 	    .on('click', function(d,i) { 
 		if (i==0) {
 		    shiftTypeSelect = true;
-		    resetButton();
+		    resetButton(true);
 		    shiftselencoder.varval('posup');
 		    // shoot them all away
 		    //d3.selectAll("rect.shiftrect, text.shifttext").transition().duration(1000).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -14105,7 +14111,7 @@ hedotools.shifter = function()
 		}
 		else if (i==1) {
 		    shiftTypeSelect = true;
-		    resetButton();
+		    resetButton(true);
 		    shiftselencoder.varval("negdown");
 		    axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1) }).attr("transform","translate(0,0)");
 		    axes.selectAll("text.shifttext.zero").transition().duration(1000).attr("y", function(d,i) { return y(i+1)+iBarH; } ).attr("transform","translate(0,0)");
@@ -14186,7 +14192,7 @@ hedotools.shifter = function()
 	    })
 	    .on('click', function(d,i) {
 		shiftTypeSelect = true;
-		resetButton();
+		resetButton(true);
 		if (i==0) {
 		    shiftselencoder.varval("posdown");
 		    // together
@@ -14237,11 +14243,11 @@ hedotools.shifter = function()
 	ylabel = canvas.append("text")
 	    .text("Word Rank")
 	    .attr("class","axes-text")
-	    .attr("x",15)
+	    .attr("x",18)
 	    .attr("y",figheight/2+60+toptextheight)
 	    .attr("font-size", "18.0px")
 	    .attr("fill", "#000000")
-	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60+toptextheight) + ")");
+	    .attr("transform", "rotate(-90.0," + (18) + "," + (figheight/2+60+toptextheight) + ")");
 
 	function zoomed() {
 	    // if we have zoomed in, we set the y values for each subselection
@@ -14260,13 +14266,13 @@ hedotools.shifter = function()
 	}; // zoomed
 
 	credit = axes.selectAll('text.credit')
-	    .data(['visuzliation by','@andyreagan'])
+	    .data(['visualization by','@andyreagan','word shifts by','@hedonometer'])
 	    .enter()
 	    .append('text')
             .attr({'class': 'credit',
 		   'fill': '#B8B8B8',
 		   'x': (figwidth-5),
-		   'y': function(d,i) { return figheight-17+i*10; },
+		   'y': function(d,i) { return figheight-35+i*10; },
 		   'font-size': '8.0px', })
             .style({'text-anchor': 'end', })
 	    .html(function(d) { return d; });
@@ -14279,7 +14285,7 @@ hedotools.shifter = function()
 
 	if (reset) {
 	    // call it
-	    resetButton();
+	    resetButton(true);
 	}
 
 	if (translate) {
@@ -14304,43 +14310,51 @@ hedotools.shifter = function()
 	shiftselencoder.destroy();
     } // resetfun
 
-    function resetButton() {
+    function resetButton(showb) {
 	// console.log("resetbutton function");
 
+	// console.log(showb);
+	// showb = showb || true;
+	console.log("showing reset button?");
+	console.log(showb);
 	d3.selectAll(".resetbutton").remove();
+
+	if (showb) {
 	
-	var resetGroup = canvas.append("g")
-	    .attr("transform","translate("+(1)+","+(56+toptextheight)+") rotate(-90)")
-	    .attr("class","resetbutton");
+	    var resetGroup = canvas.append("g")
+		.attr("transform","translate("+(4)+","+(56+toptextheight)+") rotate(-90)")
+		.attr("class","resetbutton");
 
-	resetGroup.append("rect")
-	    .attr("x",0)
-	    .attr("y",0)
-	    .attr("rx",3)
-	    .attr("ry",3)
-	    .attr("width",48)
-	    .attr("height",17)
-	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-	    .style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
+	    resetGroup.append("rect")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("rx",3)
+		.attr("ry",3)
+		.attr("width",48)
+		.attr("height",17)
+		.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+		.style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
 
-	resetGroup.append("text")
-	    .text("Reset")
-	    .attr("x",6)
-	    .attr("y",13)
-	    .attr("font-size", "13.0px");
+	    resetGroup.append("text")
+		.text("Reset")
+		.attr("x",6)
+		.attr("y",13)
+		.attr("font-size", "13.0px");
 
-	resetGroup.append("rect")
-	    .attr("x",0)
-	    .attr("y",0)
-	    .attr("rx",3)
-	    .attr("ry",3)
-	    .attr("width",48)
-	    .attr("height",18)
-	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-	    .style({"opacity": "0.0"})
-	    .on("click",function() { 
-		resetfun();
-	    });
+	    resetGroup.append("rect")
+		.attr("x",0)
+		.attr("y",0)
+		.attr("rx",3)
+		.attr("ry",3)
+		.attr("width",48)
+		.attr("height",18)
+		.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+		.style({"opacity": "0.0"})
+		.on("click",function() { 
+		    resetfun();
+		});
+
+	}
 	
     }; // resetButton
 
@@ -14350,7 +14364,7 @@ hedotools.shifter = function()
 
 	var translateGroup = canvas.append("g")
 	    .attr("class","translatebutton")
-	    .attr("transform","translate("+(0)+","+(136+toptextheight)+") rotate(-90)");
+	    .attr("transform","translate("+(4)+","+(136+toptextheight)+") rotate(-90)");
 
 	translateGroup.append("rect")
 	    .attr("x",0)
@@ -14436,7 +14450,7 @@ hedotools.shifter = function()
 	toptextheight = comparisonText.length*17+13;
 	console.log(toptextheight);
 
-	resetButton();
+	resetButton(true);
 	
 	// reset this
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom - toptextheight;
@@ -14450,14 +14464,14 @@ hedotools.shifter = function()
 	bgrect.attr("height", figheight-2);
 
 	ylabel.attr("y",figheight/2+60+toptextheight)
-	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60+toptextheight) + ")");
+	    .attr("transform", "rotate(-90.0," + (18) + "," + (figheight/2+60+toptextheight) + ")");
 
 	topbgrect2.attr("height",toptextheight);
 
 	credit.attr({'class': 'credit',
 		   'fill': '#B8B8B8',
 		   'x': (figwidth-5),
-		   'y': function(d,i) { return figheight-17+i*10; },
+		   'y': function(d,i) { return figheight-35+i*10; },
 		   'font-size': '8.0px', });
 
 	canvas.selectAll("text.titletext").remove();
@@ -14467,7 +14481,7 @@ hedotools.shifter = function()
 	    .enter()
 	    .append("text")
 	    .attr({ 'y': function(d,i) { return (i+1)*17; },
-		    'x': 0,
+		    'x': 3,
 		    'class': 'titletext', })
 	    .style({ 'font-family': 'Helvetica Neue',
 		     'font-size': '14px',
@@ -14493,7 +14507,7 @@ hedotools.shifter = function()
 	bottombgrect.attr("y",fullheight-axeslabelmargin.bottom-toptextheight);
 
 	// both of these need their y height reset
-	// resetButton();
+	// resetButton(true);
 	
 	// if (translate) {
 	//     translateButton();
@@ -14763,6 +14777,7 @@ hedotools.shifter = function()
 		    setHeight: setHeight,
 		    splitstring: splitstring,
 		    drawlogo: drawlogo,
+		    resetbuttontoggle: resetbuttontoggle,
 		    _reset: _reset,
 		    _stoprange: _stoprange,
 		    _refF: _refF,
@@ -16128,7 +16143,7 @@ hedotools.shifter = function()
 
 		// modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
 
-		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3)]);
+		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(2)]);
 
 		// modalbody.insert("p","svg").text(function() {
 		//     var head = "What's making this day ";
@@ -16209,12 +16224,19 @@ hedotools.shifter = function()
 	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
     });
 
+    $('#myModal2').on('hidden.bs.modal', function (e) {
+	hedotools.shifter.resetbuttontoggle(true);
+    });
+
     $('#myModal2').on('show.bs.modal', function (e) {
 	console.log("embed modal shown");
 	$('#linktextarea').text(window.location.href);
 	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'-prev7/'+datedecoder().current+'-sum/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
 
 	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
+
+	// turn off the reset button
+	hedotools.shifter.resetbuttontoggle(false);
 	string = crowbar('shiftsvg');
 	url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(string);
 	document.getElementById('svgbutton').setAttribute("download", filename + ".svg")
