@@ -1,5 +1,5 @@
 echo "base"
-cat bootstrap.css font-awesome.min.css site.css > base-all.css
+cat bootstrap.css font-awesome.min.css site.css paper.css > base-all.css
 minify --type css base-all.css > base-all.min.css
 
 echo "timeline"
