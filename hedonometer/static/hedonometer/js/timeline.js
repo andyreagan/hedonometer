@@ -905,7 +905,8 @@
 		hedotools.shifter.stop();
 		hedotools.shifter.shifter();
 		hedotools.shifter.setWidth(modalwidth);
-		hedotools.shifter.setfigure(d3.select('#moveshifthere')).setText(["sample text"]).plot();
+		hedotools.shifter.setText([" "," "," "," "]);
+		hedotools.shifter.setfigure(d3.select('#moveshifthere')).plot();
 
 		$('#myModal').modal('toggle'); 
 
@@ -1288,11 +1289,7 @@
 	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
-		hedotools.shifter._refF(refFvec);
-		hedotools.shifter._compF(compFvec);
-		hedotools.shifter.stop();
-		hedotools.shifter.shifter();
-		hedotools.shifter.replot();
+
 
 		// nextDay changing the text at the top
 		var bigdaytest = false;
@@ -1330,24 +1327,32 @@
 		var modalbody = d3.select("#moveshifthere");
 		var modalfooter = d3.select("#moveshiftherefooter");
 		// remove the text at the top
-		modalbody.selectAll("p").remove();
-		modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(update)+"</b>"; });
+		// modalbody.selectAll("p").remove();
+		// modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(update)+"</b>"; });
+		var textar = [longerformat(update)];
 		if (bigdaytest) {
 		    // console.log(bigdaytext);
 		    for (var bc=0; bc<bigdaytext.length; bc++) {
 			// console.log("appending event "+bc+" text");
-			modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
+			// modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
+			textar = textar.concat([bigdaytext[bc]]);
 		    }
 		}
 		else {
-		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
+		    // modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
+		    textar = textar.concat([""]);
 		}
 
-		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
-		modalbody.insert("p","svg").text(function() {
-		    var head = "What's making this day ";
-		    return hedotools.shifter._refH() <= hedotools.shifter._compH() ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		});
+		// modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
+
+		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3)]);
+
+		// modalbody.insert("p","svg").text(function() {
+		//     var head = "What's making this day ";
+		//     return hedotools.shifter._refH() <= hedotools.shifter._compH() ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
+		// });
+
+		textar = textar.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
 
 		if (update.getTime() === timeseries[0].date.getTime()) {
 		    modalfooter.select(".left").attr("disabled","disabled");
@@ -1361,6 +1366,15 @@
 		else {
 		    modalfooter.select(".right").attr("disabled",null);
 		}
+
+		hedotools.shifter._refF(refFvec);
+		hedotools.shifter._compF(compFvec);
+		hedotools.shifter.stop();
+		hedotools.shifter.shifter();
+		console.log(textar);
+		hedotools.shifter.setText(textar);
+		hedotools.shifter.drawlogo();
+		hedotools.shifter.replot();
 
 	    }); // d3.text prev7
 

@@ -13175,7 +13175,6 @@ var intStr = ["one","two","three","four"];
 // and then inserts a new one before the svg, inside the figure (using d3.insert)
 //
 // can also use the setText method to set the text
-// need to do this outside of maps page
 
 // define the shifter module 
 hedotools.shifter = function()
@@ -13208,6 +13207,51 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    var splitstring = function(_,w,f) {
+	// take an array of strings _
+	// a formatter f
+	// and a max width w (in pixels)
+	// 
+	// return the strings split into an array
+	var font = f || '12px arial';
+	var splitar = [];
+	var newar;
+	for (var i=0; i<_.length; i++) {
+	    if (_[i].width(font) < w) {
+		newar = [_[i]];
+	    }
+	    else {
+		var tmp = _[i].split(' ');
+		// chop words off until it's long enough
+		// this is better if we know that they're
+		// not going to be way too long
+		// right now a max of two lines
+
+		// a more general approach would be to march forward...
+		// but this could be a lot of .width() calculations
+		// really need to keep those at a min
+		var leng = false;
+		var numi = 0;
+		while (!leng) {
+		    numi+=1;
+		    console.log(numi);
+		    var wt = tmp.slice(0,tmp.length-numi).join(" ");
+		    console.log(wt);
+		    if (wt.width(font) < w) {
+			newar = [wt,tmp.slice(tmp.length-numi,tmp.length).join(" ")];
+			leng = true;
+		    }
+		}
+	    }
+	    console.log("adding newar to splitar");
+	    console.log(newar);
+	    console.log(splitar);
+	    splitar = splitar.concat(newar);
+	    console.log(splitar);
+	}
+	return splitar;
+    }
+
     // set the ones we can
     // since the height is fixed, do all that
     // but just initialize the width-related variables
@@ -13234,7 +13278,7 @@ hedotools.shifter = function()
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
     var iBarH = 11;
-    var numWords = 28;
+    var numWords = 23;
     
     // all inside the axes
     var yHeight = (7+17*3+14+5-13); // 101
@@ -13596,6 +13640,25 @@ hedotools.shifter = function()
     var flipVector;
     var maxShiftSum;
     var summaryArray;
+    var toptext;
+    var toptextheight;
+    var credit;
+    var logo = false;
+    var logowidth = 0;
+
+
+    var drawlogo = function() {
+	logo = true;
+	logowidth = 120;
+	// not working yet
+	canvas.append('image')
+	    .attr({ 'x': (boxwidth-80), 
+		    'y': '0',
+		    'width': '80',
+		    'height': '80',
+		    'xlink:href': 'data:image/png;base64,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',
+		  });
+    }
 
     var plot = function() {
 	/* plot the shift
@@ -13607,18 +13670,63 @@ hedotools.shifter = function()
 	*/
 	// console.log("plotting shift");
 
-	figure.selectAll("svg").remove();
+	// first things first, plot the text on top
+	// if there wasn't any text passed, make it
+	if (comparisonText[0].length < 1) {
+	    if (compH >= refH) {
+		var happysad = "happier";
+	    }
+	    else { 
+		var happysad = "less happy";
+	    }
 
+	    // console.log("generating text for wordshift");
+	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+
+	    console.log(comparisonText.length);
+	}
+	else {
+	    comparisonText = splitstring(comparisonText,boxwidth-10-logowidth,'14px arial');
+	}
+	
+	// this would put the text above the svg, in the figure div
+	// figure.selectAll("p")
+	//     .remove();
+	// figure.selectAll("p")
+	//     .data(comparisonText)
+	//     .enter()
+	//     .insert("p","svg")
+	//     .attr("class","shifttitle")
+	//     .html(function(d) { return d; });
+
+	// made a new svg
+	figure.selectAll("svg").remove();
 	canvas = figure.append("svg")
 	    .attr("id","shiftsvg")
 	    .attr("width",function () { return boxwidth; })
 	    .attr("height",function () { return boxheight; });
+	
+	// this one will be white, and behind EVERYTHING
+	bgbgrect = canvas.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("width", boxwidth)
+	    .attr("height", boxheight)
+	    .attr("class", "bgbg")
+	    .attr("fill", "white");
 
 
+
+	toptextheight = comparisonText.length*17+13;
+	console.log(toptextheight);
+	
+	// reset this
+	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom - toptextheight;
 
 	// take the longest of the top five words
 	// console.log("appending to sorted words");
 	// console.log(sortedWords);
+
 	sortedWords = sortedWords.map(function(d,i) { 
 	    if (sortedType[i] == 0) {
 		return d.concat("-\u2193");
@@ -13654,12 +13762,13 @@ hedotools.shifter = function()
 
 	// create the axes themselves
 	axes = canvas
+	    // not using the "svg inside svg" approach again
 	    // .append("svg")
 	    // .attr("width", figwidth)
 	    // .attr("height", figheight)
 	    // .attr("class", "shiftcanvas")
 	    .append("g")
-	    .attr("transform","translate("+(axeslabelmargin.left)+","+axeslabelmargin.top+")")
+	    .attr("transform","translate("+(axeslabelmargin.left)+","+(axeslabelmargin.top+toptextheight)+")")
 	    .attr("width", figwidth)
 	    .attr("height", figheight)
 	    .attr("class", "main");
@@ -13677,16 +13786,7 @@ hedotools.shifter = function()
 	    .attr("fill", "#FCFCFC")
 	    .attr("opacity","0.96");
 
-
-
 	bigshifttextsize = 13;
-
-	if (compH >= refH) {
-	    var happysad = "happier";
-	}
-	else { 
-	    var happysad = "less happy";
-	}
 
 	// figure.selectAll("p.sumtext.ref")
 	// 	.data([refH,])
@@ -13712,68 +13812,38 @@ hedotools.shifter = function()
 
 	// d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
 
-	// if there wasn't any text passed, make it
-	if (comparisonText[0].length < 1) {
-	    // console.log("generating text for wordshift");
-	    comparisonText[0] = "Why comparison is "+happysad+" than reference:";
-	}
-	else { 
-	    // console.log("word shift text is:");
-	    // console.log(comparisonText);
-	}
-
-	figure.selectAll("p")
-	    .remove();
-
-	figure.selectAll("p")
-	    .data(comparisonText)
-	    .enter()
-	    .insert("p","svg")
-	    .attr("class","shifttitle")
-	    .html(function(d) { return d; });
-
 	typeClass = ["negdown","posdown","negup","posup"];
-	
-	axes.selectAll("rect.shiftrect")
-	    .data(sortedMag)
-	    .enter()
-	    .append("rect")
-	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; })
-	    .attr("x",function(d,i) { 
-		if (d>0) { return figcenter; } 
-		else { return x(d)} })
-	    .attr("y",function(d,i) { return y(i+1); } )
-	    .attr("height",function(d,i) { return iBarH; } )
-	    .attr("width",function(d,i) { if ((d)>0) {return x(d)-x(0);} else {return x(0)-x(d); } } )
-	    .style({"opacity":"0.7","stroke-width":"1","stroke":"rgb(0,0,0)"});
-  	    // these add some hover niceness to the rectangles
-	// .on("mouseover", function(d){
-	//     var rectSelection = d3.select(this).style({opacity:"1.0"});
-	// })
-	// .on("mouseout", function(d){
-	//     var rectSelection = d3.select(this).style({opacity:"0.7"});
-	// });
 
-	shiftrects = axes.selectAll("rect.shiftrect")
+	var colorClass = ['#b3b3ff','#ffffb3','#4c4cff','#ffff4c','#272727'];
+	
+	shiftrects = axes.selectAll('rect.shiftrect')
 	    .data(sortedMag)
 	    .enter()
-	    .append("rect")
+	    .append('rect')
 	    .attr({ 
-		"class": function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; },
-		"x": function(d,i) { 
+		'class': function(d,i) { return 'shiftrect '+intStr[sortedType[i]]+' '+typeClass[sortedType[i]]; },
+		'x': function(d,i) { 
 		    if (d>0) { return figcenter; } 
 		    else { return x(d)}
 		},
-		"y": function(d,i) { return y(i+1); },
-		"height": function(d,i) { return iBarH; },
-		"width": function(d,i) { 
+		'y': function(d,i) { return y(i+1); },
+		'height': function(d,i) { return iBarH; },
+		'width': function(d,i) { 
 		    if ((d)>0) { return x(d)-x(0); }
 		    else { return x(0)-x(d); } 
 		},
-		"opacity": "0.7",
-		"stroke-width": "1",
-		"stroke": "rgb(0,0,0)"
+		'opacity': '0.7',
+		'stroke-width': '1',
+		'stroke': 'rgb(0,0,0)',
+		'fill': colorClass[sortedType[i]],
 	    });
+	// .on('mouseover', function(d){
+	//     var rectSelection = d3.select(this).style({opacity:'1.0'});
+	// })
+	// .on('mouseout', function(d){
+	//     var rectSelection = d3.select(this).style({opacity:'0.7'});
+	// });
+
 
 	shifttext = axes.selectAll("text.shifttext")
 	    .data(sortedMag)
@@ -13861,15 +13931,33 @@ hedotools.shifter = function()
 	// move x,y to 3 and width to -6 to give the bg a little space
 	topbgrect = axes.append("rect").attr("x",3).attr("y",3).attr("width",figwidth-axeslabelmargin.left-5).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
 
-	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
+	topbgrect2 = canvas.append("rect").attr("x",0).attr("y",0).attr("width",boxwidth).attr("height",toptextheight).attr("fill","white").style({"opacity": "1.0"});
+
+	// draw the text on top of this rect
+	toptext = canvas.selectAll("text.titletext")
+	    .data(comparisonText)
+	    .enter()
+	    .append("text")
+	    .attr("y",function(d,i) { return (i+1)*17; })
+	    .attr("x",0)
+	    .attr("class","titletext")
+	    .style({ 'font-family': 'Helvetica Neue',
+		     'font-size': '14px',
+		     'line-height': '1.42857143',
+		     'color': '#333',
+		     })
+	    .html(function(d,i) { return d; });
+
+	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom-toptextheight).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
 
 	// draw the summary things
 	sepline = axes.append("line")
-	    .attr("x1",0)
-	    .attr("x2",figwidth)
-	    .attr("y1",barHeight)
-	    .attr("y2",barHeight)
-	    .style({"stroke-width" : "1", "stroke": "black"});
+	    .attr({"x1": 0,
+		   "x2": figwidth-2,
+		   "y1": barHeight,
+		   "y2": barHeight, })
+	    .style({"stroke-width" : "1",
+		    "stroke": "black", });
 
 	maxShiftSum = Math.max(Math.abs(sumTypes[1]),Math.abs(sumTypes[2]),sumTypes[0],sumTypes[3]);
 
@@ -13882,33 +13970,61 @@ hedotools.shifter = function()
 	summaryArray = [sumTypes[3],sumTypes[0],d3.sum(sumTypes)];
 
 	typeClass = ["posup","negdown","sumgrey"];
+	var colorClass = ['#ffff4c','#b3b3ff','#272727'];
 
-	axes.selectAll(".sumrectR")
+	axes.selectAll('.sumrectR')
 	    .data(summaryArray)
 	    .enter()
-	    .append("rect")
-	    .attr("class", function(d,i) { return "sumrectR "+intStr[i]+" "+typeClass[i]; })
-	    .attr("x",function(d,i) { 
-		if (d>0) { 
-		    return figcenter;
-		} 
-		else { return topScale(d)} }
-		 )
-	    .attr("y",function(d,i) { if (i<3) { return i*17+7;} else { return i*17+7-2;} } )
-	    .style({"opacity":"0.7","stroke-width":"1","stroke":"rgb(0,0,0)"})
-	    .attr("height",function(d,i) { return 14; } )
-	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
-	    .on("mouseover", function(d){
-		var rectSelection = d3.select(this).style({opacity:"1.0"});
+	    .append('rect')
+	    .attr({
+		'class': function(d,i) { 
+		    return 'sumrectR '+intStr[i]+' '+typeClass[i]; 
+		},
+		'x': function(d,i) {
+		    if (d>0) {
+			return figcenter;
+		    }
+		    else { 
+			return topScale(d);
+		    }
+		},
+		'y': function(d,i) { 
+		    if (i<3) { 
+			return i*17+7;
+		    }
+		    else { 
+			return i*17+7-2;
+		    } 
+		},
+		'height': function(d,i) { return 14; },
+		'width': function(d,i) { 
+		    if (d>0) { 
+			return topScale(d)-figcenter;
+		    }
+		    else {
+			return figcenter-topScale(d); 
+		    } 
+		},
+		'fill': function(d,i) {
+		    return colorClass[i];
+		},
 	    })
-	    .on("mouseout", function(d){
-		var rectSelection = d3.select(this).style({opacity:"0.7"});
+	    .style({
+		'opacity': '0.7',
+		'stroke-width': '1',
+		'stroke':'rgb(0,0,0)',
 	    })
-	    .on("click", function(d,i) { 
+	    .on('mouseover', function(d){
+		var rectSelection = d3.select(this).style({opacity:'1.0'});
+	    })
+	    .on('mouseout', function(d){
+		var rectSelection = d3.select(this).style({opacity:'0.7'});
+	    })
+	    .on('click', function(d,i) { 
 		if (i==0) {
 		    shiftTypeSelect = true;
 		    resetButton();
-		    shiftselencoder.varval("posup");
+		    shiftselencoder.varval('posup');
 		    // shoot them all away
 		    //d3.selectAll("rect.shiftrect, text.shifttext").transition().duration(1000).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    // keep the ones with class "three"
@@ -13937,7 +14053,7 @@ hedotools.shifter = function()
 		}
 		else if (i==2) {
 		    // shiftTypeSelect = true;
-		    reset();
+		    resetfun();
 		    // shiftselencoder.varval("negdown");
 		}
 	    });
@@ -13959,45 +14075,51 @@ hedotools.shifter = function()
 	summaryArray = [sumTypes[1],sumTypes[2]];
 
 	typeClass = ["posdown","negup"];
+	var colorClass = ['#ffffb3','#4c4cff'];
 
-	axes.selectAll(".sumrectL")
+	axes.selectAll('.sumrectL')
 	    .data(summaryArray)
 	    .enter()
-	    .append("rect")
-	    .attr("class",function(d,i) { return "sumrectL "+intStr[i]+" "+typeClass[i]; })
-	    .attr("x",function(d,i) { 
-		if (i<2) { 
-		    return topScale(d);
-		} 
-		else { 
-		    // place the sum of negatives bar
-		    // if they are not opposing
-		    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
-			// if positive, place at end of other bar
-			if (d>0) {
-			    return topScale((sumTypes[3]+sumTypes[1]));
-			}
-			// if negative, place at left of other bar, minus length (+topScale(d))
-			else {
-			    return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
-			}
+	    .append('rect')
+	    .attr({
+		'class': function(d,i) { return 'sumrectL '+intStr[i]+' '+typeClass[i]; },
+		'x': function(d,i) { 
+		    if (i<2) { 
+			return topScale(d);
 		    } 
 		    else { 
-			if (d>0) {return figcenter} 
-			else { return topScale(d)} }
-		}
+			// place the sum of negatives bar
+			// if they are not opposing
+			if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
+			    // if positive, place at end of other bar
+			    if (d>0) {
+				return topScale((sumTypes[3]+sumTypes[1]));
+			    }
+			    // if negative, place at left of other bar, minus length (+topScale(d))
+			    else {
+				return topScale(d)-(figcenter-topScale((sumTypes[3]+sumTypes[1])));
+			    }
+			} 
+			else { 
+			    if (d>0) {return figcenter} 
+			    else { return topScale(d)} }
+		    }
+		}, 
+		'y': function(d,i) { return i*17+7; },
+		'height': function(d,i) { return 14; },
+		'width': function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } },
+		'fill': function(d,i) {
+		    return colorClass[i];
+		}, 
 	    })
-	    .attr("y",function(d,i) { return i*17+7; } )
-	    .style({"opacity":"0.7","stroke-width":"1","stroke":"rgb(0,0,0)"})
-	    .attr("height",function(d,i) { return 14; } )
-	    .attr("width",function(d,i) { if (d>0) {return topScale(d)-figcenter;} else {return figcenter-topScale(d); } } )
-	    .on("mouseover", function(d){
-		var rectSelection = d3.select(this).style({opacity:"1.0"});
+	    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
+	    .on('mouseover', function(d){
+		var rectSelection = d3.select(this).style({opacity:'1.0'});
 	    })
-	    .on("mouseout", function(d){
-		var rectSelection = d3.select(this).style({opacity:"0.7"});
+	    .on('mouseout', function(d){
+		var rectSelection = d3.select(this).style({opacity:'0.7'});
 	    })
-	    .on("click", function(d,i) {
+	    .on('click', function(d,i) {
 		shiftTypeSelect = true;
 		resetButton();
 		if (i==0) {
@@ -14051,10 +14173,10 @@ hedotools.shifter = function()
 	    .text("Word Rank")
 	    .attr("class","axes-text")
 	    .attr("x",15)
-	    .attr("y",figheight/2+60)
+	    .attr("y",figheight/2+60+toptextheight)
 	    .attr("font-size", "18.0px")
 	    .attr("fill", "#000000")
-	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
+	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60+toptextheight) + ")");
 
 	function zoomed() {
 	    // if we have zoomed in, we set the y values for each subselection
@@ -14072,142 +14194,245 @@ hedotools.shifter = function()
 
 	}; // zoomed
 
-	function reset() {
-	    // console.log("reset function");
-	    shiftTypeSelect = false;		
-	    d3.selectAll("rect.shiftrect").transition().duration(1000)
-		.attr("y", function(d,i) { return y(i+1) })
-		.attr("transform","translate(0,0)");
-	    d3.selectAll("text.shifttext").transition().duration(1000)
-		.attr("y", function(d,i) { return y(i+1)+iBarH; } )
-		.attr("transform","translate(0,0)");
-	    // d3.selectAll(".resetbutton").remove();
-	    shiftselencoder.varval("none");
-	    shiftselencoder.destroy();
-	} // reset
+	credit = axes.selectAll('text.credit')
+	    .data(['visuzliation by','@andyreagan'])
+	    .enter()
+	    .append('text')
+            .attr({'class': 'credit',
+		   'fill': '#B8B8B8',
+		   'x': (figwidth-5),
+		   'y': function(d,i) { return figheight-17+i*10; },
+		   'font-size': '8.0px', })
+            .style({'text-anchor': 'end', })
+	    .html(function(d) { return d; });
 
-	function resetButton() {
-	    // console.log("resetbutton function");
-
-	    d3.selectAll(".resetbutton").remove();
-	    
-	    var resetGroup = canvas.append("g")
-		.attr("transform","translate("+(0)+","+(56)+") rotate(-90)")
-		.attr("class","resetbutton");
-
-	    resetGroup.append("rect")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("rx",3)
-		.attr("ry",3)
-		.attr("width",48)
-		.attr("height",17)
-		.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-		.style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
-
-	    resetGroup.append("text")
-		.text("Reset")
-		.attr("x",6)
-		.attr("y",13)
-		.attr("font-size", "13.0px");
-
-	    resetGroup.append("rect")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("rx",3)
-		.attr("ry",3)
-		.attr("width",48)
-		.attr("height",18)
-		.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-		.style({"opacity": "0.0"})
-		.on("click",function() { 
-		    reset();
-		});
-	    
-	}; // resetButton
+	// get this inside of the plot...so that resizeshift won't get called
+	// too early (before a shift has been plotted)
+	if (!widthsetexplicitly) {
+	    d3.select(window).on('resize.shiftplot',resizeshift);
+	}
 
 	if (reset) {
 	    // call it
 	    resetButton();
 	}
 
-	function translateButton() {
-
-	    var translateGroup = canvas.append("g")
-		.attr("class","translatebutton")
-		.attr("transform","translate("+(0)+","+(136)+") rotate(-90)");
-
-	    translateGroup.append("rect")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("rx",3)
-		.attr("ry",3)
-		.attr("width",75)
-		.attr("height",17)
-		.attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
-		.style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
-
-	    translateGroup.append("text")
-		.text("Translate All")
-		.attr("x",6)
-		.attr("y",13)
-		.attr("font-size", "11.0px")
-
-	    translateGroup.append("rect")
-		.attr("x",0)
-		.attr("y",0)
-		.attr("rx",3)
-		.attr("ry",3)
-		.attr("width",75)
-		.attr("height",18)
-		.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
-		.style({"opacity": "0.0"})
-		.on("click",function() { 
-		    for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
-		    flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
-		    console.log("clicked translate");
-
-		    axes.selectAll("text.shifttext").transition().duration(1000)
-			.text(function(d,i) { 
-			    // goal is to toggle translation
-			    // need translation vector
-			    //console.log(flipVector[i]);
-			    if (flipVector[i]) { 
-				if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
-				else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-				else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
-				else {tmpStr = "+\u2191";}
-				if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
-				else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
-			    }
-			    else {
-				tmpStr = sortedWords[i];
-			    }
-			    return tmpStr;
-			}); // .text()
-	        }); // on("click")
-	}; // translateButton
-
 	if (translate) {
 	    translateButton();
 	}
-
-	// var credit = axes.insert("text","rect")
-        //     .attr("class","credit")
-	//     .text("by Andy Reagan")
-        //     .attr("fill","#B8B8B8")
-	//     .attr("x",width-7)
-	//     .attr("y",527)
-	//     .attr("font-size", "8.0px")
-        //     .style({"text-anchor": "end"});
 
 	return hedotools.shifter;
 
     }; // hedotools.shifter.plot
 
-    function replot() {
+    function resetfun() {
+	// console.log('reset function');
+	shiftTypeSelect = false;	
+	d3.selectAll('rect.shiftrect').transition().duration(1000)
+	    .attr('y', function(d,i) { return y(i+1) })
+	    .attr('transform','translate(0,0)');
+	d3.selectAll('text.shifttext').transition().duration(1000)
+	    .attr('y', function(d,i) { return y(i+1)+iBarH; } )
+	    .attr('transform','translate(0,0)');
+	// d3.selectAll('.resetbutton').remove();
+	shiftselencoder.varval('none');
+	shiftselencoder.destroy();
+    } // resetfun
+
+    function resetButton() {
+	// console.log("resetbutton function");
+
+	d3.selectAll(".resetbutton").remove();
+	
+	var resetGroup = canvas.append("g")
+	    .attr("transform","translate("+(1)+","+(56+toptextheight)+") rotate(-90)")
+	    .attr("class","resetbutton");
+
+	resetGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",48)
+	    .attr("height",17)
+	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"stroke-width":"0.5","stroke":"rgb(0,0,0)"});
+
+	resetGroup.append("text")
+	    .text("Reset")
+	    .attr("x",6)
+	    .attr("y",13)
+	    .attr("font-size", "13.0px");
+
+	resetGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",48)
+	    .attr("height",18)
+	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"opacity": "0.0"})
+	    .on("click",function() { 
+		resetfun();
+	    });
+	
+    }; // resetButton
+
+
+
+    function translateButton() {
+
+	var translateGroup = canvas.append("g")
+	    .attr("class","translatebutton")
+	    .attr("transform","translate("+(0)+","+(136+toptextheight)+") rotate(-90)");
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",17)
+	    .attr("fill","#F0F0F0") //http://www.w3schools.com/html/html_colors.asp
+	    .style({'stroke-width':'0.5','stroke':'rgb(0,0,0)'});
+
+	translateGroup.append("text")
+	    .text("Translate All")
+	    .attr("x",6)
+	    .attr("y",13)
+	    .attr("font-size", "11.0px")
+
+	translateGroup.append("rect")
+	    .attr("x",0)
+	    .attr("y",0)
+	    .attr("rx",3)
+	    .attr("ry",3)
+	    .attr("width",75)
+	    .attr("height",18)
+	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
+	    .style({"opacity": "0.0"})
+	    .on("click",function() { 
+		for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
+		flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
+		console.log("clicked translate");
+
+		axes.selectAll("text.shifttext").transition().duration(1000)
+		    .text(function(d,i) { 
+			// goal is to toggle translation
+			// need translation vector
+			//console.log(flipVector[i]);
+			if (flipVector[i]) { 
+			    if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
+			    else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
+			    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
+			    else {tmpStr = "+\u2191";}
+			    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
+			    else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+			}
+			else {
+			    tmpStr = sortedWords[i];
+			}
+			return tmpStr;
+		    }); // .text()
+	    }); // on("click")
+    }; // translateButton
+
+
+    var replot = function() {
 	// apply new data to the bars, transition everything
 	// tricky to get the transition right
+
+	// make sure to update this
+	if (comparisonText[0].length < 1) {
+	    if (compH >= refH) {
+		var happysad = "happier";
+	    }
+	    else { 
+		var happysad = "less happy";
+	    }
+
+	    // console.log("generating text for wordshift");
+	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
+
+	    console.log(comparisonText.length);
+	}
+	else {
+	    comparisonText = splitstring(comparisonText,boxwidth-10-logowidth,'14px arial');
+	}
+
+	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
+
+	// linear scale function
+	x.domain([-Math.abs(sortedMag[0]),Math.abs(sortedMag[0])])
+	    .range([maxWidth+10,figwidth-maxWidth-10]);
+
+	// get the height again
+	toptextheight = comparisonText.length*17+13;
+	console.log(toptextheight);
+
+	resetButton();
+	
+	// reset this
+	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom - toptextheight;
+
+	// linear scale function
+	y.range([figheight+2, yHeight]); 
+
+	axes.attr("transform","translate("+(axeslabelmargin.left)+","+(axeslabelmargin.top+toptextheight)+")")
+	    .attr("height", figheight);
+	
+	bgrect.attr("height", figheight-2);
+
+	ylabel.attr("y",figheight/2+60+toptextheight)
+	    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60+toptextheight) + ")");
+
+	topbgrect2.attr("height",toptextheight);
+
+	credit.attr({'class': 'credit',
+		   'fill': '#B8B8B8',
+		   'x': (figwidth-5),
+		   'y': function(d,i) { return figheight-17+i*10; },
+		   'font-size': '8.0px', });
+
+	canvas.selectAll("text.titletext").remove();
+
+	toptext = canvas.selectAll("text.titletext")
+	    .data(comparisonText)
+	    .enter()
+	    .append("text")
+	    .attr({ 'y': function(d,i) { return (i+1)*17; },
+		    'x': 0,
+		    'class': 'titletext', })
+	    .style({ 'font-family': 'Helvetica Neue',
+		     'font-size': '14px',
+		     'line-height': '1.42857143',
+		     'color': '#333',
+		     // if there are 4 items...make the first two bold
+		     'font-weight': function(d,i) { 
+			 if (comparisonText.length > 3) {
+			     if (i < (comparisonText.length - 2) ) {
+				 return "bold";
+			     }
+			     else {
+				 return "normal";
+			     }
+			 }
+			 else {
+			     return "normal";
+			 }
+		     },
+		   })
+	    .html(function(d,i) { return d; });
+
+	bottombgrect.attr("y",fullheight-axeslabelmargin.bottom-toptextheight);
+
+	// both of these need their y height reset
+	// resetButton();
+	
+	// if (translate) {
+	//     translateButton();
+	// }
 
 	var newbars = axes.selectAll("rect.shiftrect").data(sortedMag);
 	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
@@ -14373,11 +14598,13 @@ hedotools.shifter = function()
 	
     }; // hedotools.shifter.replot
 
-    if (!widthsetexplicitly) {
-	d3.select(window).on("resize.shiftplot",resizeshift);
-    }
-    
     function resizeshift() {
+	// don't use this function...
+	// not sure why, but the updates don't always seem to work
+	// (need selections, can't pass variables that are local
+	// in scope)
+	return 1;
+	
 	fullwidth = parseInt(figure.style("width"));
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
@@ -14444,9 +14671,7 @@ hedotools.shifter = function()
 	axes.selectAll(".sumtextL")
 	    .attr("x",function(d,i) { return topScale(d)-5; });
 
-	axes.selectAll("rect.shiftrect")
-	// this variable does not seem to do the trick...
-	// shiftrects
+	shiftrects
 	    .attr("x",function(d,i) { 
 		if (d>0) { return figcenter; } 
 		else { return x(d); } })
@@ -14471,6 +14696,8 @@ hedotools.shifter = function()
 		    setText: setText,
 		    setWidth: setWidth,
 		    setHeight: setHeight,
+		    splitstring: splitstring,
+		    drawlogo: drawlogo,
 		    _reset: _reset,
 		    _stoprange: _stoprange,
 		    _refF: _refF,
