@@ -127,9 +127,12 @@
           matches = [];
           for (var i=0; i<labMT1.length; i++) {
             if (labMT1[i][0].match(q)) {
-     	      matches.push({ value: labMT1[i][0]})   
+     	      matches.push({ value: labMT1[i][0]});   
             }
           }
+	  if ( matches.length < 1) {
+	     matches.push({ value: "not found"});
+        	}
           cb(matches);
         };
       };
@@ -142,6 +145,7 @@
             hint: false,
             highlight: true,
             minLength: 1,
+	    autoselect: true,			 
           },
           {
             name: "hedowords",
@@ -177,7 +181,6 @@
           Word Search
 	  <form>
 	    <input id="wordsearch" type="text" style="margin-left: 5px;" placeholder="happy">
-	    <!-- <input type="submit" style="margin-left:10px; margin-top: -10px;"> -->
           </form>
 	</div> <!-- column -->
 	<div id="controlpanel" class="col-sm-7" style="height:25px; width: 500px; margin-left: 0px; ">
@@ -243,13 +246,15 @@
       });
       drawWordStats = function (selection,word) {
       selection.selectAll("*").remove();
-        var index = 0;
+        var index = -1;
         for (var i=0; i<labMT1.length; i++) {
           if (word === labMT1[i][0]) {
 	    index = i;
           }
         }
 	console.log(index);
+
+        if (index > -1) {				       
       
         selection.append("div").attr("class","row").append("div").attr("class","col-xs-12 col-sm-6 col-md-4").append("h3").text(labMT1[index][0]);
 
@@ -283,6 +288,10 @@
         col24.append("h4").text("lyrics rank");
         col24.append("h3").append("i").text(labMT1[index][7]+" of 5000");
         col24.append("p").text("The top 5000 words in Lyrics corpus ordered by decreasing frequency of occurrence.");
+	}
+	else {
+	selection.append("div").attr("class","row").append("div").attr("class","col-xs-12 col-md-6").append("h3").text("Query not found: word is not in labMT set");
+	}
       };
     </script>
 
