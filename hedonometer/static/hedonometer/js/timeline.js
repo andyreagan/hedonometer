@@ -1433,7 +1433,7 @@
     $('#myModal2').on('show.bs.modal', function (e) {
 	console.log("embed modal shown");
 	$('#linktextarea').text(window.location.href);
-	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'-prev7/'+datedecoder().current+'-sum/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
+	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
 
 	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
 

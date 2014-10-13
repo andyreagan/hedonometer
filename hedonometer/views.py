@@ -37,6 +37,11 @@ def embedMain(request,dateref,datecomp):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
+def embedMainSimple(request,onedate):
+    # convert to the two dates
+    renderedresponse = embedMain(request,onedate+"-prev7",onedate+"-sum")
+    return renderedresponse
+
 def shifttest(request,reffile,compfile):
     # # but I do need a dates
     # logger.debug(some_hash)
@@ -113,24 +118,24 @@ class csv_view(View):
     
         output_format = request.POST['output_format']
 
-        f = codecs.open('tmp.svg','w','utf8')
+        f = codecs.open(STATIC_ROOT+'/tmp.svg','w','utf8')
         f.write(request.POST['data'])
         f.close()
 
         if output_format == 'pdf':
-            subprocess.call(['inkscape','-f','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','-A','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.pdf'])
-            f = open('tmp.pdf','r')
+            subprocess.call(['inkscape','-f',STATIC_ROOT+'/tmp.svg','-A',STATIC_ROOT+'/tmp.pdf'])
+            f = open(STATIC_ROOT+'/tmp.pdf','r')
             response = HttpResponse(f.read(), content_type='application/pdf')
             f.close()
             response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.pdf"'.format(request.POST['date'])
-            subprocess.call(['rm','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.pdf'])
+            subprocess.call(['rm',STATIC_ROOT+'/tmp.svg',STATIC_ROOT+'/tmp.pdf'])
         else:
-            subprocess.call(['inkscape','-f','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','-e','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.png'])
-            f = open('tmp.png','r')
+            subprocess.call(['inkscape','-f',STATIC_ROOT+'/tmp.svg','-e',STATIC_ROOT+'/tmp.png'])
+            f = open(STATIC_ROOT+'/tmp.png','r')
             response = HttpResponse(f.read(), content_type='application/png')
             f.close()
             response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.png"'.format(request.POST['date'])
-            subprocess.call(['rm','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.svg','/Users/andyreagan/work/2014/2014-09hedonometer/tmp.png'])
+            subprocess.call(['rm',STATIC_ROOT+'/tmp.svg',STATIC_ROOT+'/tmp.png'])
 
         return response
 
