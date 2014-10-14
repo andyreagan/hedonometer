@@ -14210,7 +14210,7 @@ hedotools.shifter = function()
 		   'y': function(d,i) { return figheight-35+i*10; },
 		   'font-size': '8.0px', })
             .style({'text-anchor': 'end', })
-	    .html(function(d) { return d; });
+	    .text(function(d) { return d; });
 
 	// get this inside of the plot...so that resizeshift won't get called
 	// too early (before a shift has been plotted)
@@ -14352,7 +14352,6 @@ hedotools.shifter = function()
 	    }); // on("click")
     }; // translateButton
 
-
     var replot = function() {
 	// apply new data to the bars, transition everything
 	// tricky to get the transition right
@@ -14403,17 +14402,26 @@ hedotools.shifter = function()
 
 	topbgrect2.attr("height",toptextheight);
 
-	credit.attr({'class': 'credit',
+	// since I really want this on there (in safari)
+	// go through the extra trouble of removing it first
+	canvas.selectAll("text.credit").remove();
+	credit.remove();
+	credit = axes.selectAll('text.credit')
+	    .data(['visualization by','@andyreagan','word shifts by','@hedonometer'])
+	    .enter()
+	    .append('text')
+            .attr({'class': 'credit',
 		   'fill': '#B8B8B8',
 		   'x': (figwidth-5),
 		   'y': function(d,i) { return figheight-35+i*10; },
-		   'font-size': '8.0px', });
-
-	canvas.selectAll("text.titletext").remove();
+		   'font-size': '8.0px', })
+            .style({'text-anchor': 'end', })
+	    .text(function(d) { return d; });
 
 	// console.log("the comparison text in replot is:");
 	// console.log(comparisonText);
 	console.log(toptext);
+	canvas.selectAll("text.titletext").remove();
 	toptext.remove();
 	toptext = canvas.selectAll("text.titletext")
 	    .data(comparisonText)

@@ -1479,21 +1479,21 @@
 	var styles = '';
         var styleSheets = document.styleSheets;
 
-	for (var i=0; i < styleSheets.length; i++) {
-	    processStyleSheet(styleSheets[i]);
-	}
+	// for (var i=0; i < styleSheets.length; i++) {
+	//     processStyleSheet(styleSheets[i]);
+	// }
 
-	// much simplified code from the crowbar
-	// don't care about illustrator
-	// and i don't use import rules
-	function processStyleSheet(ss) {
-	    if (ss.cssRules) {
-		for (var i = 0; i < ss.cssRules.length; i++) {
-		    var rule = ss.cssRules[i];
-		    styles += "\n" + rule.cssText;
-		}
-	    }
-	}
+	// // much simplified code from the crowbar
+	// // don't care about illustrator
+	// // and i don't use import rules
+	// function processStyleSheet(ss) {
+	//     if (ss.cssRules) {
+	// 	for (var i = 0; i < ss.cssRules.length; i++) {
+	// 	    var rule = ss.cssRules[i];
+	// 	    styles += "\n" + rule.cssText;
+	// 	}
+	//     }
+	// }
 
 	// mostly untouched from the crowbar
 	var svg = document.getElementById(s);
@@ -1515,7 +1515,10 @@
 	}
 	
 	var svgxml = (new XMLSerializer()).serializeToString(svg)
+	// can probably get rid of this replace when styles is blank
 	    .replace('</style>', '<![CDATA[' + styles + ']]></style>');
+	console.log("styles are");
+	console.log(styles);
 	source += doctype + svgxml;
 
 	return source;
