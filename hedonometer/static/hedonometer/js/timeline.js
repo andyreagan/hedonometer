@@ -908,18 +908,20 @@
 		hedotools.shifter.setText([" "," "," "," "]);
 		hedotools.shifter.setfigure(d3.select('#moveshifthere')).plot();
 
+		// danger! this calls next day
+		// so, it's replotting
+		// but this does get the main text up, and set the date
+		// the previous call should really just initialize the plot with blank data
+		// since we're loading twice as much!
+		$('#dp1').datepicker('setDate',popdate);
+
 		$('#myModal').modal('toggle'); 
 
 	    }) // data
 	    
 	}) // metadata
 
-	// danger! this calls next day
-	// so, it's replotting
-	// but this does get the main text up, and set the date
-	// the previous call should really just initialize the plot with blank data
-	// since we're loading twice as much!
-	$('#dp1').datepicker('setDate',popdate);
+
 	
     }; // transitionBigShift
 
@@ -1329,30 +1331,30 @@
 		// remove the text at the top
 		// modalbody.selectAll("p").remove();
 		// modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(update)+"</b>"; });
-		var textar = [longerformat(update)];
+		var tmptext = [longerformat(update)];
 		if (bigdaytest) {
 		    // console.log(bigdaytext);
 		    for (var bc=0; bc<bigdaytext.length; bc++) {
 			// console.log("appending event "+bc+" text");
 			// modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
-			textar = textar.concat([bigdaytext[bc]]);
+			tmptext = tmptext.concat([bigdaytext[bc]]);
 		    }
 		}
 		else {
 		    // modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		    textar = textar.concat([""]);
+		    tmptext = tmptext.concat([""]);
 		}
 
 		// modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
 
-		textar = textar.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(2)]);
+		tmptext = tmptext.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(2)]);
 
 		// modalbody.insert("p","svg").text(function() {
 		//     var head = "What's making this day ";
 		//     return hedotools.shifter._refH() <= hedotools.shifter._compH() ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
 		// });
 
-		textar = textar.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
+		tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
 
 		if (update.getTime() === timeseries[0].date.getTime()) {
 		    modalfooter.select(".left").attr("disabled","disabled");
@@ -1371,8 +1373,9 @@
 		hedotools.shifter._compF(compFvec);
 		hedotools.shifter.stop();
 		hedotools.shifter.shifter();
-		console.log(textar);
-		hedotools.shifter.setText(textar);
+		console.log("the text is");
+		console.log(tmptext);
+		hedotools.shifter.setText(tmptext);
 		hedotools.shifter.drawlogo();
 		hedotools.shifter.replot();
 

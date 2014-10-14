@@ -13234,20 +13234,20 @@ hedotools.shifter = function()
 		var numi = 0;
 		while (!leng) {
 		    numi+=1;
-		    console.log(numi);
+		    // console.log(numi);
 		    var wt = tmp.slice(0,tmp.length-numi).join(" ");
-		    console.log(wt);
+		    // console.log(wt);
 		    if (wt.width(font) < w) {
 			newar = [wt,tmp.slice(tmp.length-numi,tmp.length).join(" ")];
 			leng = true;
 		    }
 		}
 	    }
-	    console.log("adding newar to splitar");
-	    console.log(newar);
-	    console.log(splitar);
+	    // console.log("adding newar to splitar");
+	    // console.log(newar);
+	    // console.log(splitar);
 	    splitar = splitar.concat(newar);
-	    console.log(splitar);
+	    // console.log(splitar);
 	}
 	return splitar;
     }
@@ -13690,10 +13690,11 @@ hedotools.shifter = function()
 	    // console.log("generating text for wordshift");
 	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
 
-	    console.log(comparisonText.length);
+	    // console.log(comparisonText);
 	}
 	else {
 	    comparisonText = splitstring(comparisonText,boxwidth-10-logowidth,'14px arial');
+	    // console.log(comparisonText);
 	}
 	
 	// this would put the text above the svg, in the figure div
@@ -13722,10 +13723,8 @@ hedotools.shifter = function()
 	    .attr("class", "bgbg")
 	    .attr("fill", "white");
 
-
-
 	toptextheight = comparisonText.length*17+13;
-	console.log(toptextheight);
+	// console.log(toptextheight);
 	
 	// reset this
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom - toptextheight;
@@ -14251,8 +14250,8 @@ hedotools.shifter = function()
 
 	// console.log(showb);
 	// showb = showb || true;
-	console.log("showing reset button?");
-	console.log(showb);
+	// console.log("showing reset button?");
+	// console.log(showb);
 	d3.selectAll(".resetbutton").remove();
 
 	if (showb) {
@@ -14330,7 +14329,7 @@ hedotools.shifter = function()
 	    .on("click",function() { 
 		for (var i=0; i<flipVector.length-1; i++) { flipVector[i] = flipVector[flipVector.length-1]; }
 		flipVector[flipVector.length-1] = (flipVector[flipVector.length-1] + 1) % 2;
-		console.log("clicked translate");
+		// console.log("clicked translate");
 
 		axes.selectAll("text.shifttext").transition().duration(1000)
 		    .text(function(d,i) { 
@@ -14369,11 +14368,11 @@ hedotools.shifter = function()
 
 	    // console.log("generating text for wordshift");
 	    comparisonText = splitstring(["Reference happiness: "+refH.toFixed(2),"Comparison happiness: "+compH.toFixed(2),"Why comparison is "+happysad+" than reference:"],boxwidth-10-logowidth,'14px arial');
-
-	    console.log(comparisonText.length);
+	    // console.log(comparisonText);
 	}
 	else {
 	    comparisonText = splitstring(comparisonText,boxwidth-10-logowidth,'14px arial');
+	    // console.log(comparisonText);
 	}
 
 	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
@@ -14384,7 +14383,7 @@ hedotools.shifter = function()
 
 	// get the height again
 	toptextheight = comparisonText.length*17+13;
-	console.log(toptextheight);
+	// console.log(toptextheight);
 
 	resetButton(true);
 	
@@ -14412,6 +14411,10 @@ hedotools.shifter = function()
 
 	canvas.selectAll("text.titletext").remove();
 
+	// console.log("the comparison text in replot is:");
+	// console.log(comparisonText);
+	console.log(toptext);
+	toptext.remove();
 	toptext = canvas.selectAll("text.titletext")
 	    .data(comparisonText)
 	    .enter()
@@ -14438,7 +14441,7 @@ hedotools.shifter = function()
 			 }
 		     },
 		   })
-	    .html(function(d,i) { return d; });
+	    .text(function(d,i) { return d; });
 
 	bottombgrect.attr("y",fullheight-axeslabelmargin.bottom-toptextheight);
 
@@ -14624,7 +14627,7 @@ hedotools.shifter = function()
 	boxwidth = fullwidth-margin.left-margin.right;
 	figwidth = boxwidth-axeslabelmargin.left-axeslabelmargin.right;
 	figcenter = figwidth/2;
-	console.log(figcenter);
+	// console.log(figcenter);
 
 	canvas.attr("width", boxwidth);
 	axes.attr("width", figwidth);
