@@ -14017,7 +14017,7 @@ hedotools.shifter = function()
 		     'line-height': '1.42857143',
 		     'color': '#333',
 		     })
-	    .html(function(d,i) { return d; });
+	    .text(function(d,i) { return d; });
 
 	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom-toptextheight).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
 
@@ -14909,6 +14909,35 @@ hedotools.shifter = function()
 	    value: 6.00,
 	},
     ];
+    var circleColors = {
+	"sunday": {
+	    "fill": "#FFCCFF",
+	},
+	"monday": {
+	    "fill": "#9933FF",
+	},
+	"tuesday": {
+	    "fill": "#4BFFFE",
+	},
+	"wednesday": {
+	    "fill": "#8AFF82",
+	},
+	"thursday": {
+	    "fill": "#009900",
+	},
+	"friday": {
+	    "fill": "#F87D15",
+	},
+	"saturday": {
+	    "fill": "#F70012",
+	},
+	"hilite": {
+	    "fill": "#000",
+	},
+	"togall": {
+	    "fill": "#000",
+	},
+    }
 
     // no longer in use
     function getDay(d) {
@@ -15020,7 +15049,11 @@ hedotools.shifter = function()
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
     // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(today,-18),today]).on("brush", brushing).on("brushend",brushended);
-    var brush = d3.svg.brush().x(x2).extent([cformat.parse(fromdecoder().cached),cformat.parse(todecoder().cached)]).on("brush", brushing).on("brushend",brushended);
+    var brush = d3.svg.brush()
+	.x(x2)
+	.extent([cformat.parse(fromdecoder().cached),cformat.parse(todecoder().cached)])
+	.on("brush", brushing)
+	.on("brushend",brushended);
 
     // console.log(brush.extent());
     // console.log([fromdecoder().current,todecoder().current]);
@@ -15070,8 +15103,11 @@ hedotools.shifter = function()
 	return y2(d.value);
     });
 
-    var svg = d3.select("#bigbox").append("svg").attr("id", "timeseries")
-	.attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
+    var svg = d3.select("#bigbox").append("svg")
+	.attr("id", "timeseries")
+	.attr("width", width + margin.left + margin.right)
+	.attr("height", height + margin.top + margin.bottom)
+	.attr("font","12px sans-serif");
 
     svg.append("defs").append("clipPath").attr("id", "clip").append("rect").attr("width", width).attr("height", height);
 
@@ -15118,6 +15154,7 @@ hedotools.shifter = function()
 	.attr("r", rmax)
 	.attr("stroke", "black")
 	.attr("stroke-width", 0.7)
+	.attr("fill", function(d,i) { return circleColors[weekDays[i]].fill; })
 	.attr("class", function(d,i) { return weekDays[i]; });
 
     legendgroup.selectAll("text")
@@ -15313,7 +15350,12 @@ hedotools.shifter = function()
 	y2.domain(y.domain());
 
 	// var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
-	var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line);
+	var path = focus.append("path").attr("id", "path").data([data])
+	    .attr({ "clip-path": "url(#clip)",
+		    "d": line,
+		    "fill": "none",
+		    "stroke": "grey",
+		    "stroke-width": "0.5px",});
 
 	// focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
 
@@ -15323,9 +15365,19 @@ hedotools.shifter = function()
 	//focus.append("g").attr("class", "y axis").call(yAxis);
 	focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
 
+	// go ahead and apply styles directly to these
+	focus.select(".x.axis").select("path").attr("fill","none");
+	focus.select(".x.axis").selectAll("line")
+	    .attr({"fill": "none",
+		   "stroke": "grey",
+		   "shape-rendering": "crispEdges",
+		  });
+	focus.select(".y.axis").select("path").attr("fill","none");
+
 	horizontalLineGroup = focus.append("g")
 	horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
-	    .attr("class", "horizontalLines") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
+	    .attr("class", "horizontalLines")
+	    //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
 	    .attr("x1",0)
 	    .attr("x2",width)
 	    .attr("y1",function(d){ return y(d); })
@@ -15355,9 +15407,17 @@ hedotools.shifter = function()
     	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
     	    //yearDict.toggle(d,);
 
+
+
 	circle.enter().append("circle")
 	    .attr({
 		"class": function(d) { return weekDays[d.date.getDay()]; },
+		"fill": function(d) { return circleColors[weekDays[d.date.getDay()]].fill; },
+		"stroke": "#000",
+		"stroke-width": "0.5",
+		"opacity": "0.7",
+		"cursor": "hand",
+		"cursor": "pointer",
 		"cx": function(d, i) { return x(d.date); },
 		"clip-path": "url(#clip)",
 		"shortdate": function(d) { return d.shortDate;  },
@@ -15371,10 +15431,26 @@ hedotools.shifter = function()
 	    .on("mouseout", myMouseOutFunction)
 	    .on("mousedown", myMouseDownOpenWordShiftFunction);
 
-	context.append("path").data([data]).attr("class", "mini").attr("d", area2);
+	context.append("path")
+	    .data([data])
+	    .attr({ "class": "mini",
+		    "fill": "lightgrey",
+		    "stroke": "black",
+		    "stroke-width": ".5px",
+		    "d": area2,
+		  });
+
 	context.append("g").attr("class", "x axis")
 	    .attr("transform", "translate("+"0"+"," + height2 + ")")
 	    .call(xAxis2);
+
+	context.select(".x.axis").selectAll("line")
+	    .attr({"fill": "none",
+		   "stroke": "grey",
+		   "shape-rendering": "crispEdges",
+		  });
+
+	context.select(".x.axis").select("path").attr("fill","none");
 
 	var format = d3.time.format("%m-%d");
 
@@ -15513,8 +15589,13 @@ hedotools.shifter = function()
 	
 	brushgroup
 	    .selectAll("rect")
-	    .attr("y", -6)
-	    .attr("height", height2 + 7);
+	    .attr({"y": -6,
+ 		   "height": (height2 + 7),
+		   "stroke": "#fff",
+		   "fill-opacity": .125,
+		   "shape-rendering": "crispEdges",
+		   "cursor": "ew-resize",
+		  });
 
 	// call the brush initially
 	brushing();
@@ -15578,6 +15659,12 @@ hedotools.shifter = function()
 	//focus.select("#path").attr("d", fishline);
 	focus.select("#path").attr("d", line);
 	focus.select(".x.axis").call(xAxis);
+
+	focus.select(".x.axis").selectAll("line")
+	    .attr({"fill": "none",
+		   "stroke": "grey",
+		   "shape-rendering": "crispEdges",
+		  });
 	
 	focus.selectAll(".brushingline")
 	    .attr({ 
@@ -16333,6 +16420,7 @@ hedotools.shifter = function()
 
 	return source;
     }
+
 
     console.log("enjoy :)");
 

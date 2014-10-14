@@ -13952,7 +13952,7 @@ hedotools.shifter = function()
 		     'line-height': '1.42857143',
 		     'color': '#333',
 		     })
-	    .html(function(d,i) { return d; });
+	    .text(function(d,i) { return d; });
 
 	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom-toptextheight).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});
 
