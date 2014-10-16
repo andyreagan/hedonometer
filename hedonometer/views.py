@@ -8,11 +8,11 @@ from django.template import Context
 from mysite.settings import STATIC_ROOT
 import logging
 logger = logging.getLogger(__name__)
-from hedonometer.models import Embeddable
+from hedonometer.models import Embeddable,Event
 import csv
 import subprocess
 import codecs
-
+import datetime
 
 # Create your views here.
 def dummy(request):
@@ -29,6 +29,8 @@ def embedMain(request,dateref,datecomp):
                  "refFileName": dateref,
                  'compFile': 'http://hedonometer.org/data/word-vectors/%s.csv' % datecomp,
                  "compFileName": datecomp,
+                 'fulltext': '',
+                 'contextflag': 'none',
     }
 
     logger.debug(filenames)
@@ -38,9 +40,31 @@ def embedMain(request,dateref,datecomp):
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
 def embedMainSimple(request,onedate):
-    # convert to the two dates
-    renderedresponse = embedMain(request,onedate+"-prev7",onedate+"-sum")
-    return renderedresponse
+    [year,month,day] = map(int,onedate.split('-'))
+    d = datetime.datetime(year,month,day)
+
+    longer = d.strftime("%A, %B %e, %Y")
+
+    event = Event.objects.filter(date=onedate)
+    
+    if len(event) > 0:
+        eventtext = '\n'.join([e.longer for e in event])
+    else:
+        eventtext = ''
+
+    specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making this day updown than the previous 7 days:'.format(longer,eventtext)
+
+    print specialtext
+
+    filenames = {'h': 'dont matter',
+                 'refFile': 'http://hedonometer.org/data/word-vectors/%s-sum.csv' % onedate,
+                 'compFile': 'http://hedonometer.org/data/word-vectors/%s-prev7.csv' % onedate,
+                 'fulltext': specialtext,
+                 'contextflag': 'main',
+    }
+
+    # now pass those into the view
+    return render(request, 'hedonometer/embed.html', Context(filenames))
 
 def shifttest(request,reffile,compfile):
     # # but I do need a dates

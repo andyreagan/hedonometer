@@ -15,6 +15,8 @@ hedotools.loader = function() {
     // load labMT files
     var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
     var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    // var longerformat = d3.time.format("%A, %B %e, %Y");
+    // var cformat = d3.time.format("%Y-%m-%d");
     var lens;
     var words;
     var refFvec;
@@ -62,8 +64,23 @@ hedotools.loader = function() {
 		compFvec[i] = 0;
 	    }
 	}
+	
 	hedotools.shifter.shift(refFvec,compFvec,lens,words);
-	hedotools.shifter.setfigure(d3.select('#shift01')).plot();
+	hedotools.shifter.setfigure(d3.select('#shift01'));
+	var embedtext = embedDetails.fulltext;
+	if (embedtext.length > 0) {
+	    if (embedDetails.contextflag === 'main') {
+		// do some specific replaces
+		embedtext = embedtext.replace('avhapps',hedotools.shifter._compH().toFixed(2));
+		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+		embedtext = embedtext.replace('updown',happysad);
+		hedotools.shifter.setText(embedtext.split('\n'));
+	    }
+	    else {
+		hedotools.shifter.setText(embedtext.split('\n'));
+	    }
+	}
+	hedotools.shifter.plot();
 	hedotools.shifter.drawlogo();
     };
 

@@ -793,7 +793,21 @@ hedotools.shifter = function()
 		     'font-size': '14px',
 		     'line-height': '1.42857143',
 		     'color': '#333',
-		     })
+		     // if there are 4 items...make the first two bold
+		     'font-weight': function(d,i) { 
+			 if (comparisonText.length > 3) {
+			     if (i < (comparisonText.length - 2) ) {
+				 return "bold";
+			     }
+			     else {
+				 return "normal";
+			     }
+			 }
+			 else {
+			     return "normal";
+			 }
+		     },
+		   })
 	    .text(function(d,i) { return d; });
 
 	bottombgrect = axes.append("rect").attr("x",3).attr("y",fullheight-axeslabelmargin.bottom-toptextheight).attr("width",figwidth-axeslabelmargin.left-5).attr("height",axeslabelmargin.bottom).attr("fill","white").style({"opacity": "1.0"});

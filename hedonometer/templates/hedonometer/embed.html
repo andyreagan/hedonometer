@@ -18,10 +18,13 @@
     {% endblock %}
 
     {% block headerjs %}
+    <!-- variables from Django for the JS to consume -->
     <script>
       var embedDetails = {
-      "refFile": "{{ refFile }}",
-      "compFile": "{{ compFile }}",
+      "refFile": "{{ refFile|escapejs }}",
+      "compFile": "{{ compFile|escapejs }}",
+      "fulltext": "{{ fulltext|escapejs }}",
+      "contextflag": "{{ contextflag|escapejs }}",
       }
     </script>
     {% endblock %}
