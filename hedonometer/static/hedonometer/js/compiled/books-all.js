@@ -13370,6 +13370,12 @@ hedotools.shifter = function()
     var resetbuttontoggle = function(_) {
 	if (!arguments.length) return reset;
 	resetButton(_);
+	if (_) {
+	    d3.select("g.help").style("visibility","visible");
+	}
+	else {
+	    d3.select("g.help").style("visibility","hidden");
+	}
 	return hedotools.shifter;
     }
 
