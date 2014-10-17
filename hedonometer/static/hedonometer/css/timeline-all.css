@@ -5883,6 +5883,7 @@ ul.missing { list-style: square; }
 /* /\* #footer p{clear:left;margin:0 0 10px 0;line-height:1.6;} */
 /* p{display:block;} */
 /* #footer a.footer-twitter{margin:0 15px 0 0;padding:1px 0 0 20px;background-repeat:no-repeat;background-position:0 0;background-image:url("/images/icon-twitter-footer.png");} *\/ */
+
 /* svg{font:12px sans-serif;} */
 /* path{fill:none;stroke:gray;stroke-width:.25;} */
 /* path.mini{fill:lightgrey;stroke:black;stroke-width:.5px;} */
@@ -5950,6 +5951,8 @@ ul.missing { list-style: square; }
 .sumrectL { cursor: pointer; } 
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
+svg image { cursor: pointer; }
+g.help { cursor: pointer; }
 
 .datepicker{ z-index:2000 !important; }
 .modal-footer{ margin-top:0px; }
@@ -5970,8 +5973,6 @@ ul.missing { list-style: square; }
 	   }
 .restrain { width: 266px !important; }
 #dp1 { width: 100px !important; }
-
-p.sumtext { margin-bottom: 2px; }
 
 img.wikilogo { margin-right: 8px; }
 /*!
@@ -6770,3 +6771,12 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .negup { fill: #4C4CFF; }
 .posup { fill: #FFFF4C; }
 .sumgrey { fill: #272727; }
+
+.legendrect { cursor: pointer; }
+.yearrect { cursor: pointer; }
+.expanderbutton { cursor: pointer; }
+.sumrectL { cursor: pointer; } 
+.sumrectR { cursor: pointer; }
+.resetbutton { cursor: pointer; }
+svg image { cursor: pointer; }
+g.help { cursor: pointer; }

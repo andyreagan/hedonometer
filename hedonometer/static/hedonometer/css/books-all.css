@@ -6944,3 +6944,12 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .negup { fill: #4C4CFF; }
 .posup { fill: #FFFF4C; }
 .sumgrey { fill: #272727; }
+
+.legendrect { cursor: pointer; }
+.yearrect { cursor: pointer; }
+.expanderbutton { cursor: pointer; }
+.sumrectL { cursor: pointer; } 
+.sumrectR { cursor: pointer; }
+.resetbutton { cursor: pointer; }
+svg image { cursor: pointer; }
+g.help { cursor: pointer; }
