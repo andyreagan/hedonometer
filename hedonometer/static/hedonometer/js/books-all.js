@@ -13508,6 +13508,36 @@ hedotools.shifter = function()
 	}
 	return fvec;
     }
+
+    var concatter = function() {
+	// sortedWords = sortedWords.map(function(d,i) { 
+	//     // d = ((i+1)+". ").concat(d);
+	//     if (sortedType[i] == 0) {
+	// 	return ((i+1)+". ").concat(d.concat("-\u2193"));
+	//     } 
+	//     else if (sortedType[i] == 1) {
+	// 	return ((i+1)+". ").concat("\u2193+".concat(d));
+	//     }
+	//     else if (sortedType[i] == 2) {
+	// 	return ((i+1)+". ").concat("\u2191-".concat(d));
+	//     } else {
+	// 	return ((i+1)+". ").concat(d.concat("+\u2191"));
+	//     }
+	// });
+	sortedWords = sortedWords.map(function(d,i) { 
+	    if (sortedType[i] == 0) {
+		return ((i+1)+". ").concat(d.concat("-\u2193"));
+	    } 
+	    else if (sortedType[i] == 1) {
+		return ((i+1)+". ").concat(d.concat("+\u2193"));
+	    }
+	    else if (sortedType[i] == 2) {
+		return ((i+1)+". ").concat(d.concat("-\u2191"));
+	    } else {
+		return ((i+1)+". ").concat(d.concat("+\u2191"));
+	    }
+	});
+    }
     
     var shift = function(a,b,c,d) {
 	refF = a;
@@ -13745,20 +13775,7 @@ hedotools.shifter = function()
 	// console.log("appending to sorted words");
 	// console.log(sortedWords);
 
-	sortedWords = sortedWords.map(function(d,i) { 
-	    // d = ((i+1)+". ").concat(d);
-	    if (sortedType[i] == 0) {
-		return ((i+1)+". ").concat(d.concat("-\u2193"));
-	    } 
-	    else if (sortedType[i] == 1) {
-		return ((i+1)+". ").concat("\u2193+".concat(d));
-	    }
-	    else if (sortedType[i] == 2) {
-		return ((i+1)+". ").concat("\u2191-".concat(d));
-	    } else {
-		return ((i+1)+". ").concat(d.concat("+\u2191"));
-	    }
-	});
+	concatter();
 
 	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
 
@@ -14448,8 +14465,6 @@ hedotools.shifter = function()
 	
     }; // resetButton
 
-
-
     function translateButton() {
 
 	var translateGroup = canvas.append("g")
@@ -14529,20 +14544,7 @@ hedotools.shifter = function()
 	    // console.log(comparisonText);
 	}
 
-	sortedWords = sortedWords.map(function(d,i) { 
-	    // d = ((i+1)+". ").concat(d);
-	    if (sortedType[i] == 0) {
-		return ((i+1)+". ").concat(d.concat("-\u2193"));
-	    } 
-	    else if (sortedType[i] == 1) {
-		return ((i+1)+". ").concat("\u2193+".concat(d));
-	    }
-	    else if (sortedType[i] == 2) {
-		return ((i+1)+". ").concat("\u2191-".concat(d));
-	    } else {
-		return ((i+1)+". ").concat(d.concat("+\u2191"));
-	    }
-	});
+	concatter();
 
 	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
 
@@ -14690,9 +14692,7 @@ hedotools.shifter = function()
 	    newwords
 		.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
 		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-		.text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-				      else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-				      if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+		.text(function(d,i) { return sortedWords[i]; })
 		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
 	    if (shiftseldecoder().current === "posup") {
