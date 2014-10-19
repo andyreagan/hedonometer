@@ -588,16 +588,17 @@ hedotools.shifter = function()
 	// console.log(sortedWords);
 
 	sortedWords = sortedWords.map(function(d,i) { 
+	    // d = ((i+1)+". ").concat(d);
 	    if (sortedType[i] == 0) {
-		return d.concat("-\u2193");
+		return ((i+1)+". ").concat(d.concat("-\u2193"));
 	    } 
 	    else if (sortedType[i] == 1) {
-		return "\u2193+".concat(d);
+		return ((i+1)+". ").concat("\u2193+".concat(d));
 	    }
 	    else if (sortedType[i] == 2) {
-		return "\u2191-".concat(d);
+		return ((i+1)+". ").concat("\u2191-".concat(d));
 	    } else {
-		return d.concat("+\u2191");
+		return ((i+1)+". ").concat(d.concat("+\u2191"));
 	    }
 	});
 
@@ -1482,6 +1483,21 @@ hedotools.shifter = function()
 
 	var newbars = axes.selectAll("rect.shiftrect").data(sortedMag);
 	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
+
+	sortedWords = sortedWords.map(function(d,i) { 
+	    // d = ((i+1)+". ").concat(d);
+	    if (sortedType[i] == 0) {
+		return ((i+1)+". ").concat(d.concat("-\u2193"));
+	    } 
+	    else if (sortedType[i] == 1) {
+		return ((i+1)+". ").concat("\u2193+".concat(d));
+	    }
+	    else if (sortedType[i] == 2) {
+		return ((i+1)+". ").concat("\u2191-".concat(d));
+	    } else {
+		return ((i+1)+". ").concat(d.concat("+\u2191"));
+	    }
+	});
 	
 	// if we haven't dont a subselection, apply with a transition
 	if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
@@ -1497,9 +1513,7 @@ hedotools.shifter = function()
 	    newwords.transition()
 		.attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
 		.style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
-		.text(function(d,i) { if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-				      else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-				      if (sortedMag[i] < 0) {return tmpStr.concat(sortedWords[i]);} else { return sortedWords[i].concat(tmpStr); } })
+		.text(function(d,i) { return sortedWords[i]; })
 		.attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 	}
 	// else apply without a transition
