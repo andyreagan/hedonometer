@@ -14529,6 +14529,21 @@ hedotools.shifter = function()
 	    // console.log(comparisonText);
 	}
 
+	sortedWords = sortedWords.map(function(d,i) { 
+	    // d = ((i+1)+". ").concat(d);
+	    if (sortedType[i] == 0) {
+		return ((i+1)+". ").concat(d.concat("-\u2193"));
+	    } 
+	    else if (sortedType[i] == 1) {
+		return ((i+1)+". ").concat("\u2193+".concat(d));
+	    }
+	    else if (sortedType[i] == 2) {
+		return ((i+1)+". ").concat("\u2191-".concat(d));
+	    } else {
+		return ((i+1)+". ").concat(d.concat("+\u2191"));
+	    }
+	});
+
 	maxWidth = d3.max(sortedWords.slice(0,5).map(function(d) { return d.width(); }));
 
 	// linear scale function
@@ -14642,20 +14657,7 @@ hedotools.shifter = function()
 	var newbars = axes.selectAll("rect.shiftrect").data(sortedMag);
 	var newwords = axes.selectAll("text.shifttext").data(sortedMag);
 
-	sortedWords = sortedWords.map(function(d,i) { 
-	    // d = ((i+1)+". ").concat(d);
-	    if (sortedType[i] == 0) {
-		return ((i+1)+". ").concat(d.concat("-\u2193"));
-	    } 
-	    else if (sortedType[i] == 1) {
-		return ((i+1)+". ").concat("\u2193+".concat(d));
-	    }
-	    else if (sortedType[i] == 2) {
-		return ((i+1)+". ").concat("\u2191-".concat(d));
-	    } else {
-		return ((i+1)+". ").concat(d.concat("+\u2191"));
-	    }
-	});
+
 	
 	// if we haven't dont a subselection, apply with a transition
 	if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
