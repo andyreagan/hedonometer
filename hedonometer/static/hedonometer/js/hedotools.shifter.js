@@ -351,34 +351,57 @@ hedotools.shifter = function()
 	return fvec;
     }
 
+    var prefix = true;
+
     var concatter = function() {
-	// sortedWords = sortedWords.map(function(d,i) { 
-	//     // d = ((i+1)+". ").concat(d);
-	//     if (sortedType[i] == 0) {
-	// 	return ((i+1)+". ").concat(d.concat("-\u2193"));
-	//     } 
-	//     else if (sortedType[i] == 1) {
-	// 	return ((i+1)+". ").concat("\u2193+".concat(d));
-	//     }
-	//     else if (sortedType[i] == 2) {
-	// 	return ((i+1)+". ").concat("\u2191-".concat(d));
-	//     } else {
-	// 	return ((i+1)+". ").concat(d.concat("+\u2191"));
-	//     }
-	// });
-	sortedWords = sortedWords.map(function(d,i) { 
-	    if (sortedType[i] == 0) {
-		return ((i+1)+". ").concat(d.concat("-\u2193"));
-	    } 
-	    else if (sortedType[i] == 1) {
-		return ((i+1)+". ").concat(d.concat("+\u2193"));
+	if (prefix) {
+	    // new method, with numbers prefixed
+	    sortedWords = sortedWords.map(function(d,i) { 
+		if (sortedType[i] == 0) {
+		    return ((i+1)+". ").concat(d.concat("-\u2193"));
+		} 
+		else if (sortedType[i] == 1) {
+		    return ((i+1)+". ").concat(d.concat("+\u2193"));
+		}
+		else if (sortedType[i] == 2) {
+		    return ((i+1)+". ").concat(d.concat("-\u2191"));
+		} else {
+		    return ((i+1)+". ").concat(d.concat("+\u2191"));
+		}
+	    });
+	    if (translate) {
+		sortedWordsEn = sortedWordsEn.map(function(d,i) { 
+		    if (sortedType[i] == 0) {
+			return ((i+1)+". ").concat(d.concat("-\u2193"));
+		    } 
+		    else if (sortedType[i] == 1) {
+			return ((i+1)+". ").concat(d.concat("+\u2193"));
+		    }
+		    else if (sortedType[i] == 2) {
+			return ((i+1)+". ").concat(d.concat("-\u2191"));
+		    } else {
+			return ((i+1)+". ").concat(d.concat("+\u2191"));
+		    }
+		});
 	    }
-	    else if (sortedType[i] == 2) {
-		return ((i+1)+". ").concat(d.concat("-\u2191"));
-	    } else {
-		return ((i+1)+". ").concat(d.concat("+\u2191"));
-	    }
-	});
+	}
+	else {
+	    // old method, without numbers prefixed
+	    sortedWords = sortedWords.map(function(d,i) { 
+		// d = ((i+1)+". ").concat(d);
+		if (sortedType[i] == 0) {
+		    return ((i+1)+". ").concat(d.concat("-\u2193"));
+		} 
+		else if (sortedType[i] == 1) {
+		    return ((i+1)+". ").concat("\u2193+".concat(d));
+		}
+		else if (sortedType[i] == 2) {
+		    return ((i+1)+". ").concat("\u2191-".concat(d));
+		} else {
+		    return ((i+1)+". ").concat(d.concat("+\u2191"));
+		}
+	    });
+	}
     }
     
     var shift = function(a,b,c,d) {
@@ -389,7 +412,16 @@ hedotools.shifter = function()
 	loadsremaining = 0;
 	shifter();
 	return hedotools.shifter;
-    }	
+    }
+    
+    // var sortedMagFull;
+    var sortedTypeFull;
+    var distflag = false;
+    var plotdist = function(_) {
+	if (!arguments.length) return distflag;
+	distflag = _;
+	return hedotools.shifter;
+    }
 
     var shifter = function() {
 	/* shift two frequency vectors
@@ -471,6 +503,16 @@ hedotools.shifter = function()
 	    sortedWords[i] = words[indices[i]]; 
 	}
 
+	if (distflag) {
+	    // declare some new variables
+	    sortedMagFull = Array(lens.length);
+	    sortedTypeFull = Array(lens.length);
+	    for (var i = 0; i < lens.length; i++) { 
+		sortedMagFull[i] = shiftMag[indices[i]]; 
+		sortedTypeFull[i] = shiftType[indices[i]]; 
+	    }
+	}
+
 	// compute the sum of contributions of different types
 	sumTypes = [0.0,0.0,0.0,0.0];
 	for (var i = 0; i < refF.length; i++)
@@ -504,6 +546,72 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    var nbins = 100;
+    var dist;
+    var cdist;
+    var ntypes = 4;
+    var nwords;
+    var computedistributions = function() {
+	// bin the distribution of words into a distribution
+	// and cumulative
+	// there are four types of contributions here (the way
+	// the sum has been broken down), so do the distribution
+	// for the total, and each of the four bins
+
+	// nwords = sortedMagFull.length;
+	// nwords = 2000;
+	var a = 1;
+	nwords = -1;
+	while (a > Math.pow(10,-6)) {
+	    nwords++;
+	    a = Math.abs(sortedMagFull[nwords]);
+	}
+	// console.log(nwords);
+
+	dist = Array(nbins);
+	cdist = Array(nbins);
+	
+	// compute the size of each bin
+	// should be a fast way to do this
+	// when it doesn't round evenly
+	var binsize = Math.floor(nwords/nbins);
+	// console.log(binsize);
+	
+	// loop over each bin, initialize it to zero
+	// then add each of the types to it
+	for (var i=0; i<nbins; i++) {
+	    dist[i] = Array(ntypes+1);
+	    cdist[i] = Array(ntypes+1);
+	    for (var j=0; j<ntypes+1; j++) {
+		dist[i][j] = 0;
+		cdist[i][j] = 0;
+	    }
+	    // fast, with the sum
+	    // console.log(i*binsize);
+	    // console.log((i+1)*binsize);
+	    dist[i][4] = d3.sum(sortedMagFull.slice(i*binsize,(i+1)*binsize));
+	    // slower, by type
+	    for (var j=i*binsize; j<(i+1)*binsize; j++ ) {
+		dist[i][sortedTypeFull[j]] += sortedMagFull[j];
+	    }
+	}
+
+	// now get the cumulative
+	for (var j=0; j<ntypes+1; j++) {	    
+	    cdist[0][j] = dist[0][j];
+	}
+	for (var i=1; i<nbins; i++) {
+	    for (var j=0; j<ntypes+1; j++) {
+		cdist[i][j] = cdist[i-1][j] + dist[i][j];
+	    }
+	}
+
+	// console.log(dist);
+	// console.log(cdist);
+	// console.log(cdist[cdist.length-1]);
+	return hedotools.shifter;
+    }
+    
     // declare a boat load of private variables
     // to be accessed by the other methods
     var canvas;
@@ -533,7 +641,6 @@ hedotools.shifter = function()
     var logo = false;
     var logowidth = 0;
 
-
     var drawlogo = function() {
 	logo = true;
 	var logosize = d3.min([toptextheight-10,80]);
@@ -550,6 +657,8 @@ hedotools.shifter = function()
 		window.open('http://hedonometer.org','_blank');
 	    });
     }
+
+    var distgroup;
 
     var plot = function() {
 	/* plot the shift
@@ -612,6 +721,8 @@ hedotools.shifter = function()
 	
 	// reset this
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom - toptextheight;
+	// console.log(figheight);
+	// console.log(yHeight);
 
 	// take the longest of the top five words
 	// console.log("appending to sorted words");
@@ -634,7 +745,7 @@ hedotools.shifter = function()
 	// zoom object for the axes
 	zoom = d3.behavior.zoom()
 	    .y(y) // pass linear scale function
-	// .translate([10,10])
+	    // .translate([10,10])
 	    .scaleExtent([1,1])
 	    .on("zoom",zoomed);
 
@@ -713,7 +824,7 @@ hedotools.shifter = function()
 		'opacity': '0.7',
 		'stroke-width': '1',
 		'stroke': 'rgb(0,0,0)',
-		'fill': colorClass[sortedType[i]],
+		'fill': function(d,i) { return colorClass[sortedType[i]]; },
 	    });
 	// .on('mouseover', function(d){
 	//     var rectSelection = d3.select(this).style({opacity:'1.0'});
@@ -744,14 +855,13 @@ hedotools.shifter = function()
 		// need translation vector
 		//console.log(flipVector[i]);
 		if (flipVector[i]) { 
-		    if (sortedType[i] == 0) {tmpStr = "-\u2193";} else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-		    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} else {tmpStr = "+\u2191";}
-		    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWords[i]);} else { tmpStr = sortedWords[i].concat(tmpStr); } 
-		    flipVector[i] = 0; }
+		    d3.select(this).text(sortedWords[i]);
+		    flipVector[i] = 0; 
+		}
 		else {
-		    tmpStr = sortedWordsEn[i];
-		    flipVector[i] = 1; }
-		newText = d3.select(this).text(tmpStr);
+		    d3.select(this).text(sortedWordsEn[i]);
+		    flipVector[i] = 1;
+		}
 	    });
 	}
 
@@ -923,17 +1033,17 @@ hedotools.shifter = function()
 		// if we're in a shift selection
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
-			console.log("in a shift type, and that specific type");
+			// console.log("in a shift type, and that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.7'});
 		    }
 		    else {
-			console.log("in a shift type, but not that specific type");
+			// console.log("in a shift type, but not that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.3'});
 		    }
 		}
 		// not in a shift selection
 		else {
-		    console.log("not in a shift type");
+		    // console.log("not in a shift type");
 		    var rectSelection = d3.select(this).style({opacity:'1.0'});
 		}
 	    })
@@ -941,20 +1051,20 @@ hedotools.shifter = function()
 		var specificType = [3,0,-1];
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
-			console.log("in a shift type, and that specific type");
+			// console.log("in a shift type, and that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.7'});
 		    }
 		    else {
-			console.log("in a shift type, but not that specific type");
-			console.log(shiftType);
-			console.log(specificType);
-			console.log(i);
-			console.log(specificType[i]);
+			// console.log("in a shift type, but not that specific type");
+			// console.log(shiftType);
+			// console.log(specificType);
+			// console.log(i);
+			// console.log(specificType[i]);
 			var rectSelection = d3.select(this).style({opacity:'0.14'});
 		    }
 		}
 		else {
-		    console.log("not in a shift type");
+		    // console.log("not in a shift type");
 		    var rectSelection = d3.select(this).style({opacity:'0.7'});
 		}
 	    })
@@ -1074,17 +1184,17 @@ hedotools.shifter = function()
 		// if we're in a shift selection
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
-			console.log("in a shift type, and that specific type");
+			// console.log("in a shift type, and that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.7'});
 		    }
 		    else {
-			console.log("in a shift type, but not that specific type");
+			// console.log("in a shift type, but not that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.3'});
 		    }
 		}
 		// not in a shift selection
 		else {
-		    console.log("not in a shift type");
+		    // console.log("not in a shift type");
 		    var rectSelection = d3.select(this).style({opacity:'1.0'});
 		}
 	    })
@@ -1092,20 +1202,20 @@ hedotools.shifter = function()
 		var specificType = [1,2];
 		if (shiftTypeSelect) {
 		    if (shiftType === specificType[i]) {
-			console.log("in a shift type, and that specific type");
+			// console.log("in a shift type, and that specific type");
 			var rectSelection = d3.select(this).style({opacity:'0.7'});
 		    }
 		    else {
-			console.log("in a shift type, but not that specific type");
-			console.log(shiftType);
-			console.log(specificType);
-			console.log(i);
-			console.log(specificType[i]);
+			// console.log("in a shift type, but not that specific type");
+			// console.log(shiftType);
+			// console.log(specificType);
+			// console.log(i);
+			// console.log(specificType[i]);
 			var rectSelection = d3.select(this).style({opacity:'0.14'});
 		    }
 		}
 		else {
-		    console.log("not in a shift type");
+		    // console.log("not in a shift type");
 		    var rectSelection = d3.select(this).style({opacity:'0.7'});
 		}
 	    })
@@ -1185,7 +1295,18 @@ hedotools.shifter = function()
 		axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return y(i+1) });
 		axes.selectAll("text.shifttext").attr("y", function(d,i) { return y(i+1)+iBarH; } );
 	    }
-
+	    if (distflag) {
+		// console.log(d3.event.translate);
+		// move scaled to the height of the window (23 words)
+		var scaledMove = d3.event.translate[1]/(figheight-yHeight);
+		// console.log(scaledMove);
+		// move relative to the height of the box and those 23 words
+		var relMove = scaledMove*distgrouph*numWords/lens.length;
+		// console.log(relMove);
+		d3.select(".distwin").attr({
+		    "y": d3.max([2,-relMove+2]),
+		});
+	    }
 	}; // zoomed
 
 	// console.log(figheight);
@@ -1209,8 +1330,115 @@ hedotools.shifter = function()
 		   'font-size': '8.0px', })
             .style({'text-anchor': 'start', })
 	    .text(function(d) { return d; });
-
 	
+	if (distflag) {
+	    computedistributions();
+
+	    // console.log(figheight);
+	    // console.log(yHeight);
+	    var distgrouph = 250;
+	    var distgroupw = 70;
+	    var dxspace = 1;
+	    var dyspace = 2;
+
+	    distgroup = axes.append("g")
+		.attr({'class': 'dist',
+		       'fill': '#B8B8B8',
+		       'transform': 'translate('+(5)+','+(figheight-28-distgrouph)+')',
+		      });
+	    
+	    distgroup.append("rect")
+		.attr({
+		    "x": 0,
+		    "y": 0,
+		    "height": distgrouph,
+		    "width": distgroupw,
+		    "class": "distbg",
+		    "stroke-width": "2",
+		    "stroke":"rgb(150,150,150)",
+		    "fill": "#FCFCFC",
+		    "opacity": "0.96",
+		});
+
+	    var distx = d3.scale.linear()
+		.domain(d3.extent(dist.map(function(d) { return d[4]; })))
+		.range([dxspace,distgroupw-2*dxspace]);
+
+	    var disty = d3.scale.linear()
+		.domain([0,nbins-1])
+		.range([dyspace,distgrouph-dyspace]);
+		// .range([dyspace,distgrouph-2*dyspace]);
+	    
+	    var line = d3.svg.line()
+		.x(function(d,i) { return distx(d); })
+		.y(function(d,i) { return disty(i); })
+		.interpolate("cardinal");
+
+	    // console.log(dist.map(function(d) { return d[4]; }));
+	    
+	    var distline = distgroup.append("path")
+		.datum(dist.map(function(d) { return d[4]; }))
+		.attr("class", "line")
+		.attr("d", line)
+		.attr("stroke","red")
+		.attr("stroke-width",1.25)
+		.attr("fill","none");
+
+	    var cdistx = d3.scale.linear()
+		.domain(d3.extent(cdist.map(function(d) { return d[4]; })))
+		.range([dxspace,distgroupw-2*dxspace]);
+
+	    var cline = d3.svg.line()
+		.x(function(d,i) { return cdistx(d); })
+		.y(function(d,i) { return disty(i); })
+		.interpolate("cardinal");
+
+	    var cdistline = distgroup.append("path")
+		.datum(cdist.map(function(d) { return d[4]; }))
+		.attr("class", "line")
+		.attr("d", cline)
+		.attr("stroke","blue")
+		.attr("stroke-width",1.25)
+		.attr("fill","none");
+
+	    // console.log(distgrouph*numWords/lens.length);
+	    // console.log(distgrouph*numWords/2000);
+
+	    var distwindowrect = distgroup.append("rect")
+		.attr({
+		    "x": 0,
+		    "y": 2,
+		    "height": distgrouph*numWords/nwords,
+		    "width": distgroupw,
+		    "class": "distwin",
+		    "stroke-width": "0.75",
+		    "stroke":"rgb(20,20,20)",
+		    "fill": "#FCFCFC",
+		    "opacity": "0.6",
+		});
+
+	    var nwordstext = distgroup.append("text")
+		.attr({
+		    "x": distgroupw+2,
+		    "y": distgrouph+2,
+		    "class": "nwordslabel",
+		    'fill': '#B8B8B8',
+		    'font-size': '8.0px',
+		    'text-anchor': 'start',
+		})
+		.text(nwords);
+
+	    distgroup.append("text")
+		.attr({
+		    "x": distgroupw+2,
+		    "y": 2,
+		    "class": "zerolabel",
+		    'fill': '#B8B8B8',
+		    'font-size': '8.0px',
+		    'text-anchor': 'start',
+		})
+		.text("0");
+	}
 
 	credit = axes.selectAll('text.credit')
 	    .data(['visualization by','@andyreagan','word shifts by','@hedonometer'])
@@ -1349,17 +1577,11 @@ hedotools.shifter = function()
 			// need translation vector
 			//console.log(flipVector[i]);
 			if (flipVector[i]) { 
-			    if (sortedType[i] == 0) {tmpStr = "-\u2193";} 
-			    else if (sortedType[i] == 1) {tmpStr = "\u2193+";}
-			    else if (sortedType[i] == 2) {tmpStr = "\u2191-";} 
-			    else {tmpStr = "+\u2191";}
-			    if (sortedMag[i] < 0) { tmpStr = tmpStr.concat(sortedWordsEn[i]);} 
-			    else { tmpStr = sortedWordsEn[i].concat(tmpStr); } 
+			    return sortedWordsEn[i];
 			}
 			else {
-			    tmpStr = sortedWords[i];
+			    return sortedWords[i];
 			}
-			return tmpStr;
 		    }); // .text()
 	    }); // on("click")
     }; // translateButton
@@ -1458,7 +1680,7 @@ hedotools.shifter = function()
 
 	// console.log("the comparison text in replot is:");
 	// console.log(comparisonText);
-	console.log(toptext);
+	// console.log(toptext);
 	canvas.selectAll("text.titletext").remove();
 	toptext.remove();
 	toptext = canvas.selectAll("text.titletext")
@@ -1761,6 +1983,7 @@ hedotools.shifter = function()
 		    splitstring: splitstring,
 		    drawlogo: drawlogo,
 		    resetbuttontoggle: resetbuttontoggle,
+		    plotdist: plotdist,
 		    _reset: _reset,
 		    _stoprange: _stoprange,
 		    _refF: _refF,
