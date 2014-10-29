@@ -74,7 +74,7 @@ hedotools.loader = function() {
 		compFvec[i] = 0;
 	    }
 	}
-	
+	hedotools.shifter.stop();
 	hedotools.shifter.shift(refFvec,compFvec,lens,words);
 	hedotools.shifter.setfigure(d3.select('#shift01'));
 	var embedtext = embedDetails.fulltext;
