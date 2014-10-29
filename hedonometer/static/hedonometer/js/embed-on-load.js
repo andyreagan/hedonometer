@@ -75,7 +75,7 @@ hedotools.loader = function() {
 	    }
 	}
 	hedotools.shifter._refF(refFvec);
-	hedotools.shifter._compFvec(compF);
+	hedotools.shifter._compF(compFvec);
 	hedotools.shifter._lens(lens);
 	hedotools.shifter._words(words);
 	hedotools.shifter.stop();
