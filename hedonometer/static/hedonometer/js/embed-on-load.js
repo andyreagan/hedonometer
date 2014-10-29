@@ -84,7 +84,7 @@ hedotools.loader = function() {
 		hedotools.shifter.setText(embedtext.split('\n'));
 	    }
 	    else {
-		hedotools.shifter.setText(embedtext.split('\n'));
+		hedotools.shifter.setText(embedtext.split('@'));
 	    }
 	}
 	hedotools.shifter.plot();

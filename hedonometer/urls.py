@@ -87,6 +87,6 @@ urlpatterns = patterns('',
     url(r'^embed/main/(?P<dateref>[\w-]+)/(?P<datecomp>[\w-]+)/$',views.embedMain,name='embed'),
     url(r'^embed/main/(?P<onedate>[\w-]+)/$',views.embedMainSimple,name='embed'),
     url(r'^embed/test/(?P<reffile>[\w-]+).csv/(?P<compfile>[\w-]+).csv/$',views.shifttest,name='test'),
-    url(r'^embed/(?P<some_hash>\w+)/$',views.embedUpload,name='embed'),
+    url(r'^embed/(?P<some_hash>[\w]+)/$',views.embedUpload,name='embed'),
     (r'^api/', include(v1_api.urls)),
 )
