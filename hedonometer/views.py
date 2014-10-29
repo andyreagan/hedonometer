@@ -57,8 +57,8 @@ def embedMainSimple(request,onedate):
     print specialtext
 
     filenames = {'h': 'dont matter',
-                 'refFile': 'http://hedonometer.org/data/word-vectors/%s-sum.csv' % onedate,
-                 'compFile': 'http://hedonometer.org/data/word-vectors/%s-prev7.csv' % onedate,
+                 'refFile': 'http://hedonometer.org/data/word-vectors/%s-prev7.csv' % onedate,
+                 'compFile': 'http://hedonometer.org/data/word-vectors/%s-sum.csv' % onedate,
                  'fulltext': specialtext,
                  'contextflag': 'main',
     }
