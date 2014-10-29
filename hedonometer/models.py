@@ -67,3 +67,6 @@ class Embeddable(models.Model):
     refFileName = models.CharField(max_length=200, null=True, blank=True)
     compFile = models.CharField(max_length=200, null=True, blank=True)
     compFileName = models.CharField(max_length=200, null=True, blank=True)
+    customFullText = models.CharField(max_length=600, null=True, blank=True)
+    customTitleText = models.CharField(max_length=200, null=True, blank=True)
+    contextFlag = models.CharField(max_length=200, null=True, blank=True)

@@ -76,6 +76,13 @@ hedotools.loader = function() {
 		embedtext = embedtext.replace('updown',happysad);
 		hedotools.shifter.setText(embedtext.split('\n'));
 	    }
+	    else if (embedDetails.contextflag === 'justtitle') {
+		var compH = hedotools.shifter._compH().toFixed(2)
+		var refH = hedotools.shifter._refH().toFixed(2)
+		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
+		embedtext += "\nReference Happiness: "+refH+"\nComparison Happiness: "+compH+"\nWhy comparison is "+happysad+" than reference:";
+		hedotools.shifter.setText(embedtext.split('\n'));
+	    }
 	    else {
 		hedotools.shifter.setText(embedtext.split('\n'));
 	    }
