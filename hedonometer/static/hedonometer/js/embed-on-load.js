@@ -74,8 +74,12 @@ hedotools.loader = function() {
 		compFvec[i] = 0;
 	    }
 	}
+	hedotools.shifter._refF(refFvec);
+	hedotools.shifter._compFvec(compF);
+	hedotools.shifter._lens(lens);
+	hedotools.shifter._words(words);
 	hedotools.shifter.stop();
-	hedotools.shifter.shift(refFvec,compFvec,lens,words);
+	hedotools.shifter.shifter();
 	hedotools.shifter.setfigure(d3.select('#shift01'));
 	var embedtext = embedDetails.fulltext;
 	if (embedtext.length > 0) {
