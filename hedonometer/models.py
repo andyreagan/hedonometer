@@ -4,6 +4,7 @@ from django.db import models
 class Happs(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
+    lang = models.CharField(max_length=20)
 
 class GeoHapps(models.Model):
     date = models.DateTimeField()
