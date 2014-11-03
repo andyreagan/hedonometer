@@ -35,6 +35,7 @@ class Event(models.Model):
     wiki = models.URLField()
     imagelink = models.URLField(null=True, blank=True)
     # happs = models.OneToOneField('Happs')
+    lang = models.CharField(max_length=20)
 
     def __unicode__(self):
         return self.caption

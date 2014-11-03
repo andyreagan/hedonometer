@@ -27,7 +27,6 @@ class FixedFloatField(fields.ApiField):
         return value
 
 class EventResource(ModelResource):
-    lang = "english"
     class Meta:
         queryset = Event.objects.all()
         resource_name = "events"
