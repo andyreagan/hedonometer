@@ -540,7 +540,7 @@
 	    return d.value;
 	}))
 	var extraspace = .1;
-	y.domain([happsextent[0]-extraspace,happextent[1]+extraspace]);
+	y.domain([happsextent[0]-extraspace,happsextent[1]+extraspace]);
 	//x2.domain(x.domain());
 	y2.domain(y.domain());
 
