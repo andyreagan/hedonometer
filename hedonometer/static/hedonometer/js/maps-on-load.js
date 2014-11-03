@@ -50,7 +50,8 @@ d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
 	    } } );
 
 timeselencoder = d3.urllib.encoder().varname("time"); //.varval(lensExtent);
-timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 30 Days"); //.varval(lensExtent);
+// timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 30 Days"); //.varval(lensExtent);
+timeseldecoder = d3.urllib.decoder().varname("time").varresult("2013"); //.varval(lensExtent);
 
 
 function initializePlot() {
@@ -120,8 +121,10 @@ compListDrop.enter().append("li").append("a").text(function(d,i) { return d; });
 shiftselencoder = d3.urllib.encoder().varname("selection"); //.varval(lensExtent);
 shiftseldecoder = d3.urllib.decoder().varname("selection").varresult("none"); //.varval(lensExtent);
 
-timeFrames = ["2013","2012","2011","lastquarter","lastmonth","lastweek"];
-timeFrameText = ["2013","2012","2011","Last 90 Days","Last 30 Days","Last 7 Days"];
+// timeFrames = ["2013","2012","2011","lastquarter","lastmonth","lastweek"];
+// timeFrameText = ["2013","2012","2011","Last 90 Days","Last 30 Days","Last 7 Days"];
+timeFrames = ["2013","2012","2011"];
+timeFrameText = ["2013","2012","2011"];
 
 function refcompdrops() {
     d3.select("#compSelect").selectAll("a")
@@ -349,48 +352,48 @@ function initializePlotPlot(lens,words) {
     }
     // randomHapps = stateHappsList.map(function(d) { return d+(Math.random()-0.5)/5; } )
     // the previous week
-    var time = "2014-08-18-week"
-    d3.text("http://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
-	var tmp = text.split("\n");
-	var allDataOld = Array(52);
-	for (var i=0; i<51; i++) {
-	    allDataOld[i] = {name: allStateNames[i],
-			  rawFreq: tmp[i].split(",").map(parseFloat),
-			  freq: tmp[i].split(",")};
-	}
-	// initialize the all data
-	allDataOld[51] = {name: allStateNames[51],
-		       rawFreq: Array(allDataOld[0].freq.length),
-		       freq: Array(allDataOld[0].freq.length),};
-	for (var j=0; j<allDataOld[0].freq.length; j++) {
-	    allDataOld[51].rawFreq[j] = 0.0;
-	}
-	for (var i=0; i<51; i++) {
-	    for (var j=0; j<allDataOld[0].freq.length; j++) {
-		allDataOld[51].rawFreq[j] += parseFloat(allDataOld[i].rawFreq[j]);
-	    }
-	}
+    // var time = "2014-08-18-week"
+    // d3.text("http://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    // 	var tmp = text.split("\n");
+    // 	var allDataOld = Array(52);
+    // 	for (var i=0; i<51; i++) {
+    // 	    allDataOld[i] = {name: allStateNames[i],
+    // 			  rawFreq: tmp[i].split(",").map(parseFloat),
+    // 			  freq: tmp[i].split(",")};
+    // 	}
+    // 	// initialize the all data
+    // 	allDataOld[51] = {name: allStateNames[51],
+    // 		       rawFreq: Array(allDataOld[0].freq.length),
+    // 		       freq: Array(allDataOld[0].freq.length),};
+    // 	for (var j=0; j<allDataOld[0].freq.length; j++) {
+    // 	    allDataOld[51].rawFreq[j] = 0.0;
+    // 	}
+    // 	for (var i=0; i<51; i++) {
+    // 	    for (var j=0; j<allDataOld[0].freq.length; j++) {
+    // 		allDataOld[51].rawFreq[j] += parseFloat(allDataOld[i].rawFreq[j]);
+    // 	    }
+    // 	}
 	
-	// this is computeHapps() with allData -> allDataOld
-	for (var j=0; j<52; j++) {
-	    // compute total frequency
-	    var N = 0.0;
-	    for (var i=0; i<allDataOld[j].freq.length; i++) {
-		N += parseFloat(allDataOld[j].freq[i]);
-	    }
-	    var happs = 0.0;
-	    for (var i=0; i<allDataOld[j].freq.length; i++) {
-		happs += parseFloat(allDataOld[j].freq[i])*parseFloat(lens[i]);
-	    }
-	    allDataOld[j].avhapps = happs/N;
-	}
-	var stateHappsListOld = Array(51);
-	for (var i=0; i<stateHappsListOld.length; i++) {
-	    stateHappsListOld[i] = allDataOld[i].avhapps;
-	}
+    // 	// this is computeHapps() with allData -> allDataOld
+    // 	for (var j=0; j<52; j++) {
+    // 	    // compute total frequency
+    // 	    var N = 0.0;
+    // 	    for (var i=0; i<allDataOld[j].freq.length; i++) {
+    // 		N += parseFloat(allDataOld[j].freq[i]);
+    // 	    }
+    // 	    var happs = 0.0;
+    // 	    for (var i=0; i<allDataOld[j].freq.length; i++) {
+    // 		happs += parseFloat(allDataOld[j].freq[i])*parseFloat(lens[i]);
+    // 	    }
+    // 	    allDataOld[j].avhapps = happs/N;
+    // 	}
+    // 	var stateHappsListOld = Array(51);
+    // 	for (var i=0; i<stateHappsListOld.length; i++) {
+    // 	    stateHappsListOld[i] = allDataOld[i].avhapps;
+    // 	}
 
-	// plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);	
-    });
+    // 	// plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);	
+    // });
 };
 
 initializePlot();
