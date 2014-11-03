@@ -519,7 +519,7 @@
 
     var minDate,maxDate;
 
-    d3.csv("http://hedonometer.org/data/word-vectors/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/"+lang+"/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
