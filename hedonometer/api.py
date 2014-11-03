@@ -47,6 +47,7 @@ class HappsResource(ModelResource):
         include_resource_uri = False
         filtering = {
             'date': ALL,
+            'lang': ALL,
         }
 
 class GeoHappsResource(ModelResource):
