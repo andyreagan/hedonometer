@@ -535,7 +535,10 @@
 	x.domain(d3.extent(data.map(function(d) {
 	    return d.date;
 	})));
-	y.domain([5.8, 6.40]);
+	// y.domain([5.8, 6.40]);
+	y.domain(d3.extent(data.map(function(d) {
+	    return d.value;
+	})));
 	//x2.domain(x.domain());
 	y2.domain(y.domain());
 
