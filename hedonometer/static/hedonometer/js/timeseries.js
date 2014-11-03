@@ -536,9 +536,11 @@
 	    return d.date;
 	})));
 	// y.domain([5.8, 6.40]);
-	y.domain(d3.extent(data.map(function(d) {
+	var happsextent = d3.extent(data.map(function(d) {
 	    return d.value;
-	})));
+	}))
+	var extraspace = .1;
+	y.domain([happsextent[0]-extraspace,happextent[1]+extraspace]);
 	//x2.domain(x.domain());
 	y2.domain(y.domain());
 
