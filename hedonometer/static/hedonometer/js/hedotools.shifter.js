@@ -436,7 +436,7 @@ hedotools.shifter = function()
 	var Nref = 0.0;
 	var Ncomp = 0.0;
 	var lensLength = d3.min([refF.length,compF.length,words.length,lens.length])
-	for (var i=0; i<lensLengths; i++) {
+	for (var i=0; i<lensLength; i++) {
             Nref += parseFloat(refF[i]);
             Ncomp += parseFloat(compF[i]);
 	}
