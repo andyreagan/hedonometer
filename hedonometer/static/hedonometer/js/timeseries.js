@@ -990,8 +990,6 @@
 
 		hedotools.shifter._refF(refFvec);
 		hedotools.shifter._compF(compFvec);
-		hedotools.shifter._words(words);
-		hedotools.shifter._lens(lens);
 		hedotools.shifter.stop();
 		hedotools.shifter.shifter();
 		hedotools.shifter.setWidth(modalwidth);
