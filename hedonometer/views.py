@@ -109,6 +109,14 @@ def embedUpload(request,some_hash):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
+def timeseries(request,lang):
+    langdict = {
+        "lang": lang,
+    }
+
+    # now pass those into the view
+    return render(request, 'hedonometer/indexlang.html', Context(langdict))
+
 def parser(request):
     # expect the post data
     logger.debug(request.POST)

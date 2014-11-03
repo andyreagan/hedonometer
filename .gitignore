@@ -13,4 +13,10 @@ mysite/static/vaccv
 pyenv
 # daily backup of graphics on the local computer
 screenshots
+.DS_Store
+
+
+
+
+
 
