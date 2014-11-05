@@ -992,7 +992,9 @@
 
 		hedotools.shifter._refF(refFvec);
 		hedotools.shifter._compF(compFvec);
-		hedotools.shifter.stop();
+		if (lang !== "arabic") {
+		    hedotools.shifter.stop();
+		}
 		hedotools.shifter.shifter();
 		hedotools.shifter.setWidth(modalwidth);
 		hedotools.shifter.setText([" "," "," "," "]);
