@@ -18,6 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('DJ_SECRET_KEY')
 
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJ_DEBUG') in ['TRUE','1','true','True']
  
@@ -58,7 +59,19 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'south',
     'tastypie',
+    'twython_django',
 )
+
+# the following 6 are for twitter logins
+TWITTER_KEY = os.getenv('HEDO_APP_KEY')
+TWITTER_SECRET = os.getenv('HEDO_APP_SECRET')
+
+LOGIN_URL='/twitter/login'
+LOGOUT_URL='/twitter/logout'
+LOGIN_REDIRECT_URL='/twitter/user_timeline'
+LOGOUT_REDIRECT_URL='/'
+
+AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',

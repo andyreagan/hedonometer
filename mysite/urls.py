@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     url(r'^', include('hedonometer.urls',namespace='hedonometer')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^twitter/', include('twython_django.urls',namespace='twython_django')),
 ) 
 
 # load the static files if in debug

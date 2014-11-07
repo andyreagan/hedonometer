@@ -811,14 +811,34 @@
 	}));
     };
 
+    var brushlimited = false;
+    var brushlimitextent = [];
+
     function brushended() {
 	// console.log("brushended");
-	fromencoder.varval(cformat(x.domain()[0]));
-	toencoder.varval(cformat(x.domain()[1]));
-	focus.selectAll(".brushingline")
-	    .attr({ 
-		"visibility": "hidden",
-	    });
+	if (brushlimited) {
+	    console.log("brush limited end");
+	    console.log(brushlimitextent);
+	    console.log(brush.extent());
+	    brush.extent(brushlimitextent);
+	    // brushing();
+	    context.select(".x.brush")
+		.call(brush);
+	    focus.selectAll(".brushingline")
+		.attr({ 
+		    "visibility": "hidden",
+		});
+	    return;
+	}
+	else {
+	    console.log("brush not limited end");
+	    fromencoder.varval(cformat(x.domain()[0]));
+	    toencoder.varval(cformat(x.domain()[1]));
+	    focus.selectAll(".brushingline")
+		.attr({ 
+		    "visibility": "hidden",
+		});
+	}
     }
 
     focus.selectAll("brushingline").data([0,width]).enter().append("line")
@@ -832,15 +852,28 @@
 	    "stroke-width": 2,
 	    "visibility": "hidden",
 	});
-
+    
     function brushing() {
-	// console.log("brushing");
-	// console.log(x.domain()[0].getTime());
-	// console.log(x.domain()[1].getTime());
-	// console.log(x2.domain());
-	// console.log(brush.extent());
+	console.log("brushing");
+	console.log(x.domain()[0].getTime());
+	console.log(x.domain()[1].getTime());
+	console.log(x2.domain());
+	console.log(brush.extent());
 
 	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
+
+	console.log(currRange);
+	if (currRange < 7771265868) {
+	    console.log("should limit here");
+	    if (!brushlimited) {
+		brushlimitextent = brush.extent()
+	    }
+	    brushlimited = true;
+	    return;
+	}
+	else {
+	    brushlimited = false;
+	}
 	// var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	// toggleDays(rScale(currRange));
 
