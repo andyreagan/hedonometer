@@ -1,4 +1,4 @@
-5{% extends "hedonometer/base.html" %}
+{% extends "hedonometer/base.html" %}
 {% load staticfiles %}
 {% block headercss %}
 <link href="{% static "hedonometer/css/books-all.min.css" %}" rel="stylesheet">
@@ -31,6 +31,104 @@
 	  <div id="chapters03" class="figure"></div>
 	  <div id="chapters02" class="figure compslider"></div>
 	</div>
+
+	<div class="paper">
+	  <p><b>Interact with timeseries</b></p>
+	  <form role="form">
+	    <div class="row">
+	      <div class="col-xs-12 col-lg-1">
+	      Comparing
+	      </div>
+	      <div class="col-xs-12 col-lg-2">
+	      <div class="input-group restrain" style="width: 165px;">
+		<input type="text" class="form-control" value="0%" id="refInput1">
+		<span class="input-group-btn">
+                  <button class="btn btn-default left" type="button" style="border-radius: 0px; border-right-width: 0px;" disabled="disabled">
+                    to
+                  </button>
+		</span>
+		<input type="text" class="form-control" value="20%" id="refInput2" style="border-left-width: 1px;">
+              </div>
+	      </div>
+	      <!-- <div class="form-group col-xs-1"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref1" placeholder="10%"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref2" placeholder="20%"> -->
+	      <!-- </div> -->
+	      <!-- <div class="col-xs-1"> -->
+	      <!-- to -->
+	      <!-- </div> -->
+	      <!-- <div class="form-group col-xs-1"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref2" placeholder="20%"> -->
+	      <!-- </div> -->
+	      <div class="col-xs-12 col-lg-1">
+	      versus reference
+	      </div>
+	    <!--   <div class="form-group col-xs-1"> -->
+	    <!-- 	<input type="email" class="form-control" id="comp1" placeholder="60%"> -->
+	    <!--   </div> -->
+	    <!--   <div class="col-xs-1"> -->
+	    <!--   to -->
+	    <!--   </div> -->
+	    <!--   <div class="form-group col-xs-1"> -->
+	    <!-- 	<input type="email" class="form-control" id="comp2" placeholder="100%"> -->
+	    <!--   </div> -->
+	      <div class="col-xs-12 col-lg-2">
+	      <div class="input-group restrain" style="width: 165px;">
+		<input type="text" class="form-control" value="80%" id="compInput1">
+		<span class="input-group-btn">
+                  <button class="btn btn-default left" type="button" style="border-radius: 0px; border-right-width: 0px;" disabled="disabled">
+                    to
+                  </button>
+		</span>
+		<input type="text" class="form-control" value="100%" id="compInput2" style="border-left-width: 1px;">
+              </div>
+	      </div>
+	      <div class="col-xs-12 col-lg-1">
+	      of text.
+	      </div>
+	    </div>
+	  </form>
+	  <br>
+	  <div class="row">
+	    <div class="col-xs-12 col-lg-6">
+	      <div class="btn-group">
+		<button type="button" class="btn btn-default" id="loaddatabutton">Load Shift Data
+		  <i class="fa fa-cloud-download"></i>
+		</button>
+		<button type="button" class="btn btn-default" id="popupbutton" disabled="disabled">Show Shift
+		  <i class="fa fa-external-link-square"></i>
+		</button>
+	      </div>
+	    </div>
+	    <div class="visible-lg col-lg-6">
+	      <div class="btn-group pull-right">
+		<button type="button" class="btn btn-default" id="loadalldatabutton">Load All Word Vector Data
+		  <i class="fa fa-cloud-download"></i>
+		</button>
+		<button type="button" class="btn btn-default" id="lensbutton" disabled="disabled">Show Lens
+		  <i class="fa fa-external-link-square"></i>
+		</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<div class="paper">
+	  <p><b>Annotate high and low points</b></p>
+	  {% if user.is_authenticated %}
+	  <div class="row">
+	    <div class="col-xs-12">
+	      Welcome back, {{ user.username }}!
+	    </div><!-- col -->
+	    <div class="col-xs-12">
+	      <button type="button" class="btn btn-default">Begin annotating</button>
+	      <!-- put form here -->
+	    </div><!-- col -->
+	  </div><!-- row -->
+	  {% else %}
+	  <a href="/twitter/login"><img src="/static/hedonometer/graphics/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+	  {% endif %}
+	</div>
       </div><!-- col -->
     </div><!-- row -->
 
@@ -46,8 +144,29 @@
       </div>
     </div> <!-- row? -->
     <br>
+
   </div><!-- /.container-fluid -->
 </div><!-- /.container -->
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
+      </div>
+      <div class="modal-body" id="moveshifthere">
+      </div>
+      <div class="modal-footer" id="moveshiftherefooter">
+        <div class="addthis_sharing_toolbox pull-left"></div>
+
+        <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 <!-- <div class="paper paper-curl-right"> -->
@@ -61,7 +180,20 @@
 {% endblock %}
 
 {% block bottomjs %}
-    <script src="{% static "hedonometer/js/books-all-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+    <script src="{% static "hedonometer/js/typeahead.bundle.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawLens-chapters.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawBookTimeseries-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/selectChapter-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/selectChapterTop-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/computeHappsChapters.js" %}"></script>
+    <script src="{% static "hedonometer/js/books-on-load-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/spin.js" %}"></script>
 {% endblock %}
 
 

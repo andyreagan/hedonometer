@@ -68,17 +68,6 @@ function selectChapter(figure,numSections) {
 	    .scale(y) //linear scale function
 	    .orient("left"); }
 
-    // draw the axes
-    // var yAxis = create_yAxis()
-    // 	.innerTickSize(6)
-    // 	.outerTickSize(0);
-
-    // axes.append("g")
-    // 	.attr("class", "top")
-    // 	.attr("transform", "(0,0)")
-    // 	.attr("font-size", "12.0px")
-    // 	.call(yAxis);
-
     var xAxis = create_xAxis()
 	.innerTickSize(6)
 	.outerTickSize(0);
@@ -102,18 +91,6 @@ function selectChapter(figure,numSections) {
 
     var unclipped_axes = axes;
  
-    //axes = axes.append("g")
-	//.attr("clip-path","url(#clip)");
-
-    // canvas.append("text")
-    // 	.text("Happs")
-    // 	.attr("class","axes-text")
-    // 	.attr("x",(figwidth-width)/4)
-    // 	.attr("y",figheight/2+30)
-    // 	.attr("font-size", "12.0px")
-    // 	.attr("fill", "#000000")
-    // 	.attr("transform", "rotate(-90.0," + (figwidth-width)/4 + "," + (figheight/2+30) + ")");
-
     var xlabel = canvas.append("text")
 	.text("Percentage of book")
 	.attr("class","axes-text")
@@ -142,12 +119,16 @@ function selectChapter(figure,numSections) {
         .on("brush",brushing)
         .on("brushend",brushended);
 
+    compFextentStrs = compFextent.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+    // console.log(compFextentStrs);
+
+    d3.select("#compInput1").attr("value",compFextentStrs[0]+"%");
+    d3.select("#compInput2").attr("value",compFextentStrs[1]+"%");
+
     var gBrush = canvas.append("g")
         .attr("class","bottombrush")
         .call(brush)
         .call(brush.event);
-
-
 
     gBrush.selectAll("rect")
         .attr("height",height)
@@ -163,6 +144,11 @@ function selectChapter(figure,numSections) {
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
 	drawCompArea(extent1);
+	compFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+	// console.log(compFextentStrs);
+
+ 	d3.select("#compInput1").attr("value",compFextentStrs[0]+"%");
+	d3.select("#compInput2").attr("value",compFextentStrs[1]+"%");
 	
 	d3.selectAll("text.complabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
@@ -183,32 +169,6 @@ function selectChapter(figure,numSections) {
 
 	compFencoder.varval(compFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
 
-	// initialize new values
-	var refF = Array(allDataRaw[0].length);
-	var compF = Array(allDataRaw[0].length);
-	for (var i=0; i<allDataRaw[0].length; i++) {
-            refF[i]= 0;
-            compF[i]= 0;
-	}
-	// loop over each slice of data
-	for (var i=0; i<allDataRaw[0].length; i++) {
-		for (var k=refFextent[0]; k<refFextent[1]; k++) {
-                    refF[i] += allData[k][i];
-		}
-		for (var k=compFextent[0]; k<compFextent[1]; k++) {
-                    compF[i] += allData[k][i];
-		}
-	}
-	
-	console.log("redrawing shift");
-	var shiftObj = shift(refF,compF,lens,words);
-	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
-		  shiftObj.sortedType.slice(0,200),
-		  shiftObj.sortedWords.slice(0,200),
-		  shiftObj.sortedWordsEn.slice(0,200),
-		  shiftObj.sumTypes,
-		  shiftObj.refH,
-		  shiftObj.compH);
 	}
 
 	d3.select(this).transition()

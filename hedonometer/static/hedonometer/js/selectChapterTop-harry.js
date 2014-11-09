@@ -93,6 +93,12 @@ function selectChapterTop(figure,numSections) {
         .on("brush",brushing)
         .on("brushend",brushended);
 
+    refFextentStrs = refFextent.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+    // console.log(refFextentStrs);
+
+    d3.select("#refInput1").attr("value",refFextentStrs[0]+"%");
+    d3.select("#refInput2").attr("value",refFextentStrs[1]+"%");
+
     var gBrush = canvas.append("g")
         .attr("class","topbrush")
         .call(brush)
@@ -114,6 +120,12 @@ function selectChapterTop(figure,numSections) {
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
 	drawRefArea(extent1);
+
+	refFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+	console.log(refFextentStrs);
+
+	d3.select("#refInput1").attr("value",refFextentStrs[0]+"%");
+	d3.select("#refInput2").attr("value",refFextentStrs[1]+"%");
 	
 	d3.selectAll("text.reflabel").attr("x",brushX(d3.sum(extent1)/extent1.length));
     };
@@ -133,37 +145,12 @@ function selectChapterTop(figure,numSections) {
 
 	refFencoder.varval(refFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
 
-	// initialize new values
-	var refF = Array(allDataRaw[0].length);
-	var compF = Array(allDataRaw[0].length);
-	for (var i=0; i<allDataRaw[0].length; i++) {
-            refF[i]= 0;
-            compF[i]= 0;
-	}
-	// loop over each slice of data
-	for (var i=0; i<allDataRaw[0].length; i++) {
-		for (var k=refFextent[0]; k<refFextent[1]; k++) {
-                    refF[i] += allData[k][i];
-		}
-		for (var k=compFextent[0]; k<compFextent[1]; k++) {
-                    compF[i] += allData[k][i];
-		}
-	}
-	
-	console.log("redrawing shift");
-	var shiftObj = shift(refF,compF,lens,words);
-	plotShift(d3.select("#figure01"),shiftObj.sortedMag.slice(0,200),
-		  shiftObj.sortedType.slice(0,200),
-		  shiftObj.sortedWords.slice(0,200),
-		  shiftObj.sortedWordsEn.slice(0,200),
-		  shiftObj.sumTypes,
-		  shiftObj.refH,
-		  shiftObj.compH);
-	}
+
 
 	d3.select(this).transition()
 	    .call(brush.extent(extent1))
 	    .call(brush.event);
+	}
 
     }
 

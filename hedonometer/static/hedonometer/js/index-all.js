@@ -16039,15 +16039,18 @@ hedotools.shifter = function()
 	}));
     };
 
-    var brushlimited = false;
-    var brushlimitextent = [];
+    var limitbrushbool = false;
+    if (limitbrushbool) {
+	var brushlimited = false;
+	var brushlimitextent = [];
+    }
 
     function brushended() {
 	// console.log("brushended");
-	if (brushlimited) {
-	    console.log("brush limited end");
-	    console.log(brushlimitextent);
-	    console.log(brush.extent());
+	if (limitbrushbool && brushlimited) {
+	    // console.log("brush limited end");
+	    // console.log(brushlimitextent);
+	    // console.log(brush.extent());
 	    brush.extent(brushlimitextent);
 	    // brushing();
 	    context.select(".x.brush")
@@ -16059,7 +16062,7 @@ hedotools.shifter = function()
 	    return;
 	}
 	else {
-	    console.log("brush not limited end");
+	    // console.log("brush not limited end");
 	    fromencoder.varval(cformat(x.domain()[0]));
 	    toencoder.varval(cformat(x.domain()[1]));
 	    focus.selectAll(".brushingline")
@@ -16082,26 +16085,29 @@ hedotools.shifter = function()
 	});
     
     function brushing() {
-	console.log("brushing");
-	console.log(x.domain()[0].getTime());
-	console.log(x.domain()[1].getTime());
-	console.log(x2.domain());
-	console.log(brush.extent());
+	// console.log("brushing");
+	// console.log(x.domain()[0].getTime());
+	// console.log(x.domain()[1].getTime());
+	// console.log(x2.domain());
+	// console.log(brush.extent());
 
 	var currRange = (brush.extent()[1].getTime()-brush.extent()[0].getTime());
 
-	console.log(currRange);
-	if (currRange < 7771265868) {
-	    console.log("should limit here");
-	    if (!brushlimited) {
-		brushlimitextent = brush.extent()
+	// console.log(currRange);
+	if (limitbrushbool) {
+	    if (currRange < 7771265868) {
+		console.log("should limit here");
+		if (!brushlimited) {
+		    brushlimitextent = brush.extent()
+		}
+		brushlimited = true;
+		return;
 	    }
-	    brushlimited = true;
-	    return;
+	    else {
+		brushlimited = false;
+	    }
 	}
-	else {
-	    brushlimited = false;
-	}
+
 	// var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	// toggleDays(rScale(currRange));
 
@@ -16275,9 +16281,6 @@ hedotools.shifter = function()
 
     var numWords = 27;
     
-    // global declaration
-    // drawSmallShift = function drawSmallShift(circle) {
-    // inside function closure
     function drawSmallShift(cx,cy,popdate) {
 	// remove old guys
 	d3.select("#minilist").remove();
@@ -16289,9 +16292,6 @@ hedotools.shifter = function()
 	
 	var miniboxX = offsetXY(circleX, circleY, "X");
 	var miniboxY = offsetXY(circleX, circleY, "Y");
-
-	// console.log(miniboxX);
-	// console.log(miniboxY);
 
 	// not sure what these are
 	var py = 5;
@@ -16317,48 +16317,33 @@ hedotools.shifter = function()
 		}
 		catch(err) {
 		    // console.log(err);
-		}
-	    });
-	// these are for logging the events
-	// I was having issues when the minilistbg was appended
-	// before the shortlist. I appended it after, and attached
-	// these (the above) events to the group, not the rect
-	// .on("mouseout",function(d,i) { 
-	// 	console.log("mouseout");
-	// });
-	// .on("mouseover",function(d,i) { 
-	// 	console.log("mouseover");
-	// });
+		} });
+	
+	shortlist.append("rect")
+	    .attr("id","minilistbg")
+	// .attr("width", mainWidth + mainMargin.left + mainMargin.right + 35)
+	// .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
+	    .attr("width", 315)
+	    .attr("height", 260)
+	//.attr("transform", "translate(" + (miniboxX-40) + "," + (miniboxY-40) + ")")
+	    .attr("transform", "translate(-40,-40)") // it is 40 wider
+	// than the pop-up, in every dimension
+	    .attr("fill","grey")
+	    .attr("opacity",0.01); // it needs some opacity to be clickable
+	// these events are now on the group
+	//.on("mousedown",function(d,i) { d3.select(this).remove(); d3.select("#minilist").remove(); } );
 
-	// draw a background rectangle to remove the popup on click out
-	// d3.select("#timeseries").insert("rect","#minilist")
-	// d3.select("#timeseries").append("rect")
-	// and now it's inside the list, just to make the group the right size
-	    shortlist.append("rect")
-		.attr("id","minilistbg")
-	    // .attr("width", mainWidth + mainMargin.left + mainMargin.right + 35)
-	    // .attr("height", mainHeight + mainMargin.top + mainMargin.bottom)
-		.attr("width", 315)
-		.attr("height", 260)
-	    //.attr("transform", "translate(" + (miniboxX-40) + "," + (miniboxY-40) + ")")
-		.attr("transform", "translate(-40,-40)") // it is 40 wider
-	    // than the pop-up, in every dimension
-		.attr("fill","grey")
-		.attr("opacity",0.01); // it needs some opacity to be clickable
-	    // these events are now on the group
-	    //.on("mousedown",function(d,i) { d3.select(this).remove(); d3.select("#minilist").remove(); } );
+	shortlist.append("svg:polyline").attr("id", "shadow").attr("points", function(d) {
+	    return triangleptsXY(circleX, circleY); })
+	    .attr("transform", "translate(4,4)")
+	    .attr("stroke", "grey").attr("fill", "grey").attr("opacity", 0.2).attr("stroke-width", "1");
 
-	    shortlist.append("svg:polyline").attr("id", "shadow").attr("points", function(d) {
-		return triangleptsXY(circleX, circleY); })
-		.attr("transform", "translate(4,4)")
-		.attr("stroke", "grey").attr("fill", "grey").attr("opacity", 0.2).attr("stroke-width", "1");
+	shortlist.append("svg:polyline").attr("id", "bg").attr("points", function(d) {
+	    return triangleptsXY(circleX, circleY);
+	}).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
 
-	    shortlist.append("svg:polyline").attr("id", "bg").attr("points", function(d) {
-		return triangleptsXY(circleX, circleY);
-	    }).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
-
-	    // shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
-	    shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate"); 
+	// shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
+	shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate"); 
 
 	for (var i=0; i<bigdays.length; i++) {
 	    //console.log(bigdays[i].date);
@@ -16390,11 +16375,6 @@ hedotools.shifter = function()
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
-
-	    // set the width for bars
-	    //var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
-	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
-	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
 	    d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
@@ -16440,8 +16420,8 @@ hedotools.shifter = function()
 		//.attr("href","#myModal")
 		    .attr("class","expanderbutton")
 	            .on("click",function() { 
-		                             transitionBigShift(popdate);
-					   });
+		        transitionBigShift(popdate);
+		    });
 
 		var innerlist = shortlist.append("svg:g").attr("transform", "translate(20,79)").attr("id","smallshiftgroup");
 
@@ -16509,13 +16489,6 @@ hedotools.shifter = function()
 	height = .99*figheight;
 
 	var figcenter = width/2;
-
-	// create the x and y axis
-	// scale in x by width of the top word
-	// could still run into a problem if top magnitudes are similar
-	// and second word is longer
-	// make these local
-	// var x0 = Math.max(-d3.min(sortedMag) * 1.33, d3.max(sortedMag) * 1.33);
 
 	sortedWords = sortedWords.map(function(d,i) { 
 	    if (sortedType[i] == 0) {
@@ -16598,8 +16571,6 @@ hedotools.shifter = function()
 	    .attr("x",function(d,i) { if (d>0) {return x(d)+2;} else {return x(d)-2; } } );
 
 	function zoomed() {
-	    //axes.selectAll("rect.shiftrect").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
-	    //axes.selectAll("text.shifttext").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
 	    axes.selectAll("rect.shiftrect").attr("y", function(d,i) { return y(i+1) });
 	    axes.selectAll("text.shifttext").attr("y", function(d,i) { return y(i+1)+iBarH; } )
 	};
@@ -16607,30 +16578,8 @@ hedotools.shifter = function()
 
     // store the function in a object of the same name globally
     nextDay = function nextDay(update) {
-	// trying to get this function to remember it's context
-	var that = this;
-	// console.log(this);
-	// console.log(that);
-
-	// shiftselencoder.varval("none");
-	// shiftselencoder.destroy();
-
-	// var date = datedecoder().current;
-	// console.log(date);
-	// console.log(cformat.parse(date));
-
-	// was used 2014-10-08
-	// var bigshiftdiv = d3.select("#moveshifthere");
-
-	// var newdate = d3.time.day.offset(cformat.parse(date),offset);
-
-	// was used 2014-10-08
-	// var newdate = update;
-
-	// console.log(newdate);
-	// console.log(cformat(newdate));	
-	dateencoder.varval(cformat(update));
 	// grab the date
+	dateencoder.varval(cformat(update));
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
@@ -16638,8 +16587,6 @@ hedotools.shifter = function()
 	    compFvec = tmp.split('\n').slice(0,10222);
 	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
-
-
 
 		// nextDay changing the text at the top
 		var bigdaytest = false;
@@ -16649,10 +16596,7 @@ hedotools.shifter = function()
 		addthis_share.passthrough.twitter.text = longformat(update)+", word shift:"
 
 		for (var i=0; i<bigdays.length; i++) {
-		    //console.log(bigdays[i].date);
-		    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
 		    if (bigdays[i].date.getTime() === update.getTime()) {
-			// console.log("major event wiki");
 			bigdaytest = true;
 			bigdaywiki.push(bigdays[i].wiki);
 			bigdaytext.push(bigdays[i].longer);
@@ -16676,31 +16620,17 @@ hedotools.shifter = function()
 		// grab the modal body
 		var modalbody = d3.select("#moveshifthere");
 		var modalfooter = d3.select("#moveshiftherefooter");
-		// remove the text at the top
-		// modalbody.selectAll("p").remove();
-		// modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(update)+"</b>"; });
 		var tmptext = [longerformat(update)];
 		if (bigdaytest) {
-		    // console.log(bigdaytext);
 		    for (var bc=0; bc<bigdaytext.length; bc++) {
-			// console.log("appending event "+bc+" text");
-			// modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
 			tmptext = tmptext.concat([bigdaytext[bc]]);
 		    }
 		}
 		else {
-		    // modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
 		    tmptext = tmptext.concat([""]);
 		}
 
-		// modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
-
 		tmptext = tmptext.concat(["Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(2)]);
-
-		// modalbody.insert("p","svg").text(function() {
-		//     var head = "What's making this day ";
-		//     return hedotools.shifter._refH() <= hedotools.shifter._compH() ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
-		// });
 
 		tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
 
@@ -16810,8 +16740,6 @@ hedotools.shifter = function()
 	    form['data'].value = string;
 	    form.submit();
 	})
-
-
     })
 
     var crowbar = function(s) {
@@ -16826,22 +16754,6 @@ hedotools.shifter = function()
 
 	var styles = '';
         var styleSheets = document.styleSheets;
-
-	// for (var i=0; i < styleSheets.length; i++) {
-	//     processStyleSheet(styleSheets[i]);
-	// }
-
-	// // much simplified code from the crowbar
-	// // don't care about illustrator
-	// // and i don't use import rules
-	// function processStyleSheet(ss) {
-	//     if (ss.cssRules) {
-	// 	for (var i = 0; i < ss.cssRules.length; i++) {
-	// 	    var rule = ss.cssRules[i];
-	// 	    styles += "\n" + rule.cssText;
-	// 	}
-	//     }
-	// }
 
 	// mostly untouched from the crowbar
 	var svg = document.getElementById(s);
@@ -16871,8 +16783,5 @@ hedotools.shifter = function()
 
 	return source;
     }
-
-
     console.log("enjoy :)");
-
 })();

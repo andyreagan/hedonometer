@@ -38,7 +38,7 @@ function initializePlot() {
     book = bookDecoder().cached;
     // hit the random api
     if (book === 'random') {
-	d3.json("http://hedonomter.org/api/v1/randombook/?format=json",function(data) {
+	d3.json("http://hedonometer.org/api/v1/randombook/?format=json",function(data) {
 	    var result = data.objects[0];
 	    // console.log(result);
 	    lang = result.language;

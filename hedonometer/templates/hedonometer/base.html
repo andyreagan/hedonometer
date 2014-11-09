@@ -117,7 +117,11 @@
 	    <li><a href="/talks.html">Talks</a></li>
 	    <li><a href="/api.html">API</a></li>
 	    <li><a href="/funding.html">Fund us</a></li>
+	    {% if user.is_authenticated %}	
+	    <li><a href="/twitter/logout" class="pull-right">logout</a></li>
+	    {% endif %}
 	  </ul>
+
 	</div>
       </div>
     </div>
