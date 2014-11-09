@@ -1030,6 +1030,7 @@
 		hedotools.shifter._lens(lens);
 		hedotools.shifter.stop();
 		hedotools.shifter.shifter();
+		hedotools.shifter.setTextBold(2);
 		hedotools.shifter.setWidth(modalwidth);
 		hedotools.shifter.setText([" "," "," "," "]);
 		hedotools.shifter.setfigure(d3.select('#moveshifthere')).plot();
@@ -1425,6 +1426,7 @@
 		hedotools.shifter.shifter();
 		console.log("the text is");
 		console.log(tmptext);
+		hedotools.shifter.setTextBold(tmptext.length-2);
 		hedotools.shifter.setText(tmptext);
 		hedotools.shifter.drawlogo();
 		hedotools.shifter.replot();
