@@ -47,7 +47,7 @@ hedotools.loader = function() {
 	    if (!--csvLoadsRemaining) onload();
 	});
 	d3.text(embedDetails.compFile,function(tmp) {
-	    if (tmp.split(',').length > 0) {
+	    if (tmp.split(',').length > 100) {
 		compFvec = tmp.split(',').slice(0,10222);
 	    }
 	    else {
@@ -56,7 +56,7 @@ hedotools.loader = function() {
 	    if (!--csvLoadsRemaining) onload();
 	});
 	d3.text(embedDetails.refFile,function(tmp2) {
-	    if (tmp2.split(',').length > 0) {
+	    if (tmp2.split(',').length > 100) {
 		refFvec = tmp2.split(',').slice(0,10222);
 	    }
 	    else {
