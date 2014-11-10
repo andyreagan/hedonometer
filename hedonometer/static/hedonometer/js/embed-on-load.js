@@ -89,7 +89,7 @@ hedotools.loader = function() {
 		var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
 		embedtext = embedtext.replace('updown',happysad);
 		hedotools.shifter.setText(embedtext.split('\n'));
-		hedotools.shifter.setTextBold(embedtext.length-2);
+		hedotools.shifter.setTextBold(embedtext.split('\n').length-2);
 	    }
 	    else if (embedDetails.contextflag === 'justtitle') {
 		var compH = hedotools.shifter._compH().toFixed(2)
