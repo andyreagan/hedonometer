@@ -13360,6 +13360,13 @@ hedotools.shifter = function()
 	return hedotools.shifter;
     }
 
+    var numBoldLines = 1;
+    var setTextBold = function(_) {
+	if (!arguments.length) return numBoldLines;
+	numBoldLines = _;
+	return hedotools.shifter;
+    }
+
     var reset = true;
     var _reset = function(_) {
 	if (!arguments.length) return reset;
@@ -14098,17 +14105,24 @@ hedotools.shifter = function()
 		     'color': '#333',
 		     // if there are 4 items...make the first two bold
 		     'font-weight': function(d,i) { 
-			 if (comparisonText.length > 3) {
-			     if (i < (comparisonText.length - 2) ) {
-				 return "bold";
-			     }
-			     else {
-				 return "normal";
-			     }
+			 // using this variable numBoldLines
+			 if (i < numBoldLines) {
+			     return "bold";
 			 }
 			 else {
 			     return "normal";
 			 }
+			 // if (comparisonText.length > 3) {
+			 //     if (i < (comparisonText.length - 2) ) {
+			 // 	 return "bold";
+			 //     }
+			 //     else {
+			 // 	 return "normal";
+			 //     }
+			 // }
+			 // else {
+			 //     return "normal";
+			 // }
 		     },
 		   })
 	    .text(function(d,i) { return d; });
@@ -15129,6 +15143,7 @@ hedotools.shifter = function()
 
     var opublic = { shift: shift,
 		    ignore: ignore,
+		    setTextBold: setTextBold,
 		    stop: stop,
 		    istopper: istopper,
 		    shifter: shifter,
