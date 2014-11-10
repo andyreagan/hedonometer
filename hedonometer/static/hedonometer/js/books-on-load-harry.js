@@ -207,6 +207,19 @@ var loadwordshiftdata = function() {
 $("#loaddatabutton").on("click",loadwordshiftdata);
 $("#loadalldatabutton").on("click",loadwordshiftdata);
 
+function beginannotation() {
+    alert("feature coming soon!");
+    // highlight all of the high/low points on the timeseries
+    // when they're clicked, create a form to enter the description, which the cursor moves to when the point is selected
+    // create a view to accept the form...in the background.
+    // (make the user refresh to see a new view)
+    // either use a logo next to all annotated points, or display the actual text
+    // be able to access all of the annotations in the database...they do need a model to be created for them.
+}
+
+$("#beginannotationbutton").on("click",beginannotation);
+
+
 var popupwordshift = function() {
     // initialize new values
     var refF = Array(allDataRaw[0].length);

@@ -21,7 +21,10 @@ def logout(request, redirect_url=settings.LOGOUT_REDIRECT_URL):
         application already has hooks to handle this.
     """
     django_logout(request)
-    return HttpResponseRedirect(request.build_absolute_uri(redirect_url))
+    # return HttpResponseRedirect(request.build_absolute_uri(redirect_url))
+    # this should still be set from the login...
+    next_url = request.session.get('next_url', redirect_url)
+    return HttpResponseRedirect(next_url)
 
 
 def begin_auth(request):
@@ -40,7 +43,7 @@ def begin_auth(request):
     # Then send them over there, durh.
     request.session['request_token'] = auth_props
 
-    request.session['next_url'] = request.GET.get('next',None)
+    request.session['next_url'] = request.GET.get('next','/harrypotter.html')
     
     return HttpResponseRedirect(auth_props['auth_url'])
 
@@ -92,8 +95,11 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
     if authenticaeduser is not None:
         print "not none"
         login(request, authenticaeduser)
-        redirect_url = request.session.get('next_url', redirect_url)
-        return HttpResponseRedirect(redirect_url)
+        print request.session
+        # print request.session['next_url']
+        # print request.session['previous_url']
+        next_url = request.session.get('next_url', redirect_url)
+        return HttpResponseRedirect(next_url)
     else:
         print "returning a vanilla object"
         return HttpResponse("Could not log in, for some reason.")
@@ -105,3 +111,6 @@ def user_timeline(request):
                       user.oauth_token, user.oauth_secret)
     user_tweets = twitter.get_home_timeline()
     return render_to_response('twython_django/tweets.html', {'tweets': user_tweets})
+
+
+

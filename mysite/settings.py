@@ -68,8 +68,11 @@ TWITTER_SECRET = os.getenv('HEDO_APP_SECRET')
 
 LOGIN_URL='/twitter/login'
 LOGOUT_URL='/twitter/logout'
+# just a default.
+# we'll try to send the user back to the page which they logged in from
 LOGIN_REDIRECT_URL='/twitter/user_timeline'
-LOGOUT_REDIRECT_URL='/'
+# also just a default
+LOGOUT_REDIRECT_URL='/harrypotter.html'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
