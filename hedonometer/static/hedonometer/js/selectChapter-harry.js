@@ -143,7 +143,7 @@ function selectChapter(figure,numSections) {
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
-	drawCompArea(extent1);
+	hedotools.booktimeseries.drawCompArea(extent1);
 	compFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
 	// console.log(compFextentStrs);
 

@@ -119,7 +119,7 @@ function selectChapterTop(figure,numSections) {
 	var extent0 = brush.extent(),
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
-	drawRefArea(extent1);
+	hedotools.booktimeseries.drawRefArea(extent1);
 
 	refFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
 	console.log(refFextentStrs);

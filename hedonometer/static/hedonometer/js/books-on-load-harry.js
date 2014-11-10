@@ -140,9 +140,12 @@ function initializePlotPlot(lens, words) {
     // 	drawLens(d3.select("#lens01"), lens);
     // }
 
-    selectChapterTop(d3.select("#chapters01"), timeseries.length);
     // console.log(timeseries);
-    drawBookTimeseries(d3.select("#chapters03"),timeseries);
+    // drawBookTimeseries(d3.select("#chapters03"),timeseries);
+    hedotools.booktimeseries.setFigure(d3.select("#chapters03"));
+    hedotools.booktimeseries.setData(timeseries);
+    hedotools.booktimeseries.plot();
+    selectChapterTop(d3.select("#chapters01"), timeseries.length);
     selectChapter(d3.select("#chapters02"), timeseries.length);
 };
 
