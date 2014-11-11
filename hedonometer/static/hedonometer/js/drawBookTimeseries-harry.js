@@ -89,6 +89,82 @@ hedotools.booktimeseries = function() {
     var mainarea;
     var trademark;
 
+    var highlightExtrema = function() {
+	// put a point at each local min/max
+	// and flash it, on click do something.
+
+	// capture the indices of all of these points
+	var minhapps = [];
+	var maxhapps = [];
+	var r = 1;
+	for (var i=1; i<data.length-1; i++) {
+	    if (data[i] > d3.max(data.slice(i-r,i).concat(data.slice(i+1,i+r+1)))) {
+		maxhapps.push(i);
+	    }
+	    if (data[i] < d3.min(data.slice(i-r,i).concat(data.slice(i+1,i+r+1)))) {
+		minhapps.push(i);
+	    }
+	}
+	console.log(minhapps);
+
+	var mincircles  = axes.selectAll("circle.mincircle")
+	    .data(minhapps)
+	    .enter()
+	    .append("circle")
+    	    .attr("cx",function(d,i) { return x(d);})
+    	    .attr("cy",function(d,i) { return y(data[d]);})
+    	    .attr("fill","#1193c0")
+    	    .attr("class","mincircle")	
+    	    .attr("r",4)
+	    .on("click",function(d,i) {
+		console.log("click on min element number");
+		console.log(d);
+		// remove them all
+		d3.selectAll("circle.mincircle").remove();
+		d3.selectAll("circle.maxcircle").remove();
+		clearInterval(minsmall);
+		clearInterval(minbig);
+		clearInterval(maxsmall);
+		clearInterval(maxbig);
+		d3.select("#selectPoint").classed("has-error",false);
+		d3.select("#selectPoint").classed("has-success",true);
+		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
+		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
+		d3.select("#inputSuccess3").attr("value",(d/fulltimeseries.length*100).toFixed(2)+"%");
+	    });
+
+	var maxcircles  = axes.selectAll("circle.maxcircle")
+	    .data(maxhapps)
+	    .enter()
+	    .append("circle")
+    	    .attr("cx",function(d,i) { return x(d);})
+    	    .attr("cy",function(d,i) { return y(data[d]);})
+    	    .attr("fill","red")
+    	    .attr("class","maxcircle blink")	
+    	    .attr("r",4)
+	    .on("click",function(d,i) {
+		console.log("click on max element number");
+		console.log(d);
+		// remove them all
+		d3.selectAll("circle.mincircle").remove();
+		d3.selectAll("circle.maxcircle").remove();
+		clearInterval(minsmall);
+		clearInterval(minbig);
+		clearInterval(maxsmall);
+		clearInterval(maxbig);
+		d3.select("#selectPoint").classed("has-error",false);
+		d3.select("#selectPoint").classed("has-success",true);
+		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
+		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
+		d3.select("#inputSuccess3").attr("value",(d/fulltimeseries.length*100).toFixed(2)+"%");
+	    });
+
+	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",4); },1000);
+	var minbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.mincircle").transition().attr("r",5); }, 500); },1000);
+	var maxsmall = setInterval(function() { d3.selectAll("circle.maxcircle").transition().attr("r",4); },1000);
+	var maxbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.maxcircle").transition().attr("r",5); }, 500); },1000);
+    }
+
     var plot = function() {
 	// remove an old figure if it exists
 	figure.select(".canvas").remove();
@@ -407,6 +483,7 @@ hedotools.booktimeseries = function() {
 		    plot: plot,
 		    drawRefArea: drawRefArea,
 		    drawCompArea: drawCompArea,
+		    highlightExtrema: highlightExtrema,
 		  }
 
     return opublic;

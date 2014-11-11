@@ -37,7 +37,7 @@ def begin_auth(request):
 
     # Request an authorization url to send the user to...
     # callback_url = request.build_absolute_uri(reverse('twython_django.views.thanks'))
-    callback_url = 'http://127.0.0.1:54043/twitter/thanks/'
+    callback_url = "/twitter/thanks/"
     auth_props = twitter.get_authentication_tokens(callback_url)
 
     # Then send them over there, durh.

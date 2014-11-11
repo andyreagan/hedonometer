@@ -27,8 +27,10 @@ function commaSeparateNumber(val){
     return val;
 }
 
+console.log("would use "+book+" as the default here");
 // set the default here
-var bookDecoder = d3.urllib.decoder().varresult("Harry Potter (all books together)").varname("book");
+// var bookDecoder = d3.urllib.decoder().varresult("Harry Potter (all books together)").varname("book");
+var bookDecoder = d3.urllib.decoder().varresult(book).varname("book");
 var bookEncoder = d3.urllib.encoder().varname("book");
 
 var ignoreWords = [];
@@ -53,7 +55,7 @@ function initializePlot() {
 	}
 	console.log(ignoreWords);
 	// set the filename
-	book = result.reference;
+	// book = result.reference;
 	bookref = result.reference;
 	sumWords = result['length'];
 	bookinfo.lang = lang;
@@ -62,6 +64,8 @@ function initializePlot() {
 	loadCsv();
     })
 }
+
+
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
@@ -211,17 +215,131 @@ $("#loaddatabutton").on("click",loadwordshiftdata);
 $("#loadalldatabutton").on("click",loadwordshiftdata);
 
 function beginannotation() {
-    alert("feature coming soon!");
+    // alert("feature coming soon!");
+
     // highlight all of the high/low points on the timeseries
     // when they're clicked, create a form to enter the description, which the cursor moves to when the point is selected
     // create a view to accept the form...in the background.
     // (make the user refresh to see a new view)
     // either use a logo next to all annotated points, or display the actual text
     // be able to access all of the annotations in the database...they do need a model to be created for them.
+
+    swap("annotationPaper","shiftingPaper");
+
+    var triggered = 0;
+    $("#inputSuccess4").keypress(function(d) {
+	console.log( "Handler for .keypress() called." );
+	// checking that each word is in the book's words
+	var sampleWordList = ["in","the","book"];
+	// split the input
+	triggered++;
+	console.log(this.value);
+	var that = this;
+	setTimeout(delayedcheck,1000);
+	setTimeout(delayedcheck,2000);
+	setTimeout(delayedcheck,3000);
+	setTimeout(delayedcheck,4000);
+	setTimeout(delayedcheck,5000);
+	// if (this.value.length > 0) {
+	if (triggered == 1) {
+    	    d3.select("#annotationInput").classed("has-error",false);
+    	    d3.select("#annotationInput").classed("has-success",true);
+    	    d3.select("#annotationInputIcon").classed("glyphicon-remove",false);
+    	    d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
+	}
+
+    });
+
+    d3.select("#beginannotationbutton").remove();
+    d3.select("#annotationform").attr("style","display: block");
+    hedotools.booktimeseries.highlightExtrema();
+}
+
+var swap = function(fromId, toId){
+    var temp = $("#"+toId).html();
+    $("#"+toId).empty().html($("#"+fromId).html());
+    $("#"+fromId).empty().html(temp);
+    document.getElementById(fromId).setAttribute("id",toId)
+    document.getElementById(toId).setAttribute("id",fromId)
 }
 
 $("#beginannotationbutton").on("click",beginannotation);
 
+
+
+var delayedcheck = function(d) {
+    var words = document.getElementById("inputSuccess4").value.split(" ");
+    // $("#inputSuccess4").value.split(" ");
+    // var words = d.value.split(" ");
+    console.log(words);
+    if (words.length > 6) {
+	if (words[6] !== "") {
+    	    console.log("too many words");
+    	    d3.select("#annotationInput").classed("has-error",true);
+    	    d3.select("#annotationInput").classed("has-success",false);
+    	    d3.select("#inputSuccess4").classed("glyphicon-remove",true);
+    	    d3.select("#inputSuccess4").classed("glyphicon-ok",false);
+	    d3.select("#inputSuccess4col").selectAll(".toomany").remove();
+	    d3.select("#inputSuccess4col").append("span").attr("class","help-block toomany").text("Too many words!");
+	}
+	else {
+	    // we're in the clear!
+	    d3.select("#inputSuccess4col").selectAll(".toomany").remove();
+	    d3.select("#annotationInput").classed("has-error",false);
+    	    d3.select("#annotationInput").classed("has-success",true);
+    	    d3.select("#annotationInputIcon").classed("glyphicon-remove",false);
+    	    d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
+	    // show the submit button
+	    d3.select("#tweetCheckDiv").selectAll(".tweettext").remove();
+	    console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all books together)"+", "+document.getElementById("inputSuccess4").value+"\"");
+	    d3.select("#tweetCheckDiv").append("span").attr("class","help-block tweettext").text("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all books together)"+", "+document.getElementById("inputSuccess4").value+"\"");
+	}
+    }
+    else {
+	d3.select("#inputSuccess4col").selectAll(".toomany").remove();
+	d3.select("#annotationInput").classed("has-error",false);
+    	d3.select("#annotationInput").classed("has-success",true);
+    	d3.select("#annotationInputIcon").classed("glyphicon-remove",false);
+    	d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
+	// show the submit button
+	d3.select("#tweetCheckDiv").selectAll(".tweettext").remove();
+	console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all books together)"+", "+document.getElementById("inputSuccess4").value+"\"");
+	d3.select("#tweetCheckDiv").append("span").attr("class","help-block tweettext").text("The tweet would be \"@hedonometer: "+document.getElementById("inputSuccess3").value+" through "+book+", "+document.getElementById("inputSuccess4").value+"\"");
+    }
+    if (document.getElementById("inputSuccess4").value === "") {
+	d3.select("#annotationInput").classed("has-error",false);
+    	d3.select("#annotationInput").classed("has-success",true);
+    	d3.select("#annotationInputIcon").classed("glyphicon-remove",false);
+    	d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
+	d3.select("#tweetCheckDiv").selectAll(".tweettext").remove();
+    }
+    // var wordsmissing = [];
+    // for (var i=0; i<words.length; i++) {
+    // 	var wordfound = false;
+    // 	for (var j=0; j<sampleWordList.length; j++) {
+    // 	    if ( words[i] === sampleWordList[j] ) {
+    // 		wordfound = true;
+    // 		break;
+    // 	    }
+    // 	}
+    // 	if (!wordfound) {
+    // 	    wordsmissing.push(words[i]);
+    // 	}
+    // }
+    // console.log(wordsmissing);
+    // if (wordsmissing.length > 0) {
+    // 	d3.select("#annotationInput").classed("has-error",true);
+    // 	d3.select("#annotationInput").classed("has-success",false);
+    // 	d3.select("#inputSuccess4").classed("glyphicon-remove",true);
+    // 	d3.select("#inputSuccess4").classed("glyphicon-ok",false);
+    // }
+    // else {
+    // 	d3.select("#annotationInput").classed("has-error",false);
+    // 	d3.select("#annotationInput").classed("has-success",true);
+    // 	d3.select("#inputSuccess4").classed("glyphicon-remove",false);
+    // 	d3.select("#inputSuccess4").classed("glyphicon-ok",true);
+    // }
+}
 
 var popupwordshift = function() {
     // initialize new values
@@ -261,3 +379,8 @@ var popupwordshift = function() {
 
 
 $("#popupbutton").on("click",popupwordshift);
+
+d3.select("#changeMe").attr("href","/twitter/login/?next="+window.location.href);
+d3.select("#changeMeAlso").attr("action",window.location.href);
+
+

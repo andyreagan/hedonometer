@@ -23,3 +23,10 @@ class Annotation(models.Model):
     annotation = models.CharField(max_length=400)
     tweeted = models.CharField(max_length=100)
     date = models.DateTimeField()
+
+    class Meta:
+        ordering = ('date',)
+
+    def __unicode__(self):
+        return self.annotation
+        

@@ -5,7 +5,7 @@
 .sitename a:link,.sitename a:visited,.sitename a:hover,.sitename a:active{color:white;}
 body .papers {min-width:1200px;}
 input[type="submit"] {margin-top:9px;}
-input[type="text"] {width:100px;}
+/* input[type="text"] {width:100px;} */
 .pressblock {margin-left:0px; font-size:14px; line-height:27px; font-family:'Helvetica Neue', Helvetica, Arial, sans-serif;}
 .wordnotfound{color:gray;}
 .error{color:red;}

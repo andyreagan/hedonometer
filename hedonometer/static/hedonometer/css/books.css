@@ -53,3 +53,32 @@ div.compslider rect.extent {
 }
 
 #booktitle > h2 { margin-top: 3px; }
+
+.blink {
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-name: blink;
+}
+ 
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+    75% {
+        opacity: 1;
+    }
+    76% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
+circle.mincircle { cursor: pointer; }
+circle.maxcircle { cursor: pointer; }
+
+#annotationform {
+    /* visibility: hidden; */
+    display: none;
+}

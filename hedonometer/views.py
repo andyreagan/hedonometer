@@ -8,11 +8,13 @@ from django.template import Context
 from mysite.settings import STATIC_ROOT
 import logging
 logger = logging.getLogger(__name__)
-from hedonometer.models import Embeddable,Event
+from hedonometer.models import Embeddable,Event,Book
 import csv
 import subprocess
 import codecs
 import datetime
+
+from twython_django.models import TwitterProfile,Annotation
 
 # Create your views here.
 def dummy(request):
@@ -20,6 +22,31 @@ def dummy(request):
     # context = {'latest_topic_list': latest_topic_list}
     return render(request, 'hedonometer/index.html')
 
+class annotation(View):
+     # return all of the annotations for a book
+    def get(self, request, book):
+        print book
+        # print request
+        print request.session
+        print request.user.twitterprofile
+        # can just redirect to this view
+        # with a URL parameter
+        # return HttpResponseRedirect("/harrypotter.html?book="+book)
+        # but why not just render the template
+        return render(request, 'hedonometer/harrypotter.html',{"book": book})
+    
+    # accept an annotation
+    def post(self, request, book):
+        # print request.POST.get("tweetflag","none")
+        # print request.POST.get("annotation","none")
+        # print request.POST.get("point","none")
+        b = Book.objects.filter(title__exact=book)[0]
+        print request.user.twitterprofile
+        a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now())
+        a.save()
+        # return HttpResponse("this will also be the book page, with a new annotation")
+        return render(request, 'hedonometer/harrypotter.html',{"book": book})
+        
 def embedMain(request,dateref,datecomp):
     # # but I do need a dates
     # logger.debug(some_hash)
@@ -134,6 +161,7 @@ def parser(request):
 
 class csv_view(View):
 
+    
     # Create the HttpResponse object with the appropriate CSV header.
     def get(self, request):
         # print request
