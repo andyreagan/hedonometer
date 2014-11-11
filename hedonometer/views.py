@@ -25,10 +25,10 @@ def dummy(request):
 class annotation(View):
      # return all of the annotations for a book
     def get(self, request, book):
-        print book
+        # print book
         # print request
-        print request.session
-        print request.user.twitterprofile
+        # print request.session
+        # print request.user.twitterprofile
         # can just redirect to this view
         # with a URL parameter
         # return HttpResponseRedirect("/harrypotter.html?book="+book)
@@ -41,7 +41,7 @@ class annotation(View):
         # print request.POST.get("annotation","none")
         # print request.POST.get("point","none")
         b = Book.objects.filter(title__exact=book)[0]
-        print request.user.twitterprofile
+        # print request.user.twitterprofile
         a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now())
         a.save()
         # return HttpResponse("this will also be the book page, with a new annotation")
