@@ -176,7 +176,7 @@ function selectChapter(figure,numSections) {
 	    .call(brush.event);
     }
 
-    d3.select(window).on("resize.selectbottom",resizebottom);
+    // d3.select(window).on("resize.selectbottom",resizebottom);
     
     function resizebottom() {
 	figwidth = parseInt(d3.select("#chapters03").style('width')) - margin.left - margin.right,

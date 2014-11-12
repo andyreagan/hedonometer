@@ -47,7 +47,7 @@ hedotools.booktimeseries = function() {
 
     drawRefArea = function(extent) {
 	var refarea = d3.svg.area()
-	    .x(function(d,i) { return x(extent[0]+i-minWindows/2); })
+	    .x(function(d,i) { return x(extent[0]+i); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
 	
@@ -56,7 +56,7 @@ hedotools.booktimeseries = function() {
 	console.log(extent);
 
 	var refareaarea = axes.insert("path","div.dummy")
-	    .datum(fulltimeseries.slice(extent[0],extent[1]))
+	    .datum(data.slice(extent[0],extent[1]))
 	    .attr("class", "refarea")
 	    .attr("d", refarea)
 	    .attr("fill","#fefe81")
@@ -64,7 +64,7 @@ hedotools.booktimeseries = function() {
 
     drawCompArea = function(extent) {
 	var comparea = d3.svg.area()
-	    .x(function(d,i) { return x(extent[0]+i-minWindows/2-1); })
+	    .x(function(d,i) { return x(extent[0]+i-1); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
 	
@@ -73,10 +73,17 @@ hedotools.booktimeseries = function() {
 	console.log(extent);
 
 	var compareaarea = axes.insert("path","div.dummy")
-	    .datum(fulltimeseries.slice(extent[0]-1,extent[1]))
+	    .datum(data.slice(extent[0]-1,extent[1]))
 	    .attr("class", "comparea")
 	    .attr("d", comparea)
 	    .attr("fill","#fefe81")
+    }
+
+    var drawAnnotations = function() {
+	// draw all of the annotations
+	d3.json("http://hedonometer.org/api/v1/annotation/?format=json&book__title=samplebook",function(error,json) {
+	    console.log(json);
+	})
     }
 
     var line;
@@ -130,7 +137,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPoint").classed("has-success",true);
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
-		d3.select("#inputSuccess3").attr("value",(d/fulltimeseries.length*100).toFixed(2)+"%");
+		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
 	    });
 
 	var maxcircles  = axes.selectAll("circle.maxcircle")
@@ -156,7 +163,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPoint").classed("has-success",true);
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
-		d3.select("#inputSuccess3").attr("value",(d/fulltimeseries.length*100).toFixed(2)+"%");
+		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
 	    });
 
 	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",4); },1000);
@@ -181,7 +188,7 @@ hedotools.booktimeseries = function() {
 	x = d3.scale.linear()
 	//.domain([d3.min(lens),d3.max(lens)])
         // map from the start of the timeseries point to the max
-	    .domain([-minWindows/2,data.length+minWindows/2-1])
+	    .domain([0,data.length-1])
 	    .range([0,width]);
 	
 	// use d3.layout http://bl.ocks.org/mbostock/3048450
@@ -252,15 +259,14 @@ hedotools.booktimeseries = function() {
 	// 	.attr("clip-path","url(#clip)");
 
 	line = d3.svg.line()
-	    .x(function(d,i) { return x(i); })
+	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y(function(d) { return y(d); })
 	    .interpolate("cardinal");
 	// .interpolate("linear");
 
-
-
+	console.log(data.slice(minWindows/2,data.length-minWindows/2));
 	mainline = axes.append("path")
-	    .datum(data)
+	    .datum(data.slice(minWindows/2,data.length-minWindows/2))
 	    .attr("class", "line")
 	    .attr("d", line)
 	    .attr("stroke","black")
@@ -268,15 +274,14 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	beglineline = d3.svg.line()
-	    .x(function(d,i) { return x(i-minWindows/2); })
+	    .x(function(d,i) { return x(i); })
 	    .y(function(d) { return y(d); })
 	    .interpolate("cardinal");
 	// .interpolate("linear");
 
-	begtimeseries.push(data[0]);
-	
+	console.log(data.slice(0,minWindows/2+1));
 	begline = axes.append("path")
-	    .datum(begtimeseries)
+	    .datum(data.slice(0,minWindows/2+1))
 	    .attr("class", "line")
 	    .attr("d", beglineline)
 	    .attr("stroke","black")
@@ -285,15 +290,16 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	endlineline = d3.svg.line()
-	    .x(function(d,i) { return x(i+data.length-1); })
+	    .x(function(d,i) { return x(i+data.length-minWindows/2-1); })
 	    .y(function(d) { return y(d); })
 	    .interpolate("cardinal");
 	// .interpolate("linear");
 
-	endtimeseries.unshift(data[data.length-1]);
+	// endtimeseries.unshift(data[data.length-1]);
 
+	console.log(data.slice(data.length-6,data.length));
 	endline = axes.append("path")
-	    .datum(endtimeseries)
+	    .datum(data.slice(data.length-6,data.length))
 	    .attr("class", "line")
 	    .attr("d", endlineline)
 	    .attr("stroke","black")
@@ -302,19 +308,17 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	area = d3.svg.area()
-	    .x(function(d,i) { return x(i); })
+	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d); });
 
 	mainarea = axes.append("path")
-            .datum(data)
+            .datum(data.slice(minWindows/2,data.length-minWindows/2))
             .attr("class", "area")
             .attr("d", area)
             .attr("fill","#D3D3D3");
 
 	axes.append("div").attr("class","dummy");
-
-
 
 	drawRefArea(refFextent);
 	// d3.selectAll(".refarea").attr("visibility","hidden");
@@ -323,10 +327,10 @@ hedotools.booktimeseries = function() {
 	// d3.selectAll(".comparea").attr("visibility","hidden");
 
 	// console.log(d3.mean(data));
-	var avhapps = d3.mean(data);
+	var avhapps = d3.mean(data.slice(minWindows/2,data.length-minWindows/2));
 
 	var linearline = d3.svg.line()
-	    .x(function(d,i) { if (i===0) { return x(d.index); } else { return x(d.index)+3 } })
+	    .x(function(d,i) { return x(d.index); })
 	    .y(function(d) { return y(d.value); })
 	    .interpolate("linear");
 
@@ -334,7 +338,7 @@ hedotools.booktimeseries = function() {
 	    .datum([
 		{ "index": 0, 
 		  "value": avhapps, },
-		{ "index": data.length+minWindows/2, 
+		{ "index": data.length-1,
 		  "value": avhapps, }]
 		  )
 	    .attr("class", "line")
@@ -362,20 +366,20 @@ hedotools.booktimeseries = function() {
 	    .text(avhapps.toFixed(2));
 
 	// console.log(d3.min(data));
-	var minhapps = d3.min(data);
+	var minhapps = d3.min(data.slice(minWindows/2,data.length-minWindows/2));
 	// console.log(d3.max(data));
-	var maxhapps = d3.max(data);
-	for (var i=0; i<data.length; i++) {
-	    if (data[i] === minhapps) {
+	var maxhapps = d3.max(data.slice(minWindows/2,data.length-minWindows/2));
+	for (var i=0; i<data.slice(minWindows/2,data.length-minWindows/2).length; i++) {
+	    if (data.slice(minWindows/2,data.length-minWindows/2)[i] === minhapps) {
 		var minhappsindex = i;
 	    }
-	    if (data[i] === maxhapps) {
+	    if (data.slice(minWindows/2,data.length-minWindows/2)[i] === maxhapps) {
 		var maxhappsindex = i;
 	    }
 	}
 
 	var mincircle  = axes.append("circle")
-    	    .attr("cx",x(minhappsindex))
+    	    .attr("cx",x(minhappsindex+minWindows/2))
 	    .attr("cy",y(minhapps))
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
@@ -385,9 +389,9 @@ hedotools.booktimeseries = function() {
 
 	var minline = axes.append("path")
 	    .datum([
-		{ "index": minhappsindex, 
+		{ "index": minhappsindex+minWindows/2, 
 		  "value": minhapps, },
-		{ "index": data.length+minWindows/2, 
+		{ "index": data.length-1, 
 		  "value": minhapps, }]
 		  )
 	    .attr("class", "line")
@@ -414,7 +418,7 @@ hedotools.booktimeseries = function() {
 	    .text(minhapps.toFixed(2));
 
 	var maxcircle  = axes.append("circle")
-    	    .attr("cx",x(maxhappsindex))
+    	    .attr("cx",x(maxhappsindex+minWindows/2))
 	    .attr("cy",y(maxhapps))
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
@@ -423,9 +427,9 @@ hedotools.booktimeseries = function() {
 
 	var maxline = axes.append("path")
 	    .datum([
-		{ "index": maxhappsindex, 
+		{ "index": maxhappsindex+minWindows/2, 
 		  "value": maxhapps, },
-		{ "index": data.length+minWindows/2, 
+		{ "index": data.length-1, 
 		  "value": maxhapps, }]
 		  )
 	    .attr("class", "line")
@@ -451,7 +455,7 @@ hedotools.booktimeseries = function() {
 		  })
 	    .text(maxhapps.toFixed(2));
 
-	d3.select(window).on("resize.booktimeseries",resize);
+	// d3.select(window).on("resize.booktimeseries",resize);
 
 	trademark = axes.append("text")
 	    .attr({ "x": 3,
@@ -480,6 +484,7 @@ hedotools.booktimeseries = function() {
 
     var opublic = { setFigure: setFigure,
 		    setData: setData,
+		    drawAnnotations: drawAnnotations,
 		    plot: plot,
 		    drawRefArea: drawRefArea,
 		    drawCompArea: drawCompArea,

@@ -147,7 +147,7 @@ function initializePlotPlot(lens, words) {
     // console.log(timeseries);
     // drawBookTimeseries(d3.select("#chapters03"),timeseries);
     hedotools.booktimeseries.setFigure(d3.select("#chapters03"));
-    hedotools.booktimeseries.setData(timeseries);
+    hedotools.booktimeseries.setData(fulltimeseries);
     hedotools.booktimeseries.plot();
     selectChapterTop(d3.select("#chapters01"), timeseries.length);
     selectChapter(d3.select("#chapters02"), timeseries.length);

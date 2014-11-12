@@ -5,7 +5,7 @@ from django.views.generic import TemplateView,RedirectView
 
 from hedonometer import views
 from tastypie.api import Api
-from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource
+from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource,AnnotationResource
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
@@ -14,6 +14,7 @@ v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
 v1_api.register(WordResource())
 v1_api.register(GeoHappsResource())
+v1_api.register(AnnotationResource())
 
 urlpatterns = patterns('',
     url(r'^index.html',
@@ -74,7 +75,7 @@ urlpatterns = patterns('',
     url(r'^harrypotter.html',
         TemplateView.as_view(template_name='hedonometer/harrypotter.html'),
         name='harry'),
-    url(r'^book/(?P<book>[\w \(\),]+)/',views.annotation.as_view(),name='annotation'),
+    url(r'^book/(?P<book>[^/]+)/',views.annotation.as_view(),name='annotation'),
     url(r'^book/(?P<book>[\w]+)/',"hedonometer.views.book",name="book"),
     url(r'^api.html',
         TemplateView.as_view(template_name='hedonometer/api.html'),

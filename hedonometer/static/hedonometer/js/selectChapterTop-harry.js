@@ -154,7 +154,7 @@ function selectChapterTop(figure,numSections) {
 
     }
 
-    d3.select(window).on("resize.selecttop",resizetop);
+    // d3.select(window).on("resize.selecttop",resizetop);
     
     function resizetop() {
 	// var that = this;

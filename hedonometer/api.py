@@ -1,4 +1,5 @@
 from hedonometer.models import Event,Book,Happs,Word,GeoHapps
+from twython_django.models import TwitterProfile,Annotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
@@ -101,6 +102,7 @@ class BookResource(ModelResource):
             "author": ALL_WITH_RELATIONS,
             "id": ALL,
             "length": ALL_WITH_RELATIONS,
+            "annotation": ALL,
         }
 
 class RandomBookResource(ModelResource):
@@ -110,7 +112,15 @@ class RandomBookResource(ModelResource):
         resource_name = "randombook"
         limit = 1
 
-
+class AnnotationResource(ModelResource):
+    book = fields.ForeignKey(BookResource, 'book')
+    class Meta:
+        queryset = Annotation.objects.all()
+        resource_name = "annotation"
+        limit = 500
+        filtering = {
+            "book": ALL_WITH_RELATIONS,
+        }
 
 
 

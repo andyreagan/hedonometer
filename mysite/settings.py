@@ -72,7 +72,7 @@ LOGOUT_URL='/twitter/logout'
 # we'll try to send the user back to the page which they logged in from
 LOGIN_REDIRECT_URL='/twitter/user_timeline'
 # also just a default
-LOGOUT_REDIRECT_URL='/harrypotter.html'
+LOGOUT_REDIRECT_URL='/index.html'
 
 AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 

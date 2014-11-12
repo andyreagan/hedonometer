@@ -16261,10 +16261,10 @@ function selectChapterTop(figure,numSections) {
 function computeHapps() {
     // rolling timeseries of happiness
     // 
-    var timeseries = Array(allDataRaw.length-minWindows);
+    var timeseries = Array(allDataRaw.length-minWindows+1);
     begtimeseries = Array(minWindows/2);
     endtimeseries = Array(minWindows/2);
-    var vtimeseries = Array(allDataRaw.length-minWindows);
+    var vtimeseries = Array(allDataRaw.length-minWindows+1);
     var begvtimeseries = Array(minWindows/2);
     var endvtimeseries = Array(minWindows/2);
     
@@ -16285,6 +16285,7 @@ function computeHapps() {
 	// }
 	// don't stop it all all
 	// N+=d3.sum(allDataRaw[j]);
+	console.log("adding point "+j);
 	for (var i=0; i<allDataRaw[j].length; i++) {
             freq[i] += allDataRaw[j][i];
 	}
@@ -16297,6 +16298,7 @@ function computeHapps() {
 	// for (var i=0; i<allDataRaw[j].length; i++) {
 	//     happs += freq[i]*lens[i];
 	// }
+	console.log("scoring beginning timeseries");
 	// stop the freq vector
 	freq = hedotools.shifter.istopper(freq);
 	// recalculate N
@@ -16304,8 +16306,8 @@ function computeHapps() {
 	for (var i=0; i<allDataRaw[j].length; i++) {
 	    happs += freq[i]*lens[i];
 	}
-	//console.log(happs);
-	//console.log(happs/N);
+	// console.log(happs);
+	// console.log(happs/N);
 	begtimeseries[j-minWindows/2] = happs/N;
 	var variance = 0.0;
 	for (var i=0; i<allDataRaw[j].length; i++) {
@@ -16314,6 +16316,7 @@ function computeHapps() {
 	begvtimeseries[j-minWindows/2] = variance/N;
 
 	// just add up
+	console.log("adding point "+j);
 	for (var i=0; i<allDataRaw[j].length; i++) {
             freq[i] += allDataRaw[j][i];
 	}
@@ -16326,6 +16329,7 @@ function computeHapps() {
     }
 
     // compute the first point of happiness
+    console.log("scoring main timeseries");
     var happs = 0.0;
     // stop the freq vector
     freq = hedotools.shifter.istopper(freq);
@@ -16350,11 +16354,14 @@ function computeHapps() {
 	// N+=d3.sum(allDataRaw[j+minWindows-1])
 	// console.log(N);
 	// N-=d3.sum(allDataRaw[j-1])
+	console.log("adding point "+(j+minWindows-1));
+	console.log("subtracting point "+(j-1));
 	for (var i=0; i<allDataRaw[j+minWindows-1].length; i++) {
 	    freq[i] += allDataRaw[j+minWindows-1][i];
 	    freq[i] -= allDataRaw[j-1][i];
 	}
 
+	console.log("scoring main timeseries");	
 	var happs = 0.0
 	// stop the freq vector
 	freq = hedotools.shifter.istopper(freq);
@@ -16375,11 +16382,13 @@ function computeHapps() {
     }
 
     for (var j=timeseries.length; j<timeseries.length+minWindows/2; j++) {
+	console.log("subtracting point "+(j-1));
 	for (var i=0; i<allDataRaw[j-1].length; i++) {
 	    freq[i] -= allDataRaw[j-1][i];
 	    //console.log(freq[i]);
 	}
 
+	console.log("scoring end timeseries");	
 	var happs = 0.0
 	// stop the freq vector
 	freq = hedotools.shifter.istopper(freq);
