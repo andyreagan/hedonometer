@@ -120,6 +120,8 @@ class AnnotationResource(ModelResource):
         limit = 500
         filtering = {
             "book": ALL_WITH_RELATIONS,
+            "position": ALL,
+            "winner": ALL,
         }
 
 

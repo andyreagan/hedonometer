@@ -82,3 +82,7 @@ circle.maxcircle { cursor: pointer; }
     /* visibility: hidden; */
     display: none;
 }
+
+svg text {
+   font-family: FontAwesome;
+}

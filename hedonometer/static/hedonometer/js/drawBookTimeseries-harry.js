@@ -81,8 +81,20 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
-	d3.json("http://hedonometer.org/api/v1/annotation/?format=json&book__title=samplebook",function(error,json) {
+	d3.json("http://hedonometer.org/api/v1/annotation/?format=json&book__title="+book,function(error,json) {
 	    console.log(json);
+	    axes.selectAll("g.annotation").data(json.objects)
+		.enter()
+		.append("g")
+		.append("text")
+		.attr({ 
+		    "x": function(d,i) { return x(parseFloat(d.position.replace("%",""))/100*data.length); },
+		    "y": function(d,i) { return y(data[parseInt(parseFloat(d.position.replace("%",""))/100*data.length)])+5; },
+		    "font-family": "FontAwesome",
+		})
+		// .text('\uF075');
+		.text('\uF0e5')
+		.on("mouseover",function(d,i) { console.log(d.annotation); });
 	})
     }
 

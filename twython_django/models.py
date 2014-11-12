@@ -23,6 +23,9 @@ class Annotation(models.Model):
     annotation = models.CharField(max_length=400)
     tweeted = models.CharField(max_length=100)
     date = models.DateTimeField()
+    # pre-sum the number of votes
+    votes = models.IntegerField()
+    winner = models.CharField(max_length=1)
 
     class Meta:
         ordering = ('date',)
@@ -30,3 +33,8 @@ class Annotation(models.Model):
     def __unicode__(self):
         return self.annotation
         
+class Vote(models.Model):
+    user = models.ForeignKey(TwitterProfile)
+    annotation = models.ForeignKey(Annotation)
+    date = models.DateTimeField()
+
