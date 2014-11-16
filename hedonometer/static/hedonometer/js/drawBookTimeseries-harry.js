@@ -81,7 +81,7 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
-	d3.json("http://hedonometer.org/api/v1/annotation/?format=json&book__title="+book,function(error,json) {
+	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book,function(error,json) {
 	    console.log(json);
 	    axes.selectAll("g.annotation").data(json.objects)
 		.enter()
@@ -107,6 +107,49 @@ hedotools.booktimeseries = function() {
     var area;
     var mainarea;
     var trademark;
+    
+    var buildForm = function(point) {
+	console.log("building form");
+	console.log("/api/v1/annotation/?format=json&position="+point+"&book__title="+book);
+	d3.json("/api/v1/annotation/?format=json&position="+point+"&book__title="+book,function(error,json) {
+	    console.log(json);
+	    d3.select("#changeMeAlso")
+		.selectAll("input.annotation")
+		// .insert("#annotationInput","div")
+		.data(json.objects)
+		.enter()
+	        // .insert("#annotationInput","div")
+		.insert("div","#annotationInput")
+		// .append("div")
+		.attr("class","form-group")
+		.append("div")
+		.attr("class","col-sm-offset-3 col-sm-7")
+		.append("div")
+		.attr("class","checkbox")
+		.attr("id","none")
+		.append("label")
+	        .html(function(d,i) { return '<input type="checkbox" id="none" name="'+d.id+'" value="off">'+d.annotation+' (votes: '+d.votes+')'; });
+		// .append("input")
+		// .attr({
+		//     "type": "checkbox",
+		//     "name": function(d,i) { return d.id; },
+		//     "id": "none",
+		//     "value": "off"
+		// })
+		// .text(function(d,i) { return d.annotation; });
+
+
+	    // <div class="form-group">
+	    //     <div class="col-sm-offset-3 col-sm-7">
+	    //       <div class="checkbox" id="none">
+	    // 	<label>
+	    // 	  <input type="checkbox" id="none" name="34" value="off">Dumbledore dies (votes: 1)
+	    // 	</label>
+	    //       </div>
+	    //     </div>
+	    //   </div>
+	});
+    }
 
     var highlightExtrema = function() {
 	// put a point at each local min/max
@@ -150,6 +193,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
 		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
+		buildForm((d/data.length*100).toFixed(2)+"%");
 	    });
 
 	var maxcircles  = axes.selectAll("circle.maxcircle")
@@ -176,6 +220,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
 		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
+		buildForm((d/data.length*100).toFixed(2)+"%");
 	    });
 
 	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",4); },1000);

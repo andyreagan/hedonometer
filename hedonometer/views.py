@@ -42,8 +42,41 @@ class annotation(View):
         # print request.POST.get("point","none")
         b = Book.objects.filter(title__exact=book)[0]
         # print request.user.twitterprofile
-        a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now())
-        a.save()
+        
+        queryset = Annotation.objects.filter(book=b,position=request.POST.get("point","none"))
+        # vote for an annotation
+        # check on the POST data for a vote
+        vote = False
+        for q in queryset:
+            id = q.id
+            if request.POST.get(str(id),"none") != "none":
+                print "casting a vote"
+                vote = True
+                q.votes += 1
+                q.save()
+                break
+
+        # create a new annotation
+        if not vote:
+            print "making a new annotation"
+            a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now(),votes=1,winner="0")
+            # save it
+            a.save()
+
+        # check for the winner, always
+        winner = 0
+        mostvotes = 0
+
+        for i in xrange(len(queryset)):
+            annotation = queryset[i]
+            annotation.winner = "0"
+            if int(annotation.votes) > mostvotes:
+                mostvotes = int(annotation.votes)
+                winner = i
+
+        queryset[winner].winner = "1"
+        queryset[winner].save()
+
         # return HttpResponse("this will also be the book page, with a new annotation")
         return render(request, 'hedonometer/harrypotter.html',{"book": book})
         
