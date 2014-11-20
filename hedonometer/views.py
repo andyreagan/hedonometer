@@ -67,15 +67,19 @@ class annotation(View):
         winner = 0
         mostvotes = 0
 
-        for i in xrange(len(queryset)):
-            annotation = queryset[i]
-            annotation.winner = "0"
-            if int(annotation.votes) > mostvotes:
-                mostvotes = int(annotation.votes)
-                winner = i
-
-        queryset[winner].winner = "1"
-        queryset[winner].save()
+        if len(queryset) > 0:
+            for i in xrange(len(queryset)):
+                annotation = queryset[i]
+                annotation.winner = "0"
+                if int(annotation.votes) > mostvotes:
+                    mostvotes = int(annotation.votes)
+                    winner = i
+    
+            queryset[winner].winner = "1"
+            queryset[winner].save()
+        else:
+            a.winner = "1"
+            a.save()
 
         # return HttpResponse("this will also be the book page, with a new annotation")
         return render(request, 'hedonometer/harrypotter.html',{"book": book})

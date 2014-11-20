@@ -278,7 +278,6 @@ hedotools.sankey = function() {
 		    }
 		    if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
 		    
-
 		    // tip.show;
 		    // console.log(d);
 

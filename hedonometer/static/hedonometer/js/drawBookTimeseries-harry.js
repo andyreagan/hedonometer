@@ -14,7 +14,7 @@ hedotools.booktimeseries = function() {
     // full width
     var figwidth;
     // fixed height
-    var figheight = 300 - margin.top - margin.bottom;
+    var figheight = 350 - margin.top - margin.bottom;
     // don't shrink this
     var width;
     // tiny bit of space
@@ -79,23 +79,278 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","#fefe81")
     }
 
+    var force = d3.layout.force()
+	.size([100,100])
+	.charge(-400)
+	.linkDistance(40);
+
     var drawAnnotations = function() {
 	// draw all of the annotations
 	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book,function(error,json) {
-	    console.log(json);
-	    axes.selectAll("g.annotation").data(json.objects)
+	    // console.log(json);
+
+	    // build a list of x,y for the bubbles
+	    var nodes = Array(json.objects.length);
+	    
+	    for (var i=0; i<json.objects.length; i++) {
+		var newobj = json.objects[i];
+		newobj["i"] = parseFloat(newobj.position.replace("%",""))/100*data.length;
+		newobj["x"] = x(newobj.i);
+		newobj["y"] = y(data[parseInt(newobj.i)]);
+		newobj["x0"] = newobj.x;
+		newobj["y0"] = newobj.y;
+		newobj["x"] += 0; // 10;
+		newobj["y"] += 0; // 5;
+		newobj["v"] = 0;
+		newobj["u"] = 0;
+		nodes[i] = newobj;
+	    }
+
+	    console.log(nodes);
+
+	    var bubblegroup = axes.selectAll("g.annotation").data(nodes)
 		.enter()
 		.append("g")
-		.append("text")
-		.attr({ 
-		    "x": function(d,i) { return x(parseFloat(d.position.replace("%",""))/100*data.length); },
-		    "y": function(d,i) { return y(data[parseInt(parseFloat(d.position.replace("%",""))/100*data.length)])+5; },
+		.attr("class","bubblegroup");
+
+	    var bubbles = bubblegroup.append("text")
+		.attr({
+		    "class": "bubbletext",
+		    "x": function(d,i) { return d.x-20; },
+		    "y": function(d,i) { return d.y+5; },
 		    "font-family": "FontAwesome",
 		})
 		// .text('\uF075');
 		.text('\uF0e5')
-		.on("mouseover",function(d,i) { console.log(d.annotation); });
+		.on("mouseover",function(d,i) { 
+		    // console.log(d.annotation); 
+
+		    var hoverboxheight = 20;
+		    var hoverboxwidth = 100;
+		    var hoverboxyoffset = 0;
+		    var hoverboxxoffset = 0;
+
+		    var x = d3.mouse(this)[0];
+		    var y = d3.mouse(this)[1];
+
+		    hovergroup.style({
+			"position": "absolute",
+			"top": y+65+"px",
+			"left": x+"px",
+			"visibility": "visible",
+		    });
+
+		    hovergroup.selectAll("p,h5,button,br").remove();
+
+		    hovergroup.append("h5")
+			.attr("class","title")
+			.text(d.annotation);
+		})
+		.on("mouseout",function(d,i) {
+		    setTimeout(hidehover,1000);
+		});
+
+	    var bubblelines = bubblegroup.append("line")
+		.attr({
+		    "class": "bubbleline",
+		    "x1": function(d,i) { return d.x0; },
+		    "y1": function(d,i) { return d.y0; },
+		    "x2": function(d,i) { return d.x-20; },
+		    "y2": function(d,i) { return d.y+5; },
+		    "stroke": "#000",
+		    "stroke-width": "1.5px",
+		});
+
+	    // var tick = function() {
+	    // 	console.log("ticking...");
+	    // 	// bubbles.attr()
+	    // 	// bubblelines.attr()
+	    // }
+
+	    // var longernodes = nodes.concat(data.map(function(d,i) {
+	    // 	return {
+	    // 	    "x":x(i),
+	    // 	    "y":y(d),
+	    // 	}
+	    // }));
+
+	    // var testnodes = [
+	    // 	{"x": 469, "y": 410},
+	    // 	{"x": 493, "y": 364},
+	    // 	{"x": 442, "y": 365},
+	    // 	{"x": 467, "y": 314},
+	    // 	{"x": 477, "y": 248},
+	    // 	{"x": 425, "y": 207},
+	    // 	{"x": 402, "y": 155},
+	    // 	{"x": 369, "y": 196},
+	    // 	{"x": 350, "y": 148},
+	    // 	{"x": 539, "y": 222},
+	    // 	{"x": 594, "y": 235},
+	    // 	{"x": 582, "y": 185},
+	    // 	{"x": 633, "y": 200}
+	    // ];
+
+	    // var testlinks = [
+	    // 	{"source":  0, "target":  1},
+	    // 	{"source":  1, "target":  2},
+	    // 	{"source":  2, "target":  0},
+	    // 	{"source":  1, "target":  3},
+	    // 	{"source":  3, "target":  2},
+	    // 	{"source":  3, "target":  4},
+	    // 	{"source":  4, "target":  5},
+	    // 	{"source":  5, "target":  6},
+	    // 	{"source":  5, "target":  7},
+	    // 	{"source":  6, "target":  7},
+	    // 	{"source":  6, "target":  8},
+	    // 	{"source":  7, "target":  8},
+	    // 	{"source":  9, "target":  4},
+	    // 	{"source":  9, "target": 11},
+	    // 	{"source":  9, "target": 10},
+	    // 	{"source": 10, "target": 11},
+	    // 	{"source": 11, "target": 12},
+	    // 	{"source": 12, "target": 10}
+	    // ];
+
+	    // console.log(longernodes);
+
+	    // force.nodes(testnodes)
+	    // 	.links(testlinks)
+	    // 	.on("tick",tick);
+
+	    var timeseries = data.map(function(d,i) { return [x(i),y(d)]; });
+	    console.log(timeseries);
+	    console.log(nodes);
+	    // run the simulation 100 times
+	    for (var i=0; i<20; i++) {
+		var tstep = 1;
+		nodes = solveSystem(nodes,timeseries,tstep);
+		// force.tick();
+		// reset the guys that shouldn't move
+		bubbles.attr({
+		    "x": function(d,i) { return nodes[i].x; },
+		    "y": function(d,i) { return nodes[i].y; },
+		});
+		bubblelines.attr({
+		    "x2": function(d,i) { 
+			if (nodes[i].x<nodes[i].x0) {
+			    return nodes[i].x+12;
+			}
+			else {
+			    return nodes[i].x;
+			}
+		    },
+		    "y2": function(d,i) { 
+			if (nodes[i].x<nodes[i].x0) {
+			    return nodes[i].y-10;
+			}
+			else {
+			    return nodes[i].y;
+			}
+		    },
+		});
+	    }
+	    console.log(nodes);
 	})
+    }
+
+    var solveSystem = function(nodes,timeseries,tstep) {
+	// loop over the nodes, and update their x,y
+	for (var i=0; i<nodes.length; i++) {
+	    // only worry about the timeseries for now
+	    // to add the other points, use a map, then concat method
+	    // var ds = computeDistances([nodes[i].x,nodes[i].y],timeseries);
+	    // console.log(ds);
+	    // var distanceFromPoint = computeDistances([nodes[i].x,nodes[i].y],[[nodes[i].x0,nodes[i].y0]])
+	    // console.log(distanceFromPoint);
+	    // var F = computeForce(ds,distanceFromPoint[0]);
+	    var F = computeForce([nodes[i].x,nodes[i].y],timeseries,[nodes[i].x0,nodes[i].y0]);
+	    console.log("force:");
+	    console.log(F);
+	    var newpos = verletpos([nodes[i].x,nodes[i].y],[nodes[i].v,nodes[i].u],F,tstep);
+	    console.log("position:");
+	    console.log(newpos);
+	    var maxlen = 1000;
+	    if (Math.abs(newpos[0]-nodes[i].x0) < maxlen) {
+		nodes[i].x = newpos[0];
+	    }
+	    if (Math.abs(newpos[1]-nodes[i].y0) < maxlen) {
+		nodes[i].y = newpos[1];
+	    }
+	}
+	for (var i=0; i<nodes.length; i++) {
+	    var Fnew = computeForce([nodes[i].x,nodes[i].y],timeseries,[nodes[i].x0,nodes[i].y0]);
+	    console.log("force:");
+	    console.log(Fnew);
+	    var newvel = verletvel([nodes[i].u,nodes[i].v],F,Fnew,tstep);
+	    console.log("velocity:");
+	    console.log(newvel);
+	    nodes[i].u = newvel[0];
+	    nodes[i].v = newvel[1];
+	}
+	return nodes;
+    }
+
+    var computeDistances = function(a,points) {
+	// a: the point we're at, Array{2}
+	// points: all the points to compute distance from, Array{npoints,2}
+	ds = Array(points.length);
+	for (var i=0; i<points.length; i++) {
+	    ds[i] = Math.sqrt(Math.pow(points[i][0]-a[0],2)+Math.pow(points[i][1]-a[1],2));
+	}
+	return ds;
+    }
+
+    var computeForce = function(a,points,origin) {
+    	// a: the point in x,y
+	// points: array of points in x,y
+    	// o: point to which a has gravity
+	var F = Array(2);
+	var xdist = Array(points.length);
+	var ydist = Array(points.length);
+	for (var i=0; i<points.length; i++) {
+	    xdist[i] = a[0]-points[i][0];
+	    ydist[i] = a[1]-points[i][1];
+	}
+    	F[0] = d3.sum(xdist.map(force))-gravity(a[0]-origin[0]);
+    	F[1] = d3.sum(ydist.map(force))-gravity(a[1]-origin[1]);
+    	return F;
+    }
+
+    var force = function(d) {
+	// a linear attraction function
+	// given a distance, want this to mostly be a positive repulsion
+	if (d !== 0.0) {
+	    return 1/d;
+	}
+	else {
+	    return 1;
+	}
+    }
+
+    var gravity = function(d) {
+	// a linear gravity function
+	// given a distance, want this to be a negative (attraction) for reasonable d
+	// return 1/d; // -100*d;
+	if (d !== 0.0) {
+	    return 100000/d;
+	}
+	else {
+	    return 1;
+	}
+    }
+
+    var verletpos = function(x,v,F,tstep) {
+	y = Array(2);
+	y[0] = x[0] + v[0]*tstep + 0.5*F[0]*tstep*tstep;
+	y[1] = x[1] + v[1]*tstep + 0.5*F[1]*tstep*tstep;
+	return y;
+    }
+
+    var verletvel = function(v,Fold,Fnew,tstep) {
+	u = Array(2);
+	u[0] = v[0] + 0.5*tstep*(Fold[0]+Fnew[0]);
+	u[1] = v[1] + 0.5*tstep*(Fold[1]+Fnew[1]);
+	return u;
     }
 
     var line;
@@ -229,7 +484,28 @@ hedotools.booktimeseries = function() {
 	var maxbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.maxcircle").transition().attr("r",5); }, 500); },1000);
     }
 
+    var hovergroup;
+
+    var hidehover = function() {
+	hovergroup.style({
+	    "visibility": "hidden",
+	});
+    }
+
     var plot = function() {
+
+	hovergroup = figure.append("div").attr({
+	    "class": "hoverinfogroup",
+	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
+	})
+	    .style({
+		"position": "absolute",
+		"top": "100px",
+		"left": "100px",
+		"visibility": "hidden",
+	    });
+
+
 	// remove an old figure if it exists
 	figure.select(".canvas").remove();
 
@@ -256,7 +532,7 @@ hedotools.booktimeseries = function() {
 	// linear scale function
 	y =  d3.scale.linear()
 	    .domain([d3.min(data),d3.max(data)])
-	    .range([height-10, 10]); 
+	    .range([height-50, 50]); 
 
 	// console.log([d3.min(data),d3.max(data)])
 
