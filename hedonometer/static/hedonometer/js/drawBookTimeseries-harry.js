@@ -165,8 +165,8 @@ hedotools.booktimeseries = function() {
 	    console.log(timeseries);
 	    console.log(nodes);
 	    // run the simulation 100 times
-	    for (var i=0; i<20; i++) {
-		var tstep = 1;
+	    for (var i=0; i<200; i++) {
+		var tstep = .01;
 		nodes = solveSystem(nodes,timeseries,tstep);
 		// force.tick();
 		// reset the guys that shouldn't move
