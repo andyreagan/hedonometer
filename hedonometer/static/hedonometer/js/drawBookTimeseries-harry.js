@@ -94,9 +94,9 @@ hedotools.booktimeseries = function() {
 	    
 	    for (var i=0; i<json.objects.length; i++) {
 		var newobj = json.objects[i];
-		newobj["i"] = parseFloat(newobj.position.replace("%",""))/100*data.length;
+		newobj["i"] = Math.round(parseFloat(newobj.position.replace("%",""))/100*data.length);
 		newobj["x"] = x(newobj.i);
-		newobj["y"] = y(data[parseInt(newobj.i)]);
+		newobj["y"] = y(data[newobj.i]);
 		newobj["x0"] = newobj.x;
 		newobj["y0"] = newobj.y;
 		newobj["x"] += 0; // 10;
