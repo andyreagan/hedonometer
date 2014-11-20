@@ -87,9 +87,14 @@ hedotools.booktimeseries = function() {
 	    // console.log(json);
 
 	    var force = d3.layout.force()
-		.size([100,100])
-		.charge(-400)
-		.linkDistance(40);
+		.size([width,height])
+		.charge(-40)
+		.linkStrength(1.0)
+		.linkDistance(20)
+		.chargeDistance(50)
+	        .gravity(0.0)
+	        .friction(0.8);
+		// .linkDistance(1);
 
 	    // build a list of x,y for the bubbles
 	    var annotationnodes = Array(json.objects.length);
@@ -203,8 +208,20 @@ hedotools.booktimeseries = function() {
 
 	    var tick = function() {
 	    	console.log("ticking...");
-		console.log(allnodes);
+		// console.log(allnodes);
 		console.log(allnodes.slice(data.length,allnodes.length));
+		bubbles.attr({
+		    "x": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].x; },
+		    "y": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].y; },
+		});
+		bubblelines.attr({
+		    "x2": function(d,i) { 
+			return allnodes.slice(data.length,allnodes.length)[i].x;
+		    },
+		    "y2": function(d,i) { 
+			return allnodes.slice(data.length,allnodes.length)[i].y;
+		    },
+		});
 	    	// console.log(testnodes);
 	    	// bubbles.attr()
 	    	// bubblelines.attr()
