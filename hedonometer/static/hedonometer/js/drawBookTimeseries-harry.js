@@ -213,7 +213,7 @@ hedotools.booktimeseries = function() {
 	    var newpos = verletpos([nodes[i].x,nodes[i].y],[nodes[i].v,nodes[i].u],F,tstep);
 	    console.log("position:");
 	    console.log(newpos);
-	    var maxlen = 1000;
+	    var maxlen = 60;
 	    if (Math.abs(newpos[0]-nodes[i].x0) < maxlen) {
 		nodes[i].x = newpos[0];
 	    }
