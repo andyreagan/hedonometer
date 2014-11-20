@@ -237,7 +237,7 @@ hedotools.booktimeseries = function() {
     var computeDistances = function(a,points) {
 	// a: the point we're at, Array{2}
 	// points: all the points to compute distance from, Array{npoints,2}
-	ds = Array(points.length);
+	var ds = Array(points.length);
 	for (var i=0; i<points.length; i++) {
 	    ds[i] = Math.sqrt(Math.pow(points[i][0]-a[0],2)+Math.pow(points[i][1]-a[1],2));
 	}
@@ -284,14 +284,14 @@ hedotools.booktimeseries = function() {
     }
 
     var verletpos = function(x,v,F,tstep) {
-	y = Array(2);
+	var y = Array(2);
 	y[0] = x[0] + v[0]*tstep + 0.5*F[0]*tstep*tstep;
 	y[1] = x[1] + v[1]*tstep + 0.5*F[1]*tstep*tstep;
 	return y;
     }
 
     var verletvel = function(v,Fold,Fnew,tstep) {
-	u = Array(2);
+	var u = Array(2);
 	u[0] = v[0] + 0.5*tstep*(Fold[0]+Fnew[0]);
 	u[1] = v[1] + 0.5*tstep*(Fold[1]+Fnew[1]);
 	return u;
