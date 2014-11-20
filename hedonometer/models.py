@@ -60,6 +60,22 @@ class Book(models.Model):
     class Meta:
         ordering = ('author',)
 
+class Movie(models.Model):
+    filename = models.CharField(max_length=100)
+    title = models.CharField(max_length=200)
+    director = models.CharField(max_length=200)
+    language = models.CharField(max_length=100)
+    happs = models.FloatField()
+    length = models.IntegerField()
+    ignorewords = models.CharField(max_length=400)
+    wiki = models.URLField()
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('director',)
+
 class Embeddable(models.Model):
     # the hash
     # will look things up by this

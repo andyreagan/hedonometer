@@ -1,0 +1,287 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block headercss %}
+<link href="{% static "hedonometer/css/bootstrap.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/font-awesome.min.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/site.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/books.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/datepicker.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/paper.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/hedotools.shift.css" %}" rel="stylesheet">
+<style>
+.hoverinfogroup h5 { 
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.hoverinfogroup {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+</style>
+{% endblock %}
+
+{% block headerjs %}
+<!-- variables from Django for the JS to consume -->
+<script>
+  var movie = "{{ movie|escapejs }}";
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12 col-md-5">
+	<div id="booktitle" class="pullleft"></div>
+      </div><!-- col -->
+      <div class="col-xs-12 col-md-7">
+      </div><!-- col -->
+    </div><!-- row -->
+    <div class="row">
+      <div class="col-xs-12 col-md-6">
+	<div id="bookauthor" class="pullleft"></div>
+      </div><!-- col -->
+    </div><!-- row -->
+    <br>
+    <div class="row">
+    </div><!-- row -->
+    <div class="row">
+      <div class="col-xs-12">
+
+	<div class="paper">
+	  <b>Movie happiness time series:</b>
+	  <p>Explore the work's emotional dynamics by sliding and resizing the reference and comparison sections.</p>
+	  <div id="chapters01" class="figure refslider"></div>
+	  <div id="chapters03" class="figure"></div>
+	  <div id="chapters02" class="figure compslider"></div>
+	</div>
+
+	<div class="paper" id="shiftingPaper">
+	  <p><b>Interact with timeseries</b></p>
+	  <form role="form">
+	    <div class="row">
+	      <div class="col-xs-12 col-lg-1">
+	      Comparing
+	      </div>
+	      <div class="col-xs-12 col-lg-2">
+	      <div class="input-group restrain" style="width: 165px;">
+		<input type="text" class="form-control" value="0%" id="refInput1"  disabled="disabled">
+		<span class="input-group-btn">
+                  <button class="btn btn-default left" type="button" style="border-radius: 0px; border-right-width: 0px;" disabled="disabled">
+                    to
+                  </button>
+		</span>
+		<input type="text" class="form-control" value="20%" id="refInput2" style="border-left-width: 1px;" disabled="disabled">
+              </div>
+	      </div>
+	      <!-- <div class="form-group col-xs-1"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref1" placeholder="10%"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref2" placeholder="20%"> -->
+	      <!-- </div> -->
+	      <!-- <div class="col-xs-1"> -->
+	      <!-- to -->
+	      <!-- </div> -->
+	      <!-- <div class="form-group col-xs-1"> -->
+	      <!-- 	<input type="email" class="form-control" id="ref2" placeholder="20%"> -->
+	      <!-- </div> -->
+	      <div class="col-xs-12 col-lg-1">
+	      versus reference
+	      </div>
+	    <!--   <div class="form-group col-xs-1"> -->
+	    <!-- 	<input type="email" class="form-control" id="comp1" placeholder="60%"> -->
+	    <!--   </div> -->
+	    <!--   <div class="col-xs-1"> -->
+	    <!--   to -->
+	    <!--   </div> -->
+	    <!--   <div class="form-group col-xs-1"> -->
+	    <!-- 	<input type="email" class="form-control" id="comp2" placeholder="100%"> -->
+	    <!--   </div> -->
+	      <div class="col-xs-12 col-lg-2">
+	      <div class="input-group restrain" style="width: 165px;">
+		<input type="text" class="form-control" value="80%" id="compInput1"  disabled="disabled">
+		<span class="input-group-btn">
+                  <button class="btn btn-default left" type="button" style="border-radius: 0px; border-right-width: 0px;" disabled="disabled" >
+                    to
+                  </button>
+		</span>
+		<input type="text" class="form-control" value="100%" id="compInput2" style="border-left-width: 1px;" disabled="disabled">
+              </div>
+	      </div>
+	      <div class="col-xs-12 col-lg-1">
+	      of text.
+	      </div>
+	    </div>
+	  </form>
+	  <br>
+	  <div class="row">
+	    <div class="col-xs-12 col-lg-6">
+	      <div class="btn-group">
+		<button type="button" class="btn btn-default" id="loaddatabutton">Load Shift Data
+		  <i class="fa fa-cloud-download"></i>
+		</button>
+		<button type="button" class="btn btn-default" id="popupbutton" disabled="disabled">Show Shift
+		  <i class="fa fa-external-link-square"></i>
+		</button>
+	      </div>
+	    </div>
+	    <div class="visible-lg col-lg-6">
+	      <div class="btn-group pull-right">
+		<button type="button" class="btn btn-default" id="loadalldatabutton">Load All Word Vector Data
+		  <i class="fa fa-cloud-download"></i>
+		</button>
+		<button type="button" class="btn btn-default" id="lensbutton" disabled="disabled">Show Lens
+		  <i class="fa fa-external-link-square"></i>
+		</button>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	<!-- <div class="paper" id="annotationListPaper"> -->
+	<!--   <p><b>List of annotations</b></p> -->
+	<!-- </div> -->
+
+	<div class="paper" id="annotationPaper">
+	  <p><b>Annotate high and low points</b></p>
+	  {% if user.is_authenticated %}
+	  <div class="row">
+	    <div class="col-xs-12">
+	      Welcome back, {{ user.username }}!
+	      <br>
+	      <br>
+	    </div><!-- col -->
+	    <div class="col-xs-12">
+	      <button type="button" class="btn btn-default" id="beginannotationbutton">Begin annotating</button>
+	      <!-- put form here -->
+	    </div><!-- col -->
+	  </div><!-- row -->
+	  {% else %}
+	  <a href="/twitter/login" id="changeMe"><img src="/static/hedonometer/graphics/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+	  {% endif %}
+
+	  <div class="row">
+	    <div class="col-xs-12">
+	      <div id="annotationform">
+		<form class="form-horizontal" role="form" method="post" action="/movie/samplemovie/" id="changeMeAlso">
+		  {% csrf_token %}		      
+		  <div class="form-group has-error has-feedback" id="selectPoint">
+		    <label class="control-label col-sm-3" for="inputSuccess3">Select point on timeseries</label>
+		    <div class="col-sm-4">
+		      <input type="text" class="form-control" id="inputSuccess3" name="point">
+		      <span class="glyphicon glyphicon-remove form-control-feedback" id="selectPointIcon"></span>
+		      <span class="help-block">Go click on a flashing point in the timeseries at the top.</span>
+		    </div>
+		  </div>
+		  <p><b>Select a previous annotation to vote for it, or add your own:</b></p>
+		  <!-- <div class="form-group"> -->
+		  <!--   <div class="col-sm-offset-3 col-sm-7"> -->
+		  <!--     <div class="checkbox" id="none"> -->
+		  <!-- 	<label> -->
+		  <!-- 	  <input type="checkbox" id="none" name="34" value="off">Dumbledore dies (votes: 1) -->
+		  <!-- 	</label> -->
+		  <!--     </div> -->
+		  <!--   </div> -->
+		  <!-- </div> -->
+		  <div class="form-group has-error has-feedback" id="annotationInput">
+		    <label class="control-label col-sm-3" for="inputSuccess4">Describe in 6 words or less</label>
+		    <div class="col-sm-6" id="inputSuccess4col">
+		      <input type="text" class="form-control" id="inputSuccess4" name="annotation">
+		      <span class="glyphicon glyphicon-remove form-control-feedback" id="annotationInputIcon"></span>
+		      <span class="help-block">Describe what happens, using at most 6 words from the movie itself. We'll check that they're in the movie when you press submit.</span>
+		      <!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-3 col-sm-7">
+		      <div class="checkbox" id="tweetCheckDiv">
+			<label>
+			  <input type="checkbox" id="toTweetOrNotToTweet" name="tweetflag" value="off">Tweet this annotation to @hedonometer from my account.
+			</label>
+			<!-- <span class="help-block">The tweet would be "@hedonometer: 67% through Harry Potter(all movies), ...."</span> -->
+		      </div>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <div class="col-sm-offset-3 col-sm-7">
+		      <button type="submit" class="btn btn-default">Submit</button>
+		    </div>
+		  </div>
+		</form>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+      </div><!-- col -->
+    </div><!-- row -->
+
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-4">
+      </div> <!-- col -->
+      <div class="col-xs-12 col-sm-5">
+	<p>Inspired by Kurt Vonnegut's <a href="https://www.youtube.com/watch?v=oP3c1h8v2ZQ">Shapes of Stories</a>.</p>
+	<p>More details can also be found in the online appendices of the full paper <a href="http://www.uvm.edu/storylab/share/papers/dodds2014a/index.html">Human language reveals a universal positivity bias</a>.</p>
+      </div>
+      <div class="col-xs-12 col-sm-2">
+      </div>
+    </div> <!-- row? -->
+    <br>
+
+  </div><!-- /.container-fluid -->
+</div><!-- /.container -->
+
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
+      </div>
+      <div class="modal-body" id="moveshifthere">
+      </div>
+      <div class="modal-footer" id="moveshiftherefooter">
+        <div class="addthis_sharing_toolbox pull-left"></div>
+
+        <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="paper paper-curl-right"> -->
+<!--   <b>Word Shift:</b> -->
+<!--   <div id="figure01" class="figure"> -->
+<!--     <p class="sumtext"></p> -->
+<!--     <p class="sumtext"></p> -->
+<!--     <p class="sumtext"></p> -->
+<!--   </div> <\!-- figure -\-> -->
+<!-- </div> <\!-- paper -\-> -->
+{% endblock %}
+
+{% block bottomjs %}
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+    <script src="{% static "hedonometer/js/typeahead.bundle.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawLens-chapters.js" %}"></script>
+    <script src="{% static "hedonometer/js/drawBookTimeseries-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/selectChapter-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/selectChapterTop-harry.js" %}"></script>
+    <script src="{% static "hedonometer/js/computeHappsChapters.js" %}"></script>
+    <script src="{% static "hedonometer/js/movies-on-load.js" %}"></script>
+    <script src="{% static "hedonometer/js/spin.js" %}"></script>
+{% endblock %}
+
+
+

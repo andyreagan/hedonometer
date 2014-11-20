@@ -1,5 +1,5 @@
-from hedonometer.models import Event,Book,Happs,Word,GeoHapps
-from twython_django.models import TwitterProfile,Annotation
+from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie
+from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 
@@ -105,6 +105,26 @@ class BookResource(ModelResource):
             "annotation": ALL,
         }
 
+class MovieResource(ModelResource):
+    happiness = FixedFloatField(attribute="happs")
+    reference = fields.CharField("filename")
+    ignorewords = fields.CharField("ignorewords")
+    director = fields.CharField("director")
+    class Meta:
+        queryset = Movie.objects.filter(length__gte=10000)
+        resource_name = "movies"
+        # excludes = ["happs","id","filename",]
+        include_resource_uri = False
+        max_limit = None
+        limit = 50000
+        filtering = {
+            "title": ALL_WITH_RELATIONS,
+            "director": ALL_WITH_RELATIONS,
+            "id": ALL,
+            "length": ALL_WITH_RELATIONS,
+            "annotation": ALL,
+        }
+
 class RandomBookResource(ModelResource):
     reference = fields.CharField("filename")
     class Meta:
@@ -120,6 +140,18 @@ class AnnotationResource(ModelResource):
         limit = 500
         filtering = {
             "book": ALL_WITH_RELATIONS,
+            "position": ALL,
+            "winner": ALL,
+        }
+
+class MovieAnnotationResource(ModelResource):
+    movie = fields.ForeignKey(MovieResource, 'movie')
+    class Meta:
+        queryset = Annotation.objects.all()
+        resource_name = "movieannotation"
+        limit = 500
+        filtering = {
+            "movie": ALL_WITH_RELATIONS,
             "position": ALL,
             "winner": ALL,
         }

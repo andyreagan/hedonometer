@@ -83,7 +83,7 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
-	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book,function(error,json) {
+	d3.json("/api/v1/annotation/?format=json&winner=1&movie__title="+movie,function(error,json) {
 	    // console.log(json);
 
 	    var force = d3.layout.force()
@@ -369,8 +369,8 @@ hedotools.booktimeseries = function() {
     
     var buildForm = function(point) {
 	console.log("building form");
-	console.log("/api/v1/annotation/?format=json&position="+point+"&book__title="+book);
-	d3.json("/api/v1/annotation/?format=json&position="+point+"&book__title="+book,function(error,json) {
+	console.log("/api/v1/movieannotation/?format=json&position="+point+"&movie__title="+movie);
+	d3.json("/api/v1/movieannotation/?format=json&position="+point+"&movie__title="+movie,function(error,json) {
 	    console.log(json);
 	    d3.select("#changeMeAlso")
 		.selectAll("input.annotation")

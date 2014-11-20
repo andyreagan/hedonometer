@@ -8,13 +8,14 @@ from django.template import Context
 from mysite.settings import STATIC_ROOT
 import logging
 logger = logging.getLogger(__name__)
-from hedonometer.models import Embeddable,Event,Book
+from hedonometer.models import Embeddable,Event,Book,Movie
 import csv
 import subprocess
 import codecs
 import datetime
 
-from twython_django.models import TwitterProfile,Annotation
+from twython_django.models import TwitterProfile,Annotation,Vote
+from twython_django.models import MovieAnnotation,MovieVote
 
 # Create your views here.
 def dummy(request):
@@ -83,6 +84,56 @@ class annotation(View):
 
         # return HttpResponse("this will also be the book page, with a new annotation")
         return render(request, 'hedonometer/harrypotter.html',{"book": book})
+
+class movieannotation(View):
+    def get(self, request, movie):
+        return render(request, 'hedonometer/movie.html',{"movie": movie})
+    
+    # accept an annotation
+    def post(self, request, book):
+        m = Movie.objects.filter(title__exact=movie)[0]
+        # print request.user.twitterprofile
+        
+        queryset = MovieAnnotation.objects.filter(movie=m,position=request.POST.get("point","none"))
+        # vote for an annotation
+        # check on the POST data for a vote
+        vote = False
+        for q in queryset:
+            id = q.id
+            if request.POST.get(str(id),"none") != "none":
+                print "casting a vote"
+                vote = True
+                q.votes += 1
+                q.save()
+                break
+
+        # create a new annotation
+        if not vote:
+            print "making a new annotation"
+            a = MovieAnnotation(movie=m,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now(),votes=1,winner="0")
+            # save it
+            a.save()
+
+        # check for the winner, always
+        winner = 0
+        mostvotes = 0
+
+        if len(queryset) > 0:
+            for i in xrange(len(queryset)):
+                annotation = queryset[i]
+                annotation.winner = "0"
+                if int(annotation.votes) > mostvotes:
+                    mostvotes = int(annotation.votes)
+                    winner = i
+    
+            queryset[winner].winner = "1"
+            queryset[winner].save()
+        else:
+            a.winner = "1"
+            a.save()
+
+        # return HttpResponse("this will also be the book page, with a new annotation")
+        return render(request, 'hedonometer/movie.html',{"movie": movie})
         
 def embedMain(request,dateref,datecomp):
     # # but I do need a dates

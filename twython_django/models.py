@@ -13,7 +13,7 @@ class TwitterProfile(models.Model):
     oauth_token = models.CharField(max_length=200)
     oauth_secret = models.CharField(max_length=200)
 
-from hedonometer.models import Book
+from hedonometer.models import Book,Movie
 
 class Annotation(models.Model):
     book = models.ForeignKey(Book)
@@ -32,9 +32,32 @@ class Annotation(models.Model):
 
     def __unicode__(self):
         return self.annotation
-        
+
 class Vote(models.Model):
     user = models.ForeignKey(TwitterProfile)
     annotation = models.ForeignKey(Annotation)
+    date = models.DateTimeField()
+
+class MovieAnnotation(models.Model):
+    movie = models.ForeignKey(Movie)
+    user = models.ForeignKey(TwitterProfile)
+    # give a position in percentage
+    position = models.CharField(max_length=100)
+    annotation = models.CharField(max_length=400)
+    tweeted = models.CharField(max_length=100)
+    date = models.DateTimeField()
+    # pre-sum the number of votes
+    votes = models.IntegerField()
+    winner = models.CharField(max_length=1)
+
+    class Meta:
+        ordering = ('date',)
+
+    def __unicode__(self):
+        return self.annotation
+        
+class MovieVote(models.Model):
+    user = models.ForeignKey(TwitterProfile)
+    annotation = models.ForeignKey(MovieAnnotation)
     date = models.DateTimeField()
 
