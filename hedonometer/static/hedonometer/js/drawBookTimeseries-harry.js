@@ -276,7 +276,7 @@ hedotools.booktimeseries = function() {
 	// given a distance, want this to be a negative (attraction) for reasonable d
 	// return 1/d; // -100*d;
 	if (d !== 0.0) {
-	    return 100000/d;
+	    return 10/d;
 	}
 	else {
 	    return 1;
