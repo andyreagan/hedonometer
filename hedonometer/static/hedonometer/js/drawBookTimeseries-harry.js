@@ -79,18 +79,21 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","#fefe81")
     }
 
-    var force = d3.layout.force()
-	.size([100,100])
-	.charge(-400)
-	.linkDistance(40);
+
 
     var drawAnnotations = function() {
 	// draw all of the annotations
 	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book,function(error,json) {
 	    // console.log(json);
 
+	    var force = d3.layout.force()
+		.size([100,100])
+		.charge(-400)
+		.linkDistance(40);
+
 	    // build a list of x,y for the bubbles
-	    var nodes = Array(json.objects.length);
+	    var annotationnodes = Array(json.objects.length);
+	    var annotationlinks = Array(json.objects.length);
 	    
 	    for (var i=0; i<json.objects.length; i++) {
 		var newobj = json.objects[i];
@@ -99,16 +102,18 @@ hedotools.booktimeseries = function() {
 		newobj["y"] = y(data[newobj.i]);
 		newobj["x0"] = newobj.x;
 		newobj["y0"] = newobj.y;
-		newobj["x"] += 0; // 10;
-		newobj["y"] += 0; // 5;
+		// newobj["x"] += 0; // 10;
+		// newobj["y"] += 0; // 5;
 		newobj["v"] = 0;
 		newobj["u"] = 0;
-		nodes[i] = newobj;
+		annotationnodes[i] = newobj;
+		annotationlinks[i] = {
+		    "source": newobj.i,
+		    "target": data.length+i,
+		};
 	    }
 
-	    console.log(nodes);
-
-	    var bubblegroup = axes.selectAll("g.annotation").data(nodes)
+	    var bubblegroup = axes.selectAll("g.annotation").data(annotationnodes)
 		.enter()
 		.append("g")
 		.attr("class","bubblegroup");
@@ -150,6 +155,8 @@ hedotools.booktimeseries = function() {
 		    setTimeout(hidehover,1000);
 		});
 
+
+
 	    var bubblelines = bubblegroup.append("line")
 		.attr({
 		    "class": "bubbleline",
@@ -161,39 +168,71 @@ hedotools.booktimeseries = function() {
 		    "stroke-width": "1.5px",
 		});
 
-	    var timeseries = data.map(function(d,i) { return [x(i),y(d)]; });
-	    console.log(timeseries);
-	    console.log(nodes);
+	    var timeseries2 = data.map(function(d,i) { return [x(i),y(d)]; });
+	    console.log(timeseries2);
+	    console.log(annotationnodes);
 	    // run the simulation 100 times
-	    for (var i=0; i<200; i++) {
+	    for (var i=0; i<0; i++) {
 		var tstep = .01;
-		nodes = solveSystem(nodes,timeseries,tstep);
+		nodes = solveSystem(annotationnodes,timeseries2,tstep);
 		// force.tick();
 		// reset the guys that shouldn't move
 		bubbles.attr({
-		    "x": function(d,i) { return nodes[i].x; },
-		    "y": function(d,i) { return nodes[i].y; },
+		    "x": function(d,i) { return annotationnodes[i].x; },
+		    "y": function(d,i) { return annotationnodes[i].y; },
 		});
 		bubblelines.attr({
 		    "x2": function(d,i) { 
-			if (nodes[i].x<nodes[i].x0) {
-			    return nodes[i].x+12;
+			if (annotationnodes[i].x<annotationnodes[i].x0) {
+			    return annotationnodes[i].x+12;
 			}
 			else {
-			    return nodes[i].x;
+			    return annotationnodes[i].x;
 			}
 		    },
 		    "y2": function(d,i) { 
-			if (nodes[i].x<nodes[i].x0) {
-			    return nodes[i].y-10;
+			if (annotationnodes[i].x<annotationnodes[i].x0) {
+			    return annotationnodes[i].y-10;
 			}
 			else {
-			    return nodes[i].y;
+			    return annotationnodes[i].y;
 			}
 		    },
 		});
 	    }
-	    console.log(nodes);
+
+	    var tick = function() {
+	    	console.log("ticking...");
+		console.log(allnodes);
+		console.log(allnodes.slice(data.length,allnodes.length));
+	    	// console.log(testnodes);
+	    	// bubbles.attr()
+	    	// bubblelines.attr()
+	    }
+
+	    var fixednodes = data.map(function(d,i) {
+	    	return {
+	    	    "x":x(i),
+	    	    "y":y(d),
+		    "fixed":1,
+	    	}
+	    });
+
+	    console.log("fixednodes");
+	    console.log(fixednodes);
+	    console.log("annotationnodes");
+	    console.log(annotationnodes);
+	    console.log("allnodes");
+	    var allnodes = fixednodes.concat(annotationnodes)
+	    console.log(allnodes);
+
+	    force.nodes(allnodes)
+	    	.links(annotationlinks)
+	    	.on("tick",tick);
+
+	    force.start();
+
+	    console.log(annotationnodes);
 	})
     }
 
@@ -213,7 +252,7 @@ hedotools.booktimeseries = function() {
 	    var newpos = verletpos([nodes[i].x,nodes[i].y],[nodes[i].v,nodes[i].u],F,tstep);
 	    console.log("position:");
 	    console.log(newpos);
-	    var maxlen = 60;
+	    var maxlen = 6000000;
 	    if (Math.abs(newpos[0]-nodes[i].x0) < maxlen) {
 		nodes[i].x = newpos[0];
 	    }
@@ -255,6 +294,12 @@ hedotools.booktimeseries = function() {
 	    xdist[i] = a[0]-points[i][0];
 	    ydist[i] = a[1]-points[i][1];
 	}
+	console.log("all about the forces");
+	console.log(a);
+	console.log(points);
+	console.log(xdist);
+	console.log(xdist.map(force));
+	console.log(d3.sum(xdist.map(force)));
     	F[0] = d3.sum(xdist.map(force))-gravity(a[0]-origin[0]);
     	F[1] = d3.sum(ydist.map(force))-gravity(a[1]-origin[1]);
     	return F;
@@ -276,7 +321,7 @@ hedotools.booktimeseries = function() {
 	// given a distance, want this to be a negative (attraction) for reasonable d
 	// return 1/d; // -100*d;
 	if (d !== 0.0) {
-	    return 10/d;
+	    return data.length/d;
 	}
 	else {
 	    return 1;
