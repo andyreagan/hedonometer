@@ -111,7 +111,7 @@ class MovieResource(ModelResource):
     ignorewords = fields.CharField("ignorewords")
     director = fields.CharField("director")
     class Meta:
-        queryset = Movie.objects.filter(length__gte=10000)
+        queryset = Movie.objects.all()
         resource_name = "movies"
         # excludes = ["happs","id","filename",]
         include_resource_uri = False
