@@ -33,6 +33,8 @@ console.log("would use "+movie+" as the default here");
 var movieDecoder = d3.urllib.decoder().varresult(movie).varname("movie");
 var movieEncoder = d3.urllib.encoder().varname("movie");
 
+var windowDecoder = d3.urllib.decoder().varresult("10000").varname("window");
+
 var ignoreWords = [];
 var movieinfo = {};
 
@@ -71,7 +73,7 @@ function initializePlot() {
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
-    var moviefile = "http://hedonometer.org/data/moviedata/timeseries/"+movieref+".csv";
+    var moviefile = "http://hedonometer.org/data/moviedata/timeseries/"+windowDecoder.cached()+"/"+movieref+".csv";
     d3.text(moviefile, function (text) {
 	var tmpminwin = 10;
 	fulltimeseries = text.split(",").map(parseFloat);
@@ -122,8 +124,8 @@ function loadCsv() {
 
 function initializePlotPlot(lens, words) {
     // initially apply the lens
-    var minSize = 10000;
-    var dataSize = 1000;
+    var minSize = parseInt(windowDecoder.cached());
+    var dataSize = parseInt(windowDecoder.cached())/10;
     minWindows = Math.round(minSize / dataSize);
 
     lensDecoder = d3.urllib.decoder().varresult([3,7]).varname("lens");
@@ -183,12 +185,10 @@ var opts = {
 
 var loadwordshiftdata = function() {
 // function loadwordshiftdata() {
-
-
     var target = document.getElementById("popupbutton");
     var spinner = new Spinner(opts).spin(target);
 
-    var moviefile = "http://hedonometer.org/data/moviedata/word-vectors/"+movieref+".csv";
+    var moviefile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder.cached()+"/"+movieref+".csv";
     d3.text(moviefile, function (text) {
         tmp = text.split("\n");
 
@@ -205,7 +205,7 @@ var loadwordshiftdata = function() {
 	    }
         }
 	// alert
-	if (sumWords < 10000) { alert("There are too few words in this movie for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this movie has "+sumWords+"."); }
+	// if (sumWords < 10000) { alert("There are too few words in this movie for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this movie has "+sumWords+"."); }
 
 	console.log("done loading");
 	spinner.stop();
