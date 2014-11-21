@@ -83,6 +83,7 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
+	console.log("querying "+"/api/v1/annotation/?format=json&winner=1&movie__title="+movie);
 	d3.json("/api/v1/annotation/?format=json&winner=1&movie__title="+movie,function(error,json) {
 	    // console.log(json);
 
