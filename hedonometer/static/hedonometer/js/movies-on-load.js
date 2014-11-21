@@ -44,6 +44,7 @@ function initializePlot() {
 	var result = data.objects[0];
 	console.log(result);
 	lang = result.language;
+	lang = "english";
 	var movietitle = d3.select("#booktitle");
 	var title = movietitle.append("h2").text(result.title+" ");
 	// title.append("small").text("by "+result.author);
@@ -59,6 +60,7 @@ function initializePlot() {
 	movieref = result.reference;
 	sumWords = result['length'];
 	movieinfo.lang = lang;
+	movieinfo.lang = "english";
 	movieinfo.title = result.title;
 	movieinfo.author = result.author;
 	loadCsv();
