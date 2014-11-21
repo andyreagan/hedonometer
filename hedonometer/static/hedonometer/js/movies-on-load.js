@@ -73,7 +73,7 @@ function initializePlot() {
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
-    var moviefile = "http://hedonometer.org/data/moviedata/timeseries/"+windowDecoder.cached()+"/"+movieref+".csv";
+    var moviefile = "http://hedonometer.org/data/moviedata/timeseries/"+windowDecoder().cached+"/"+movieref+".csv";
     d3.text(moviefile, function (text) {
 	var tmpminwin = 10;
 	fulltimeseries = text.split(",").map(parseFloat);
@@ -124,8 +124,8 @@ function loadCsv() {
 
 function initializePlotPlot(lens, words) {
     // initially apply the lens
-    var minSize = parseInt(windowDecoder.cached());
-    var dataSize = parseInt(windowDecoder.cached())/10;
+    var minSize = parseInt(windowDecoder().cached);
+    var dataSize = parseInt(windowDecoder().cached)/10;
     minWindows = Math.round(minSize / dataSize);
 
     lensDecoder = d3.urllib.decoder().varresult([3,7]).varname("lens");
@@ -188,7 +188,7 @@ var loadwordshiftdata = function() {
     var target = document.getElementById("popupbutton");
     var spinner = new Spinner(opts).spin(target);
 
-    var moviefile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder.cached()+"/"+movieref+".csv";
+    var moviefile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+".csv";
     d3.text(moviefile, function (text) {
         tmp = text.split("\n");
 
