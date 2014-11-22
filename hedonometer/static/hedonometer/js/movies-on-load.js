@@ -398,7 +398,7 @@ var substringMatcher = function() {
     return function findMatches(q,cb) {
         var matches, substringRegex;
         matches = [];
-	d3.json("http://hedonometer.org/api/v1/movie/?format=json&title__icontains="+q,function(data) {
+	d3.json("http://hedonometer.org/api/v1/movies/?format=json&title__icontains="+q,function(data) {
 	    var result = data.objects;
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
