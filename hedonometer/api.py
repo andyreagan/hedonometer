@@ -1,4 +1,4 @@
-from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie
+from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
