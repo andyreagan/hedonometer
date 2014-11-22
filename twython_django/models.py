@@ -49,6 +49,7 @@ class MovieAnnotation(models.Model):
     # pre-sum the number of votes
     votes = models.IntegerField()
     winner = models.CharField(max_length=1)
+    window = models.CharField(max_length=6)
 
     class Meta:
         ordering = ('date',)

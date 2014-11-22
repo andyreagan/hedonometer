@@ -180,6 +180,7 @@ class MovieAnnotationResource(ModelResource):
             "movie": ALL_WITH_RELATIONS,
             "position": ALL,
             "winner": ALL,
+            "window": ALL,
         }
 
 
