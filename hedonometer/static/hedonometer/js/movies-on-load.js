@@ -140,7 +140,7 @@ function initializePlotPlot(lens, words) {
     refFextentDecoder = d3.urllib.decoder().varresult([0,.2]).varname("refExtent");				      
     refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(refFextentDecoder().cached[1])*fulltimeseries.length)];
     compFextentDecoder = d3.urllib.decoder().varresult([.8,1]).varname("compExtent");			      
-    compFextent = [Math.round(parseFloat(compFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(compFextentDecoder().cached[1])*fulltimeseries.length)-1];
+    compFextent = [Math.round(parseFloat(compFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(compFextentDecoder().cached[1])*fulltimeseries.length)];
     
     // only draw the lens is the page is wide enough
     // this approach is terrible
@@ -359,7 +359,7 @@ var popupwordshift = function() {
 	for (var k = refFextent[0]; k < refFextent[1]; k++) {
             refF[i] += parseFloat(allDataRaw[k][i]);
 	}
-	for (var k = compFextent[0]; k < compFextent[1]; k++) {
+	for (var k = compFextent[0]-1; k < compFextent[1]-1; k++) {
             compF[i] += parseFloat(allDataRaw[k][i]);
 	}
     }
