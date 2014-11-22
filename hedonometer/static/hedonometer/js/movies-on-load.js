@@ -51,7 +51,7 @@ function initializePlot() {
 	var title = movietitle.append("h2").text(result.title+" ");
 	// title.append("small").text("by "+result.author);
 	var movieauthor = d3.select("#bookauthor");
-	var author = movietitle.append("h2").append("small").text("by "+result.author);
+	var author = movietitle.append("h2").append("small").text("director by "+result.director[0].name);
 	var newignore = result.ignorewords.split(",");
 	for (var i=0; i<newignore.length-1; i++) {
 	    ignoreWords.push(newignore[i]);
