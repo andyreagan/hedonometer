@@ -110,7 +110,7 @@ class movieannotation(View):
         # create a new annotation
         if not vote:
             print "making a new annotation"
-            a = MovieAnnotation(movie=m,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now(),votes=1,winner="0")
+            a = MovieAnnotation(movie=m,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),window=request.POST.get("window","2000"),date=datetime.datetime.now(),votes=1,winner="0")
             # save it
             a.save()
 

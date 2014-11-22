@@ -255,6 +255,7 @@ function beginannotation() {
 
     d3.select("#beginannotationbutton").remove();
     d3.select("#annotationform").attr("style","display: block");
+    d3.select("#windowInput").attr("value",windowDecoder().cached);
     hedotools.booktimeseries.highlightExtrema();
 }
 
