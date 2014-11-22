@@ -1,4 +1,4 @@
-from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director
+from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
@@ -114,11 +114,29 @@ class DirectorResource(ModelResource):
             'name': ALL,
         }
 
+class ActorResource(ModelResource):
+    class Meta:
+        queryset = Actor.objects.all()
+        resource_name = 'actor'
+        filtering = {
+            'name': ALL,
+        }
+
+class WriterResource(ModelResource):
+    class Meta:
+        queryset = Writer.objects.all()
+        resource_name = 'writer'
+        filtering = {
+            'name': ALL,
+        }
+
 class MovieResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
     reference = fields.CharField("filename")
     ignorewords = fields.CharField("ignorewords")
     director = fields.ManyToManyField('hedonometer.api.DirectorResource','director',full=True)
+    writer = fields.ManyToManyField('hedonometer.api.DirectorResource','writer',full=True)
+    actor = fields.ManyToManyField('hedonometer.api.DirectorResource','actor',full=True)
     class Meta:
         queryset = Movie.objects.all()
         resource_name = "movies"
