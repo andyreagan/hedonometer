@@ -33,7 +33,7 @@ console.log("would use "+movie+" as the default here");
 var movieDecoder = d3.urllib.decoder().varresult(movie).varname("movie");
 var movieEncoder = d3.urllib.encoder().varname("movie");
 
-var windowDecoder = d3.urllib.decoder().varresult("10000").varname("window");
+var windowDecoder = d3.urllib.decoder().varresult("2000").varname("window");
 
 var ignoreWords = [];
 var movieinfo = {};
