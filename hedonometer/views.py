@@ -90,7 +90,7 @@ class movieannotation(View):
         return render(request, 'hedonometer/movie.html',{"movie": movie})
     
     # accept an annotation
-    def post(self, request, book):
+    def post(self, request, movie):
         m = Movie.objects.filter(title__exact=movie)[0]
         # print request.user.twitterprofile
         
