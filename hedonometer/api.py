@@ -158,6 +158,13 @@ class RandomBookResource(ModelResource):
         resource_name = "randombook"
         limit = 1
 
+class RandomMovieResource(ModelResource):
+    reference = fields.CharField("filename")
+    class Meta:
+        queryset = Movie.objects.all().order_by("?")
+        resource_name = "randommovie"
+        limit = 1
+
 class AnnotationResource(ModelResource):
     book = fields.ForeignKey(BookResource, 'book')
     class Meta:

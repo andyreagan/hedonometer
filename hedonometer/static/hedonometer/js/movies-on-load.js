@@ -424,7 +424,7 @@ $(document).ready(function() {
         {
             hint: false,
             highlight: true,
-            minLength: 3,
+            minLength: 2,
         },
         {
             name: "books",
