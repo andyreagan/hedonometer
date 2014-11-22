@@ -357,7 +357,7 @@ var popupwordshift = function() {
 	for (var k = refFextent[0]; k < refFextent[1]; k++) {
             refF[i] += parseFloat(allDataRaw[k][i]);
 	}
-	for (var k = compFextent[0]; k < compFextent[1]; k++) {
+	for (var k = compFextent[0]-1; k < compFextent[1]-1; k++) {
             compF[i] += parseFloat(allDataRaw[k][i]);
 	}
     }
