@@ -384,4 +384,77 @@ $("#popupbutton").on("click",popupwordshift);
 d3.select("#changeMe").attr("href","/twitter/login/?next="+window.location.href);
 d3.select("#changeMeAlso").attr("action",window.location.href);
 
+// for pushing up a selected search
+var searchEncoder = d3.urllib.encoder().varname("book");
 
+// api access method for the book API
+var substringMatcher = function(apik) {
+    return function findMatches(q,cb) {
+        var matches, substringRegex;
+        // console.log("matching "+q);
+	// console.log(apik);
+        matches = [];
+        // for (var i=0; i<booklist.length; i++) {
+        //     if (booklist[i].fulltitle.toLowerCase().match(q)) {
+     	// 	matches.push({ value: booklist[i].fulltitle})
+        //     }
+        // }
+        // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
+	d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
+	    var result = data.objects;
+	    // console.log(result);
+	    var newresult = [];
+	    for (var i=0; i<result.length; i++) {
+		// console.log(result);
+		// console.log(result[i].title+" by "+result[i].author);
+		newresult.push({value: result[i].title+" by "+result[i].author})
+	    }
+	    // result.map(function(d) { return d.value = d.title; }));
+            cb(newresult)
+	})
+    };
+};
+
+// use jquery to build the book search
+// (and twitter typeahead)
+$(document).ready(function() {
+    $('#randombook').on("click",function() {
+	window.location.replace("/books.html?book=random");
+	});
+    $('#randombook').on("click",function() {
+	window.location.replace("/books.html?book=random");
+	});
+    $(".dropdown-menu li a").click(function(){
+
+	$(this).parents(".btn-group").find('.selection').text($(this).text());
+	$("#wordsearch").unbind();
+	$("#wordsearch").typeahead(
+            {
+		hint: false,
+		highlight: true,
+		minLength: 3,
+            },
+            {
+		name: "books",
+		source: substringMatcher($(this).text())
+            });
+    }).on("typeahead:selected",function(event,sugg,dataset) {
+	window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
+
+    });
+    $("#wordsearch").typeahead(
+        {
+            hint: false,
+            highlight: true,
+            minLength: 3,
+        },
+        {
+            name: "books",
+            source: substringMatcher("Title")
+        });
+}).on("typeahead:selected",function(event,sugg,dataset) {
+    // console.log(event);
+    // console.log(sugg);
+    // console.log(dataset);
+    window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
+});
