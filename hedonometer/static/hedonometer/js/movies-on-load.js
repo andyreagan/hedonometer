@@ -387,4 +387,4 @@ $("#popupbutton").on("click",popupwordshift);
 d3.select("#changeMe").attr("href","/twitter/login/?next="+window.location.href);
 d3.select("#changeMeAlso").attr("action",window.location.href);
 
-
+d3.select("#window500").attr("href",window.location.origin + window.location.pathname + "?window=500");
