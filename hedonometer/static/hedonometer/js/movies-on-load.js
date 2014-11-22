@@ -388,3 +388,7 @@ d3.select("#changeMe").attr("href","/twitter/login/?next="+window.location.href)
 d3.select("#changeMeAlso").attr("action",window.location.href);
 
 d3.select("#window500").attr("href",window.location.origin + window.location.pathname + "?window=500");
+d3.select("#window1000").attr("href",window.location.origin + window.location.pathname + "?window=1000");
+d3.select("#window2000").attr("href",window.location.origin + window.location.pathname + "?window=2000");
+d3.select("#window5000").attr("href",window.location.origin + window.location.pathname + "?window=5000");
+d3.select("#window"+windowDecoder().cached).classed("active",true);
