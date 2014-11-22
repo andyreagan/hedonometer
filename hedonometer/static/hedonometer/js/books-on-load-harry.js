@@ -418,14 +418,19 @@ var substringMatcher = function(apik) {
 // use jquery to build the book search
 // (and twitter typeahead)
 $(document).ready(function() {
+    // send a random book
     $('#randombook').on("click",function() {
-	window.location.replace("/books.html?book=random");
-	});
-    $('#randombook').on("click",function() {
-	window.location.replace("/books.html?book=random");
-	});
+	// the regular app does this
+	// window.location.replace("/books.html?book=random");
+	// but here, it's easier to make that API hit now and send the page
+	// directly:
+	d3.json("http://hedonometer.org/api/v1/randombook/?format=json",function(data) {
+	    var result = data.objects[0];
+	    window.location.replace("/books/"+result.title+"/");
+	})	
+    });
+    // reset the typeahead on search by title/author selection
     $(".dropdown-menu li a").click(function(){
-
 	$(this).parents(".btn-group").find('.selection').text($(this).text());
 	$("#wordsearch").unbind();
 	$("#wordsearch").typeahead(
@@ -439,9 +444,11 @@ $(document).ready(function() {
 		source: substringMatcher($(this).text())
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
-
+	// note that the complicated logic here is because
+	// the title of some books contians "by" in them
+	window.location.replace("/books/"+sugg.value.split(" by ").slice(0,-1).join(" by ")+"/");
     });
+    // the default search
     $("#wordsearch").typeahead(
         {
             hint: false,
@@ -453,8 +460,8 @@ $(document).ready(function() {
             source: substringMatcher("Title")
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
-    // console.log(event);
-    // console.log(sugg);
-    // console.log(dataset);
-    window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
+	// note that the complicated logic here is because
+	// the title of some books contians "by" in them
+    window.location.replace("/books/"+sugg.value.split(" by ").slice(0,-1).join(" by ")+"/");
 });
+
