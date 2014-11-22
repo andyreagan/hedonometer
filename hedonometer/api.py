@@ -109,7 +109,7 @@ class MovieResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
     reference = fields.CharField("filename")
     ignorewords = fields.CharField("ignorewords")
-    director = fields.CharField("director")
+    directors = fields.ManyToManyField('hedonometer.api.DirectorResource','director_set',full=True)
     class Meta:
         queryset = Movie.objects.all()
         resource_name = "movies"
@@ -123,6 +123,14 @@ class MovieResource(ModelResource):
             "id": ALL,
             "length": ALL_WITH_RELATIONS,
             "annotation": ALL,
+        }
+
+class DirectorResource(ModelResource):
+    class Meta:
+        queryset = Director.objects.all()
+        resource_name = 'directors'
+        filtering = {
+            'name': ALL_WITH_RELATIONS,
         }
 
 class RandomBookResource(ModelResource):
