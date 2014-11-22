@@ -392,3 +392,47 @@ d3.select("#window1000").attr("href",window.location.origin + window.location.pa
 d3.select("#window2000").attr("href",window.location.origin + window.location.pathname + "?window=2000");
 d3.select("#window5000").attr("href",window.location.origin + window.location.pathname + "?window=5000");
 d3.select("#window"+windowDecoder().cached).classed("active",true);
+
+// api access method for the movie API
+var substringMatcher = function() {
+    return function findMatches(q,cb) {
+        var matches, substringRegex;
+        matches = [];
+	d3.json("http://hedonometer.org/api/v1/movie/?format=json&title__icontains="+q,function(data) {
+	    var result = data.objects;
+	    var newresult = [];
+	    for (var i=0; i<result.length; i++) {
+		newresult.push({value: result[i].title})
+	    }
+            cb(newresult);
+	})
+    };
+};
+
+// use jquery to build the book search
+// (and twitter typeahead)
+$(document).ready(function() {
+    // send a random movie
+    $('#randombook').on("click",function() {
+	d3.json("http://hedonometer.org/api/v1/randommovie/?format=json",function(data) {
+	    var result = data.objects[0];
+	    window.location.replace("/movies/"+result.title+"/");
+	})	
+    });
+    // the default search
+    $("#wordsearch").typeahead(
+        {
+            hint: false,
+            highlight: true,
+            minLength: 3,
+        },
+        {
+            name: "books",
+            source: substringMatcher()
+        });
+}).on("typeahead:selected",function(event,sugg,dataset) {
+    // note that the complicated logic here is because
+    // the title of some books contians "by" in them
+    window.location.replace("/movies/"+sugg.value+"/");
+});
+

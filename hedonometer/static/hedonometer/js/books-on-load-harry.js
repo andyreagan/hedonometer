@@ -384,9 +384,6 @@ $("#popupbutton").on("click",popupwordshift);
 d3.select("#changeMe").attr("href","/twitter/login/?next="+window.location.href);
 d3.select("#changeMeAlso").attr("action",window.location.href);
 
-// for pushing up a selected search
-var searchEncoder = d3.urllib.encoder().varname("book");
-
 // api access method for the book API
 var substringMatcher = function(apik) {
     return function findMatches(q,cb) {
