@@ -173,7 +173,7 @@ class AnnotationResource(ModelResource):
 class MovieAnnotationResource(ModelResource):
     movie = fields.ForeignKey(MovieResource, 'movie')
     class Meta:
-        queryset = Annotation.objects.all()
+        queryset = MovieAnnotation.objects.all()
         resource_name = "movieannotation"
         limit = 500
         filtering = {
