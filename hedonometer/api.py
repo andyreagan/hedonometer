@@ -105,6 +105,15 @@ class BookResource(ModelResource):
             "annotation": ALL,
         }
 
+
+class DirectorResource(ModelResource):
+    class Meta:
+        queryset = Director.objects.all()
+        resource_name = 'director'
+        filtering = {
+            'name': ALL,
+        }
+
 class MovieResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
     reference = fields.CharField("filename")
@@ -119,18 +128,9 @@ class MovieResource(ModelResource):
         limit = 50000
         filtering = {
             "title": ALL_WITH_RELATIONS,
-            "director": ALL_WITH_RELATIONS,
             "id": ALL,
             "length": ALL_WITH_RELATIONS,
             "annotation": ALL,
-        }
-
-class DirectorResource(ModelResource):
-    class Meta:
-        queryset = Director.objects.all()
-        resource_name = 'directors'
-        filtering = {
-            'name': ALL_WITH_RELATIONS,
         }
 
 class RandomBookResource(ModelResource):
