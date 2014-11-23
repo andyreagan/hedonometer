@@ -1,0 +1,38 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-md-7">
+	  <h3>Happiness of Stories: Over 1,000 Recent Movies</h3>
+	  <p>We present the analysis of the movie scripts found at the Internet Movie Script Database, <a href="http://www.imsdb.com/">http://www.imsdb.com</a>.</p>
+	  <h3>Example</h3>
+	  <p>Break down a particular movie.</p>
+	  <h3>Methodology</h3>
+	  <p>To analyze each movie, we first clean up each script by removing the character names from the beginning of their lines. Then we break down the full script into 200 word segments. From there, a timeseries is created by joining 10 segments to create a window containing 2,000 words, and sliding this window across the book.</p>
+	  <p>The dashed lines at the start and end of the timeseries correspond to the non-symmetric window, where only the right/left half was available.</p>  
+	  <p>We also provide the movies with other windows, namely 500, 1,000, 2,000, and 5,000 word windows.</p>  
+	  <p>For details on the hedonometer instrument itself, see the <a href="/instructions.html">instructions page</a>.</p>  
+	  <h3>Explore:</h3>
+	  <p>Insert search bar.</p>
+      </div>
+    </div><!--container-->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
