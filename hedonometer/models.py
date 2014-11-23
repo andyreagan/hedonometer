@@ -118,6 +118,7 @@ class Movie(models.Model):
     imdbid = models.CharField(max_length=400, null=True, blank=True)
     keywords = models.CharField(max_length=400, null=True, blank=True)
     metascore = models.CharField(max_length=400, null=True, blank=True)
+    score = models.CharField(max_length=10, null=True, blank=True)
     rating = models.CharField(max_length=400, null=True, blank=True)
     releaseDate = models.DateTimeField(null=True, blank=True)
     reviews = models.CharField(max_length=400, null=True, blank=True)
