@@ -89,6 +89,7 @@ hedotools.booktimeseries = function() {
 		    .append("div")
 		    .attr("id","fulltextdiv")
 		    .append("p")
+		    .attr("class","fulltext")
 		    .html(text);
 
 		pheight = parseInt(d3.select("#fulltextdiv").style("height"));
