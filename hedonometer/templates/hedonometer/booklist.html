@@ -1,0 +1,36 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+      ul.movielist { list-style: square; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-md-7">
+	  <h3>Happiness of Stories: Over 10,000 Books</h3>
+	  <p>Here is a list of the books from Project Gutenberg, <a href="https://www.gutenberg.org/">https://www.gutenberg.org</a> that we analyze with the Hedonometer.</p>
+	  <ul class="movielist">
+	    {% for book in book_list %}
+	    <li><a href="/books/{{ book.title }}">{{ book.title }}</a> by {{ book.author }}</li>
+	    {% endfor %}
+	  </ul>
+	</div>
+      </div>
+    </div><!--container-->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

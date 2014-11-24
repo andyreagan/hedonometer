@@ -23,6 +23,18 @@ def dummy(request):
     # context = {'latest_topic_list': latest_topic_list}
     return render(request, 'hedonometer/index.html')
 
+class movielist(View):
+     # return all of the annotations for a book
+    def get(self, request):
+        movie_list = Movie.objects.all()
+        return render(request, 'hedonometer/movielist.html',{"movie_list": movie_list})
+
+class booklist(View):
+     # return all of the annotations for a book
+    def get(self, request):
+        book_list = Book.objects.all()
+        return render(request, 'hedonometer/booklist.html',{"book_list": book_list})
+
 class annotation(View):
      # return all of the annotations for a book
     def get(self, request, book):
