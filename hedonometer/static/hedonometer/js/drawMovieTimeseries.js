@@ -79,7 +79,60 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","#fefe81")
     }
 
+    var showLine = function(show) {
+	if (show) {
+	    var moviefile = "http://hedonometer.org/data/moviedata/raw/"+movieref+".txt";
+	    var pheight;
+	    d3.text(moviefile, function (text) {
+		console.log("loaded movie full text");
+		d3.select("#fulltextbox")
+		    .append("div")
+		    .attr("id","fulltextdiv")
+		    .append("p")
+		    .html(text);
 
+		pheight = parseInt(d3.select("#fulltextdiv").style("height"));
+	    });
+	    
+
+	    // console.log("showing line")
+	    canvas.append("line")
+	    .attr({
+		"class": "hoverline",
+		"x1": 0,
+		"y1": 0,
+		"x2": 0,
+		"y2": 0,
+		"stroke": "#A8A8A8",
+		"stroke-width": "1.5px", });
+
+	    // console.log(width);
+	    // console.log(data.length);
+	    canvas.on("mousemove",function() {
+		var m = d3.mouse(this);
+		// console.log(m);
+		// console.log(y(m[1]/width*data.length));
+		// data.length
+		// this is the percentage of the text at hover
+		// console.log((m[0]-axeslabelmargin.left)/width);
+		
+		if ( m[0] > axeslabelmargin.left && m[0] < (width+axeslabelmargin.left)) {
+		    canvas.selectAll("line.hoverline")
+			.attr("x1", m[0])
+			.attr("y1", height)
+			.attr("x2", m[0])
+			.attr("y2", function() { return y(data[Math.floor((m[0]-axeslabelmargin.left)/width*data.length)]); });
+		    d3.select("#fulltextdiv").style("top",-(m[0]-axeslabelmargin.left)/width*pheight+"px");
+		}
+		});
+		     
+	}
+	else {
+	    console.log("not showing line")
+	    canvas.selectAll("line.hoverline").remove();
+	    canvas.on("mousemove",null);
+	}
+    }
 
     var drawAnnotations = function() {
 	// draw all of the annotations
@@ -206,9 +259,9 @@ hedotools.booktimeseries = function() {
 	    }
 
 	    var tick = function() {
-	    	console.log("ticking...");
+	    	// console.log("ticking...");
 		// console.log(allnodes);
-		console.log(allnodes.slice(data.length,allnodes.length));
+		// console.log(allnodes.slice(data.length,allnodes.length));
 		bubbles.attr({
 		    "x": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].x; },
 		    "y": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].y; },
@@ -829,6 +882,7 @@ hedotools.booktimeseries = function() {
 		    drawRefArea: drawRefArea,
 		    drawCompArea: drawCompArea,
 		    highlightExtrema: highlightExtrema,
+		    showLine: showLine
 		  }
 
     return opublic;
