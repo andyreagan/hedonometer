@@ -124,8 +124,8 @@ hedotools.booktimeseries = function() {
 	    .append("p")
 	    .text(beforetext.join(" "));
 
-	d3.select("#puttexthere")
-	    .append("hr");
+	// d3.select("#puttexthere")
+	//     .append("hr");
 
 	d3.select("#puttexthere")
 	    .append("p")
