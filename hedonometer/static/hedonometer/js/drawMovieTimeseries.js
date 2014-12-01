@@ -79,11 +79,70 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","#fefe81")
     }
 
+    var getFullText;
+
+    // window size:
+    // windowDecoder().cached
+    // number of pieces of text
+    // Math.floor(words.length/windowDecoder().cached/10)
+    // have it here as
+    // fulltimeseries.length-1
+    // get text for timeseries point 20
+    // this is chunk pieces 20-24
+    // and 15-19
+
+    getFullText = function(point) {
+	// var point = 20;
+	console.log("point "+point);
+
+	var chunkSize = parseInt(windowDecoder().cached)/10;
+	var before = [d3.max([point-5,0]),d3.max([point-1,-1])];
+	var slicePoints = [before[0]*chunkSize,(before[1]+1)*chunkSize];
+	if (before[1] >= (fulltimeseries.length-2)) {
+	    slicePoints[1] = words.length;
+	}
+	console.log("points before:")
+	console.log(before);
+	console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	var beforetext = words.slice(slicePoints[0],slicePoints[1]);
+	var after = [point,point+4];
+	var slicePoints = [after[0]*chunkSize,(after[1]+1)*chunkSize];
+	if (after[0] >= (fulltimeseries.length-1)) {
+	    slicePoints[0] = words.length;
+	}
+	if (after[1] >= (fulltimeseries.length-2)) {
+	    slicePoints[1] = words.length;
+	}
+	console.log("points after:");
+	console.log(after);
+	console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	var aftertext = words.slice(slicePoints[0],slicePoints[1]);
+	// var aftertext = words.slice();
+
+	d3.select("#puttexthere").selectAll("p").remove();
+	d3.select("#puttexthere")
+	    .append("p")
+	    .text(beforetext.join(" "));
+
+	d3.select("#puttexthere")
+	    .append("hr");
+
+	d3.select("#puttexthere")
+	    .append("p")
+	    .text(aftertext.join(" "));
+    }
+
+    var words;
+
     var showLine = function(show) {
 	if (show) {
 	    var moviefile = "http://hedonometer.org/data/moviedata/raw/"+movieref+".txt";
 	    var pheight;
 	    d3.text(moviefile, function (text) {
+		// globaltext = text;
+		words = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
+		// globalwords = words;
+
 		console.log("loaded movie full text");
 		d3.select("#fulltextbox")
 		    .append("div")
@@ -422,10 +481,12 @@ hedotools.booktimeseries = function() {
     var mainarea;
     var trademark;
     
-    var buildForm = function(point) {
+    var buildForm = function(perc,point) {
 	console.log("building form");
-	console.log("/api/v1/movieannotation/?format=json&position="+point+"&movie__title="+movie);
-	d3.json("/api/v1/movieannotation/?format=json&position="+point+"&movie__title="+movie,function(error,json) {
+	console.log(perc);
+	console.log(point);
+	console.log("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie);
+	d3.json("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie,function(error,json) {
 	    console.log(json);
 	    d3.select("#changeMeAlso")
 		.selectAll("input.annotation")
@@ -451,7 +512,13 @@ hedotools.booktimeseries = function() {
 		//     "value": "off"
 		// })
 		// .text(function(d,i) { return d.annotation; });
-
+	    
+	    d3.select("#popuptext")
+		.attr("style","display: block")
+		.on("click",function() { 
+	            $('#myModal2').modal('show');
+		    hedotools.booktimeseries.getFullText(point);
+		});
 
 	    // <div class="form-group">
 	    //     <div class="col-sm-offset-3 col-sm-7">
@@ -509,7 +576,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
 		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
-		buildForm((d/data.length*100).toFixed(2)+"%");
+		buildForm((d/data.length*100).toFixed(2)+"%",d);
 	    });
 
 	var maxcircles  = axes.selectAll("circle.maxcircle")
@@ -536,7 +603,7 @@ hedotools.booktimeseries = function() {
 		d3.select("#selectPointIcon").classed("glyphicon-remove",false);
 		d3.select("#selectPointIcon").classed("glyphicon-ok",true);
 		d3.select("#inputSuccess3").attr("value",(d/data.length*100).toFixed(2)+"%");
-		buildForm((d/data.length*100).toFixed(2)+"%");
+		buildForm((d/data.length*100).toFixed(2)+"%",d);
 	    });
 
 	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",4); },1000);
@@ -883,7 +950,8 @@ hedotools.booktimeseries = function() {
 		    drawRefArea: drawRefArea,
 		    drawCompArea: drawCompArea,
 		    highlightExtrema: highlightExtrema,
-		    showLine: showLine
+		    showLine: showLine,
+		    getFullText: getFullText,
 		  }
 
     return opublic;

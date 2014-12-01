@@ -230,6 +230,12 @@ p.fulltext {
 		      <span class="help-block">Go click on a flashing point in the timeseries at the top.</span>
 		    </div>
 		  </div>
+		  <div class="form-group" id="popuptext">
+		    <label class="control-label col-sm-3" for="inputSuccess3"></label>
+		    <div class="col-sm-4">		    
+		      <button class="btn btn-default" id="popuptextbutton" type="button">Show text</button>
+		    </div>
+		  </div>
 		  <p><b>Select a previous annotation to vote for it, or add your own:</b></p>
 		  <!-- <div class="form-group"> -->
 		  <!--   <div class="col-sm-offset-3 col-sm-7"> -->
@@ -312,9 +318,22 @@ p.fulltext {
       <div class="modal-footer" id="moveshiftherefooter">
         <div class="addthis_sharing_toolbox pull-left"></div>
 
-        <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button>
+        <!-- <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button> -->
 
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="myModal2">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 class="modal-title">Full Text</h3>
+      </div>
+      <div class="modal-body" id="puttexthere">
       </div>
     </div>
   </div>

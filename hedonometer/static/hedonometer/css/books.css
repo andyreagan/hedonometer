@@ -86,3 +86,8 @@ circle.maxcircle { cursor: pointer; }
 svg text {
    font-family: FontAwesome;
 }
+
+#popuptext {
+    /* visibility: hidden; */
+    display: none;
+}
