@@ -84,10 +84,17 @@
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container">
 	<div class="navbar-header">
-	  <div class="navbar-brand">
-	  <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle brand" width="23px">
-
-	  </div>
+	  <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-collapse">
+	    <span class="icon-bar"></span>
+	    <span class="icon-bar"></span>
+	  </button>
+	  <!-- <div class="navbar-brand"> -->
+	  <!-- <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle brand" width="23px"> -->
+	  <a class="navbar-brand" href="http://hedonmeter.org"><img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.png" %}" class="img-responsive img-circle brand" width="23px"></a>
+	  <!-- </div> -->
+	</div>
+	<div class="navbar-collapse collapse">
+	  <ul class="nav navbar-nav">
 	  <ul class="nav navbar-nav">
 	    <li class="dropdown">
 	      <a href="#" class="dropdown-toggle navbar-brand brand" data-toggle="dropdown" id="navbarbrand">hedonometer <span class="caret"></span></a>
@@ -101,13 +108,6 @@
 	      </ul>
 	    </li>
 	  </ul>
-	  <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-collapse">
-	    <span class="icon-bar"></span>
-	    <span class="icon-bar"></span>
-	  </button>
-	</div>
-	<div class="navbar-collapse collapse">
-	  <ul class="nav navbar-nav">
 	    <li><a href="/about.html">About</a></li>
 	    <li><a href="/instructions.html">Instructions</a></li>
 	    <li><a href="/words.html">Words</a></li>
