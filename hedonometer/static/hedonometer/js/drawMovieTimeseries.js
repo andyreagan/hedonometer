@@ -515,9 +515,10 @@ hedotools.booktimeseries = function() {
 		//     "value": "off"
 		// })
 		// .text(function(d,i) { return d.annotation; });
+
+	    d3.select("#selectedPoint").attr("style","display: block");
 	    
 	    d3.select("#popuptext")
-		.attr("style","display: block")
 		.on("click",function() { 
 	            $('#myModal2').modal('show');
 		    hedotools.booktimeseries.getFullText(point);

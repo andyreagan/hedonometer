@@ -232,47 +232,49 @@ p.fulltext {
 		      <span class="help-block">Go click on a flashing point in the timeseries at the top.</span>
 		    </div>
 		  </div>
-		  <div class="form-group" id="popuptext">
-		    <label class="control-label col-sm-3" for="inputSuccess3"></label>
-		    <div class="col-sm-4">		    
-		      <button class="btn btn-default" id="popuptextbutton" type="button">Show text</button>
-		    </div>
-		  </div>
-		  <p><b>Select a previous annotation to vote for it, or add your own:</b></p>
-		  <!-- <div class="form-group"> -->
-		  <!--   <div class="col-sm-offset-3 col-sm-7"> -->
-		  <!--     <div class="checkbox" id="none"> -->
-		  <!-- 	<label> -->
-		  <!-- 	  <input type="checkbox" id="none" name="34" value="off">Dumbledore dies (votes: 1) -->
-		  <!-- 	</label> -->
-		  <!--     </div> -->
-		  <!--   </div> -->
-		  <!-- </div> -->
-		  <div class="form-group has-error has-feedback" id="annotationInput">
-		    <label class="control-label col-sm-3" for="inputSuccess4">Describe in 6 words or less</label>
-		    <div class="col-sm-6" id="inputSuccess4col">
-		      <input type="text" class="form-control" id="inputSuccess4" name="annotation">
-		      <span class="glyphicon glyphicon-remove form-control-feedback" id="annotationInputIcon"></span>
-		      <span class="help-block">Describe what happens, using at most 6 words from the movie itself. We'll check that they're in the movie when you press submit.</span>
-		      <!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
-		    </div>
-		  </div>
-		  <div class="form-group">
-		    <div class="col-sm-offset-3 col-sm-7">
-		      <div class="checkbox" id="tweetCheckDiv">
-			<label>
-			  <input type="checkbox" id="toTweetOrNotToTweet" name="tweetflag" value="off">Tweet this annotation to @hedonometer from my account.
-			</label>
-			<!-- <span class="help-block">The tweet would be "@hedonometer: 67% through Harry Potter(all movies), ...."</span> -->
+		  <div id="selectedPoint">
+		    <div class="form-group" id="popuptext">
+		      <label class="control-label col-sm-3" for="inputSuccess3"></label>
+		      <div class="col-sm-4">		    
+			<button class="btn btn-default" id="popuptextbutton" type="button">Show text</button>
 		      </div>
 		    </div>
-		  </div>
-		  <input type="hidden" name="window" value="2000" id="windowInput">
-		  <div class="form-group">
-		    <div class="col-sm-offset-3 col-sm-7">
-		      <button type="submit" class="btn btn-default">Submit</button>
+		    <p><b>Select a previous annotation to vote for it, or add your own:</b></p>
+		    <!-- <div class="form-group"> -->
+		    <!--   <div class="col-sm-offset-3 col-sm-7"> -->
+		    <!--     <div class="checkbox" id="none"> -->
+		    <!-- 	<label> -->
+		    <!-- 	  <input type="checkbox" id="none" name="34" value="off">Dumbledore dies (votes: 1) -->
+		    <!-- 	</label> -->
+		    <!--     </div> -->
+		    <!--   </div> -->
+		    <!-- </div> -->
+		    <div class="form-group has-error has-feedback" id="annotationInput">
+		      <label class="control-label col-sm-3" for="inputSuccess4">Describe in 6 words or less</label>
+		      <div class="col-sm-6" id="inputSuccess4col">
+			<input type="text" class="form-control" id="inputSuccess4" name="annotation">
+			<span class="glyphicon glyphicon-remove form-control-feedback" id="annotationInputIcon"></span>
+			<span class="help-block">Describe what happens, using at most 6 words from the movie itself. We'll check that they're in the movie when you press submit.</span>
+			<!-- <span class="glyphicon glyphicon-ok form-control-feedback"></span> -->
+		      </div>
 		    </div>
-		  </div>
+		    <div class="form-group">
+		      <div class="col-sm-offset-3 col-sm-7">
+			<div class="checkbox" id="tweetCheckDiv">
+			  <label>
+			    <input type="checkbox" id="toTweetOrNotToTweet" name="tweetflag" value="off">Tweet this annotation to @hedonometer from my account.
+			  </label>
+			  <!-- <span class="help-block">The tweet would be "@hedonometer: 67% through Harry Potter(all movies), ...."</span> -->
+			</div>
+		      </div>
+		    </div>
+		    <input type="hidden" name="window" value="2000" id="windowInput">
+		    <div class="form-group">
+		      <div class="col-sm-offset-3 col-sm-7">
+			<button type="submit" class="btn btn-default">Submit</button>
+		      </div>
+		    </div>
+		  </div> <!-- selectedPoint -->
 		</form>
 	      </div>
 	    </div>

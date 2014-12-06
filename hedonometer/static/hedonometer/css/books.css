@@ -87,7 +87,12 @@ svg text {
    font-family: FontAwesome;
 }
 
-#popuptext {
+/* #popuptext { */
+/*     /\* visibility: hidden; *\/ */
+/*     display: none; */
+/* } */
+
+#selectedPoint {
     /* visibility: hidden; */
     display: none;
 }
