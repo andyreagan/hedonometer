@@ -151,6 +151,7 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var setHeight = function(_) {
+	if (!arguments.length) return fullheight;
 	fullheight = _;
 	boxheight = fullheight-margin.top-margin.bottom;
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
