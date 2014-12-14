@@ -121,7 +121,7 @@ hedotools.shifter = function()
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
     var iBarH = 11;
-    var numWords = 40;
+    var numWords = 38;
     
     // all inside the axes
     var yHeight = (7+17*3+14+5-13); // 101
