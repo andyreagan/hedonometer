@@ -105,5 +105,8 @@ urlpatterns = patterns('',
     url(r'^embed/main/(?P<onedate>[\w-]+)/$',views.embedMainSimple,name='embed'),
     url(r'^embed/test/(?P<reffile>[\w-]+).csv/(?P<compfile>[\w-]+).csv/$',views.shifttest,name='test'),
     url(r'^embed/(?P<some_hash>[\w]+)/$',views.embedUpload,name='embed'),
+    url(r'^teletherm/',
+        TemplateView.as_view(template_name='hedonometer/teletherm.html'),
+        name='teletherm'),
     (r'^api/', include(v1_api.urls)),
 )

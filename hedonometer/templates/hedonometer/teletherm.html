@@ -1,0 +1,44 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block headercss %}
+<link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/teletherm.css" %}" rel="stylesheet">
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-0 col-sm-1">
+	</div>
+        <div class="col-xs-12 col-sm-10">
+	  <h1>Teletherms!</h1>
+	  <p>Click a location to explore</p>
+	  <div id="map">here</div>
+	</div>
+        <div class="col-xs-0 col-sm-1">
+	</div>
+      </div>
+    </div>
+{% endblock %}
+
+
+{% block bottomjs %}
+
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.map.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
+    <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+    <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+    <script src="{% static "hedonometer/js/teletherm.js" %}"></script>
+
+{% endblock %}
