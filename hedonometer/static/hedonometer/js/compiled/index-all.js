@@ -13324,7 +13324,7 @@ hedotools.shifter = function()
 
     // full width and height. we'll draw the outer svg this big
     var fullwidth = 700;
-    var fullheight = 650;
+    var fullheight = 500 // 650; // make sure to change num words too
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -13344,7 +13344,7 @@ hedotools.shifter = function()
     // individual bar height, and number of words
     // need to be tuned to the height of the plot
     var iBarH = 11;
-    var numWords = 38;
+    var numWords = 23; // 37 with height 650
     
     // all inside the axes
     var yHeight = (7+17*3+14+5-13); // 101
