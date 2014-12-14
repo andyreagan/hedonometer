@@ -1,5 +1,4 @@
 {% extends "hedonometer/base.html" %}
-{% load bootstrap3 %}
 {% load staticfiles %}
 
 {% block headercss %}
@@ -18,16 +17,31 @@
 	  <p>On this page you can compare two texts with a wordshift plot.</p>
 	</div>
       </div>
-      <form action="/embed.html" method="post" class="form">
+      
+      <form action="/diy-compare/" method="post" class="form" id="textInputForm">
 	{% csrf_token %}
 	<div class="row">
 	  <div class="col-xs-12 col-md-1">
 	  </div> <!-- column -->
 	  <div class="col-xs-12 col-md-5">
-	    <textarea class="form-control" rows="3" name="referenceText">Enter Text Here</textarea>
+	    <div class="form-group has-feedback" id="annotationInput">
+	      <label class="control-label col-sm-5" for="inputSuccess4">Reference filename:</label>
+	      <div class="col-sm-6" id="inputSuccess4col">
+		<input type="text" class="form-control" id="" name="refFname">
+		<span class="help-block"></span>
+	      </div>
+	    </div>
+	    <textarea class="form-control" rows="3" name="refText">Enter Reference Text Here</textarea>
 	  </div> <!-- column -->
 	  <div class="col-xs-12 col-md-5">
-	    <textarea class="form-control" rows="3" name="comparisonText">Enter Text Here</textarea>
+	    <div class="form-group has-feedback" id="annotationInput">
+	      <label class="control-label col-sm-5" for="inputSuccess4">Comparison filename:</label>
+	      <div class="col-sm-6" id="inputSuccess4col">
+		<input type="text" class="form-control" id="" name="compFname">
+		<span class="help-block"></span>
+	      </div>
+	    </div>
+	    <textarea class="form-control" rows="3" name="compText">Enter Comparison Text Here</textarea>
 	  </div> <!-- column -->
 	</div>
 	<br>

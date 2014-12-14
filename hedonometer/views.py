@@ -13,6 +13,8 @@ import csv
 import subprocess
 import codecs
 import datetime
+import hashlib
+from labMTsimple.storyLab import emotionFileReader,emotion
 
 from twython_django.models import TwitterProfile,Annotation,Vote
 from twython_django.models import MovieAnnotation,MovieVote
@@ -22,6 +24,55 @@ def dummy(request):
     # latest_topic_list = Topic.objects.order_by('-pub_date')[:5]
     # context = {'latest_topic_list': latest_topic_list}
     return render(request, 'hedonometer/index.html')
+
+class diy(View):
+    def get(self, request):
+        return render(request, 'hedonometer/diy-compare.html')
+    
+    def post(self, request):
+        print request.POST
+
+        h = hashlib.md5()
+        h.update(request.POST.get("refFname","none")+request.POST.get("compFname","none"))
+        
+        digest = h.hexdigest()+h.hexdigest()
+        print digest
+
+        print STATIC_ROOT
+
+        lang = "english"
+        labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
+
+        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("refFname","tmp")+".txt","w")
+        f.write(request.POST.get("refText","blank"))
+        f.close()
+        textValence,textFvec = emotion(request.POST.get("refText","tmp"),labMT,shift=True,happsList=labMTvector)
+        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("refFname","tmp")+".csv","w")
+        f.write(",".join(map(str,textFvec)))
+        f.close()
+        
+
+        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("compFname","tmp")+".txt","w")
+        f.write(request.POST.get("compText","blank"))
+        f.close()
+        textValence,textFvec = emotion(request.POST.get("compText","tmp"),labMT,shift=True,happsList=labMTvector)
+        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("compFname","tmp")+".csv","w")
+        f.write(",".join(map(str,textFvec)))
+        f.close()
+
+
+        # generate a database model
+        m = Embeddable(h=digest,refFile=request.POST.get("refFname","none"),compFile=request.POST.get("compFname","none"),) # .objects.filter(h__exact=some_hash)
+        
+        m.save()
+
+        filenames = {
+            "refFile": m.refFile,
+            "compFile": m.compFile,
+            "fhash": m.h,
+        }
+
+        return render(request, 'hedonometer/diy-result.html',Context(filenames))
 
 class movielist(View):
      # return all of the annotations for a book
