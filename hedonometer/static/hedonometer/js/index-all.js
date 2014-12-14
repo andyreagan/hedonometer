@@ -13324,7 +13324,7 @@ hedotools.shifter = function()
 
     // full width and height. we'll draw the outer svg this big
     var fullwidth = 700;
-    var fullheight = 500;
+    var fullheight = 800;
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
 
@@ -13374,6 +13374,7 @@ hedotools.shifter = function()
 
     // pull the width, set the height fixed
     var setHeight = function(_) {
+	if (!arguments.length) return fullheight;
 	fullheight = _;
 	boxheight = fullheight-margin.top-margin.bottom;
 	figheight = boxheight - axeslabelmargin.top - axeslabelmargin.bottom;
