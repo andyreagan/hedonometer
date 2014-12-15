@@ -12,12 +12,17 @@
 {% block content %}
     <div class="container">
       <div class="row">
-	<div class="jumbotron">
-	  <h1>Use the hedonometer yourself.</h1>
-	  <p>On this page you can compare two texts with a wordshift plot.</p>
+	<div class="col-xs-6 center-block">
+	  Embed with:
+	  <textarea class="form-control" rows="3" name="refText"><iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe></textarea>
 	</div>
       </div>
-      <iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe>
+      <div class="row">
+	<div class="col-xs-12 center-block">
+	  <iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe>
+	</div>
+      </div>
+
 
     </div><!--container-->
 {% endblock %}
