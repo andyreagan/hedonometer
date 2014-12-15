@@ -123,6 +123,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 
+ABSOLUTE_DATA_PATH = os.getenv('DJ_ABSOLUTE_DATA_PATH')
+
 # # from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
 # # settings.py
 # LOGGING = {

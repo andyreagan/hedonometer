@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
-from mysite.settings import STATIC_ROOT
+from mysite.settings import STATIC_ROOT,ABSOLUTE_DATA_PATH
 import logging
 logger = logging.getLogger(__name__)
 from hedonometer.models import Embeddable,Event,Book,Movie
@@ -32,37 +32,40 @@ class diy(View):
     def post(self, request):
         print request.POST
 
-        h = hashlib.md5()
-        h.update(request.POST.get("refFname","none")+request.POST.get("compFname","none"))
+        r = hashlib.md5()
+        r.update(request.POST.get("refText","none"))
+
+        c = hashlib.md5()
+        c.update(request.POST.get("compText","none"))
         
-        digest = h.hexdigest()+h.hexdigest()
+        digest = r.hexdigest()+c.hexdigest()
         print digest
 
         print STATIC_ROOT
+        print ABSOLUTE_DATA_PATH
 
         lang = "english"
         labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
 
-        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("refFname","tmp")+".txt","w")
+        f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+r.hexdigest()+".txt","w")
         f.write(request.POST.get("refText","blank"))
         f.close()
         textValence,textFvec = emotion(request.POST.get("refText","tmp"),labMT,shift=True,happsList=labMTvector)
-        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("refFname","tmp")+".csv","w")
+        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+r.hexdigest()+".csv","w")
         f.write(",".join(map(str,textFvec)))
         f.close()
         
-
-        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("compFname","tmp")+".txt","w")
+        f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+c.hexdigest()+".txt","w")
         f.write(request.POST.get("compText","blank"))
         f.close()
         textValence,textFvec = emotion(request.POST.get("compText","tmp"),labMT,shift=True,happsList=labMTvector)
-        f = open(STATIC_ROOT+"/embeddata/"+request.POST.get("compFname","tmp")+".csv","w")
+        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".txt","w")
         f.write(",".join(map(str,textFvec)))
         f.close()
 
 
         # generate a database model
-        m = Embeddable(h=digest,refFile=request.POST.get("refFname","none"),compFile=request.POST.get("compFname","none"),) # .objects.filter(h__exact=some_hash)
+        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest(),compFile="/data/embeds/word-vectors/"+c.hexdigest(),) # .objects.filter(h__exact=some_hash)
         
         m.save()
 
