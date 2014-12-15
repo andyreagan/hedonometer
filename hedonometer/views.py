@@ -65,7 +65,7 @@ class diy(View):
 
 
         # generate a database model
-        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest(),compFile="/data/embeds/word-vectors/"+c.hexdigest(),) # .objects.filter(h__exact=some_hash)
+        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest(),compFile="/data/embeds/word-vectors/"+c.hexdigest(),customTitleText="") # .objects.filter(h__exact=some_hash)
         
         m.save()
 
