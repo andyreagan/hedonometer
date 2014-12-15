@@ -59,13 +59,13 @@ class diy(View):
         f.write(request.POST.get("compText","blank"))
         f.close()
         textValence,textFvec = emotion(request.POST.get("compText","tmp"),labMT,shift=True,happsList=labMTvector)
-        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".txt","w")
+        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".csv","w")
         f.write(",".join(map(str,textFvec)))
         f.close()
 
 
         # generate a database model
-        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest(),compFile="/data/embeds/word-vectors/"+c.hexdigest(),customTitleText="") # .objects.filter(h__exact=some_hash)
+        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest()+".csv",compFile="/data/embeds/word-vectors/"+c.hexdigest()+".csv",customTitleText="",customFullText="") # .objects.filter(h__exact=some_hash)
         
         m.save()
 
