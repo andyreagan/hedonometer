@@ -11,18 +11,23 @@
 
 {% block content %}
     <div class="container">
-      <div class="row">
-	<div class="col-xs-6 center-block">
-	  Embed with:
-	  <textarea class="form-control" rows="3" name="refText"><iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe></textarea>
-	</div>
-      </div>
+
       <div class="row">
 	<div class="col-xs-12 center-block">
+	  <div class="center-block">
 	  <iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe>
+	  </div>
 	</div>
       </div>
 
+      <div class="row">
+	<div class="col-xs-4">
+	  <div class="center-block">
+	  Embed with:
+	  <textarea class="form-control" rows="3" name="refText"><iframe src="http://hedonometer.org/embed/{{ fhash|escapejs }}/" width="590" height="800" frameborder="0" scrolling="no"></iframe></textarea>
+	  </div>
+	</div>
+      </div>
 
     </div><!--container-->
 {% endblock %}
