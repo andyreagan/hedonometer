@@ -21,11 +21,11 @@ function validateForm() {
     var comp = document.forms["wordshifterator"]["compText"].value;
     var refwords = ref.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
     var compwords = comp.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
-    if (refwords.length < 1000) {
+    if (refwords.length < 1000 || ref === "") {
         alert("Too few words in reference text (found "+refwords.length+")");
         return false;
     }
-    if (compwords.length < 1000) {
+    if (compwords.length < 1000 || comp === "") {
         alert("Too few words in comparison text (found "+compwords.length+")");
         return false;
     }
