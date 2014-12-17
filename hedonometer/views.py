@@ -33,10 +33,10 @@ class diy(View):
         print request.POST
 
         r = hashlib.md5()
-        r.update(request.POST.get("refText","none"))
+        r.update(request.POST.get("refText","none").encode('utf-8'))
 
         c = hashlib.md5()
-        c.update(request.POST.get("compText","none"))
+        c.update(request.POST.get("compText","none").encode('utf-8'))
         
         digest = r.hexdigest()+c.hexdigest()
         print digest
@@ -48,7 +48,7 @@ class diy(View):
         labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,fileName='labMT2'+lang+'.txt',returnVector=True)
 
         f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+r.hexdigest()+".txt","w")
-        f.write(request.POST.get("refText","blank"))
+        f.write(request.POST.get("refText","blank").encode('utf-8'))
         f.close()
         textValence,textFvec = emotion(request.POST.get("refText","tmp"),labMT,shift=True,happsList=labMTvector)
         f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+r.hexdigest()+".csv","w")
@@ -56,7 +56,7 @@ class diy(View):
         f.close()
         
         f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+c.hexdigest()+".txt","w")
-        f.write(request.POST.get("compText","blank"))
+        f.write(request.POST.get("compText","blank").encode('utf-8'))
         f.close()
         textValence,textFvec = emotion(request.POST.get("compText","tmp"),labMT,shift=True,happsList=labMTvector)
         f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".csv","w")

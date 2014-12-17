@@ -13,21 +13,22 @@
     <div class="container">
       <div class="row">
 	<div class="jumbotron">
-	  <h1>Use the hedonometer yourself.</h1>
-	  <p>On this page you can compare two texts with a wordshift plot.</p>
+	  <h1>The Wordshifterator.</h1>
+	  <p>Generate your own embeddable, shareable wordshifts for any pair of texts.</p>
+	  Note: Texts must contain at least 1,000 words. Details about how this works can be found <a href="http://www.uvm.edu/storylab/2014/10/06/hedonometer-2-0-measuring-happiness-and-using-word-shifts/" target="_blank">here</a>.
 	</div>
       </div>
       
-      <form action="/diy-compare/" method="post" class="form" id="textInputForm">
+      <form action="/diy-compare/" method="post" class="form" id="textInputForm" name="wordshifterator" onsubmit="return validateForm()">
 	{% csrf_token %}
 	<div class="row">
 	  <div class="col-xs-12 col-md-1">
 	  </div> <!-- column -->
 	  <div class="col-xs-12 col-md-5">
-	    <textarea class="form-control" rows="3" name="refText">Enter Reference Text Here</textarea>
+	    <textarea class="form-control" rows="10" name="refText" placeholder="Enter Reference Text Here"></textarea>
 	  </div> <!-- column -->
 	  <div class="col-xs-12 col-md-5">
-	    <textarea class="form-control" rows="3" name="compText">Enter Comparison Text Here</textarea>
+	    <textarea class="form-control" rows="10" name="compText" placeholder="Enter Reference Text Here"></textarea>
 	  </div> <!-- column -->
 	</div>
 	<br>
@@ -39,6 +40,7 @@
 	  </div> <!-- column -->
 	</div>
       </form>
+      <br>
       <div class="row">
 	<div class="col-xs-12 col-md-1">
 	</div> <!-- column -->
