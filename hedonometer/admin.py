@@ -5,6 +5,9 @@ from django.contrib import admin
 # Eventually we can create a database for the big events
 from hedonometer.models import Event,Book,Happs,Embeddable
 
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
     ordering = ('-date',)
