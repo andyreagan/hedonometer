@@ -77,6 +77,13 @@ class diy(View):
 
         return render(request, 'hedonometer/diy-result.html',Context(filenames))
 
+class editwordshift(View):
+    def get(self, request):
+        return render(request, 'hedonometer/diy-edit.html')
+    
+    def post(self, request):
+        return render(request, 'hedonometer/diy-edit.html')
+
 class movielist(View):
      # return all of the annotations for a book
     def get(self, request):
