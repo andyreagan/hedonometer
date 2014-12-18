@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from hedonometer.models import Book,Movie
 
 User = get_user_model()
 
@@ -12,8 +13,6 @@ class TwitterProfile(models.Model):
     user = models.OneToOneField(User)
     oauth_token = models.CharField(max_length=200)
     oauth_secret = models.CharField(max_length=200)
-
-from hedonometer.models import Book,Movie
 
 class Annotation(models.Model):
     book = models.ForeignKey(Book)
