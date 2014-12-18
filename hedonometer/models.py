@@ -1,9 +1,5 @@
 from django.db import models
 
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
-
 # Create your models here.
 class Happs(models.Model):
     date = models.DateTimeField()
@@ -148,4 +144,3 @@ class Embeddable(models.Model):
     customFullText = models.CharField(max_length=600, null=True, blank=True)
     customTitleText = models.CharField(max_length=200, null=True, blank=True)
     contextFlag = models.CharField(max_length=200, null=True, blank=True)
-    author = models.ForeignKey(User,null=True)
