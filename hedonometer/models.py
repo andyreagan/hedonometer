@@ -145,3 +145,4 @@ class Embeddable(models.Model):
     customFullText = models.CharField(max_length=600, null=True, blank=True)
     customTitleText = models.CharField(max_length=200, null=True, blank=True)
     contextFlag = models.CharField(max_length=200, null=True, blank=True)
+    author = models.ForeignKey(User,null=True)
