@@ -36,13 +36,13 @@
   top: 0px;
 }
 #formattedtextbox {
-  /* display: block; */
-  /* position: absolute; */
-  position: fixed;
+  display: block;
+  position: absolute;
   opacity: 0.5;
-  width: 200px;
-  /* height: 100vh; */
-  height: 200px;
+  height: 435px;
+  white-space: pre-wrap;
+  font-size: 7px;
+  border: 1.5px solid grey;
 }
 #formattedtextdiv {
   position: fixed;
@@ -131,7 +131,9 @@ p.fulltext {
 	    </div>
 	    <div class="col-xs-3">
 	      <div id="formattedtextbox">
+		<div id="formattedtextdiv">
 {{ fulltext|safe }}
+		</div>
 	      </div>
 	    </div>
 	  </div>
