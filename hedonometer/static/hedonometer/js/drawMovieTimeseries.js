@@ -194,7 +194,10 @@ hedotools.booktimeseries = function() {
 		    dabreaks.push(lines.length)
 		    scoredtextparts = Array(fulltimeseries.length);
 		    for (var i=0; i<fulltimeseries.length; i++) {
-			scoredtextparts = lines.slice(dabreaks[d3.max([0,i-minWindows/2])],dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])]).join("\n");
+			console.log(i);
+			console.log(d3.max([0,i-minWindows/2])+" to "+d3.min([i+minWindows/2,dabreaks.length-1]))
+			console.log(dabreaks[d3.max([0,i-minWindows/2])]+" to "+dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])])
+			scoredtextparts[i] = lines.slice(dabreaks[d3.max([0,i-minWindows/2])],dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])]).join("\n");
 		    }
 		    d3.select("#formattedtextdiv")
 		     	.html(text);
