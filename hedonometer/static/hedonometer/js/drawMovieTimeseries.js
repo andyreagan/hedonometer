@@ -168,19 +168,16 @@ hedotools.booktimeseries = function() {
 		    line = lines[i];
 		    if (line.slice(0,3) !== "<b>") {
 			newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
-			size = newwords.length;
-			linenums = Array(size);
-			while(size--) linenums[size] = i;
-			if (newwords.length > 0) {
+			if (newwords != null) {
+			    size = newwords.length;
+			    linenums = Array(size);
+			    while(size--) linenums[size] = i;
 			    kwords = kwords.concat(newwords);
 			    klines = klines.concat(linenums);
 			}
 		    }
 		}
 		globalwords3 = kwords;
-
-
-
 
 		console.log("loaded movie full uncleaned text");
 	    });
