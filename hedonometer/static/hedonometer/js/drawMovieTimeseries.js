@@ -154,12 +154,32 @@ hedotools.booktimeseries = function() {
 		pheight = parseInt(d3.select("#fulltextdiv").style("height"));
 	    });
 
-	    var moviefile = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.end.beg.clean";
+	    var moviefile = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.end.beg.clean2";
 	    var pheight;
 	    d3.text(moviefile, function (text) {
 		// globaltext = text;
-		lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
+		lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
 		globalwords2 = lwords;
+
+		lines = text.split("\n");
+		kwords = [];
+		klines = [];
+		for (var i=0; i<lines.length; i++) {
+		    if (line.slice(0,3) !== "<b>") {
+			newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
+			size = newwords.length;
+			linenums = Array(size);
+			while(size--) linenums[size] = i;
+			if (newwords.length > 0) {
+			    kwords = kwords.concat(newwords);
+			    klines = klines.concat(linenums);
+			}
+		    }
+		}
+		globalwords3 = kwords;
+
+
+
 
 		console.log("loaded movie full uncleaned text");
 	    });
