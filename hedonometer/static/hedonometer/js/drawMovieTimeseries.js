@@ -170,7 +170,7 @@ hedotools.booktimeseries = function() {
 		for (var i=0; i<lines.length; i++) {
 		    line = lines[i];
 		    if (line.slice(0,3) !== "<b>") {
-			console.log(line.slice(0,3));
+			// console.log(line.slice(0,3));
 			newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
 			if (newwords != null) {
 			    size = newwords.length;
