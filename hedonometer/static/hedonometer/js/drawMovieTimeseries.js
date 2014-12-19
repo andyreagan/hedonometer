@@ -189,7 +189,13 @@ hedotools.booktimeseries = function() {
 		d3.text(breakfile, function (breaks) {
 		    console.log("loaded movie full uncleaned text");
 		    console.log(breaks);
-
+		    dabreaks = breaks.split(",").map(parseFloat);
+		    lines = text.split("\n");
+		    dabreaks.push(lines.length)
+		    scoredtextparts = Array(fulltimeseries.length);
+		    for (var i=0; i<fulltimeseries.length; i++) {
+			scoredtextparts = lines.slice(dabreaks[d3.max([0,i-minWindows/2])],dabreaks[i+minWindows/5]).join("\n");
+		    }
 		    d3.select("#formattedtextdiv")
 		     	.html(text);
 
