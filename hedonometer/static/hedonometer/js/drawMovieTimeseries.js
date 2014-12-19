@@ -163,7 +163,7 @@ hedotools.booktimeseries = function() {
 		
 
 		// make the fulltext global
-		// fulltext = text;
+		fulltext = text;
 
 		// // now parse the whole thing, line by line
 		// lines = text.split("\n");
