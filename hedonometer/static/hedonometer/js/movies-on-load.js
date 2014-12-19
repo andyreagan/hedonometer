@@ -69,8 +69,6 @@ function initializePlot() {
     })
 }
 
-
-
 function loadCsv() {
     var csvLoadsRemaining = 4;
     var moviefile = "http://hedonometer.org/data/moviedata/timeseries/"+windowDecoder().cached+"/"+movieref+".csv";
