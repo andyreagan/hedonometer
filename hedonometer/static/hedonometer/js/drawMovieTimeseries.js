@@ -190,14 +190,14 @@ hedotools.booktimeseries = function() {
 		    console.log("loaded movie full uncleaned text");
 		    console.log(breaks);
 
-		    d3.select("#formattedtextbox")
-			.append("div")
-			.attr("id","formattedtextdiv")
-		    // .append("p")
-			.attr("class","formattedtext")
-			.html(text);
+		    // d3.select("#formattedtextbox")
+		    // 	.append("div")
+		    // 	.attr("id","formattedtextdiv")
+		    // // .append("p")
+		    // 	.attr("class","formattedtext")
+		    // 	.html(text);
 
-		    fheight = parseInt(d3.select("#formattedtextdiv").style("height"));
+		    // fheight = parseInt(d3.select("#formattedtextdiv").style("height"));
 		});
 	    });
 	    
