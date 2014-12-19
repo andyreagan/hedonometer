@@ -165,6 +165,7 @@ hedotools.booktimeseries = function() {
 		kwords = [];
 		klines = [];
 		for (var i=0; i<lines.length; i++) {
+		    line = lines[i];
 		    if (line.slice(0,3) !== "<b>") {
 			newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
 			size = newwords.length;
