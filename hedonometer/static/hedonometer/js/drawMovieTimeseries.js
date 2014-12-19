@@ -160,8 +160,11 @@ hedotools.booktimeseries = function() {
 		// globaltext = text;
 		lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
 		globalwords2 = lwords;
-
+		
 		lines = text.split("\n");
+		
+		fulltext = text;
+
 		kwords = [];
 		klines = [];
 		for (var i=0; i<lines.length; i++) {
