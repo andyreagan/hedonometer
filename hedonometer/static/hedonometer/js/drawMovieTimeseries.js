@@ -198,7 +198,7 @@ hedotools.booktimeseries = function() {
 			.html(text);
 
 		    fheight = parseInt(d3.select("#formattedtextdiv").style("height"));
-		}
+		});
 	    });
 	    
 
