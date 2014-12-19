@@ -200,7 +200,7 @@ hedotools.booktimeseries = function() {
 			scoredtextparts[i] = lines.slice(dabreaks[d3.max([0,i-minWindows/2])],dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])]).join("\n");
 		    }
 		    d3.select("#formattedtextdiv")
-		     	.html(text);
+		     	.html(scoredtextparts[0]);
 
 		    // fheight = parseInt(d3.select("#formattedtextdiv").style("height"));
 		});
@@ -235,6 +235,9 @@ hedotools.booktimeseries = function() {
 			.attr("x2", m[0])
 			.attr("y2", function() { return y(data[Math.floor((m[0]-axeslabelmargin.left)/width*data.length)]); });
 		    d3.select("#fulltextdiv").style("top",-(m[0]-axeslabelmargin.left)/width*pheight+"px");
+		    d3.select("#formattedtextdiv")
+		     	.html(scoredtextparts[Math.floor((m[0]-axeslabelmargin.left)/width*data.length)]);
+		    
 		}
 		});
 		     
