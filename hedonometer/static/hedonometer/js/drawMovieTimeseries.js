@@ -141,7 +141,7 @@ hedotools.booktimeseries = function() {
 	    d3.text(moviefile, function (text) {
 		// globaltext = text;
 		words = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
-		// globalwords = words;
+		globalwords = words;
 
 		console.log("loaded movie full text");
 		d3.select("#fulltextbox")
@@ -152,6 +152,16 @@ hedotools.booktimeseries = function() {
 		    .html(text);
 
 		pheight = parseInt(d3.select("#fulltextdiv").style("height"));
+	    });
+
+	    var moviefile = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.end.beg.clean";
+	    var pheight;
+	    d3.text(moviefile, function (text) {
+		// globaltext = text;
+		lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
+		globalwords2 = lwords;
+
+		console.log("loaded movie full uncleaned text");
 	    });
 	    
 
