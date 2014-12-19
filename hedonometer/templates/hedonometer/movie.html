@@ -35,6 +35,19 @@
   position: fixed;
   top: 0px;
 }
+#formattedtextbox {
+  /* display: block; */
+  /* position: absolute; */
+  position: fixed;
+  opacity: 0.5;
+  width: 200px;
+  /* height: 100vh; */
+  height: 200px;
+}
+#formattedtextdiv {
+  position: fixed;
+  top: 0px;
+}
 p.fulltext {
   color: #99d8c9;
 }
@@ -110,7 +123,9 @@ p.fulltext {
 	  <b>Movie happiness time series:</b>
 	  <p>Explore the work's emotional dynamics by sliding and resizing the reference and comparison sections.</p>
 	  <div id="chapters01" class="figure refslider"></div>
-	  <div id="chapters03" class="figure"></div>
+	  <div id="chapters03" class="figure">
+	    <div id="fulltextbox"></div>
+	  </div>
 	  <div id="chapters02" class="figure compslider"></div>
 	</div>
 

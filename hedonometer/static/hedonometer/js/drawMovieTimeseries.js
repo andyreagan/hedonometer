@@ -141,7 +141,7 @@ hedotools.booktimeseries = function() {
 	    d3.text(moviefile, function (text) {
 		// globaltext = text;
 		words = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
-		globalwords = words;
+		// globalwords = words;
 
 		console.log("loaded movie full text");
 		d3.select("#fulltextbox")
@@ -154,36 +154,51 @@ hedotools.booktimeseries = function() {
 		pheight = parseInt(d3.select("#fulltextdiv").style("height"));
 	    });
 
-	    var moviefile = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.end.beg.clean2";
-	    var pheight;
-	    d3.text(moviefile, function (text) {
-		// globaltext = text;
-		lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
-		globalwords2 = lwords;
+	    var fheight;
+	    var moviefile2 = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.end.beg.clean2";
+	    d3.text(moviefile2, function (text) {
+		// use this to test the total words in this different file
+		// lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
+		// globalwords2 = lwords;
 		
-		lines = text.split("\n");
-		
-		fulltext = text;
 
-		kwords = [];
-		klines = [];
-		for (var i=0; i<lines.length; i++) {
-		    line = lines[i];
-		    if (line.slice(0,3) !== "<b>") {
-			// console.log(line.slice(0,3));
-			newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
-			if (newwords != null) {
-			    size = newwords.length;
-			    linenums = Array(size);
-			    while(size--) linenums[size] = i;
-			    kwords = kwords.concat(newwords);
-			    klines = klines.concat(linenums);
-			}
-		    }
+		// make the fulltext global
+		// fulltext = text;
+
+		// // now parse the whole thing, line by line
+		// lines = text.split("\n");
+		// kwords = [];
+		// klines = [];
+		// for (var i=0; i<lines.length; i++) {
+		//     line = lines[i];
+		//     if (line.slice(0,3) !== "<b>") {
+		// 	// console.log(line.slice(0,3));
+		// 	newwords = line.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
+		// 	if (newwords != null) {
+		// 	    size = newwords.length;
+		// 	    linenums = Array(size);
+		// 	    while(size--) linenums[size] = i;
+		// 	    kwords = kwords.concat(newwords);
+		// 	    klines = klines.concat(linenums);
+		// 	}
+		//     }
+		// }
+		// globalwords3 = kwords;
+
+		var breakfile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+"-breaks.csv";
+		d3.text(breakfile, function (breaks) {
+		    console.log("loaded movie full uncleaned text");
+		    console.log(breaks);
+
+		    d3.select("#formattedtextbox")
+			.append("div")
+			.attr("id","formattedtextdiv")
+		    // .append("p")
+			.attr("class","formattedtext")
+			.html(text);
+
+		    fheight = parseInt(d3.select("#formattedtextdiv").style("height"));
 		}
-		globalwords3 = kwords;
-
-		console.log("loaded movie full uncleaned text");
 	    });
 	    
 
