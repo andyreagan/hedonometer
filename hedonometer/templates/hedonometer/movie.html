@@ -42,6 +42,7 @@
   white-space: pre-wrap;
   font-size: 7px;
   border: 1.5px solid grey;
+  overflow: scroll;
 }
 #formattedtextdiv {
   position: relative;
@@ -50,7 +51,10 @@
 p.fulltext {
   color: #99d8c9;
 }
-
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
 </style>
 {% endblock %}
 
@@ -123,15 +127,14 @@ p.fulltext {
 	  <p>Explore the work's emotional dynamics by sliding and resizing the reference and comparison sections.</p>
 	  
 	  <div class="row">
-	    <div class="col-xs-9">
+	    <div class="col-xs-9 nopadding">
 	      <div id="chapters01" class="figure refslider"></div>
 	      <div id="chapters03" class="figure"></div>
 	      <div id="chapters02" class="figure compslider"></div>
 	    </div>
-	    <div class="col-xs-3">
+	    <div class="col-xs-3 nopadding">
 	      <div id="formattedtextbox">
 		<div id="formattedtextdiv">
-{{ fulltext|safe }}
 		</div>
 	      </div>
 	    </div>
