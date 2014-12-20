@@ -27,7 +27,7 @@ function commaSeparateNumber(val){
     return val;
 }
 
-console.log("would use "+movie+" as the default here");
+// console.log("would use "+movie+" as the default here");
 // set the default here
 // var movieDecoder = d3.urllib.decoder().varresult("Harry Potter (all movies together)").varname("movie");
 var movieDecoder = d3.urllib.decoder().varresult(movie).varname("movie");
@@ -44,7 +44,7 @@ function initializePlot() {
     // hit the random api
     d3.json("http://hedonometer.org/api/v1/movies/?format=json&title__exact="+movie,function(data) {
 	var result = data.objects[0];
-	console.log(result);
+	// console.log(result);
 	lang = result.language;
 	lang = "english";
 	var movietitle = d3.select("#booktitle");
@@ -56,7 +56,7 @@ function initializePlot() {
 	for (var i=0; i<newignore.length-1; i++) {
 	    ignoreWords.push(newignore[i]);
 	}
-	console.log(ignoreWords);
+	// console.log(ignoreWords);
 	// set the filename
 	// movie = result.reference;
 	movieref = result.reference;
@@ -206,7 +206,7 @@ var loadwordshiftdata = function() {
 	// alert
 	// if (sumWords < 10000) { alert("There are too few words in this movie for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this movie has "+sumWords+"."); }
 
-	console.log("done loading");
+	// console.log("done loading");
 	spinner.stop();
 	d3.select("#popupbutton").attr("disabled",null);
 	d3.select("#lensbutton").attr("disabled",null);
@@ -230,12 +230,12 @@ function beginannotation() {
 
     var triggered = 0;
     $("#inputSuccess4").keypress(function(d) {
-	console.log( "Handler for .keypress() called." );
+	// console.log( "Handler for .keypress() called." );
 	// checking that each word is in the movie's words
 	var sampleWordList = ["in","the","book"];
 	// split the input
 	triggered++;
-	console.log(this.value);
+	// console.log(this.value);
 	var that = this;
 	setTimeout(delayedcheck,1000);
 	setTimeout(delayedcheck,2000);
@@ -274,10 +274,10 @@ var delayedcheck = function(d) {
     var words = document.getElementById("inputSuccess4").value.split(" ");
     // $("#inputSuccess4").value.split(" ");
     // var words = d.value.split(" ");
-    console.log(words);
+    // console.log(words);
     if (words.length > 6) {
 	if (words[6] !== "") {
-    	    console.log("too many words");
+    	    // console.log("too many words");
     	    d3.select("#annotationInput").classed("has-error",true);
     	    d3.select("#annotationInput").classed("has-success",false);
     	    d3.select("#inputSuccess4").classed("glyphicon-remove",true);
@@ -294,7 +294,7 @@ var delayedcheck = function(d) {
     	    d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
 	    // show the submit button
 	    d3.select("#tweetCheckDiv").selectAll(".tweettext").remove();
-	    console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all movies together)"+", "+document.getElementById("inputSuccess4").value+"\"");
+	    // console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all movies together)"+", "+document.getElementById("inputSuccess4").value+"\"");
 	    d3.select("#tweetCheckDiv").append("span").attr("class","help-block tweettext").text("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all movies together)"+", "+document.getElementById("inputSuccess4").value+"\"");
 	}
     }
@@ -306,7 +306,7 @@ var delayedcheck = function(d) {
     	d3.select("#annotationInputIcon").classed("glyphicon-ok",true);
 	// show the submit button
 	d3.select("#tweetCheckDiv").selectAll(".tweettext").remove();
-	console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all movies together)"+", "+document.getElementById("inputSuccess4").value+"\"");
+	// console.log("The tweet would be \"@hedonometer: "+"67%"+" through "+"Harry Potter (all movies together)"+", "+document.getElementById("inputSuccess4").value+"\"");
 	d3.select("#tweetCheckDiv").append("span").attr("class","help-block tweettext").text("The tweet would be \"@hedonometer: "+document.getElementById("inputSuccess3").value+" through "+movie+", "+document.getElementById("inputSuccess4").value+"\"");
     }
     if (document.getElementById("inputSuccess4").value === "") {
