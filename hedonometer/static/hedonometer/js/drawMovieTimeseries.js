@@ -155,7 +155,7 @@ hedotools.booktimeseries = function() {
 	    });
 
 	    var fheight;
-	    var moviefile2 = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".txt";
+	    var moviefile2 = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.clean01";
 	    d3.text(moviefile2, function (text) {
 		// use this to test the total words in this different file
 		// lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
