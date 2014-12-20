@@ -119,10 +119,15 @@ hedotools.booktimeseries = function() {
 	// var aftertext = words.slice(slicePoints[0],slicePoints[1]);
 	// // var aftertext = words.slice();
 
-	d3.select("#puttexthere").selectAll("p").remove();
+	d3.select("#puttexthere").selectAll("div").remove();
 	d3.select("#puttexthere")
-	    .append("p")
-	    .text(scoredtextparts[point]);
+	    .append("div")
+	    .attr({
+		"white-space": "pre-wrap",
+		"font-size": "10px",
+		"font-family": "monospace",
+	    })
+	    .html(scoredtextparts[point]);
 
 	// // d3.select("#puttexthere")
 	// //     .append("hr");
