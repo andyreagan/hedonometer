@@ -53,7 +53,7 @@ hedotools.booktimeseries = function() {
 	
 	axes.selectAll(".refarea").remove();
 
-	console.log(extent);
+	// console.log(extent);
 
 	var refareaarea = axes.insert("path","div.dummy")
 	    .datum(data.slice(extent[0],extent[1]))
@@ -70,7 +70,7 @@ hedotools.booktimeseries = function() {
 	
 	axes.selectAll(".comparea").remove();
 
-	console.log(extent);
+	// console.log(extent);
 
 	var compareaarea = axes.insert("path","div.dummy")
 	    .datum(data.slice(extent[0]-1,extent[1]))
@@ -93,7 +93,7 @@ hedotools.booktimeseries = function() {
 
     getFullText = function(point) {
 	// var point = 20;
-	console.log("point "+point);
+	// console.log("point "+point);
 
 	var chunkSize = parseInt(windowDecoder().cached)/10;
 	var before = [d3.max([point-5,0]),d3.max([point-1,-1])];
@@ -101,9 +101,9 @@ hedotools.booktimeseries = function() {
 	if (before[1] >= (fulltimeseries.length-2)) {
 	    slicePoints[1] = words.length;
 	}
-	console.log("points before:")
-	console.log(before);
-	console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	// console.log("points before:")
+	// console.log(before);
+	// console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
 	var beforetext = words.slice(slicePoints[0],slicePoints[1]);
 	var after = [point,point+4];
 	var slicePoints = [after[0]*chunkSize,(after[1]+1)*chunkSize];
@@ -113,9 +113,9 @@ hedotools.booktimeseries = function() {
 	if (after[1] >= (fulltimeseries.length-2)) {
 	    slicePoints[1] = words.length;
 	}
-	console.log("points after:");
-	console.log(after);
-	console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	// console.log("points after:");
+	// console.log(after);
+	// console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
 	var aftertext = words.slice(slicePoints[0],slicePoints[1]);
 	// var aftertext = words.slice();
 
@@ -143,7 +143,7 @@ hedotools.booktimeseries = function() {
 		words = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
 		// globalwords = words;
 
-		console.log("loaded movie full text");
+		// console.log("loaded movie full text");
 		d3.select("#fulltextbox")
 		    .append("div")
 		    .attr("id","fulltextdiv")
@@ -187,16 +187,16 @@ hedotools.booktimeseries = function() {
 
 		var breakfile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+"-breaks.csv";
 		d3.text(breakfile, function (breaks) {
-		    console.log("loaded movie full uncleaned text");
-		    console.log(breaks);
+		    // console.log("loaded movie full uncleaned text");
+		    // console.log(breaks);
 		    dabreaks = breaks.split(",").map(parseFloat);
 		    lines = text.split("\n");
 		    dabreaks.push(lines.length)
 		    scoredtextparts = Array(fulltimeseries.length);
 		    for (var i=0; i<fulltimeseries.length; i++) {
-			console.log(i);
-			console.log(d3.max([0,i-minWindows/2])+" to "+d3.min([i+minWindows/2,dabreaks.length-1]))
-			console.log(dabreaks[d3.max([0,i-minWindows/2])]+" to "+dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])])
+			// console.log(i);
+			// console.log(d3.max([0,i-minWindows/2])+" to "+d3.min([i+minWindows/2,dabreaks.length-1]))
+			// console.log(dabreaks[d3.max([0,i-minWindows/2])]+" to "+dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])])
 			scoredtextparts[i] = lines.slice(dabreaks[d3.max([0,i-minWindows/2])],dabreaks[d3.min([i+minWindows/2,dabreaks.length-1])]).join("\n");
 		    }
 		    d3.select("#formattedtextdiv")
@@ -243,7 +243,7 @@ hedotools.booktimeseries = function() {
 		     
 	}
 	else {
-	    console.log("not showing line")
+	    // console.log("not showing line")
 	    canvas.selectAll("line.hoverline").remove();
 	    canvas.on("mousemove",null);
 	}
@@ -251,7 +251,7 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
-	console.log("querying "+"/api/v1/movieannotation/?format=json&winner=1&movie__title="+movie);
+	// console.log("querying "+"/api/v1/movieannotation/?format=json&winner=1&movie__title="+movie);
 	// with window level filter
 	// d3.json("/api/v1/movieannotation/?format=json&winner=1&movie__title="+movie+"&window="+windowDecoder().cached,function(error,json) {
 	// without
@@ -344,8 +344,8 @@ hedotools.booktimeseries = function() {
 		});
 
 	    var timeseries2 = data.map(function(d,i) { return [x(i),y(d)]; });
-	    console.log(timeseries2);
-	    console.log(annotationnodes);
+	    // console.log(timeseries2);
+	    // console.log(annotationnodes);
 	    // run the simulation 100 times
 	    for (var i=0; i<0; i++) {
 		var tstep = .01;
@@ -405,13 +405,13 @@ hedotools.booktimeseries = function() {
 	    	}
 	    });
 
-	    console.log("fixednodes");
-	    console.log(fixednodes);
-	    console.log("annotationnodes");
-	    console.log(annotationnodes);
-	    console.log("allnodes");
+	    // console.log("fixednodes");
+	    // console.log(fixednodes);
+	    // console.log("annotationnodes");
+	    // console.log(annotationnodes);
+	    // console.log("allnodes");
 	    var allnodes = fixednodes.concat(annotationnodes)
-	    console.log(allnodes);
+	    // console.log(allnodes);
 
 	    force.nodes(allnodes)
 	    	.links(annotationlinks)
@@ -419,7 +419,7 @@ hedotools.booktimeseries = function() {
 
 	    force.start();
 
-	    console.log(annotationnodes);
+	    // console.log(annotationnodes);
 	})
     }
 
@@ -434,11 +434,11 @@ hedotools.booktimeseries = function() {
 	    // console.log(distanceFromPoint);
 	    // var F = computeForce(ds,distanceFromPoint[0]);
 	    var F = computeForce([nodes[i].x,nodes[i].y],timeseries,[nodes[i].x0,nodes[i].y0]);
-	    console.log("force:");
-	    console.log(F);
+	    // console.log("force:");
+	    // console.log(F);
 	    var newpos = verletpos([nodes[i].x,nodes[i].y],[nodes[i].v,nodes[i].u],F,tstep);
-	    console.log("position:");
-	    console.log(newpos);
+	    // console.log("position:");
+	    // console.log(newpos);
 	    var maxlen = 6000000;
 	    if (Math.abs(newpos[0]-nodes[i].x0) < maxlen) {
 		nodes[i].x = newpos[0];
@@ -449,11 +449,11 @@ hedotools.booktimeseries = function() {
 	}
 	for (var i=0; i<nodes.length; i++) {
 	    var Fnew = computeForce([nodes[i].x,nodes[i].y],timeseries,[nodes[i].x0,nodes[i].y0]);
-	    console.log("force:");
-	    console.log(Fnew);
+	    // console.log("force:");
+	    // console.log(Fnew);
 	    var newvel = verletvel([nodes[i].u,nodes[i].v],F,Fnew,tstep);
-	    console.log("velocity:");
-	    console.log(newvel);
+	    // console.log("velocity:");
+	    // console.log(newvel);
 	    nodes[i].u = newvel[0];
 	    nodes[i].v = newvel[1];
 	}
@@ -481,12 +481,12 @@ hedotools.booktimeseries = function() {
 	    xdist[i] = a[0]-points[i][0];
 	    ydist[i] = a[1]-points[i][1];
 	}
-	console.log("all about the forces");
-	console.log(a);
-	console.log(points);
-	console.log(xdist);
-	console.log(xdist.map(force));
-	console.log(d3.sum(xdist.map(force)));
+	// console.log("all about the forces");
+	// console.log(a);
+	// console.log(points);
+	// console.log(xdist);
+	// console.log(xdist.map(force));
+	// console.log(d3.sum(xdist.map(force)));
     	F[0] = d3.sum(xdist.map(force))-gravity(a[0]-origin[0]);
     	F[1] = d3.sum(ydist.map(force))-gravity(a[1]-origin[1]);
     	return F;
@@ -540,12 +540,12 @@ hedotools.booktimeseries = function() {
     var trademark;
     
     var buildForm = function(perc,point) {
-	console.log("building form");
-	console.log(perc);
-	console.log(point);
-	console.log("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie);
+	// console.log("building form");
+	// console.log(perc);
+	// console.log(point);
+	// console.log("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie);
 	d3.json("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie,function(error,json) {
-	    console.log(json);
+	    // console.log(json);
 	    d3.select("#changeMeAlso")
 		.selectAll("input.annotation")
 		// .insert("#annotationInput","div")
@@ -607,10 +607,10 @@ hedotools.booktimeseries = function() {
 		minhapps.push(i);
 	    }
 	}
-	console.log(minhapps);
+	// console.log(minhapps);
 
-	console.log(y);
-	console.log(data);
+	// console.log(y);
+	// console.log(data);
 	var mincircles  = axes.selectAll("circle.mincircle")
 	    .data(minhapps)
 	    .enter()
@@ -621,8 +621,8 @@ hedotools.booktimeseries = function() {
     	    .attr("class","mincircle")	
     	    .attr("r",4)
 	    .on("click",function(d,i) {
-		console.log("click on min element number");
-		console.log(d);
+		// console.log("click on min element number");
+		// console.log(d);
 		// remove them all
 		d3.selectAll("circle.mincircle").remove();
 		d3.selectAll("circle.maxcircle").remove();
@@ -648,8 +648,8 @@ hedotools.booktimeseries = function() {
     	    .attr("class","maxcircle blink")	
     	    .attr("r",4)
 	    .on("click",function(d,i) {
-		console.log("click on max element number");
-		console.log(d);
+		// console.log("click on max element number");
+		// console.log(d);
 		// remove them all
 		d3.selectAll("circle.mincircle").remove();
 		d3.selectAll("circle.maxcircle").remove();
@@ -784,7 +784,7 @@ hedotools.booktimeseries = function() {
 	    .interpolate("cardinal");
 	// .interpolate("linear");
 
-	console.log(data.slice(minWindows/2,data.length-minWindows/2));
+	// console.log(data.slice(minWindows/2,data.length-minWindows/2));
 	mainline = axes.append("path")
 	    .datum(data.slice(minWindows/2,data.length-minWindows/2))
 	    .attr("class", "line")
@@ -799,7 +799,7 @@ hedotools.booktimeseries = function() {
 	    .interpolate("cardinal");
 	// .interpolate("linear");
 
-	console.log(data.slice(0,minWindows/2+1));
+	// console.log(data.slice(0,minWindows/2+1));
 	begline = axes.append("path")
 	    .datum(data.slice(0,minWindows/2+1))
 	    .attr("class", "line")
@@ -817,7 +817,7 @@ hedotools.booktimeseries = function() {
 
 	// endtimeseries.unshift(data[data.length-1]);
 
-	console.log(data.slice(data.length-6,data.length));
+	// console.log(data.slice(data.length-6,data.length));
 	endline = axes.append("path")
 	    .datum(data.slice(data.length-6,data.length))
 	    .attr("class", "line")
