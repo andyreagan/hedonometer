@@ -95,41 +95,41 @@ hedotools.booktimeseries = function() {
 	// var point = 20;
 	// console.log("point "+point);
 
-	var chunkSize = parseInt(windowDecoder().cached)/10;
-	var before = [d3.max([point-5,0]),d3.max([point-1,-1])];
-	var slicePoints = [before[0]*chunkSize,(before[1]+1)*chunkSize];
-	if (before[1] >= (fulltimeseries.length-2)) {
-	    slicePoints[1] = words.length;
-	}
-	// console.log("points before:")
-	// console.log(before);
-	// console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
-	var beforetext = words.slice(slicePoints[0],slicePoints[1]);
-	var after = [point,point+4];
-	var slicePoints = [after[0]*chunkSize,(after[1]+1)*chunkSize];
-	if (after[0] >= (fulltimeseries.length-1)) {
-	    slicePoints[0] = words.length;
-	}
-	if (after[1] >= (fulltimeseries.length-2)) {
-	    slicePoints[1] = words.length;
-	}
-	// console.log("points after:");
-	// console.log(after);
-	// console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
-	var aftertext = words.slice(slicePoints[0],slicePoints[1]);
-	// var aftertext = words.slice();
+	// var chunkSize = parseInt(windowDecoder().cached)/10;
+	// var before = [d3.max([point-5,0]),d3.max([point-1,-1])];
+	// var slicePoints = [before[0]*chunkSize,(before[1]+1)*chunkSize];
+	// if (before[1] >= (fulltimeseries.length-2)) {
+	//     slicePoints[1] = words.length;
+	// }
+	// // console.log("points before:")
+	// // console.log(before);
+	// // console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	// var beforetext = words.slice(slicePoints[0],slicePoints[1]);
+	// var after = [point,point+4];
+	// var slicePoints = [after[0]*chunkSize,(after[1]+1)*chunkSize];
+	// if (after[0] >= (fulltimeseries.length-1)) {
+	//     slicePoints[0] = words.length;
+	// }
+	// if (after[1] >= (fulltimeseries.length-2)) {
+	//     slicePoints[1] = words.length;
+	// }
+	// // console.log("points after:");
+	// // console.log(after);
+	// // console.log("slicing from "+slicePoints[0]+" to "+slicePoints[1]);
+	// var aftertext = words.slice(slicePoints[0],slicePoints[1]);
+	// // var aftertext = words.slice();
 
 	d3.select("#puttexthere").selectAll("p").remove();
 	d3.select("#puttexthere")
 	    .append("p")
-	    .text(beforetext.join(" "));
+	    .text(scoredtextparts[point]);
+
+	// // d3.select("#puttexthere")
+	// //     .append("hr");
 
 	// d3.select("#puttexthere")
-	//     .append("hr");
-
-	d3.select("#puttexthere")
-	    .append("p")
-	    .text(aftertext.join(" "));
+	//     .append("p")
+	//     .text(aftertext.join(" "));
     }
 
     var words;
