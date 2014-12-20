@@ -121,12 +121,6 @@ hedotools.booktimeseries = function() {
 
 	d3.select("#puttexthere").selectAll("div").remove();
 	d3.select("#puttexthere")
-	    .append("div")
-	    .attr({
-		"white-space": "pre-wrap",
-		"font-size": "10px",
-		"font-family": "monospace",
-	    })
 	    .html(scoredtextparts[point]);
 
 	// // d3.select("#puttexthere")
