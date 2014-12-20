@@ -9,6 +9,8 @@ hedotools.booktimeseries = function() {
     // some colors 
     // #1193c0 #759ae8
 
+    var scoredtextparts;
+
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
     var axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40};
     // full width
