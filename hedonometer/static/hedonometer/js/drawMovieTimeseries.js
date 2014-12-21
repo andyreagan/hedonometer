@@ -66,7 +66,7 @@ hedotools.booktimeseries = function() {
 
     drawCompArea = function(extent) {
 	var comparea = d3.svg.area()
-	    .x(function(d,i) { return x(extent[0]+i-1); })
+	    .x(function(d,i) { return x(extent[0]+i); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
 	
@@ -75,7 +75,7 @@ hedotools.booktimeseries = function() {
 	// console.log(extent);
 
 	var compareaarea = axes.insert("path","div.dummy")
-	    .datum(data.slice(extent[0]-1,extent[1]))
+	    .datum(data.slice(extent[0],extent[1]))
 	    .attr("class", "comparea")
 	    .attr("d", comparea)
 	    .attr("fill","#fefe81")
