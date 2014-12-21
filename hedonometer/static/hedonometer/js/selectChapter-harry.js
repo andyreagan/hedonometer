@@ -101,7 +101,7 @@ function selectChapter(figure,numSections) {
 	.attr("style", "text-anchor: middle;");
 
     var brushX = d3.scale.linear()
-        .domain([0,fulltimeseries.length])
+        .domain([0,fulltimeseries.length-1])
         .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
@@ -119,7 +119,7 @@ function selectChapter(figure,numSections) {
         .on("brush",brushing)
         .on("brushend",brushended);
 
-    compFextentStrs = compFextent.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+    compFextentStrs = compFextent.map(function(d) { return (d/(fulltimeseries.length-1)*100).toFixed(0); });
     // console.log(compFextentStrs);
 
     d3.select("#compInput1").attr("value",compFextentStrs[0]+"%");
@@ -144,7 +144,7 @@ function selectChapter(figure,numSections) {
 	    extent1 = extent0.map(Math.round); // should round it to bins
 
 	hedotools.booktimeseries.drawCompArea(extent1);
-	compFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+	compFextentStrs = extent1.map(function(d) { return (d/(fulltimeseries.length-1)*100).toFixed(0); });
 	// console.log(compFextentStrs);
 
  	d3.select("#compInput1").attr("value",compFextentStrs[0]+"%");
@@ -167,7 +167,7 @@ function selectChapter(figure,numSections) {
 
 	compFextent = extent1;
 
-	compFencoder.varval(compFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
+	compFencoder.varval(compFextent.map(function(d) { return (d/(fulltimeseries.length-1)).toFixed(2); }));
 
 	}
 

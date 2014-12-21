@@ -75,7 +75,7 @@ function selectChapterTop(figure,numSections) {
     var unclipped_axes = axes;
  
     var brushX = d3.scale.linear()
-        .domain([0,fulltimeseries.length])
+        .domain([0,fulltimeseries.length-1])
         .range([axeslabelmargin.left,width+axeslabelmargin.left]);
 
     canvas.append("text")
@@ -93,7 +93,7 @@ function selectChapterTop(figure,numSections) {
         .on("brush",brushing)
         .on("brushend",brushended);
 
-    refFextentStrs = refFextent.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+    refFextentStrs = refFextent.map(function(d) { return (d/(fulltimeseries.length-1)*100).toFixed(0); });
     // console.log(refFextentStrs);
 
     d3.select("#refInput1").attr("value",refFextentStrs[0]+"%");
@@ -121,7 +121,7 @@ function selectChapterTop(figure,numSections) {
 
 	hedotools.booktimeseries.drawRefArea(extent1);
 
-	refFextentStrs = extent1.map(function(d) { return (d/fulltimeseries.length*100).toFixed(0); });
+	refFextentStrs = extent1.map(function(d) { return (d/(fulltimeseries.length-1)*100).toFixed(0); });
 	console.log(refFextentStrs);
 
 	d3.select("#refInput1").attr("value",refFextentStrs[0]+"%");
@@ -143,7 +143,7 @@ function selectChapterTop(figure,numSections) {
 	{	    
 	refFextent = extent1;
 
-	refFencoder.varval(refFextent.map(function(d) { return (d/fulltimeseries.length).toFixed(2); }));
+	refFencoder.varval(refFextent.map(function(d) { return (d/(fulltimeseries.length-1)).toFixed(2); }));
 
 
 
