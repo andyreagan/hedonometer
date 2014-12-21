@@ -356,10 +356,10 @@ var popupwordshift = function() {
     // loop over each slice of data
     for (var i = 0; i < allDataRaw[0].length; i++) {
         // grab the shift vectors
-	for (var k = refFextent[0]; k < refFextent[1]; k++) {
+	for (var k = refFextent[0]; k < refFextent[1]-1; k++) {
             refF[i] += parseFloat(allDataRaw[k][i]);
 	}
-	for (var k = compFextent[0]-1; k < compFextent[1]-1; k++) {
+	for (var k = compFextent[0]; k < compFextent[1]-1; k++) {
             compF[i] += parseFloat(allDataRaw[k][i]);
 	}
     }
