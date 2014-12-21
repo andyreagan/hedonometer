@@ -136,9 +136,9 @@ function initializePlotPlot(lens, words) {
 	ignoreWords.push(alwaysIgnore[i]);
     }
     refFextentDecoder = d3.urllib.decoder().varresult([0,.2]).varname("refExtent");				      
-    refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(refFextentDecoder().cached[1])*fulltimeseries.length)];
+    refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*(fulltimeseries.length-1)), Math.round(parseFloat(refFextentDecoder().cached[1])*(fulltimeseries.length-1))];
     compFextentDecoder = d3.urllib.decoder().varresult([.8,1]).varname("compExtent");			      
-    compFextent = [Math.round(parseFloat(compFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(compFextentDecoder().cached[1])*fulltimeseries.length)];
+    compFextent = [Math.round(parseFloat(compFextentDecoder().cached[0])*(fulltimeseries.length-1)), Math.round(parseFloat(compFextentDecoder().cached[1])*(fulltimeseries.length-1))];
     
     // only draw the lens is the page is wide enough
     // this approach is terrible
