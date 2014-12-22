@@ -1219,25 +1219,58 @@ var locations = [
       ['1218',44.9767, -110.6964, 'YELLOWSTONE PK MAMMOTH, WY']
 ];
 
-window.onload = function() {
+// var map = L.map('map').setView([51.505, -0.09], 13);
+// http://{s}.tiles.mapbox.com/v3/MapID/{z}/{x}/{y}.png
+// L.tileLayer('https://a.tiles.mapbox.com/v4/andyreagan.kf8e3fid/page.html?access_token=pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ#4/44.44/-73.08', { 
+// L.mapbox.tileLayer('andyreagan.kf8e3fid', {
+// attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+// maxZoom: 18
+// }).addTo(map);
+// var layer = L.mapbox.tileLayer('andyreagan.kf8e3fid');
+// layer.on('ready', function() {
+// the layer has been fully loaded now, and you can
+// call .getTileJSON and investigate its properties
+// });
+// Provide your access token
+// L.mapbox.accessToken = 'pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ';
+// Create a map in the div #map
+// L.mapbox.map('map', 'andyreagan.kf8e3fid');
 
-    console.log("page loaded");
+// L.accessToken = 'pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ';
+// var map = L.map('map', '')
+//  .setView([40, -74.50], 9);
 
-    // start using queue for the loads here
-    d3.json("http://hedonometer.org/data/geodata/us-states.topojson", function(data) {
-	geoJson = data;
-	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
-	// if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
-	// draw the map here
+// L.mapbox.accessToken = 'pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ';
 
-	// loop over cities to add
-	// should just be able to do with a d3.data()
-	for (var i=0; i<locations.length; i++) { // 
-	    // console.log(locations[i]);
-	    // L.marker([locations[i][1],locations[i][2]]).addTo(map).bindPopup(locations[i][3]);
-	}
-	
-    }); // 
+// var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/examples.map-i87786ca/{z}/{x}/{y}.png', {
+//     attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+// });
 
-} // window.onload
+// var map = L.map('map')
+//     .addLayer(mapboxTiles)
+//     .setView([42.3610, -71.0587], 15);
+
+// L.mapbox.accessToken = 'pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ';
+
+// var map = L.mapbox.map('map', 'andyreagan.kf8e3fid')
+//     .setView([40, -95.50], 4);
+
+L.mapbox.accessToken = 'pk.eyJ1IjoiYW5keXJlYWdhbiIsImEiOiI2R2dqVWZVIn0.fiYjFQUQnguIm5vbTs5BKQ';
+
+var map = L.map('map')
+    // .addLayer(mapboxTiles)
+    .setView([40, -95.50], 4);
+
+L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// var mapboxTiles = L.tileLayer('https://{s}.tiles.mapbox.com/v3/andyreagan.kf8e3fid/{z}/{x}/{y}.png', {
+//     attribution: '<a href="http://www.mapbox.com/about/maps/" target="_blank">Terms &amp; Feedback</a>'
+// });
+
+for (var i=0; i<locations.length; i++) { // 
+    // console.log(locations[i]);
+    L.marker([locations[i][1],locations[i][2]]).addTo(map).bindPopup(locations[i][3]);
+}
 
