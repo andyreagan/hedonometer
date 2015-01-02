@@ -1227,6 +1227,7 @@ var dataloaded = function(error,results) {
     console.log("data loaded");
     console.log(results);
     geoJson = results[0];
+    stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 
     // go ahead and draw the map right here.
     // worry about separating logic later
@@ -1248,14 +1249,60 @@ var dataloaded = function(error,results) {
 	.attr("width", w)
 	.attr("height", h);
 
-    
+    var projection = d3.geo.albersUsa()
+	.translate([w/2, h/2])
+	.scale(w*1.3);
 
-    // loop over cities to add
-    // should just be able to do with a d3.data()
-    for (var i=0; i<locations.length; i++) { // 
-	// console.log(locations[i]);
-	// L.marker([locations[i][1],locations[i][2]]).addTo(map).bindPopup(locations[i][3]);
-    }
+    var path = d3.geo.path()
+	.projection(projection);
+
+    var states = canvas.selectAll("path")
+	.data(stateFeatures);
+    
+    states.enter()
+	.append("path")
+	.attr("d", function(d,i) { return path(d.geometry); } )
+	.attr("id", function(d,i) { return d.properties.name; } )
+	.attr("class",function(d,i) { return "state"; } );
+
+    // states.exit().remove();
+
+    // states
+    // 	.attr("stroke","black")
+    // 	.attr("stroke-width",".7");
+
+    var rmin = "4";
+    var rmax = "6";
+
+    var city_hover = function(d,i) {
+	// console.log(this);
+	d3.select(this).attr("r",rmax);
+    };
+    var city_unhover = function(d,i) {
+	// console.log(this);
+	d3.select(this).attr("r",rmin);
+    };
+    var city_clicked = function(d,i) {
+	// console.log(this);
+	// d3.select(this).attr("r",rmin);
+
+	alert("you clicked on "+d[3]);
+    };
+
+    var cities = canvas.selectAll("circle.city")
+	.data(locations);
+        
+    cities.enter()
+	.append("circle")
+        .attr({
+	    "class": "city",
+	    "cx": function(d) { return projection([d[2],d[1]])[0]; },
+	    "cy": function(d) { return projection([d[2],d[1]])[1]; },
+	    "r": rmin,
+	})
+        .on("mousedown",city_clicked)
+        .on("mouseover",city_hover)
+        .on("mouseout",city_unhover);
 }
 
 function request(url, callback) {
@@ -1284,8 +1331,9 @@ window.onload = function() {
     // }); // d3.json
     
     queue()
-	// .defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
-	.defer(request,"/static/hedonometer/us-states.topojson")
+	.defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
+        // switch to this for local devel
+	// .defer(request,"/static/hedonometer/us-states.topojson")
 	.awaitAll(dataloaded);
 
 } // window.onload
