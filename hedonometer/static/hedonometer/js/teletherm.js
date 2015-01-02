@@ -1219,25 +1219,75 @@ var locations = [
       ['1218',44.9767, -110.6964, 'YELLOWSTONE PK MAMMOTH, WY']
 ];
 
+// globally namespace these things
+var geoJson;
+var stateFeatures;
+
+var dataloaded = function(error,results) { 
+    console.log("data loaded");
+    console.log(results);
+    geoJson = results[0];
+
+    // go ahead and draw the map right here.
+    // worry about separating logic later
+    
+    var figure = d3.select("#map");
+    
+    //Width and height
+    var w = parseInt(figure.style('width'));
+    var h = w*650/900;
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    //Create SVG element
+    var canvas = figure
+	.append("svg")
+	.attr("class", "map canvas")
+	.attr("id", "mapsvg")
+	.attr("width", w)
+	.attr("height", h);
+
+    
+
+    // loop over cities to add
+    // should just be able to do with a d3.data()
+    for (var i=0; i<locations.length; i++) { // 
+	// console.log(locations[i]);
+	// L.marker([locations[i][1],locations[i][2]]).addTo(map).bindPopup(locations[i][3]);
+    }
+}
+
+function request(url, callback) {
+  var req = new XMLHttpRequest;
+  req.open("GET", url, true);
+  req.setRequestHeader("Accept", "application/json");
+  req.onreadystatechange = function() {
+    if (req.readyState === 4) {
+      if (req.status < 300) callback(null, JSON.parse(req.responseText));
+      else callback(req.status);
+    }
+  };
+  req.send(null);
+}
+
 window.onload = function() {
 
     console.log("page loaded");
-
     // start using queue for the loads here
-    d3.json("http://hedonometer.org/data/geodata/us-states.topojson", function(data) {
-	geoJson = data;
-	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
-	// if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
-	// draw the map here
-
-	// loop over cities to add
-	// should just be able to do with a d3.data()
-	for (var i=0; i<locations.length; i++) { // 
-	    // console.log(locations[i]);
-	    // L.marker([locations[i][1],locations[i][2]]).addTo(map).bindPopup(locations[i][3]);
-	}
-	
-    }); // 
+    
+    
+    // d3.json("http://hedonometer.org/data/geodata/us-states.topojson", function(data) {
+    // 	geoJson = data;
+    // 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
+    // 	// if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
+    // }); // d3.json
+    
+    queue()
+	// .defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
+	.defer(request,"/static/hedonometer/us-states.topojson")
+	.awaitAll(dataloaded);
 
 } // window.onload
+
 
