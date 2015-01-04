@@ -1223,6 +1223,63 @@ var locations = [
 var geoJson;
 var stateFeatures;
 
+// the main variables for the file load
+var yearWindow = 1;
+var variable = "Max Temp";
+var variableShort = ["maxT","minT","summer_day","winter_day","summer_extent","winter_extent",]
+var variableLong = ["Max Temp","Min Temp","Summer Day","Winter Day","Summer Extent","Winter Extent",]
+var variableIndex = 0;
+var year;
+
+var drawMap = function() {
+}
+
+var cityPlot = function() {
+}
+
+$("#yearbuttons input").click(function() {
+    console.log($(this).val());
+    yearWindow = $(this).val();
+
+    queue()
+        // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.awaitAll(updateMap);
+});
+
+$("#variabledrop a").click(function() {
+    console.log($(this).text());
+    variable = $(this).text();
+    for (var i=0; i<variableLong.length; i++) {
+	if (variable === variableLong[i]) {
+	    variableIndex = i;
+	}
+    }
+    $("#variabledropvis").html(variable+" <span class=\"caret\"></span>");
+});
+
+$("#yeardrop a").click(function() {
+    console.log($(this).text());
+    year = $(this).text();
+    $("#yeardropvis").html(year+" <span class=\"caret\"></span>");
+});
+
+var cities;
+var data;
+
+var updateMap = function(error,results) {
+    // console.log("update the map!");
+    data = results[0].split("\n");
+    // console.log(data);
+    data = data.map(function(d) { return d.split(",").map(parseFloat); });
+    cities.attr("fill",function(d,i) { return d3.rgb(Math.floor(tempScale(data[i+1][0])*255),0,0).toString(); });
+}
+
+var tempScale = d3.scale.linear()
+    // celsius domain
+    .domain([0,100])
+    .range([0,1]);
+
 var dataloaded = function(error,results) { 
     console.log("data loaded");
     console.log(results);
@@ -1289,7 +1346,7 @@ var dataloaded = function(error,results) {
 	alert("you clicked on "+d[3]);
     };
 
-    var cities = canvas.selectAll("circle.city")
+    cities = canvas.selectAll("circle.city")
 	.data(locations);
         
     cities.enter()
@@ -1305,6 +1362,7 @@ var dataloaded = function(error,results) {
         .on("mouseout",city_unhover);
 }
 
+// can just use the d3.csv,json
 function request(url, callback) {
   var req = new XMLHttpRequest;
   req.open("GET", url, true);
@@ -1331,9 +1389,9 @@ window.onload = function() {
     // }); // d3.json
     
     queue()
-	.defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
+	// .defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
         // switch to this for local devel
-	// .defer(request,"/static/hedonometer/us-states.topojson")
+	.defer(d3.json,"/static/hedonometer/teledata/us-states.topojson")
 	.awaitAll(dataloaded);
 
 } // window.onload

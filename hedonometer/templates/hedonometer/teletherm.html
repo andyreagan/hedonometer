@@ -15,7 +15,96 @@
 	</div>
         <div class="col-xs-12 col-sm-10">
 	  <h1>Teletherms!</h1>
-	  <p>Click a location to explore</p>
+	  
+	  <div class="row">
+	    <p>Choose averaging window</p>
+
+	    <!-- <\!-- (vertical) -\-> -->
+	    <!-- <div class="radio"> -->
+	    <!--   <label> -->
+	    <!--     <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked> -->
+	    <!--     1 Year -->
+	    <!--   </label> -->
+	    <!-- </div> -->
+	    <!-- <div class="radio"> -->
+	    <!--   <label> -->
+	    <!--     <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2"> -->
+	    <!--     10 Years -->
+	    <!--   </label> -->
+	    <!-- </div> -->
+	    <!-- <div class="radio disabled"> -->
+	    <!--   <label> -->
+	    <!--     <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled> -->
+	    <!--     20 Years -->
+	    <!--   </label> -->
+	    <!-- </div> -->
+	    <!-- <div class="radio disabled"> -->
+	    <!--   <label> -->
+	    <!--     <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled> -->
+	    <!--     50 Years -->
+	    <!--   </label> -->
+	    <!-- </div> -->
+
+	    <!-- horizontal -->
+	    <div id="yearbuttons">
+	      <label class="radio-inline">
+		<input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1" checked> 1 Year
+	      </label>
+	      <label class="radio-inline">
+		<input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="10"> 10 Years
+	      </label>
+	      <label class="radio-inline">
+		<input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="20"> 20 Years
+	      </label>
+	      <label class="radio-inline">
+		<input type="radio" name="inlineRadioOptions" id="inlineRadio3" value="50"> 50 Years
+	      </label>
+	    </div>
+	  </div>
+
+	  <br>
+
+
+
+	  <div class="row">
+
+
+	    Select the variable:
+
+	    <div class="btn-group" id="variabledrop">
+	      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="variabledropvis">
+		Max Temp <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		<li><a>Max Temp</a></li>
+		<li><a>Min Temp</a></li>
+		<li><a>Summer Day</a></li>
+		<li><a>Winter Day</a></li>
+		<li><a>Summer Extent</a></li>
+		<li><a>Winter Extent</a></li>
+	      </ul>
+	    </div>
+
+	  </div>
+	  <br>
+	  <div class="row">
+
+	    Select the year:
+	    <!-- Single button -->
+	    <div class="btn-group" id="yeardrop">
+	      <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" id="yeardropvis">
+		1865 <span class="caret"></span>
+	      </button>
+	      <ul class="dropdown-menu" role="menu">
+		<li><a>1865</a></li>
+		<li><a>1866</a></li>
+		<li><a>1867</a></li>
+	      </ul>
+	    </div>
+
+	    <button class="btn btn-default" type="submit"><i class="fa fa-play"></i></button>
+
+	  </div>
 	  <div id="map"></div>
 	</div>
         <div class="col-xs-0 col-sm-1">
