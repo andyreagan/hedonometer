@@ -1227,11 +1227,19 @@ var stateFeatures;
 // var yearWindow = 1;
 var yearWindowEncoder = d3.urllib.encoder().varname("window"); //.varval(...);
 var yearWindowDecoder = d3.urllib.decoder().varname("window").varresult("1");
+var yearWindows = ["1","10","20","50"];
+var yearWindowIndex = 0;
 var yearWindow;
+for (var i=0; i<yearWindows.length; i++) {
+    if (yearWindowDecoder().cached === yearWindows[i]) {
+	yearWindowIndex = i;
+    }
+}
 yearWindow = yearWindowDecoder().cached;
 // need to select the right one
 // do something like this:
 // http://stackoverflow.com/questions/19541484/bootstrap-set-initial-radio-button-checked-in-html
+d3.select("#yearbuttons").selectAll("input").attr("checked",function(d,i) { if (i===yearWindowIndex) { return "checked"; } else { return null; } });
 
 // var variable = "Max Temp";
 var variableShort = ["maxT","minT","summer_day","winter_day","summer_extent","winter_extent",]
@@ -1251,8 +1259,11 @@ for (var i=0; i<variableShort.length; i++) {
 $("#variabledropvis").html(variableLong[variableIndex]+" <span class=\"caret\"></span>");
 
 var year;
-var yearIndex = 0;
+var yearIndex;
 var allyears;
+var yearEncoder = d3.urllib.encoder().varname("year");
+var yearDecoder = d3.urllib.decoder().varname("year").varresult("0");
+yearIndex = parseFloat(yearDecoder().cached);
 
 var cityPlot = function(i) {
     console.log("plotting individual city data for city number:");
@@ -1265,7 +1276,7 @@ $("#yearbuttons input").click(function() {
     yearWindowEncoder.varval(yearWindow);
 
     queue()
-        // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
+    // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
 	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindowDecoder().cached+"y-"+variableDecoder().cached+".csv")
 	.awaitAll(updateMap);
 });
@@ -1315,6 +1326,8 @@ var summerTScale = d3.scale.quantize()
     .domain([50,100])
     .range(divredblue);
 
+var fullExtent;
+
 var updateMap = function(error,results) {
     // console.log("update the map!");
     data = results[0].split("\n");
@@ -1329,13 +1342,19 @@ var updateMap = function(error,results) {
 	.enter()
         .append("li")
         .append("a")
-	.text(function(d) { return d; });
+	.text(function(d) { return d; })
+        .on("click",function(d,i) {
+	    yearIndex = i;
+	    yearEncoder.varval(yearIndex.toFixed(0));
+	    changeYear();
+	})
     
 
     // set the domain for the scale based on this year's min/max
     var localExtent;
     localExtent = [d3.min(data.slice(1,1300).map(function(d) { return d3.min(d); } )),d3.max(data.slice(1,1300).map(function(d) { return d3.max(d); } ))];
     // localExtent = d3.extent([].concat.apply([], data.slice(1,1300)))
+    fullExtent = localExtent;
     summerTScale.domain(localExtent);
     cities.attr("fill",function(d,i) { return summerTScale(data[i+1][0]); });
 
@@ -1364,6 +1383,63 @@ var updateMap = function(error,results) {
 	scaleType = "polar";
     }
     drawScale(localExtent,scaleType);
+
+    changeYear();
+}
+
+var playTimer;
+var playing = false;
+
+d3.select("#playButton").on("click",function(d,i) {
+    if (playing) {
+	playing = false;
+	d3.select(this).select("i").attr("class","fa fa-play");
+	clearInterval(playTimer);
+    }
+    else {
+	d3.select(this).select("i").attr("class","fa fa-pause");
+	playing = true;
+	playTimer = setInterval(play,200);
+    }
+});
+
+var play = function() {
+    yearIndex++;
+    changeYear();
+}
+
+var changeYear = function() {
+    if (yearIndex > allyears.length-1) {
+	clearInterval(playTimer);
+	d3.select("#playbutton").select("i").attr("class","fa fa-play");
+	playing = false;
+	yearIndex--;
+	return 0;
+    }
+    console.log("changing year index to");
+    console.log(yearIndex);
+    console.log(allyears[yearIndex]);
+    $("#yeardropvis").html(allyears[yearIndex]+" <span class=\"caret\"></span>");
+
+    cities.attr("fill",function(d,i) { return summerTScale(data[i+1][yearIndex]); });
+
+    var arrowradius = 16;
+    if (variableIndex === 2 || variableIndex === 3) {
+	console.log("adding arrows");
+	cityarrows.attr({
+	    "x2": function(d,i) { return arrowradius*Math.cos(data[i+1][yearIndex]/365*2*Math.PI-Math.PI/2); },
+	    "y2": function(d,i) { return arrowradius*Math.sin(data[i+1][yearIndex]/365*2*Math.PI-Math.PI/2); },
+	    "stroke-width": "1.5",
+	    "stroke": function(d,i) { return summerTScale(data[i+1][yearIndex]); },
+	});
+    }
+    else {
+	console.log("removing arrows");
+	cityarrows.attr({
+	    "x2": 0,
+	    "y2": 0,	    
+	});
+    }
 }
 
 var drawScale = function(extent,type) {
