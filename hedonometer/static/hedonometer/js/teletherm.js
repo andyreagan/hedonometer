@@ -1224,11 +1224,32 @@ var geoJson;
 var stateFeatures;
 
 // the main variables for the file load
-var yearWindow = 1;
-var variable = "Max Temp";
+// var yearWindow = 1;
+var yearWindowEncoder = d3.urllib.encoder().varname("window"); //.varval(...);
+var yearWindowDecoder = d3.urllib.decoder().varname("window").varresult("1");
+var yearWindow;
+yearWindow = yearWindowDecoder().cached;
+// need to select the right one
+// do something like this:
+// http://stackoverflow.com/questions/19541484/bootstrap-set-initial-radio-button-checked-in-html
+
+// var variable = "Max Temp";
 var variableShort = ["maxT","minT","summer_day","winter_day","summer_extent","winter_extent",]
 var variableLong = ["Max Temp","Min Temp","Summer Day","Winter Day","Summer Extent","Winter Extent",]
 var variableIndex = 0;
+var variableEncoder = d3.urllib.encoder().varname("var");
+var variableDecoder = d3.urllib.decoder().varname("var").varresult("maxT");
+// now this is going to be the short one
+var variable;
+variable = variableDecoder().cached;
+// get the index
+for (var i=0; i<variableShort.length; i++) {
+    if (variable === variableShort[i]) {
+	variableIndex = i;
+    }
+}
+$("#variabledropvis").html(variableLong[variableIndex]+" <span class=\"caret\"></span>");
+
 var year;
 var yearIndex = 0;
 var allyears;
@@ -1241,10 +1262,11 @@ var cityPlot = function(i) {
 $("#yearbuttons input").click(function() {
     console.log($(this).val());
     yearWindow = $(this).val();
+    yearWindowEncoder.varval(yearWindow);
 
     queue()
         // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
-	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindowDecoder().cached+"y-"+variableDecoder().cached+".csv")
 	.awaitAll(updateMap);
 });
 
@@ -1256,11 +1278,13 @@ $("#variabledrop a").click(function() {
 	    variableIndex = i;
 	}
     }
+    variableEncoder.varval(variableShort[variableIndex]);
     $("#variabledropvis").html(variable+" <span class=\"caret\"></span>");
 
     queue()
         // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
-	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindowDecoder().cached+"y-"+variableDecoder().cached+".csv")
+	// .defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
 	.awaitAll(updateMap);
 });
 
@@ -1515,7 +1539,8 @@ var dataloaded = function(error,results) {
 
     queue()
         // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
-	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindowDecoder().cached+"y-"+variableDecoder().cached+".csv")
+	// .defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
 	.awaitAll(updateMap);
 }
 
