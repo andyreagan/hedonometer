@@ -1230,11 +1230,12 @@ var variableShort = ["maxT","minT","summer_day","winter_day","summer_extent","wi
 var variableLong = ["Max Temp","Min Temp","Summer Day","Winter Day","Summer Extent","Winter Extent",]
 var variableIndex = 0;
 var year;
+var yearIndex = 0;
+var allyears;
 
-var drawMap = function() {
-}
-
-var cityPlot = function() {
+var cityPlot = function(i) {
+    console.log("plotting individual city data for city number:");
+    console.log(i);
 }
 
 $("#yearbuttons input").click(function() {
@@ -1256,29 +1257,167 @@ $("#variabledrop a").click(function() {
 	}
     }
     $("#variabledropvis").html(variable+" <span class=\"caret\"></span>");
+
+    queue()
+        // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.awaitAll(updateMap);
 });
 
-$("#yeardrop a").click(function() {
-    console.log($(this).text());
-    year = $(this).text();
-    $("#yeardropvis").html(year+" <span class=\"caret\"></span>");
-});
+// $("#yeardrop a").click(function() {
+//     console.log($(this).text());
+//     year = $(this).text();
+//     $("#yeardropvis").html(year+" <span class=\"caret\"></span>");
+// });
 
 var cities;
+var citygroups;
+var cityarrows;
 var data;
+
+// special color scale for maxT
+var maxTcolor = function(i) { 
+    return d3.rgb(Math.floor(tempScale(data[i+1][0])*255),0,0).toString();
+}
+
+// diverging red blue color map from colorbrewer
+var divredbluerev = ["#67001f","#b2182b","#d6604d","#f4a582","#fddbc7","#f7f7f7","#d1e5f0","#92c5de","#4393c3","#2166ac","#053061"]
+var divredblue = ["#053061","#2166ac","#4393c3","#92c5de","#d1e5f0","#f7f7f7","#fddbc7","#f4a582","#d6604d","#b2182b","#67001f",]
+
+var summerTScale = d3.scale.quantize()
+    // celsius domain
+    // .domain([63,117])
+    // for fake data
+    .domain([50,100])
+    .range(divredblue);
 
 var updateMap = function(error,results) {
     // console.log("update the map!");
     data = results[0].split("\n");
     // console.log(data);
     data = data.map(function(d) { return d.split(",").map(parseFloat); });
-    cities.attr("fill",function(d,i) { return d3.rgb(Math.floor(tempScale(data[i+1][0])*255),0,0).toString(); });
+
+    allyears = data[0];
+    d3.select("#yeardroplist").selectAll("li").remove();
+    d3.select("#yeardroplist")
+	.selectAll("li")
+	.data(allyears)
+	.enter()
+        .append("li")
+        .append("a")
+	.text(function(d) { return d; });
+    
+
+    // set the domain for the scale based on this year's min/max
+    var localExtent;
+    localExtent = [d3.min(data.slice(1,1300).map(function(d) { return d3.min(d); } )),d3.max(data.slice(1,1300).map(function(d) { return d3.max(d); } ))];
+    // localExtent = d3.extent([].concat.apply([], data.slice(1,1300)))
+    summerTScale.domain(localExtent);
+    cities.attr("fill",function(d,i) { return summerTScale(data[i+1][0]); });
+
+    var arrowradius = 16;
+    if (variableIndex === 2 || variableIndex === 3) {
+	console.log("adding arrows");
+	cityarrows.attr({
+	    "x2": function(d,i) { return arrowradius*Math.cos(data[i+1][0]/365*2*Math.PI-Math.PI/2); },
+	    "y2": function(d,i) { return arrowradius*Math.sin(data[i+1][0]/365*2*Math.PI-Math.PI/2); },
+	    "stroke-width": "1.5",
+	    "stroke": function(d,i) { return summerTScale(data[i+1][0]); },
+	});
+    }
+    else {
+	console.log("removing arrows");
+	cityarrows.attr({
+	    "x2": 0,
+	    "y2": 0,	    
+	});
+    }
+    
+    // draw a scale on the map
+    // only need the circular scale for days of the year
+    var scaleType = "linear";
+    if (variableIndex === 2 || variableIndex === 3) {
+	scaleType = "polar";
+    }
+    drawScale(localExtent,scaleType);
 }
 
-var tempScale = d3.scale.linear()
-    // celsius domain
-    .domain([0,100])
-    .range([0,1]);
+var drawScale = function(extent,type) {
+    console.log("adding scale to the map of type:");
+    console.log(type);
+    console.log(extent);
+    var legendwidth = 200;
+    var legendheight = 20;
+    var legendradius = 30;
+    // var legendwidth = 50;
+    var textsize = 10;
+    var legendarray = Array(divredblue.length);
+    // var legendstringslen = [legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,];
+    // var initialpadding = 0;
+    // var boxpadding = 0.25;
+    d3.selectAll(".legendgroup").remove();
+    if (type === "linear") {
+	var legendgroup = canvas.append("g")
+	    .attr({"class": "legendgroup",
+		   "transform": "translate("+(w-50-legendwidth)+","+(h-2*legendheight-2)+")",});
+
+	legendgroup.selectAll("rect.legendrect")
+    	    .data(legendarray)
+    	    .enter()
+    	    .append("rect")
+    	    .attr({"class": function(d,i) { return "q"+i+"-8"; },
+    		   "x": function(d,i) { return i*legendwidth/divredblue.length; },
+    		   "y": 0,
+		   // "rx": 3,
+		   // "ry": 3,
+    		   "width": function(d,i) { return legendwidth/divredblue.length; },
+    		   "height": legendheight,
+		   "fill": function(d,i) { return divredblue[i]; },
+		   // "stroke-width": "1",
+		   // "stroke": "rgb(0,0,0)"
+		  });
+
+	legendgroup.selectAll("text.legendtext")
+	    .data(extent.map(function(d) { return d.toFixed(2); }))
+	    .enter()
+	    .append("text")
+	    .attr({"x": function(d,i) {
+		if (i==0) { return 0; }
+		else { return legendwidth-d.width(textsize+"px arial"); } },
+    		   "y": legendheight+legendheight, 
+    		   "class": function(d,i) { return "legendtext"; },
+		   "font-size": textsize+"px",
+		  })
+    	    .text(function(d,i) { return d; });
+    }
+    else {
+	var legendgroup = canvas.append("g")
+	    .attr({"class": "legendgroup",
+		   "transform": "translate("+(w-20-legendradius)+","+(h-legendradius-20)+")",});
+
+	var arc = d3.svg.arc()
+	    .outerRadius(legendradius)
+	    .innerRadius(0);
+
+	var pie = d3.layout.pie()
+	    .sort(null)
+	    .startAngle(extent[0]/365*2*Math.PI)
+	    .endAngle(extent[1]/365*2*Math.PI)
+	    .value(function(d) { return d; });
+
+	legendgroup.selectAll(".arc")
+	    .data(pie([1,1,1,1,1,1,1,1,1,1,1,]))
+	    .enter()
+	    .append("path")
+	    .attr({"d": arc,
+		   "fill": function(d,i) { return divredblue[i]; },
+		  });
+    }
+}
+
+var w;
+var h;
+var canvas;
 
 var dataloaded = function(error,results) { 
     console.log("data loaded");
@@ -1292,14 +1431,14 @@ var dataloaded = function(error,results) {
     var figure = d3.select("#map");
     
     //Width and height
-    var w = parseInt(figure.style('width'));
-    var h = w*650/900;
+    w = parseInt(figure.style("width"));
+    h = w*650/900;
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
 
     //Create SVG element
-    var canvas = figure
+    canvas = figure
 	.append("svg")
 	.attr("class", "map canvas")
 	.attr("id", "mapsvg")
@@ -1344,22 +1483,40 @@ var dataloaded = function(error,results) {
 	// d3.select(this).attr("r",rmin);
 
 	alert("you clicked on "+d[3]);
+
+	cityPlot(i);
     };
 
-    cities = canvas.selectAll("circle.city")
-	.data(locations);
-        
-    cities.enter()
-	.append("circle")
+    citygroups = canvas.selectAll("circle.city")
+	.data(locations)
+	.enter()
+	.append("g")
+	.attr("transform",function(d) { return "translate("+projection([d[2],d[1]])[0]+","+projection([d[2],d[1]])[1]+")"; });
+
+    cities = citygroups
+    	.append("circle")
         .attr({
 	    "class": "city",
-	    "cx": function(d) { return projection([d[2],d[1]])[0]; },
-	    "cy": function(d) { return projection([d[2],d[1]])[1]; },
+	    "cx": 0,
+	    "cy": 0,
 	    "r": rmin,
 	})
         .on("mousedown",city_clicked)
         .on("mouseover",city_hover)
         .on("mouseout",city_unhover);
+
+    cityarrows = citygroups.append("line")
+        .attr({
+	    "x1": 0,
+	    "y1": 0,
+	    "x2": 0,
+	    "y2": 0,
+    	});
+
+    queue()
+        // teledata-{1,10,20,50}y-{maxT,minT,summer_day,winter_day,summer_extent,winter_extent}.csv
+	.defer(d3.text,"/static/hedonometer/teledata/teledata-"+yearWindow+"y-"+variableShort[variableIndex]+".csv")
+	.awaitAll(updateMap);
 }
 
 // can just use the d3.csv,json
