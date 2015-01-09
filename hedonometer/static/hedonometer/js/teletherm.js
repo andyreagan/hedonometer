@@ -1270,6 +1270,71 @@ var cityPlot = function(error,results) {
     // console.log("plotting individual city data for city number:");
     // console.log(i);
     console.log(results);
+    var tmax_boxplot = results[0].split("\n").slice(0,5).map(function(d) { return d.split(" ").map(parseFloat); });
+    tmax_median = tmax_boxplot[2];
+    tmax = results[1].split(" ").map(parseFloat);
+    tmax_smoothed_days = results[2].split("\n")[0].split(" ").map(parseFloat);
+    tmax_smoothed = results[2].split("\n")[1].split(" ").map(parseFloat);
+
+    // var kernel = science.stats.kernel.gaussian;
+    // var bws = [3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33];
+    // for (var i=0; i<bws.length; i++) {
+    // 	var bw = bws[i];
+    // 	var n = 365-(bw-1);
+    // 	var smoothed = Array(n);
+    // 	for (var j=0; j=smoothed.length; j++) {
+    // 	    smoothed[j] = 0;
+    // 	    smoothed[j]
+    // 	}
+    // }
+
+    // compute the gaussian values
+    var bws = [3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33];
+    var summer_teletherm = Array(bws.length);
+    var g = Array(365);
+    var alpha = 2;
+    var smoothed = Array(365);
+    var longer_tmax = [].concat(tmax,tmax,tmax);
+    var t_extent = d3.extent(tmax);
+    for (var i=0; i<bws.length; i++) {
+	// bw = 15;
+     	var bw = bws[i];
+	for (var i=0; i<g.length; i++) {
+	    // gaussian kernel
+	    // g[i] = Math.exp(-1/2*((182-i)/bw*(182-i)/bw));
+	    // parameterized a la matlab
+	    // http://www.mathworks.com/help/signal/ref/gausswin.html
+	    g[i] = Math.exp(-1/2*(alpha*(182-i)/((bw-1)/2)*alpha*(182-i)/((bw-1)/2)));
+	}
+	g = g.map(function(d) { return d/d3.sum(g); });
+	for (var i=0; i<g.length; i++) {
+	    smoothed[i] = science.lin.dot(g,longer_tmax.slice((i+365)-182,(i+1+365)+182));
+	}
+	// now find the max for the summer teletherm
+	// this is the max T, but need to grab that day
+	summer_teletherm[i] = d3.max(smoothed);
+	// then look out for the days within 2% of that temperature range
+	// that is, with .02*t_extent
+    }
+
+    var figure = d3.select("#station1");
+    
+    //Width and height
+    var w = parseInt(figure.style("width"));
+    var h = w*1.2;
+
+    // remove an old figure if it exists
+    figure.select(".canvas").remove();
+
+    //Create SVG element
+    var canvas = figure
+	.append("svg")
+	.attr("class", "map canvas")
+	.attr("id", "stationsvg1")
+	.attr("width", w)
+	.attr("height", h);
+
+    
 }
 
 $("#yearbuttons input").click(function() {
@@ -1584,10 +1649,19 @@ var dataloaded = function(error,results) {
 	// console.log(this);
 	// d3.select(this).attr("r",rmin);
 
-	alert("you clicked on the station at "+d[3]);
+	// alert("you clicked on the station at "+d[3]);
+
+	console.log(d[0]);
+	
 	queue()
 	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmax_boxplot_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmax_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmax_smoothed_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmax_coverage_0"+d[0]+".txt")
 	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmin_boxplot_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmin_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmin_smoothed_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmin_coverage_0"+d[0]+".txt")
 	    .awaitAll(cityPlot);
     };
 

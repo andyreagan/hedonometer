@@ -104,13 +104,20 @@
 
 	    <button class="btn btn-default" type="submit" id="playButton"><i class="fa fa-play"></i></button>
 
-	  </div>
+	  </div> <!-- row -->
 	  <div id="map"></div>
 	</div>
         <div class="col-xs-0 col-sm-1">
 	</div>
-      </div>
-    </div>
+      </div> <!-- row -->
+      <div class="row">
+        <div class="col-xs-0 col-sm-1">
+	</div>
+        <div class="col-xs-0 col-sm-10">
+	  <div id="station1"></div>
+	</div>
+      </div> <!-- row -->
+    </div> <!-- container -->
 {% endblock %}
 
 
@@ -119,6 +126,7 @@
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
     <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/science.v1.js" %}"></script>
     <script src="{% static "hedonometer/js/queue.min.js" %}"></script>
     <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
