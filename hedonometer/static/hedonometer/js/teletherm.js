@@ -1265,9 +1265,11 @@ var yearEncoder = d3.urllib.encoder().varname("year");
 var yearDecoder = d3.urllib.decoder().varname("year").varresult("0");
 yearIndex = parseFloat(yearDecoder().cached);
 
-var cityPlot = function(i) {
-    console.log("plotting individual city data for city number:");
-    console.log(i);
+var cityPlot = function(error,results) { 
+    // function(i) {
+    // console.log("plotting individual city data for city number:");
+    // console.log(i);
+    console.log(results);
 }
 
 $("#yearbuttons input").click(function() {
@@ -1582,9 +1584,11 @@ var dataloaded = function(error,results) {
 	// console.log(this);
 	// d3.select(this).attr("r",rmin);
 
-	alert("you clicked on "+d[3]);
-
-	cityPlot(i);
+	alert("you clicked on the station at "+d[3]);
+	queue()
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmax_boxplot_0"+d[0]+".txt")
+	    .defer(d3.text,"/static/hedonometer/teledata/stations/tmin_boxplot_0"+d[0]+".txt")
+	    .awaitAll(cityPlot);
     };
 
     citygroups = canvas.selectAll("circle.city")
@@ -1620,19 +1624,19 @@ var dataloaded = function(error,results) {
 	.awaitAll(updateMap);
 }
 
-// can just use the d3.csv,json
-function request(url, callback) {
-  var req = new XMLHttpRequest;
-  req.open("GET", url, true);
-  req.setRequestHeader("Accept", "application/json");
-  req.onreadystatechange = function() {
-    if (req.readyState === 4) {
-      if (req.status < 300) callback(null, JSON.parse(req.responseText));
-      else callback(req.status);
-    }
-  };
-  req.send(null);
-}
+// // can just use the d3.csv,json
+// function request(url, callback) {
+//   var req = new XMLHttpRequest;
+//   req.open("GET", url, true);
+//   req.setRequestHeader("Accept", "application/json");
+//   req.onreadystatechange = function() {
+//     if (req.readyState === 4) {
+//       if (req.status < 300) callback(null, JSON.parse(req.responseText));
+//       else callback(req.status);
+//     }
+//   };
+//   req.send(null);
+// }
 
 window.onload = function() {
 
