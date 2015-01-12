@@ -15913,9 +15913,9 @@ hedotools.shifter = function()
 		.append("g")
 	        .attr("class","bigdaygroup")
 		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; })
-		.on("mouseover.popup",myMouseOverFunction) 
-		.on("mouseout", myMouseOutFunction)
-		.on("mousedown", myMouseDownOpenWordShiftFunction);
+		.on("mouseover.popup", function(d) { hovertimer = setTimeout(function(){drawSmallShift(x(d.date),y(d.value),d.date,false)},popupEnterDur);}) // myMouseOverFunction) 
+		.on("mouseout", function() { clearTimeout(hovertimer); }) //myMouseOutFunction)
+		.on("mousedown",function(d) { transitionBigShift(d.date); }); //myMouseDown...)
 	    
 	    var textwidth = 6;
 	    // width of characters
