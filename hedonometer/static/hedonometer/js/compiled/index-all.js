@@ -15912,7 +15912,10 @@ hedotools.shifter = function()
 	    var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
 		.append("g")
 	        .attr("class","bigdaygroup")
-		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
+		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; })
+		.on("mouseover.popup",myMouseOverFunction) 
+		.on("mouseout", myMouseOutFunction)
+		.on("mousedown", myMouseDownOpenWordShiftFunction);
 	    
 	    var textwidth = 6;
 	    // width of characters
