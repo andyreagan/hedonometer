@@ -5955,7 +5955,7 @@ ul.missing { list-style: square; }
 svg image { cursor: pointer; }
 g.help { cursor: pointer; }
 .bigdaytext { cursor: pointer; }
-#bg { cursor: pointer; }
+.bigshiftclick { cursor: pointer; }
 
 .datepicker{ z-index:2000 !important; }
 .modal-footer{ margin-top:0px; }

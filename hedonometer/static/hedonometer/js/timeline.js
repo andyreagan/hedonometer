@@ -1219,6 +1219,7 @@
 		    "width": 220,
 		    "height": 200,
 		    "fill": "white",
+		    "class": "bigshiftclick",
 		    "opacity": 0.01,})
 		    .on("click",function() { 
 		        transitionBigShift(popdate);
