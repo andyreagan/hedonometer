@@ -82,6 +82,7 @@
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }
 g.help { cursor: pointer; }
+.bigdaytext { cursor: pointer; }
 
 .datepicker{ z-index:2000 !important; }
 .modal-footer{ margin-top:0px; }
