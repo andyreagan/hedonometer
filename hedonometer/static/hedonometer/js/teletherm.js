@@ -1346,13 +1346,11 @@ var cityPlot = function(error,results) {
 
     // full width and height
     var figwidth  = parseInt(figure.style("width"));
-    var figheight = figwidth*1.2;
+    var figheight = 400; // figwidth*1.2;
     // don't shrink this
     var width = figwidth - margin.left - margin.right;
     // tiny bit of space
     var height = figheight - margin.top - margin.bottom;
-
-
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
