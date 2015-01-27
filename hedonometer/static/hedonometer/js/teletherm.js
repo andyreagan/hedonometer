@@ -1269,7 +1269,7 @@ var cityPlot = function(error,results) {
     // function(i) {
     // console.log("plotting individual city data for city number:");
     // console.log(i);
-    console.log(results);
+    // console.log(results);
     var tmax_boxplot = results[0].split("\n").slice(0,5).map(function(d) { return d.split(" ").map(parseFloat); });
     tmax_median = tmax_boxplot[2];
     tmax = results[1].split(" ").map(parseFloat);
@@ -1288,40 +1288,71 @@ var cityPlot = function(error,results) {
     // 	}
     // }
 
-    // compute the gaussian values
+    // windows
     var bws = [3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33];
+    // var bws = [15];
+    // store the compute teletherm day for each window
     var summer_teletherm = Array(bws.length);
+    // store the gaussian
     var g = Array(365);
     var alpha = 2;
     var smoothed = Array(365);
+    // extra long T vector, just handy for indexing
     var longer_tmax = [].concat(tmax,tmax,tmax);
-    var t_extent = d3.extent(tmax);
+    var t_extent = d3.extent(tmax)[1]-d3.extent(tmax)[0];
+    // save things for bw=15
+    var summer_teletherm_extent = Array(2);
+    var tmax_smoothed_js = Array(365);
     for (var i=0; i<bws.length; i++) {
 	// bw = 15;
      	var bw = bws[i];
-	for (var i=0; i<g.length; i++) {
+	for (var j=0; j<g.length; j++) {
 	    // gaussian kernel
 	    // g[i] = Math.exp(-1/2*((182-i)/bw*(182-i)/bw));
 	    // parameterized a la matlab
 	    // http://www.mathworks.com/help/signal/ref/gausswin.html
-	    g[i] = Math.exp(-1/2*(alpha*(182-i)/((bw-1)/2)*alpha*(182-i)/((bw-1)/2)));
+	    g[j] = Math.exp(-1/2*(alpha*(182-j)/((bw-1)/2)*alpha*(182-j)/((bw-1)/2)));
 	}
 	g = g.map(function(d) { return d/d3.sum(g); });
-	for (var i=0; i<g.length; i++) {
-	    smoothed[i] = science.lin.dot(g,longer_tmax.slice((i+365)-182,(i+1+365)+182));
+	for (var j=0; j<g.length; j++) {
+	    smoothed[j] = science.lin.dot(g,longer_tmax.slice((j+365)-182,(j+1+365)+182));
 	}
 	// now find the max for the summer teletherm
 	// this is the max T, but need to grab that day
-	summer_teletherm[i] = d3.max(smoothed);
-	// then look out for the days within 2% of that temperature range
-	// that is, with .02*t_extent
+	var maxT = d3.max(smoothed);
+	summer_teletherm[i] = smoothed.indexOf(maxT);
+	if ( bw === 15 ) {
+	    tmax_smoothed_js = smoothed;
+	    // then look out for the days within 2% of that temperature range
+	    // that is, with 
+	    // march forward
+	    var j = summer_teletherm[i]+1;
+	    while (tmax[j] > (maxT-.02*t_extent)) {
+		j++;
+	    }
+	    summer_teletherm_extent[0] = j;
+	    // march backward
+	    var j = summer_teletherm[i]-1;
+	    while (tmax[j] > (maxT-.02*t_extent)) {
+		j--;
+	    }
+	    summer_teletherm_extent[1] = j;
+	}
     }
 
     var figure = d3.select("#station1");
     
-    //Width and height
-    var w = parseInt(figure.style("width"));
-    var h = w*1.2;
+    var margin = {top: 2, right: 40, bottom: 0, left: 40};
+
+    // full width and height
+    var figwidth  = parseInt(figure.style("width"));
+    var figheight = figwidth*1.2;
+    // don't shrink this
+    var width = figwidth - margin.left - margin.right;
+    // tiny bit of space
+    var height = figheight - margin.top - margin.bottom;
+
+
 
     // remove an old figure if it exists
     figure.select(".canvas").remove();
@@ -1331,10 +1362,81 @@ var cityPlot = function(error,results) {
 	.append("svg")
 	.attr("class", "map canvas")
 	.attr("id", "stationsvg1")
-	.attr("width", w)
-	.attr("height", h);
+	.attr("width", figwidth)
+	.attr("height", figheight);
 
-    
+    var x = d3.scale.linear()
+	.domain([1,365])
+	.range([0,width]);
+
+    var y =  d3.scale.linear()
+	.domain([-30,130]) // summer temps
+	.range([height-10, 10]); 
+
+    // create the axes themselves
+    var axes = canvas.append("g")
+	.attr("transform", "translate(" + (margin.left) + "," +
+	      ((0) * figheight) + ")") // 99 percent
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "main");
+
+    // create the axes background
+    var bgrect = axes.append("svg:rect")
+	.attr("width", width)
+	.attr("height", height)
+	.attr("class", "bg")
+	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.attr("fill", "#FCFCFC");
+
+    // axes creation functions
+    var create_xAxis = function() {
+	return d3.svg.axis()
+	    .scale(x)
+	    .ticks(9)
+	    .orient("bottom"); }
+
+    // axis creation function
+    var create_yAxis = function() {
+	return d3.svg.axis()
+	    .ticks(5)
+	    .scale(y) //linear scale function
+	    .orient("left"); }
+
+    // draw the axes
+    var yAxis = create_yAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    axes.append("g")
+	.attr("class", "y axis")
+	.attr("transform", "translate(0,0)")
+	.attr("font-size", "14.0px")
+	.call(yAxis);
+
+    // draw the axes
+    var xAxis = create_xAxis()
+	.innerTickSize(6)
+	.outerTickSize(0);
+
+    axes.append("g")
+	.attr("class", "x axis ")
+	.attr("font-size", "14.0px")
+	.attr("transform", "translate(0," + (height) + ")")
+	.call(xAxis);
+
+    var line = d3.svg.line()
+	.x(function(d,i) { return x(i+1); })
+	.y(function(d) { return y(d); })
+	.interpolate("linear"); // cardinal
+
+    axes.append("path")
+	.datum(tmax_smoothed_js)
+	.attr("class", "line")
+	.attr("d", line)
+	.attr("stroke","black")
+	.attr("stroke-width",3)
+	.attr("fill","none");
 }
 
 $("#yearbuttons input").click(function() {

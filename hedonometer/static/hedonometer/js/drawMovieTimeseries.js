@@ -11,12 +11,11 @@ hedotools.booktimeseries = function() {
 
     var scoredtextparts;
 
-    var margin = {top: 0, right: 0, bottom: 0, left: 0};
-    var axeslabelmargin = {top: 0, right: 80, bottom: 0, left: 40};
+    var margin = {top: 0, right: 80, bottom: 0, left: 40};
     // full width
     var figwidth;
     // fixed height
-    var figheight = 350 - margin.top - margin.bottom;
+    var figheight = 350;
     // don't shrink this
     var width;
     // tiny bit of space
@@ -26,8 +25,8 @@ hedotools.booktimeseries = function() {
     var setFigure = function(_) {
 	if (!arguments.length) return figure;
 	figure = _;
-	figwidth = parseInt(figure.style('width')) - margin.left - margin.right;
-	width = figwidth - axeslabelmargin.left - axeslabelmargin.right;
+	figwidth = parseInt(figure.style('width'));
+	width = figwidth - margin.left - margin.right;
     }
 
     var data;
@@ -227,17 +226,17 @@ hedotools.booktimeseries = function() {
 		// console.log(y(m[1]/width*data.length));
 		// data.length
 		// this is the percentage of the text at hover
-		// console.log((m[0]-axeslabelmargin.left)/width);
+		// console.log((m[0]-margin.left)/width);
 		
-		if ( m[0] > axeslabelmargin.left && m[0] < (width+axeslabelmargin.left)) {
+		if ( m[0] > margin.left && m[0] < (width+margin.left)) {
 		    canvas.selectAll("line.hoverline")
 			.attr("x1", m[0])
 			.attr("y1", height)
 			.attr("x2", m[0])
-			.attr("y2", function() { return y(data[Math.floor((m[0]-axeslabelmargin.left)/width*data.length)]); });
-		    d3.select("#fulltextdiv").style("top",-(m[0]-axeslabelmargin.left)/width*pheight+"px");
+			.attr("y2", function() { return y(data[Math.floor((m[0]-margin.left)/width*data.length)]); });
+		    d3.select("#fulltextdiv").style("top",-(m[0]-margin.left)/width*pheight+"px");
 		    d3.select("#formattedtextdiv")
-		     	.html(scoredtextparts[Math.floor((m[0]-axeslabelmargin.left)/width*data.length)]);
+		     	.html(scoredtextparts[Math.floor((m[0]-margin.left)/width*data.length)]);
 		    
 		}
 		});
@@ -684,7 +683,7 @@ hedotools.booktimeseries = function() {
 
 	hovergroup = figure.append("div").attr({
 	    "class": "hoverinfogroup",
-	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
+	    // "transform": "translate("+(x+hoverboxxoffset+margin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
 	})
 	    .style({
 		"position": "absolute",
@@ -726,7 +725,7 @@ hedotools.booktimeseries = function() {
 
 	// create the axes themselves
 	axes = canvas.append("g")
-	    .attr("transform", "translate(" + (axeslabelmargin.left) + "," +
+	    .attr("transform", "translate(" + (margin.left) + "," +
 		  ((0) * figheight) + ")") // 99 percent
 	    .attr("width", width)
 	    .attr("height", height)
@@ -989,7 +988,7 @@ hedotools.booktimeseries = function() {
 	    .text("visualization by @hedonometer team and @andyreagan");
 	
 	function resize() {
-	    figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
+	    figwidth = parseInt(d3.select('#chapters03').style('width')),
 	    width = .775*figwidth;
 
 	    canvas.attr("width",figwidth);
