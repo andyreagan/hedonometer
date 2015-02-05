@@ -51,7 +51,8 @@
     var shiftTypeSelect = false;
     var formatDate = d3.time.format("%b %Y");
     var today = new Date();
-    var beginningOfTime = new Date(2008,8,10);
+    // hardcoded...bad andy!!
+    var beginningOfTime = new Date(2014,4,15);
     var cformat = d3.time.format("%Y-%m-%d");
     var dformat = d3.time.format("%Y-%m-%dT00:00:00");
     var longformat = d3.time.format("%B %e, %Y");
@@ -420,100 +421,102 @@
 	    toggleDays(rScale(currRange));
 	});
 
+    // ************************************************** //
+    // commenting out the whole top date nav bar // 
 
-    var datearray = [
-	[beginningOfTime, new Date(2009,11,31)],
-	[new Date(2010,00,01), new Date(2010,11,31)],
-	[new Date(2011,00,01), new Date(2011,11,31)],
-	[new Date(2012,00,01), new Date(2012,11,31)],
-	[new Date(2013,00,01), new Date(2013,11,31)],
-	[beginningOfTime, today],
-	[d3.time.month.offset(today,-18), today],
-    ],
-    yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
-    yearstringslen = yearstrings.map(function(d) { return d.width(); }),
-    initialpadding = 2,
-    boxpadding = 5,
-    fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
+    // var datearray = [
+    // 	[beginningOfTime, new Date(2009,11,31)],
+    // 	[new Date(2010,00,01), new Date(2010,11,31)],
+    // 	[new Date(2011,00,01), new Date(2011,11,31)],
+    // 	[new Date(2012,00,01), new Date(2012,11,31)],
+    // 	[new Date(2013,00,01), new Date(2013,11,31)],
+    // 	[beginningOfTime, today],
+    // 	[d3.time.month.offset(today,-18), today],
+    // ],
+    // yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
+    // yearstringslen = yearstrings.map(function(d) { return d.width(); }),
+    // initialpadding = 2,
+    // boxpadding = 5,
+    // fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
 
 
-    svg.append("text")
-	.attr({
-	    "x": (width-10-fullyearboxwidth-53),
-	    "y": 44,
-	    "fill": "grey",
-	    })
-	.text("Jump to:");
+    // svg.append("text")
+    // 	.attr({
+    // 	    "x": (width-10-fullyearboxwidth-53),
+    // 	    "y": 44,
+    // 	    "fill": "grey",
+    // 	    })
+    // 	.text("Jump to:");
 
-    var yeargroup = svg.append("g")
-	.attr({"class": "yeargroup",
-	       "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
+    // var yeargroup = svg.append("g")
+    // 	.attr({"class": "yeargroup",
+    // 	       "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
 
-    yeargroup.append("rect")
-	.attr({"class": "yearbox",
-	       "x": 0,
-	       "y": 0,
-	       "rx": 3,
-	       "ry": 3,
-	       "width": fullyearboxwidth,
-	       "height": 19,
-	       "fill": "#F0F0F0",
-	       'stroke-width': '0.5',
-	       'stroke': 'rgb(0,0,0)'});
+    // yeargroup.append("rect")
+    // 	.attr({"class": "yearbox",
+    // 	       "x": 0,
+    // 	       "y": 0,
+    // 	       "rx": 3,
+    // 	       "ry": 3,
+    // 	       "width": fullyearboxwidth,
+    // 	       "height": 19,
+    // 	       "fill": "#F0F0F0",
+    // 	       'stroke-width': '0.5',
+    // 	       'stroke': 'rgb(0,0,0)'});
 
-    yeargroup.selectAll("text")
-    	.data(yearstrings)
-    	.enter()
-    	.append("text")
-    	.attr("x", function(d,i) { 
-	    // start at 2
-	    if (i==0) { return initialpadding; }
-	    // then use 2+width+10+width+10+width...
-	    // for default padding of 5 on L/R
-	    else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
-	})
-    	.attr("y", 14)
-    	.text(function(d,i) { return d; });
+    // yeargroup.selectAll("text")
+    // 	.data(yearstrings)
+    // 	.enter()
+    // 	.append("text")
+    // 	.attr("x", function(d,i) { 
+    // 	    // start at 2
+    // 	    if (i==0) { return initialpadding; }
+    // 	    // then use 2+width+10+width+10+width...
+    // 	    // for default padding of 5 on L/R
+    // 	    else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
+    // 	})
+    // 	.attr("y", 14)
+    // 	.text(function(d,i) { return d; });
 
-    yeargroup.selectAll("rect.yearclick")
-    	.data(datearray)
-    	.enter()
-    	.append("rect")
-    	.attr({"class": "yearrect",
-    	       "x": function(d,i) { if (i === 0) { return 0; }
-	    else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
-    	       "y": 0,
-    	       "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
-    	       "height": 19,
-    	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-    	       "opacity": "0.0",})
-    	.on("mousedown", function(d,i) {
-	    // console.log(yearstrings[i]);
-	    // do everything brush related
-	    brush.extent(d);
-	    brushing();
-	    brushended();
-	    context.select(".x.brush")
-		.call(brush);
-	    var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
-	    d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
-	    d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
-    	});
+    // yeargroup.selectAll("rect.yearclick")
+    // 	.data(datearray)
+    // 	.enter()
+    // 	.append("rect")
+    // 	.attr({"class": "yearrect",
+    // 	       "x": function(d,i) { if (i === 0) { return 0; }
+    // 	    else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
+    // 	       "y": 0,
+    // 	       "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
+    // 	       "height": 19,
+    // 	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
+    // 	       "opacity": "0.0",})
+    // 	.on("mousedown", function(d,i) {
+    // 	    // console.log(yearstrings[i]);
+    // 	    // do everything brush related
+    // 	    brush.extent(d);
+    // 	    brushing();
+    // 	    brushended();
+    // 	    context.select(".x.brush")
+    // 		.call(brush);
+    // 	    var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
+    // 	    d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
+    // 	    d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
+    // 	});
 
-    yeargroup.selectAll("line")
-    	.data(yearstrings.slice(0,yearstrings.length-1))
-    	.enter()
-    	.append("line")
-    	.attr("stroke","grey")
-    	.attr("stroke-width","2")
-    	.attr("x1", function(d,i) { 
-	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-	})
-    	.attr("x2", function(d,i) { 
-	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-	})
-    	.attr("y1", 0)
-    	.attr("y2", 19);
+    // yeargroup.selectAll("line")
+    // 	.data(yearstrings.slice(0,yearstrings.length-1))
+    // 	.enter()
+    // 	.append("line")
+    // 	.attr("stroke","grey")
+    // 	.attr("stroke-width","2")
+    // 	.attr("x1", function(d,i) { 
+    // 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+    // 	})
+    // 	.attr("x2", function(d,i) { 
+    // 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+    // 	})
+    // 	.attr("y1", 0)
+    // 	.attr("y2", 19);
 
     var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height+MainxAxisSpace) + ")");
 
@@ -570,7 +573,8 @@
 	focus.select(".y.axis").select("path").attr("fill","none");
 
 	horizontalLineGroup = focus.append("g")
-	horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
+	// horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
+	horizontalLineGroup.selectAll("line").data(y.ticks(7)).enter().append("line")
 	    .attr("class", "horizontalLines")
 	    //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
 	    .attr("x1",0)
@@ -586,8 +590,8 @@
 	    .attr("class", "horizontalLinesFirst") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
 	    .attr("x1",0)
 	    .attr("x2",width)
-	    .attr("y1",function(d){ return y(y.ticks(7)[0]); })
-	    .attr("y2",function(d){ return y(y.ticks(7)[0]); })
+	    .attr("y1",function(d){ return height; })
+	    .attr("y2",function(d){ return height; }) // y(y.ticks(7)[0]); })
 	    .attr("fill","none")
 	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
 	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
@@ -601,8 +605,6 @@
 
     	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
     	    //yearDict.toggle(d,);
-
-
 
 	circle.enter().append("circle")
 	    .attr({
@@ -773,9 +775,9 @@
 			paragraphs.attr("class","shifttitle").html(function(d,i) { return d; } );
 			break;
 		    };
-		};
-	    };
-	} );
+		}; // loop over events
+	    }; // check datedecoder.length
+	} ); // d3.json for events
 
 	// d3.select(".x.brush").call(brush.event);
 	var brushgroup = context.append("g").attr("class", "x brush")
