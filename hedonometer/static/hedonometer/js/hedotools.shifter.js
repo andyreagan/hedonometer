@@ -364,6 +364,7 @@ hedotools.shifter = function()
     var concatter = function() {
 	if (prefix) {
 	    // new method, with numbers prefixed
+	    console.log(sortedWords);
 	    sortedWords = sortedWords.map(function(d,i) { 
 		if (sortedType[i] == 0) {
 		    return ((i+1)+". ").concat(d.concat("-\u2193"));
