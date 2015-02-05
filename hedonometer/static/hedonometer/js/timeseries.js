@@ -232,11 +232,15 @@
 
     var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
+    // for the frequency plot
+    var y3 = d3.scale.linear().range([height, height/4]);
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
+    // for the freqency
+    yAxis3 = d3.svg.axis().scale(y3).orient("left");
 
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
@@ -294,6 +298,13 @@
     }).y0(height2).y1(function(d) {
 	return y2(d.value);
     });
+
+    // area for the freq
+    var area3 = d3.svg.area()
+	.interpolate("linear")
+	.x(function(d) { return x2(d.date); })
+	.y0(height)
+	.y1(function(d) { return y3(d.value); });
 
     var svg = d3.select("#bigbox").append("svg")
 	.attr("id", "timeseries")
@@ -563,6 +574,7 @@
 	// focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
 	//focus.append("g").attr("class", "y axis").call(yAxis);
 	focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
+	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 0 + ",0)").call(yAxis3);
 
 	// go ahead and apply styles directly to these
 	focus.select(".x.axis").select("path").attr("fill","none");
@@ -805,6 +817,27 @@
 
 
     }); // main data load
+
+    // now let's try to load the frequency
+    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumfreq.csv", function(data) {
+	var parse = d3.time.format("%Y-%m-%d").parse;
+
+	for (i = 0; i < data.length; i++) {
+	    data[i].shortDate = data[i].date;
+	    data[i].date = parse(data[i].date);
+	    data[i].value = +data[i].value;
+	}
+
+	context.append("path")
+	    .data([data])
+	    .attr({ "class": "mini",
+		    "fill": "lightgrey",
+		    "stroke": "black",
+		    "stroke-width": ".5px",
+		    "d": area3,
+		  });
+	
+    }
 
     // function fishline(d) { 
     // 	return fishline0(d.map(function(d) {
