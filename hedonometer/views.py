@@ -302,7 +302,9 @@ def embedUpload(request,some_hash):
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
 # note that the arabic is just all twitter in arabic
-regions = [["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],]
+# and I've also just added an english version, which will point to main timeseries
+# but the dates and everything will be for the small one
+regions = [["English","0","english",],["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],]
 
 def timeseries(request,urlregion):
 
