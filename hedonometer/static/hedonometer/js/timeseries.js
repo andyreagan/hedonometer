@@ -519,7 +519,7 @@
 
     var minDate,maxDate;
 
-    d3.csv("http://hedonometer.org/data/word-vectors/"+lang+"/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -978,9 +978,9 @@
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("http://hedonometer.org/data/word-vectors/"+lang+"/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("http://hedonometer.org/data/word-vectors/"+lang+"/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// console.log("see if all four vectors are here:");
@@ -992,7 +992,10 @@
 
 		hedotools.shifter._refF(refFvec);
 		hedotools.shifter._compF(compFvec);
-		if (lang !== "arabic") {
+		// if (lang !== "arabic") {
+		//     hedotools.shifter.stop();
+		// }
+		if (lang === "english") {
 		    hedotools.shifter.stop();
 		}
 		hedotools.shifter.shifter();
@@ -1130,7 +1133,7 @@
 	    }
 	}
 
-	d3.csv("http://hedonometer.org/data/shifts/"+lang+"/"+cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("http://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
@@ -1140,7 +1143,7 @@
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.csv("http://hedonometer.org/data/shifts/"+lang+"/"+cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("http://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -1378,9 +1381,9 @@
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
-	d3.text("http://hedonometer.org/data/word-vectors/"+lang+"/"+cformat(update)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(update)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("http://hedonometer.org/data/word-vectors/"+lang+"/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 

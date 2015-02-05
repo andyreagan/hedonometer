@@ -7,6 +7,8 @@
     {% block headerjs %}
     <script>
       var lang = "{{ lang|escapejs }}";
+      var region = "{{ region|escapejs }}";
+      console.log(region);
       console.log(lang);
     </script>
     {% endblock %}

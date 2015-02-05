@@ -301,9 +301,21 @@ def embedUpload(request,some_hash):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
-def timeseries(request,lang):
+# note that the arabic is just all twitter in arabic
+regions = [["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],]
+
+def timeseries(request,urlregion):
+
+    # set up this variable for saving the region
+    requestedRegion = regions[0]
+    for region in regions:
+        if region[0].lower() == urlregion:
+            # break
+            requestedRegion = region
+
     langdict = {
-        "lang": lang,
+        "lang": requestedRegion[2],
+        "region": requestedRegion[0].lower(),
     }
 
     # now pass those into the view

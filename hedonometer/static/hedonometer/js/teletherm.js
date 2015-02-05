@@ -1289,7 +1289,7 @@ var cityPlot = function(error,results) {
     // }
 
     // windows
-    var bws = [3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33];
+    var bws = [1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31,33];
     // var bws = [15];
     // store the compute teletherm day for each window
     var summer_teletherm = Array(bws.length);
@@ -1303,25 +1303,30 @@ var cityPlot = function(error,results) {
     // save things for bw=15
     var summer_teletherm_extent = Array(2);
     var tmax_smoothed_js = Array(365);
+    var bwssaved = Array(bws.length);
     for (var i=0; i<bws.length; i++) {
 	// bw = 15;
      	var bw = bws[i];
 	for (var j=0; j<g.length; j++) {
 	    // gaussian kernel
-	    // g[i] = Math.exp(-1/2*((182-i)/bw*(182-i)/bw));
+	    // g[j] = Math.exp(-1/2*((182-j)/bw*(182-j)/bw));
 	    // parameterized a la matlab
 	    // http://www.mathworks.com/help/signal/ref/gausswin.html
 	    g[j] = Math.exp(-1/2*(alpha*(182-j)/((bw-1)/2)*alpha*(182-j)/((bw-1)/2)));
 	}
-	g = g.map(function(d) { return d/d3.sum(g); });
+	var gsum = d3.sum(g);
+	g = g.map(function(d) { return d/gsum; });
 	for (var j=0; j<g.length; j++) {
 	    smoothed[j] = science.lin.dot(g,longer_tmax.slice((j+365)-182,(j+1+365)+182));
 	}
+	console.log(smoothed);
 	// now find the max for the summer teletherm
 	// this is the max T, but need to grab that day
 	var maxT = d3.max(smoothed);
+	console.log(maxT);
 	summer_teletherm[i] = smoothed.indexOf(maxT);
-	if ( bw === 15 ) {
+	bwssaved[i] = smoothed;
+	if ( bw === 1 ) {
 	    tmax_smoothed_js = smoothed;
 	    // then look out for the days within 2% of that temperature range
 	    // that is, with 
@@ -1339,6 +1344,8 @@ var cityPlot = function(error,results) {
 	    summer_teletherm_extent[1] = j;
 	}
     }
+    console.log(summer_teletherm);
+    console.log(bwssaved);
 
     var figure = d3.select("#station1");
     
@@ -1368,7 +1375,8 @@ var cityPlot = function(error,results) {
 	.range([0,width]);
 
     var y =  d3.scale.linear()
-	.domain([-30,130]) // summer temps
+	// .domain([-30,130]) // summer temps
+	.domain(d3.extent(tmax))
 	.range([height-10, 10]); 
 
     // create the axes themselves
@@ -1430,11 +1438,29 @@ var cityPlot = function(error,results) {
 
     axes.append("path")
 	.datum(tmax_smoothed_js)
-	.attr("class", "line")
+	.attr("class", "linejs")
 	.attr("d", line)
 	.attr("stroke","black")
 	.attr("stroke-width",3)
 	.attr("fill","none");
+
+    axes.append("path")
+	.datum(tmax_smoothed)
+	.attr("class", "linepeter")
+	.attr("d", line)
+	.attr("stroke","red")
+	.attr("stroke-width",3)
+	.attr("fill","none");
+
+    axes.selectAll("circle.daytemp")
+	.data(tmax)
+	.enter()
+	.append("circle")
+	.attr({ "cx": function(d,i) { return x(i); },
+		"cy": function(d,i) { return y(d); },
+		"r": 2,
+	      });
+    
 }
 
 $("#yearbuttons input").click(function() {
