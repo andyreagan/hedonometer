@@ -41,7 +41,7 @@
 	var initialMonths = 3;
     }
     else { 
-	var initialMonths = 18;
+	var initialMonths = 8;
     }
 
     var dur =  550;
@@ -52,7 +52,8 @@
     var formatDate = d3.time.format("%b %Y");
     var today = new Date();
     // hardcoded...bad andy!!
-    var beginningOfTime = new Date(2014,4,15);
+    // also months start at 0 in javascript
+    var beginningOfTime = new Date(2014,3,15);
     var cformat = d3.time.format("%Y-%m-%d");
     var dformat = d3.time.format("%Y-%m-%dT00:00:00");
     var longformat = d3.time.format("%B %e, %Y");
