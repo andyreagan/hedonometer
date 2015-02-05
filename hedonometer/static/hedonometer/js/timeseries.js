@@ -1417,7 +1417,7 @@
 		    d3.select('#modaltitle').html(tmpStr);
 		}
 		else { 
-		    d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>");
+		    d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='/static/hedonometer/graphics/white.png' height='35'/>");
 		}
 
 		// grab the modal body
