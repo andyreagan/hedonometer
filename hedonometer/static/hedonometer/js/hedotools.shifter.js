@@ -364,7 +364,15 @@ hedotools.shifter = function()
     var concatter = function() {
 	if (prefix) {
 	    // new method, with numbers prefixed
+	    // log everything
+	    console.log(sortedMag);
 	    console.log(sortedWords);
+	    console.log(sortedWordsEn);
+	    console.log(sortedType);
+	    console.log(refF);
+	    console.log(compF);
+	    console.log(lens);
+	    console.log(words);
 	    sortedWords = sortedWords.map(function(d,i) { 
 		if (sortedType[i] == 0) {
 		    return ((i+1)+". ").concat(d.concat("-\u2193"));
