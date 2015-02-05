@@ -45,7 +45,7 @@
     }
 
     var dur =  550;
-    var ignoreWords = ["thirsty","pakistan","india"];
+    var ignoreWords = ["thirsty","pakistan","india","lynch"];
     hedotools.shifter.ignore(ignoreWords);
     var bigdays = {};
     var shiftTypeSelect = false;
