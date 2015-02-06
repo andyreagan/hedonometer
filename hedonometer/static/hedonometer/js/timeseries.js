@@ -251,7 +251,9 @@
 	};
     }
 
-    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatPrefix);
+    // would need the data extent to call the formatPrefix function to return the automatic formatter
+
+    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatMillions);
 
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
