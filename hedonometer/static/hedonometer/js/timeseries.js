@@ -898,7 +898,8 @@
 		      });
 
 	    brushgroup
-		.selectAll("rect.resize")
+		.selectAll("g.resize")
+		.selectAll("rect")
 		.attr({"y": -6,
  		       "height": (height2 + 7),
 		       "stroke": "#fff",
