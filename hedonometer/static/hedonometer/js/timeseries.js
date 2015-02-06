@@ -828,6 +828,14 @@
 	    data[i].value = +data[i].value;
 	}
 
+	console.log(data);
+
+	var freqextent = d3.extent(data.map(function(d) {
+	    return d.value;
+	}))
+
+	y3.domain(freqextent);
+
 	context.append("path")
 	    .data([data])
 	    .attr({ "class": "mini",
