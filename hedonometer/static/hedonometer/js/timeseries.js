@@ -214,7 +214,7 @@
 	top: 10,
 	right: 40,
 	bottom: 100,
-	left: 0
+	left: 15,
     },
     width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
     height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
