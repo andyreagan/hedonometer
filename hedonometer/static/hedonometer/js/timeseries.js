@@ -804,85 +804,86 @@
 	    }; // check datedecoder.length
 	} ); // d3.json for events
 
-	// d3.select(".x.brush").call(brush.event);
-	var brushgroup = context.append("g").attr("class", "x brush")
-	    .call(brush);
-	// .call(brush.event);
-	
-	brushgroup
-	    .selectAll("rect")
-	    .attr({"y": -6,
- 		   "height": (height2 + 7),
-		   "stroke": "#fff",
-		   "fill-opacity": .125,
-		   "shape-rendering": "crispEdges",
-		   "cursor": "ew-resize",
-		  });
+	// now let's try to load the frequency
+	d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumfreq.csv", function(data) {
+	    var parse = d3.time.format("%Y-%m-%d").parse;
 
-	// call the brush initially
-	brushing();
+	    for (i = 0; i < data.length; i++) {
+		data[i].shortDate = data[i].date;
+		data[i].date = parse(data[i].date);
+		data[i].value = +data[i].value;
+	    }
 
-	focus.selectAll(".brushingline")
-	    .attr({ 
-		"visibility": "hidden",
-	    });
+	    console.log(data);
 
+	    var freqExtent = d3.extent(data.map(function(d) {
+		return d.value;
+	    }))
+
+	    y3.domain(freqExtent);
+
+	    function formatPrefix(ticks) {
+		var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
+		format = d3.format(".0f");
+		return function(d) {
+		    return format(prefix.scale(d)) + prefix.symbol;
+		};
+	    }
+
+	    formatAuto = formatPrefix(freqExtent);
+
+	    var formatAutoZero = function(d) {
+		if (d>0) {
+		    return formatAuto(d);
+		}
+		else { 
+		    return "0";
+		}
+	    };
+
+	    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatAutoZero);
+
+	    focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
+	    focus.selectAll(".y.axis").select("path").attr("fill","none");
+
+	    focus.append("path")
+		.data([data])
+		.attr({ "clip-path": "url(#clip)",
+			"class": "freq",
+			"fill": "#E0E0E0",
+			"stroke": "#C8C8C8",
+			"stroke-width": ".5px",
+			"d": area3,
+		      });
+
+	    // d3.select(".x.brush").call(brush.event);
+	    var brushgroup = context.append("g").attr("class", "x brush")
+		.call(brush);
+	    // .call(brush.event);
+	    
+	    brushgroup
+		.selectAll("rect")
+		.attr({"y": -6,
+ 		       "height": (height2 + 7),
+		       "stroke": "#fff",
+		       "fill-opacity": .125,
+		       "shape-rendering": "crispEdges",
+		       "cursor": "ew-resize",
+		      });
+
+	    // call the brush initially
+	    brushing();
+
+	    focus.selectAll(".brushingline")
+		.attr({ 
+		    "visibility": "hidden",
+		});
+	    
+	}); // freq data load
 
     }); // main data load
 
-    // now let's try to load the frequency
-    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumfreq.csv", function(data) {
-	var parse = d3.time.format("%Y-%m-%d").parse;
 
-	for (i = 0; i < data.length; i++) {
-	    data[i].shortDate = data[i].date;
-	    data[i].date = parse(data[i].date);
-	    data[i].value = +data[i].value;
-	}
-
-	console.log(data);
-
-	var freqExtent = d3.extent(data.map(function(d) {
-	    return d.value;
-	}))
-
-	y3.domain(freqExtent);
-
-	function formatPrefix(ticks) {
-	    var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
-	    format = d3.format(".0f");
-	    return function(d) {
-		return format(prefix.scale(d)) + prefix.symbol;
-	    };
-	}
-
-	formatAuto = formatPrefix(freqExtent);
-
-	var formatAutoZero = function(d) {
-	    if (d>0) {
-		return formatAuto(d);
-	    }
-	    else { 
-		return "0";
-	    }
-	};
-
-	yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatAutoZero);
-
-	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
-	focus.selectAll(".y.axis").select("path").attr("fill","none");
-
-	focus.append("path")
-	    .data([data])
-	    .attr({ "clip-path": "url(#clip)",
-		    "class": "freq",
-		    "fill": "#E0E0E0",
-		    "stroke": "#C8C8C8",
-		    "stroke-width": ".5px",
-		    "d": area3,
-		  });
-	
-    });
 
     // function fishline(d) { 
     // 	return fishline0(d.map(function(d) {
