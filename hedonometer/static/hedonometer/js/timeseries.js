@@ -293,11 +293,11 @@
 	}
     });
 
-    var area2 = d3.svg.area().interpolate("linear").x(function(d) {
-	return x2(d.date);
-    }).y0(height2).y1(function(d) {
-	return y2(d.value);
-    });
+    var area2 = d3.svg.area()
+	.interpolate("linear")
+	.x(function(d) { return x2(d.date); })
+	.y0(height2)
+	.y1(function(d) { return y2(d.value); });
 
     // area for the freq
     var area3 = d3.svg.area()
@@ -836,7 +836,7 @@
 
 	y3.domain(freqextent);
 
-	context.append("path")
+	focus.append("path")
 	    .data([data])
 	    .attr({ "class": "mini",
 		    "fill": "lightgrey",
