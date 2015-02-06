@@ -1752,7 +1752,7 @@
 	return source;
     }
 
-    d3.select("div.infobox").select("h4").text("Average Happiness for Twitter: Tweets from "+region.charAt(0).toUpperCase() + region.slice(1)+" evaluated in "+lang);
+    d3.select("div.infobox").append("h5").html("Tweets from <u>"+region.charAt(0).toUpperCase() + region.slice(1)+"</u> evaluated in <u>"+lang+"</u>");
     
     console.log("enjoy :)");
 
