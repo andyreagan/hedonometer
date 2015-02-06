@@ -233,7 +233,7 @@
     var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
     // for the frequency plot
-    var y3 = d3.scale.linear().range([height, height/4]);
+    var y3 = d3.scale.linear().range([height, 3*height/4]);
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
@@ -302,7 +302,7 @@
     // area for the freq
     var area3 = d3.svg.area()
 	.interpolate("linear")
-	.x(function(d) { return x2(d.date); })
+	.x(function(d) { return x(d.date); })
 	.y0(height)
 	.y1(function(d) { return y3(d.value); });
 
@@ -560,7 +560,9 @@
 	y2.domain(y.domain());
 
 	// var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
-	var path = focus.append("path").attr("id", "path").data([data])
+	var path = focus.append("path")
+	    .attr("id", "path")
+	    .data([data])
 	    .attr({ "clip-path": "url(#clip)",
 		    "d": line,
 		    "fill": "none",
@@ -645,7 +647,7 @@
 	    .data([data])
 	    .attr({ "class": "mini",
 		    "fill": "lightgrey",
-		    "stroke": "black",
+		    "stroke": "lightgrey",
 		    "stroke-width": ".5px",
 		    "d": area2,
 		  });
@@ -838,9 +840,10 @@
 
 	focus.append("path")
 	    .data([data])
-	    .attr({ "class": "freq",
-		    "fill": "lightgrey",
-		    "stroke": "black",
+	    .attr({ "clip-path": "url(#clip)",
+		    "class": "freq",
+		    "fill": "#E0E0E0",
+		    "stroke": "#C8C8C8",
 		    "stroke-width": ".5px",
 		    "d": area3,
 		  });
@@ -897,6 +900,7 @@
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
 	//focus.select("#path").attr("d", fishline);
 	focus.select("#path").attr("d", line);
+	focus.select(".freq").attr("d", area3);
 	focus.select(".x.axis").call(xAxis);
 
 	focus.select(".x.axis").selectAll("line")
