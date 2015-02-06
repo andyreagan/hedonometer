@@ -849,7 +849,7 @@
 	    focus.append("path")
 		.data([data])
 		.attr({ "clip-path": "url(#clip)",
-			"class": "freq",
+			"id": "freq",
 			"fill": "#E0E0E0",
 			"stroke": "#C8C8C8",
 			"stroke-width": ".5px",
@@ -935,7 +935,7 @@
 	x.domain(brush.empty() ? x2.domain() : brush.extent());
 	//focus.select("#path").attr("d", fishline);
 	focus.select("#path").attr("d", line);
-	focus.select(".freq").attr("d", area3);
+	focus.select("#freq").attr("d", area3);
 	focus.select(".x.axis").call(xAxis);
 
 	focus.select(".x.axis").selectAll("line")
