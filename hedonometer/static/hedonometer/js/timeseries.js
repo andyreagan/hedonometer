@@ -214,7 +214,7 @@
 	top: 10,
 	right: 40,
 	bottom: 100,
-	left: 35,
+	left: 15,
     },
     width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
     height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
@@ -240,7 +240,7 @@
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
     // for the freqency
-    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2);
+    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).format(d3.format(".0s"));
 
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
