@@ -241,7 +241,14 @@
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
     // for the freqency
     var formatInteger = d3.format(".0f");
-    var formatMillions = function(d) { return formatInteger(d / 1e6) + "M"; };
+    var formatMillions = function(d) {
+	if (d>0) {
+	    return formatInteger(d / 1e6) + "M";
+	}
+	else { 
+	    return "0";
+	}
+    };
 
     function formatPrefix(ticks) {
 	var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
@@ -589,7 +596,7 @@
 	// focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
 	//focus.append("g").attr("class", "y axis").call(yAxis);
 	focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
-	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 0 + ",0)").call(yAxis3);
+	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 15 + ",0)").call(yAxis3);
 
 	// go ahead and apply styles directly to these
 	focus.select(".x.axis").select("path").attr("fill","none");
