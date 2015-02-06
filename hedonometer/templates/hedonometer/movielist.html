@@ -17,7 +17,7 @@
 	  <p>Here is a list of all the movie scripts found at the Internet Movie Script Database, <a href="http://www.imsdb.com/">http://www.imsdb.com</a> that we were able to process:</p>
 	  <ul class="movielist">
 	    {% for movie in movie_list %}
-	    <li><a href="/movies/{{ movie.title }}">{{ movie.title }}</a></li>
+	    <li><a href="/movies/{{ movie.title }}/">{{ movie.title }}</a></li>
 	    {% endfor %}
 	  </ul>
 	</div>
