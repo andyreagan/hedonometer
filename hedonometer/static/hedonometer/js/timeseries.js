@@ -268,7 +268,8 @@
     // 	.radius(120);
 
     var line = d3.svg.line()
-	.interpolate('cardinal')
+	// .interpolate('cardinal')
+	.interpolate('linear')
 	.x(function(d) {
 	    return x(d.date);
 	})
