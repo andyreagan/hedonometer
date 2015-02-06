@@ -214,7 +214,7 @@
 	top: 10,
 	right: 40,
 	bottom: 100,
-	left: 15,
+	left: 20,
     },
     width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
     height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
@@ -596,7 +596,7 @@
 	// focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
 	//focus.append("g").attr("class", "y axis").call(yAxis);
 	focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
-	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 15 + ",0)").call(yAxis3);
+	focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 10 + ",0)").call(yAxis3);
 
 	// go ahead and apply styles directly to these
 	focus.select(".x.axis").select("path").attr("fill","none");
