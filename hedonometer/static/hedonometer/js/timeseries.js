@@ -842,11 +842,11 @@
 
 	console.log(data);
 
-	var freqextent = d3.extent(data.map(function(d) {
+	var freqExtent = d3.extent(data.map(function(d) {
 	    return d.value;
 	}))
 
-	y3.domain(freqextent);
+	y3.domain(freqExtent);
 
 	function formatPrefix(ticks) {
 	    var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
