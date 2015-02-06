@@ -268,7 +268,7 @@
     // 	.radius(120);
 
     var line = d3.svg.line()
-	.interpolate('basis-closed')
+	.interpolate('basis')
 	.x(function(d) {
 	    return x(d.date);
 	})
