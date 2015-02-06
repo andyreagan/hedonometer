@@ -872,12 +872,12 @@
 		      });
 
 	    // call the brush initially
-	    // brushing();
+	    brushing();
 
-	    // focus.selectAll(".brushingline")
-	    // 	.attr({ 
-	    // 	    "visibility": "hidden",
-	    // 	});
+	    focus.selectAll(".brushingline")
+	    	.attr({ 
+	    	    "visibility": "hidden",
+	    	});
 	    
 	}); // freq data load
 
