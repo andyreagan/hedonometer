@@ -664,10 +664,21 @@
 	    .data([data])
 	    .attr({ "class": "mini",
 		    "fill": "none",
-		    "stroke": "#34ACE4",
+		    "stroke": "#5788C7",
+		    // "stroke": "#34ACE4",
 		    "stroke-width": "1.5px",
 		    "d": area2,
 		  });
+
+	// need a line below now too
+	context.append("line")
+	    .attr("x1",0)
+	    .attr("x2",width)
+	    .attr("y1",function(d){ return height2; })
+	    .attr("y2",function(d){ return height2; }) // y(y.ticks(7)[0]); })
+	    .attr("fill","none")
+	    .attr("stroke",function(d,i) { return "grey" })
+	    .attr("stroke-width","1.7px");
 
 	context.append("g").attr("class", "x axis")
 	    .attr("transform", "translate("+"0"+"," + height2 + ")")
