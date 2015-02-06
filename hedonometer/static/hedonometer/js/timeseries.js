@@ -268,6 +268,7 @@
     // 	.radius(120);
 
     var line = d3.svg.line()
+	.interpolate('basis-closed')
 	.x(function(d) {
 	    return x(d.date);
 	})
@@ -584,7 +585,7 @@
 		    "d": line,
 		    "fill": "none",
 		    "stroke": "grey",
-		    "stroke-width": "0.5px",});
+		    "stroke-width": "1.2px",});
 
 	// focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
 
@@ -627,7 +628,7 @@
 	    .attr("fill","none")
 	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
 	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
-	    .attr("stroke-width","1.7px");
+	    .attr("stroke-width","1.5px");
 	
 	// focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
 
@@ -678,7 +679,7 @@
 	    .attr("y2",function(d){ return height2; }) // y(y.ticks(7)[0]); })
 	    .attr("fill","none")
 	    .attr("stroke",function(d,i) { return "grey" })
-	    .attr("stroke-width","1.7px");
+	    .attr("stroke-width",".7px");
 
 	context.append("g").attr("class", "x axis")
 	    .attr("transform", "translate("+"0"+"," + height2 + ")")
