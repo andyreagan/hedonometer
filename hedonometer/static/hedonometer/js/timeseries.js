@@ -907,7 +907,8 @@
 		       // "fill-opacity": null,
 		       // "shape-rendering": null,
 		       "cursor": "ew-resize",
-		      });
+		      })
+		.style("visibility", "visible");
 
 	    brushgroup
 		.select("g.resize.e")
@@ -919,7 +920,8 @@
 		       // "fill-opacity": null,
 		       // "shape-rendering": null,
 		       "cursor": "ew-resize",
-		      });
+		      })
+		.style("visibility", "visible");
 
 	    // call the brush initially
 	    brushing();
