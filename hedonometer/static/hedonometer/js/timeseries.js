@@ -856,7 +856,7 @@
 	    };
 	}
 
-	formatAuto = formatPrefix(freqExtent):
+	formatAuto = formatPrefix(freqExtent);
 
 	var formatAutoZero = function(d) {
 	    if (d>0) {
