@@ -287,27 +287,34 @@
     var prevy = 0;
 
     //This attempts to draw a line that connects all dates that match 11/25
-    var line3 = d3.svg.line().x(function(d) {
-	if ((format(d.date) == format(date1))) {
-	    prevx = d.date;
-	    return x(d.date);
-	} else {
-	    return x(prevx);
-	}
-    }).y(function(d) {
-	if ((format(d.date) == format(date1))) {
-	    prevy = d.value;
-	    return y(d.value);
-	} else {
-	    return y(prevy);
-	}
-    });
+    var line3 = d3.svg.line()
+	.x(function(d) {
+	    if ((format(d.date) == format(date1))) {
+		prevx = d.date;
+		return x(d.date);
+	    } else {
+		return x(prevx);
+	    }
+	})
+	.y(function(d) {
+	    if ((format(d.date) == format(date1))) {
+		prevy = d.value;
+		return y(d.value);
+	    } else {
+		return y(prevy);
+	    }
+	});
 
-    var area2 = d3.svg.area()
-	.interpolate("linear")
+    // var area2 = d3.svg.area()
+    // 	.interpolate("linear")
+    // 	.x(function(d) { return x2(d.date); })
+    // 	.y0(height2)
+    // 	.y1(function(d) { return y2(d.value); });
+
+    // make the bottom area into a line
+    var area2 = d3.svg.line()
 	.x(function(d) { return x2(d.date); })
-	.y0(height2)
-	.y1(function(d) { return y2(d.value); });
+	.y(function(d) { return y2(d.value); });
 
     // area for the freq
     var area3 = d3.svg.area()
@@ -656,9 +663,9 @@
 	context.append("path")
 	    .data([data])
 	    .attr({ "class": "mini",
-		    "fill": "lightgrey",
-		    "stroke": "lightgrey",
-		    "stroke-width": ".5px",
+		    "fill": "none",
+		    "stroke": "#34ACE4",
+		    "stroke-width": "1.5px",
 		    "d": area2,
 		  });
 
@@ -878,12 +885,10 @@
 	    	.attr({ 
 	    	    "visibility": "hidden",
 	    	});
-	    
+
 	}); // freq data load
 
     }); // main data load
-
-
 
     // function fishline(d) { 
     // 	return fishline0(d.map(function(d) {
