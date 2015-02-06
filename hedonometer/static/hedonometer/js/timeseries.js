@@ -233,7 +233,7 @@
     var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
     // for the frequency plot
-    var y3 = d3.scale.linear().range([height, 3*height/4]);
+    var y3 = d3.scale.linear().range([height, 4*height/5]);
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
     xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
