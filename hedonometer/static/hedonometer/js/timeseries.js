@@ -898,8 +898,20 @@
 		      });
 
 	    brushgroup
-		.selectAll("g.resize")
-		.selectAll("rect")
+		.select("g.resize.w")
+		.select("rect")
+		.attr({"y": -6,
+ 		       "height": (height2 + 7),
+		       "stroke": "#fff",
+		       "fill": "darkgrey",
+		       // "fill-opacity": null,
+		       // "shape-rendering": null,
+		       "cursor": "ew-resize",
+		      });
+
+	    brushgroup
+		.select("g.resize.e")
+		.select("rect")
 		.attr({"y": -6,
  		       "height": (height2 + 7),
 		       "stroke": "#fff",
