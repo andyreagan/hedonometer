@@ -666,7 +666,8 @@
 	    .data([data])
 	    .attr({ "class": "mini",
 		    "fill": "none",
-		    "stroke": "#5788C7",
+		    "stroke": "grey",
+		    // "stroke": "#5788C7",
 		    // "stroke": "#34ACE4",
 		    "stroke-width": "1.5px",
 		    "d": area2,
