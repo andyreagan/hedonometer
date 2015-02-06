@@ -838,7 +838,7 @@
 
 	focus.append("path")
 	    .data([data])
-	    .attr({ "class": "mini",
+	    .attr({ "class": "freq",
 		    "fill": "lightgrey",
 		    "stroke": "black",
 		    "stroke-width": ".5px",
