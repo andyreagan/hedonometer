@@ -240,7 +240,7 @@
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
     // for the freqency
-    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(1);
+    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2);
 
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
