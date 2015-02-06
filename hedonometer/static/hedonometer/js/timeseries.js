@@ -837,7 +837,7 @@
 		    "d": area3,
 		  });
 	
-    }
+    });
 
     // function fishline(d) { 
     // 	return fishline0(d.map(function(d) {
