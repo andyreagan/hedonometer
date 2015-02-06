@@ -240,7 +240,18 @@
     yAxis = d3.svg.axis().scale(y).orient("left");
     yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
     // for the freqency
-    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(d3.format(".0s"));
+    var formatInteger = d3.format(".0f");
+    var formatMillions = function(d) { return formatInteger(d / 1e6) + "M"; };
+
+    function formatPrefix(ticks) {
+	var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
+	format = d3.format(".0f");
+	return function(d) {
+	    return format(prefix.scale(d)) + prefix.symbol;
+	};
+    }
+
+    yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatPrefix);
 
     // console.log([d3.time.month.offset(today,-18),today]);
     // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
