@@ -886,8 +886,25 @@
 		.attr({"y": -6,
  		       "height": (height2 + 7),
 		       "stroke": "#fff",
-		       "fill-opacity": .125,
-		       "shape-rendering": "crispEdges",
+		       // "fill-opacity": .125,
+		       // "shape-rendering": "crispEdges",
+		       "cursor": "ew-resize",
+		      });
+
+	    brushgroup
+		.select("rect.extent")
+		.attr({"fill": "wheat",
+		       "opacity": "0.5",
+		      });
+
+	    brushgroup
+		.selectAll("rect.resize")
+		.attr({"y": -6,
+ 		       "height": (height2 + 7),
+		       "stroke": "#fff",
+		       "fill": "darkgrey",
+		       // "fill-opacity": null,
+		       // "shape-rendering": null,
 		       "cursor": "ew-resize",
 		      });
 
