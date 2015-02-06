@@ -27,7 +27,7 @@ d3.text("http://hedonometer.org/data/labMT/labMTwords-"+lang+".csv", function (t
 });
 
 if ( lang !== "english" ) {
-    d3.text("http://hedonometer.org/data/labMT/labMTwords-english.csv", function (text2) {
+    d3.text("http://hedonometer.org/data/labMT/labMTwordsEn-"+lang+".csv", function (text2) {
 	var tmp2 = text2.split("\n");
 	var words_en = tmp2;
 	var len = words_en.length - 1;
