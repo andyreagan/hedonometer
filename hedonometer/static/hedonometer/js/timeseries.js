@@ -1123,9 +1123,11 @@
 
 	// now trying to load in data from zoo
 	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(popdate)+"-sum.csv",function(tmp) {
-	    compFvec = tmp.split(',').slice(0,10222);
+	    // compFvec = tmp.split(',').slice(0,10222);
+	    compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
 	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
-		refFvec = tmp2.split(',').slice(0,10222);
+		// refFvec = tmp2.split(',').slice(0,10222);
+		refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
 		// console.log("see if all four vectors are here:");
 		// console.log(lens);
@@ -1526,9 +1528,11 @@
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
 	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(update)+"-sum.csv",function(tmp) {
-	    compFvec = tmp.split(',').slice(0,10222);
+	    // compFvec = tmp.split(',').slice(0,10222);
+	    compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
 	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
-		refFvec = tmp2.split(',').slice(0,10222);
+		// refFvec = tmp2.split(',').slice(0,10222);
+		refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
 
 
