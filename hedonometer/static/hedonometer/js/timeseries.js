@@ -53,11 +53,16 @@
     var today = new Date();
     // hardcoded...bad andy!!
     // also months start at 0 in javascript
-    if (region !== "world") {
+    if (region !== "world" && region !== "arabic") {
 	var beginningOfTime = new Date(2014,3,15);
     }
     else {
-	var beginningOfTime = new Date(2008,8,10);
+	if (region !== "world") {
+	    var beginningOfTime = new Date(2012,1,29);
+	}
+	else {
+	    var beginningOfTime = new Date(2008,8,10);
+	}
     }
     var cformat = d3.time.format("%Y-%m-%d");
     var dformat = d3.time.format("%Y-%m-%dT00:00:00");
