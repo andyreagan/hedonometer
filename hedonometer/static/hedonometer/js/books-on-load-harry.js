@@ -50,10 +50,11 @@ function initializePlot() {
 	var bookauthor = d3.select("#bookauthor");
 	var author = booktitle.append("h2").append("small").text("by "+result.author);
 	var newignore = result.ignorewords.split(",");
-	for (var i=0; i<newignore.length-1; i++) {
-	    ignoreWords.push(newignore[i]);
-	}
-	console.log(ignoreWords);
+	hedotools.shifter.ignore(newignore);
+	// for (var i=0; i<newignore.length-1; i++) {
+	//     ignoreWords.push(newignore[i]);
+	// }
+	// console.log(ignoreWords);
 	// set the filename
 	// book = result.reference;
 	bookref = result.reference;
@@ -129,10 +130,11 @@ function initializePlotPlot(lens, words) {
     lensExtent = lensDecoder().cached.map(parseFloat);
     
     // ignore these on all
-    var alwaysIgnore = ["nigga","niggaz","niggas","nigger"]; //["cried", "cry", "coffin"];
-    for (var i=0; i<alwaysIgnore.length; i++) {
-	ignoreWords.push(alwaysIgnore[i]);
-    }
+    // these are automatically ignored by the shifter
+    // var alwaysIgnore = ["nigga","niggaz","niggas","nigger"]; //["cried", "cry", "coffin"];
+    // for (var i=0; i<alwaysIgnore.length; i++) {
+    // 	ignoreWords.push(alwaysIgnore[i]);
+    // }
     refFextentDecoder = d3.urllib.decoder().varresult([0,.2]).varname("refExtent");				      
     refFextent = [Math.round(parseFloat(refFextentDecoder().cached[0])*fulltimeseries.length), Math.round(parseFloat(refFextentDecoder().cached[1])*fulltimeseries.length)];
     compFextentDecoder = d3.urllib.decoder().varresult([.8,1]).varname("compExtent");				      
@@ -364,6 +366,7 @@ var popupwordshift = function() {
 
     hedotools.shifter._refF(refF);
     hedotools.shifter._compF(compF);
+    // use the stop words
     hedotools.shifter.stop();
     hedotools.shifter.shifter();
     var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
