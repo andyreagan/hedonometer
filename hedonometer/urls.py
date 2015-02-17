@@ -110,4 +110,5 @@ urlpatterns = patterns('',
         name='teletherm'),
     (r'^api/', include(v1_api.urls)),
     url(r'^(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
+    url(r'^timeseries/(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
 )
