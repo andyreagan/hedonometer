@@ -5,14 +5,14 @@ from django.contrib import admin
 # Eventually we can create a database for the big events
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 
-# class AnnotaionAdmin(admin.ModelAdmin):
-#     search_fields = ('movie','user',)
-#     list_display = ('movie','user','annotation',)
-#     list_display_links = ('movie',)
-#     list_editable = ('votes',)
+class AnnotationAdmin(admin.ModelAdmin):
+    search_fields = ('movie','user',)
+    list_display = ('movie','user','annotation','votes',)
+    list_display_links = ('movie',)
+    list_editable = ('votes',)
 
 admin.site.register(TwitterProfile)
 admin.site.register(Annotation)
-admin.site.register(MovieAnnotation)
-# admin.site.register(MovieAnnotation,AnnotationAdmin)
+# admin.site.register(MovieAnnotation)
+admin.site.register(MovieAnnotation,AnnotationAdmin)
 
