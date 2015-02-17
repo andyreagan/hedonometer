@@ -12,7 +12,7 @@ class AnnotationAdmin(admin.ModelAdmin):
     list_editable = ('votes',)
 
     def user_name(self, obj):
-        return '%s'%(obj.User.oauth_token)
+        return '%s'%(obj.user.user.username)
     user_name.short_description = 'username'
 
 admin.site.register(TwitterProfile)
