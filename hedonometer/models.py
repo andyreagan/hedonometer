@@ -61,6 +61,21 @@ class Book(models.Model):
     class Meta:
         ordering = ('author',)
 
+class NYT(models.Model):
+    genre = models.CharField(max_length=100)
+    language = models.CharField(max_length=100)
+    filename = models.CharField(max_length=100)
+    happs = models.FloatField()
+    variance = models.FloatField()
+    ignorewords = models.CharField(max_length=400, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.genre
+
+    class Meta:
+        ordering = ('genre',)
+
+
 # {u'result': {u'cast': [{u'actor': u'Kristen Stewart', u'role': u'Bella Swan'},
 #    {u'actor': u'Sarah Clarke', u'role': u'Ren\xe9e'},
 #    {u'actor': u'Matt Bushell', u'role': u'Phil'},
