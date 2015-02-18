@@ -22,8 +22,14 @@ class BookAdmin(admin.ModelAdmin):
     list_display_links = ('title',)
     list_editable = ('language',)
 
+class MovieAdmin(admin.ModelAdmin):
+    search_fields = ('title',)
+    list_display = ('title','length','ignorewords','happs')
+    list_display_links = ('title',)
+    list_editable = ('ignorewords',)
+
 admin.site.register(Event,EventAdmin)
 admin.site.register(Book,BookAdmin)
 admin.site.register(Happs,HappsAdmin)
 admin.site.register(Embeddable)
-admin.site.register(Movie)
+admin.site.register(Movie,MovieAdmin)
