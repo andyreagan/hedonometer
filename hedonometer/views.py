@@ -352,8 +352,8 @@ def timeseries(request,urlregion):
             requestedRegion = regions[i]
             requestedRegionIndex = i
 
-    if not requestedRegionIndex > -1:
-        raise Http404
+    # if not requestedRegionIndex > -1:
+    #     raise Http404
 
     langdict = {
         "lang": requestedRegion[2],
