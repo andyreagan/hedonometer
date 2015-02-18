@@ -346,11 +346,13 @@ def timeseries(request,urlregion):
 
     # set up this variable for saving the region
     requestedRegionIndex = -1
-    # for region in regions:
-    for i in xrange(len(regions)):
-        if regions[i][0].lower() == urlregion:
-            requestedRegion = regions[i]
-            requestedRegionIndex = i
+    for region in regions:
+    # for i in xrange(len(regions)):
+        # if regions[i][0].lower() == urlregion:
+        if region[0].lower() == urlregion:
+            requestedRegion = region
+            # requestedRegion = regions[i]
+            # requestedRegionIndex = i
 
     # if not requestedRegionIndex > -1:
     #     raise Http404
