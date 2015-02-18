@@ -345,11 +345,15 @@ regions = [["World","0","english",],["Arabic","0","arabic",],["France","79","fre
 def timeseries(request,urlregion):
 
     # set up this variable for saving the region
-    requestedRegion = regions[0]
-    for region in regions:
-        if region[0].lower() == urlregion:
-            # break
-            requestedRegion = region
+    requestedRegionIndex = -1
+    # for region in regions:
+    for i in xrange(len(regions)):
+        if regions[i][0].lower() == urlregion:
+            requestedRegion = regions[i]
+            requestedRegionIndex = i
+
+    if not requestedRegionIndex > -1:
+        raise Http404
 
     langdict = {
         "lang": requestedRegion[2],
