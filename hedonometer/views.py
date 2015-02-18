@@ -1,6 +1,7 @@
 # /usr/share/nginx/wiki/mysite/hedonometer/views.py
 
 from django.shortcuts import render
+from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
 from django.views.generic import View
 from django.core.context_processors import csrf
@@ -8,7 +9,7 @@ from django.template import Context
 from mysite.settings import STATIC_ROOT,ABSOLUTE_DATA_PATH
 import logging
 logger = logging.getLogger(__name__)
-from hedonometer.models import Embeddable,Event,Book,Movie
+from hedonometer.models import Embeddable,Event,Book,Movie,NYT
 import csv
 import subprocess
 import codecs
@@ -227,6 +228,37 @@ def embedMain(request,dateref,datecomp):
                  "compFileName": datecomp,
                  'fulltext': '',
                  'contextflag': 'none',
+    }
+
+    logger.debug(filenames)
+    # logger.debug(Context(filenames))
+
+    # now pass those into the view
+    return render(request, 'hedonometer/embed.html', Context(filenames))
+
+def embedNYT(request,sectionref,sectioncomp):
+    # # but I do need a dates
+    # logger.debug(some_hash)
+
+    # r = NYT.objects.filter(genre__exact=sectionref)
+    try:
+        r = NYT.objects.get(genre=sectionref)
+        c = NYT.objects.get(genre=sectioncomp)
+    except:
+        raise Http404
+
+    # if len(c) > 0:
+    #     c = c[0]
+
+    specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times",r.genre+" compared to "+c.genre,c.genre,r.genre)
+
+    filenames = {'h': 'dont matter',
+                 'refFile': '/data/NYT/NYT_labVecs/%s.stripped' % r.filename,
+                 "refFileName": sectionref,
+                 'compFile': '/data/NYT/NYT_labVecs/%s.stripped' % c.filename,
+                 "compFileName": sectioncomp,
+                 'fulltext': specialtext,
+                 'contextflag': 'main', # 'none'
     }
 
     logger.debug(filenames)
