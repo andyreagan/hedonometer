@@ -346,6 +346,7 @@ def timeseries(request,urlregion):
 
     # set up this variable for saving the region
     requestedRegionIndex = -1
+    requestedRegion = regions[0]
     for region in regions:
     # for i in xrange(len(regions)):
         # if regions[i][0].lower() == urlregion:
