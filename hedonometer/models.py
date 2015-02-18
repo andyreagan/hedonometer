@@ -75,7 +75,6 @@ class NYT(models.Model):
     class Meta:
         ordering = ('genre',)
 
-
 # {u'result': {u'cast': [{u'actor': u'Kristen Stewart', u'role': u'Bella Swan'},
 #    {u'actor': u'Sarah Clarke', u'role': u'Ren\xe9e'},
 #    {u'actor': u'Matt Bushell', u'role': u'Phil'},
