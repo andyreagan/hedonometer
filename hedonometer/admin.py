@@ -24,7 +24,7 @@ class BookAdmin(admin.ModelAdmin):
 
 class NYTAdmin(admin.ModelAdmin):
     search_fields = ('genre')
-    list_display = ('genre','happs','variance','ignorewords',)
+    list_display = ('genre','happs','variance','ignorewords','numwords')
     list_display_links = ('genre',)
     list_editable = ('ignorewords',)
 

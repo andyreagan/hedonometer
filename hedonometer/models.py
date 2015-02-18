@@ -66,6 +66,7 @@ class NYT(models.Model):
     language = models.CharField(max_length=100)
     filename = models.CharField(max_length=100)
     happs = models.FloatField()
+    numwords = models.FloatField()
     variance = models.FloatField()
     ignorewords = models.CharField(max_length=400, null=True, blank=True)
 
