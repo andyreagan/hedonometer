@@ -1,0 +1,50 @@
+.hoverinfogroup h5 { 
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.hoverinfogroup {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+#fulltextbox {
+  /* display: block; */
+  /* position: absolute; */
+  position: fixed;
+  opacity: 0.5;
+  width: 100%;
+  /* height: 100vh; */
+  height: 100vh;
+}
+#fulltextdiv {
+  position: fixed;
+  top: 0px;
+}
+#formattedtextbox {
+  height: 435px;
+  white-space: pre-wrap;
+  font-size: 11px;
+  font-family: monospace;
+  border: 1.5px solid grey;
+  overflow: scroll;
+}
+#formattedtextdiv {
+  position: relative;
+  top: 0px;
+}
+#puttexthere {
+  white-space: pre-wrap;
+  font-family: monospace;
+  font-size: 12px;
+}
+p.fulltext {
+  color: #99d8c9;
+}
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}

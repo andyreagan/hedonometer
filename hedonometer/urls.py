@@ -2,7 +2,6 @@
 
 from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView,RedirectView
-
 from hedonometer import views
 from tastypie.api import Api
 from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource
@@ -90,6 +89,7 @@ urlpatterns = patterns('',
     url(r'^movies/list.html',views.movielist.as_view(),name='movielist'),
     url(r'^movies/(?P<movie>[^/]+)/',views.movieannotation.as_view(),name='annotation'),
     # url(r'^movies/(?P<movie>[\w]+)/',"hedonometer.views.book",name="book"),
+    url(r'^movies/', RedirectView.as_view(url='Pulp Fiction/')),
     url(r'^api.html',
         TemplateView.as_view(template_name='hedonometer/api.html'),
         name='api'),
