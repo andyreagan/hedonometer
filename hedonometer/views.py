@@ -161,9 +161,13 @@ class annotation(View):
 class movieannotation(View):
     def get(self, request, movie):
         m = Movie.objects.filter(title__exact=movie)[0]
-        f = open("/usr/share/nginx/data/moviedata/rawer/"+m.filename+".html.end.beg","r");
-        fulltext = f.read()
-        f.close()
+        try:
+            f = open("/usr/share/nginx/data/moviedata/rawer/"+m.filename+".html.end.beg","r");
+            fulltext = f.read()
+            f.close()
+        except:
+            fulltext = "fulltext not found, please report to @hedonometer :)"
+
         return render(request, 'hedonometer/movie.html',{"movie": movie, "fulltext": fulltext})
     
     # accept an annotation
