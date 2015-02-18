@@ -24,7 +24,7 @@ class BookAdmin(admin.ModelAdmin):
 
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ('title',)
-    list_display = ('title','length','ignorewords','happs')
+    list_display = ('title','length','ignorewords','happs','happsStart','happsEnd','happsVariance','happsMin','happsMax','happsDiff',)
     list_display_links = ('title',)
     list_editable = ('ignorewords',)
 
