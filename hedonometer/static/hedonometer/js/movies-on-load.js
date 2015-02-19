@@ -42,7 +42,7 @@ function initializePlot() {
     movie = movieDecoder().cached;
     // console.log("not a classic");
     // hit the random api
-    d3.json("http://hedonometer.org/api/v1/movies/?format=json&title__exact="+movie,function(data) {
+    d3.json("http://hedonometer.org/api/v1/movies/?format=json&title__startswith="+movie,function(data) {
 	var result = data.objects[0];
 	// console.log(result);
 	lang = result.language;
