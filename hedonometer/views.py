@@ -247,10 +247,9 @@ def embedNYT(request,sectionref,sectioncomp):
     except:
         raise Http404
 
-    # if len(c) > 0:
-    #     c = c[0]
-
-    specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times Shift",r.genre+" compared to "+c.genre,c.genre,r.genre)
+    specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times Wordshift",c.genre.title()+" section compared to "+r.genre.title()+" section",c.genre.title(),r.genre.title())
+    if r.genre == 'all':
+        specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times Wordshift",c.genre.title()+" section compared to the whole Times",c.genre.title(),"the whole Times")
 
     filenames = {'h': 'dont matter',
                  'refFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
