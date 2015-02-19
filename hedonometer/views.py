@@ -250,12 +250,12 @@ def embedNYT(request,sectionref,sectioncomp):
     # if len(c) > 0:
     #     c = c[0]
 
-    specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times",r.genre+" compared to "+c.genre,c.genre,r.genre)
+    specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("New York Times Shift",r.genre+" compared to "+c.genre,c.genre,r.genre)
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/NYT/NYT_labVecs/%s.stripped' % r.filename,
+                 'refFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
                  "refFileName": sectionref,
-                 'compFile': '/data/NYT/NYT_labVecs/%s.stripped' % c.filename,
+                 'compFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % c.filename,
                  "compFileName": sectioncomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
