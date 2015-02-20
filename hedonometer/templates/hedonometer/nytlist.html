@@ -3,10 +3,13 @@
 
 {% block headercss %}
     <link href="{% static "hedonometer/css/base-all.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/cities.css" %}" rel="stylesheet">
     <style>
       .youtube { padding-bottom: 30px; }
       ol.nytlist { list-style: decimal; }
     </style>
+
 {% endblock %}
 
 {% block content %}
@@ -19,14 +22,107 @@
 	    <li><a href="/embed/nyt/all/{{ nyt.genre }}/" target="_blank">{{ nyt.genre }}</a>: {{nyt.happs|floatformat:2}}</li>
 	    {% endfor %}
 	  </ol>
-	</div>
-      </div>
+	</div><!--col-->
+      </div><!--row-->
+      
+      <!-- now here is a look at the cities shift -->
+      <br>
+      <div class="row">
+	<div class="col-xs-12 col-lg-7">
+	  <div class="paper">
+	    <div id="barChart" class="figure"></div>
+	  </div> <!-- paper -->
+	</div><!-- row -->
+
+	<div class="clearfix visible-xs"></div>
+	<div class="col-xs-12 col-lg-5">
+	  <div class="paper">
+	    <h5>Word Shift:</h5>
+	    <div class="row">
+	      <div class="col-xs-1" id="thisone">
+		<button type="button" class="btn btn-default btn-xs" id="rotate">Swap</button>
+	      </div> <!-- column -->
+	      <div class="col-xs-10">
+		<div class="row">
+		  <div class="row xtra-btm-padding">
+		    <div class="col-xs-2">
+		      <p class="pull-left">Ref:</p>
+		    </div> <!-- column -->
+		    <div class="col-xs-10">
+		      <div class="btn-group" id="refSelect">
+			<button type="button" class="btn btn-default btn-xs reflabel">NYT as a whole</button>
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+			  <span class="caret"></span>
+			  <span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+			</ul>
+		      </div>
+		      <button type="button" class="btn btn-default btn-xs pull-right selbutton one">Select on list</button>
+		    </div>
+		  </div> <!-- column -->
+
+		  <div class="clearfix visible-xs"></div>
+
+
+		  <div class="row xtra-btm-padding">
+		    <div class="col-xs-2">
+		      <p class="pull-left">Comp:</p>
+		    </div> <!-- column -->
+		    <div class="col-xs-10">
+		      <div class="btn-group" id="compSelect">
+			<button type="button" class="btn btn-default btn-xs complabel">NYT Science</button>
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+			  <span class="caret"></span>
+			  <span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+			</ul>
+		      </div>
+		      <button type="button" class="btn btn-primary btn-xs pull-right selbutton two">Select on list</button>
+		    </div> <!-- column -->
+		  </div> <!-- row -->
+
+		</div> <!-- row -->
+	      </div> <!-- column -->
+	    </div> <!-- row -->
+	    <div id="shift01" class="figure">
+	      <div class="row">
+		<div class="col-xs-12">
+		  <p class="sumtext text"></p>
+		</div> <!-- column -->
+	      </div> <!-- text row -->
+	    </div> <!-- shift figure -->
+	  </div> <!-- paper -->
+
+	</div> <!-- map/shift column -->
+      </div> <!-- main row -->
+      <br>
+      <br>
+      <br>
+      Instructions: Play around.  If this doesn't work see <a href="instructions.html">here</a> for help.
+      <br>
+      <br>
+      <br>
     </div><!--container-->
 
 {% endblock %}
 
 
+{% block bottomjs %}
 
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
+    <script src="{% static "hedonometer/js/nyt-on-load.js" %}"></script>
+
+{% endblock %}
 
 
 
