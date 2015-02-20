@@ -85,6 +85,20 @@ class WordResource(ModelResource):
             "stdDev": ALL,
         }
 
+class NYTResource(ModelResource):
+    # happiness = FixedFloatField(attribute="value")
+    class Meta:
+        queryset = Word.objects.all().exclude(genre='all').order_by('-happs')
+        # excludes = ["id",]
+        resource_name = "nyt"
+        # limit = 20000
+        # default_format = ["json"]
+        # max_limit = None
+        # include_resource_uri = False
+        filtering = {
+            "genre": ALL,
+        }
+
 class BookResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
     reference = fields.CharField("filename")
