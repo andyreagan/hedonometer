@@ -1,0 +1,35 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+      ul.nytlist { list-style: square; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-md-7">
+	  <h3>Happiness of News: The New York Times by section</h3>
+	  <ol class="nytlist">
+	    {% for nyt in nyt_list %}
+	    <li><a href="/embed/nyt/all/{{ nyt.genre }}/" target="_blank">{{ nyt.genre }}</a></li>
+	    {% endfor %}
+	  </ol>
+	</div>
+      </div>
+    </div><!--container-->
+
+{% endblock %}
+
+
+
+
+
+
+
+
+

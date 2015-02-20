@@ -91,6 +91,12 @@ class movielist(View):
         movie_list = Movie.objects.all()
         return render(request, 'hedonometer/movielist.html',{"movie_list": movie_list})
 
+class nytlist(View):
+     # return all of the annotations for a book
+    def get(self, request):
+        nyt_list = NYT.objects.all()
+        return render(request, 'hedonometer/nytlist.html',{"nyt_list": nyt_list})
+
 class booklist(View):
      # return all of the annotations for a book
     def get(self, request):
