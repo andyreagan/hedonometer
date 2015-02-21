@@ -314,6 +314,7 @@ hedotools.barchart = function() {
 		    _data: _data,
 		    _datanames: _datanames,
 		    _figheight: _figheight, 
+		    _xlabeltext: _xlabeltext, 
 		    getSorted: getSorted, 
 		    plot: plot, };
 
