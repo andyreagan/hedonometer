@@ -99,6 +99,20 @@ class NYTResource(ModelResource):
             "genre": ALL,
         }
 
+class NYTResourceAll(ModelResource):
+    # happiness = FixedFloatField(attribute="value")
+    class Meta:
+        queryset = NYT.objects.all().order_by('-happs')
+        # excludes = ["id",]
+        resource_name = "nytall"
+        limit = 30
+        # default_format = ["json"]
+        # max_limit = None
+        # include_resource_uri = False
+        filtering = {
+            "genre": ALL,
+        }
+
 class BookResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
     reference = fields.CharField("filename")

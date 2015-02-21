@@ -1,4 +1,4 @@
-from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer
+from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer,NYT
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
@@ -83,6 +83,20 @@ class WordResource(ModelResource):
             "rank": ALL,
             "happs": ALL,
             "stdDev": ALL,
+        }
+
+class NYTResource(ModelResource):
+    # happiness = FixedFloatField(attribute="value")
+    class Meta:
+        queryset = NYT.objects.all().exclude(genre='all').order_by('-happs')
+        # excludes = ["id",]
+        resource_name = "nyt"
+        limit = 30
+        # default_format = ["json"]
+        # max_limit = None
+        # include_resource_uri = False
+        filtering = {
+            "genre": ALL,
         }
 
 class BookResource(ModelResource):
