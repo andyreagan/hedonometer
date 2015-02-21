@@ -230,6 +230,8 @@ var drawShift = function() {
     var refF;
     var compF;
 
+    d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].genre+"/"+sectionListWAllFirst[shiftComp].genre+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+
     d3.text(refFile,function(text) {
 	refF = text.split("\n");
 	console.log(refF);
