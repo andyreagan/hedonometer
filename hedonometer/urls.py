@@ -113,6 +113,6 @@ urlpatterns = patterns('',
         TemplateView.as_view(template_name='hedonometer/teletherm.html'),
         name='teletherm'),
     (r'^api/', include(v1_api.urls)),
-    url(r'^timeseries/(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
+    url(r'^timeseries/(?P<urlregion>[\w-]+)/',views.timeseries, name='timeseries'),
     url(r'^(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
 )
