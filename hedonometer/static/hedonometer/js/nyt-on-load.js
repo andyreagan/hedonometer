@@ -209,7 +209,17 @@ var drawShift = function() {
 	hedotools.shifter._compF(compF);
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
-	hedotools.shifter.setText(["Why ___ is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than ___:"]).plot();
+	if ((shiftComp > 0) && (shiftRef > 0)) {
+	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+	}
+	else {
+	    if (shiftComp === 0) {
+		hedotools.shifter.setText(["Why the NYT as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+	    }
+	    else {
+		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the NYT as a whole:"]).plot();
+	    }
+	}
     }
 
     // load both of the files
