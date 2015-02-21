@@ -34,6 +34,13 @@ hedotools.barchart = function() {
 	return hedotools.barchart;
     }
 
+    var xlabeltext = "Happiness difference from US as a whole";
+    var _xlabeltext = function(_) {
+	if (!arguments.length) return xlabeltext;
+	xlabeltext = _;
+	return hedotools.barchart;
+    }
+
     var data;
     var datanames;
     var geodata;
@@ -225,7 +232,7 @@ hedotools.barchart = function() {
 
 	var xlabel = canvas.append("text")
 	    // .text("Happiness")
-	    .text("Happiness difference from US as a whole")
+	    .text(xlabeltext)
 	    .attr("class","axes-text")
 	    .attr("x",width/2+(figwidth-width)/2)
 	    .attr("y",3*(figheight-height)/4+height)
