@@ -133,7 +133,6 @@ class BookResource(ModelResource):
             "annotation": ALL,
         }
 
-
 class DirectorResource(ModelResource):
     class Meta:
         queryset = Director.objects.all()
