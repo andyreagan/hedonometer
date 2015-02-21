@@ -86,10 +86,10 @@ class WordResource(ModelResource):
         }
 
 class NYTResource(ModelResource):
-    # happiness = FixedFloatField(attribute="value")
+    happiness = FixedFloatField(attribute="happs")
     class Meta:
         queryset = NYT.objects.all().exclude(genre='all').order_by('-happs')
-        # excludes = ["id",]
+        excludes = ["happs",]
         resource_name = "nyt"
         limit = 30
         # default_format = ["json"]
@@ -100,10 +100,10 @@ class NYTResource(ModelResource):
         }
 
 class NYTResourceAll(ModelResource):
-    # happiness = FixedFloatField(attribute="value")
+    happiness = FixedFloatField(attribute="happs")
     class Meta:
         queryset = NYT.objects.all().order_by('-happs')
-        # excludes = ["id",]
+        excludes = ["happs",]
         resource_name = "nytall"
         limit = 30
         # default_format = ["json"]
