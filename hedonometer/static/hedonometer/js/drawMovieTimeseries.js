@@ -902,7 +902,7 @@ hedotools.booktimeseries = function() {
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
 	// .attr("stroke-width",0.5)
-    	    .attr("r",6);
+    	    .attr("r",4);
 
 
 	var minline = axes.append("path")
@@ -941,7 +941,7 @@ hedotools.booktimeseries = function() {
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
 	// .attr("stroke-width",0.5)
-    	    .attr("r",6);
+    	    .attr("r",4);
 
 	var maxline = axes.append("path")
 	    .datum([
