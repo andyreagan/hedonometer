@@ -557,10 +557,14 @@ hedotools.booktimeseries = function() {
 		});
 
 	    d3.select("#changeMeAlso")
-		.selectAll("input.annotation")
+		// .selectAll("input.annotation")
+	        // that selection was empty
+	        // but the following insert did not work
+	        .selectAll("#votingPlaceHolder")
 		.data(json.objects)
 		.enter()
-		.insert("div","#annotationInput")
+		// .insert("div","#annotationInput")
+		.append("div")
 		.attr("class","form-group")
 		.append("div")
 		.attr("class","col-sm-offset-3 col-sm-7")
