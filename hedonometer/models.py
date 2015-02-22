@@ -44,7 +44,6 @@ class Event(models.Model):
     class Meta:
         ordering = ('date',)
 
-
 class Book(models.Model):
     filename = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
@@ -132,6 +131,8 @@ class Movie(models.Model):
     happsMin = models.FloatField()
     happsMax = models.FloatField()
     happsDiff = models.FloatField()
+    exclude = models.BooleanField()
+    excludeReason = models.CharField(max_length=100, null=True, blank=True)
     length = models.CharField(max_length=100, null=True, blank=True)
     ignorewords = models.CharField(max_length=400, null=True, blank=True)
     wiki = models.URLField(null=True, blank=True)
