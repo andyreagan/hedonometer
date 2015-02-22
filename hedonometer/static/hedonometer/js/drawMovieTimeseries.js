@@ -617,7 +617,7 @@ hedotools.booktimeseries = function() {
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","#1193c0")
     	    .attr("class","mincircle")	
-    	    .attr("r",4)
+    	    .attr("r",6)
 	    .on("click",function(d,i) {
 		// console.log("click on min element number");
 		// console.log(d);
@@ -644,7 +644,7 @@ hedotools.booktimeseries = function() {
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","red")
     	    .attr("class","maxcircle blink")	
-    	    .attr("r",4)
+    	    .attr("r",6)
 	    .on("click",function(d,i) {
 		// console.log("click on max element number");
 		// console.log(d);
@@ -663,10 +663,10 @@ hedotools.booktimeseries = function() {
 		buildForm((d/data.length*100).toFixed(2)+"%",d);
 	    });
 
-	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",4); },1000);
-	var minbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.mincircle").transition().attr("r",5); }, 500); },1000);
-	var maxsmall = setInterval(function() { d3.selectAll("circle.maxcircle").transition().attr("r",4); },1000);
-	var maxbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.maxcircle").transition().attr("r",5); }, 500); },1000);
+	var minsmall = setInterval(function() { d3.selectAll("circle.mincircle").transition().attr("r",6); },1000);
+	var minbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.mincircle").transition().attr("r",7); }, 500); },1000);
+	var maxsmall = setInterval(function() { d3.selectAll("circle.maxcircle").transition().attr("r",6); },1000);
+	var maxbig = setInterval(function() { setTimeout(function() { d3.selectAll("circle.maxcircle").transition().attr("r",7); }, 500); },1000);
     }
 
     var hovergroup;
@@ -902,7 +902,7 @@ hedotools.booktimeseries = function() {
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
 	// .attr("stroke-width",0.5)
-    	    .attr("r",4);
+    	    .attr("r",6);
 
 
 	var minline = axes.append("path")
@@ -941,7 +941,7 @@ hedotools.booktimeseries = function() {
     	    .attr("fill","#1193c0")
 	// .attr("stroke","#1193c0")
 	// .attr("stroke-width",0.5)
-    	    .attr("r",4);
+    	    .attr("r",6);
 
 	var maxline = axes.append("path")
 	    .datum([
