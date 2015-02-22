@@ -561,6 +561,7 @@ hedotools.booktimeseries = function() {
 	        // that selection was empty
 	        // but the following insert did not work
 	        .selectAll("#votingPlaceHolder")
+	        .select("#thisdoesnotexist")
 		.data(json.objects)
 		.enter()
 		// .insert("div","#annotationInput")
