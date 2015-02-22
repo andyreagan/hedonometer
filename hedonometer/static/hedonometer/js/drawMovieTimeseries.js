@@ -545,31 +545,8 @@ hedotools.booktimeseries = function() {
 	// console.log(point);
 	// console.log("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie);
 	d3.json("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie,function(error,json) {
-	    // console.log(json);
-	    d3.select("#changeMeAlso")
-		.selectAll("input.annotation")
-		// .insert("#annotationInput","div")
-		.data(json.objects)
-		.enter()
-	        // .insert("#annotationInput","div")
-		.insert("div","#annotationInput")
-		// .append("div")
-		.attr("class","form-group")
-		.append("div")
-		.attr("class","col-sm-offset-3 col-sm-7")
-		.append("div")
-		.attr("class","checkbox")
-		.attr("id","none")
-		.append("label")
-	        .html(function(d,i) { return '<input type="checkbox" id="none" name="'+d.id+'" value="off">'+d.annotation+' (votes: '+d.votes+')'; });
-		// .append("input")
-		// .attr({
-		//     "type": "checkbox",
-		//     "name": function(d,i) { return d.id; },
-		//     "id": "none",
-		//     "value": "off"
-		// })
-		// .text(function(d,i) { return d.annotation; });
+	    console.log(json);
+	    globaljson = json.objects;
 
 	    d3.select("#selectedPoint").attr("style","display: block");
 	    
@@ -578,6 +555,22 @@ hedotools.booktimeseries = function() {
 	            $('#myModal2').modal('show');
 		    hedotools.booktimeseries.getFullText(point);
 		});
+
+	    d3.select("#changeMeAlso")
+		.selectAll("input.annotation")
+		.data(json.objects)
+		.enter()
+		.insert("div","#annotationInput")
+		.attr("class","form-group")
+		.append("div")
+		.attr("class","col-sm-offset-3 col-sm-7")
+		.append("div")
+		.attr("class","checkbox")
+		.attr("id","none")
+		.append("label")
+	        .html(function(d,i) { return '<input type="checkbox" id="none" name="'+d.id+'" value="off">'+d.annotation+' (votes: '+d.votes+')'; });
+
+
 
 	    // <div class="form-group">
 	    //     <div class="col-sm-offset-3 col-sm-7">

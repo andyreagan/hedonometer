@@ -374,12 +374,9 @@ hedotools.booktimeseries = function() {
 	    console.log(json);
 	    d3.select("#changeMeAlso")
 		.selectAll("input.annotation")
-		// .insert("#annotationInput","div")
 		.data(json.objects)
 		.enter()
-	        // .insert("#annotationInput","div")
 		.insert("div","#annotationInput")
-		// .append("div")
 		.attr("class","form-group")
 		.append("div")
 		.attr("class","col-sm-offset-3 col-sm-7")
@@ -388,15 +385,6 @@ hedotools.booktimeseries = function() {
 		.attr("id","none")
 		.append("label")
 	        .html(function(d,i) { return '<input type="checkbox" id="none" name="'+d.id+'" value="off">'+d.annotation+' (votes: '+d.votes+')'; });
-		// .append("input")
-		// .attr({
-		//     "type": "checkbox",
-		//     "name": function(d,i) { return d.id; },
-		//     "id": "none",
-		//     "value": "off"
-		// })
-		// .text(function(d,i) { return d.annotation; });
-
 
 	    // <div class="form-group">
 	    //     <div class="col-sm-offset-3 col-sm-7">
