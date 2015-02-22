@@ -48,3 +48,8 @@ p.fulltext {
    padding: 0 !important;
    margin: 0 !important;
 }
+
+line.hoverline {
+    pointer-events: none;
+}
+
