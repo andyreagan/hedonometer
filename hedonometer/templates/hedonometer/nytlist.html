@@ -9,14 +9,13 @@
       .youtube { padding-bottom: 30px; }
       ol.nytlist { list-style: decimal; }
     </style>
-
 {% endblock %}
 
 {% block content %}
     <div class="container">
       <div class="row">
-	<div class="col-xs-12 col-md-7">
-	  <h3>Happiness of News: The New York Times by section</h3>
+	<div class="col-xs-12 col-md-10">
+	  <h3>Happiness of News: The New York Times by Section, 1987&mdash;2007</h3>
 	  <!-- <ol class="nytlist"> -->
 	  <!--   {% for nyt in nyt_list %} -->
 	  <!--   <li><a href="/embed/nyt/all/{{ nyt.genre }}/" target="_blank">{{ nyt.genre }}</a>: {{nyt.happs|floatformat:2}}</li> -->
@@ -24,7 +23,6 @@
 	  <!-- </ol> -->
 	</div><!--col-->
       </div><!--row-->
-      
       <!-- now here is a look at the cities shift -->
       <br>
       <div class="row">
@@ -33,7 +31,6 @@
 	    <div id="barChart" class="figure"></div>
 	  </div> <!-- paper -->
 	</div><!-- row -->
-
 	<div class="clearfix visible-xs"></div>
 	<div class="col-xs-12 col-lg-5">
 	  <div class="paper">
@@ -61,10 +58,7 @@
 		      <button type="button" class="btn btn-default btn-xs pull-right selbutton one">Select on list</button>
 		    </div>
 		  </div> <!-- column -->
-
 		  <div class="clearfix visible-xs"></div>
-
-
 		  <div class="row xtra-btm-padding">
 		    <div class="col-xs-2">
 		      <p class="pull-left">Comp:</p>
@@ -82,7 +76,6 @@
 		      <button type="button" class="btn btn-primary btn-xs pull-right selbutton two">Select on list</button>
 		    </div> <!-- column -->
 		  </div> <!-- row -->
-
 		</div> <!-- row -->
 	      </div> <!-- column -->
 	    </div> <!-- row -->
@@ -92,7 +85,6 @@
 		  <p class="sumtext text"></p>
 		</div> <!-- column -->
 	      </div> <!-- text row -->
-
 	    </div> <!-- shift figure -->
 	      <div class="row">
 		<div class="col-xs-12">
@@ -105,11 +97,21 @@
 	</div> <!-- map/shift column -->
       </div> <!-- main row -->
       <br>
+      <div class="row">
+	<div class="col-xs-12 col-md-3">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-6">
+	  Instructions: Play around.  If this doesn't work see <a href="instructions.html">here</a> for help.
+	</div> <!-- column -->
+      </div> <!-- text row -->
       <br>
-      <br>
-      Instructions: Play around.  If this doesn't work see <a href="instructions.html">here</a> for help.
-      <br>
-      <br>
+      <div class="row">
+	<div class="col-xs-12 col-md-3">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-6">
+      Source: Sandhaus, Evan. The New York Times Annotated Corpus LDC2008T19. DVD. Philadelphia: Linguistic Data Consortium, 2008 <a href="https://catalog.ldc.upenn.edu/LDC2008T19">https://catalog.ldc.upenn.edu/LDC2008T19</a>
+	</div> <!-- column -->
+      </div> <!-- text row -->
       <br>
     </div><!--container-->
 
@@ -117,7 +119,6 @@
 
 
 {% block bottomjs %}
-
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
     <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
@@ -128,7 +129,6 @@
     <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
     <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
     <script src="{% static "hedonometer/js/nyt-on-load.js" %}"></script>
-
 {% endblock %}
 
 
