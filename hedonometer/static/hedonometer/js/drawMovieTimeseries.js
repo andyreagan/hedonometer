@@ -548,20 +548,14 @@ hedotools.booktimeseries = function() {
 	    console.log(json);
 	    globaljson = json.objects;
 
-	    d3.select("#selectedPoint").attr("style","display: block");
-	    
-	    d3.select("#popuptext")
-		.on("click",function() { 
-	            $('#myModal2').modal('show');
-		    hedotools.booktimeseries.getFullText(point);
-		});
-
 	    d3.select("#changeMeAlso")
 		// .selectAll("input.annotation")
 	        // that selection was empty
-	        // but the following insert did not work
+	        // but the later insert did not work
 	        .selectAll("#votingPlaceHolder")
-	        .select("#thisdoesnotexist")
+	        // the selection needed to be empty for the .enter()
+	        // to actually append nodes
+	        .selectAll("#thisdoesnotexist")
 		.data(json.objects)
 		.enter()
 		// .insert("div","#annotationInput")
@@ -575,7 +569,13 @@ hedotools.booktimeseries = function() {
 		.append("label")
 	        .html(function(d,i) { return '<input type="checkbox" id="none" name="'+d.id+'" value="off">'+d.annotation+' (votes: '+d.votes+')'; });
 
-
+	    d3.select("#selectedPoint").attr("style","display: block");
+	    
+	    d3.select("#popuptext")
+		.on("click",function() { 
+	            $('#myModal2').modal('show');
+		    hedotools.booktimeseries.getFullText(point);
+		});
 
 	    // <div class="form-group">
 	    //     <div class="col-sm-offset-3 col-sm-7">
