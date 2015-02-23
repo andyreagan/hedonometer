@@ -120,6 +120,7 @@ class Writer(models.Model):
 class Movie(models.Model):
     filename = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
+    titleraw = models.CharField(max_length=200)
     director = models.ManyToManyField(Director)
     actor = models.ManyToManyField(Actor)
     writer = models.ManyToManyField(Writer)
