@@ -4,10 +4,10 @@
 var selType = true;
 
 var refencoder = d3.urllib.encoder().varname("ref");
-var refdecoder = d3.urllib.decoder().varname("ref").varresult("all");
+var refdecoder = d3.urllib.decoder().varname("ref").varresult("All");
 
 var compencoder = d3.urllib.encoder().varname("comp");
-var compdecoder = d3.urllib.decoder().varname("comp").varresult("science");
+var compdecoder = d3.urllib.decoder().varname("comp").varresult("Science");
 
 var shiftRef = 0;
 var shiftComp = 10;
@@ -81,7 +81,7 @@ hedotools.barchartoncall = function() {
 function sectionIndex(name) {
     var found = false;
     for (var i=0; i<sectionListWAllFirst.length; i++) {
-	if (sectionListWAllFirst[i].genre === name) {
+	if (sectionListWAllFirst[i].genre.toLowerCase() === name.toLowerCase()) {
 	    found = true;
 	    return i;
 	}
@@ -159,7 +159,7 @@ function loadCsv() {
 	sectionList = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/api/v1/nytall/?format=json&genre=all", function(json) {
+    d3.json("http://hedonometer.org/api/v1/nytall/?format=json&genre=All", function(json) {
 	allEntry = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
