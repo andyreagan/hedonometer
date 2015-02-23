@@ -272,6 +272,28 @@ def embedNYT(request,sectionref,sectioncomp):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
+def embedCNN(request,hostref,hostcomp):
+    # # but I do need a dates
+    # logger.debug(some_hash)
+
+
+    specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CNN Host Wordshift",hostcomp+" lines compared to "+hostref+" lines",hostcomp,hostref)
+
+    filenames = {'h': 'dont matter',
+                 'refFile': '/data/CNN/NYT_labVecs/%s.csv' % hostref,
+                 "refFileName": hostref,
+                 'compFile': '/data/NYT/NYT_labVecs/%s.csv' % hostcomp,
+                 "compFileName": hostcomp,
+                 'fulltext': specialtext,
+                 'contextflag': 'main', # 'none'
+    }
+
+    logger.debug(filenames)
+    # logger.debug(Context(filenames))
+
+    # now pass those into the view
+    return render(request, 'hedonometer/embed.html', Context(filenames))
+
 def embedMainSimple(request,onedate):
     [year,month,day] = map(int,onedate.split('-'))
     d = datetime.datetime(year,month,day)
