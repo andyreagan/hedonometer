@@ -272,17 +272,17 @@ def embedNYT(request,sectionref,sectioncomp):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
-def embedCNN(request,hostref,hostcomp):
+def embedCBS(request,hostref,hostcomp):
     # # but I do need a dates
     # logger.debug(some_hash)
 
 
-    specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CNN Host Wordshift",hostcomp+" lines compared to "+hostref+" lines",hostcomp,hostref)
+    specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CBS Host Wordshift",hostcomp+" lines compared to "+hostref+" lines",hostcomp,hostref)
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/CNN/%s.csv' % hostref,
+                 'refFile': '/data/CBS/%s.csv' % hostref,
                  "refFileName": hostref,
-                 'compFile': '/data/CNN/%s.csv' % hostcomp,
+                 'compFile': '/data/CBS/%s.csv' % hostcomp,
                  "compFileName": hostcomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
