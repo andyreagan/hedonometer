@@ -280,9 +280,9 @@ def embedCNN(request,hostref,hostcomp):
     specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CNN Host Wordshift",hostcomp+" lines compared to "+hostref+" lines",hostcomp,hostref)
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/CNN/NYT_labVecs/%s.csv' % hostref,
+                 'refFile': '/data/CNN/%s.csv' % hostref,
                  "refFileName": hostref,
-                 'compFile': '/data/NYT/NYT_labVecs/%s.csv' % hostcomp,
+                 'compFile': '/data/CNN/%s.csv' % hostcomp,
                  "compFileName": hostcomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
