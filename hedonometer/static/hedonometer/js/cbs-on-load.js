@@ -178,7 +178,7 @@ var initializeList = function() {
     classColor.domain([happslist.length,1]);
 
     hedotools.barchart.setfigure(d3.select("#barChart"))
-        ._xlabeltext("Happiness Difference from all of CBS Morning News")
+        ._xlabeltext("Happiness Difference from all of CBS Morning News (h_avg = 5.96)")
 	._data(happslist)
 	._datanames(titlelist)
 	._figheight(120)
