@@ -97,6 +97,13 @@ class nytlist(View):
         nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
         return render(request, 'hedonometer/nytlist.html',{"nyt_list": nyt_list})
 
+class cbslist(View):
+     # return all of the annotations for a book
+    def get(self, request):
+        # nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
+        cbs_list = {}
+        return render(request, 'hedonometer/cbslist.html',{"cbs_list": cbs_list})
+
 class booklist(View):
      # return all of the annotations for a book
     def get(self, request):
@@ -278,7 +285,7 @@ def embedCBS(request,hostref,hostcomp):
 
     refi = ["CHARLIEROSE","GAYLEKING","NORAHODONNELL","ALL"].index(hostref)
     compi = ["CHARLIEROSE","GAYLEKING","NORAHODONNELL","ALL"].index(hostcomp)
-    hosts_nice = ["Charlie Rose","Gayle King","Norah O' Donnell","all"]
+    hosts_nice = ["Charlie Rose","Gayle King","Norah O'Donnell","all"]
     if refi == 3:
         specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CBS Host Wordshift",hosts_nice[compi]+"'s lines compared to "+hosts_nice[refi]+" lines",hosts_nice[compi],hosts_nice[refi])
     else:
