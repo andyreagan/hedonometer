@@ -10,7 +10,7 @@ var compencoder = d3.urllib.encoder().varname("comp");
 var compdecoder = d3.urllib.decoder().varname("comp").varresult("Science");
 
 var shiftRef = 0;
-var shiftComp = 10;
+var shiftComp = 3;
 
 var lens;
 var words;
@@ -59,13 +59,11 @@ hedotools.barchartoncall = function() {
     var test = function(d,i) {
 	if (selType) {
 	    shiftComp = i+1;
-	    console.log(shiftComp);
 	    d3.select(".complabel").text(sectionList[i].genre);
 	    compencoder.varval(sectionList[i].genre);
 	}
 	else {
 	    shiftRef = i+1;
-	    console.log(shiftRef);
 	    d3.select(".reflabel").text(sectionList[i].genre);
 	    refencoder.varval(sectionList[i].genre);
 	}
