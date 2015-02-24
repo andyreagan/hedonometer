@@ -7,7 +7,7 @@ var refencoder = d3.urllib.encoder().varname("ref");
 var refdecoder = d3.urllib.decoder().varname("ref").varresult("All");
 
 var compencoder = d3.urllib.encoder().varname("comp");
-var compdecoder = d3.urllib.decoder().varname("comp").varresult("Science");
+var compdecoder = d3.urllib.decoder().varname("comp").varresult("Charlie Rose");
 
 var shiftRef = 0;
 var shiftComp = 3;
