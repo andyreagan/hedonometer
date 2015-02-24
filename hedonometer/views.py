@@ -276,13 +276,18 @@ def embedCBS(request,hostref,hostcomp):
     # # but I do need a dates
     # logger.debug(some_hash)
 
-
-    specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CBS Host Wordshift",hostcomp+" lines compared to "+hostref+" lines",hostcomp,hostref)
+    refi = ["CHARLIEROSE","GAYLEKING","NORAHODONNELL","ALL"].index(hostref)
+    compi = ["CHARLIEROSE","GAYLEKING","NORAHODONNELL","ALL"].index(hostcomp)
+    hosts_nice = ["Charlie Rose","Gayle King","Norah O' Donnell","all"]
+    if refi == 3:
+        specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CBS Host Wordshift",hosts_nice[compi]+"'s lines compared to "+hosts_nice[refi]+" lines",hosts_nice[compi],hosts_nice[refi])
+    else:
+        specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format("CBS Host Wordshift",hosts_nice[compi]+"'s lines compared to "+hosts_nice[refi]+"'s lines",hosts_nice[compi],hosts_nice[refi])
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/CBS/%s.csv' % hostref,
+                 'refFile': 'http://hedonometer.org/data/CBS/%s.csv' % hostref,
                  "refFileName": hostref,
-                 'compFile': '/data/CBS/%s.csv' % hostcomp,
+                 'compFile': 'http://hedonometer.org/data/CBS/%s.csv' % hostcomp,
                  "compFileName": hostcomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
