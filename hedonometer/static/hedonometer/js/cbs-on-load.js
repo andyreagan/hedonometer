@@ -217,7 +217,7 @@ var drawShift = function() {
 		hedotools.shifter.setText(["Why the CBS Morning News as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].genre+"'s lines:"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than CBS Monring News as a whole:"]).plot();
+		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than CBS Morning News as a whole:"]).plot();
 	    }
 	}
     }
