@@ -59,11 +59,13 @@ hedotools.barchartoncall = function() {
     var test = function(d,i) {
 	if (selType) {
 	    shiftComp = i+1;
+	    console.log(shiftComp);
 	    d3.select(".complabel").text(sectionList[i].genre);
 	    compencoder.varval(sectionList[i].genre);
 	}
 	else {
 	    shiftRef = i+1;
+	    console.log(shiftRef);
 	    d3.select(".reflabel").text(sectionList[i].genre);
 	    refencoder.varval(sectionList[i].genre);
 	}
@@ -155,12 +157,12 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/api/v1/nyt/?format=json", function(json) {
-	sectionList = json.objects;
+    d3.json("http://hedonometer.org/data/CBS/hosts.json", function(json) {
+	sectionList = json;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/api/v1/nytall/?format=json&genre=All", function(json) {
-	allEntry = json.objects;
+    d3.json("http://hedonometer.org/data/CBS/all.json", function(json) {
+	allEntry = json;
 	if (!--allLoadsRemaining) initializeBoth();
     });
 };
@@ -178,10 +180,10 @@ var initializeList = function() {
     classColor.domain([happslist.length,1]);
 
     hedotools.barchart.setfigure(d3.select("#barChart"))
-        ._xlabeltext("Happiness Difference from all of NYT")
+        ._xlabeltext("Happiness Difference from all of CBS Morning News")
 	._data(happslist)
 	._datanames(titlelist)
-	._figheight(500)
+	._figheight(120)
 	.plot();
 
     var refListDrop = d3.select("#refSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
@@ -210,27 +212,27 @@ var drawShift = function() {
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
 	if ((shiftComp > 0) && (shiftRef > 0)) {
-	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+	    hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].genre+"'s lines:"]).plot();
 	}
 	else {
 	    if (shiftComp === 0) {
-		hedotools.shifter.setText(["Why the NYT as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+		hedotools.shifter.setText(["Why the CBS Morning News as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].genre+"'s lines:"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the NYT as a whole:"]).plot();
+		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than CBS Monring News as a whole:"]).plot();
 	    }
 	}
     }
 
     // load both of the files
     var finalLoadsRemaining = 2;
-    var refFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftRef].filename+".stripped.indexed";
-    var compFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftComp].filename+".stripped.indexed";
+    var refFile = "http://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftRef].filename;
+    var compFile = "http://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftComp].filename;
 
     var refF;
     var compF;
 
-    d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].genre+"/"+sectionListWAllFirst[shiftComp].genre+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+    d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/cbs/"+sectionListWAllFirst[shiftRef].embedname+"/"+sectionListWAllFirst[shiftComp].embedname+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
     d3.text(refFile,function(text) {
 	refF = text.split("\n");
