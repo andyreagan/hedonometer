@@ -178,7 +178,8 @@ var initializeList = function() {
     classColor.domain([happslist.length,1]);
 
     hedotools.barchart.setfigure(d3.select("#barChart"))
-        ._xlabeltext("Happiness Difference from all of CBS Morning News (h_avg = 5.96)")
+        ._xlabeltext("Happiness Difference from all of CBS This Morning (h = 5.96)")
+        // ._manualTicks([-.2,-.1,0,.1,.2])
 	._data(happslist)
 	._datanames(titlelist)
 	._figheight(120)
@@ -214,10 +215,10 @@ var drawShift = function() {
 	}
 	else {
 	    if (shiftComp === 0) {
-		hedotools.shifter.setText(["Why the CBS Morning News as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].genre+"'s lines:"]).plot();
+		hedotools.shifter.setText(["Why the CBS This Morning as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].genre+"'s lines:"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than CBS Morning News as a whole:"]).plot();
+		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].genre+"'s lines are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than CBS This Morning as a whole:"]).plot();
 	    }
 	}
     }

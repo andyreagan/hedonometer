@@ -74,6 +74,13 @@ hedotools.barchart = function() {
 	return hedotools.barchart;
     }
 
+    var manualTicks = [];
+    var _manualTicks = function(_) {
+	if (!arguments.length) return manualTicks;
+	manualTicks = _;
+	return hedotools.barchart;
+    }
+
     var sortedStates;
     var getSorted = function(_) {
 	if (!arguments.length) return sortedStates.map(function(d) { return d[2]; });
@@ -194,9 +201,18 @@ hedotools.barchart = function() {
 	// 	.attr("transform", "translate(0,0)")
 	// 	.call(yAxis);
 
-	var xAxis = create_xAxis()
-	    .innerTickSize(6)
-	    .outerTickSize(0);
+	var xAxis;
+	if (manualTicks.length > 0) {
+	    xAxis = create_xAxis()
+		.innerTickSize(6)
+		.outerTickSize(0)
+		.tickValues(manualTicks);
+	}
+	else {
+	    xAxis = create_xAxis()
+		.innerTickSize(6)
+		.outerTickSize(0);
+	}
 
 	axes.append("g")
 	    .attr("class", "x axis ")
@@ -312,6 +328,7 @@ hedotools.barchart = function() {
     var opublic = { setfigure: setfigure,
 		    setdata: setdata,
 		    _data: _data,
+		    _manualTicks: _manualTicks,
 		    _datanames: _datanames,
 		    _figheight: _figheight, 
 		    _xlabeltext: _xlabeltext, 
