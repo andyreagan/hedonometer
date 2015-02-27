@@ -86,14 +86,14 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
         profile.save()
         print "saved"
 
-    print user
+    # print user
     authenticaeduser = authenticate(
         username=authorized_tokens['screen_name'],
         password=authorized_tokens['oauth_token_secret']
     )
-    print authenticaeduser
+    # print authenticaeduser
     if authenticaeduser is not None:
-        print "not none"
+        # print "not none"
         login(request, authenticaeduser)
         print request.session
         # print request.session['next_url']
@@ -106,10 +106,12 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
 
 def user_timeline(request):
     """An example view with Twython/OAuth hooks/calls to fetch data about the user in question."""
+
     user = request.user.twitterprofile
     twitter = Twython(settings.TWITTER_KEY, settings.TWITTER_SECRET,
                       user.oauth_token, user.oauth_secret)
     user_tweets = twitter.get_home_timeline()
+
     return render_to_response('twython_django/tweets.html', {'tweets': user_tweets})
 
 

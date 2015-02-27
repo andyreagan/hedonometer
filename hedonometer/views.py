@@ -66,7 +66,11 @@ class diy(View):
 
 
         # generate a database model
-        m = Embeddable(h=r.hexdigest()+c.hexdigest(),refFile="/data/embeds/word-vectors/"+r.hexdigest()+".csv",compFile="/data/embeds/word-vectors/"+c.hexdigest()+".csv",customTitleText="",customFullText="") # .objects.filter(h__exact=some_hash)
+        m = Embeddable(h=r.hexdigest()+c.hexdigest(),
+                       refFile="/data/embeds/word-vectors/"+r.hexdigest()+".csv",
+                       compFile="/data/embeds/word-vectors/"+c.hexdigest()+".csv",
+                       customTitleText="",
+                       customFullText="") # .objects.filter(h__exact=some_hash)
         
         m.save()
 
@@ -205,7 +209,15 @@ class movieannotation(View):
         # create a new annotation
         if not vote:
             print "making a new annotation"
-            a = MovieAnnotation(movie=m,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),window=request.POST.get("window","2000"),date=datetime.datetime.now(),votes=1,winner="0")
+            a = MovieAnnotation(movie=m,
+                                user=request.user.twitterprofile,
+                                position=request.POST.get("point","none"),
+                                annotation=request.POST.get("annotation","none"),
+                                tweeted=request.POST.get("tweetflag","notset"),
+                                window=request.POST.get("window","2000"),
+                                date=datetime.datetime.now(),
+                                votes=1,
+                                winner="0")
             # save it
             a.save()
 
@@ -422,8 +434,6 @@ def parser(request):
     # return HttpResponseRedirect("/embed/"+some_hash+"/")
 
 class csv_view(View):
-
-    
     # Create the HttpResponse object with the appropriate CSV header.
     def get(self, request):
         # print request

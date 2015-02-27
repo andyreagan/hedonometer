@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from hedonometer.models import Book,Movie
 
 User = get_user_model()
 
@@ -15,7 +14,7 @@ class TwitterProfile(models.Model):
     oauth_secret = models.CharField(max_length=200)
 
 class Annotation(models.Model):
-    book = models.ForeignKey(Book)
+    book = models.ForeignKey('hedonometer.Book')
     user = models.ForeignKey(TwitterProfile)
     # give a position in percentage
     position = models.CharField(max_length=100)
@@ -38,7 +37,7 @@ class Vote(models.Model):
     date = models.DateTimeField()
 
 class MovieAnnotation(models.Model):
-    movie = models.ForeignKey(Movie)
+    movie = models.ForeignKey('hedonometer.Movie')
     user = models.ForeignKey(TwitterProfile)
     # give a position in percentage
     position = models.CharField(max_length=100)
