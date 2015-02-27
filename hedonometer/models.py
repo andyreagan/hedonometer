@@ -165,7 +165,28 @@ class Embeddable(models.Model):
     refFileName = models.CharField(max_length=200, null=True, blank=True)
     compFile = models.CharField(max_length=200, null=True, blank=True)
     compFileName = models.CharField(max_length=200, null=True, blank=True)
+
+    # two options here, which can be blank
+    # this stores a full text, which is comma separated for the lines (up to four lines)
     customFullText = models.CharField(max_length=600, null=True, blank=True)
+    # this stores just a title
     customTitleText = models.CharField(max_length=200, null=True, blank=True)
+
+    # the idea here is that we can let the embed page know whether this is
+    # coming from the user page, or from the 
     contextFlag = models.CharField(max_length=200, null=True, blank=True)
+    
+    # for the user-created embeds, so we can query by them
     author = models.ForeignKey(User,null=True)
+
+    # let's also add some more information about them
+    createdDate = models.DateTimeField(null=True, blank=True)
+    updatedDate = models.DateTimeField(null=True, blank=True)
+
+    # a special list of words to exclude, comma separted
+    stopWords = models.CharField(max_length=600, null=True, blank=True)
+
+
+
+
+
