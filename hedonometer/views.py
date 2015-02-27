@@ -1,5 +1,4 @@
 # /usr/share/nginx/wiki/mysite/hedonometer/views.py
-
 from django.shortcuts import render
 from django.http import Http404
 from django.http import HttpResponseRedirect, HttpResponse
