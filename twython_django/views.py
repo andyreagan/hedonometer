@@ -91,6 +91,7 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
         username=authorized_tokens['screen_name'],
         password=authorized_tokens['oauth_token_secret']
     )
+
     # print authenticaeduser
     if authenticaeduser is not None:
         print "not none"
@@ -99,7 +100,7 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
 
         print request.session
         print request.session['next_url']
-        print request.session['previous_url']
+        # print request.session['previous_url']
 
         next_url = request.session.get('next_url', redirect_url)
         return HttpResponseRedirect(next_url)
