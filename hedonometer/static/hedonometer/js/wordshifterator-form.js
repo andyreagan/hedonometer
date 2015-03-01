@@ -11,6 +11,9 @@ String.prototype.width = function(font) {
 function validateForm() {
     var ref = document.forms["wordshifterator"]["refText"].value;
     var comp = document.forms["wordshifterator"]["compText"].value;
+    if (ref === "(we don't keep your text)") {
+	return true;
+    }
     if (ref === "") {
         alert("Enter reference text first");
         return false;

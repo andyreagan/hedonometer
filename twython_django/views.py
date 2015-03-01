@@ -57,6 +57,7 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
     """
     # Now that we've got the magic tokens back from Twitter, we need to exchange
     # for permanent ones and store them...
+
     oauth_token = request.session['request_token']['oauth_token']
     oauth_token_secret = request.session['request_token']['oauth_token_secret']
     twitter = Twython(settings.TWITTER_KEY, settings.TWITTER_SECRET,
@@ -76,10 +77,6 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
         password=authorized_tokens['oauth_token_secret']
     )
 
-    # # print authenticaeduser
-    # if authenticaeduser is not None:
-    #     print "not none"
-
     login(request, authenticaeduser)
 
     print request.session
@@ -87,10 +84,6 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
 
     next_url = request.session.get('next_url', redirect_url)
     return HttpResponseRedirect(next_url)
-
-    # else:
-    #     print "returning a vanilla object"
-    #     return HttpResponse("Could not log in, for some reason.")
 
 def user_timeline(request):
     """An example view with Twython/OAuth hooks/calls to fetch data about the user in question."""
