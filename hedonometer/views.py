@@ -411,15 +411,15 @@ def embedUpload(request,some_hash):
     # grab the filenames of the data from the database
     # filenames = [m.refFile,m.compFile]
     filenames = {
-        'refFile': m[0].refFile,
-        "compFile": m[0].compFile,
+        'refFile': m.refFile,
+        "compFile": m.compFile,
         'stopWords': h.stopWords,
     }
-    if len(m[0].customTitleText) > 0:
+    if len(m.customTitleText) > 0:
         filenames['contextflag'] = 'justtitle'
-        filenames['fulltext'] = m[0].customTitleText
-    if len(m[0].customFullText) > 0:
-        filenames['fulltext'] = m[0].customFullText
+        filenames['fulltext'] = m.customTitleText
+    if len(m.customFullText) > 0:
+        filenames['fulltext'] = m.customFullText
 
     # logger.debug(filenames)
     # logger.debug(Context(filenames))
