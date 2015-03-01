@@ -67,46 +67,30 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
 
     print authorized_tokens
 
-    # If they already exist, grab them, login and redirect to a page displaying stuff.
-    try:
-        print "trying to find a user"
-        user = User.objects.get(username=authorized_tokens['screen_name'])
-        print "found"        
-    except User.DoesNotExist:
-        # We mock a creation here; no email, password is just the token, etc.
-        print "creating a user"
-        user = User.objects.create_user(authorized_tokens['screen_name'], "fjdsfn@jfndjfn.com", authorized_tokens['oauth_token_secret'])
-        user.save()
-        print "saved"
-        print "creating a twitter profile"
-        profile = TwitterProfile()
-        profile.user = user
-        profile.oauth_token = authorized_tokens['oauth_token']
-        profile.oauth_secret = authorized_tokens['oauth_token_secret']
-        profile.save()
-        print "saved"
+    user,created = User.objects.get_or_create(username=authorized_tokens['screen_name'],defaults={"email":"fjdsfn@jfndjfn.com", "password":authorized_tokens['oauth_token_secret']})
 
-    # print user
+    profile,profileCreated = TwitterProfile.objects.get_or_create(user=user,defaults={"oauth_token": authorized_tokens['oauth_token'], "oauth_secret": authorized_tokens['oauth_token_secret']})
+
     authenticaeduser = authenticate(
         username=authorized_tokens['screen_name'],
         password=authorized_tokens['oauth_token_secret']
     )
 
-    # print authenticaeduser
-    if authenticaeduser is not None:
-        print "not none"
+    # # print authenticaeduser
+    # if authenticaeduser is not None:
+    #     print "not none"
 
-        login(request, authenticaeduser)
+    login(request, authenticaeduser)
 
-        print request.session
-        print request.session['next_url']
-        # print request.session['previous_url']
+    print request.session
+    print request.session['next_url']
 
-        next_url = request.session.get('next_url', redirect_url)
-        return HttpResponseRedirect(next_url)
-    else:
-        print "returning a vanilla object"
-        return HttpResponse("Could not log in, for some reason.")
+    next_url = request.session.get('next_url', redirect_url)
+    return HttpResponseRedirect(next_url)
+
+    # else:
+    #     print "returning a vanilla object"
+    #     return HttpResponse("Could not log in, for some reason.")
 
 def user_timeline(request):
     """An example view with Twython/OAuth hooks/calls to fetch data about the user in question."""
