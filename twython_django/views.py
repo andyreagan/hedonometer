@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth import get_user_model
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.core.urlresolvers import reverse
@@ -93,11 +93,14 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
     )
     # print authenticaeduser
     if authenticaeduser is not None:
-        # print "not none"
+        print "not none"
+
         login(request, authenticaeduser)
+
         print request.session
-        # print request.session['next_url']
-        # print request.session['previous_url']
+        print request.session['next_url']
+        print request.session['previous_url']
+
         next_url = request.session.get('next_url', redirect_url)
         return HttpResponseRedirect(next_url)
     else:
