@@ -32,7 +32,7 @@
       <br>
       {% endif %}
 
-      {% if not user.is_authenticated %}
+      {% if user.is_authenticated %}
       <form action="{{ return_link }}" method="post" class="form" id="textInputForm" name="wordshifterator" onsubmit="return validateForm()">
 	{% csrf_token %}
 	<div class="row">
