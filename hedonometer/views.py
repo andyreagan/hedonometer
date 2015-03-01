@@ -413,7 +413,7 @@ def embedUpload(request,some_hash):
     filenames = {
         'refFile': m.refFile,
         "compFile": m.compFile,
-        'stopWords': h.stopWords,
+        'stopWords': m.stopWords,
     }
     if len(m.customTitleText) > 0:
         filenames['contextflag'] = 'justtitle'
