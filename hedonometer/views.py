@@ -287,6 +287,7 @@ def embedMain(request,dateref,datecomp):
                  "compFileName": datecomp,
                  'fulltext': '',
                  'contextflag': 'none',
+                 'stopWords': '',
     }
 
     logger.debug(filenames)
@@ -317,6 +318,7 @@ def embedNYT(request,sectionref,sectioncomp):
                  "compFileName": sectioncomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
+                 'stopWords': '',
     }
 
     logger.debug(filenames)
@@ -344,6 +346,7 @@ def embedCBS(request,hostref,hostcomp):
                  "compFileName": hostcomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
+                 'stopWords': '',
     }
 
     logger.debug(filenames)
@@ -374,6 +377,7 @@ def embedMainSimple(request,onedate):
                  'compFile': 'http://hedonometer.org/data/word-vectors/%s-sum.csv' % onedate,
                  'fulltext': specialtext,
                  'contextflag': 'main',
+                 'stopWords': '',
     }
 
     # now pass those into the view
@@ -402,18 +406,19 @@ def embedUpload(request,some_hash):
 
     # look up that hash in our database
     # m = Embeddable.objects.filter(compFile__contains="2014-06-06")
-    m = Embeddable.objects.filter(h__exact=some_hash)
+    m = Embeddable.objects.get(h=some_hash)
 
     # grab the filenames of the data from the database
     # filenames = [m.refFile,m.compFile]
     filenames = {
         'refFile': m[0].refFile,
         "compFile": m[0].compFile,
+        'stopWords': h.stopWords,
     }
     if len(m[0].customTitleText) > 0:
         filenames['contextflag'] = 'justtitle'
         filenames['fulltext'] = m[0].customTitleText
-    if len(m[0].customFullText) > 0:    
+    if len(m[0].customFullText) > 0:
         filenames['fulltext'] = m[0].customFullText
 
     # logger.debug(filenames)

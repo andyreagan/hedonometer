@@ -78,6 +78,7 @@ hedotools.loader = function() {
 	hedotools.shifter._compF(compFvec);
 	hedotools.shifter._lens(lens);
 	hedotools.shifter._words(words);
+	hedotools.shifter.ignore(embedDetails.stopWords.split(","));
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
 	hedotools.shifter.setfigure(d3.select('#shift01'));
@@ -113,3 +114,5 @@ hedotools.loader = function() {
 }();
 
 hedotools.loader.load();
+
+
