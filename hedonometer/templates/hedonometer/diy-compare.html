@@ -9,8 +9,17 @@
     </style>
 {% endblock %}
 
+{% block headerjs %}
+<!-- variables from Django for the JS to consume -->
+<script>
+  var movie = "{{ movie|escapejs }}";
+</script>
+{% endblock %}
+
+
 {% block content %}
     <div class="container">
+      {% if new %}
       <div class="row">
 	<div class="jumbotron">
 	  <h1>The Wordshifterator.</h1>
@@ -18,73 +27,76 @@
 	  Note: Texts must contain at least 1,000 words. Details about how this works can be found <a href="http://www.uvm.edu/storylab/2014/10/06/hedonometer-2-0-measuring-happiness-and-using-word-shifts/" target="_blank">here</a>.
 	</div>
       </div>
+      {% else %}
+      <h3>Edit your wordshift here</h3>      
+      <br>
+      {% endif %}
 
-      {% if user.is_authenticated %}
-      <form action="/diy-compare/" method="post" class="form" id="textInputForm" name="wordshifterator" onsubmit="return validateForm()">
+      {% if not user.is_authenticated %}
+      <form action="{{ return_link }}" method="post" class="form" id="textInputForm" name="wordshifterator" onsubmit="return validateForm()">
 	{% csrf_token %}
 	<div class="row">
-	  <div class="col-xs-12 col-md-1">
+	  <div class="col-xs-12 col-md-offset-1 col-md-5">
+	    <div class="form-group">
+	      <label for="refTitle">Name of reference text:</label>
+	      <input type="" class="form-control" id="refTitle" placeholder="Reference Title" name="refTitle" value="{{ model.refFileName }}">
+	    </div>
+	    <br>
+	    <div class="form-group">
+	      <label for="refText">Reference text:</label>
+	      <textarea class="form-control" rows="10" id="refText" name="refText" placeholder="Paste Reference Text Here" {{ state }}>{{ filltext }}</textarea>
+	    </div>
 	  </div> <!-- column -->
-	  <div class="col-xs-12 col-md-5">
-	    <input type="" class="form-control" placeholder="Name of reference text" name="refTitle">
-	    <textarea class="form-control" rows="10" name="refText" placeholder="Enter Reference Text Here"></textarea>
-	  </div> <!-- column -->
-	  <div class="col-xs-12 col-md-5">
-	    <input type="" class="form-control" placeholder="Name of comparison text" name="compTitle">
-	    <textarea class="form-control" rows="10" name="compText" placeholder="Enter Comparison Text Here"></textarea>
-	  </div> <!-- column -->
-	</div>
-	<br>
-	<div class="form-group">
-	  <label for="stopWords">Spefic words to exclude (comma separated):</label>
-	  <input type="" class="form-control" id="stopWords" placeholder="" name="stopWordsInput">
-	</div>
-	<div class="row form-horizontal">
-	  <div class="col-xs-12 col-md-1">
-	  </div>
 	  <div class="col-xs-12 col-md-5">
 	    <div class="form-group">
-	      <label for="title">Title:</label>
-	      <input type="" class="form-control" id="title" placeholder="" name="titleInput">
+	      <label for="compTitle">Name of comparison text:</label>
+	      <input type="" class="form-control" id="compTitle" placeholder="Comparison Title" name="compTitle" value="{{ model.compFileName }}">
 	    </div>
+	    <br>
+	    <div class="form-group">
+	      <label for="compText">Comparison text:</label>
+	      <textarea class="form-control" rows="10" id="compText" name="compText" placeholder="Paste Comparison Text Here" {{ state }}>{{ filltext }}</textarea>
+	    </div> <!-- form group -->
+	  </div> <!-- column -->
+	</div> <!-- row -->
+	<div class="form-group form-horizontal row">
+	  <label for="titleInput" class="control-label col-md-offset-1 col-md-1">Title:</label>
+	  <div class="col-md-5">
+	    <input type="" class="form-control" id="titleInput" placeholder="" name="titleInput" value="{{ model.customTitleText }}">
 	  </div>
 	</div>
-	<br>
-	<div class="row form-horizontal">
-	  <div class="col-xs-12 col-md-1">
-	  </div> <!-- column -->
-	  <div class="col-xs-12 col-md-11">
-	    <div class="form-group form-group-sm">
-	      <label class="col-sm-1 control-label" for="formGroupInputSmall">Language</label>
-	      <div class="col-sm-3">
-		<select class="form-control">
-		  <option>English</option>
-		  <option>Arabic</option>
-		  <option>Chinese</option>
-		  <option>French</option>
-		  <option>German</option>
-		  <option>Hindi</option>
-		  <option>Indonesian</option>
-		  <option>Korean</option>
-		  <option>Pashto</option>
-		  <option>Portuguese</option>
-		  <option>Russian</option>
-		  <option>Spanish</option>
-		  <option>Urdu</option>
-		</select>
-	      </div>
-	    </div>
-
-	  </div> <!-- column -->
+	<div class="form-group form-horizontal row">
+	  <label for="stopWordInput" class="control-label col-md-offset-1 col-md-1">Stopwords:</label>
+	  <div class="col-md-5">
+	    <input type="" class="form-control" id="stopWordInput" placeholder="Words to ignore, optional" name="stopWordInput" value="{{ model.stopWords }}">
+	    <span class="help-block">A comma separated list of words that do not make sense in the context of these texts.</span>
+	  </div>
 	</div>
-	<br>
+	<div class="form-group form-horizontal row">
+	  <label class="control-label col-md-offset-1 col-md-1" for="formGroupInputSmall">Language</label>
+	  <div class="col-sm-3">
+	    <select class="form-control">
+	      <option>English</option>
+	      <option>Arabic</option>
+	      <option>Chinese</option>
+	      <option>French</option>
+	      <option>German</option>
+	      <option>Hindi</option>
+	      <option>Indonesian</option>
+	      <option>Korean</option>
+	      <option>Pashto</option>
+	      <option>Portuguese</option>
+	      <option>Russian</option>
+	      <option>Spanish</option>
+	      <option>Urdu</option>
+	    </select>
+	  </div> <!-- column -->
+	</div> <!-- form group -->
 	<div class="row">
-	  <div class="col-xs-12 col-md-1">
+	  <div class="col-xs-12 col-md-offset-1 col-md-11">
+	    <button type="submit" class="btn btn-primary" id="makewordshift">{{ submittext }}</button>
 	  </div> <!-- column -->
-	  <div class="col-xs-12 col-md-11">
-	    <button type="submit" class="btn btn-primary" id="makewordshift">Generate Wordshift</button>
-	  </div> <!-- column -->
-	</div>
+	</div> <!-- row -->
       </form>
       <br>
       {% else %}
@@ -105,12 +117,7 @@
 
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
-    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-    <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/plotShift-main.js" %}"></script>
-    <script src="{% static "hedonometer/js/shift.js" %}"></script>
-    <script src="{% static "hedonometer/js/compare-on-load.js" %}"></script>
+    <script src="{% static "hedonometer/js/wordshifterator-form.js" %}"></script>
 
 {% endblock %}
 

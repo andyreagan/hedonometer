@@ -186,6 +186,9 @@ class Embeddable(models.Model):
     # a special list of words to exclude, comma separted
     stopWords = models.CharField(max_length=600, null=True, blank=True)
 
+    lang = models.CharField(max_length=40)
+
+    
 
 
 

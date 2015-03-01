@@ -27,7 +27,8 @@ def dummy(request):
 
 class diy(View):
     def get(self, request):
-        return render(request, 'hedonometer/diy-compare.html')
+        m = Embeddable.objects.get(h="blank")
+        return render(request, 'hedonometer/diy-compare.html',{"model": m, "new": True, "state": "", "filltext": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
     
     def post(self, request):
         print request.POST
@@ -67,9 +68,17 @@ class diy(View):
         # generate a database model
         m = Embeddable(h=r.hexdigest()+c.hexdigest(),
                        refFile="/data/embeds/word-vectors/"+r.hexdigest()+".csv",
+                       refFileName=request.POST.get("refTitle","notitle"),
                        compFile="/data/embeds/word-vectors/"+c.hexdigest()+".csv",
-                       customTitleText="",
-                       customFullText="") # .objects.filter(h__exact=some_hash)
+                       compFileName=request.POST.get("compTitle","notitle"),
+                       customTitleText=request.POST.get("titleInput","notitle"),
+                       customFullText="",
+                       author=request.user.twitterprofile,
+                       contextFlag="wordshifterator",
+                       createdDate=datetime.datetime.now(),
+                       stopWords=request.POST.get("stopWordInput",""),
+        )
+        # .objects.filter(h__exact=some_hash)
         
         m.save()
 
@@ -82,11 +91,37 @@ class diy(View):
         return render(request, 'hedonometer/diy-result.html',Context(filenames))
 
 class editwordshift(View):
-    def get(self, request):
-        return render(request, 'hedonometer/diy-edit.html')
-    
-    def post(self, request):
-        return render(request, 'hedonometer/diy-edit.html')
+    def get(self, request, some_hash):
+        print "in the edit view"
+        # return the edit page
+        # will need to pass the model info in...
+        m = Embeddable.objects.get(h=some_hash)
+        
+        # ALSO 
+        # need to change the title, and the submit button
+        # both the text of the submit button, and make it point back to this page
+        return render(request, 'hedonometer/diy-compare.html',{"model": m, "new": False, "state": "disabled", "filltext": "(we don't keep your text)", "submittext": "Save", "return_link": "/wordshifterator/edit/"+some_hash+"/"})
+
+    def post(self, request, some_hash):
+        # get the object
+        m = Embeddable.objects.get(h=some_hash)
+        # pass it back in
+
+        m.refFileName=request.POST.get("refTitle",m.refFileName)
+        m.compFileName=request.POST.get("compTitle",m.compFileName)
+        m.customTitleText=request.POST.get("titleInput",m.customTitleText)
+        m.editedDate=datetime.datetime.now()
+        m.stopWords=request.POST.get("stopWordInput","")
+        
+        m.save()
+
+        filenames = {
+            "refFile": m.refFile,
+            "compFile": m.compFile,
+            "fhash": m.h,
+        }
+
+        return render(request, 'hedonometer/diy-result.html',Context(filenames))
 
 class movielist(View):
      # return all of the annotations for a book
