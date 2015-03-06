@@ -30,7 +30,7 @@ def embedNYT(request,sectionref,sectioncomp):
                  'stopWords': '',
     }
 
-    logger.debug(filenames)
+    # logger.debug(filenames)
     # logger.debug(Context(filenames))
 
     # now pass those into the view
@@ -58,7 +58,7 @@ def embedCBS(request,hostref,hostcomp):
                  'stopWords': '',
     }
 
-    logger.debug(filenames)
+    # logger.debug(filenames)
     # logger.debug(Context(filenames))
 
     # now pass those into the view
@@ -100,7 +100,7 @@ def shifttest(request,reffile,compfile):
                  'compFile': "/static/hedonometer/"+compfile+".csv",
     }
 
-    logger.debug(filenames)
+    # logger.debug(filenames)
     # logger.debug(Context(filenames))
 
     # now pass those into the view
@@ -150,7 +150,7 @@ def embedMain(request,dateref,datecomp):
                  'stopWords': '',
     }
 
-    logger.debug(filenames)
+    # logger.debug(filenames)
     # logger.debug(Context(filenames))
 
     # now pass those into the view
