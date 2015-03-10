@@ -41,7 +41,7 @@ class cbslist(View):
 # note that the arabic is just all twitter in arabic
 # and I've also just added an english version, which will point to main timeseries
 # but the dates and everything will be for the small one
-regions = [["World","0","english",],["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],]
+regions = [["World","0","english",],["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],["NYT","0","english"],]
 
 def timeseries(request,urlregion):
     # set up this variable for saving the region
