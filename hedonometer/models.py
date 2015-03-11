@@ -75,6 +75,23 @@ class NYT(models.Model):
     class Meta:
         ordering = ('genre',)
 
+class Timeseries(models.Model):
+    title = models.CharField(max_length=100)
+    language = models.CharField(max_length=100)
+    regionID = models.CharField(max_length=100,null=True, blank=True)
+    startDate = models.DateTimeField()
+    endDate = models.DateTimeField()
+    sumHappsFile = models.CharField(max_length=100,default='sumhapps.csv',help_text='dont change this')
+    ignoreWords = models.CharField(max_length=400, null=True, blank=True)
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+# Here's an example result from the API:
+#
 # {u'result': {u'cast': [{u'actor': u'Kristen Stewart', u'role': u'Bella Swan'},
 #    {u'actor': u'Sarah Clarke', u'role': u'Ren\xe9e'},
 #    {u'actor': u'Matt Bushell', u'role': u'Phil'},

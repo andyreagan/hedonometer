@@ -11,7 +11,7 @@ from mysite.settings import STATIC_ROOT
 # import logging
 # logger = logging.getLogger(__name__)
 
-from hedonometer.models import NYT
+from hedonometer.models import NYT,Timeseries
 
 import csv
 import subprocess
@@ -38,26 +38,12 @@ class cbslist(View):
         cbs_list = {}
         return render(request, 'hedonometer/cbslist.html',{"cbs_list": cbs_list})
 
-# note that the arabic is just all twitter in arabic
-# and I've also just added an english version, which will point to main timeseries
-# but the dates and everything will be for the small one
-regions = [["World","0","english",],["Arabic","0","arabic",],["France","79","french",],["Germany","86","german",],["England","239","english",],["Spain","213","spanish",],["Brazil","32","portuguese",],["Mexico","145","spanish",],["South-Korea","211","korean",],["Egypt","69","arabic",],["Australia","14","english",],["New-Zealand","160","english",],["Canada","41","english",],["Canada-fr","41","french",],["NYT","0","english"],]
-
 def timeseries(request,urlregion):
-    # set up this variable for saving the region
-    requestedRegionIndex = -1
-    requestedRegion = regions[0]
-
-    for i in xrange(len(regions)):
-        if regions[i][0].lower() == urlregion:
-            requestedRegion = regions[i]
-            requestedRegionIndex = i
-    if not requestedRegionIndex > -1:
-        raise Http404
+    t = get_object_or_404(Timeseries,title=urlregion)
 
     langdict = {
-        "lang": requestedRegion[2],
-        "region": requestedRegion[0].lower(),
+        "lang": t.language,
+        "region": t.title.lower(),
     }
 
     # now pass those into the view
