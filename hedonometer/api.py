@@ -28,7 +28,6 @@ class FixedFloatField(fields.ApiField):
         return value
 
 class EventResource(ModelResource):
-    region = 'world'
     class Meta:
         queryset = Event.objects.all()
         resource_name = "events"
@@ -36,6 +35,7 @@ class EventResource(ModelResource):
         filtering = {
             "importance": ALL,
             "lang": ALL,
+            "region": ALL,
         }
 
 class HappsResource(ModelResource):
