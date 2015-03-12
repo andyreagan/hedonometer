@@ -6,6 +6,7 @@ from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
 
+
 from mysite.settings import STATIC_ROOT
 
 # proper logging (not using "print")
@@ -21,6 +22,8 @@ import codecs
 from embedviews import *
 from wordshifteratorviews import *
 from bookandmovieviews import *
+
+import datetime
 
 def dummy(request):
     # latest_topic_list = Topic.objects.order_by('-pub_date')[:5]
@@ -42,13 +45,19 @@ class cbslist(View):
 def timeseries(request,urlregion):
     t = get_object_or_404(Timeseries,title=urlregion)
 
-    langdict = {
-        "lang": t.language,
-        "region": t.title.lower(),
-    }
+    # langdict = {
+    #     "lang": t.language,
+    #     "region": t.title.lower(),
+    #     "startDate": t.startDate.strftime('%Y-%m-%d'),
+    #     "endDate": t.endDate.strftime('%Y-%m-%d'),
+    #     "customLongTitle": t.customLongTitle,
+    #     "mediaFlag": t.mediaFlag,
+    #     "sumHappsFile": t.sumHappsFile,
+    #     "ignoreWords": t.ignoreWords,
+    # }
 
     # now pass those into the view
-    return render(request, 'hedonometer/indexlang.html', Context(langdict))
+    return render(request, 'hedonometer/indexlang.html', {"model": t})
 
 class csv_view(View):
     # Create the HttpResponse object with the appropriate CSV header.

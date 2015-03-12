@@ -1,42 +1,6 @@
 // main context
 (function() {
 
-    String.prototype.width = function(font) {
-	var f = font || '12px arial',
-	o = $('<div>' + this + '</div>')
-	    .css({'position': 'absolute', 'float': 'left', 'white-space': 'nowrap', 'visibility': 'hidden', 'font': f})
-	    .appendTo($('body')),
-	w = o.width();
-	o.remove();
-	return w;
-    }
-
-    String.prototype.safe = function() {
-	var tmp = this.split("/")
-	tmp[tmp.length-1] = escape(tmp[tmp.length-1])
-	return tmp.join("/");
-    }
-
-    function splitWidth(s,w) {
-	// s is the string
-	// w is the width that we want to split it to
-	var t = s.split(" ");
-	var n = [t[0]];
-	var i = 1;
-	var j = 0;
-	while (i<t.length) {
-	    if ((n[j]+t[i]).width() < w) {
-		n[j] += " "+t[i]
-	    }
-	    else {
-		j++;
-		n.push(t[i]);
-	    }
-	    i++;
-	}
-	return n;
-    }
-
     if ( document.documentElement.clientWidth < 500 ) { 
 	var initialMonths = 3;
     }
@@ -44,43 +8,35 @@
 	var initialMonths = 8;
     }
 
+    // these variables are all available to everything inside of this closure
     var dur =  550;
     var ignoreWords = ["thirsty","pakistan","india"];
     hedotools.shifter.ignore(ignoreWords);
     var bigdays = {};
     var shiftTypeSelect = false;
     var formatDate = d3.time.format("%b %Y");
-    var today = new Date();
-    // hardcoded...bad andy!!
-    // also months start at 0 in javascript
-    if (region !== "world" && region !== "arabic") {
-	var beginningOfTime = new Date(2014,3,15);
-    }
-    else {
-	if (region !== "world") {
-	    var beginningOfTime = new Date(2012,1,29);
-	}
-	else {
-	    var beginningOfTime = new Date(2008,8,10);
-	}
-    }
     var cformat = d3.time.format("%Y-%m-%d");
+    // pull these from the page template
+    var beginningOfTime = cformat.parse(startDate);
+    var endOfTime = cformat.parse(endDate);
     var dformat = d3.time.format("%Y-%m-%dT00:00:00");
     var longformat = d3.time.format("%B %e, %Y");
     var longerformat = d3.time.format("%A, %B %e, %Y");
+    // declare all of the URL coders
     var fromencoder = d3.urllib.encoder().varname("from");
-    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(startDate);
     var toencoder = d3.urllib.encoder().varname("to");
-    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,10)));
+    var todecoder = d3.urllib.decoder().varname("to").varresult(endDate);
     var dateencoder = d3.urllib.encoder().varname("date");
     var datedecoder = d3.urllib.decoder().varname("date");
     var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
     var shiftseldecoder = d3.urllib.decoder().varname("wordtypes").varresult("none");
+
     var weekDaysShort = ["sun","mon","tue","wed","thu","fri","sat"];
     var weekDays = ["sunday","monday","tuesday","wednesday","thursday","friday","saturday"];
     var popupExitDur = 500;
     var popupEnterDur = 400;
-    var intStr = ["zero","one","two","three"];
+
     // min radius for day circles
     var rmin = 0;
     // max radius for day circles
@@ -101,16 +57,6 @@
 	    toggleDays(r);
 	},
     }
-    var timeseries = [
-	{
-	    date: beginningOfTime,
-	    value: 6.00,
-	},
-	{
-	    date: today,
-	    value: 6.00,
-	},
-    ];
     var circleColors = {
 	"sunday": {
 	    "fill": "#FFCCFF",
@@ -147,7 +93,7 @@
     };
 
 
-    // Boston will be ran whenever we mouse over a circle
+    // this will be ran whenever we mouse over a circle
     function myMouseDownOpenWordShiftFunction() {
 	var circle = d3.select(this);
 	popdate = cformat.parse(circle.attr("shortdate"));
@@ -214,31 +160,25 @@
 	return new Date(d.date);
     };
 
-    // min radius for day circles
-    var rmin = 0;
-    // max radius for day circles
-    // these get reset when the day toggle is called
-    var rmax = 2.75; // scale down to 1.25 for whole timeseries
-
     var margin = {
 	top: 10,
 	right: 40,
 	bottom: 100,
 	left: 30,
-    },
-    width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right,
-    height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]),
-    height2 = 50;
+    };
+    var width = parseInt(d3.select("#bigbox").style("width"))-margin.left-margin.right;
+    var height = d3.max([300,parseInt(d3.select("#bigbox").style("width"))*0.5-margin.bottom-margin.top]);
+    var height2 = 50;
     // vertical space to give the bottom brush selection
     var MainxAxisSpace = 40;
     //height2 = document.documentElement.clientHeight * 0.5;
 
     var bigdayscale = d3.scale.linear()
-    	.domain([0,today.getTime()-beginningOfTime.getTime()])
+    	.domain([0,endOfTime.getTime()-beginningOfTime.getTime()])
         .range([-100,99.5]);
 
-    var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),today]);
-    var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,today]);
+    var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),endOfTime]);
+    var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime,endOfTime]);
 
     var y = d3.scale.linear().range([height, 0]);
     var y2 = d3.scale.linear().range([height2, 0]);
@@ -262,9 +202,9 @@
 
     // yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatMillions);
 
-    // console.log([d3.time.month.offset(today,-18),today]);
-    // console.log([x2(d3.time.month.offset(today,-18)),x2(today)]);
-    // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(today,-18),today]).on("brush", brushing).on("brushend",brushended);
+    // console.log([d3.time.month.offset(endOfTime,-18),endOfTime]);
+    // console.log([x2(d3.time.month.offset(endOfTime,-18)),x2(endOfTime)]);
+    // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(endOfTime,-18),endOfTime]).on("brush", brushing).on("brushend",brushended);
     var brush = d3.svg.brush()
 	.x(x2)
 	.extent([cformat.parse(fromdecoder().cached),cformat.parse(todecoder().cached)])
@@ -463,114 +403,119 @@
 	});
 
     // ************************************************** //
-    // commenting out the whole top date nav bar // 
+    // define this function, but don't call it
+    var makeNavBar = function() {
 
-    // var datearray = [
-    // 	[beginningOfTime, new Date(2009,11,31)],
-    // 	[new Date(2010,00,01), new Date(2010,11,31)],
-    // 	[new Date(2011,00,01), new Date(2011,11,31)],
-    // 	[new Date(2012,00,01), new Date(2012,11,31)],
-    // 	[new Date(2013,00,01), new Date(2013,11,31)],
-    // 	[beginningOfTime, today],
-    // 	[d3.time.month.offset(today,-18), today],
-    // ],
-    // yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
-    // yearstringslen = yearstrings.map(function(d) { return d.width(); }),
-    // initialpadding = 2,
-    // boxpadding = 5,
-    // fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
+	var datearray = [
+    	    [beginningOfTime, new Date(2009,11,31)],
+    	    [new Date(2010,00,01), new Date(2010,11,31)],
+    	    [new Date(2011,00,01), new Date(2011,11,31)],
+    	    [new Date(2012,00,01), new Date(2012,11,31)],
+    	    [new Date(2013,00,01), new Date(2013,11,31)],
+    	    [beginningOfTime, endOfTime],
+    	    [d3.time.month.offset(endOfTime,-18), endOfTime],
+	],
+	yearstrings = ["\u2192 2009","2010","2011","2012","2013","Full","Last 18 mo"],
+	yearstringslen = yearstrings.map(function(d) { return d.width(); }),
+	initialpadding = 2,
+	boxpadding = 5,
+	fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
 
 
-    // svg.append("text")
-    // 	.attr({
-    // 	    "x": (width-10-fullyearboxwidth-53),
-    // 	    "y": 44,
-    // 	    "fill": "grey",
-    // 	    })
-    // 	.text("Jump to:");
+	svg.append("text")
+    	    .attr({
+    		"x": (width-10-fullyearboxwidth-53),
+    		"y": 44,
+    		"fill": "grey",
+    	    })
+    	    .text("Jump to:");
 
-    // var yeargroup = svg.append("g")
-    // 	.attr({"class": "yeargroup",
-    // 	       "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
+	var yeargroup = svg.append("g")
+    	    .attr({"class": "yeargroup",
+    		   "transform": "translate("+(width-10-fullyearboxwidth)+","+30+")",});
 
-    // yeargroup.append("rect")
-    // 	.attr({"class": "yearbox",
-    // 	       "x": 0,
-    // 	       "y": 0,
-    // 	       "rx": 3,
-    // 	       "ry": 3,
-    // 	       "width": fullyearboxwidth,
-    // 	       "height": 19,
-    // 	       "fill": "#F0F0F0",
-    // 	       'stroke-width': '0.5',
-    // 	       'stroke': 'rgb(0,0,0)'});
+	yeargroup.append("rect")
+    	    .attr({"class": "yearbox",
+    		   "x": 0,
+    		   "y": 0,
+    		   "rx": 3,
+    		   "ry": 3,
+    		   "width": fullyearboxwidth,
+    		   "height": 19,
+    		   "fill": "#F0F0F0",
+    		   'stroke-width': '0.5',
+    		   'stroke': 'rgb(0,0,0)'});
 
-    // yeargroup.selectAll("text")
-    // 	.data(yearstrings)
-    // 	.enter()
-    // 	.append("text")
-    // 	.attr("x", function(d,i) { 
-    // 	    // start at 2
-    // 	    if (i==0) { return initialpadding; }
-    // 	    // then use 2+width+10+width+10+width...
-    // 	    // for default padding of 5 on L/R
-    // 	    else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
-    // 	})
-    // 	.attr("y", 14)
-    // 	.text(function(d,i) { return d; });
+	yeargroup.selectAll("text")
+    	    .data(yearstrings)
+    	    .enter()
+    	    .append("text")
+    	    .attr("x", function(d,i) { 
+    		// start at 2
+    		if (i==0) { return initialpadding; }
+    		// then use 2+width+10+width+10+width...
+    		// for default padding of 5 on L/R
+    		else { return d3.sum(yearstringslen.slice(0,i))+initialpadding+i*boxpadding*2; }
+    	    })
+    	    .attr("y", 14)
+    	    .text(function(d,i) { return d; });
 
-    // yeargroup.selectAll("rect.yearclick")
-    // 	.data(datearray)
-    // 	.enter()
-    // 	.append("rect")
-    // 	.attr({"class": "yearrect",
-    // 	       "x": function(d,i) { if (i === 0) { return 0; }
-    // 	    else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
-    // 	       "y": 0,
-    // 	       "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
-    // 	       "height": 19,
-    // 	       "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-    // 	       "opacity": "0.0",})
-    // 	.on("mousedown", function(d,i) {
-    // 	    // console.log(yearstrings[i]);
-    // 	    // do everything brush related
-    // 	    brush.extent(d);
-    // 	    brushing();
-    // 	    brushended();
-    // 	    context.select(".x.brush")
-    // 		.call(brush);
-    // 	    var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
-    // 	    d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
-    // 	    d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
-    // 	});
+	yeargroup.selectAll("rect.yearclick")
+    	    .data(datearray)
+    	    .enter()
+    	    .append("rect")
+    	    .attr({"class": "yearrect",
+    		   "x": function(d,i) { if (i === 0) { return 0; }
+    					else { return d3.sum(yearstringslen.slice(0,i))+i*boxpadding+(i-1)*boxpadding+initialpadding; } },
+    		   "y": 0,
+    		   "width": function(d,i) { if (i === 0) { return yearstringslen[i]+initialpadding+boxpadding; } else { return yearstringslen[i]+boxpadding*2; }},
+    		   "height": 19,
+    		   "fill": "white", //http://www.w3schools.com/html/html_colors.asp
+    		   "opacity": "0.0",})
+    	    .on("mousedown", function(d,i) {
+    		// console.log(yearstrings[i]);
+    		// do everything brush related
+    		brush.extent(d);
+    		brushing();
+    		brushended();
+    		context.select(".x.brush")
+    		    .call(brush);
+    		var cutoff = bigdayscale(d[1].getTime()-d[0].getTime());
+    		d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visible"; } else { return "hidden"; } })
+    		d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
+    	    });
 
-    // yeargroup.selectAll("line")
-    // 	.data(yearstrings.slice(0,yearstrings.length-1))
-    // 	.enter()
-    // 	.append("line")
-    // 	.attr("stroke","grey")
-    // 	.attr("stroke-width","2")
-    // 	.attr("x1", function(d,i) { 
-    // 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-    // 	})
-    // 	.attr("x2", function(d,i) { 
-    // 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
-    // 	})
-    // 	.attr("y1", 0)
-    // 	.attr("y2", 19);
+	yeargroup.selectAll("line")
+    	    .data(yearstrings.slice(0,yearstrings.length-1))
+    	    .enter()
+    	    .append("line")
+    	    .attr("stroke","grey")
+    	    .attr("stroke-width","2")
+    	    .attr("x1", function(d,i) { 
+    		return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+    	    })
+    	    .attr("x2", function(d,i) { 
+    		return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
+    	    })
+    	    .attr("y1", 0)
+    	    .attr("y2", 19);
+    }
 
     var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height+MainxAxisSpace) + ")");
 
     var minDate,maxDate;
 
-    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile, function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
-	var parse = d3.time.format("%Y-%m-%d").parse;
+	console.log('here are the min and max date picked up from '+sumHappsFile);
+	console.log(minDate);
+	console.log(maxDate);
+	// var parse = d3.time.format("%Y-%m-%d").parse;
 
 	for (i = 0; i < data.length; i++) {
 	    data[i].shortDate = data[i].date;
-	    data[i].date = parse(data[i].date);
+	    data[i].date = cformat.parse(data[i].date);
 	    data[i].value = +data[i].value;
 	}
 
@@ -708,8 +653,10 @@
 	var format = d3.time.format("%m-%d");
 
 	// http://hedonometer.org/api/v1/events/?format=json
-	d3.json('http://hedonometer.org/api/v1/events/?format=json&lang='+lang,function(json) { 
+	d3.json('http://hedonometer.org/api/v1/events/?format=json&lang='+lang+'&region='+region,function(json) {
 	    bigdays = json.objects;
+	    console.log("the events are:");
+	    console.log(bigdays);
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
 				       d.shorter = d.shorter.split(',');
@@ -836,16 +783,14 @@
 	} ); // d3.json for events
 
 	// now let's try to load the frequency
-	d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/sumfreq.csv", function(data) {
-	    var parse = d3.time.format("%Y-%m-%d").parse;
+	d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile.replace('happs','freq'), function(data) {
+	    // console.log(data);
 
 	    for (i = 0; i < data.length; i++) {
 		data[i].shortDate = data[i].date;
-		data[i].date = parse(data[i].date);
+		data[i].date = cformat.parse(data[i].date);
 		data[i].value = +data[i].value;
 	    }
-
-	    console.log(data);
 
 	    var freqExtent = d3.extent(data.map(function(d) {
 		return d.value;
@@ -960,7 +905,7 @@
     };
 
     function brushended() {
-	// console.log("brushended");
+	console.log("brushended");
 	fromencoder.varval(cformat(x.domain()[0]));
 	toencoder.varval(cformat(x.domain()[1]));
 	focus.selectAll(".brushingline")
@@ -982,7 +927,7 @@
 	});
 
     function brushing() {
-	// console.log("brushing");
+	console.log("brushing");
 	// console.log(x.domain()[0].getTime());
 	// console.log(x.domain()[1].getTime());
 	// console.log(x2.domain());
@@ -1050,7 +995,7 @@
 	d3.selectAll("line.bigdayline").transition().duration(1000).attr("visibility",function(d,i) { if ( d.importance > cutoff ) { return "visbile"; } else { return "hidden"; } })
     }
 
-    var fullRange = (today.getTime()-1222964002773);
+    var fullRange = (endOfTime.getTime()-beginningOfTime.getTime());
     var rScale = d3.scale.linear().range([rmax,1.25]);
     rScale.domain([0,fullRange]);
 
@@ -1457,15 +1402,13 @@
 	    .attr("fill", "#FCFCFC")
 	    .attr("opacity","0.96");
 
-	intStr = ["zero","one","two","three"];
-
 	axes.selectAll("rect.shiftrect")
 	    .data(sortedMag)
 	    .enter()
 	    .append("rect")
 	// color
 	    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
-	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
+	    .attr("class", function(d,i) { return "shiftrect "+intStr0[sortedType[i]]; })
 	    .attr("x",function(d,i) { 
                 if (d>0) { return figcenter; } 
                 else { return x(d)} })
@@ -1484,7 +1427,7 @@
 	    .data(sortedMag)
 	    .enter()
 	    .append("text")
-	    .attr("class", function(d,i) { return "shifttext "+intStr[sortedType[i]]; })
+	    .attr("class", function(d,i) { return "shifttext "+intStr0[sortedType[i]]; })
 	    .style({"text-anchor": function(d,i) { if (sortedMag[i] < 0) { return "end";} else { return "start";}}, "font-size": 11})
 	    .attr("y",function(d,i) { return y(i+1)+iBarH; } )
 	    .text(function(d,i) { return sortedWords[i]; })
@@ -1767,7 +1710,7 @@
 	return source;
     }
 
-    d3.select("div.infobox").append("h5").html("Tweets from <u>"+region.charAt(0).toUpperCase() + region.slice(1)+"</u> evaluated in <u>"+lang+"</u>");
+    d3.select("div.infobox").append("h5").html(mediaFlag+" from <u>"+region.charAt(0).toUpperCase() + region.slice(1)+"</u> evaluated in <u>"+lang+"</u>");
     
     console.log("enjoy :)");
 

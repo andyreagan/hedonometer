@@ -77,6 +77,8 @@ class NYT(models.Model):
 
 class Timeseries(models.Model):
     title = models.CharField(max_length=100)
+    customLongTitle = models.CharField(max_length=200,default='Average Happiness for Twitter')
+    mediaFlag = models.CharField(max_length=50,default='Tweets')
     language = models.CharField(max_length=100)
     regionID = models.CharField(max_length=100,null=True, blank=True)
     startDate = models.DateTimeField()
