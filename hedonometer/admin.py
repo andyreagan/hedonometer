@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 # No models for now
 # Eventually we can create a database for the big events
-from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT
+from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries
 
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
@@ -40,3 +40,5 @@ admin.site.register(Happs,HappsAdmin)
 admin.site.register(Embeddable)
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
+admin.site.register(Timeseries)
+
