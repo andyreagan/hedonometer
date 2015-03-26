@@ -60,6 +60,7 @@ INSTALLED_APPS = (
     'south',
     'tastypie',
     'twython_django',
+    'dbbackup',
 )
 
 # the following 6 are for twitter logins
