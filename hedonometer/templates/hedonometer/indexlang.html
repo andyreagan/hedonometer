@@ -4,17 +4,17 @@
 <link href="{% static "hedonometer/css/timeline-all.min.css" %}" rel="stylesheet">
 {% endblock %}
 
-    {% block headerjs %}
-    <script>
-      var lang = "{{ model.language|escapejs }}";
-      var region = "{{ model.title|lower|escapejs }}";
-      var mediaFlag = "{{ model.mediaFlag|escapejs }}";
-      var sumHappsFile = "{{ model.sumHappsFile|escapejs }}";
-      var startDate = "{{ model.startDate|date:"Y-m-d" }}";
-      var endDate = "{{ model.endDate|date:"Y-m-d" }}";
-      var ignoreWords = "{{ model.ignoreWords|escapejs }}";
-    </script>
-    {% endblock %}
+{% block headerjs %}
+<script>
+  var lang = "{{ model.language|escapejs }}";
+  var region = "{{ model.title|lower|escapejs }}";
+  var mediaFlag = "{{ model.mediaFlag|escapejs }}";
+  var sumHappsFile = "{{ model.sumHappsFile|escapejs }}";
+  var startDate = "{{ model.startDate|date:"Y-m-d" }}";
+  var endDate = "{{ model.endDate|date:"Y-m-d" }}";
+  var ignoreWords = "{{ model.ignoreWords|escapejs }}";
+</script>
+{% endblock %}
 
 
 {% block content %}

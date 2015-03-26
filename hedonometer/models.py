@@ -127,6 +127,8 @@ class Timeseries(models.Model):
 #   u'year': 2008},
 #  u'success': True}
 
+
+
 # actor for each movie
 class Actor(models.Model):
     name = models.CharField(max_length=100)
@@ -207,6 +209,36 @@ class Embeddable(models.Model):
     stopWords = models.CharField(max_length=600, null=True, blank=True)
 
     lang = models.CharField(max_length=40)
+
+
+class Song(models.Model):
+    # genres can be a comma sep list
+    genres = models.CharField(max_length=100)
+    # basic info:
+    title = models.CharField(max_length=100)
+    length = models.CharField(max_length=100)
+    happs = models.FloatField()
+    length = models.IntegerField()
+    releaseDate = models.DateTimeField(null=True, blank=True)
+    filename = models.CharField(max_length=100)
+
+class Album(models.Model):
+    title = models.CharField(max_length=100)
+    releaseDate = models.DateTimeField(null=True, blank=True)
+    # the record label
+    label = models.CharField(max_length=100)
+    happs = models.FloatField()
+    # make this a ManyToMany so that songs can belong to mult. albums
+    songs = models.ManyToManyField(Song)
+
+class Band(models.Model):
+    name = models.CharField(max_length=100)
+    happs = models.FloatField()
+    # make this a ManyToMany so that bands can collaborate
+    albums = models.ManyToManyField(Album)
+    # also links to the labMT vector and full text for this Band
+    labMTfile = models.CharField(max_length=100)
+    filename = models.CharField(max_length=100)
 
     
 

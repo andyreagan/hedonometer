@@ -420,7 +420,7 @@ hedotools.shifter = function()
 	    });
 	}
     }
-    
+
     var shift = function(a,b,c,d) {
 	refF = a;
 	compF = b;
@@ -438,6 +438,94 @@ hedotools.shifter = function()
 	if (!arguments.length) return distflag;
 	distflag = _;
 	return hedotools.shifter;
+    }
+
+    var selfShifter = function() {
+	/* shift one frequency vectors, against itself
+
+	   uses self.compF
+
+	   -assume it has been zero-ed for stop words
+	   -lens is of full length
+	   -words is a list of utf8 strings
+
+	   return an object with the sorted quantities for plotting the shift
+	*/
+
+	//normalize frequencies
+	var Ncomp = 0.0;
+	var lensLength = d3.min([compF.length,words.length,lens.length])
+	for (var i=0; i<lensLength; i++) {
+            Ncomp += parseFloat(compF[i]);
+	}
+
+	// compute comparison happiness
+	compH = 0.0;
+	for (var i=0; i<lensLength; i++) {
+            compH += compF[i]*parseFloat(lens[i]);
+	}
+	compH = compH/Ncomp;
+	refH = compH;
+
+	// do the shifting
+	var shiftMag = Array(lensLength);
+	var shiftType = Array(lensLength);
+	var freqDiff = 0.0;
+	for (var i=0; i<lensLength; i++) {
+	    freqDiff = compF[i]/Ncomp;
+            shiftMag[i] = (parseFloat(lens[i])-compH)*freqDiff;
+	    if (freqDiff > 0) { shiftType[i] = 2; }
+	    else { shiftType[i] = 0}
+	    if (parseFloat(lens[i]) > compH) { shiftType[i] += 1;}
+	}
+
+	// +2 for frequency up
+	// +1 for happier
+	// => 
+	// 0 sad, down
+	// 1 happy, down
+	// 2 sad, up
+	// 3 happy, up
+
+	// do the sorting
+	var indices = Array(lensLength);
+	for (var i = 0; i < lensLength; i++) { indices[i] = i; }
+	indices.sort(function(a,b) { return Math.abs(shiftMag[a]) < Math.abs(shiftMag[b]) ? 1 : Math.abs(shiftMag[a]) > Math.abs(shiftMag[b]) ? -1 : 0; });
+
+	sortedMag = Array(numwordstoplot);
+	sortedType = Array(numwordstoplot);
+	sortedWords = Array(numwordstoplot);
+
+	for (var i = 0; i < numwordstoplot; i++) { 
+	    sortedMag[i] = shiftMag[indices[i]]; 
+	    sortedType[i] = shiftType[indices[i]]; 
+	    sortedWords[i] = words[indices[i]]; 
+	}
+
+	if (distflag) {
+	    // declare some new variables
+	    sortedMagFull = Array(lensLength);
+	    sortedTypeFull = Array(lensLength);
+	    for (var i = 0; i < lensLength; i++) { 
+		sortedMagFull[i] = shiftMag[indices[i]]; 
+		sortedTypeFull[i] = shiftType[indices[i]]; 
+	    }
+	}
+
+	// compute the sum of contributions of different types
+	sumTypes = [0.0,0.0,0.0,0.0];
+	for (var i = 0; i < lensLength; i++)
+	{ 
+            sumTypes[shiftType[i]] += shiftMag[i];
+	}
+	if (translate) {
+	    sortedWordsEn = Array(numwordstoplot);
+	    for (var i = 0; i < numwordstoplot; i++) { 
+		sortedWordsEn[i] = words_en[indices[i]]; 
+	    }   
+	}
+
+	return hedotools.shifter;	
     }
 
     var shifter = function() {
@@ -1999,6 +2087,7 @@ hedotools.shifter = function()
 		    stop: stop,
 		    istopper: istopper,
 		    shifter: shifter,
+		    selfShifter: selfShifter,
 		    setfigure: setfigure,
 		    setdata: setdata,
 		    plot: plot, 

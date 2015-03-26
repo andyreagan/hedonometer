@@ -41,4 +41,3 @@ admin.site.register(Embeddable)
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
 admin.site.register(Timeseries)
-
