@@ -1083,9 +1083,9 @@
 
 		hedotools.shifter._refF(refFvec);
 		hedotools.shifter._compF(compFvec);
-		// if (lang !== "arabic") {
-		//     hedotools.shifter.stop();
-		// }
+		if (lang !== "arabic") {
+		    hedotools.shifter.stop();
+		}
 		if (lang === "english") {
 		    hedotools.shifter.stop();
 		}
