@@ -6,18 +6,21 @@ from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
 
-
 from mysite.settings import STATIC_ROOT
 
 # proper logging (not using "print")
 # import logging
 # logger = logging.getLogger(__name__)
 
-from hedonometer.models import NYT,Timeseries
+from hedonometer.models import NYT,Timeseries,Word
+
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
+from django.core import serializers
 
 import csv
 import subprocess
 import codecs
+# import json
 
 from embedviews import *
 from wordshifteratorviews import *
@@ -41,6 +44,28 @@ class cbslist(View):
     def get(self, request):
         cbs_list = {}
         return render(request, 'hedonometer/cbslist.html',{"cbs_list": cbs_list})
+
+
+# class wordhapps(View):
+#      # return all of the annotations for a book
+#     def get(self, request):
+#         cbs_list = {}
+#         return HttpResponse("Word")
+
+#     @csrf_exempt
+#     def post(self, request):
+#         # word = request.POST['text']
+#         return HttpResponse("Word")
+#         # w = get_object_or_404(Word,word=word)
+#         # cbs_list = {}
+#         # return HttpResponse(json.dumps(w))
+
+
+@csrf_exempt
+def wordhapps(request):
+    word = request.POST['text']
+    w = get_object_or_404(Word,word=word)
+    return HttpResponse(serializers.serialize("json",[w, ]))
 
 def timeseries(request,urlregion):
     t = get_object_or_404(Timeseries,title=urlregion)

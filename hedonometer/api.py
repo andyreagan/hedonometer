@@ -2,6 +2,7 @@ from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Act
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
+from tastypie.serializers import Serializer
 
 class FixedFloatField(fields.ApiField):
     """
@@ -71,6 +72,10 @@ class GeoHappsResource(ModelResource):
 
 class WordResource(ModelResource):
     # happiness = FixedFloatField(attribute="value")
+    def dehydrate(self, bundle):
+        bundle.data['text'] = bundle.data['word']
+        return bundle
+
     class Meta:
         queryset = Word.objects.all()
         excludes = ["id",]
@@ -79,12 +84,17 @@ class WordResource(ModelResource):
         # default_format = ["json"]
         max_limit = None
         include_resource_uri = False
+        # fields = ['username', 'first_name', 'last_name', 'last_login']
         filtering = {
             "word": ALL,
             "rank": ALL,
             "happs": ALL,
             "stdDev": ALL,
+            # "text": ALL,
         }
+        # these other formats could be better
+        # but HTML, for example, isn't implemented yet
+        # serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
 
 class NYTResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
