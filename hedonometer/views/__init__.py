@@ -64,7 +64,7 @@ class cbslist(View):
 @csrf_exempt
 def wordhapps(request):
     word = request.POST['text']
-    w = get_object_or_404(Word,word=word)
+    # w = get_object_or_404(Word,word=word)
     w = Word.objects.filter(word=word)
     if len(w) > 0:
         entry = w[0]
