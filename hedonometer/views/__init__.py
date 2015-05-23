@@ -65,7 +65,12 @@ class cbslist(View):
 def wordhapps(request):
     word = request.POST['text']
     w = get_object_or_404(Word,word=word)
-    return HttpResponse(serializers.serialize("json",[w, ]))
+    w = Word.objects.filter(word=word)
+    if len(w) > 0:
+        entry = w[0]
+        return HttpResponse('*{0}* happs: {1}, std dev: {2}, happs rank: {3}\nTwitter/Gbooks/NYT/Lyrics ranks: {4}/{5}/{6}/{7}'.format(word,entry.happs,entry.stdDev,entry.rank,entry.twitterRank,entry.googleBooksRank,entry.newYorkTimesRank,entry.lyricsRank))
+    else:
+        return HttpResponse('*{0}* not found in labMT database.'.format(word))
 
 def timeseries(request,urlregion):
     t = get_object_or_404(Timeseries,title=urlregion)
