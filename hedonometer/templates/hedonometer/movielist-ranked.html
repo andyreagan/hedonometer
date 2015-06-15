@@ -1,0 +1,149 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/maps-all.min.css" %}" rel="stylesheet">
+    <link href="{% static "hedonometer/css/cities.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+      ol.movielist { list-style: decimal; }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="row">
+	<div class="col-xs-12 col-md-10">
+	  <h3>Happiness of Movies (ranked)</h3>
+	  <!-- <ol class="movielist"> -->
+	  <!--   {% for movie in movie_list %} -->
+	  <!--   <li><a href="/embed/movie/all/{{ movie.genre }}/" target="_blank">{{ movie.genre }}</a>: {{movie.happs|floatformat:2}}</li> -->
+	  <!--   {% endfor %} -->
+	  <!-- </ol> -->
+	</div><!--col-->
+      </div><!--row-->
+      <!-- now here is a look at the cities shift -->
+      <br>
+      <div class="row">
+	<div class="col-xs-12 col-lg-7">
+	  <div class="paper">
+	    <div id="barChart" class="figure"></div>
+	  </div> <!-- paper -->
+	</div><!-- row -->
+	<div class="clearfix visible-xs"></div>
+	<div class="col-xs-12 col-lg-5">
+	  <div class="paper">
+	    <h5>Word Shift:</h5>
+	    <div class="row">
+	      <div class="col-xs-1" id="thisone">
+		<button type="button" class="btn btn-default btn-xs" id="rotate">Swap</button>
+	      </div> <!-- column -->
+	      <div class="col-xs-10">
+		<div class="row">
+		  <div class="row xtra-btm-padding">
+		    <div class="col-xs-2">
+		      <p class="pull-left">Ref:</p>
+		    </div> <!-- column -->
+		    <div class="col-xs-10">
+		      <div class="btn-group" id="refSelect">
+			<button type="button" class="btn btn-default btn-xs reflabel">MOVIE as a whole</button>
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+			  <span class="caret"></span>
+			  <span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+			</ul>
+		      </div>
+		      <button type="button" class="btn btn-default btn-xs pull-right selbutton one">Select on list</button>
+		    </div>
+		  </div> <!-- column -->
+		  <div class="clearfix visible-xs"></div>
+		  <div class="row xtra-btm-padding">
+		    <div class="col-xs-2">
+		      <p class="pull-left">Comp:</p>
+		    </div> <!-- column -->
+		    <div class="col-xs-10">
+		      <div class="btn-group" id="compSelect">
+			<button type="button" class="btn btn-default btn-xs complabel">MOVIE Science</button>
+			<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown">
+			  <span class="caret"></span>
+			  <span class="sr-only">Toggle Dropdown</span>
+			</button>
+			<ul class="dropdown-menu" role="menu">
+			</ul>
+		      </div>
+		      <button type="button" class="btn btn-primary btn-xs pull-right selbutton two">Select on list</button>
+		    </div> <!-- column -->
+		  </div> <!-- row -->
+		</div> <!-- row -->
+	      </div> <!-- column -->
+	    </div> <!-- row -->
+	    <div id="shift01" class="figure">
+	      <div class="row">
+		<div class="col-xs-12">
+		  <p class="sumtext text"></p>
+		</div> <!-- column -->
+	      </div> <!-- text row -->
+	    </div> <!-- shift figure -->
+	      <div class="row">
+		<div class="col-xs-12">
+		  <h5>Embed (copy this code):</h5>
+		  <textarea class="form-control input-sm" rows="2" id="embedtextarea"></textarea>
+		</div> <!-- column -->
+	      </div> <!-- text row -->
+	  </div> <!-- paper -->
+
+	</div> <!-- map/shift column -->
+      </div> <!-- main row -->
+
+      <br>
+      <div class="row">
+	<div class="col-xs-12 col-md-3">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-6">
+	  <h5>John Tierney shares this analysis on CBS This Morning:</h5>
+	  <embed src="http://www.cbsnews.com/common/video/cbsnews_video.swf" scale="noscale" salign="lt" type="application/x-shockwave-flash" background="#000000" width="425" height="279" allowFullScreen="true" allowScriptAccess="always" FlashVars="pType=embed&si=254&pid=PJditOd4FaFt&url=http://www.cbsnews.com/videos/how-language-shows-were-biased-toward-positivity/" />
+	</div> <!-- column -->
+      </div> <!-- text row -->
+
+      <br>
+      <div class="row">
+	<div class="col-xs-12 col-md-3">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-6">
+	  Instructions: Play around.  If this doesn't work see <a href="instructions.html">here</a> for help.
+	</div> <!-- column -->
+      </div> <!-- text row -->
+      <br>
+      <div class="row">
+	<div class="col-xs-12 col-md-3">
+	</div> <!-- column -->
+	<div class="col-xs-12 col-md-6">
+      Source: Sandhaus, Evan. The New York Times Annotated Corpus LDC2008T19. DVD. Philadelphia: Linguistic Data Consortium, 2008 <a href="https://catalog.ldc.upenn.edu/LDC2008T19">https://catalog.ldc.upenn.edu/LDC2008T19</a>
+	</div> <!-- column -->
+      </div> <!-- text row -->
+      <br>
+    </div><!--container-->
+
+{% endblock %}
+
+
+{% block bottomjs %}
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/d3.andy.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.barchart.js" %}"></script>
+    <script src="{% static "hedonometer/js/movie-rankedlist-on-load.js" %}"></script>
+{% endblock %}
+
+
+
+
+
+

@@ -11,6 +11,14 @@ class movielist(View):
         movie_list = Movie.objects.all()
         return render(request, 'hedonometer/movielist.html',{"movie_list": movie_list})
 
+class rankedmovielist(View):
+    # return all of the annotations for a book
+    def get(self, request):
+        movie_list = Movie.objects.all().exclude(exclude=True).order_by('-happs')
+        return render(request, 'hedonometer/movielist-ranked.html',{"movie_list": movie_list})
+
+
+
 class booklist(View):
      # return all of the annotations for a book
     def get(self, request):
