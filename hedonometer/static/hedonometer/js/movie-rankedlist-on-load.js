@@ -194,8 +194,10 @@ var initializeList = function() {
     refcompdrops();
 };
 
+var ignoreWords = ["camera","cuts"];
+
 var initializeShift = function() {
-    // hedotools.shifter.ignore(ignoreWords);
+    hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
     // get the indices from the url decoders
     shiftComp = sectionIndex(compdecoder().cached);
