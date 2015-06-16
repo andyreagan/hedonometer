@@ -218,10 +218,10 @@ var drawShift = function() {
 	}
 	else {
 	    if (shiftComp === 0) {
-		hedotools.shifter.setText(["Why all movies together are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].title+":"]).plot();
+		hedotools.shifter.setText(["Why film script baseline is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].title+":"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].title+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than all movies together:"]).plot();
+		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].title+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than film script baseline:"]).plot();
 	    }
 	}
     }
