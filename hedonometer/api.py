@@ -189,6 +189,21 @@ class MovieResource(ModelResource):
             "annotation": ALL,
         }
 
+class MovieResourceMin(ModelResource):
+    # happiness = FixedFloatField(attribute="happs")
+    # reference = fields.CharField("filename")
+    # ignorewords = fields.CharField("ignorewords")
+    class Meta:
+        queryset = Movie.objects.all().exclude(exclude=True).order_by('-happs')
+        resource_name = "moviesminimal"
+        excludes = ["id","exclude","excludeReason","language","happsStart","happsEnd","happsVariance","happsMin","happsMax","happsDiff","length","wiki","image","genre","imdbid","keywords","metascore","score","rating","releaseDate","reviews","runtime","storyline","year"]
+        include_resource_uri = False
+        max_limit = None
+        limit = 50000
+        filtering = {
+            "title": ALL_WITH_RELATIONS,
+        }            
+
 class RandomBookResource(ModelResource):
     reference = fields.CharField("filename")
     class Meta:

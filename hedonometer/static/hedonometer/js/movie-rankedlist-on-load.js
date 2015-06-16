@@ -58,14 +58,14 @@ var allEntry;
 hedotools.barchartoncall = function() {
     var test = function(d,i) {
 	if (selType) {
-	    shiftComp = i+1;
-	    d3.select(".complabel").text(sectionList[i].title);
-	    compencoder.varval(sectionList[i].title);
+	    shiftComp = i;
+	    d3.select(".complabel").text(sectionList[i+1].title);
+	    compencoder.varval(sectionList[i-1].title);
 	}
 	else {
-	    shiftRef = i+1;
-	    d3.select(".reflabel").text(sectionList[i].title);
-	    refencoder.varval(sectionList[i].title);
+	    shiftRef = i;
+	    d3.select(".reflabel").text(sectionList[i+1].title);
+	    refencoder.varval(sectionList[i-1].title);
 	}
 	if (shiftRef !== shiftComp) {
 	    drawShift();
@@ -155,11 +155,11 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/api/v1/movies/?format=json", function(json) {
+    d3.json("/api/v1/moviesminimal/?format=json", function(json) {
 	sectionList = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/api/v1/movies/?format=json", function(json) {
+    d3.json("/api/v1/moviesminimal/?format=json&title=all", function(json) {
 	allEntry = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
@@ -180,10 +180,10 @@ var initializeList = function() {
 
     hedotools.barchart.setfigure(d3.select("#barChart"))
         // ._xlabeltext("Happiness Difference from all of NYT (h<sub>avg</sub> = 6.00)")
-        ._xlabeltext("Happiness Difference from all movies put together (h = 6.00)")
+        ._xlabeltext("Happiness Difference from all movies put together (h = 5.89)")
 	._data(happslist)
 	._datanames(titlelist)
-	._figheight(500)
+	._figheight(13810)
 	.plot();
 
     var refListDrop = d3.select("#refSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
@@ -212,14 +212,14 @@ var drawShift = function() {
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
 	if ((shiftComp > 0) && (shiftRef > 0)) {
-	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" section:"]).plot();
+	    hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].title+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].title+":"]).plot();
 	}
 	else {
 	    if (shiftComp === 0) {
-		hedotools.shifter.setText(["Why the NYT as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" section:"]).plot();
+		hedotools.shifter.setText(["Why all movies together are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than "+sectionListWAllFirst[shiftRef].title+":"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the NYT as a whole:"]).plot();
+		hedotools.shifter.setText(["Why "+sectionListWAllFirst[shiftComp].title+" is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than all movies together:"]).plot();
 	    }
 	}
     }

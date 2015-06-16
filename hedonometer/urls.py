@@ -4,7 +4,7 @@ from django.conf.urls import patterns, url, include
 from django.views.generic import TemplateView,RedirectView
 from hedonometer import views
 from tastypie.api import Api
-from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource,NYTResource,NYTResourceAll
+from hedonometer.api import EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource,NYTResource,NYTResourceAll,MovieResourceMin
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
@@ -19,6 +19,7 @@ v1_api.register(MovieResource())
 v1_api.register(RandomMovieResource())
 v1_api.register(NYTResource())
 v1_api.register(NYTResourceAll())
+v1_api.register(MovieResourceMin())
 
 urlpatterns = patterns('',
     url(r'^index.html',
