@@ -60,12 +60,12 @@ hedotools.barchartoncall = function() {
 	if (selType) {
 	    shiftComp = i;
 	    d3.select(".complabel").text(sectionList[i+1].title);
-	    compencoder.varval(sectionList[i-1].title);
+	    compencoder.varval(sectionList[i+1].title);
 	}
 	else {
 	    shiftRef = i;
 	    d3.select(".reflabel").text(sectionList[i+1].title);
-	    refencoder.varval(sectionList[i-1].title);
+	    refencoder.varval(sectionList[i+1].title);
 	}
 	if (shiftRef !== shiftComp) {
 	    drawShift();
@@ -173,7 +173,7 @@ var initializeBoth = function() {
 var initializeList = function() {
     console.log("initializing list...");
     sectionListWAllFirst = allEntry.concat(sectionList);
-    var happslist = sectionList.map(function(d) { return parseFloat(d.happiness)-parseFloat(allEntry[0].happiness); });
+    var happslist = sectionList.map(function(d) { return parseFloat(d.happs)-parseFloat(allEntry[0].happs); });
     var titlelist = sectionList.map(function(d) { return d.title; });
 
     classColor.domain([happslist.length,1]);
