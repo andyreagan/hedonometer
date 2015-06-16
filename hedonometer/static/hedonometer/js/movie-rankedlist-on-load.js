@@ -1,4 +1,4 @@
-[// we need a decent amount of documentation here!
+// we need a decent amount of documentation here!
 // or any
 // there are a bunch of global variables so I'm going to put them all here:
 var selType = true;
@@ -7,7 +7,7 @@ var refencoder = d3.urllib.encoder().varname("ref");
 var refdecoder = d3.urllib.decoder().varname("ref").varresult("All");
 
 var compencoder = d3.urllib.encoder().varname("comp");
-var compdecoder = d3.urllib.decoder().varname("comp").varresult("Science");
+var compdecoder = d3.urllib.decoder().varname("comp").varresult("Pulp Fiction");
 
 var shiftRef = 0;
 var shiftComp = 10;
@@ -59,13 +59,13 @@ hedotools.barchartoncall = function() {
     var test = function(d,i) {
 	if (selType) {
 	    shiftComp = i+1;
-	    d3.select(".complabel").text(sectionList[i].genre);
-	    compencoder.varval(sectionList[i].genre);
+	    d3.select(".complabel").text(sectionList[i].title);
+	    compencoder.varval(sectionList[i].title);
 	}
 	else {
 	    shiftRef = i+1;
-	    d3.select(".reflabel").text(sectionList[i].genre);
-	    refencoder.varval(sectionList[i].genre);
+	    d3.select(".reflabel").text(sectionList[i].title);
+	    refencoder.varval(sectionList[i].title);
 	}
 	if (shiftRef !== shiftComp) {
 	    drawShift();
@@ -81,7 +81,7 @@ hedotools.barchartoncall = function() {
 function sectionIndex(name) {
     var found = false;
     for (var i=0; i<sectionListWAllFirst.length; i++) {
-	if (sectionListWAllFirst[i].genre.toLowerCase() === name.toLowerCase()) {
+	if (sectionListWAllFirst[i].title.toLowerCase() === name.toLowerCase()) {
 	    found = true;
 	    return i;
 	}
@@ -94,9 +94,9 @@ function sectionIndex(name) {
 var refcompdrops = function() {
     d3.select("#compSelect").selectAll("a")
         .on("click", function(d,i) {
-	    shiftComp = sectionIndex(sectionListWAllFirst[i].genre);
-	    d3.select(".complabel").text(sectionListWAllFirst[i].genre);
-	    compencoder.varval(sectionListWAllFirst[i].genre);
+	    shiftComp = sectionIndex(sectionListWAllFirst[i].title);
+	    d3.select(".complabel").text(sectionListWAllFirst[i].title);
+	    compencoder.varval(sectionListWAllFirst[i].title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
@@ -104,9 +104,9 @@ var refcompdrops = function() {
     d3.select("#refSelect").selectAll("a")
         .on("click", function(d,i) {
 	    // console.log(i);
-	    shiftRef = sectionIndex(sectionListWAllFirst[i].genre);
-	    d3.select(".reflabel").text(sectionListWAllFirst[i].genre);
-	    refencoder.varval(sectionListWAllFirst[i].genre);
+	    shiftRef = sectionIndex(sectionListWAllFirst[i].title);
+	    d3.select(".reflabel").text(sectionListWAllFirst[i].title);
+	    refencoder.varval(sectionListWAllFirst[i].title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
@@ -119,8 +119,8 @@ var refcompdrops = function() {
 	    var tmp = d3.select(".complabel").text();
 	    d3.select(".complabel").text(d3.select(".reflabel").text());
 	    d3.select(".reflabel").text(tmp);
-	    refencoder.varval(sectionList[shiftRef].genre);
-	    compencoder.varval(sectionList[shiftComp].genre);
+	    refencoder.varval(sectionList[shiftRef].title);
+	    compencoder.varval(sectionList[shiftComp].title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
@@ -155,11 +155,11 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/api/v1/nyt/?format=json", function(json) {
+    d3.json("/api/v1/movies/?format=json", function(json) {
 	sectionList = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/api/v1/nytall/?format=json&genre=All", function(json) {
+    d3.json("/api/v1/movies/?format=json", function(json) {
 	allEntry = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
@@ -171,24 +171,25 @@ var initializeBoth = function() {
 };
 
 var initializeList = function() {
+    console.log("initializing list...");
     sectionListWAllFirst = allEntry.concat(sectionList);
     var happslist = sectionList.map(function(d) { return parseFloat(d.happiness)-parseFloat(allEntry[0].happiness); });
-    var titlelist = sectionList.map(function(d) { return d.genre; });
+    var titlelist = sectionList.map(function(d) { return d.title; });
 
     classColor.domain([happslist.length,1]);
 
     hedotools.barchart.setfigure(d3.select("#barChart"))
         // ._xlabeltext("Happiness Difference from all of NYT (h<sub>avg</sub> = 6.00)")
-        ._xlabeltext("Happiness Difference from all of NYT (h = 6.00)")
+        ._xlabeltext("Happiness Difference from all movies put together (h = 6.00)")
 	._data(happslist)
 	._datanames(titlelist)
 	._figheight(500)
 	.plot();
 
     var refListDrop = d3.select("#refSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
-    refListDrop.enter().append("li").append("a").text(function(d,i) { return d.genre; });
+    refListDrop.enter().append("li").append("a").text(function(d,i) { return d.title; });
     var compListDrop = d3.select("#compSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
-    compListDrop.enter().append("li").append("a").text(function(d,i) { return d.genre; });
+    compListDrop.enter().append("li").append("a").text(function(d,i) { return d.title; });
 
     refcompdrops();
 };
@@ -211,35 +212,37 @@ var drawShift = function() {
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
 	if ((shiftComp > 0) && (shiftRef > 0)) {
-	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" section:"]).plot();
 	}
 	else {
 	    if (shiftComp === 0) {
-		hedotools.shifter.setText(["Why the NYT as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].genre+" section:"]).plot();
+		hedotools.shifter.setText(["Why the NYT as a whole is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" section:"]).plot();
 	    }
 	    else {
-		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].genre+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the NYT as a whole:"]).plot();
+		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" section is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the NYT as a whole:"]).plot();
 	    }
 	}
     }
 
     // load both of the files
     var finalLoadsRemaining = 2;
-    var refFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftRef].filename+".stripped.indexed";
-    var compFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftComp].filename+".stripped.indexed";
+    var refFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftRef].filename+".csv";
+    var compFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftComp].filename+".csv";
 
     var refF;
     var compF;
 
-    d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].genre+"/"+sectionListWAllFirst[shiftComp].genre+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+    // not using the embed, since I haven't made that yet.
+    // I made all of this for the NYT thing? go me.
+    // d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
     d3.text(refFile,function(text) {
-	refF = text.split("\n");
+	refF = text.split(",");
 	console.log(refF);
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
     d3.text(compFile,function(text) {
-	compF = text.split("\n");
+	compF = text.split(",");
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
 }

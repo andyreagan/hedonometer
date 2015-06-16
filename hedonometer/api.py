@@ -176,7 +176,7 @@ class MovieResource(ModelResource):
     writer = fields.ManyToManyField('hedonometer.api.DirectorResource','writer',full=True)
     actor = fields.ManyToManyField('hedonometer.api.DirectorResource','actor',full=True)
     class Meta:
-        queryset = Movie.objects.all()
+        queryset = Movie.objects.all().exclude(exclude=True)
         resource_name = "movies"
         # excludes = ["happs","id","filename",]
         include_resource_uri = False

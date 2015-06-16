@@ -3,3 +3,4 @@ MySQL-python
 South
 django-tastypie
 django-sekizai
+django-dbbackup
