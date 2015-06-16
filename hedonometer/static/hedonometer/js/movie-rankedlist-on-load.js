@@ -58,14 +58,14 @@ var allEntry;
 hedotools.barchartoncall = function() {
     var test = function(d,i) {
 	if (selType) {
-	    shiftComp = i;
-	    d3.select(".complabel").text(sectionList[i+1].title);
-	    compencoder.varval(sectionList[i+1].title);
+	    shiftComp = i+1;
+	    d3.select(".complabel").text(sectionList[i].title);
+	    compencoder.varval(sectionList[i].title);
 	}
 	else {
-	    shiftRef = i;
-	    d3.select(".reflabel").text(sectionList[i+1].title);
-	    refencoder.varval(sectionList[i+1].title);
+	    shiftRef = i+1;
+	    d3.select(".reflabel").text(sectionList[i].title);
+	    refencoder.varval(sectionList[i].title);
 	}
 	if (shiftRef !== shiftComp) {
 	    drawShift();
