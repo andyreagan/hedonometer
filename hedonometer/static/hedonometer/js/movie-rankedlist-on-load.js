@@ -231,6 +231,13 @@ var drawShift = function() {
     var refFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftRef].filename+".csv";
     var compFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftComp].filename+".csv";
 
+    // refresh the ignorewords list here
+    ignoreWords = ["camera","cuts"];
+    // add to it from each list
+    ignoreWords = ignoreWords.concat(sectionListWAllFirst[shiftRef].ignorewords.split(","))
+    ignoreWords = ignoreWords.concat(sectionListWAllFirst[shiftComp].ignorewords.split(","))
+    hedotools.shifter.ignore(ignoreWords);
+    
     var refF;
     var compF;
 

@@ -304,6 +304,8 @@ hedotools.shifter = function()
 
     var ignore = function(_) {
 	if (!arguments.length) return ignoreWords;
+	// refresh the list each time
+	ignoreWords = ["nigga","niggas","niggaz","nigger"];
 	ignoreWords = ignoreWords.concat(_);
 	// console.log(_);
 	// console.log(ignoreWords);
