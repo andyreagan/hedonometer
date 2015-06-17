@@ -196,7 +196,7 @@ class MovieResourceMin(ModelResource):
     class Meta:
         queryset = Movie.objects.all().exclude(exclude=True).order_by('-happs')
         resource_name = "moviesminimal"
-        excludes = ["id","exclude","excludeReason","language","happsStart","happsEnd","happsVariance","happsMin","happsMax","happsDiff","length","wiki","image","genre","imdbid","keywords","metascore","score","rating","releaseDate","reviews","runtime","storyline","year"]
+        excludes = ["id","exclude","excludeReason","language","happsStart","happsEnd","happsVariance","happsMin","happsMax","happsDiff","wiki","image","genre","imdbid","keywords","metascore","score","rating","releaseDate","reviews","runtime","storyline","year"]
         include_resource_uri = False
         max_limit = None
         limit = 50000
