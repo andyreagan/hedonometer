@@ -155,7 +155,7 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/api/v1/moviesminimal/?format=json", function(json) {
+    d3.json("/api/v1/moviesminimal/?format=json&length__gte=10000", function(json) {
 	sectionList = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
