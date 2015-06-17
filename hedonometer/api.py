@@ -202,6 +202,7 @@ class MovieResourceMin(ModelResource):
         limit = 50000
         filtering = {
             "title": ALL_WITH_RELATIONS,
+            "length": ALL_WITH_RELATIONS,
         }            
 
 class RandomBookResource(ModelResource):
