@@ -428,15 +428,15 @@
 	[new Date(2012,00,01), new Date(2012,11,31)],
 	[new Date(2013,00,01), new Date(2013,11,31)],
 	[new Date(2014,00,01), new Date(2014,11,31)],
+	[new Date(2015,00,01), today],
 	[beginningOfTime, today],
 	[d3.time.month.offset(today,-18), today],
-    ],
-    yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","Full","Last 18 mo"],
-    yearstringslen = yearstrings.map(function(d) { return d.width(); }),
-    initialpadding = 2,
-    boxpadding = 5,
-    fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
-
+    ];
+    var yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","2015","Full","Last 18 mo"];
+    var yearstringslen = yearstrings.map(function(d) { return d.width(); });
+    var initialpadding = 2;
+    var boxpadding = 5;
+    var fullyearboxwidth = datearray.length*boxpadding*2-boxpadding+initialpadding+d3.sum(yearstringslen);
 
     svg.append("text")
 	.attr({
