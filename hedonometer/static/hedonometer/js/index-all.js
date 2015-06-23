@@ -15890,7 +15890,7 @@ hedotools.shifter = function()
 
     var minDate,maxDate;
 
-    d3.csv("http://hedonometer.org/data/word-vectors/sumhapps.csv", function(data) {
+    d3.csv("http://hedonometer.org/data/word-vectors/world/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -16386,9 +16386,9 @@ hedotools.shifter = function()
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/world/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// console.log("see if all four vectors are here:");
@@ -16731,9 +16731,9 @@ hedotools.shifter = function()
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
-	d3.text("http://hedonometer.org/data/word-vectors/"+cformat(update)+"-sum.csv",function(tmp) {
+	d3.text("http://hedonometer.org/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("http://hedonometer.org/data/word-vectors/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("http://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// nextDay changing the text at the top

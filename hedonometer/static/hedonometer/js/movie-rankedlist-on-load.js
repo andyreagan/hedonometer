@@ -199,6 +199,8 @@ var ignoreWords = ["camera","cuts"];
 var initializeShift = function() {
     hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
+    hedotools.shifter.stoprange([3,7]);
+
     // get the indices from the url decoders
     shiftComp = sectionIndex(compdecoder().cached);
     shiftRef = sectionIndex(refdecoder().cached);
@@ -237,7 +239,6 @@ var drawShift = function() {
     ignoreWords = ignoreWords.concat(sectionListWAllFirst[shiftRef].ignorewords.split(","))
     ignoreWords = ignoreWords.concat(sectionListWAllFirst[shiftComp].ignorewords.split(","))
     hedotools.shifter.ignore(ignoreWords);
-    
     var refF;
     var compF;
 
