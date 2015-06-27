@@ -1148,12 +1148,12 @@
 	    }
 	}
 
-	d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("http://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
 
-	    d3.csv("http://hedonometer.org/data/shifts/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("http://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -1397,6 +1397,14 @@
 
 		// grab the modal body
 		var modalbody = d3.select("#moveshifthere");
+		var SCOTUSdate = new Date(2015,5,26);
+		if (update.getTime() === SCOTUSdate.getTime()) {
+		    modalbody.style("background-image","url('http://hedonometer.org/data/shifts/rainbow.jpg')");
+		}
+		else {
+		    modalbody.style("background-image",null);
+		}
+		
 		var modalfooter = d3.select("#moveshiftherefooter");
 		var tmptext = [longerformat(update)];
 		if (bigdaytest) {
@@ -1519,6 +1527,8 @@
 	    form['data'].value = string;
 	    form.submit();
 	})
+
+	// var popupdate = $('#dp1').datepicker('getDate');
     })
 
     var crowbar = function(s) {
