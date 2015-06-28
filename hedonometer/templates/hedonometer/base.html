@@ -9,24 +9,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="application-name" content="Hedonometer"/>
     <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
-    <meta name="developer" content="Andy Reagan, UVM, and Ivan Ramiscal, The MITRE Corporation"/>
+    <meta name="developer" content="Andy Reagan, University of Vermont (@andyreagan)"/>
     <meta name="google-site-verification" content="qL0BJxj9IpszlaCQOt8ocvPUY4VgBBpsbsj5FnR6tyM" />
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="Hedonometer">
+    {% block twittermeta %}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@hedonometer">
     <meta name="twitter:title" content="The Hedonometer">
     <meta name="twitter:description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
-    <meta name="twitter:creator" content="@hedonometer">
-    <meta name="twitter:image:src" content="http://www.hedonometer.org/graphics/selfies/hedoLarge.png">
-    <meta name="twitter:domain" content="">
-    <meta name="twitter:app:name:iphone" content="">
-    <meta name="twitter:app:name:ipad" content="">
-    <meta name="twitter:app:name:googleplay" content="">
-    <meta name="twitter:app:url:iphone" content="">
-    <meta name="twitter:app:url:ipad" content="">
-    <meta name="twitter:app:url:googleplay" content="">
-    <meta name="twitter:app:id:iphone" content="">
-    <meta name="twitter:app:id:ipad" content="">
-    <meta name="twitter:app:id:googleplay" content="">	
+    <meta name="twitter:image" content="http://hedonometer.org/static/hedonometer/graphics/hedonometer-logo.png">
+    {% endblock %}
     {% block headerextrameta %}
     {% endblock %}
     <!-- Styles -->

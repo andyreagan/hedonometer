@@ -8,9 +8,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="application-name" content="Hedonometer"/>
     <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
-    <meta name="developer" content="Andy Reagan, UVM"/>
+    <meta name="developer" content="Andy Reagan, University of Vermont (@andyreagan)"/>
+    {% block twittermeta %}
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@hedonometer">
+    <meta name="twitter:title" content="The Hedonometer">
+    <meta name="twitter:description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
+    <meta name="twitter:image" content="http://hedonometer.org/data/embeds/images/{{ some_hash }}.png">
+    {% endblock %}
+    
     {% block headerextrameta %}
     {% endblock %}
+    
     <!-- Styles -->
     {% block headercss %}
     <link href="{% static "hedonometer/css/hedotools.shift.css" %}" rel="stylesheet">
