@@ -118,14 +118,14 @@ class csv_view(View):
             f = open(STATIC_ROOT+'/tmp.pdf','r')
             response = HttpResponse(f.read(), content_type='application/pdf')
             f.close()
-            response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.pdf"'.format(request.POST['date'])
+            response['Content-Disposition'] = 'attachment; filename="hedonometer-{0}-wordshift.pdf"'.format(request.POST['date'])
             subprocess.call(['rm',STATIC_ROOT+'/tmp.svg',STATIC_ROOT+'/tmp.pdf'])
         else:
             subprocess.call(['inkscape','-f',STATIC_ROOT+'/tmp.svg','-d','600','-e',STATIC_ROOT+'/tmp.png'])
             f = open(STATIC_ROOT+'/tmp.png','r')
             response = HttpResponse(f.read(), content_type='application/png')
             f.close()
-            response['Content-Disposition'] = 'attachment; filename="hedonomter-{0}-wordshift.png"'.format(request.POST['date'])
+            response['Content-Disposition'] = 'attachment; filename="hedonometer-{0}-wordshift.png"'.format(request.POST['date'])
             subprocess.call(['rm',STATIC_ROOT+'/tmp.svg',STATIC_ROOT+'/tmp.png'])
 
         return response
