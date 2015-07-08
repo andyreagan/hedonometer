@@ -114,6 +114,8 @@ class csv_view(View):
         f.close()
 
         if output_format == 'pdf':
+            # TODO
+            # change inkscape calls to rsvg calls!
             subprocess.call(['inkscape','-f',STATIC_ROOT+'/tmp.svg','-A',STATIC_ROOT+'/tmp.pdf'])
             f = open(STATIC_ROOT+'/tmp.pdf','r')
             response = HttpResponse(f.read(), content_type='application/pdf')
