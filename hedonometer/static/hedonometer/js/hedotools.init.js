@@ -1,6 +1,11 @@
 // namespace it
 var hedotools = hedotools || {};
 
+// hedonometer.org/maps.html needs this in hedotools.map.js
+var classColor = d3.scale.quantize()		
+    .range([0,1,2,3,4,5,6])
+    .domain([50,1]);
+
 // begin with some helper functions
 // http://stackoverflow.com/a/1026087/3780153
 function capitaliseFirstLetter(string)
