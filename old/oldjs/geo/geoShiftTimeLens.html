@@ -1,0 +1,103 @@
+<html>
+<head>
+<title>Simple Shift Plot</title>
+<script src="static/d3.v3.min.js" charset="utf-8"></script>
+<script src="static/topojson.v1.min.js"></script>
+<script src="static/plotShiftGeo.js" charset="utf-8"></script>
+<script src="static/shift.js" charset="utf-8"></script>
+<script src="static/drawLensGeo.js" charset="utf-8"></script>
+<script src="static/drawMap.js" charset="utf-8"></script>
+<script src="static/computeHapps.js" charset="utf-8"></script>
+  <style>
+    body {
+      font-family: Verdana,Arial,sans-serif;
+    }
+
+    h4 {
+    font-size: .8em;
+    margin: 60px 0 5px 0;
+    }
+
+    h5 {
+    font-size: .8em;
+    margin: 10px 0 5px 0;
+    }
+
+    body {
+    min-width: 650px;
+    }
+
+    #caption01 {
+      width: 500px;
+    }
+
+    #lens01 {
+      width: 600px;
+    }
+
+    #table01 {
+    float: left;
+    }
+
+    #map01 {
+      float: left;
+    }
+
+    #shift01 {
+      float: right;
+      width: 500px;
+      }
+
+    .domain {
+      fill: none;
+      stroke: black;
+      stroke-width: 2;
+     }
+
+  </style>
+</head>
+<body>
+
+<div id="header"></div>
+<center>
+
+<div id="caption01">
+Move the stop-window to remove words from the lense.
+Removing 4 though 6, the default, corresponds to the tuned hedonometer for large corpuses.</div>
+<br>
+
+<div id="lens01" class="figure"></div>
+<div id="timeline01" class="figure"></div>
+
+<h4>Select the timeframe: <select id="timeSelect"><option value="2011">2011</option></select></h4>
+
+<br>
+<div>
+
+<div id="table01" class="table"></div>
+
+<div id="map01" class="figure"></div>
+
+<div id="shift01" class="figure"></div>
+
+
+</div>
+</center>
+
+<div id="footer"></div>
+
+<script src="geoMain.js" charset="utf-8"></script>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
