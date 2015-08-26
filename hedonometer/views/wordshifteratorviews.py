@@ -1,11 +1,38 @@
 from django.shortcuts import render
 from django.views.generic import View
+from django.template import Context
 
 from hedonometer.models import Embeddable
 
-from labMTsimple.storyLab import emotionFileReader,emotion
+from labMTsimple.storyLab import *
+from labMTsimple.speedy import *
 import datetime
 import hashlib
+
+from django.conf import settings
+
+def listify(long_string,lang="en"):
+    """Make a list of words from a string."""
+
+    replaceStrings = ["---","--","''"]
+    for replaceString in replaceStrings:
+        long_string = long_string.replace(replaceString," ")
+    words = [x.lower() for x in re.findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",long_string,flags=re.UNICODE)]
+
+    return words
+
+def dictify(word_list,lang="en"):
+    """Take a list of words, return word dict."""
+
+    my_dict = dict()
+    
+    for word in word_list:
+        if word in my_dict:
+            my_dict[word] += 1
+        else:
+            my_dict[u(word)] = 1
+
+    return my_dict
 
 class diy(View):
     def get(self, request):
@@ -21,22 +48,40 @@ class diy(View):
         
         digest = r.hexdigest()+c.hexdigest()
 
-        lang = "english"
-        labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,filename='labMT2'+lang+'.txt',returnVector=True)
+        # lang = "english"
+        # labMT,labMTvector,labMTwordList = emotionFileReader(stopval=0.0,filename='labMT2'+lang+'.txt',returnVector=True)
+        my_LabMT = LabMT()
 
-        f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+r.hexdigest()+".txt","w")
+        # write the file
+        f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+r.hexdigest()+".txt","w")
         f.write(request.POST.get("refText","blank").encode('utf-8'))
         f.close()
-        textValence,textFvec = emotion(request.POST.get("refText","tmp"),labMT,shift=True,happsList=labMTvector)
-        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+r.hexdigest()+".csv","w")
+
+        # turn it into a dict
+        ref_words = listify(request.POST.get("refText","not found"))
+        ref_dict = dictify(ref_words)
+
+        # score it
+        textValence = my_LabMT.score(ref_dict)
+        textFvec = my_LabMT.wordVecify(ref_dict)
+        
+        f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+r.hexdigest()+".csv","w")
         f.write(",".join(map(str,textFvec)))
         f.close()
         
-        f = open(ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+c.hexdigest()+".txt","w")
+        f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+c.hexdigest()+".txt","w")
         f.write(request.POST.get("compText","blank").encode('utf-8'))
         f.close()
-        textValence,textFvec = emotion(request.POST.get("compText","tmp"),labMT,shift=True,happsList=labMTvector)
-        f = open(ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".csv","w")
+
+        # turn it into a dict
+        comp_words = listify(request.POST.get("compText","not found"))
+        comp_dict = dictify(comp_words)
+
+        # score it
+        textValence = my_LabMT.score(comp_dict)
+        textFvec = my_LabMT.wordVecify(comp_dict)
+        
+        f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".csv","w")
         f.write(",".join(map(str,textFvec)))
         f.close()
 

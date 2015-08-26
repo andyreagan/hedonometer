@@ -66,21 +66,31 @@ def thanks(request, redirect_url=settings.LOGIN_REDIRECT_URL):
     # Retrieve the tokens we want...
     authorized_tokens = twitter.get_authorized_tokens(request.GET['oauth_verifier'])
 
-    print authorized_tokens
+    print(authorized_tokens)
 
     user,created = User.objects.get_or_create(username=authorized_tokens['screen_name'],defaults={"email":"fjdsfn@jfndjfn.com", "password":authorized_tokens['oauth_token_secret']})
 
+    print(user)
+    print(created)
+    # make sure that the password is the same as the one we're going to use to log in
+    if not created:
+        user.set_password(authorized_tokens['oauth_token_secret'])
+        user.save()
+
     profile,profileCreated = TwitterProfile.objects.get_or_create(user=user,defaults={"oauth_token": authorized_tokens['oauth_token'], "oauth_secret": authorized_tokens['oauth_token_secret']})
 
-    authenticaeduser = authenticate(
+    print(profile)
+    print(profileCreated)
+
+    authenticateduser = authenticate(
         username=authorized_tokens['screen_name'],
         password=authorized_tokens['oauth_token_secret']
-    )
+        )
 
-    login(request, authenticaeduser)
+    login(request, authenticateduser)
 
-    print request.session
-    print request.session['next_url']
+    print(request.session)
+    print(request.session['next_url'])
 
     next_url = request.session.get('next_url', redirect_url)
     return HttpResponseRedirect(next_url)

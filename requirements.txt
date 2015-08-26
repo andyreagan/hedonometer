@@ -6,4 +6,8 @@ django-sekizai
 django-dbbackup
 jinja2
 labMTsimple
+marisa_trie
+datrie
+numpy
 twython
+
