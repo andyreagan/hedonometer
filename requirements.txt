@@ -6,3 +6,4 @@ django-sekizai
 django-dbbackup
 jinja2
 labMTsimple
+twython

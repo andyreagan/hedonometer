@@ -9,8 +9,8 @@ import hashlib
 
 class diy(View):
     def get(self, request):
-        m = Embeddable.objects.get(h="blank")
-        return render(request, 'hedonometer/diy-compare.html',{"model": m, "new": True, "state": "", "filltext": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
+        # m = Embeddable.objects.get(h="blank")
+        return render(request, 'hedonometer/diy-compare.html',{"new": True, "state": "", "filltext": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
     
     def post(self, request):
         r = hashlib.md5()
