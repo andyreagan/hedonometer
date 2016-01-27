@@ -37,7 +37,7 @@ def dictify(word_list,lang="en"):
 class diy(View):
     def get(self, request):
         # m = Embeddable.objects.get(h="blank")
-        return render(request, 'hedonometer/diy-compare.html',{"new": True, "state": "", "filltext": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
+        return render(request, 'hedonometer/diy-compare.html',{"new": True, "state": "", "filltexbt": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
     
     def post(self, request):
         r = hashlib.md5()
@@ -66,7 +66,7 @@ class diy(View):
         textFvec = my_LabMT.wordVecify(ref_dict)
         
         f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+r.hexdigest()+".csv","w")
-        f.write(",".join(map(str,textFvec)))
+        f.write("\n".join(map(str,textFvec)))
         f.close()
         
         f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+c.hexdigest()+".txt","w")
@@ -82,7 +82,7 @@ class diy(View):
         textFvec = my_LabMT.wordVecify(comp_dict)
         
         f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+c.hexdigest()+".csv","w")
-        f.write(",".join(map(str,textFvec)))
+        f.write("\n".join(map(str,textFvec)))
         f.close()
 
 

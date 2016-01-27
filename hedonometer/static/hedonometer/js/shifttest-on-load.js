@@ -44,11 +44,11 @@ hedotools.loader = function() {
 	    }
 	    if (!--csvLoadsRemaining) onload();
 	});
-	d3.text(embedDetails.refFile,function(tmp) {
+	d3.text(embedDetails.compFile,function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
 	    if (!--csvLoadsRemaining) onload();
 	});
-	d3.text(embedDetails.compFile,function(tmp2) {
+	d3.text(embedDetails.refFile,function(tmp2) {
 	    refFvec = tmp2.split('\n').slice(0,10222);
 	    if (!--csvLoadsRemaining) onload();
 	});

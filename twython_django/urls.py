@@ -4,6 +4,8 @@ try:
 except:
     from django.conf.urls.defaults import *
 
+from django.views.generic import TemplateView,RedirectView
+
 # your_app = name of your root djang app.
 urlpatterns = patterns('twython_django.views',
     # First leg of the authentication journey...
@@ -19,4 +21,8 @@ urlpatterns = patterns('twython_django.views',
     # An example view using a Twython method with proper OAuth credentials. Clone
     # this view and url definition to get the rest of your desired pages/functionality.
     url(r'^user_timeline/?$', "user_timeline", name="twitter_timeline"),
+    url(r'^happiness/?$', "happs", name="happs"),
+    url(r'^show-me-the-happs.html',
+        TemplateView.as_view(template_name='twython_django/signin.html'),
+        name='api'),
 )

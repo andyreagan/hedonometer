@@ -4,8 +4,12 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.conf import settings
 from django.core.urlresolvers import reverse
+from django.shortcuts import render
+from django.template import Context
 
 from twython import Twython
+from labMTsimple.storyLab import *
+from labMTsimple.speedy import *
 
 User = get_user_model()
 
@@ -105,5 +109,67 @@ def user_timeline(request):
 
     return render_to_response('twython_django/tweets.html', {'tweets': user_tweets})
 
+import codecs
+from re import findall,UNICODE
+my_LabMT = LabMT()
 
+def dictify(wordVec):
+    '''Turn a word list into a word,count hash.'''
+    thedict = dict()
+    for word in wordVec:
+        thedict[word] = 1
+    return thedict
+
+def listify(long_string,lang="en"):
+    """Make a list of words from a string."""
+
+    replaceStrings = ["---","--","''"]
+    for replaceString in replaceStrings:
+        long_string = long_string.replace(replaceString," ")
+    words = [x.lower() for x in findall(r"[\w\@\#\'\&\]\*\-\/\[\=\;]+",long_string,flags=UNICODE)]
+
+    return words
+
+def happs(request):
+    """An example view with Twython/OAuth hooks/calls to fetch data about the user in question."""
+
+    user = request.user.twitterprofile
+    twitter = Twython(settings.TWITTER_KEY, settings.TWITTER_SECRET,
+                      user.oauth_token, user.oauth_secret)
+    # user_tweets = twitter.get_home_timeline()
+    user_tweets = twitter.get_user_timeline(count=200)
+    f = codecs.open(settings.ABSOLUTE_DATA_PATH+"/embeds/rawtext/"+user.oauth_token+".json","w","utf8")
+    rawtext = u""
+    for tweet in user_tweets:
+        f.write(tweet["text"])
+        f.write("\n")
+        rawtext += tweet["text"]
+        rawtext += "\n"
+    f.close()
+
+    # turn it into a dict
+    ref_words = listify(rawtext)
+    ref_dict = dictify(ref_words)
+
+    # score it
+    textValence = my_LabMT.score(ref_dict)
+    textFvec = my_LabMT.wordVecify(ref_dict)
+        
+    f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+user.oauth_token+".csv","w")
+    f.write("\n".join(map(str,textFvec)))
+    f.close()
+    
+    # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
+
+    # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
+
+    filenames = {'refFile': '/data/word-vectors/vacc/2015-12-08-prev7.csv',
+                 'compFile': '/data/embeds/word-vectors/'+user.oauth_token+'.csv',
+    }
+
+    # logger.debug(filenames)
+    # logger.debug(Context(filenames))
+
+    # now pass those into the view
+    return render(request, 'hedonometer/shifttest.html', Context(filenames))
 

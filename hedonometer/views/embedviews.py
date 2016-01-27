@@ -106,6 +106,20 @@ def shifttest(request,reffile,compfile):
     # now pass those into the view
     return render(request, 'hedonometer/shifttest.html', Context(filenames))
 
+def personalhapps(request,compfile):
+    # # but I do need a dates
+    # logger.debug(some_hash)
+
+    filenames = {'refFile': '/data/word-vectors/vacc/2015-12-08-prev7.csv',
+                 'compFile': '/data/embeds/word-vectors/'+compfile+'.csv',
+    }
+
+    # logger.debug(filenames)
+    # logger.debug(Context(filenames))
+
+    # now pass those into the view
+    return render(request, 'hedonometer/shifttest.html', Context(filenames))
+
 def embedUpload(request,some_hash):
     # don't expect any post data
     # logger.debug(request.POST)
