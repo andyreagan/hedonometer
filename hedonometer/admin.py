@@ -12,6 +12,9 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('date','caption','importance','x','y','shorter',)
     list_display_links = ('caption',)
     list_editable = ('importance','x','y',)
+    
+class EmbedAdmin(admin.ModelAdmin):
+    save_as = True
 
 class HappsAdmin(admin.ModelAdmin):
     list_display = ('date','value',)
@@ -37,8 +40,8 @@ class MovieAdmin(admin.ModelAdmin):
 admin.site.register(Event,EventAdmin)
 admin.site.register(Book,BookAdmin)
 admin.site.register(Happs,HappsAdmin)
-admin.site.register(Embeddable)
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
 admin.site.register(Timeseries)
 admin.site.register(Word)
+admin.site.register(Embeddable,EmbedAdmin)

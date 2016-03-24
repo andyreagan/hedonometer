@@ -34,11 +34,23 @@ def dictify(word_list,lang="en"):
 
     return my_dict
 
-class diy(View):
+class main(View):
+    # this is the over view
     def get(self, request):
         # m = Embeddable.objects.get(h="blank")
-        return render(request, 'hedonometer/diy-compare.html',{"new": True, "state": "", "filltexbt": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/"})
+        
+        all_embeds = Embeddable.objects.all()
+        
+        # if request.user:
+        #     my_embeds = Embeddable.objects.filter(author=request.user.twitterprofile).order_by("-updatedDate")
+        # else:
+        #     my_embeds = all_embeds
+
+        my_embeds = Embeddable.objects.filter(author=request.user.twitterprofile).order_by("-updatedDate")
+        
+        return render(request, 'hedonometer/wordshifterator/overview.html',{"new": False, "state": "", "filltexbt": "", "submittext": "Generate Wordshift", "return_link": "/wordshifterator/", "my_shifts": my_embeds})
     
+    # this post makes a new one
     def post(self, request):
         r = hashlib.md5()
         r.update(request.POST.get("refText","none").encode('utf-8'))
@@ -97,6 +109,7 @@ class diy(View):
                        author=request.user.twitterprofile,
                        contextFlag="wordshifterator",
                        createdDate=datetime.datetime.now(),
+                       updatedDate=datetime.datetime.now(),
                        stopWords=request.POST.get("stopWordInput",""),
         )
         # .objects.filter(h__exact=some_hash)
@@ -109,9 +122,22 @@ class diy(View):
             "fhash": m.h,
         }
 
-        return render(request, 'hedonometer/diy-result.html',Context(filenames))
+        return render(request, 'hedonometer/wordshifterator/view.html', {"my_shift": m,})
+
+class viewwordshift(View):
+    # this shows the edit
+    def get(self, request, some_hash):
+        m = Embeddable.objects.get(h=some_hash)
+        return render(request, 'hedonometer/wordshifterator/view.html', {"my_shift": m,})
+
+class sharewordshift(View):
+    # this shows the edit
+    def get(self, request, some_hash):
+        m = Embeddable.objects.get(h=some_hash)
+        return render(request, 'hedonometer/wordshifterator/share.html', {"my_shift": m,})
 
 class editwordshift(View):
+    # this shows the edit
     def get(self, request, some_hash):
         # return the edit page
         # will need to pass the model info in...
@@ -120,8 +146,9 @@ class editwordshift(View):
         # ALSO 
         # need to change the title, and the submit button
         # both the text of the submit button, and make it point back to this page
-        return render(request, 'hedonometer/diy-compare.html',{"model": m, "new": False, "state": "disabled", "filltext": "(we don't keep your text)", "submittext": "Save", "return_link": "/wordshifterator/edit/"+some_hash+"/"})
+        return render(request, 'hedonometer/wordshifterator/edit.html',{"model": m, "new": False, "state": "disabled", "filltext": "(we don't keep your text)", "submittext": "Save", "return_link": "/wordshifterator/edit/"+some_hash+"/"})
 
+    # and this saves an edit
     def post(self, request, some_hash):
         # get the object
         m = Embeddable.objects.get(h=some_hash)
@@ -141,6 +168,7 @@ class editwordshift(View):
             "fhash": m.h,
         }
 
-        return render(request, 'hedonometer/diy-result.html',Context(filenames))
+        return render(request, 'hedonometer/wordshifterator/view.html',Context(filenames))
+
 
 

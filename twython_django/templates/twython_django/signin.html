@@ -1,0 +1,75 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+{% block headercss %}
+<link href="{% static "hedonometer/css/bootstrap.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/font-awesome.min.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/site.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/books.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/datepicker.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/paper.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/hedotools.shift.css" %}" rel="stylesheet">
+<style>
+.hoverinfogroup h5 { 
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.hoverinfogroup {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+</style>
+{% endblock %}
+
+{% block headerjs %}
+<!-- variables from Django for the JS to consume -->
+<script>
+  var book = "{{ book|escapejs }}";
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xs-12">
+	<div class="paper" id="annotationPaper">
+	  <p><b>Generate a wordshift from my past 200 tweets vs. the last seven days of Twitter</b></p>
+	  {% if user.is_authenticated %}
+	  <div class="row">
+	    <div class="col-xs-6">
+	      Welcome back, {{ user.username }}!
+	      <br>
+	      <br>
+	    </div><!-- col -->
+	    <div class="col-xs-6">
+	      <button type="button" class="btn btn-default" id="beginannotationbutton">Begin annotating</button>
+	      <!-- put form here -->
+	    </div><!-- col -->
+	  </div><!-- row -->
+	  {% else %}
+	  <a href="/twitter/login/?next=http://hedonometer.org/twitter/happiness/" id="changeMe"><img src="/static/hedonometer/graphics/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+	  {% endif %}
+	</div>
+      </div><!-- col -->
+    </div><!-- row -->
+  </div>
+</div>
+{% endblock %}
+
+{% block bottomjs %}
+    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+    <script src="{% static "hedonometer/js/typeahead.bundle.js" %}"></script>
+    <script src="{% static "hedonometer/js/urllib.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
+    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+{% endblock %}
+
+
+

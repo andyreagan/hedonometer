@@ -1,0 +1,78 @@
+{% extends "hedonometer/base.html" %}
+{% load staticfiles %}
+
+{% block headercss %}
+    <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
+    <style>
+      .youtube { padding-bottom: 30px; }
+      textarea { resize: vertical; }
+    </style>
+{% endblock %}
+
+{% block headerjs %}
+<!-- variables from Django for the JS to consume -->
+<!-- <script> -->
+<!--   var movie = "{{ movie|escapejs }}"; -->
+<!-- </script> -->
+{% endblock %}
+
+
+{% block content %}
+<div class="container">
+  <h3>Wordshifterator > Overview</h3>
+      <div class="row">
+	<div class="jumbotron">
+	  <h1>The Wordshifterator.</h1>
+	  <p>Generate your own embeddable, shareable wordshifts for any pair of texts.</p>
+	  Note: Texts must contain at least 1,000 words. Details about how this works can be found <a href="http://www.uvm.edu/storylab/2014/10/06/hedonometer-2-0-measuring-happiness-and-using-word-shifts/" target="_blank">here</a>.
+	</div>
+      </div>
+      {% if not user.is_authenticated %}
+      Please login first:
+      <a href="/twitter/login?next=http://hedonometer.org/wordshifterator/" id="changeMe"><img src="/static/hedonometer/graphics/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
+      <br>
+      {% endif %}
+      <a class="btn btn-default" href="/wordshifterator/create/" role="button" {% if not user.is_authenticated %}disabled="disabled"{% endif %}>Create new interactive wordshift</a>
+      <br>
+      <h3>My wordshifts</h3>
+      <table style="width:100%; border-spacing: 4px; border-collapse: separate;">
+        <tr>
+          <th>Nickname</th>
+          <th>View</th>
+          <th>Edit</th>
+          <th>Embed/share</th>
+        </tr>
+        <!-- <tr> -->
+        <!--   <td>My nickname</td> -->
+        <!--   <td><a href="/wordshifterator/view/"><i class="fa fa-link"></i></a></td> -->
+        <!--   <td><a href="/wordshifterator/edit/"><i class="fa fa-link"></i></a></td> -->
+        <!--   <td><a href="/wordshifterator/share/"><i class="fa fa-link"></i></a></td> -->
+        <!-- </tr> -->
+        {% for shift in my_shifts %}
+        <tr>
+          <!-- <td>Example shift</td> -->
+          <td>{{ shift.nickName }}</td>
+          <td><a href="/wordshifterator/view/{{ shift.h }}/"><i class="fa fa-link"></i></a></td>
+          <td><a href="/wordshifterator/edit/{{ shift.h }}/"><i class="fa fa-link"></i></a></td>
+          <td><a href="/wordshifterator/share/{{ shift.h }}/"><i class="fa fa-link"></i></a></td>
+        </tr>
+        {% endfor %}
+      </table>      
+      <br>
+    </div><!--container-->
+{% endblock %}
+
+{% block bottomjs %}
+
+    <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "hedonometer/js/wordshifterator-form.js" %}"></script>
+
+{% endblock %}
+
+
+
+
+
+
+

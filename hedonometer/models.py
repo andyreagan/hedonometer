@@ -189,8 +189,11 @@ class Embeddable(models.Model):
     compFile = models.CharField(max_length=200, null=True, blank=True)
     compFileName = models.CharField(max_length=200, null=True, blank=True)
 
+    nickName = models.CharField(max_length=200, default="My super wordshift.")
+
     # two options here, which can be blank
     # this stores a full text, which is comma separated for the lines (up to four lines)
+    # separate by the @-sign
     customFullText = models.CharField(max_length=600, null=True, blank=True)
     # this stores just a title
     customTitleText = models.CharField(max_length=200, null=True, blank=True)
@@ -210,7 +213,9 @@ class Embeddable(models.Model):
     stopWords = models.CharField(max_length=600, null=True, blank=True)
 
     lang = models.CharField(max_length=40)
-
+    
+    def __unicode__(self):
+        return self.nickName
 
 class Song(models.Model):
     # genres can be a comma sep list

@@ -116,9 +116,12 @@
 	    <li><a href="/papers.html">Papers</a></li>
 	    <li><a href="/talks.html">Talks</a></li>
 	    <!-- <li><a href="/api.html">API</a></li> -->
-	    <li><a href="/funding.html">Fund us</a></li>
-	    {% if user.is_authenticated %}	
-	    <li><a href="/twitter/logout" class="pull-right">logout</a></li>
+            <li><a href="/funding.html">Fund us</a></li>
+	    {% if user.is_authenticated %}
+            <!-- this doesnt work in bootstrap 3, but it could make the nav cleaner -->
+            <li role="separator" class="divider"></li>
+            <li><a href="/wordshifterator/">My Wordshifts</a></li>
+	    <li><a href="/twitter/logout" class="pull-right"><i class="fa fa-sign-out"></i></a></li>
 	    {% endif %}
 	  </ul>
 

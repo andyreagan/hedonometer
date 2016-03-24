@@ -19,22 +19,8 @@
 
 {% block content %}
     <div class="container">
-      {% if new %}
-      <div class="row">
-        {% if not user.is_authenticated %}
-	<div class="jumbotron">
-	  <h1>The Wordshifterator.</h1>
-	  <p>Generate your own embeddable, shareable wordshifts for any pair of texts.</p>
-	  Note: Texts must contain at least 1,000 words. Details about how this works can be found <a href="http://www.uvm.edu/storylab/2014/10/06/hedonometer-2-0-measuring-happiness-and-using-word-shifts/" target="_blank">here</a>.
-	</div>
-        {% endif %}
-      </div>
-      {% else %}
       <h3>Edit your wordshift here</h3>      
       <br>
-      {% endif %}
-
-      {% if user.is_authenticated %}
       <form action="{{ return_link }}" method="post" class="form" id="textInputForm" name="wordshifterator" onsubmit="return validateForm()">
 	{% csrf_token %}
 	<div class="row">
@@ -101,17 +87,6 @@
 	</div> <!-- row -->
       </form>
       <br>
-      {% else %}
-      Please login first:
-      <a href="/twitter/login?next=http://hedonometer.org/wordshifterator/" id="changeMe"><img src="/static/hedonometer/graphics/sign-in-with-twitter-gray.png" alt="Sign in with Twitter"></a>
-      {% endif %}
-      <div class="row">
-	<div class="col-xs-12 col-md-1">
-	</div> <!-- column -->
-	<div class="col-xs-12 col-md-11">
-	  <div id="wordshift"></div>
-	</div> <!-- column -->
-      </div>
     </div><!--container-->
 {% endblock %}
 

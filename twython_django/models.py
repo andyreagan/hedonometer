@@ -13,6 +13,9 @@ class TwitterProfile(models.Model):
     oauth_token = models.CharField(max_length=200)
     oauth_secret = models.CharField(max_length=200)
 
+    def __unicode__(self):
+        return self.user.username
+
 
 class Annotation(models.Model):
     book = models.ForeignKey('hedonometer.Book')
