@@ -1,1 +1,1 @@
-/usr/local/lib/python2.7/dist-packages/django/contrib/admin/static/admin/js/core.js
+/home/prod/app/venv/local/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/core.js

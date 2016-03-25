@@ -5,6 +5,8 @@ from twython_django.models import Annotation
 from twython_django.models import MovieAnnotation
 from hedonometer.models import Book,Movie
 
+from datetime import datetime
+
 class movielist(View):
      # return all of the annotations for a book
     def get(self, request):
@@ -61,7 +63,7 @@ class annotation(View):
         # create a new annotation
         if not vote:
             # print "making a new annotation"
-            a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.datetime.now(),votes=1,winner="0")
+            a = Annotation(book=b,user=request.user.twitterprofile,position=request.POST.get("point","none"),annotation=request.POST.get("annotation","none"),tweeted=request.POST.get("tweetflag","notset"),date=datetime.now(),votes=1,winner="0")
             # save it
             a.save()
 
@@ -125,7 +127,7 @@ class movieannotation(View):
                                 annotation=request.POST.get("annotation","none"),
                                 tweeted=request.POST.get("tweetflag","notset"),
                                 window=request.POST.get("window","2000"),
-                                date=datetime.datetime.now(),
+                                date=datetime.now(),
                                 votes=1,
                                 winner="0")
             # save it

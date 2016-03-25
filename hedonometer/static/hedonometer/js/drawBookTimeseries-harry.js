@@ -131,7 +131,8 @@ hedotools.booktimeseries = function() {
 		    "font-family": "FontAwesome",
 		})
 		// .text('\uF075');
-		.text('\uF0e5')
+		// .text('\uF0e5')
+	        .text(function(d,i) { return d.annotation; })
 		.on("mouseover",function(d,i) { 
 		    // console.log(d.annotation); 
 
