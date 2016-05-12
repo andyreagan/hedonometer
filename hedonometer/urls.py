@@ -48,11 +48,17 @@ urlpatterns = patterns('',
     #     name='api'),
 
     # books
-    url(r'^books.html', TemplateView.as_view(template_name='hedonometer/books.html'), name='books'),
-    url(r'^harrypotter.html', TemplateView.as_view(template_name='hedonometer/harrypotter.html'), name='harry'),
-    url(r'^books/about.html', TemplateView.as_view(template_name='hedonometer/aboutbooks.html'), name='about'),
+    # redirect this to version 1
+    # url(r'^books.html', TemplateView.as_view(template_name='hedonometer/books.html'), name='books'),
+    url(r'^books/v1/', TemplateView.as_view(template_name='hedonometer/books.html'), name='books'),
+    url(r'^books.html', RedirectView.as_view(url='books/v1/', query_string=True, permanent=False)),
+    # url(r'^harrypotter.html', TemplateView.as_view(template_name='hedonometer/harrypotter.html'), name='harry'),
+    # url(r'^books/about.html', TemplateView.as_view(template_name='hedonometer/aboutbooks.html'), name='about'),
     url(r'^books/list.html',views.booklist.as_view(),name='booklist'),
-    url(r'^books/(?P<book>[^/]+)/',views.annotation.as_view(),name='annotation'),
+    # url(r'^books/v3/(?P<book>[^/]+)/',views.gutenberg_books.as_view()),
+    url(r'^books/v2/(?P<book>[^/]+)/',views.annotation.as_view(),name='annotation'),
+    url(r'^books/v3/(?P<book>[0-9]+)/',views.annotation.as_view(),name='annotation'),
+    url(r'^books/(?P<book>[^/]+)/',RedirectView.as_view(url='/books/v2/%(book)s/', query_string=True, permanent=False)),
     # url(r'^books/(?P<book>[\w]+)/',"hedonometer.views.book",name="book"),
 
     # movies
