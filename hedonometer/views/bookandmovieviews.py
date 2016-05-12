@@ -24,7 +24,7 @@ class booklist(View):
      # return all of the annotations for a book
     def get(self, request):
         book_list = Book.objects.all()
-        return render(request, 'hedonometer/booklist.html',{"book_list": book_list})
+        return render(request, 'hedonometer/books/booklist.html',{"book_list": book_list})
 
 class annotation(View):
      # return all of the annotations for a book
@@ -37,7 +37,7 @@ class annotation(View):
         # with a URL parameter
         # return HttpResponseRedirect("/harrypotter.html?book="+book)
         # but why not just render the template
-        return render(request, 'hedonometer/harrypotter.html',{"book": book})
+        return render(request, 'hedonometer/books/harrypotter.html',{"book": book})
     
     # accept an annotation
     def post(self, request, book):
@@ -86,7 +86,12 @@ class annotation(View):
             a.save()
 
         # return HttpResponse("this will also be the book page, with a new annotation")
-        return render(request, 'hedonometer/harrypotter.html',{"book": book})
+        return render(request, 'hedonometer/books/harrypotter.html',{"book": book})
+
+class gutenberg_paper(View):
+     # return all of the annotations for a book
+    def get(self, request, book):
+        return render(request, 'hedonometer/books/gutenberg.html',{"book": book})
 
 class movieannotation(View):
     def get(self, request, movie):
