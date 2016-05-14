@@ -57,7 +57,7 @@ urlpatterns = patterns('',
     url(r'^books/list.html',views.booklist.as_view(),name='booklist'),
     # url(r'^books/v3/(?P<book>[^/]+)/',views.gutenberg_books.as_view()),
     url(r'^books/v2/(?P<book>[^/]+)/',views.annotation.as_view(),name='annotation'),
-    url(r'^books/v3/(?P<book>[0-9]+)/',views.annotation.as_view(),name='annotation'),
+    url(r'^books/v3/(?P<book>[0-9]+)/',views.gutenberg_paper.as_view()),
     url(r'^books/(?P<book>[^/]+)/',RedirectView.as_view(url='/books/v2/%(book)s/', query_string=True, permanent=False)),
     # url(r'^books/(?P<book>[\w]+)/',"hedonometer.views.book",name="book"),
 
