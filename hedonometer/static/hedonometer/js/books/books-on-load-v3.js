@@ -31,10 +31,21 @@ function initializePlot() {
     loadCsv();
 }
 
+var missing_file = false;
+
 function loadCsv() {
     var csvLoadsRemaining = 4;
     var bookfile = "http://hedonometer.org/data/bookdata/gutenberg-007/"+bookinfo.gutenberg_id+".csv";
-    d3.text(bookfile, function (text) {
+    d3.text(bookfile, function (error,text) {
+        if (error) {
+            missing_file = true;
+            console.log("file is missing");
+            bookinfo.avhapps = "N/A";
+            bookinfo.len = "N/A";
+            cat_card(bookinfo);
+            d3.select("#booktitle").append("h4").html("** book file not available");
+            return;
+        }
         tmp = text.split("\n");
         // kill extra rows
         var len = tmp.length - 1;
@@ -51,7 +62,7 @@ function loadCsv() {
 	    }
         }
 	// console.log(allDataRaw);
-	if (bookinfo.length < 10000) { alert("There are too few words in this book for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this book has "+sumWords+"."); }
+	if (bookinfo.length < 10000) { alert("There are too few words in this book for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this book has "+bookinfo.length+"."); }
         //console.log(d3.sum(allDataRaw[0]));
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
@@ -162,32 +173,61 @@ function initializePlotPlot() {
 
 
     // build the catalog card
-    bookinfo.avhapps = d3.mean(timeseries);
+    bookinfo.avhapps = d3.mean(timeseries).toFixed(3);
     bookinfo.len = 0;
     for (var i=0; i<allDataRaw.length; i++) {
 	bookinfo.len += d3.sum(allDataRaw[i]);
     }
-    var infobox = d3.select("p.basicinfobox");
+
+    cat_card(bookinfo);
     
+
+    var newignore = bookinfo.ignorewords.split(",");
+    hedotools.shifter.ignore(newignore);
+};
+
+function cat_card(bookinfo) {
+    var infobox = d3.select("p.basicinfobox");
     infobox.html(
 	"Title: "+bookinfo.title+"<br>"+
 	"Author: "+bookinfo.author+"<br>"+
 	"Language: "+capitaliseFirstLetter(bookinfo.lang)+"<br>"+
 	"Number of Words: "+commaSeparateNumber(bookinfo.len)+"<br>"+
-	"Average Happiness: "+bookinfo.avhapps.toFixed(3)+"<br>"+
+	    "Average Happiness: "+bookinfo.avhapps+"<br>"+
+            "Downloads from Project Gutenberg: "+bookinfo.downloads+"<br>"+
+            "Excluded from analysis: "+(bookinfo.exclude ? "Yes" : "No") +"<br>"+
+            (bookinfo.exclude ? "If yes, reason: "+bookinfo.excludeReason+"<br>": "") +
 	"Hedonometric Analysis: "+"<a href=\"http://hedonometer.org/books/v3/"+bookinfo.gutenberg_id+"/\" >hedonometer.org/books/v3/"+bookinfo.gutenberg_id+"/</a>"+"<br>"+
+            "Project Gutenberg page: "+"<a href=\"http://www.gutenberg.org/ebooks/"+bookinfo.gutenberg_id+"\" target=\"_blank\">gutenberg.org/ebooks/"+bookinfo.gutenberg_id+"/</a>"+"<br>"+
+            
+// http://www.gutenberg.org/ebooks/622            
 // someday	    
 //	"Taxonomy: "+"Thriller"+"<br>"+
 //	"10 Most Similar: "+"Coming soon!"+"<br>"
 	    ""
     );
-};
+
+    var booktitle = d3.select("#booktitle");
+    var title = booktitle.append("h2").html(bookinfo.title+" ");
+    // var bookauthor = d3.select("#bookauthor");
+    var author = booktitle.append("h2").append("small").html("by "+bookinfo.author);
+}
 
 // make the whole thing
 initializePlot();
 
 // api access method for the book API
-var substringMatcher = function(apik) {
+var substringMatcher = function(apik1,apik2) {
+    console.log("initializing matcher with "+apik1+" and "+apik2);
+    var query_string = "";
+    var apik1_key = (apik1 === "Author") ? "&authors__fullname__icontains=" : "&title__icontains=";
+    if (apik2 === "all Project Gutenberg") {
+        query_string = "http://hedonometer.org/api/v1/gutenbergv3/?format=json"+apik1_key;
+    }
+    else {
+        query_string = "http://hedonometer.org/api/v1/gutenbergv3/?format=json&exclude=False&length__gt=10000&length__lte=200000&downloads__gte=150&numUniqWords__gt=1000&numUniqWords__lt=18000&lang_code_id=0"+apik1_key;
+    }
+    // console.log(query_string);
     return function findMatches(q,cb) {
         var matches, substringRegex;
         // console.log("matching "+q);
@@ -199,14 +239,18 @@ var substringMatcher = function(apik) {
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
+	d3.json(query_string+q,function(data) {
 	    var result = data.objects;
-	    // console.log(result);
+	    console.log(result);
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
 		// console.log(result);
 		// console.log(result[i].title+" by "+result[i].author);
-		newresult.push({value: result[i].title+" by "+result[i].author})
+                var author_list = result[i].authors[0].fullname;
+                for (var j=1; j<result[i].authors.length; j++) {
+                    author_list = author_list+" and "+result[i].authors[j].fullname;
+                }
+		newresult.push({value: result[i].title+" by "+author_list+" ("+result[i].gutenberg_id+")"})
 	    }
 	    // result.map(function(d) { return d.value = d.title; }));
             cb(newresult)
@@ -214,18 +258,29 @@ var substringMatcher = function(apik) {
     };
 };
 
+// use a couple of globals to keep track of the dropdown state
+var title_author = "Title"; // "Author";
+var using_a = "only books in analysis"; // "all Project Gutenberg";
+
 // use jquery to build the book search
 // (and twitter typeahead)
 $(document).ready(function() {
     $('#randombook').on("click",function() {
-	window.location.replace("/books.html?book=random");
-	});
-    $('#randombook').on("click",function() {
-	window.location.replace("/books.html?book=random");
-	});
-    $(".dropdown-menu li a").click(function(){
+        if (using_a === "all Project Gutenberg") {
+	    window.location.replace("/books/v3/"+(Math.floor((Math.random() * 51249) + 1)).toFixed(0)+"/");
+        }
+        else {
+            d3.text("/static/hedonometer/gut_ids.txt", function (text) {
+                var tmp = text.split("\n");
+                var rand_ind = Math.floor((Math.random() * tmp.length));
+                window.location.replace("/books/v3/"+tmp[rand_ind]+"/");
+            });
 
+        }
+    });
+    $(".dropdown-menu#titleauthor li a").click(function(){
 	$(this).parents(".btn-group").find('.selection').text($(this).text());
+        title_author = $(this).text();
 	$("#wordsearch").unbind();
 	$("#wordsearch").typeahead(
             {
@@ -235,27 +290,49 @@ $(document).ready(function() {
             },
             {
 		name: "books",
-		source: substringMatcher($(this).text())
+		source: substringMatcher($(this).text(),using_a)
             });
     }).on("typeahead:selected",function(event,sugg,dataset) {
-	window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
-
+        var tail = sugg.value.split("(")[sugg.value.split("(").length-1];
+        var gid = parseInt(tail);
+        window.location.replace("/books/v3/"+gid+"/");
+    });
+    $(".dropdown-menu#usinganalysis li a").click(function(){
+	$(this).parents(".btn-group").find('.selection').text($(this).text());
+        using_a = $(this).text();
+	$("#wordsearch").unbind();
+	$("#wordsearch").typeahead(
+            {
+		hint: false,
+		highlight: true,
+		minLength: 3,
+            },
+            {
+		name: "books",
+		source: substringMatcher(title_author,$(this).text())
+            });
+    }).on("typeahead:selected",function(event,sugg,dataset) {
+	var tail = sugg.value.split("(")[sugg.value.split("(").length-1];
+        var gid = parseInt(tail);
+        window.location.replace("/books/v3/"+gid+"/");
     });
     $("#wordsearch").typeahead(
         {
-            hint: false,
+            hint: true,
             highlight: true,
             minLength: 3,
         },
         {
             name: "books",
-            source: substringMatcher("Title")
+            source: substringMatcher(title_author,using_a)
         });
 }).on("typeahead:selected",function(event,sugg,dataset) {
     // console.log(event);
     // console.log(sugg);
     // console.log(dataset);
-    window.location.replace("/books.html?book="+sugg.value.split(" by ").slice(0,-1).join(" by "));
+    var tail = sugg.value.split("(")[sugg.value.split("(").length-1];
+    var gid = parseInt(tail);
+    window.location.replace("/books/v3/"+gid+"/");
 });
 
 

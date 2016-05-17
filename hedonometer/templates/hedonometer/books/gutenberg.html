@@ -32,7 +32,7 @@
 		  <span class="caret"></span>
 		  <span class="sr-only">Toggle Dropdown</span>
 		</button>
-		<ul class="dropdown-menu search">  <!-- dropdown-menu-right  role="menu"-->
+		<ul class="dropdown-menu search" id="titleauthor">  <!-- dropdown-menu-right  role="menu"-->
 		  <li><a href="#">Title</a></li>
 		  <li><a href="#">Author</a></li>
 		</ul>
@@ -43,7 +43,7 @@
 		  <span class="caret"></span>
 		  <span class="sr-only">Toggle Dropdown</span>
 		</button>
-		<ul class="dropdown-menu search">  <!-- dropdown-menu-right  role="menu"-->
+		<ul class="dropdown-menu search" id="usinganalysis">  <!-- dropdown-menu-right  role="menu"-->
 		  <li><a href="#">only books in analysis</a></li>
 		  <li><a href="#">all Project Gutenberg</a></li>
 		</ul>
@@ -172,9 +172,15 @@
 <script src="{% static "hedonometer/js/books/selectChapterTop.js" %}"></script>
 <script src="{% static "hedonometer/js/books/computeHappsChapters.js" %}"></script>
 <script type="text/javascript">
-  var bookinfo = {"gutenberg_id": {{ book }},
+  var bookinfo = {"gutenberg_id": {{ book.gutenberg_id }},
                   "lang": "english",
-                  "length": 20000,
+                  "length": {{ book.length }},
+                  "title": "{{ book.title }}",
+                  "author": "{% for a in book.authors.all %}{{ a.fullname }}{% if not forloop.last %} and {% endif %}{% endfor %}",
+                  "downloads": {{ book.downloads }},
+                  "exclude": {{ book.exclude|yesno:"true,false" }},
+                  "excludeReason": "{{ book.excludeReason }}",
+                  "ignorewords": "{{ book.ignorewords }}",
   };
 </script>
 <script src="{% static "hedonometer/js/books/books-on-load-v3.js" %}"></script>

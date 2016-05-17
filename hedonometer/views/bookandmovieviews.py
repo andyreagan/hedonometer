@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.views.generic import View
+from django.shortcuts import get_object_or_404
 
 from twython_django.models import Annotation
 from twython_django.models import MovieAnnotation
 from hedonometer.models import Book,Movie
+
+from hedonometer.models import GutenbergBook,GutenbergAuthor
 
 from datetime import datetime
 
@@ -89,9 +92,11 @@ class annotation(View):
         return render(request, 'hedonometer/books/harrypotter.html',{"book": book})
 
 class gutenberg_paper(View):
-     # return all of the annotations for a book
+    # return all of the annotations for a book
+     
     def get(self, request, book):
-        return render(request, 'hedonometer/books/gutenberg.html',{"book": book})
+        gutbook = get_object_or_404(GutenbergBook,gutenberg_id=book)
+        return render(request, 'hedonometer/books/gutenberg.html',{"book": gutbook})
 
 class movieannotation(View):
     def get(self, request, movie):

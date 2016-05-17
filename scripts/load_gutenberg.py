@@ -99,14 +99,16 @@ f.close()
     # exclude = 
     # excludeReason =
 
+# the unicode escape makes some titles too long
+# so just ignore the truncation warning...
 from warnings import filterwarnings
 import MySQLdb as Database
 filterwarnings('ignore', category = Database.Warning)    
 
 for b in all_book_json:
     print(b["gutenberg_id"])
-    if len(b["title"]) > 90:
-        b["title"] = b["title"][:90]
+    if len(b["title"]) > 100:
+        b["title"] = b["title"][:100]
     gb = GutenbergBook(title=b["title"].encode("unicode_escape"),
                        language=b["language"],
                        lang_code_id=b["lang_code_id"],

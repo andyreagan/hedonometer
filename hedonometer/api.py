@@ -1,4 +1,5 @@
-from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer,NYT
+from hedonometer.models import *
+# from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer,NYT
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
@@ -143,6 +144,35 @@ class BookResource(ModelResource):
             "length": ALL_WITH_RELATIONS,
             "annotation": ALL,
         }
+
+class GutAuthorResource(ModelResource):
+    class Meta:
+        queryset = GutenbergAuthor.objects.all()
+        resource_name = 'author'
+        filtering = {
+            'fullname': ALL,
+        }
+
+class BookResourceV3(ModelResource):
+    gutenberg_id = fields.IntegerField("gutenberg_id")
+    # author = fields.CharField("author")
+    authors = fields.ManyToManyField('hedonometer.api.GutAuthorResource','authors',full=True)
+    class Meta:
+        queryset = GutenbergBook.objects.all()
+        resource_name = "gutenbergv3"
+        # excludes = ["happs","id","filename",]
+        include_resource_uri = False
+        max_limit = None
+        limit = 5000
+        filtering = {
+            "title": ALL_WITH_RELATIONS,
+            "authors": ALL_WITH_RELATIONS,
+            "length": ALL_WITH_RELATIONS,
+            "exclude": ALL_WITH_RELATIONS,
+            "downloads": ALL_WITH_RELATIONS,
+            "numUniqWords": ALL_WITH_RELATIONS,
+            "lang_code_id": ALL_WITH_RELATIONS,
+        }            
 
 class DirectorResource(ModelResource):
     class Meta:
