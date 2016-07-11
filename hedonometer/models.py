@@ -286,8 +286,10 @@ class Band(models.Model):
     labMTfile = models.CharField(max_length=100)
     filename = models.CharField(max_length=100)
 
-    
-
+class Contact(models.Model):
+    name = models.CharField(max_length=100, null=True, blank=True)
+    email = models.CharField(max_length=100, null=True, blank=True)
+    comment = models.TextField(max_length=1000, null=True, blank=True)
 
 
 

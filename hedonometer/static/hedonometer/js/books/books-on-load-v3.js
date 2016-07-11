@@ -27,7 +27,10 @@ function commaSeparateNumber(val){
     return val;
 }
 
+var my_shifter;
+
 function initializePlot() {
+    my_shifter = hedotools.shifter();
     loadCsv();
 }
 
@@ -36,6 +39,24 @@ var missing_file = false;
 function loadCsv() {
     var csvLoadsRemaining = 4;
     var bookfile = "http://hedonometer.org/data/bookdata/gutenberg-007/"+bookinfo.gutenberg_id+".csv";
+    // don't load in the english unless it's necessary
+    if (bookinfo.lang === "english") {
+        --csvLoadsRemaining;
+    }
+    else {
+        d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+bookinfo.lang+".csv", function (text) {
+            var tmp = text.split("\n");
+            words_en = tmp;
+            var len = words_en.length - 1;
+            while (!words_en[len]) {
+                //console.log("in while loop");
+                words_en = words_en.slice(0, len);
+                len--;
+            }
+	    my_shifter._words_en(words_en);
+            if (!--csvLoadsRemaining) initializePlotPlot();
+        });
+    }
     d3.text(bookfile, function (error,text) {
         if (error) {
             missing_file = true;
@@ -77,7 +98,7 @@ function loadCsv() {
             lens = lens.slice(0, len);
             len--;
         }
-	hedotools.shifter._lens(lens);
+	my_shifter._lens(lens);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
     d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+bookinfo.lang+".csv", function (text) {
@@ -89,19 +110,7 @@ function loadCsv() {
             words = words.slice(0, len);
             len--;
         }
-	hedotools.shifter._words(words);
-        if (!--csvLoadsRemaining) initializePlotPlot();
-    });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+bookinfo.lang+".csv", function (text) {
-        var tmp = text.split("\n");
-        words_en = tmp;
-        var len = words_en.length - 1;
-        while (!words_en[len]) {
-            //console.log("in while loop");
-            words_en = words_en.slice(0, len);
-            len--;
-        }
-	hedotools.shifter._words_en(words_en);
+	my_shifter._words(words);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
 };
@@ -146,7 +155,7 @@ function initializePlotPlot() {
     }
 
     // doesn't need to return anything, uses globals
-    hedotools.shifter._stoprange(lensExtent);
+    my_shifter._stoprange(lensExtent);
     timeseries = computeHapps();
     selectChapterTop(d3.select("#chapters01"), allDataRaw.length);
 
@@ -154,13 +163,16 @@ function initializePlotPlot() {
     drawBookTimeseries(d3.select("#chapters03"), timeseries);
     selectChapter(d3.select("#chapters02"), allDataRaw.length);
 
-    hedotools.shifter._refF(refF);
-    hedotools.shifter._compF(compF);
-    hedotools.shifter.stop();
-    hedotools.shifter.shifter();
-    var happysad = hedotools.shifter._compH() > hedotools.shifter._refH() ? "happier" : "less happy";
-    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+hedotools.shifter._refH().toFixed(2),"Comparison section's happiness: "+hedotools.shifter._compH().toFixed(2)]
-    hedotools.shifter.setfigure(d3.select('#figure01')).setText(shifttext).plot();
+    my_shifter._refF(refF);
+    my_shifter._compF(compF);
+    my_shifter.stop();
+    my_shifter.shifter();
+    var happysad = my_shifter._compH() > my_shifter._refH() ? "happier" : "less happy";
+    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+my_shifter._refH().toFixed(2),"Comparison section's happiness: "+my_shifter._compH().toFixed(2)]
+    my_shifter.setfigure(d3.select('#figure01'));
+    my_shifter.setText(shifttext);
+    // my_shifter.add_help_button();
+    my_shifter.plot();
 
     // shiftObj = shift(refF, compF, lens, words);
     // plotShift(d3.select("#figure01"), shiftObj.sortedMag.slice(0, 200),
@@ -183,7 +195,7 @@ function initializePlotPlot() {
     
 
     var newignore = bookinfo.ignorewords.split(",");
-    hedotools.shifter.ignore(newignore);
+    my_shifter.ignore(newignore);
 };
 
 function cat_card(bookinfo) {

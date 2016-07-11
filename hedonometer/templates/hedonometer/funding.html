@@ -28,11 +28,44 @@
 
 	  <p>In addition to the raw data shown on this site, we are working to provide detailed analysis around brands, financial products, and US politics at Quokka Labs. More information is available on the website: <a href="http://quokkalabs.io">quokkalabs.io</a>.</p>
 
+          <!-- <form role="form" action="" method="post"> -->
+          <!--   {% csrf_token %} -->
+          <!--   <\!-- {{ form.as_p }} -\-> -->
+          <!--   <button type="submit">Submit</button> -->
+          <!-- </form> -->
+
+          <p>We’re developing our research into an API and a Desktop App over at <a href="http://quokkalabs.io" target="_blank">Quokka Labs</a>, join the waitlist to find out more.</p>
+          <br>
+          <div class="col-sm-8 col-sm-offset-2 well">
+            <form class="form" role="form" method="post" action="http://hedonometer.org/contact/">
+              <h4 class="text-center">Join our waitlist</h4>
+              <br>
+            <!-- <form> -->
+            {% csrf_token %}
+            <div class="form-group">
+              <!-- <label for="exampleInputEmail1">Email address</label> -->
+              <input type="name" name="name" class="form-control" id="exampleInputName1" placeholder="Name">
+            </div>
+            <div class="form-group">
+              <!-- <label for="exampleInputPassword1">Password</label> -->
+              <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
+            </div>
+            <div class="form-group">
+              <!-- <label for="exampleInputPassword1">Password</label> -->
+              <textarea name="comment" class="form-control" id="exampleInputComment1" placeholder="Comments?" rows="2"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign up</button>
+          </form>
+          </div>
+
+          <div class="col-sm-12">
+
 	  <hr>
 
 	  <p>
 	    The research behind and the construction of hedonometer.org have been made possible by the National Science Foundation and the MITRE corporation.
 	  </p>
+          </div>
 
 	</div> <!-- column -->
       </div>

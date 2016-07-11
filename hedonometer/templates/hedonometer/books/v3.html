@@ -2,6 +2,16 @@
 {% load staticfiles %}
 {% block headercss %}
 <link href="{% static "hedonometer/css/books-all.css" %}" rel="stylesheet">
+<link href="{% static "hedonometer/css/bootstrap-tour.css" %}" rel="stylesheet">
+<script src="https://use.fontawesome.com/a06bc57a92.js"></script>
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
+  });
+</script>
+<script type="text/javascript" async
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 {% endblock %}
 {% block content %}
 <div class="container">
@@ -189,15 +199,16 @@
 <script src="{% static "hedonometer/js/d3.js" %}"></script>
 <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
 <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
+<script src="{% static "hedonometer/js/bootstrap-tour.js" %}"></script>
 <script src="{% static "hedonometer/js/typeahead.bundle.js" %}"></script>
 <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-<script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
-<script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
-<script src="{% static "hedonometer/js/books/drawLens-chapters.js" %}"></script>
-<script src="{% static "hedonometer/js/books/drawBookTimeseries.js" %}"></script>
-<script src="{% static "hedonometer/js/books/selectChapter.js" %}"></script>
-<script src="{% static "hedonometer/js/books/selectChapterTop.js" %}"></script>
-<script src="{% static "hedonometer/js/books/computeHappsChapters.js" %}"></script>
+<script src="{% static "hedonometer/hedotools-1.0.1/js/hedotools.init.js" %}"></script>
+<script src="{% static "hedonometer/hedotools-1.0.1/js/hedotools.shifter.js" %}"></script>
+<script src="{% static "hedonometer/js/books/drawLens-v3.js" %}"></script>
+<script src="{% static "hedonometer/js/books/drawBookTimeseries-v3.js" %}"></script>
+<script src="{% static "hedonometer/js/books/selectChapter-v3.js" %}"></script>
+<script src="{% static "hedonometer/js/books/selectChapterTop-v3.js" %}"></script>
+<script src="{% static "hedonometer/js/books/computeHappsChapters-v3.js" %}"></script>
 <script type="text/javascript">
   var bookinfo = {"gutenberg_id": {{ book.gutenberg_id }},
                   "lang": "english",

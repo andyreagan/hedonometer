@@ -96,7 +96,7 @@ class gutenberg_paper(View):
      
     def get(self, request, book):
         gutbook = get_object_or_404(GutenbergBook,gutenberg_id=book)
-        return render(request, 'hedonometer/books/gutenberg.html',{"book": gutbook})
+        return render(request, 'hedonometer/books/v3.html',{"book": gutbook})
 
 class movieannotation(View):
     def get(self, request, movie):

@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.views.generic import View
 from django.core.context_processors import csrf
 from django.template import Context
@@ -12,7 +13,7 @@ from mysite.settings import STATIC_ROOT
 # import logging
 # logger = logging.getLogger(__name__)
 
-from hedonometer.models import NYT,Timeseries,Word
+from hedonometer.models import NYT,Timeseries,Word,Contact
 
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core import serializers
@@ -131,5 +132,24 @@ class csv_view(View):
             subprocess.call(['rm',STATIC_ROOT+'/tmp.svg',STATIC_ROOT+'/tmp.png'])
 
         return response
+
+
+# add to the top
+from hedonometer.forms import ContactForm
+
+
+class contact(View):
+    # def get(self, request):
+    #     return response
+    
+    def post(self, request, *args, **kwargs):
+        print(request.POST)
+        name = request.POST["name"]
+        email = request.POST["email"]
+        comment = request.POST["comment"]
+        c = Contact(name=name,email=email,comment=comment)
+        c.save()
+        # return HttpResponse(request.POST)
+        return HttpResponseRedirect("/books/v3/1777/")
 
 
