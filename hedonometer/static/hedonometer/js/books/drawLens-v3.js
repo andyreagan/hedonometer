@@ -1,4 +1,4 @@
- function drawLens(figure,lens) {
+function drawLens(figure,lens) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's

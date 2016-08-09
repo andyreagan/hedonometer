@@ -1,0 +1,31 @@
+/* normal colors */
+.negdown { fill: #B3B3FF; }
+.posdown { fill: #FFFFB3; }
+.negup { fill: #4C4CFF; }
+.posup { fill: #FFFF4C; }
+.sumgrey { fill: #272727; }
+
+.legendrect { cursor: pointer; }
+.yearrect { cursor: pointer; }
+.expanderbutton { cursor: pointer; }
+.sumrectL { cursor: pointer; } 
+.sumrectR { cursor: pointer; }
+.resetbutton { cursor: pointer; }
+svg image { cursor: pointer; }
+g.help { cursor: pointer; }
+
+/* got font from here */
+/* https://github.com/naoyat/dvi.js/tree/master/texfonts */
+/* see MDN for reference */
+/* https://developer.mozilla.org/en-US/docs/Web/CSS/font-family */
+@font-face {
+    font-family:'Latex default';
+    src: url('http://hedonometer.org/data/fonts/cmr10.woff') format('woff');
+    font-weight:normal;
+    font-style:normal;
+}
+text
+{
+    font-family: "Latex default",serif;
+}
+

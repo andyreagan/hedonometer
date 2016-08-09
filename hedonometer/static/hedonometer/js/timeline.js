@@ -45,7 +45,7 @@
     }
 
     var dur =  550;
-    var ignoreWords = ["thirsty","pakistan","india","lynch"];
+    var ignoreWords = ["thirsty","pakistan","india","lynch","nice"];
     hedotools.shifter.ignore(ignoreWords);
     var bigdays = {};
     var shiftTypeSelect = false;
@@ -264,7 +264,7 @@
     // 	// .x(function(d) { return d.x })
     // 	// .y(function(d) { return d.y });
 
-    var date1 = new Date(0000, 11, 25);
+    var date1 = new Date(0, 11, 25);
     var format = d3.time.format("%m-%d");
 
     var prevx = 0;
@@ -428,11 +428,12 @@
 	[new Date(2012,00,01), new Date(2012,11,31)],
 	[new Date(2013,00,01), new Date(2013,11,31)],
 	[new Date(2014,00,01), new Date(2014,11,31)],
-	[new Date(2015,00,01), today],
+	[new Date(2015,00,01), new Date(2015,11,31)],
+	[new Date(2016,00,01), today],
 	[beginningOfTime, today],
 	[d3.time.month.offset(today,-18), today],
     ];
-    var yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","2015","Full","Last 18 mo"];
+    var yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","2015","2016","Full","Last 18 mo"];
     var yearstringslen = yearstrings.map(function(d) { return d.width(); });
     var initialpadding = 2;
     var boxpadding = 5;
@@ -536,7 +537,7 @@
 	x.domain(d3.extent(data.map(function(d) {
 	    return d.date;
 	})));
-	y.domain([5.8, 6.40]);
+	y.domain([5.7, 6.40]);
 	//x2.domain(x.domain());
 	y2.domain(y.domain());
 

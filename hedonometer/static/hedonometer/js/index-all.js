@@ -13419,6 +13419,11 @@ function shift(rrefF,ccompF,lens,words) {
 // namespace it
 var hedotools = hedotools || {};
 
+// hedonometer.org/maps.html needs this in hedotools.map.js
+var classColor = d3.scale.quantize()		
+    .range([0,1,2,3,4,5,6])
+    .domain([50,1]);
+
 // begin with some helper functions
 // http://stackoverflow.com/a/1026087/3780153
 function capitaliseFirstLetter(string)
@@ -15960,7 +15965,7 @@ hedotools.shifter = function()
     }
 
     var dur =  550;
-    var ignoreWords = ["thirsty","pakistan","india","lynch"];
+    var ignoreWords = ["thirsty","pakistan","india","lynch","nice"];
     hedotools.shifter.ignore(ignoreWords);
     var bigdays = {};
     var shiftTypeSelect = false;
@@ -16343,11 +16348,12 @@ hedotools.shifter = function()
 	[new Date(2012,00,01), new Date(2012,11,31)],
 	[new Date(2013,00,01), new Date(2013,11,31)],
 	[new Date(2014,00,01), new Date(2014,11,31)],
-	[new Date(2015,00,01), today],
+	[new Date(2015,00,01), new Date(2015,11,31)],
+	[new Date(2016,00,01), today],
 	[beginningOfTime, today],
 	[d3.time.month.offset(today,-18), today],
     ];
-    var yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","2015","Full","Last 18 mo"];
+    var yearstrings = ["\u2192 2009","2010","2011","2012","2013","2014","2015","2016","Full","Last 18 mo"];
     var yearstringslen = yearstrings.map(function(d) { return d.width(); });
     var initialpadding = 2;
     var boxpadding = 5;
@@ -16451,7 +16457,7 @@ hedotools.shifter = function()
 	x.domain(d3.extent(data.map(function(d) {
 	    return d.date;
 	})));
-	y.domain([5.8, 6.40]);
+	y.domain([5.7, 6.40]);
 	//x2.domain(x.domain());
 	y2.domain(y.domain());
 
