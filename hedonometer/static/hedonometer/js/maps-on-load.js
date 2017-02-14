@@ -50,8 +50,8 @@ d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
 	    } } );
 
 timeselencoder = d3.urllib.encoder().varname("time"); //.varval(lensExtent);
-timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 7 Days"); //.varval(lensExtent);
-// timeseldecoder = d3.urllib.decoder().varname("time").varresult("2013"); //.varval(lensExtent);
+// timeseldecoder = d3.urllib.decoder().varname("time").varresult("Last 7 Days"); //.varval(lensExtent);
+timeseldecoder = d3.urllib.decoder().varname("time").varresult("2013"); //.varval(lensExtent);
 
 
 function initializePlot() {
@@ -123,10 +123,10 @@ shiftseldecoder = d3.urllib.decoder().varname("selection").varresult("none"); //
 
 // timeFrames = ["2013","2012","2011","lastquarter","lastmonth","lastweek"];
 // timeFrameText = ["2013","2012","2011","Last 90 Days","Last 30 Days","Last 7 Days"];
-timeFrames = ["2013","2012","2011","lastmonth","lastweek"];
-timeFrameText = ["2013","2012","2011","Last 30 Days","Last 7 Days"];
-// timeFrames = ["2013","2012","2011"];
-// timeFrameText = ["2013","2012","2011"];
+// timeFrames = ["2013","2012","2011","lastmonth","lastweek"];
+// timeFrameText = ["2013","2012","2011","Last 30 Days","Last 7 Days"];
+timeFrames = ["2013","2012","2011"];
+timeFrameText = ["2013","2012","2011"];
 
 function refcompdrops() {
     d3.select("#compSelect").selectAll("a")

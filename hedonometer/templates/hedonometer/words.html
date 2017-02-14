@@ -241,7 +241,7 @@
       $("#viewpanel").load("/table.html", function(){ console.log("table loaded");});
 
       d3.text("static/hedonometer/labMT1.txt",function(data) {
-        var splitdata = data.slice(0,10222).split("\n");
+        var splitdata = data.split("\n").slice(0,10222);
         labMT1 = splitdata.map(function(d) { return d.split("\t"); });
       });
       drawWordStats = function (selection,word) {

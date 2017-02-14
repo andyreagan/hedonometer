@@ -230,10 +230,9 @@ class MovieResourceMin(ModelResource):
         include_resource_uri = False
         max_limit = None
         limit = 50000
-        filtering = {
-            "title": ALL_WITH_RELATIONS,
-            "length": ALL_WITH_RELATIONS,
-        }            
+        filtering = {"length": ALL_WITH_RELATIONS,
+                     "title": ALL_WITH_RELATIONS,
+                     }
 
 class RandomBookResource(ModelResource):
     reference = fields.CharField("filename")
