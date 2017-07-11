@@ -77,6 +77,7 @@ urlpatterns = patterns('',
     # random demos
     url(r'^showcase/nyt/',views.nytlist.as_view(),name='nytlist'),
     url(r'^showcase/cbs/',views.cbslist.as_view(),name='cbslist'),
+    url(r'^showcase/outside/',views.outsidelist.as_view(),name='outsidelist'),
 
     # this powers the slack command
     url(r'^happs/',views.wordhapps,name='happs'),

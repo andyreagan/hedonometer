@@ -40,6 +40,12 @@ class nytlist(View):
         nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
         return render(request, 'hedonometer/nytlist.html',{"nyt_list": nyt_list})
 
+class outsidelist(View):
+     # return all of the annotations for a book
+    def get(self, request):
+        nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
+        return render(request, 'hedonometer/nytlist.html',{"nyt_list": nyt_list})
+
 class cbslist(View):
      # return all of the annotations for a book
     def get(self, request):
