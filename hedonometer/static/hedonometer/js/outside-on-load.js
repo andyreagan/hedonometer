@@ -4,10 +4,10 @@
 var selType = true;
 
 var refencoder = d3.urllib.encoder().varname("ref");
-var refdecoder = d3.urllib.decoder().varname("ref").varresult("All");
+var refdecoder = d3.urllib.decoder().varname("ref").varresult("All Outside classics");
 
 var compencoder = d3.urllib.encoder().varname("comp");
-var compdecoder = d3.urllib.decoder().varname("comp").varresult("Science");
+var compdecoder = d3.urllib.decoder().varname("comp").varresult("Me, Myself, and Ribeye");
 
 var shiftRef = 0;
 var shiftComp = 10;
@@ -76,9 +76,19 @@ hedotools.barchartoncall = function() {
     return opublic;
 }();
 
+hedotools.barchartonclick = function() {
+    var test = function(d,i) {
+        window.open(sectionList[i].link, '_blank');
+    }
+    var opublic = { test: test,
+		  };
+    return opublic;
+}();
+
 
 
 function sectionIndex(name) {
+    console.log(name);
     var found = false;
     for (var i=0; i<sectionListWAllFirst.length; i++) {
 	if (sectionListWAllFirst[i].title.toLowerCase() === name.toLowerCase()) {
@@ -129,10 +139,10 @@ var refcompdrops = function() {
 
 function loadCsv() {
     var shiftLoadsRemaining = 2;
-    var listLoadsRemaining = 0;
+    var listLoadsRemaining = 2;
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "/data/labMT/labMTscores-english.csv";
+    var wordsFile = "/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
@@ -155,14 +165,14 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    // d3.json("http://hedonometer.org/api/v1/nyt/?format=json", function(json) {
-    //     sectionList = json.objects;
-    //     if (!--allLoadsRemaining) initializeBoth();
-    // });
-    // d3.json("http://hedonometer.org/api/v1/nytall/?format=json&genre=All", function(json) {
-    //     allEntry = json.objects;
-    //     if (!--allLoadsRemaining) initializeBoth();
-    // });
+    d3.json("/data/outside/metadata.json", function(json) {
+        sectionList = json;
+        if (!--allLoadsRemaining) initializeBoth();
+    });
+    d3.json("/data/outside/all.json", function(json) {
+        allEntry = json;
+        if (!--allLoadsRemaining) initializeBoth();
+    });
 };
 
 var initializeBoth = function() { 
@@ -171,9 +181,9 @@ var initializeBoth = function() {
 };
 
 var initializeList = function() {
-    // sectionListWAllFirst = allEntry.concat(sectionList);
-    sectionList = [{"happiness": 5.0, "title": "Article 1"}];
-    sectionListWAllFirst = [{"happiness": 5.0, "title": "All of Outside classics"}];
+    sectionListWAllFirst = allEntry.concat(sectionList);
+    // sectionList = [{"happiness": 5.0, "title": "Article 1"}];
+    // sectionListWAllFirst = [{"happiness": 5.0, "title": "All of Outside classics"}];
     var happslist = sectionList.map(function(d) { return parseFloat(d.happiness)-parseFloat(allEntry[0].happiness); });
     var titlelist = sectionList.map(function(d) { return d.title; });
 
@@ -184,7 +194,7 @@ var initializeList = function() {
         ._xlabeltext("Happiness Difference from all of Outside classics (h = 6.00)")
 	._data(happslist)
 	._datanames(titlelist)
-	._figheight(500)
+	._figheight(800)
 	.plot();
 
     var refListDrop = d3.select("#refSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
@@ -212,6 +222,8 @@ var drawShift = function() {
 	hedotools.shifter._compF(compF);
 	hedotools.shifter.stop();
 	hedotools.shifter.shifter();
+        console.log(shiftComp);
+        console.log(shiftRef);
 	if ((shiftComp > 0) && (shiftRef > 0)) {
 	    hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" article is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" article:"]).plot();
 	}
@@ -219,18 +231,19 @@ var drawShift = function() {
 	    if (shiftComp === 0) {
 		hedotools.shifter.setText(["Why the Outside classics as a whole are "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the "+sectionListWAllFirst[shiftRef].title+" section:"]).plot();
 	    }
-	    else {
+            else {
 		hedotools.shifter.setText(["Why the "+sectionListWAllFirst[shiftComp].title+" article is "+( ( hedotools.shifter._compH() > hedotools.shifter._refH() ) ? "happier" : "less happy" )+" than the Outside classies as a whole:"]).plot();
 	    }
 	}
     }
-
+    console.log(shiftComp);
+    console.log(shiftRef);
     // load both of the files
     var finalLoadsRemaining = 2;
     // var refFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftRef].filename+".stripped.indexed";
     // var compFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftComp].filename+".stripped.indexed";
-    var refFile = "http://hedonometer.org/data/outside/"+;
-    var compFile = "http://hedonometer.org/data/outside/"+;
+    var refFile = "http://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftRef].file+".wordvec.csv";
+    var compFile = "http://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftComp].file+".wordvec.csv";
 
     var refF;
     var compF;

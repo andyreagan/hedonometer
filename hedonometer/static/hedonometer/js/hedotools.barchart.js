@@ -24,6 +24,14 @@ hedotools.barchartoncall = function() {
     return opublic;
 }();
 
+hedotools.barchartonclick = function() {
+    var test = function(d,i) {
+    }
+    var opublic = { test: test,
+		  };
+    return opublic;
+}();
+
 // make the plot
 hedotools.barchart = function() {
     var figure;
@@ -273,6 +281,9 @@ hedotools.barchart = function() {
 	    .on('mouseout', function(d){
 		var rectSelection = d3.select(this).style({'opacity':'1.0','stroke':'rgb(100,100,100)','stroke-width':'1.0',});
 		// var rectSelection = d3.select(this).style({opacity:'0.7'});
+	    })
+	    .on('mousedown', function(d,i){
+		hedotools.barchartonclick.test(d,i);
 	    });
 
 	axes.selectAll("text.statetext")
@@ -286,6 +297,9 @@ hedotools.barchart = function() {
             .text(function(d,i) { return (i+1)+". "+d[2]; })
 	    .on('mouseover', function(d,i){
 		hedotools.barchartoncall.test(d,i);
+	    })
+            .on('mousedown', function(d,i){
+		hedotools.barchartonclick.test(d,i);
 	    });
 
 	// d3.select(window).on("resize.shiftplot",resizeshift);
