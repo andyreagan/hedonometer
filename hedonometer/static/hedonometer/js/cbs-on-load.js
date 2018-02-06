@@ -131,8 +131,8 @@ function loadCsv() {
     var shiftLoadsRemaining = 2;
     var listLoadsRemaining = 2;
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
@@ -155,11 +155,11 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/data/CBS/hosts.json", function(json) {
+    d3.json("https://hedonometer.org/data/CBS/hosts.json", function(json) {
 	sectionList = json;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("http://hedonometer.org/data/CBS/all.json", function(json) {
+    d3.json("https://hedonometer.org/data/CBS/all.json", function(json) {
 	allEntry = json;
 	if (!--allLoadsRemaining) initializeBoth();
     });
@@ -225,13 +225,13 @@ var drawShift = function() {
 
     // load both of the files
     var finalLoadsRemaining = 2;
-    var refFile = "http://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftRef].filename;
-    var compFile = "http://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftComp].filename;
+    var refFile = "https://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftRef].filename;
+    var compFile = "https://hedonometer.org/data/CBS/"+sectionListWAllFirst[shiftComp].filename;
 
     var refF;
     var compF;
 
-    d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/cbs/"+sectionListWAllFirst[shiftRef].embedname+"/"+sectionListWAllFirst[shiftComp].embedname+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+    d3.select("#embedtextarea").html("<iframe src=\"https://hedonometer.org/embed/cbs/"+sectionListWAllFirst[shiftRef].embedname+"/"+sectionListWAllFirst[shiftComp].embedname+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
     d3.text(refFile,function(text) {
 	refF = text.split("\n");

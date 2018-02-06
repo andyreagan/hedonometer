@@ -40,7 +40,7 @@ function initializePlot() {
     book = bookDecoder().cached;
     // console.log("not a classic");
     // hit the random api
-    d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
+    d3.json("https://hedonometer.org/api/v1/gutenberg/?format=json&title__exact="+book,function(data) {
 	var result = data.objects[0];
 	console.log(result);
 	lang = result.language;
@@ -70,7 +70,7 @@ function initializePlot() {
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
-    var bookfile = "http://hedonometer.org/data/bookdata/timeseries/"+bookref+".csv";
+    var bookfile = "https://hedonometer.org/data/bookdata/timeseries/"+bookref+".csv";
     d3.text(bookfile, function (text) {
 	var tmpminwin = 10;
 	fulltimeseries = text.split(",").map(parseFloat);
@@ -79,7 +79,7 @@ function loadCsv() {
 	timeseries = fulltimeseries.slice(tmpminwin/2,fulltimeseries.length-tmpminwin/2);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         //console.log(tmp.length);
         //console.log(tmp[tmp.length-1]);
@@ -93,7 +93,7 @@ function loadCsv() {
 	hedotools.shifter._lens(lens);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         var words = tmp;
         var len = words.length - 1;
@@ -105,7 +105,7 @@ function loadCsv() {
 	hedotools.shifter._words(words);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         var words_en = tmp;
         var len = words_en.length - 1;
@@ -188,7 +188,7 @@ var loadwordshiftdata = function() {
     var target = document.getElementById("popupbutton");
     var spinner = new Spinner(opts).spin(target);
 
-    var bookfile = "http://hedonometer.org/data/bookdata/word-vectors/"+bookref+".csv";
+    var bookfile = "https://hedonometer.org/data/bookdata/word-vectors/"+bookref+".csv";
     d3.text(bookfile, function (text) {
         tmp = text.split("\n");
 
@@ -400,7 +400,7 @@ var substringMatcher = function(apik) {
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json("http://hedonometer.org/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
+	d3.json("https://hedonometer.org/api/v1/gutenberg/?format=json&"+apik.toLowerCase()+"__icontains="+q,function(data) {
 	    var result = data.objects;
 	    // console.log(result);
 	    var newresult = [];
@@ -424,7 +424,7 @@ $(document).ready(function() {
 	// window.location.replace("/books.html?book=random");
 	// but here, it's easier to make that API hit now and send the page
 	// directly:
-	d3.json("http://hedonometer.org/api/v1/randombook/?format=json",function(data) {
+	d3.json("https://hedonometer.org/api/v1/randombook/?format=json",function(data) {
 	    var result = data.objects[0];
 	    window.location.replace("/books/"+result.title+"/");
 	})	

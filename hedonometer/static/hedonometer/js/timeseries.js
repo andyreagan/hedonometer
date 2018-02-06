@@ -505,7 +505,7 @@
 
     var minDate,maxDate;
 
-    d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile, function(data) {
+    d3.csv("https://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile, function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	console.log('here are the min and max date picked up from '+sumHappsFile);
@@ -652,8 +652,8 @@
 
 	var format = d3.time.format("%m-%d");
 
-	// http://hedonometer.org/api/v1/events/?format=json
-	d3.json('http://hedonometer.org/api/v1/events/?format=json&lang='+lang+'&region='+region,function(json) {
+	// https://hedonometer.org/api/v1/events/?format=json
+	d3.json('https://hedonometer.org/api/v1/events/?format=json&lang='+lang+'&region='+region,function(json) {
 	    bigdays = json.objects;
 	    console.log("the events are:");
 	    console.log(bigdays);
@@ -783,7 +783,7 @@
 	} ); // d3.json for events
 
 	// now let's try to load the frequency
-	d3.csv("http://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile.replace('happs','freq'), function(data) {
+	d3.csv("https://hedonometer.org/data/word-vectors/"+region+"/"+sumHappsFile.replace('happs','freq'), function(data) {
 	    // console.log(data);
 
 	    for (i = 0; i < data.length; i++) {
@@ -1067,10 +1067,10 @@
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("https://hedonometer.org/data/word-vectors/"+region+"/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    // compFvec = tmp.split(',').slice(0,10222);
 	    compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("https://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		// refFvec = tmp2.split(',').slice(0,10222);
 		refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -1224,7 +1224,7 @@
 	    }
 	}
 
-	d3.csv("http://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("https://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
@@ -1234,7 +1234,7 @@
 	    //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
 	    //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
 
-	    d3.csv("http://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("https://hedonometer.org/data/shifts/"+region+"/"+cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -1470,10 +1470,10 @@
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
-	d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(update)+"-sum.csv",function(tmp) {
+	d3.text("https://hedonometer.org/data/word-vectors/"+region+"/"+cformat(update)+"-sum.csv",function(tmp) {
 	    // compFvec = tmp.split(',').slice(0,10222);
 	    compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-	    d3.text("http://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("https://hedonometer.org/data/word-vectors/"+region+"/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		// refFvec = tmp2.split(',').slice(0,10222);
 		refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -1622,7 +1622,7 @@
     $('#myModal2').on('show.bs.modal', function (e) {
 	console.log("embed modal shown");
 	$('#linktextarea').text(window.location.href);
-	$('#embedtextarea').text('<iframe src="http://hedonometer.org/embed/main/'+datedecoder().current+'/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
+	$('#embedtextarea').text('<iframe src="https://hedonometer.org/embed/main/'+datedecoder().current+'/'+((shiftseldecoder().current.length > 0) ? '?wordtypes='+shiftseldecoder().current : '' )+'" width="590" height="800" frameborder="0" scrolling="no"></iframe>');
 
 	filename = 'hedonometer-'+cformat($('#dp1').datepicker('getDate'))+'-wordshift';
 

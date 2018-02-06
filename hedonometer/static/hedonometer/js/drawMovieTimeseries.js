@@ -136,7 +136,7 @@ hedotools.booktimeseries = function() {
 
     var showLine = function(show) {
 	if (show) {
-	    var moviefile = "http://hedonometer.org/data/moviedata/raw/"+movieref+".txt";
+	    var moviefile = "https://hedonometer.org/data/moviedata/raw/"+movieref+".txt";
 	    var pheight;
 	    d3.text(moviefile, function (text) {
 		// globaltext = text;
@@ -155,7 +155,7 @@ hedotools.booktimeseries = function() {
 	    });
 
 	    var fheight;
-	    var moviefile2 = "http://hedonometer.org/data/moviedata/rawer/"+movieref+".html.clean01";
+	    var moviefile2 = "https://hedonometer.org/data/moviedata/rawer/"+movieref+".html.clean01";
 	    d3.text(moviefile2, function (text) {
 		// use this to test the total words in this different file
 		// lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
@@ -185,7 +185,7 @@ hedotools.booktimeseries = function() {
 		// }
 		// globalwords3 = kwords;
 
-		var breakfile = "http://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+"-breaks.csv";
+		var breakfile = "https://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+"-breaks.csv";
 		d3.text(breakfile, function (breaks) {
 		    // console.log("loaded movie full uncleaned text");
 		    // console.log(breaks);

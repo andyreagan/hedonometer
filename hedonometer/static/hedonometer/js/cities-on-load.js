@@ -142,8 +142,8 @@ function loadCsv(time) {
     var shiftLoadsRemaining = 2;
     var listLoadsRemaining = 2;
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
@@ -166,11 +166,11 @@ function loadCsv(time) {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text("http://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
 	cityHappsList = text.split("\n").slice(0,304).map(parseFloat);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text("http://hedonometer.org/data/cities/mutualCities.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/mutualCities.csv", function(text) {
 	cityList = text.split("\n").slice(0,304);
 	classColor.domain([cityList.length,1]);
 	if (!--allLoadsRemaining) initializeBoth();
@@ -234,9 +234,9 @@ var drawTheFreakingShift = function() {
 
     // load both of the files
     var finalLoadsRemaining = 2;
-    var reffile = "http://hedonometer.org/data/cities/word-vectors/"+refyear+"/"+refname+".csv";
+    var reffile = "https://hedonometer.org/data/cities/word-vectors/"+refyear+"/"+refname+".csv";
     if (parseInt(refyear) < 2014) reffile+=".new"
-    var compfile = "http://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
+    var compfile = "https://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
     if (parseInt(compyear) < 2014) compfile+=".new"
 
     // console.log(reffile);

@@ -184,8 +184,8 @@ function timeDrop() {
 function loadCsv(time) {
     var csvLoadsRemaining = 4;
     // load labMT files
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	//console.log(tmp.length);
@@ -210,15 +210,15 @@ function loadCsv(time) {
 	}
 	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     });
-    d3.json("http://hedonometer.org/data/geodata/us-states.topojson", function(data) {
+    d3.json("https://hedonometer.org/data/geodata/us-states.topojson", function(data) {
 	geoJson = data;
 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     });
     // trying to load from a new format for the more recent tweets
-    // d3.text("http://hedonometer.org/data/geodata/wordCounts"+(time)+".csv", function(text) {
+    // d3.text("https://hedonometer.org/data/geodata/wordCounts"+(time)+".csv", function(text) {
     var time = "2014-08-25-week"
-    d3.text("http://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    d3.text("https://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 	tmp = text.split("\n");
 	allData = Array(52);
 	for (var i=0; i<51; i++) {
@@ -252,7 +252,7 @@ function initializePlotPlot(lens,words) {
 
     // the previous week
     var time = "2014-08-18-week"
-    d3.text("http://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
+    d3.text("https://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 
 	var tmp = text.split("\n");
 	allDataOld = Array(52);

@@ -13,8 +13,8 @@ hedotools.loader = function() {
     var lensExtent = [4,6];
     var csvLoadsRemaining = 4;
     // load labMT files
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     // var longerformat = d3.time.format("%A, %B %e, %Y");
     // var cformat = d3.time.format("%Y-%m-%d");
     var lens;
@@ -80,6 +80,7 @@ hedotools.loader = function() {
 	hedotools.shifter._words(words);
 	hedotools.shifter.ignore(embedDetails.stopWords.split(","));
 	hedotools.shifter.stop();
+	hedotools.shifter.setWidth(500);
 	hedotools.shifter.shifter();
 	hedotools.shifter.setfigure(d3.select('#shift01'));
 	var embedtext = embedDetails.fulltext;

@@ -49,9 +49,9 @@ def embedCBS(request,hostref,hostcomp):
         specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format('CBS Host Wordshift',hosts_nice[compi]+'\'s lines compared to '+hosts_nice[refi]+'\'s lines',hosts_nice[compi],hosts_nice[refi])
 
     filenames = {'h': 'dont matter',
-                 'refFile': 'http://hedonometer.org/data/CBS/%s.csv' % hostref,
+                 'refFile': 'https://hedonometer.org/data/CBS/%s.csv' % hostref,
                  'refFileName': hostref,
-                 'compFile': 'http://hedonometer.org/data/CBS/%s.csv' % hostcomp,
+                 'compFile': 'https://hedonometer.org/data/CBS/%s.csv' % hostcomp,
                  'compFileName': hostcomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
@@ -82,8 +82,8 @@ def embedMainSimple(request,onedate):
     print specialtext
 
     filenames = {'h': 'dont matter',
-                 'refFile': 'http://hedonometer.org/data/word-vectors/%s-prev7.csv' % onedate,
-                 'compFile': 'http://hedonometer.org/data/word-vectors/%s-sum.csv' % onedate,
+                 'refFile': 'https://hedonometer.org/data/word-vectors/vacc/%s-prev7.csv' % onedate,
+                 'compFile': 'https://hedonometer.org/data/word-vectors/vacc/%s-sum.csv' % onedate,
                  'fulltext': specialtext,
                  'contextflag': 'main',
                  'stopWords': '',
@@ -156,9 +156,9 @@ def embedMain(request,dateref,datecomp):
     # logger.debug(some_hash)
 
     filenames = {'h': 'dont matter',
-                 'refFile': 'http://hedonometer.org/data/word-vectors/vacc/%s.csv' % dateref,
+                 'refFile': 'https://hedonometer.org/data/word-vectors/vacc/%s.csv' % dateref,
                  'refFileName': dateref,
-                 'compFile': 'http://hedonometer.org/data/word-vectors/vacc/%s.csv' % datecomp,
+                 'compFile': 'https://hedonometer.org/data/word-vectors/vacc/%s.csv' % datecomp,
                  'compFileName': datecomp,
                  'fulltext': '',
                  'contextflag': 'none',

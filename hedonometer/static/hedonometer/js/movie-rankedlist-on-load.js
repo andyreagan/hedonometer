@@ -131,8 +131,8 @@ function loadCsv() {
     var shiftLoadsRemaining = 2;
     var listLoadsRemaining = 2;
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
-    var scoresFile = "http://hedonometer.org/data/labMT/labMTscores-english.csv";
-    var wordsFile = "http://hedonometer.org/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
@@ -230,8 +230,8 @@ var drawShift = function() {
 
     // load both of the files
     var finalLoadsRemaining = 2;
-    var refFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftRef].filename+".csv";
-    var compFile = "http://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftComp].filename+".csv";
+    var refFile = "https://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftRef].filename+".csv";
+    var compFile = "https://hedonometer.org/data/moviedata/word-vectors/full/"+sectionListWAllFirst[shiftComp].filename+".csv";
 
     // refresh the ignorewords list here
     ignoreWords = ["camera","cuts"];
@@ -244,7 +244,7 @@ var drawShift = function() {
 
     // not using the embed, since I haven't made that yet.
     // I made all of this for the NYT thing? go me.
-    // d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+    // d3.select("#embedtextarea").html("<iframe src=\"https://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
     d3.text(refFile,function(text) {
 	refF = text.split(",");

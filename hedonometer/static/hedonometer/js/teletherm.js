@@ -1844,14 +1844,14 @@ window.onload = function() {
     // start using queue for the loads here
     
     
-    // d3.json("http://hedonometer.org/data/geodata/us-states.topojson", function(data) {
+    // d3.json("https://hedonometer.org/data/geodata/us-states.topojson", function(data) {
     // 	geoJson = data;
     // 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
     // 	// if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     // }); // d3.json
     
     queue()
-	// .defer(request,"http://hedonometer.org/data/geodata/us-states.topojson")
+	// .defer(request,"https://hedonometer.org/data/geodata/us-states.topojson")
         // switch to this for local devel
 	.defer(d3.json,"/static/hedonometer/teledata/us-states.topojson")
 	.awaitAll(dataloaded);

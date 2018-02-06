@@ -326,13 +326,13 @@ hedotools.sankey = function() {
 			}
 			// load both of the files
 			var csvLoadsRemaining = 2;
-			// var reffile = "http://hedonometer.org/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
+			// var reffile = "https://hedonometer.org/data/cities/word-vectors/"+reftimeseldecoder().cached+"/"+d.name+".csv";
 			// if (parseInt(reftimeseldecoder().cached) < 2014) reffile+=".new"
-			// var compfile = "http://hedonometer.org/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
+			// var compfile = "https://hedonometer.org/data/cities/word-vectors/"+comptimeseldecoder().cached+"/"+d.name+".csv";
 			// if (parseInt(comptimeseldecoder().cached) < 2014) compfile+=".new"
-			var reffile = "http://hedonometer.org/data/cities/word-vectors/"+refyear+"/"+refname+".csv";
+			var reffile = "https://hedonometer.org/data/cities/word-vectors/"+refyear+"/"+refname+".csv";
 			if (parseInt(refyear) < 2014) reffile+=".new"
-			var compfile = "http://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
+			var compfile = "https://hedonometer.org/data/cities/word-vectors/"+compyear+"/"+compname+".csv";
 			if (parseInt(compyear) < 2014) compfile+=".new"
 			console.log(reffile);
 			console.log(compfile);

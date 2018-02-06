@@ -240,15 +240,15 @@ var drawShift = function() {
     console.log(shiftRef);
     // load both of the files
     var finalLoadsRemaining = 2;
-    // var refFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftRef].filename+".stripped.indexed";
-    // var compFile = "http://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftComp].filename+".stripped.indexed";
-    var refFile = "http://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftRef].file+".wordvec.csv";
-    var compFile = "http://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftComp].file+".wordvec.csv";
+    // var refFile = "https://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftRef].filename+".stripped.indexed";
+    // var compFile = "https://hedonometer.org/data/NYT/NYT_labVecs/"+sectionListWAllFirst[shiftComp].filename+".stripped.indexed";
+    var refFile = "https://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftRef].file+".wordvec.csv";
+    var compFile = "https://hedonometer.org/data/outside/articles/"+sectionListWAllFirst[shiftComp].file+".wordvec.csv";
 
     var refF;
     var compF;
 
-    // d3.select("#embedtextarea").html("<iframe src=\"http://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
+    // d3.select("#embedtextarea").html("<iframe src=\"https://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
     d3.text(refFile,function(text) {
 	refF = text.split("\n");

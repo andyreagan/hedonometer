@@ -15241,7 +15241,7 @@ function initializePlot() {
 
 function loadCsv() {
     var csvLoadsRemaining = 4;
-    var bookfile = "http://hedonometer.org/data/bookdata/processed/"+book+"-timeseries.csv";
+    var bookfile = "https://hedonometer.org/data/bookdata/processed/"+book+"-timeseries.csv";
     d3.text(bookfile, function (text) {
 	var tmpminwin = 10;
 	fulltimeseries = text.split(",").map(parseFloat);
@@ -15250,7 +15250,7 @@ function loadCsv() {
 	timeseries = fulltimeseries.slice(tmpminwin/2,fulltimeseries.length-tmpminwin/2);
         if (!--csvLoadsRemaining) initializePlotPlot(lens, words);
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTscores-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         //console.log(tmp.length);
         //console.log(tmp[tmp.length-1]);
@@ -15263,7 +15263,7 @@ function loadCsv() {
         }
         if (!--csvLoadsRemaining) initializePlotPlot(lens, words);
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTwords-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         words = tmp;
         var len = words.length - 1;
@@ -15274,7 +15274,7 @@ function loadCsv() {
         }
         if (!--csvLoadsRemaining) initializePlotPlot(lens, words);
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
         var tmp = text.split("\n");
         words_en = tmp;
         var len = words_en.length - 1;
@@ -15328,7 +15328,7 @@ function initializePlotPlot(lens, words) {
 initializePlot();
 
 var loadwordshift = function() {
-    var bookfile = "http://hedonometer.org/data/bookdata/processed/"+book+"-timeseries.csv";
+    var bookfile = "https://hedonometer.org/data/bookdata/processed/"+book+"-timeseries.csv";
     d3.text(bookfile, function (text) {
         tmp = text.split("\n");
         // kill extra rows
