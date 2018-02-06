@@ -521,7 +521,7 @@
 
     var minDate,maxDate;
 
-    d3.csv("https://hedonometer.org/data/word-vectors/world/sumhapps.csv", function(data) {
+    d3.csv("/data/word-vectors/world/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -647,7 +647,7 @@
 	var format = d3.time.format("%m-%d");
 
 	// https://hedonometer.org/api/v1/events/?format=json
-	d3.json('https://hedonometer.org/api/v1/events/?format=json',function(json) { 
+	d3.json('/api/v1/events/?format=json',function(json) { 
 	    bigdays = json.objects;
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
@@ -1017,9 +1017,9 @@
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("/data/word-vectors/world/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("/data/word-vectors/world/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// console.log("see if all four vectors are here:");
@@ -1149,12 +1149,12 @@
 	    }
 	}
 
-	d3.csv("https://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("/data/shifts/world/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
 
-	    d3.csv("https://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("/data/shifts/world/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -1362,9 +1362,9 @@
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
-	d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
+	d3.text("/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("/data/word-vectors/world/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// nextDay changing the text at the top
@@ -1400,7 +1400,7 @@
 		var modalbody = d3.select("#moveshifthere");
 		var SCOTUSdate = new Date(2015,5,26);
 		if (update.getTime() === SCOTUSdate.getTime()) {
-		    modalbody.style("background-image","url('https://hedonometer.org/data/shifts/rainbow.jpg')");
+		    modalbody.style("background-image","url('/data/shifts/rainbow.jpg')");
 		}
 		else {
 		    modalbody.style("background-image",null);

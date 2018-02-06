@@ -1,8 +1,5 @@
+#!/usr/bin/zsh
 # /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/minify.sh
-
-if [ $USER == "andyreagan" ]; then
-    alias minify="yuicompressor"
-fi
 
 # cat first
 echo "catting index"
@@ -15,8 +12,8 @@ cat d3.js jquery-1.11.0.min.js bootstrap.js typeahead.bundle.js urllib.js hedoto
 # cat jquery-1.11.0.min.js bootstrap.min.js d3.js urllib.js topojson.v1.min.js drawLens-geo.js drawMap.js computeHapps-geo.js drawList.js maps-on-load.js > maps-all.js
 
 # minify second
-echo "minifying index"
-minify --type js index-all.js > index-all.min.js
+# echo "minifying index"
+# minify --type js index-all.js > index-all.min.js
 # echo "minifying books"
 # minify --type js books-all.js > books-all.min.js
 # echo "minifying maps"
