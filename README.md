@@ -29,3 +29,37 @@ The cron scheduler runs every hour on the hour, and submits jobs to the PBS queu
 The full code for this process is available at [https://github.com/andyreagan/hedonometer-VACC-processing](https://github.com/andyreagan/hedonometer-VACC-processing).
 
 For more details on the motivation and the science, see the [about page](http://hedonometer.org/about.html)
+
+## Running the site locally
+
+1. Start a virtualenv
+
+```
+virtualenv pyenv
+```
+
+2. Install the frozen requirements
+
+```
+pyenv/bin/pip install -r requirements-freeze.txt
+```
+
+3. Source the dummy config
+
+```
+source local_config.sh
+```
+
+4. Start the webserver
+
+```
+pyenv/bin/python manage.py runserver
+```
+
+5. (optional) Mount the remote data directory
+
+```
+sshfs linderoot:/usr/share/nginx/data data
+```
+
+
