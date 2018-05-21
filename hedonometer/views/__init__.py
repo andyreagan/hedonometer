@@ -141,7 +141,7 @@ class csv_view(View):
 
 
 # add to the top
-from hedonometer.forms import ContactForm
+# from hedonometer.forms import ContactForm
 
 
 class contact(View):
