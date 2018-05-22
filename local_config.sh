@@ -11,3 +11,5 @@ export DJ_STATIC_ROOT="static/"
 export HEDO_APP_KEY="XX"
 export HEDO_APP_SECRET="XX"
 export DJ_ABSOLUTE_DATA_PATH="data"
+# export DJ_ABSOLUTE_DATA_PATH="/Users/andyreagan/websites/hedonometer.org/data"
+

@@ -21,7 +21,7 @@ SECRET_KEY = os.getenv('DJ_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DJ_DEBUG') in ['TRUE','1','true','True']
- 
+
 TEMPLATE_DEBUG = DEBUG
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR,'templates')]
@@ -124,6 +124,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 
+MEDIA_URL = '/data/'
+MEDIA_ROOT = '/Users/andyreagan/websites/hedonometer.org/data/'
+
 ABSOLUTE_DATA_PATH = os.getenv('DJ_ABSOLUTE_DATA_PATH')
 
 # # from http://ianalexandr.com/blog/getting-started-with-django-logging-in-5-minutes.html
@@ -160,6 +163,3 @@ ABSOLUTE_DATA_PATH = os.getenv('DJ_ABSOLUTE_DATA_PATH')
 #         },
 #     }
 # }
-
-
-

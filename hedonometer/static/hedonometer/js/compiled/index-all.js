@@ -13309,7 +13309,7 @@ I like this feature
 
 var lang = "english";
 
-d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
+d3.text("https://hedonometer.org/data/labMT/labMTscores-"+lang+".csv", function (text) {
     var tmp = text.split("\n");
     //console.log(tmp.length);
     //console.log(tmp[tmp.length-1]);
@@ -13320,7 +13320,7 @@ d3.text("/data/labMT/labMTscores-"+lang+".csv", function (text) {
         lens = lens.slice(0, len);
         len--;
     }
-    d3.text("/data/labMT/labMTwords-"+lang+".csv", function (text2) {
+    d3.text("https://hedonometer.org/data/labMT/labMTwords-"+lang+".csv", function (text2) {
 	var tmp2 = text2.split("\n");
 	words = tmp2;
 	var len = words.length - 1;
@@ -15957,10 +15957,10 @@ hedotools.shifter = function()
 	return n;
     }
 
-    if ( document.documentElement.clientWidth < 500 ) { 
+    if ( document.documentElement.clientWidth < 500 ) {
 	var initialMonths = 3;
     }
-    else { 
+    else {
 	var initialMonths = 18;
     }
 
@@ -16073,10 +16073,10 @@ hedotools.shifter = function()
 	    }
 	}
 	// check the highlight individually
-	if (legendDict['hilite'] == 'on') { 
+	if (legendDict['hilite'] == 'on') {
 	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "visible");
 	}
-	else { 
+	else {
 	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "hidden");
 	}
     };
@@ -16308,15 +16308,15 @@ hedotools.shifter = function()
  	.attr("x2", function(d,i) { return 42+legendboxwidth*i+d; })
 	.attr("y1", 0)
 	.attr("y2", 19);
-    
+
     // was at 350
     legendgroup.append("svg:circle").on("mousedown", function() {
 	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	legendDict.toggle('togall',rScale(currRange));
     }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
-    
+
     legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id","togall");
-    
+
     legendgroup.append("rect")
 	.attr({"class": "legendrect",
 	       "x": 301,
@@ -16387,7 +16387,7 @@ hedotools.shifter = function()
     	.data(yearstrings)
     	.enter()
     	.append("text")
-    	.attr("x", function(d,i) { 
+    	.attr("x", function(d,i) {
 	    // start at 2
 	    if (i==0) { return initialpadding; }
 	    // then use 2+width+10+width+10+width...
@@ -16428,10 +16428,10 @@ hedotools.shifter = function()
     	.append("line")
     	.attr("stroke","grey")
     	.attr("stroke-width","2")
-    	.attr("x1", function(d,i) { 
+    	.attr("x1", function(d,i) {
 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	})
-    	.attr("x2", function(d,i) { 
+    	.attr("x2", function(d,i) {
 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	})
     	.attr("y1", 0)
@@ -16441,7 +16441,7 @@ hedotools.shifter = function()
 
     var minDate,maxDate;
 
-    d3.csv("/data/word-vectors/world/sumhapps.csv", function(data) {
+    d3.csv("https://hedonometer.org/data/word-vectors/world/sumhapps.csv", function(data) {
 	minDate = getDate(data[0]);
 	maxDate = getDate(data[data.length - 1]);
 	var parse = d3.time.format("%Y-%m-%d").parse;
@@ -16509,11 +16509,11 @@ hedotools.shifter = function()
 	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
 	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
 	    .attr("stroke-width","1.7px");
-	
+
 	// focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
 
 	// console.log(data);
-	
+
 	var circle = focus2.selectAll("circle").data(data);
 
     	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
@@ -16539,7 +16539,7 @@ hedotools.shifter = function()
 		"cy": function(d) { return y(d.value); },
 		"r": function(d) { return rScale(currRange); }, })
 	    .on("mouseover.enlarge", function() { d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5); })
-	    .on("mouseover.popup",myMouseOverFunction) 
+	    .on("mouseover.popup",myMouseOverFunction)
 	    .on("mouseout", myMouseOutFunction)
 	    .on("mousedown", myMouseDownOpenWordShiftFunction);
 
@@ -16567,13 +16567,13 @@ hedotools.shifter = function()
 	var format = d3.time.format("%m-%d");
 
 	// https://hedonometer.org/api/v1/events/?format=json
-	d3.json('/api/v1/events/?format=json',function(json) { 
+	d3.json('/api/v1/events/?format=json',function(json) {
 	    bigdays = json.objects;
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
 				       d.shorter = d.shorter.split(',');
 				       // don't let them overflow the bottom
-				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]); 
+				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]);
 				       d.importance = parseFloat(d.importance);})
 
 	    var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
@@ -16590,25 +16590,25 @@ hedotools.shifter = function()
 		.append("g")
 	        .attr("class","bigdaygroup")
 		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; })
-		.on("mouseover.popup", function(d) { hovertimer = setTimeout(function(){drawSmallShift(x(d.date),y(d.value),d.date,false)},popupEnterDur);}) // myMouseOverFunction) 
+		.on("mouseover.popup", function(d) { hovertimer = setTimeout(function(){drawSmallShift(x(d.date),y(d.value),d.date,false)},popupEnterDur);}) // myMouseOverFunction)
 		.on("mouseout", function() { clearTimeout(hovertimer); }) //myMouseOutFunction)
 		.on("mousedown",function(d) { transitionBigShift(d.date); }); //myMouseDown...)
-	    
+
 	    var textwidth = 6;
 	    // width of characters
 	    var charwidth = 3;
 
 	    var line0 = bigdaygroups
 		.append("text")
-		.text(function(d) { // console.log(d.shorter.length); 
+		.text(function(d) { // console.log(d.shorter.length);
  return d.shorter[0]; } )
 		.attr("class","bigdaytext")
  	    // .attr("stroke-width","0.1")
 		.attr("dx", 0)
-		      //function(d) { 
-		    // return -d.shorter[0].width()/2; 
-		    // return 0; 
-		    //return -d.shorter[0].length*charwidth/2; 
+		      //function(d) {
+		    // return -d.shorter[0].width()/2;
+		    // return 0;
+		    //return -d.shorter[0].length*charwidth/2;
 		    // return -d3.select(this).attr("width")/2;
 		//})
 		.attr("dy", function(d) { return 0; })
@@ -16621,15 +16621,15 @@ hedotools.shifter = function()
 		.text(function(d) { if (d.shorter.length > 1) { return d.shorter[1]; }
 				    else { return ""; } })
 		.attr("class","bigdaytext")
-		.attr("dx", 0) // function(d) { 
+		.attr("dx", 0) // function(d) {
 		//     if (d.shorter.length > 1) {
-		// 	// return -d.shorter[1].width()/2; 
+		// 	// return -d.shorter[1].width()/2;
 		// 	// return 0;
-		// 	return -d.shorter[1].length*charwidth/2; 
-		//     } 
-		//     else { 
-		// 	return 0; 
-		//     } 
+		// 	return -d.shorter[1].length*charwidth/2;
+		//     }
+		//     else {
+		// 	return 0;
+		//     }
 		// })
 		.attr("dy", function(d) { return 15; })
 		.attr("stroke","")
@@ -16657,7 +16657,7 @@ hedotools.shifter = function()
 		.attr("stroke","")
 		.attr("fill","grey")
 		.attr("visibility","hidden");
-	    
+
 	    // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
 	    // 	return -d3.select(this).attr("width")/2;
 	    // })
@@ -16665,7 +16665,7 @@ hedotools.shifter = function()
 	    // call the brush initially
 	    brushing();
 	    focus.selectAll(".brushingline")
-		.attr({ 
+		.attr({
 		    "visibility": "hidden",
 		});
 
@@ -16701,7 +16701,7 @@ hedotools.shifter = function()
 	var brushgroup = context.append("g").attr("class", "x brush")
 	    .call(brush);
 	// .call(brush.event);
-	
+
 	brushgroup
 	    .selectAll("rect")
 	    .attr({"y": -6,
@@ -16716,21 +16716,21 @@ hedotools.shifter = function()
 	brushing();
 
 	focus.selectAll(".brushingline")
-	    .attr({ 
+	    .attr({
 		"visibility": "hidden",
 	    });
 
 
     }); // main data load
 
-    // function fishline(d) { 
+    // function fishline(d) {
     // 	return fishline0(d.map(function(d) {
     // 	    d = fisheye({x: x(d.date), y: y(d.value)});
     // 	    return [d.x, d.y];
     // 	}));
     // };
 
-    function line(d) { 
+    function line(d) {
 	return line0(d.map(function(d) {
 	    return [d.x, d.y];
 	}));
@@ -16753,7 +16753,7 @@ hedotools.shifter = function()
 	    context.select(".x.brush")
 		.call(brush);
 	    focus.selectAll(".brushingline")
-		.attr({ 
+		.attr({
 		    "visibility": "hidden",
 		});
 	    return;
@@ -16763,7 +16763,7 @@ hedotools.shifter = function()
 	    fromencoder.varval(cformat(x.domain()[0]));
 	    toencoder.varval(cformat(x.domain()[1]));
 	    focus.selectAll(".brushingline")
-		.attr({ 
+		.attr({
 		    "visibility": "hidden",
 		});
 	}
@@ -16780,7 +16780,7 @@ hedotools.shifter = function()
 	    "stroke-width": 2,
 	    "visibility": "hidden",
 	});
-    
+
     function brushing() {
 	// console.log("brushing");
 	// console.log(x.domain()[0].getTime());
@@ -16819,9 +16819,9 @@ hedotools.shifter = function()
 		   "stroke": "grey",
 		   "shape-rendering": "crispEdges",
 		  });
-	
+
 	focus.selectAll(".brushingline")
-	    .attr({ 
+	    .attr({
 		"x2": function(d,i) { return x2(brush.extent()[i]) },
 		"visibility": "visible",
 	    });
@@ -16831,7 +16831,7 @@ hedotools.shifter = function()
 	}).attr("cy", function(d) {
 	    return y(d.value);
 	});
-	
+
 	focus2.selectAll("circle")
  	    .attr("r", function(d) {
 	    	return rScale(currRange);
@@ -16850,12 +16850,12 @@ hedotools.shifter = function()
 		"y1": function(d,i) { return y(d.value)+3*(d.y/Math.abs(d.y)); }, // 2 in the direction of the offset +2*(d.y/d.y)
 		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*12-6;} },
 	    });
-	
+
 	var groups = focus2.selectAll("g.bigdaygroup")
 	    .attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
 
 	d3.select("#minilist").remove();
-	
+
 	var cutoff = bigdayscale(currRange);
 	// console.log(cutoff);
 
@@ -16874,12 +16874,12 @@ hedotools.shifter = function()
 	if (x >= 600) {
 	    x = x - 220;
 	    // if on the top
-	    if (y <= 210) { 
+	    if (y <= 210) {
 		y = y - 10;
 		x = x - 30;
-	    } 
+	    }
 	    else { y = y - 224; }
-	} 
+	}
 	// on the left
 	else {
 	    x = x - 7;
@@ -16937,9 +16937,9 @@ hedotools.shifter = function()
 	var modalheight = 495;
 
 	// now trying to load in data from zoo
-	d3.text("/data/word-vectors/world/"+cformat(popdate)+"-sum.csv",function(tmp) {
+	d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(popdate)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("/data/word-vectors/world/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(popdate,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// console.log("see if all four vectors are here:");
@@ -16967,18 +16967,18 @@ hedotools.shifter = function()
 		// since we're loading twice as much!
 		$('#dp1').datepicker('setDate',popdate);
 
-		$('#myModal').modal('toggle'); 
+		$('#myModal').modal('toggle');
 
 	    }) // data
-	    
+
 	}) // metadata
 
 
-	
+
     }; // transitionBigShift
 
     var numWords = 27;
-    
+
     function drawSmallShift(cx,cy,popdate) {
 	// remove old guys
 	d3.select("#minilist").remove();
@@ -16987,7 +16987,7 @@ hedotools.shifter = function()
 	// var circleY = parseFloat(circle.attr("cy"));
 	var circleX = parseFloat(cx);
 	var circleY = parseFloat(cy);
-	
+
 	var miniboxX = offsetXY(circleX, circleY, "X");
 	var miniboxY = offsetXY(circleX, circleY, "Y");
 
@@ -16996,7 +16996,7 @@ hedotools.shifter = function()
 	var px = 210;
 	// number of bars
 	var barcount = 9;
-	
+
 	// append the main svg
 	var shortlist = d3.select("#timeseries").append("g")
 	    .attr("transform", "translate(" + miniboxX + "," + miniboxY + ")")
@@ -17004,11 +17004,11 @@ hedotools.shifter = function()
 	    .on("mouseleave",function(d,i) {
 		//console.log("mouseleave");
 		minilistMouseLeaveTimer = setTimeout(function() {
-		    d3.select("#minilistbg").transition().duration(200).remove(); 
+		    d3.select("#minilistbg").transition().duration(200).remove();
 		    d3.select("#minilist").transition().duration(200).remove();
 		},popupExitDur);
 	    })
-	    .on("mouseenter",function(d,i) { 
+	    .on("mouseenter",function(d,i) {
 		//console.log("mouseenter");
 		try {
 		    clearTimeout(minilistMouseLeaveTimer);
@@ -17016,7 +17016,7 @@ hedotools.shifter = function()
 		catch(err) {
 		    // console.log(err);
 		} });
-	
+
 	shortlist.append("rect")
 	    .attr("id","minilistbg")
 	// .attr("width", mainWidth + mainMargin.left + mainMargin.right + 35)
@@ -17041,7 +17041,7 @@ hedotools.shifter = function()
 	}).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
 
 	// shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
-	shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate"); 
+	shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
 
 	for (var i=0; i<bigdays.length; i++) {
 	    //console.log(bigdays[i].date);
@@ -17050,7 +17050,7 @@ hedotools.shifter = function()
 		shortlist.append("text").attr("x", 200).attr("y", 24)
 		    .attr('font-family', 'FontAwesome')
 		    .attr('font-size', function(d) { return '2em'} )
-		    .text(function() { return '\uF012' }); 
+		    .text(function() { return '\uF012' });
 		var tmp = splitWidth(bigdays[i].longer,230);
 		shortlist.append("text").attr("x", 20).attr("y", 38)
 		//.html(function() { return '<b>'+bigdays[i].caption+'</b>'; })
@@ -17069,12 +17069,12 @@ hedotools.shifter = function()
 	    }
 	}
 
-	d3.csv("/data/shifts/world/" + cformat(popdate) + "-shift.csv", function(csv) {
+	d3.csv("https://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-shift.csv", function(csv) {
 	    var names = csv.map(function(d) { return d.word; });
 	    var sizes = csv.map(function(d) { return d.mag; });
 	    var types = csv.map(function(d) { return d.type; });
 
-	    d3.csv("/data/shifts/world/" + cformat(popdate) + "-metashift.csv", function(csv) {
+	    d3.csv("https://hedonometer.org/data/shifts/world/" + cformat(popdate) + "-metashift.csv", function(csv) {
 		var havg = csv.map(function(d) { return d.refH; });
 		var tcomp = csv.map(function(d) { return d.compH; });
 
@@ -17117,7 +17117,7 @@ hedotools.shifter = function()
 		//.attr("data-toggle","modal")
 		//.attr("href","#myModal")
 		    .attr("class","expanderbutton")
-	            .on("click",function() { 
+	            .on("click",function() {
 		        transitionBigShift(popdate);
 		    });
 
@@ -17142,7 +17142,7 @@ hedotools.shifter = function()
 		    "fill": "white",
 		    "class": "bigshiftclick",
 		    "opacity": 0.01,})
-		    .on("click",function() { 
+		    .on("click",function() {
 		        transitionBigShift(popdate);
 		    });
 
@@ -17165,7 +17165,7 @@ hedotools.shifter = function()
 	   -take a d3 selection, and draw the shift SVG on it
 	   -requires sorted vectors of the shift magnitude, type and word
 	   for each word
-	   
+
 	   selection: will append an svg to this on which to draw
 	   boxwidth: will use all of this
 	   boxheight: will use all of this
@@ -17189,10 +17189,10 @@ hedotools.shifter = function()
 
 	var figcenter = width/2;
 
-	sortedWords = sortedWords.map(function(d,i) { 
+	sortedWords = sortedWords.map(function(d,i) {
 	    if (sortedType[i] == 0) {
 		return d.concat("-\u2193");
-	    } 
+	    }
 	    else if (sortedType[i] == 1) {
 		return "\u2193+".concat(d);
 	    }
@@ -17211,7 +17211,7 @@ hedotools.shifter = function()
 	// linear scale function
 	var y =  d3.scale.linear()
 	    .domain([numWords+1,1])
-	    .range([height+2, yHeight]); 
+	    .range([height+2, yHeight]);
 
 	// zoom object for the axes
 	var zoom = d3.behavior.zoom()
@@ -17245,8 +17245,8 @@ hedotools.shifter = function()
 	// color
 	    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
 	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
-	    .attr("x",function(d,i) { 
-                if (d>0) { return figcenter; } 
+	    .attr("x",function(d,i) {
+                if (d>0) { return figcenter; }
                 else { return x(d)} })
 	    .attr("y",function(d,i) { return y(i+1); } )
 	    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
@@ -17282,9 +17282,9 @@ hedotools.shifter = function()
 
 	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
-	d3.text("/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
+	d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
-	    d3.text("/data/word-vectors/world/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
+	    d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(d3.time.day.offset(update,0))+"-prev7.csv",function(tmp2) {
 		refFvec = tmp2.split('\n').slice(0,10222);
 
 		// nextDay changing the text at the top
@@ -17305,14 +17305,14 @@ hedotools.shifter = function()
 			// break;
 		    }
 		}
-		if (bigdaytest) { 
+		if (bigdaytest) {
 		    var tmpStr = 'Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> ';
-		    for (var i=0; i<bigdaywiki.length; i++) { 
+		    for (var i=0; i<bigdaywiki.length; i++) {
 			tmpStr += '<a href="'+bigdaywiki[i].safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35" class="wikilogo"/></a>';
 		    }
 		    d3.select('#modaltitle').html(tmpStr);
 		}
-		else { 
+		else {
 		    d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='static/hedonometer/graphics/white.png' height='35'/>");
 		}
 
@@ -17320,12 +17320,12 @@ hedotools.shifter = function()
 		var modalbody = d3.select("#moveshifthere");
 		var SCOTUSdate = new Date(2015,5,26);
 		if (update.getTime() === SCOTUSdate.getTime()) {
-		    modalbody.style("background-image","url('/data/shifts/rainbow.jpg')");
+		    modalbody.style("background-image","url('https://hedonometer.org/data/shifts/rainbow.jpg')");
 		}
 		else {
 		    modalbody.style("background-image",null);
 		}
-		
+
 		var modalfooter = d3.select("#moveshiftherefooter");
 		var tmptext = [longerformat(update)];
 		if (bigdaytest) {
@@ -17407,12 +17407,12 @@ hedotools.shifter = function()
 	return result;
     }
 
-    var leftbutton = d3.select("button.left").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1)) 
+    var leftbutton = d3.select("button.left").on("click",function(d) {
+	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))
     });
 
-    var rightbutton = d3.select("button.right").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
+    var rightbutton = d3.select("button.right").on("click",function(d) {
+	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))
     });
 
     $('#myModal2').on('hidden.bs.modal', function (e) {
@@ -17432,7 +17432,7 @@ hedotools.shifter = function()
 	url = 'data:text/plain;charset=utf-8,' + encodeURIComponent(string);
 	document.getElementById('svgbutton').setAttribute("download", filename + ".svg")
 	document.getElementById('svgbutton').setAttribute("href", url);
-	
+
 	$('#pdfbutton').click(function() {
 	    var form = document.getElementById('svgform');
 	    form['output_format'].value = 'pdf';
@@ -17470,7 +17470,7 @@ hedotools.shifter = function()
 	svg.setAttribute("version", "1.1");
 
 	var defsEl = document.createElement("defs");
-	svg.insertBefore(defsEl, svg.firstChild); 
+	svg.insertBefore(defsEl, svg.firstChild);
 	var styleEl = document.createElement("style")
 	defsEl.appendChild(styleEl);
 	styleEl.setAttribute("type", "text/css");
@@ -17483,7 +17483,7 @@ hedotools.shifter = function()
 	if (!svg.hasAttributeNS(prefix.xmlns, "xmlns:xlink")) {
 	    svg.setAttributeNS(prefix.xmlns, "xmlns:xlink", prefix.xlink);
 	}
-	
+
 	var svgxml = (new XMLSerializer()).serializeToString(svg)
 	// can probably get rid of this replace when styles is blank
 	    .replace('</style>', '<![CDATA[' + styles + ']]></style>');
