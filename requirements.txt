@@ -1,9 +1,9 @@
 Django==1.6
 MySQL-python
 South
-django-tastypie
-django-sekizai
-django-dbbackup
+django-tastypie==0.10.0
+# django-sekizai
+# django-dbbackup
 jinja2
 labMTsimple
 marisa_trie
