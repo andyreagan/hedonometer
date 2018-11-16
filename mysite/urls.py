@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^twitter/', include('twython_django.urls',namespace='twython_django')),
     url(r'^', include('hedonometer.urls',namespace='hedonometer')),
-) 
+)
 
 # load the static files if in debug
 from settings import DEBUG
@@ -23,7 +23,3 @@ if DEBUG:
     from django.conf.urls.static import static
     from django.conf import settings
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
-
-
-
-

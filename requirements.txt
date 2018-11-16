@@ -1,5 +1,5 @@
 Django==1.6
-MySQL-python
+# MySQL-python
 South
 django-tastypie==0.10.0
 # django-sekizai
