@@ -1,1 +1,1 @@
-/home/prod/app/venv/local/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/jquery.js
+/home/prod/app/pyenv/local/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/jquery.js
