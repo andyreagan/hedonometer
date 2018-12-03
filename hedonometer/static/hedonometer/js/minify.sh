@@ -1,4 +1,4 @@
-#!/usr/bin/zsh
+# #!/usr/bin/zsh
 # /usr/share/nginx/wiki/mysite/mysite/static/hedonometer/js/minify.sh
 
 # cat first

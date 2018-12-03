@@ -112,5 +112,6 @@ urlpatterns = patterns('',
     # others
     (r'^api/', include(v1_api.urls)),
     url(r'^timeseries/(?P<urlregion>[\w-]+)/',views.timeseries, name='timeseries'),
-    url(r'^(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
+    # this captures everything!
+    # url(r'^(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
 )

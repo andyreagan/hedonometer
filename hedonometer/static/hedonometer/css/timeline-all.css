@@ -5811,7 +5811,7 @@ input[type="submit"] {margin-top:9px;}
 
 #footer{border-top:1px solid #dddddd;}
 #footer a{font-weight:bold;color:#777777;}
-#footer p.logo{font-size:15px;line-height:1.8;margin-top:15px;} 
+#footer p.logo{font-size:15px;line-height:1.8;margin-top:15px;}
 #footer ul#footer-nav{float:left;width:700px;margin:3px 0 10px 0;}
 #footer-nav li{float:left;margin:0 10px 0 0;padding:0 10px 0 0;line-height:1;border-right:1px solid #cccccc;}
 ol,ul{list-style:none;}
@@ -5866,7 +5866,7 @@ code {
 ul.missing { list-style: square; }
 
 /* don't make the main dropdown darker */
-.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus { 
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
     color: #555;
     background-color: #f8f8f8;
 }
@@ -5949,7 +5949,7 @@ ul.missing { list-style: square; }
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; } 
+.sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }
@@ -5981,7 +5981,7 @@ img.wikilogo { margin-right: 8px; }
 
 .pride {
     background-repeat: repeat-y;
-    background-image: url("/data/shifts/rainbow.jpg");
+    background-image: url("https://hedonometer.org/data/shifts/rainbow.jpg");
 }
 
 
@@ -6785,7 +6785,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; } 
+.sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }

@@ -31,7 +31,7 @@ var allEntry;
 //
 // hedotools.barchartoncall()
 //   -overrides the hover callback for the barchart
-// 
+//
 // sectionIndex(name)
 //   -given the genre, returns the index in sectionListWAllFirst
 //
@@ -40,15 +40,15 @@ var allEntry;
 //
 // loadCsv()
 //   -loads all four CSV files to start the thing
-// 
+//
 // initializeBoth()
 //   -calls the next two initialize functions
-// 
+//
 // initializeList()
-// 
+//
 // initializeShift()
 //   -grabs the shift vectors and draws the first shift
-// 
+//
 // drawShift()
 //   -draws this shift
 //
@@ -141,8 +141,8 @@ function loadCsv() {
     var shiftLoadsRemaining = 2;
     var listLoadsRemaining = 2;
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
-    var scoresFile = "/data/labMT/labMTscores-english.csv";
-    var wordsFile = "/data/labMT/labMTwords-english.csv";
+    var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
+    var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
     d3.text(scoresFile, function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
@@ -165,17 +165,17 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/data/outside/metadata.json", function(json) {
+    d3.json("https://hedonometer.org/data/outside/metadata.json", function(json) {
         sectionList = json;
         if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/data/outside/all.json", function(json) {
+    d3.json("https://hedonometer.org/data/outside/all.json", function(json) {
         allEntry = json;
         if (!--allLoadsRemaining) initializeBoth();
     });
 };
 
-var initializeBoth = function() { 
+var initializeBoth = function() {
     initializeList();
     initializeShift();
 };
@@ -211,7 +211,7 @@ var initializeShift = function() {
     // get the indices from the url decoders
     shiftComp = sectionIndex(compdecoder().cached);
     shiftRef = sectionIndex(refdecoder().cached);
-    
+
     drawShift();
 };
 
@@ -267,7 +267,7 @@ function initializePlot() {
     d3.select(".reflabel").text(refdecoder().cached);
     d3.select(".complabel").text(compdecoder().cached);
 
-    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) { 
+    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
 	if (selType !== d) {
 	    selType = d;
 	    d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one")
@@ -282,6 +282,3 @@ function initializePlot() {
 }
 
 initializePlot();
-
-
-

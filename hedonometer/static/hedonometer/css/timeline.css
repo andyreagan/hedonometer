@@ -77,7 +77,7 @@
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; } 
+.sumrectL { cursor: pointer; }
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }
@@ -109,7 +109,5 @@ img.wikilogo { margin-right: 8px; }
 
 /* .pride { */
 /*     background-repeat: repeat-y; */
-/*     background-image: url("/data/shifts/rainbow.jpg"); */
+/*     background-image: url("https://hedonometer.org/data/shifts/rainbow.jpg"); */
 /* } */
-
-
