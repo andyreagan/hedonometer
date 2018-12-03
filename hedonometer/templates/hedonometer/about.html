@@ -8,7 +8,7 @@
 	</div>
         <div class="col-xs-12 col-sm-7">
 	  <h3>Happiness</h3>
-	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in real time.</p>
+	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in near real time.</p>
 
 	  <p>Our hedonometer is based on people&#8217;s online expressions, capitalizing on data-rich social media, and we&#8217;re measuring how people present themselves to the outside world. For our first version of hedonometer.org, we&#8217;re using Twitter as a source but in principle we can expand to any data source in any language (more below). We&#8217;ll also be adding an API soon.</p>
 
@@ -34,10 +34,10 @@
 	  </p>
 	  <hr>
 	  <h5>&ldquo;What is being measured by the instrument?&rdquo;</h5>
-	  <p>hedonometer.org currently measures Twitter&#8217;s Gardenhose feed, a random sampling of roughly 50 million (10%) of all messages posted to the service, comprising 100GB of JSON each day. Words in messages written in English are thrown into a large bag (containing roughly 100 million words per day), and the bag is assigned a happiness score based on the average happiness score of the words contained within.</p>
+	  <p>hedonometer.org currently measures Twitter&#8217;s Gardenhose feed, a random sampling of roughly 50 million (10%) of all messages posted to the service, comprising roughly 100GB of raw JSON each day. Words in messages written in English are thrown into a large bag (containing roughly 100 million words per day), and the bag is assigned a happiness score based on the average happiness score of the words contained within. </p>
 	  <hr>
 	  <h5>&ldquo;If this is an instrument, it should have a knob somewhere.&rdquo;</h5>
-	  <p>Is that even a question?  Well, we do have a knob. It allows us to tune the relative importance of the most emotionally charged words by removing neutral words from consideration when determining the happiness of a given day. It also allows us to remove words that receive widely varying scores when rated on Mechanical Turk. Many profanities received average ratings between 4 and 6 due to the bimodal nature of their word score distribution. (Details on the choice of &Delta; h<sub>avg</sub> = 1 can be found in figure 2 of the publication listed below.)</p>
+	  <p>Is that even a question?  Well, we do have a knob. It allows us to tune the relative importance of the most emotionally charged words by removing neutral words from consideration when determining the happiness of a given day. It also allows us to remove words that receive widely varying scores when rated on Mechanical Turk. Many profanities received average ratings between 4 and 6 due to the bimodal nature of their word score distribution. Details on the choice of &Delta; h<sub>avg</sub> = 1 can be found in figure 2 of the publication listed below. We also mask a small set of <a href="https://github.com/andyreagan/hedonometer/search?q=thirsty&unscoped_q=thirsty">words</a> with average sentiment outside of the neutral range, whose scores we determined to be inappopriate for the task.</p>
 	  <hr>
 	  <h5>&ldquo;What does the hedonometer say about people who don&#8217;t tweet?&rdquo;</h5>
 	  <p>Tweets represent a non-uniform subsampling of all utterances made by a non-representative subpopulation of all people. However, there are hundreds of millions of people presently using the website to express their activities and interests, and as such it is an important social signal.
@@ -60,7 +60,7 @@
 	  <p>Many people presume this day will be one of clear positivity. While we do see positive words such as &ldquo;celebration&rdquo; appearing, the overall language of the day on Twitter reflected that a very negatively viewed character met a very negative end. It was a day of complex emotion which is best explored in the <a href="http://www.hedonometer.org/wordshift.html?date=2011-05-02" target="_blank">word shift for the day</a>, rather than the single number of its average happiness.</p>
 	  <hr/>
 	  <h5>&ldquo;Where can I learn more about the hedonometer and other work being carried out by the Computational Story Lab?&rdquo;</h5>
-	  <p>In our Computational Story Lab <a href="http://onehappybird.com" target="_blank">blog</a> we describe research projects in which we use our hedonometer to characterize happiness variations with respect to geography, network topology, demographics, and socio-economic data. For example, here&#8217;s a map of the US with cities colored by happiness:</p>
+	  <p>In our Computational Story Lab <a href="http://compstorylab.org" target="_blank">blog</a> we describe research projects in which we use our hedonometer to characterize happiness variations with respect to geography, network topology, demographics, and socio-economic data. For example, here&#8217;s a map of the US with cities colored by happiness:</p>
 	  <br/>
 	  <p>
 	    <a href="http://onehappybird.com/2013/02/18/where-is-the-happiest-city-in-the-usa/" target="_blank"><img src="{% static "hedonometer/graphics/where-is-the-happiest-city-in-the-usa.jpeg" %}" class="img-responsive"></a>
