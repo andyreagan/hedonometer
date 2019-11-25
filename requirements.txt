@@ -1,4 +1,4 @@
-Django==1.6
+Django==1.11.23
 # MySQL-python
 South
 django-tastypie==0.10.0

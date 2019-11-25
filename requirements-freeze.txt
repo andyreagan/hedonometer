@@ -1,7 +1,7 @@
 beautifulsoup4==4.3.2
 Cheetah==2.4.4
 datrie==0.7
-Django==1.6
+Django==1.11.23
 django-backup==1.0.1
 django-bootstrap3==4.11.0
 django-classy-tags==0.5
