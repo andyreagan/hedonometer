@@ -124,8 +124,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.getenv('DJ_STATIC_ROOT')
 
-MEDIA_URL = '/data/'
-MEDIA_ROOT = '/Users/andyreagan/websites/hedonometer.org/data/'
+# couldn't get this to share the sshfs mounted directory
+# MEDIA_URL = '/data/'
+# MEDIA_ROOT = '/Users/andyreagan/websites/hedonometer.org/data/'
 
 ABSOLUTE_DATA_PATH = os.getenv('DJ_ABSOLUTE_DATA_PATH')
 
