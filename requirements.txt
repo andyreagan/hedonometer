@@ -1,5 +1,5 @@
 Jinja2>=2.10.1
-Django==1.11.23
+Django==1.11.28
 # MySQL-python
 South
 django-tastypie==0.10.0
