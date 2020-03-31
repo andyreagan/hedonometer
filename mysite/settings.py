@@ -47,6 +47,8 @@ ALLOWED_HOSTS = [
     '.hedonometer.org',
     '.hedonometer.org.',
 ]
+if DEBUG:
+    ALLOWED_HOSTS.append('127.0.0.1')
 
 SITE_ID = 1
 
