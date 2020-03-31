@@ -22,3 +22,5 @@ screenshots
 
 
 testdb
+pyenv/
+testenv/
