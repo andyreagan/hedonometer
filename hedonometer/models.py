@@ -1,17 +1,19 @@
 from django.db import models
 from django.contrib.auth.models import User
 
-# Create your models here.
+
 class Happs(models.Model):
     date = models.DateTimeField()
     value = models.FloatField()
     lang = models.CharField(max_length=20)
+
 
 class GeoHapps(models.Model):
     date = models.DateTimeField()
     stateId = models.IntegerField()
     stateName = models.CharField(max_length=100)
     value = models.FloatField()
+
 
 class Word(models.Model):
     word = models.CharField(max_length=100)
@@ -23,7 +25,32 @@ class Word(models.Model):
     newYorkTimesRank = models.IntegerField()
     lyricsRank = models.IntegerField()
 
+
+class Timeseries(models.Model):
+    title = models.CharField(max_length=100, help_text="Title to use in the URL.", unique=True)
+    directory = models.CharField(max_length=100, help_text="Name of the directory for this particular time series.")
+    customLongTitle = models.CharField(
+        max_length=200, default='Average Happiness for Twitter')
+    language = models.CharField(max_length=100)
+    mediaFlag = models.CharField(max_length=5, default='all', help_text='use "all", "rt", or "nort"')
+    sumHappsFile = models.CharField(
+        max_length=100, default='sumhapps.csv', help_text='Name of the CSV with date,happs for the full time series.')
+    wordVecDir = models.CharField(max_length=100, default='word-vectors', help_text="Directory name with daily word vectors (as subdir of `directory`).")
+    shiftDir = models.CharField(max_length=100, default='shifts', help_text="Directory name with daily pre-shifted word vectors (as subdir of `directory`).")
+    stopWordList = models.CharField(max_length=100, default='stopwords.csv', null=True, blank=True, help_text="Name of the csv of words to exclude.")
+    wordList = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words.")
+    wordListEnglish = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words in English.")
+    scoreList = models.CharField(max_length=100, default='labMTscores-english-covid.csv', help_text="Name of the csv of scores.")
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        ordering = ('title',)
+
+
 class Event(models.Model):
+    timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
     date = models.DateTimeField()
     value = models.CharField(max_length=20)
     importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
@@ -45,6 +72,7 @@ class Event(models.Model):
     class Meta:
         ordering = ('date',)
 
+
 class Book(models.Model):
     filename = models.CharField(max_length=100)
     title = models.CharField(max_length=200)
@@ -61,6 +89,7 @@ class Book(models.Model):
     class Meta:
         ordering = ('author',)
 
+
 class GutenbergAuthor(models.Model):
     fullname = models.CharField(max_length=100)
     note = models.CharField(max_length=100,null=True, blank=True)
@@ -69,6 +98,7 @@ class GutenbergAuthor(models.Model):
     def __str__(self):
         return self.fullname
 
+
 class GutenbergBook(models.Model):
     title = models.CharField(max_length=200)
     pickle_object = models.FilePathField(null=True, blank=True)
@@ -76,13 +106,13 @@ class GutenbergBook(models.Model):
     language = models.CharField(max_length=100)
     lang_code_id = models.IntegerField(default=-1)
     downloads = models.IntegerField(default=0)
-    
+
     gutenberg_id = models.IntegerField(null=True, blank=True)
     mobi_file_path = models.FilePathField(null=True, blank=True)
     epub_file_path = models.FilePathField(null=True, blank=True)
     txt_file_path = models.FilePathField(null=True, blank=True)
     expanded_folder_path = models.FilePathField(null=True, blank=True)
-    
+
     # more basic info
     length = models.IntegerField(default=0)
     numUniqWords = models.IntegerField(default=0)
@@ -101,6 +131,7 @@ class GutenbergBook(models.Model):
     def __str__(self):
         return self.title
 
+
 class NYT(models.Model):
     genre = models.CharField(max_length=100)
     language = models.CharField(max_length=100)
@@ -115,23 +146,6 @@ class NYT(models.Model):
 
     class Meta:
         ordering = ('genre',)
-
-class Timeseries(models.Model):
-    title = models.CharField(max_length=100)
-    customLongTitle = models.CharField(max_length=200,default='Average Happiness for Twitter')
-    mediaFlag = models.CharField(max_length=50,default='Tweets')
-    language = models.CharField(max_length=100)
-    regionID = models.CharField(max_length=100,null=True, blank=True)
-    startDate = models.DateTimeField()
-    endDate = models.DateTimeField()
-    sumHappsFile = models.CharField(max_length=100,default='sumhapps.csv',help_text='dont change this')
-    ignoreWords = models.CharField(max_length=400, null=True, blank=True)
-
-    def __unicode__(self):
-        return self.title
-
-    class Meta:
-        ordering = ('title',)
 
 # Here's an example result from the API:
 #
@@ -168,16 +182,18 @@ class Timeseries(models.Model):
 #  u'success': True}
 
 
-
-# actor for each movie
 class Actor(models.Model):
+    '''Actor class for each movie'''
     name = models.CharField(max_length=100)
+
 
 class Director(models.Model):
     name = models.CharField(max_length=100)
 
+
 class Writer(models.Model):
     name = models.CharField(max_length=100)
+
 
 class Movie(models.Model):
     filename = models.CharField(max_length=100)
@@ -219,6 +235,7 @@ class Movie(models.Model):
     class Meta:
         ordering = ('title',)
 
+
 class Embeddable(models.Model):
     # the hash
     # will look things up by this
@@ -239,9 +256,9 @@ class Embeddable(models.Model):
     customTitleText = models.CharField(max_length=200, null=True, blank=True)
 
     # the idea here is that we can let the embed page know whether this is
-    # coming from the user page, or from the 
+    # coming from the user page, or from the
     contextFlag = models.CharField(max_length=200, null=True, blank=True)
-    
+
     # for the user-created embeds, so we can query by them
     author = models.ForeignKey('twython_django.TwitterProfile',null=True)
 
@@ -253,9 +270,10 @@ class Embeddable(models.Model):
     stopWords = models.CharField(max_length=600, null=True, blank=True)
 
     lang = models.CharField(max_length=40)
-    
+
     def __unicode__(self):
         return self.nickName
+
 
 class Song(models.Model):
     # genres can be a comma sep list
@@ -277,6 +295,7 @@ class Album(models.Model):
     # make this a ManyToMany so that songs can belong to mult. albums
     songs = models.ManyToManyField(Song)
 
+
 class Band(models.Model):
     name = models.CharField(max_length=100)
     happs = models.FloatField()
@@ -285,6 +304,7 @@ class Band(models.Model):
     # also links to the labMT vector and full text for this Band
     labMTfile = models.CharField(max_length=100)
     filename = models.CharField(max_length=100)
+
 
 class Contact(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
