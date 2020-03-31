@@ -5,7 +5,7 @@ from django.views.generic import TemplateView,RedirectView
 from hedonometer import views
 from tastypie.api import Api
 from hedonometer.api import *
-# EventResource,BookResource,RandomBookResource,HappsResource,WordResource,GeoHappsResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource,NYTResource,NYTResourceAll,MovieResourceMin
+# EventResource,BookResource,RandomBookResource,HappsResource,WordResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource,NYTResource,NYTResourceAll,MovieResourceMin
 
 v1_api = Api(api_name='v1')
 v1_api.register(EventResource())
@@ -13,7 +13,6 @@ v1_api.register(HappsResource())
 v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
 v1_api.register(WordResource())
-v1_api.register(GeoHappsResource())
 v1_api.register(AnnotationResource())
 v1_api.register(MovieAnnotationResource())
 v1_api.register(MovieResource())

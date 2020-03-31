@@ -2,28 +2,23 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
-class Happs(models.Model):
-    date = models.DateTimeField()
-    value = models.FloatField()
-    lang = models.CharField(max_length=20)
-
-
-class GeoHapps(models.Model):
-    date = models.DateTimeField()
-    stateId = models.IntegerField()
-    stateName = models.CharField(max_length=100)
-    value = models.FloatField()
+class WordList(models.Model):
+    date = models.DateField()
+    title = models.CharField(max_length=100)
+    language = models.CharField(max_length=50, default="english")
 
 
 class Word(models.Model):
+    wordlist = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='labMTenglish-v1')
     word = models.CharField(max_length=100)
-    rank = models.IntegerField()
+    word_english = models.Charfield(max_length=100, blank=True, null=True)
+    rank = models.IntegerField(null=True)
     happs = models.FloatField()
     stdDev = models.FloatField()
-    twitterRank = models.IntegerField()
-    googleBooksRank = models.IntegerField()
-    newYorkTimesRank = models.IntegerField()
-    lyricsRank = models.IntegerField()
+    twitterRank = models.IntegerField(null=True)
+    googleBooksRank = models.IntegerField(null=True)
+    newYorkTimesRank = models.IntegerField(null=True)
+    lyricsRank = models.IntegerField(null=True)
 
 
 class Timeseries(models.Model):
@@ -41,12 +36,19 @@ class Timeseries(models.Model):
     wordList = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words.")
     wordListEnglish = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words in English.")
     scoreList = models.CharField(max_length=100, default='labMTscores-english-covid.csv', help_text="Name of the csv of scores.")
+    sourceDir = models.CharField(max_length=200, default='/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text="Directory on the VACC to pull daily vectors from.")
 
     def __str__(self):
         return self.title
 
     class Meta:
         ordering = ('title',)
+
+
+class Happs(models.Model):
+    timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
+    date = models.DateField()
+    value = models.FloatField()
 
 
 class Event(models.Model):

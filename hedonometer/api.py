@@ -1,5 +1,5 @@
 from hedonometer.models import *
-# from hedonometer.models import Event,Book,Happs,Word,GeoHapps,Movie,Director,Actor,Writer,NYT
+# from hedonometer.models import Event,Book,Happs,Word,Movie,Director,Actor,Writer,NYT
 from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
@@ -55,21 +55,6 @@ class HappsResource(ModelResource):
             "lang": ALL,
         }
 
-class GeoHappsResource(ModelResource):
-    happiness = FixedFloatField(attribute="value")
-    class Meta:
-        queryset = GeoHapps.objects.all()
-        excludes = ["value","id",]
-        resource_name = "geohapps"
-        limit = 500
-        # default_format = ["json"]
-        max_limit = None
-        include_resource_uri = False
-        filtering = {
-            "date": ALL,
-            "stateName": ALL,
-            "stateId": ALL,
-        }
 
 class WordResource(ModelResource):
     # happiness = FixedFloatField(attribute="value")
@@ -172,7 +157,7 @@ class BookResourceV3(ModelResource):
             "downloads": ALL_WITH_RELATIONS,
             "numUniqWords": ALL_WITH_RELATIONS,
             "lang_code_id": ALL_WITH_RELATIONS,
-        }            
+        }
 
 class DirectorResource(ModelResource):
     class Meta:
