@@ -4,14 +4,14 @@ from django.contrib.auth.models import User
 
 class WordList(models.Model):
     date = models.DateField()
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, unique=True)
     language = models.CharField(max_length=50, default="english")
 
 
 class Word(models.Model):
-    wordlist = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='labMTenglish-v1')
+    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMTenglish-v1')
     word = models.CharField(max_length=100)
-    word_english = models.Charfield(max_length=100, blank=True, null=True)
+    word_english = models.CharField(max_length=100, blank=True, null=True)
     rank = models.IntegerField(null=True)
     happs = models.FloatField()
     stdDev = models.FloatField()
