@@ -1,6 +1,6 @@
 # /usr/share/nginx/wiki/mysite/hedonometer/urls.py
 
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from django.views.generic import TemplateView,RedirectView
 from hedonometer import views
 from tastypie.api import Api
@@ -23,7 +23,7 @@ v1_api.register(NYTResourceAll())
 v1_api.register(MovieResourceMin())
 v1_api.register(BookResourceV3())
 
-urlpatterns = patterns('',
+urlpatterns = [
     # the main view!!
     url(r'^index.html', TemplateView.as_view(template_name='hedonometer/index.html'),  name='index'),
     # this preserves a link from the MITRE version of the site
@@ -110,8 +110,8 @@ urlpatterns = patterns('',
         name='teletherm'),
 
     # others
-    (r'^api/', include(v1_api.urls)),
+    url(r'^api/', include(v1_api.urls)),
     url(r'^timeseries/(?P<urlregion>[\w-]+)/',views.timeseries, name='timeseries'),
     # this captures everything!
     # url(r'^(?P<urlregion>[\w]+)/',views.timeseries, name='timeseries'),
-)
+]

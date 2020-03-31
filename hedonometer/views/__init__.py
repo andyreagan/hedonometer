@@ -4,7 +4,7 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.http import HttpResponseRedirect
 from django.views.generic import View
-from django.core.context_processors import csrf
+# from django.core.context_processors import csrf
 from django.template import Context
 
 from mysite.settings import STATIC_ROOT
