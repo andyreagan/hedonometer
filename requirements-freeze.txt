@@ -7,7 +7,7 @@ django-dbbackup==3.2.0
 django-sekizai==0.10.0
 django-tastypie==0.14.3
 idna==2.7
-Jinja2==2.10
+Jinja2==2.11.1
 labMTsimple==2.8.4
 marisa-trie==0.7.5
 MarkupSafe==1.0
@@ -17,8 +17,8 @@ oauthlib==2.1.0
 python-dateutil==2.7.3
 python-mimeparse==1.6.0
 pytz==2018.4
-requests==2.20.0
+requests==2.23.0
 requests-oauthlib==1.0.0
 six==1.11.0
 twython==3.7.0
-urllib3==1.24.2
+urllib3==1.23

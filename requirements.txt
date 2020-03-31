@@ -6,3 +6,4 @@ labMTsimple
 marisa-trie==0.7.5
 numpy==1.14.5
 datrie==0.7.1
+requests>=2.20.0
