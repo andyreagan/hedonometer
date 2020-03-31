@@ -1,13 +1,8 @@
 Jinja2>=2.10.1
 Django==1.11.28
-# MySQL-python
-South
-django-tastypie==0.10.0
-# django-sekizai
-# django-dbbackup
+django-tastypie==0.14.3
+twython==3.7.0
 labMTsimple
-marisa_trie
-datrie
-numpy
-twython
-
+marisa-trie==0.7.5
+numpy==1.14.5
+datrie==0.7.1
