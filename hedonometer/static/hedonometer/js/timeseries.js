@@ -11,6 +11,7 @@
     var dur = 550;
     var ignoreWords = ["thirsty", "pakistan", "india"];
     hedotools.shifter.ignore(ignoreWords);
+    var today = new Date;
     var bigdays = {};
     var shiftTypeSelect = false;
     var formatDate = d3.time.format("%b %Y");
@@ -23,9 +24,11 @@
     var longerformat = d3.time.format("%A, %B %e, %Y");
     // declare all of the URL coders
     var fromencoder = d3.urllib.encoder().varname("from");
-    var fromdecoder = d3.urllib.decoder().varname("from").varresult(startDate);
     var toencoder = d3.urllib.encoder().varname("to");
-    var todecoder = d3.urllib.decoder().varname("to").varresult(endDate);
+    // var fromdecoder = d3.urllib.decoder().varname("from").varresult(startDate);
+    // var todecoder = d3.urllib.decoder().varname("to").varresult(endDate);
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,-1)));
     var dateencoder = d3.urllib.encoder().varname("date");
     var datedecoder = d3.urllib.decoder().varname("date");
     var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
@@ -56,7 +59,7 @@
             this[name] = this[name] === "on" ? "off" : "on";
             toggleDays(r);
         },
-    }
+    };
     var circleColors = {
         "sunday": {
             "fill": "#FFCCFF",
@@ -85,7 +88,7 @@
         "togall": {
             "fill": "#000",
         },
-    }
+    };
 
     // no longer in use
     function getDay(d) {
@@ -444,10 +447,16 @@
                 [new Date(2011, 00, 01), new Date(2011, 11, 31)],
                 [new Date(2012, 00, 01), new Date(2012, 11, 31)],
                 [new Date(2013, 00, 01), new Date(2013, 11, 31)],
+                [new Date(2014, 00, 01), new Date(2014, 11, 31)],
+                [new Date(2015, 00, 01), new Date(2015, 11, 31)],
+                [new Date(2016, 00, 01), new Date(2016, 11, 31)],
+                [new Date(2017, 00, 01), new Date(2017, 11, 31)],
+                [new Date(2018, 00, 01), new Date(2018, 11, 31)],
+                [new Date(2019, 00, 01), new Date(2019, 11, 31)],
                 [beginningOfTime, endOfTime],
                 [d3.time.month.offset(endOfTime, -18), endOfTime],
             ],
-            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "Full", "Last 18 mo"],
+            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "Full", "Last 18 mo"],
             yearstringslen = yearstrings.map(function(d) {
                 return d.width();
             }),
@@ -569,6 +578,7 @@
             .attr("y1", 0)
             .attr("y2", 19);
     }
+    makeNavBar();
 
     var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height + MainxAxisSpace) + ")");
 

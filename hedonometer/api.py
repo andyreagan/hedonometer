@@ -45,7 +45,7 @@ class EventResource(ModelResource):
     class Meta:
         queryset = Event.objects.all()
         resource_name = "events"
-        # limit = 500
+        limit = 1000
         # allowed_methods = ['get']
         filtering = {
             "importance": ALL,
