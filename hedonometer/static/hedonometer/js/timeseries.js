@@ -1263,7 +1263,7 @@
         var modalheight = 495;
 
         // now trying to load in data from zoo
-        d3.text(dataUrl + ""/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv", function(tmp) {
+        d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv", function(tmp) {
             // compFvec = tmp.split(',').slice(0,10222);
             compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
             d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.time.day.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
