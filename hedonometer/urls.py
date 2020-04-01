@@ -25,9 +25,9 @@ v1_api.register(BookResourceV3())
 
 urlpatterns = [
     # the main view!!
-    url(r'^index.html', TemplateView.as_view(template_name='hedonometer/index.html'),  name='index'),
+    url(r'^index.html', RedirectView.as_view(url='timeseries/main/',query_string=True)),
     # this preserves a link from the MITRE version of the site
-    url(r'^wordshift.html', RedirectView.as_view(url='index.html',query_string=True),),
+    url(r'^wordshift.html', RedirectView.as_view(url='index.html',query_string=True)),
     # the rest of these are just staticically built pages:
     url(r'^about.html', TemplateView.as_view(template_name='hedonometer/about.html'), name='about'),
     url(r'^shifts.html', RedirectView.as_view(url='instructions.html#wordshifts'),),
