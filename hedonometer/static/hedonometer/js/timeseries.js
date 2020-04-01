@@ -4,7 +4,7 @@
     if (document.documentElement.clientWidth < 500) {
         var initialMonths = 3;
     } else {
-        var initialMonths = 8;
+        var initialMonths = 18;
     }
 
     // these variables are all available to everything inside of this closure
