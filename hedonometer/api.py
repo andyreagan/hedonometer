@@ -29,23 +29,36 @@ class FixedFloatField(fields.ApiField):
 
         return value
 
+
+class TimeseriesResource(ModelResource):
+    title = fields.CharField(attribute="title")
+    class Meta:
+        queryset = Timeseries.objects.all()
+        resource_name = 'timeseries'
+        filtering = {
+            'title': ALL
+        }
+
+
 class EventResource(ModelResource):
+    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
     class Meta:
         queryset = Event.objects.all()
         resource_name = "events"
-        limit = 500
+        # limit = 500
+        # allowed_methods = ['get']
         filtering = {
             "importance": ALL,
-            "lang": ALL,
-            "region": ALL,
+            "timeseries": ALL_WITH_RELATIONS
         }
+
 
 class HappsResource(ModelResource):
     happiness = FixedFloatField(attribute="value")
     class Meta:
         queryset = Happs.objects.all()
         excludes = ["value","id",]
-        resource_name = "timeseries"
+        resource_name = "happpiness"
         limit = 3000
         # default_format = ["json"]
         max_limit = None

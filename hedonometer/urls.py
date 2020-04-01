@@ -8,6 +8,7 @@ from hedonometer.api import *
 # EventResource,BookResource,RandomBookResource,HappsResource,WordResource,AnnotationResource,MovieAnnotationResource,MovieResource,RandomMovieResource,NYTResource,NYTResourceAll,MovieResourceMin
 
 v1_api = Api(api_name='v1')
+v1_api.register(TimeseriesResource())
 v1_api.register(EventResource())
 v1_api.register(HappsResource())
 v1_api.register(BookResource())

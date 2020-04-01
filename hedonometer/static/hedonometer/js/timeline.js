@@ -646,7 +646,6 @@
 
 	var format = d3.time.format("%m-%d");
 
-	// https://hedonometer.org/api/v1/events/?format=json
 	d3.json('/api/v1/events/?format=json',function(json) {
 	    bigdays = json.objects;
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);

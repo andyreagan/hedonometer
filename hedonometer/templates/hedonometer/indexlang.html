@@ -6,13 +6,28 @@
 
 {% block headerjs %}
 <script>
-  var lang = "{{ model.language|escapejs }}";
-  var region = "{{ model.title|lower|escapejs }}";
-  var mediaFlag = "{{ model.mediaFlag|escapejs }}";
-  var sumHappsFile = "{{ model.sumHappsFile|escapejs }}";
-  var startDate = "{{ model.startDate|date:"Y-m-d" }}";
-  var endDate = "{{ model.endDate|date:"Y-m-d" }}";
-  var ignoreWords = "{{ model.ignoreWords|escapejs }}";
+    var title = "{{ model.title|escapejs }}";
+    var directory = "{{ model.directory|escapejs }}";
+    var customLongTitle = "{{ model.customLongTitle|escapejs }}";
+    var language = "{{ model.language|escapejs }}";
+    var mediaFlag = "{{ model.mediaFlag|escapejs }}";
+    var sumHappsFile = "{{ model.sumHappsFile|escapejs }}";
+    var wordVecDir = "{{ model.wordVecDir|escapejs }}";
+    var shiftDir = "{{ model.shiftDir|escapejs }}";
+    var stopWordList = "{{ model.stopWordList|escapejs }}";
+    var wordList = "{{ model.wordList|escapejs }}";
+    var wordListEnglish = "{{ model.wordListEnglish|escapejs }}";
+    var scoreList = "{{ model.scoreList|escapejs }}";
+    var sourceDir = "{{ model.sourceDir|escapejs }}";
+    // old ones
+    var lang = language;
+    var region = title;
+    var mediaFlag = mediaFlag;
+    var sumHappsFile = sumHappsFile;
+    var startDate = "2008-09-10";
+    var today = new Date;
+    var endDate = today.toISOString().slice(0,10);
+    var ignoreWords = "";
 </script>
 {% endblock %}
 
@@ -62,7 +77,7 @@
             <div class="addthis_sharing_toolbox pull-left"></div>
 
             <button class="btn btn-primary" type="button" id="embedbutton" style="margin-right: 15px;" data-toggle="modal" href="#myModal2">Embed</button>
-	    
+
             <div class="input-group restrain pull-right">
               <span class="input-group-btn">
                 <button class="btn btn-default left" type="button">
