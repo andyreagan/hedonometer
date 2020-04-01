@@ -10,7 +10,7 @@ mysite/static/storybreaker
 mysite/static/swn
 mysite/static/vaccv
 # virtual environment
-pyenv
+pyenv*
 venv
 # daily backup of graphics on the local computer
 screenshots
