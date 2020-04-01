@@ -25,9 +25,9 @@ class Timeseries(models.Model):
     title = models.CharField(max_length=100, help_text="Title to use in the URL.", unique=True)
     directory = models.CharField(max_length=100, help_text="Name of the directory for this particular time series.")
     customLongTitle = models.CharField(
-        max_length=200, default='Average Happiness for Twitter')
-    language = models.CharField(max_length=100)
-    mediaFlag = models.CharField(max_length=5, default='all', help_text='use "all", "rt", or "nort"')
+        max_length=200, default='Average Happiness for Twitter', help_text='Title on the webpage.')
+    language = models.CharField(max_length=100, help_text='Second underlined part of the subtitle.')
+    mediaFlag = models.CharField(max_length=50, default='All tweets', help_text='Describe the type of data. First part of the subtitle.')
     sumHappsFile = models.CharField(
         max_length=100, default='sumhapps.csv', help_text='Name of the CSV with date,happs for the full time series.')
     wordVecDir = models.CharField(max_length=100, default='word-vectors', help_text="Directory name with daily word vectors (as subdir of `directory`).")
