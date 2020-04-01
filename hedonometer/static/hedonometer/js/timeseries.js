@@ -912,11 +912,11 @@
             // })
 
             // call the brush initially
-            // brushing();
-            // focus.selectAll(".brushingline")
-            //     .attr({
-            //         "visibility": "hidden",
-            //     });
+            brushing();
+            focus.selectAll(".brushingline")
+                .attr({
+                    "visibility": "hidden",
+                });
 
             // now go and fix all of the offsets
             d3.selectAll("text.bigdaytext").attr("dx", function(d, i) {
