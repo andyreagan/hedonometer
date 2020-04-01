@@ -26,7 +26,7 @@ d3.text("https://hedonometer.org/data/labMT/"+wordListEnglish, function (text2) 
     hedotools.shifter._words(words);
 });
 
-if ( lang !== "english" ) {
+if ( language !== "english" ) {
     d3.text("https://hedonometer.org/data/labMT/"+wordListEnglish, function (text2) {
 	var tmp2 = text2.split("\n");
 	var words_en = tmp2;
