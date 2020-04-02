@@ -18,7 +18,7 @@ urlpatterns = [
 ]
 
 # load the static files if in debug
-from settings import DEBUG
+from .settings import DEBUG
 if DEBUG:
     from django.conf.urls.static import static
     from django.conf import settings

@@ -23,9 +23,9 @@ import subprocess
 import codecs
 # import json
 
-from embedviews import *
-from wordshifteratorviews import *
-from bookandmovieviews import *
+from .embedviews import *
+from .wordshifteratorviews import *
+from .bookandmovieviews import *
 
 import datetime
 
@@ -113,7 +113,7 @@ class csv_view(View):
         # print request
 
         # print STATIC_ROOT
-    
+
         output_format = request.POST['output_format']
 
         f = codecs.open(STATIC_ROOT+'/tmp.svg','w','utf8')
@@ -147,7 +147,7 @@ class csv_view(View):
 class contact(View):
     # def get(self, request):
     #     return response
-    
+
     def post(self, request, *args, **kwargs):
         print(request.POST)
         name = request.POST["name"]

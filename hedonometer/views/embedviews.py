@@ -71,7 +71,7 @@ def embedMainSimple(request,onedate):
     longer = d.strftime('%A, %B %e, %Y')
 
     event = Event.objects.filter(date=onedate)
-    
+
     if len(event) > 0:
         eventtext = '\n'.join([e.longer for e in event])
     else:
@@ -79,7 +79,7 @@ def embedMainSimple(request,onedate):
 
     specialtext = '{0}\n{1}\nAverage Happiness: avhapps\nWhat\'s making this day updown than the previous 7 days:'.format(longer,eventtext)
 
-    print specialtext
+    print(specialtext)
 
     filenames = {'h': 'dont matter',
                  'refFile': 'https://hedonometer.org/data/word-vectors/vacc/%s-prev7.csv' % onedate,
