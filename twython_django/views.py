@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.shortcuts import render
 from django.template import Context
 
@@ -48,7 +48,7 @@ def begin_auth(request):
     request.session['request_token'] = auth_props
 
     request.session['next_url'] = request.GET.get('next','/harrypotter.html')
-    
+
     return HttpResponseRedirect(auth_props['auth_url'])
 
 
@@ -154,11 +154,11 @@ def happs(request):
     # score it
     textValence = my_LabMT.score(ref_dict)
     textFvec = my_LabMT.wordVecify(ref_dict)
-        
+
     f = open(settings.ABSOLUTE_DATA_PATH+"/embeds/word-vectors/"+user.oauth_token+".csv","w")
     f.write("\n".join(map(str,textFvec)))
     f.close()
-    
+
     # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
 
     # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})

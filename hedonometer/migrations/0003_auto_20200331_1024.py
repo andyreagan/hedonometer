@@ -31,52 +31,52 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='timeseries',
             name='directory',
-            field=models.CharField(default='', help_text=b'Name of the directory for this particular time series.', max_length=100),
+            field=models.CharField(default='', help_text='Name of the directory for this particular time series.', max_length=100),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='timeseries',
             name='scoreList',
-            field=models.CharField(default=b'labMTscores-english-covid.csv', help_text=b'Name of the csv of scores.', max_length=100),
+            field=models.CharField(default='labMTscores-english-covid.csv', help_text='Name of the csv of scores.', max_length=100),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='shiftDir',
-            field=models.CharField(default=b'shifts', help_text=b'Directory name with daily pre-shifted word vectors (as subdir of `directory`).', max_length=100),
+            field=models.CharField(default='shifts', help_text='Directory name with daily pre-shifted word vectors (as subdir of `directory`).', max_length=100),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='stopWordList',
-            field=models.CharField(blank=True, default=b'stopwords.csv', help_text=b'Name of the csv of words to exclude.', max_length=100, null=True),
+            field=models.CharField(blank=True, default='stopwords.csv', help_text='Name of the csv of words to exclude.', max_length=100, null=True),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='wordList',
-            field=models.CharField(default=b'labMTwords-english-covid.csv', help_text=b'Name of the csv of words.', max_length=100),
+            field=models.CharField(default='labMTwords-english-covid.csv', help_text='Name of the csv of words.', max_length=100),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='wordListEnglish',
-            field=models.CharField(default=b'labMTwords-english-covid.csv', help_text=b'Name of the csv of words in English.', max_length=100),
+            field=models.CharField(default='labMTwords-english-covid.csv', help_text='Name of the csv of words in English.', max_length=100),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='wordVecDir',
-            field=models.CharField(default=b'word-vectors', help_text=b'Directory name with daily word vectors (as subdir of `directory`).', max_length=100),
+            field=models.CharField(default='word-vectors', help_text='Directory name with daily word vectors (as subdir of `directory`).', max_length=100),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='mediaFlag',
-            field=models.CharField(default=b'all', help_text=b'use "all", "rt", or "nort"', max_length=5),
+            field=models.CharField(default='all', help_text='use "all", "rt", or "nort"', max_length=5),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='sumHappsFile',
-            field=models.CharField(default=b'sumhapps.csv', help_text=b'Name of the CSV with date,happs for the full time series.', max_length=100),
+            field=models.CharField(default='sumhapps.csv', help_text='Name of the CSV with date,happs for the full time series.', max_length=100),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='title',
-            field=models.CharField(help_text=b'Title to use in the URL.', max_length=100),
+            field=models.CharField(help_text='Title to use in the URL.', max_length=100),
         ),
     ]

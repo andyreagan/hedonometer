@@ -19,18 +19,18 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('date', models.DateField()),
                 ('title', models.CharField(max_length=100, unique=True)),
-                ('language', models.CharField(default=b'english', max_length=50)),
+                ('language', models.CharField(default='english', max_length=50)),
             ],
         ),
         migrations.AddField(
             model_name='happs',
             name='timeseries',
-            field=models.ForeignKey(default=b'main', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.Timeseries', to_field=b'title'),
+            field=models.ForeignKey(default='main', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.Timeseries', to_field='title'),
         ),
         migrations.AddField(
             model_name='timeseries',
             name='sourceDir',
-            field=models.CharField(default=b'/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text=b'Directory on the VACC to pull daily vectors from.', max_length=200),
+            field=models.CharField(default='/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text='Directory on the VACC to pull daily vectors from.', max_length=200),
         ),
         migrations.AddField(
             model_name='word',

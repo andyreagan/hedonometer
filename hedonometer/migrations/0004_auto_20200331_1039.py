@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='timeseries',
-            field=models.ForeignKey(default=b'main', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.Timeseries', to_field=b'title'),
+            field=models.ForeignKey(default='main', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.Timeseries', to_field='title'),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='title',
-            field=models.CharField(help_text=b'Title to use in the URL.', max_length=100, unique=True),
+            field=models.CharField(help_text='Title to use in the URL.', max_length=100, unique=True),
         ),
     ]

@@ -15,16 +15,16 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='timeseries',
             name='customLongTitle',
-            field=models.CharField(default=b'Average Happiness for Twitter', help_text=b'Title on the webpage.', max_length=200),
+            field=models.CharField(default='Average Happiness for Twitter', help_text='Title on the webpage.', max_length=200),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='language',
-            field=models.CharField(help_text=b'Second underlined part of the subtitle.', max_length=100),
+            field=models.CharField(help_text='Second underlined part of the subtitle.', max_length=100),
         ),
         migrations.AlterField(
             model_name='timeseries',
             name='mediaFlag',
-            field=models.CharField(default=b'All tweets', help_text=b'Describe the type of data. First part of the subtitle.', max_length=50),
+            field=models.CharField(default='All tweets', help_text='Describe the type of data. First part of the subtitle.', max_length=50),
         ),
     ]

@@ -16,6 +16,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='word',
             name='wordlist',
-            field=models.ForeignKey(default=b'labMTenglish-v1', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.WordList', to_field=b'title'),
+            field=models.ForeignKey(default='labMTenglish-v1', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.WordList', to_field='title'),
         ),
     ]

@@ -12,9 +12,9 @@ urlpatterns = [
     # Examples:
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^twitter/', include('twython_django.urls',namespace='twython_django')),
-    url(r'^', include('hedonometer.urls',namespace='hedonometer')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^twitter/', include('twython_django.urls')),
+    url(r'^', include('hedonometer.urls')),
 ]
 
 # load the static files if in debug

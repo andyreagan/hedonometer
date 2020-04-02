@@ -26,11 +26,10 @@
           <p>We’re developing our research into products that enable enterprise-level decision making around social data at <a href="http://quokkalabs.io" target="_blank">Quokka Labs</a>, contact us below or <a href="mailto:andy.reagan@quokkalabs.io">send us an email</a> to find out more.</p>
           <br>
           <div class="col-sm-8 col-sm-offset-2 well">
-            <form class="form" role="form" method="post" action="http://hedonometer.org/contact/">
+            <form class="form" role="form" method="post" action="http://hedonometer.org/contact/">{% csrf_token %}
               <h4 class="text-center">Contact us</h4>
               <br>
             <!-- <form> -->
-            {% csrf_token %}
             <div class="form-group">
               <!-- <label for="exampleInputEmail1">Email address</label> -->
               <input type="name" name="name" class="form-control" id="exampleInputName1" placeholder="Name">

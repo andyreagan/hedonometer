@@ -68,7 +68,7 @@ class Event(models.Model):
     lang = models.CharField(max_length=20)
     region = models.CharField(max_length=100,default='world')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.caption
 
     class Meta:
@@ -85,7 +85,7 @@ class Book(models.Model):
     ignorewords = models.CharField(max_length=400)
     wiki = models.URLField()
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -143,7 +143,7 @@ class NYT(models.Model):
     variance = models.FloatField()
     ignorewords = models.CharField(max_length=400, null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.genre
 
     class Meta:
@@ -231,7 +231,7 @@ class Movie(models.Model):
     storyline = models.CharField(max_length=400, null=True, blank=True)
     year = models.CharField(max_length=400, null=True, blank=True)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     class Meta:
@@ -262,7 +262,7 @@ class Embeddable(models.Model):
     contextFlag = models.CharField(max_length=200, null=True, blank=True)
 
     # for the user-created embeds, so we can query by them
-    author = models.ForeignKey('twython_django.TwitterProfile',null=True)
+    author = models.ForeignKey('twython_django.TwitterProfile',null=True,on_delete=models.CASCADE)
 
     # let's also add some more information about them
     createdDate = models.DateTimeField(null=True, blank=True)
@@ -273,7 +273,7 @@ class Embeddable(models.Model):
 
     lang = models.CharField(max_length=40)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.nickName
 
 
