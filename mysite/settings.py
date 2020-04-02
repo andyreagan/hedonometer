@@ -59,14 +59,12 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # 'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hedonometer',
     'django.contrib.humanize',
     'tastypie',
     'twython_django',
-    'dbbackup',
 )
 
 # the following 6 are for twitter logins

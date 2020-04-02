@@ -1,7 +1,7 @@
 from django.contrib.auth import authenticate, login, logout as django_logout
 from django.contrib.auth import get_user_model
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.conf import settings
 from django.urls import reverse
 from django.shortcuts import render
@@ -107,7 +107,7 @@ def user_timeline(request):
                       user.oauth_token, user.oauth_secret)
     user_tweets = twitter.get_home_timeline()
 
-    return render_to_response('twython_django/tweets.html', {'tweets': user_tweets})
+    return render('twython_django/tweets.html', {'tweets': user_tweets})
 
 import codecs
 from re import findall,UNICODE
@@ -159,9 +159,9 @@ def happs(request):
     f.write("\n".join(map(str,textFvec)))
     f.close()
 
-    # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
+    # return render('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
 
-    # return render_to_response('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
+    # return render('twython_django/tweets.html', {'tweets': user_tweets,"token":user.oauth_token})
 
     filenames = {'refFile': '/data/word-vectors/vacc/2015-12-08-prev7.csv',
                  'compFile': '/data/embeds/word-vectors/'+user.oauth_token+'.csv',
