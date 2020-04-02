@@ -5823,14 +5823,14 @@ html {
 }
 body {
   /* Margin bottom by footer height */
-  margin-bottom: 120px;
+  margin-bottom: 40px;
 }
 #footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   /* Set the fixed height of the footer here */
-  height: 120px;
+  height: 40px;
   background-color: #f5f5f5;
 }
 
@@ -5979,12 +5979,10 @@ g.help { cursor: pointer; }
 
 img.wikilogo { margin-right: 8px; }
 
-.pride {
-    background-repeat: repeat-y;
-    background-image: url("https://hedonometer.org/data/shifts/rainbow.jpg");
-}
-
-
+/* .pride { */
+/*     background-repeat: repeat-y; */
+/*     background-image: url("https://hedonometer.org/data/shifts/rainbow.jpg"); */
+/* } */
 /*!
  * Datepicker for Bootstrap
  *
@@ -6785,7 +6783,7 @@ fieldset[disabled] .datepicker table tr td span.active.disabled:hover.active {
 .legendrect { cursor: pointer; }
 .yearrect { cursor: pointer; }
 .expanderbutton { cursor: pointer; }
-.sumrectL { cursor: pointer; }
+.sumrectL { cursor: pointer; } 
 .sumrectR { cursor: pointer; }
 .resetbutton { cursor: pointer; }
 svg image { cursor: pointer; }

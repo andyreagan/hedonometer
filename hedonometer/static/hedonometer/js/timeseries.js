@@ -190,8 +190,8 @@
 
     var xAxis = d3.svg.axis().scale(x).orient("bottom"),
         xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-        yAxis = d3.svg.axis().scale(y).orient("left");
-    yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
+        yAxis = d3.svg.axis().scale(y).orient("left"),
+        yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
     // for the freqency
     // var formatInteger = d3.format(".0f");
     // var formatMillions = function(d) {
@@ -1357,16 +1357,6 @@
                     // console.log(err);
                 }
             });
-        // these are for logging the events
-        // I was having issues when the minilistbg was appended
-        // before the shortlist. I appended it after, and attached
-        // these (the above) events to the group, not the rect
-        // .on("mouseout",function(d,i) {
-        //     console.log("mouseout");
-        // });
-        // .on("mouseover",function(d,i) {
-        //     console.log("mouseover");
-        // });
 
         // draw a background rectangle to remove the popup on click out
         // d3.select("#timeseries").insert("rect","#minilist")
@@ -1511,7 +1501,7 @@
                     .attr("id", "shiftcanvas");
                 summaryStats = false;
 
-                plotShift(shiftsvg, figwidth, figheight, numWords, sizes, types, names);
+                plotSmallShift(shiftsvg, figwidth, figheight, numWords, sizes, types, names);
 
                 shortlist.append("rect").attr({
                         "x": 0,
@@ -1538,7 +1528,7 @@
 
     }; // drawSmallShift
 
-    function plotShift(canvas, boxwidth, boxheight, numWords, sortedMag, sortedType, sortedWords) {
+    function plotSmallShift(canvas, boxwidth, boxheight, numWords, sortedMag, sortedType, sortedWords) {
         /* plot the shift
 
            -take a d3 selection, and draw the shift SVG on it
