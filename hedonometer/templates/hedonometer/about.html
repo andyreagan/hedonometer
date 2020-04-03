@@ -8,14 +8,14 @@
 	</div>
         <div class="col-xs-12 col-sm-7">
 	  <h3>Happiness</h3>
-	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in near real time.</p>
+	  <p id="happiness">It&#8217;s what most people say they want.  So how do we know how happy people are?  You can&#8217;t improve or understand what you can&#8217;t measure. In a blow to happiness, we&#8217;re very good at measuring economic indices and this means we tend to focus on them.  With our flagship instrument at hedonometer.org we&#8217;ve created an instrument that measures the happiness of large populations in near real time. We also link to applications of the instrument to literature, movies, and news.</p>
 
-	  <p>Our hedonometer is based on people&#8217;s online expressions, capitalizing on data-rich social media, and we&#8217;re measuring how people present themselves to the outside world. For our first version of hedonometer.org, we&#8217;re using Twitter as a source but in principle we can expand to any data source in any language (more below). We&#8217;ll also be adding an API soon.</p>
+	  <p>Our Hedonometer is based on people&#8217;s online expressions, capitalizing on data-rich social media, and we&#8217;re measuring how people present themselves to the outside world. For our first version of hedonometer.org, we&#8217;re using Twitter as a source but in principle we can expand to any data source in any language (more below). We&#8217;ll also be adding an API soon.</p>
 
 	  <p>So this is just a start &mdash; we invite you to explore the <a href="index.html">Twitter time series</a> and let us know what you think.</p>
 	  
           <h3>Hedonometer Team</h3>
-          <p id="team">Hedonometer.org is based on the research of <a href="http://www.uvm.edu/~pdodds"  target="_blank">Peter Dodds</a> and <a href="http://www.uvm.edu/~cdanfort" target="_blank">Chris Danforth</a> and their team in the <a href="http://www.onehappybird.com" target="_blank">Computational Story Lab</a>,  including visualization by <a href="http://andyreagan.com" target="_blank">Andy Reagan</a>, at the <a href="http://www.uvm.edu/~cmplxsys/" target="_blank">University of Vermont Complex Systems Center</a>, and the technology of <a href="mailto:btivnan@mitre.org?Subject=Hedonometer">Brian Tivnan</a>, <a href="mailto:mcmahon@mitre.org?Subject=Hedonometer">Matt McMahon</a> and their team from <a href="http://www.mitre.org">The MITRE Corporation</a>.</p>
+          <p id="team">Hedonometer.org is based on the research of <a href="http://www.uvm.edu/~pdodds"  target="_blank">Peter Dodds</a> and <a href="http://www.uvm.edu/~cdanfort" target="_blank">Chris Danforth</a> and their team in the <a href="http://www.onehappybird.com" target="_blank">Computational Story Lab</a>,  including visualization by <a href="http://andyreagan.com" target="_blank">Andy Reagan</a>, at the <a href="http://www.uvm.edu/~cmplxsys/" target="_blank">University of Vermont Complex Systems Center</a>, and the technology of <a href="mailto:btivnan@mitre.org?Subject=Hedonometer">Brian Tivnan</a>, <a href="mailto:mcmahon@mitre.org?Subject=Hedonometer">Matt McMahon</a> and their team from <a href="http://www.mitre.org">The MITRE Corporation</a>. Many others have contributed to the research we've conducted using the instrument, their names appear near the bottom of this page.</p>
 	</div>
         <div class="col-xs-0 col-sm-4">
 	</div>
@@ -30,17 +30,17 @@
 	  <p>The economist Francis Edgeworth coined the term in the late 1800&#8217;s to describe "an ideally perfect instrument, a psychophysical machine, continually registering the height of pleasure experienced by an individual." <a href="http://en.wikipedia.org/wiki/Hedonometer" target="_blank">[wikipedia]</a></p>
 	  <hr>
 	  <h5>&ldquo;How are words assigned a happiness score?&rdquo;</h5>
-	  <p>To quantify the happiness of the atoms of language, we merged the 5,000 most frequent words from a collection of four corpora: Google Books, New York Times articles, Music Lyrics, and Twitter messages, resulting in a composite set of roughly 10,000 unique words. Using Amazon&#8217;s Mechanical Turk service, we had each of these words scored on a nine point scale of happiness: (1) sad to (9) happy. You can explore the average scores of each word on our <a href="/words.html">words page</a>, or download the entire list from the publication supplement <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752">here</a>.
+	  <p>To quantify the happiness of the atoms of language, we merged the 5,000 most frequent words from a collection of four corpora: Google Books, New York Times articles, Music Lyrics, and Twitter messages, resulting in a composite set of roughly 10,000 unique words. Using Amazon&#8217;s Mechanical Turk service, we had each of these words scored on a nine point scale of happiness: (1) sad to (9) happy. You can explore the average scores of each word on our <a href="/words.html">words page</a>, or download the entire list from the publication supplement <a href="http://www.plosone.org/article/info%3Adoi%2F10.1371%2Fjournal.pone.0026752">here</a>. On a few occasions, we've updated the word list to include new terms that were uncommon when the original survey was conducted.
 	  </p>
 	  <hr>
 	  <h5>&ldquo;What is being measured by the instrument?&rdquo;</h5>
-	  <p>hedonometer.org currently measures Twitter&#8217;s Gardenhose feed, a random sampling of roughly 50 million (10%) of all messages posted to the service, comprising roughly 100GB of raw JSON each day. Words in messages written in English are thrown into a large bag (containing roughly 100 million words per day), and the bag is assigned a happiness score based on the average happiness score of the words contained within. </p>
+	  <p>hedonometer.org currently measures Twitter&#8217;s Decahose API feed (formerly Gardenhose). The stream reflects a 10% random sampling of the roughly 500 million messages posted to the service daily, comprising roughly 100GB of raw JSON each day. Words in messages we <a href="https://arxiv.org/abs/2003.03667">determine</a> to be written in English are thrown into a large bag containing roughly 200 million words per day. This bag is then assigned a happiness score based on the average happiness score of the words contained within. While "bag-of-words" approaches can be problematic for small collections of text, we have <a href="https://epjdatascience.springeropen.com/articles/10.1140/epjds/s13688-017-0121-9">found</a> the methodology to work well at the large scale.</p>
 	  <hr>
 	  <h5>&ldquo;If this is an instrument, it should have a knob somewhere.&rdquo;</h5>
-	  <p>Is that even a question?  Well, we do have a knob. It allows us to tune the relative importance of the most emotionally charged words by removing neutral words from consideration when determining the happiness of a given day. It also allows us to remove words that receive widely varying scores when rated on Mechanical Turk. Many profanities received average ratings between 4 and 6 due to the bimodal nature of their word score distribution. Details on the choice of &Delta; h<sub>avg</sub> = 1 can be found in figure 2 of the publication listed below. We also mask a small set of <a href="https://github.com/andyreagan/hedonometer/search?q=thirsty&unscoped_q=thirsty">words</a> with average sentiment outside of the neutral range, whose scores we determined to be inappopriate for the task.</p>
+	  <p>Is that even a question?  Well, we do have a knob. It allows us to tune the relative importance of the most emotionally charged words by removing neutral words from consideration when determining the happiness of a given day. It also allows us to remove words that receive widely varying scores when rated on Mechanical Turk. Many profanities received average ratings between 4 and 6 due to the bimodal nature of their word score distribution. Details on the choice of &Delta; h<sub>avg</sub> = 1 can be found in figure 2 of the foundational <a href="https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0026752">publication</a> for Hedonometer. We also mask a small set of <a href="https://github.com/andyreagan/hedonometer/search?q=thirsty&unscoped_q=thirsty">words</a> with average sentiment outside of the neutral range. These are words whose scores we determined to be inappopriate for the task, typically because they are highly context dependent.</p>
 	  <hr>
 	  <h5>&ldquo;What does the hedonometer say about people who don&#8217;t tweet?&rdquo;</h5>
-	  <p>Tweets represent a non-uniform subsampling of all utterances made by a non-representative subpopulation of all people. However, there are hundreds of millions of people presently using the website to express their activities and interests, and as such it is an important social signal.
+	  <p>Tweets represent a non-uniform subsampling of all utterances made by a non-representative subpopulation of all people. However, there are hundreds of millions of people presently using the website to express their activities and interests, and as such it is an important social signal. According to Pew, 1 in 5 adult Americans use Twitter, including our current <a href="https://arxiv.org/abs/1910.00149">President</a> as you may have heard.
 	  </p>
 	  <hr/>
 	  <h5>&ldquo;What about the demographics of Twitter? Aren&#8217;t they non-representative?&rdquo;</h5>
@@ -57,7 +57,7 @@
 	  </p>
 	  <hr/>
 	  <h5>&ldquo;Why does the day of Osama Bin Laden&#8217;s death have such a low happiness score?&rdquo;</h5>
-	  <p>Many people presume this day will be one of clear positivity. While we do see positive words such as &ldquo;celebration&rdquo; appearing, the overall language of the day on Twitter reflected that a very negatively viewed character met a very negative end. It was a day of complex emotion which is best explored in the <a href="http://www.hedonometer.org/wordshift.html?date=2011-05-02" target="_blank">word shift for the day</a>, rather than the single number of its average happiness.</p>
+	  <p>Many people presume this day will be one of clear positivity. While we do see positive words such as &ldquo;celebration&rdquo; appearing, the overall language of the day on Twitter reflected that a very negatively viewed character met a very negative end. It was a day of complex emotion which is best explored in the <a href="http://hedonometer.org/timeseries/main/?from=2010-06-21&to=2011-12-20&date=2011-05-02" target="_blank">word shift for the day</a>, rather than the single number of its average happiness.</p>
 	  <hr/>
 	  <h5>&ldquo;Where can I learn more about the hedonometer and other work being carried out by the Computational Story Lab?&rdquo;</h5>
 	  <p>In our Computational Story Lab <a href="http://compstorylab.org" target="_blank">blog</a> we describe research projects in which we use our hedonometer to characterize happiness variations with respect to geography, network topology, demographics, and socio-economic data. For example, here&#8217;s a map of the US with cities colored by happiness:</p>
@@ -92,13 +92,11 @@
 	  <hr>
 	  <h4>Future</h4>
 	  <h5>&ldquo;What about languages other than English?&rdquo;</h5>
-	  <p>We have scored 10 languages, revealing a universial positivity bias in human language. For more information, see our paper in <a href="http://www.pnas.org/content/early/2015/02/04/1411678112.abstract" target="_blank">PNAS</a>.</p>
+	  <p>We have scored 10 languages, revealing a universial positivity bias in human language. For more information, see our paper in <a href="http://www.pnas.org/content/early/2015/02/04/1411678112.abstract" target="_blank">PNAS</a>. We have analyzed <a href="https://arxiv.org/abs/2003.03667">other</a> languages as well, and are working to get sentiment timeseries online.</p>
 	  <hr>
 	  <h5>&ldquo;How will you deal with context?&rdquo;</h5>
-	  <p>We are currently developing a principled method to identify relevant phrases, for example to deal with the multitude of both positive and negative uses of profanity.  We expect to be scoring phrases instead of words, where appropriate, in the near future.</p>
+	  <p>We are currently developing a principled method to identify relevant <a href="https://arxiv.org/abs/2002.09770">phrases</a>, for example to deal with the multitude of both positive and negative uses of profanity.  We expect to be scoring phrases instead of words, where appropriate, in the near future.</p>
 	  <hr>
-	  <h5>&ldquo;Do you plan to include sources other than Twitter to feed hedonometer.org?&rdquo;</h5>
-	  <p>We will soon be including text from other online sources including Google Trends (what people are searching for), bit.ly (what people are viewing online), and the BBC (what people are reading), which will serve as different lenses through which to explore societal trends.</p>
 	  <hr>
 	  <h5>&ldquo;What about other emotions?&rdquo;</h5>
 	  <p>We are currently building a large-scale database of word-based measures for emotions other than happiness and sadness such as fear, anger, and surprise. We intend to incorporate these emotions into future versions of the hedonometer.</p>
@@ -137,13 +135,13 @@
 	  <h4>Credits</h4>
 
 	  <h5>UVM&#8217;s Computational Story Lab:</h5>
-	  <p>Peter Dodds, Chris Danforth, Andi Elledge, Sharon Alajajian, Nicholas Allgaier, Catherine Bliss, Melody Burkins, Eric Clark, Emily Cody, Kameron Decker Harris, Suma Desu, Mike Foley, Morgan Frank, Bill Gottesman, Isabel Kloumann, Paul Lessard, Lewis Mitchell, Kate Morrow, Eitan Pechenick, Michael Pellon, Aaron Powers, Andy Reagan, Matt Tretin, Lindsay Van Leir, and Jake Williams.</p>
+	  <p>Peter Dodds, Chris Danforth, Jane Adams, Sharon Alajajian, Nicholas Allgaier, Thayer Alshaabi, Michael Arnold, Catherine Bliss, Eric Clark, Emily Cody, Ethan Davis, Todd DeLuca, Suma Desu, David Dewhurst, Danne Elbers, Kameron Decker Harris, Fletcher Hazlehurst, Sophie Hodson, Kayla Horak, Ben Emery, Mike Foley, Morgan Frank, Ryan Gallagher, Darcy Glenn, Sandhya Gopchandani, Kelly Gothard, Tyler Gray, Max Green, Laura Jennings, Dilan Kiley, Isabel Kloumann, Ben Kotzen, Paul Lessard, Ross Lieb-Lappen, Kelsey Linnell, Ashley McKhann, Andy Metcalf, Tom McAndrew, Sven McCall, Josh Minot, Henry Mitchell, Lewis Mitchell, Kate Morrow, Eitan Pechenick, Michael Pellon, Aaron Powers, Andy Reagan, John Ring IV, Abby Ross, Lindsay Ross, Aaron Schwartz, Anne-Marie Stupinski, Matt Tretin, Lindsay Van Leir, Colin Van Oort, Brendan Whitney, and Jake Williams.</p>
 
 	  <h5>The MITRE Team:</h5>
 	  <p>Brian Tivnan, Matt McMahon, Ivan Ramiscal, Mike Shadid, Pete Carrigan, Zach Furness, Zoe Henscheid, Garry Jacyna, Matt Koehler, and Karine Megerdoomian.</p>
 
 	  <h5>Many thanks and acknowledgments go to these people:</h5>
-	  <p>Mike Austin, Josh Brown, Jim Burgmeier, Kate Danforth, Tyler Gray, John Kaehny, Jim Lawson, Aimee Picchi, Andrew Reece, Tony Richardson, John Tucker and Toph Tucker.</p>
+	  <p>Mike Austin, Jim Bagrow, Josh Bongard, Josh Brown, Jim Burgmeier, Melody Burkins, Kate Danforth, Andrea Elledge, Maggie Eppstein, Bill Gottesman, Laurent Hebert-Dufresne, John Kaehny, Jim Lawson, Juniper Lovato, Aimee Picchi, Andrew Reece, Tony Richardson, Taylor Ricketts, Melissa Rubinchuk, John Tucker and Toph Tucker.</p>
 
 	  <p>And special thanks go to Jonathan Harris and Sep Kamvar for their
 	    <a href="http://www.wefeelfine.org" target="_blank">initial inspiration</a>.</p>
