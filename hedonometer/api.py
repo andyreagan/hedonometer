@@ -55,17 +55,19 @@ class EventResource(ModelResource):
 
 class HappsResource(ModelResource):
     happiness = FixedFloatField(attribute="value")
+    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
     class Meta:
         queryset = Happs.objects.all()
         excludes = ["value","id",]
         resource_name = "happpiness"
-        limit = 3000
+        limit = 10000
         # default_format = ["json"]
         max_limit = None
         include_resource_uri = False
         filtering = {
             "date": ALL,
             "lang": ALL,
+            "timeseries": ALL_WITH_RELATIONS
         }
 
 

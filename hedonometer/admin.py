@@ -9,15 +9,15 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
     ordering = ('-date',)
     save_as = True
-    list_display = ('date','caption','importance','x','y','shorter',)
+    list_display = ('timeseries', 'date','caption','importance','x','y','shorter',)
     list_display_links = ('caption',)
     list_editable = ('importance','x','y',)
-    
+
 class EmbedAdmin(admin.ModelAdmin):
     save_as = True
 
 class HappsAdmin(admin.ModelAdmin):
-    list_display = ('date','value',)
+    list_display = ('timeseries', 'date', 'value', 'frequency')
 
 class BookAdmin(admin.ModelAdmin):
     search_fields = ('title','author',)
