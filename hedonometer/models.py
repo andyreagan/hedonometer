@@ -49,6 +49,7 @@ class Happs(models.Model):
     timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
     date = models.DateField()
     value = models.FloatField()
+    frequency = models.FloatField(default=0)
 
 
 class Event(models.Model):

@@ -1,3 +1,4 @@
+# inspiration: https://www.obeythetestinggoat.com/book/chapter_01.html
 from selenium import webdriver
 import unittest
 
@@ -9,10 +10,6 @@ class NewVisitorTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_can_get_homepage(self):
-        # Check out the homepage
-        self.browser.get('http://127.0.0.1:8000/index.html')
-        self.assertIn('Hedonometer', self.browser.title)
 
 
 class TimeseriesTest(unittest.TestCase):
@@ -34,6 +31,12 @@ class TimeseriesTest(unittest.TestCase):
         # Check out the homepage
         self.browser.get('http://127.0.0.1:8000/timeseries/main/')
         self.assertIn('Hedonometer', self.browser.title)
+
+    def test_index_redirect(self):
+        # Check out the homepage
+        self.browser.get('http://127.0.0.1:8000/index.html')
+        self.assertIn('Hedonometer', self.browser.title)
+        self.assertEquals('http://127.0.0.1:8000/timeseries/main/', self.browser.title)
 
 
 if __name__ == '__main__':
