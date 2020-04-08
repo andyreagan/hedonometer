@@ -14,7 +14,7 @@ d3.text("https://hedonometer.org/data/labMT/"+scoreList, function (text) {
     hedotools.shifter._lens(lens);
 });
 
-d3.text("https://hedonometer.org/data/labMT/"+wordListEnglish, function (text2) {
+d3.text("https://hedonometer.org/data/labMT/"+wordList, function (text2) {
     var tmp2 = text2.split("\n");
     var words = tmp2;
     var len = words.length - 1;

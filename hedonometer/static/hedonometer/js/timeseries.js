@@ -27,8 +27,8 @@
     var toencoder = d3.urllib.encoder().varname("to");
     // var fromdecoder = d3.urllib.decoder().varname("from").varresult(startDate);
     // var todecoder = d3.urllib.decoder().varname("to").varresult(endDate);
-    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today,-initialMonths)));
-    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today,-1)));
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today, -initialMonths)));
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today, -1)));
     var dateencoder = d3.urllib.encoder().varname("date");
     var datedecoder = d3.urllib.decoder().varname("date");
     var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
