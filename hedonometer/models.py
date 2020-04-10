@@ -54,20 +54,17 @@ class Happs(models.Model):
 
 class Event(models.Model):
     timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
-    date = models.DateTimeField()
+    date = models.DateField()
     value = models.CharField(max_length=20)
     importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
     caption = models.CharField(max_length=200, null=True, blank=True)
     picture = models.CharField(max_length=200, null=True, blank=True)
-    x = models.IntegerField()
-    y = models.IntegerField()
+    x = models.IntegerField(help_text="x offset of annotation")
+    y = models.IntegerField(help_text="y offset of annotation")
     shorter = models.CharField(max_length=200, help_text="Use commas to make new lines on the main visualization label.")
     longer = models.TextField(max_length=200, help_text="Shows up in the description of the event inside shift popups (big and small).")
     wiki = models.URLField()
     imagelink = models.URLField(null=True, blank=True)
-    # happs = models.OneToOneField('Happs')
-    lang = models.CharField(max_length=20)
-    region = models.CharField(max_length=100,default='world')
 
     def __str__(self):
         return self.caption
