@@ -15,14 +15,32 @@ class NewVisitorTest(unittest.TestCase):
 class TimeseriesTest(unittest.TestCase):
     def setUp(self):
         self.browser = webdriver.Chrome()
-        # from hedonometer.models import Timeseries
-        # Timeseries.objects.all().delete()
-        # Timeseries(
-        #     title='main',
-        #     directory='storywrangler_covid',
-        #     language='english',
-        #     mediaFlag='all'
-        # ).save()
+        from hedonometer.models import Timeseries, Happs, Event
+        import datetime
+        Timeseries.objects.all().delete()
+        t = Timeseries(
+            title='en_all',
+            directory='storywrangler_en_all',
+            language='english',
+            mediaFlag='All Tweets',
+            wordList='labMTwords-english-covid.csv',
+            scoreList='labMTscores-english-covid.csv',
+            sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/storywrangler_en_all/count_vec'
+        )
+        t.save()
+        Happs.objects.all().delete()
+        h = Happs(timeseries=t, date=(datetime.date(2019,12,25)), value=6.5, frequency=0)
+        h.save()
+        Event.objects.all().delete()
+        e = Event(timeseries=t, date=(datetime.date(2019,12,25)), value="6.0",
+                  importance = 100,
+                    x = 10,
+                    y = -100,
+                    shorter = "Christmas",
+                    longer = "Christmas",
+                    wiki = "http://en.wikipedia.org/wiki/Christmas",
+        )
+        e.save()
 
     def tearDown(self):
         self.browser.quit()

@@ -56,6 +56,7 @@ class Event(models.Model):
     timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
     date = models.DateField()
     value = models.CharField(max_length=20)
+    happs = models.OneToOneField(Happs, on_delete=models.CASCADE)
     importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
     caption = models.CharField(max_length=200, null=True, blank=True)
     picture = models.CharField(max_length=200, null=True, blank=True)

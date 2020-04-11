@@ -790,18 +790,21 @@
 
         var format = d3.time.format("%m-%d");
 
-        d3.json('/api/v1/events/?format=json&timeseries__title=' + title, function(json) {
-            bigdays = json.objects;
-            console.log("the events are:");
-            console.log(bigdays);
-            bigdays.map(function(d) {
-                d.date = dformat.parse(d.date);
-                d.x = parseFloat(d.x);
+        d3.json('/api/v1/events/?format=json&timeseries__title=' + title,
+            function(json) {
+            bigdays = json.objects.map(function(d) {
+                d.date = cformat.parse(d.date);
+                d.x = +d.x;
+                d.y = +d.y;
+                d.value = +d.happs.happiness;
+                d.importance = +d.importance;
                 d.shorter = d.shorter.split(',');
                 // don't let them overflow the bottom
-                d.y = d3.min([parseFloat(d.y), height - parseFloat(y(d.value)) - d.shorter.length * 10]);
-                d.importance = parseFloat(d.importance);
-            })
+                d.y = d3.min([d.y, height - (y(d.value)) - d.shorter.length * 10]);
+                return d;
+            });
+            console.log("the events are:");
+            console.log(bigdays);
 
             var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
                 .append("line")

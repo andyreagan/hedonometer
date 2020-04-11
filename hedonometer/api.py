@@ -5,6 +5,7 @@ from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.serializers import Serializer
 
+
 class FixedFloatField(fields.ApiField):
     """
     A field for return fixed-width floats.
@@ -16,7 +17,7 @@ class FixedFloatField(fields.ApiField):
         if value is None:
             return None
 
-        if value and not isinstance(value, basestring):
+        if value and not isinstance(value, str):
             value = '{0:.3f}'.format(value)
 
         return value
@@ -24,7 +25,7 @@ class FixedFloatField(fields.ApiField):
     def hydrate(self, bundle):
         value = super(FixedFloatField, self).hydrate(bundle)
 
-        if value and not isinstance(value, basestring):
+        if value and not isinstance(value, str):
             value = '{0:.3f}'.format(value)
 
         return value
@@ -40,26 +41,13 @@ class TimeseriesResource(ModelResource):
         }
 
 
-class EventResource(ModelResource):
-    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
-    class Meta:
-        queryset = Event.objects.all()
-        resource_name = "events"
-        limit = 1000
-        # allowed_methods = ['get']
-        filtering = {
-            "importance": ALL,
-            "timeseries": ALL_WITH_RELATIONS
-        }
-
-
 class HappsResource(ModelResource):
     happiness = FixedFloatField(attribute="value")
-    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
+    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries')
     class Meta:
         queryset = Happs.objects.all()
         excludes = ["value","id",]
-        resource_name = "happpiness"
+        resource_name = "happiness"
         limit = 10000
         # default_format = ["json"]
         max_limit = None
@@ -67,6 +55,20 @@ class HappsResource(ModelResource):
         filtering = {
             "date": ALL,
             "lang": ALL,
+            "timeseries": ALL_WITH_RELATIONS
+        }
+
+
+class EventResource(ModelResource):
+    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
+    happs = fields.ToOneField(HappsResource, 'happs', full=True)
+    class Meta:
+        queryset = Event.objects.all()
+        resource_name = "events"
+        limit = 1000
+        # allowed_methods = ['get']
+        filtering = {
+            "importance": ALL,
             "timeseries": ALL_WITH_RELATIONS
         }
 
