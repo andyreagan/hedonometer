@@ -1,1 +1,1 @@
-/home/prod/app/pyenv/local/lib/python2.7/site-packages/django/contrib/admin/static/admin/js/actions.js
+/home/prod/app/pyenv38/lib/python3.8/site-packages/django/contrib/admin/static/admin/js/actions.js
