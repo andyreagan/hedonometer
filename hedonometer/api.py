@@ -60,7 +60,6 @@ class HappsResource(ModelResource):
 
 
 class EventResource(ModelResource):
-    timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries', full=True)
     happs = fields.ToOneField(HappsResource, 'happs', full=True)
     class Meta:
         queryset = Event.objects.all()
@@ -69,7 +68,7 @@ class EventResource(ModelResource):
         # allowed_methods = ['get']
         filtering = {
             "importance": ALL,
-            "timeseries": ALL_WITH_RELATIONS
+            "happs": ALL_WITH_RELATIONS
         }
 
 

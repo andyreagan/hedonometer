@@ -790,10 +790,10 @@
 
         var format = d3.time.format("%m-%d");
 
-        d3.json('/api/v1/events/?format=json&timeseries__title=' + title,
+        d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title,
             function(json) {
             bigdays = json.objects.map(function(d) {
-                d.date = cformat.parse(d.date);
+                d.date = cformat.parse(d.happs.date);
                 d.x = +d.x;
                 d.y = +d.y;
                 d.value = +d.happs.happiness;

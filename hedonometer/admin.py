@@ -3,21 +3,37 @@ from django.contrib import admin
 # Register your models here.
 # No models for now
 # Eventually we can create a database for the big events
-from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,Word,Contact
+from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,Word,Contact,HappsEvent
 
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
-    ordering = ('-date',)
     save_as = True
-    list_display = ('timeseries', 'date','caption','importance','x','y','shorter',)
+    list_display = ('caption','importance','x','y','shorter',)
     list_display_links = ('caption',)
     list_editable = ('importance','x','y',)
 
 class EmbedAdmin(admin.ModelAdmin):
     save_as = True
 
+class EventInline(admin.StackedInline):
+    model = Event
+
 class HappsAdmin(admin.ModelAdmin):
+    date_hierarchy = 'date'
+    list_filter = ('timeseries__title',)
     list_display = ('timeseries', 'date', 'value', 'frequency')
+    readonly_fields = ('timeseries', 'date', 'value', 'frequency')
+
+class HappsEventAdmin(admin.ModelAdmin):
+    date_hierarchy = 'date'
+    list_filter = ('timeseries__title',)
+    list_display = ('timeseries', 'date', 'value', 'event_display')
+    readonly_fields = ('timeseries', 'date', 'value', 'frequency')
+    inlines = (EventInline,)
+
+    def event_display(self, obj):
+        return obj.event.caption
+    event_display.short_description = "Event"
 
 class BookAdmin(admin.ModelAdmin):
     search_fields = ('title','author',)
@@ -43,6 +59,7 @@ class ContactAdmin(admin.ModelAdmin):
 admin.site.register(Event,EventAdmin)
 admin.site.register(Book,BookAdmin)
 admin.site.register(Happs,HappsAdmin)
+admin.site.register(HappsEvent,HappsEventAdmin)
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
 admin.site.register(Timeseries)

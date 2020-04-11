@@ -51,12 +51,17 @@ class Happs(models.Model):
     value = models.FloatField()
     frequency = models.FloatField(default=0)
 
+    def __str__(self):
+        return " ".join([self.timeseries.title, self.date.strftime('%Y-%m-%d')])
+
+
+class HappsEvent(Happs):
+    class Meta:
+        proxy = True
+
 
 class Event(models.Model):
-    timeseries = models.ForeignKey(Timeseries, on_delete=models.CASCADE, to_field='title', default='main')
-    date = models.DateField()
-    value = models.CharField(max_length=20)
-    happs = models.OneToOneField(Happs, on_delete=models.CASCADE)
+    happs = models.OneToOneField(Happs, on_delete=models.CASCADE, related_name='event')
     importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
     caption = models.CharField(max_length=200, null=True, blank=True)
     picture = models.CharField(max_length=200, null=True, blank=True)
@@ -69,9 +74,6 @@ class Event(models.Model):
 
     def __str__(self):
         return self.caption
-
-    class Meta:
-        ordering = ('date',)
 
 
 class Book(models.Model):

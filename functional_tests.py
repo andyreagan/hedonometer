@@ -18,6 +18,19 @@ class TimeseriesTest(unittest.TestCase):
         from hedonometer.models import Timeseries, Happs, Event
         import datetime
         Timeseries.objects.all().delete()
+        Event.objects.all().delete()
+        Happs.objects.all().delete()
+
+        t_rt = Timeseries(
+            title='en_rt',
+            directory='storywrangler_en_rt',
+            language='english',
+            mediaFlag='All Tweets',
+            wordList='labMTwords-english-covid.csv',
+            scoreList='labMTscores-english-covid.csv',
+            sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/storywrangler_en_rt/count_vec'
+        )
+        t_rt.save()
         t = Timeseries(
             title='en_all',
             directory='storywrangler_en_all',
@@ -28,17 +41,61 @@ class TimeseriesTest(unittest.TestCase):
             sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/storywrangler_en_all/count_vec'
         )
         t.save()
-        Happs.objects.all().delete()
-        h = Happs(timeseries=t, date=(datetime.date(2019,12,25)), value=6.5, frequency=0)
+
+        h = Happs(timeseries=t_rt, date=(datetime.date(2016,12,25)), value=6.0, frequency=0)
         h.save()
-        Event.objects.all().delete()
-        e = Event(timeseries=t, date=(datetime.date(2019,12,25)), value="6.0",
+        e = Event(happs=h,
                   importance = 100,
-                    x = 10,
-                    y = -100,
-                    shorter = "Christmas",
-                    longer = "Christmas",
-                    wiki = "http://en.wikipedia.org/wiki/Christmas",
+                  caption="xx",
+                  picture="xx",
+                  imagelink="xx",
+                  x = 10,
+                  y = -100,
+                  shorter = "Christmas",
+                  longer = "Christmas",
+                  wiki = "http://en.wikipedia.org/wiki/Christmas",
+        )
+        e.save()
+        h = Happs(timeseries=t_rt, date=(datetime.date(2017,12,25)), value=6.0, frequency=0)
+        h.save()
+        e = Event(happs=h,
+                  importance = 100,
+                  caption="xx",
+                  picture="xx",
+                  imagelink="xx",
+                  x = 10,
+                  y = -100,
+                  shorter = "Christmas",
+                  longer = "Christmas",
+                  wiki = "http://en.wikipedia.org/wiki/Christmas",
+        )
+        e.save()
+        h = Happs(timeseries=t_rt, date=(datetime.date(2018,12,25)), value=6.0, frequency=0)
+        h.save()
+
+        h = Happs(timeseries=t, date=(datetime.date(2016,12,25)), value=6.0, frequency=0)
+        h.save()
+        h = Happs(timeseries=t, date=(datetime.date(2017,12,25)), value=6.0, frequency=0)
+        h.save()
+        h = Happs(timeseries=t, date=(datetime.date(2018,12,25)), value=6.0, frequency=0)
+        h.save()
+        h = Happs(timeseries=t, date=(datetime.date(2019,12,23)), value=6.0, frequency=0)
+        h.save()
+        h = Happs(timeseries=t, date=(datetime.date(2019,12,24)), value=6.1, frequency=0)
+        h.save()
+        h = Happs(timeseries=t, date=(datetime.date(2019,12,25)), value=6.2, frequency=0)
+        h.save()
+
+        e = Event(happs=h,
+                  importance = 100,
+                  caption="xx",
+                  picture="xx",
+                  imagelink="xx",
+                  x = 10,
+                  y = -100,
+                  shorter = "Christmas",
+                  longer = "Christmas",
+                  wiki = "http://en.wikipedia.org/wiki/Christmas",
         )
         e.save()
 

@@ -64,7 +64,7 @@ INSTALLED_APPS = (
     'hedonometer',
     'django.contrib.humanize',
     'tastypie',
-    'twython_django',
+    'twython_django'
 )
 
 # the following 6 are for twitter logins
