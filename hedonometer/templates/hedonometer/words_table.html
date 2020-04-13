@@ -1,0 +1,60 @@
+{% extends "hedonometer/base.html" %}
+{% load static %}
+
+{% block extracss %}
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.css">
+{% endblock %}
+{% block headerjs %}
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.js"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <h1>LabMT word list "{{ wl.title }}"</h1>
+      <p>This is a score list created on {{ wl.date.isoformat }}, from native speakers of language "{{ wl.language }}".</p>
+      <div class="row">
+        <div class="col-xs-12">
+            <table id="table_id" class="display">
+                <thead>
+                <tr>
+                    <th>Rank</th>
+                    <th>Word</th>
+                    <th>Word in English</th>
+                    <th>Happiness Score</th>
+                    <th>Standard Deviation of Ratings</th>
+                </tr>
+                </thead>
+                {% for word in words %}<tbody>
+                <tr>
+                    <td>{{ word.rank }}</td>
+                    <td>{{ word.word }}</td>
+                    <td>{{ word.word_english }}</td>
+                    <td>{{ word.happs }}</td>
+                    <td>{{ word.stdDev }}</td>
+                </tr>
+                </tbody>
+                {% endfor %}
+            </table>
+    	</div> <!-- column -->
+      </div> <!-- row -->
+    </div><!--container-->
+{% endblock %}
+
+{% block bottomjs %}
+    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#table_id').DataTable({
+                "pagingType": "full_numbers",
+                "paging": true,
+                "lengthMenu": [10, 25, 50, 75, 100],
+            });
+        });
+    </script>
+{% endblock %}
+
+

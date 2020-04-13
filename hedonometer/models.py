@@ -6,15 +6,22 @@ class WordList(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=100, unique=True)
     language = models.CharField(max_length=50, default="english")
+    reference = models.URLField()
+    referencetitle = models.CharField(max_length=300, default="this paper")
 
+    def __str__(self):
+        return self.title
 
 class Word(models.Model):
-    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMTenglish-v1')
+    wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMT-en-v1')
     word = models.CharField(max_length=100)
     word_english = models.CharField(max_length=200, blank=True)
     rank = models.IntegerField()
     happs = models.FloatField()
     stdDev = models.FloatField()
+
+    def __str__(self):
+        return str(self.wordlist) + " - " + self.word + " ({0:.2f})".format(self.happs)
 
 
 class Timeseries(models.Model):

@@ -13,7 +13,7 @@ from mysite.settings import STATIC_ROOT
 # import logging
 # logger = logging.getLogger(__name__)
 
-from hedonometer.models import NYT, Timeseries, Word, Contact, Happs, Event
+from hedonometer.models import NYT, Timeseries, Word, Contact, Happs, Event, WordList, Word
 
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core import serializers
@@ -70,15 +70,15 @@ class cbslist(View):
 def wordhapps(request):
     word = request.POST['text']
     # w = get_object_or_404(Word,word=word)
-    w = Word.objects.filter(word=word)
+    w = Word.objects.filter(word=word, wordlist__title='labMT-en-v1')
     if len(w) > 0:
         entry = w[0]
-        return HttpResponse('*{0}* happs: {1}, std dev: {2}, happs rank: {3}\nTwitter/Gbooks/NYT/Lyrics ranks: {4}/{5}/{6}/{7}'.format(word,entry.happs,entry.stdDev,entry.rank,entry.twitterRank,entry.googleBooksRank,entry.newYorkTimesRank,entry.lyricsRank))
+        return HttpResponse('*{0}* happs: {1}, std dev: {2}, happs rank: {3}'.format(word,entry.happs,entry.stdDev,entry.rank))
     else:
         return HttpResponse('*{0}* not found in labMT database.'.format(word))
 
 
-def timeseries(request,urlregion):
+def timeseries(request, urlregion):
     t = get_object_or_404(Timeseries, title=urlregion)
 
     # langdict = {
@@ -96,6 +96,22 @@ def timeseries(request,urlregion):
 
     # now pass those into the view
     return render(request, 'hedonometer/indexlang.html', {"model": t, "happs": all_happs, "annotations": all_annotations})
+
+
+def wordlist(request, wordlisttitle):
+    wl = get_object_or_404(WordList, title=wordlisttitle)
+    all_lists = WordList.objects.all()
+    # now pass those into the view
+    return render(request, 'hedonometer/words_api.html', {"wl": wl, "all_lists": all_lists})
+
+
+def wordlist_table(request, wordlisttitle):
+    wl = get_object_or_404(WordList, title=wordlisttitle)
+    words = Word.objects.filter(wordlist__title=wordlisttitle).values()
+
+    # now pass those into the view
+    return render(request, 'hedonometer/words_table.html', {"wl": wl, "words": words})
+
 
 class csv_view(View):
     # Create the HttpResponse object with the appropriate CSV header.

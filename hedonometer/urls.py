@@ -14,6 +14,7 @@ v1_api.register(HappsResource())
 v1_api.register(BookResource())
 v1_api.register(RandomBookResource())
 v1_api.register(WordResource())
+v1_api.register(WordListResource())
 v1_api.register(AnnotationResource())
 v1_api.register(MovieAnnotationResource())
 v1_api.register(MovieResource())
@@ -32,7 +33,9 @@ urlpatterns = [
     url(r'^about.html', TemplateView.as_view(template_name='hedonometer/about.html'), name='about'),
     url(r'^shifts.html', RedirectView.as_view(url='instructions.html#wordshifts'),),
     url(r'^instructions.html', TemplateView.as_view(template_name='hedonometer/instructions.html'),name='instructions'),
-    url(r'^words.html', TemplateView.as_view(template_name='hedonometer/words.html'), name='words'),
+    url(r'^words.html', RedirectView.as_view(url='words/labMT-en-v1/'),),
+    url(r'^words/(?P<wordlisttitle>[\w-]+)/',views.wordlist, name='wordlist'),
+    url(r'^words_table/(?P<wordlisttitle>[\w-]+)/',views.wordlist_table, name='wordlist_table'),
     url(r'^table.html', TemplateView.as_view(template_name='hedonometer/table.html'), name='table'),
     url(r'^press.html', TemplateView.as_view(template_name='hedonometer/press.html'), name='press'),
     url(r'^papers.html', TemplateView.as_view(template_name='hedonometer/papers.html'), name='papers'),

@@ -72,17 +72,31 @@ class EventResource(ModelResource):
         }
 
 
+class WordListResource(ModelResource):
+    title = fields.CharField(attribute="title")
+    class Meta:
+        queryset = WordList.objects.all()
+        resource_name = 'wordlist'
+        excludes = ["id",]
+        include_resource_uri = False
+        filtering = {
+            'title': ALL
+        }
+
+
 class WordResource(ModelResource):
     # happiness = FixedFloatField(attribute="value")
+    wordlist = fields.ForeignKey(WordListResource, 'wordlist', full=True)
+
     def dehydrate(self, bundle):
         bundle.data['text'] = bundle.data['word']
         return bundle
 
     class Meta:
         queryset = Word.objects.all()
-        excludes = ["id",]
+        excludes = ["id","wordlist",]
         resource_name = "words"
-        limit = 20000
+        limit = 30000
         # default_format = ["json"]
         max_limit = None
         include_resource_uri = False
@@ -93,10 +107,12 @@ class WordResource(ModelResource):
             "happs": ALL,
             "stdDev": ALL,
             # "text": ALL,
+            "wordlist": ALL_WITH_RELATIONS,
         }
         # these other formats could be better
         # but HTML, for example, isn't implemented yet
         # serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
+
 
 class NYTResource(ModelResource):
     happiness = FixedFloatField(attribute="happs")
