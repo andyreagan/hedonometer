@@ -283,7 +283,7 @@
         })
         .y0(height)
         .y1(function(d) {
-            return y3(d.value);
+            return y3(d.freq);
         });
 
     var svg = d3.select("#bigbox").append("svg")
@@ -585,10 +585,10 @@
 
     var minDate, maxDate;
 
-    d3.csv(dataUrl + "/" + directory + "/" + wordVecDir + "/" + sumHappsFile, function(data) {
+    var happs_loaded_callback = function(data) {
         minDate = getDate(data[0]);
         maxDate = getDate(data[data.length - 1]);
-        console.log('here are the min and max date picked up from ' + sumHappsFile);
+        console.log('here are the min and max date picked up from happs encoded in html');
         console.log(minDate);
         console.log(maxDate);
         // var parse = d3.time.format("%Y-%m-%d").parse;
@@ -596,7 +596,6 @@
         for (i = 0; i < data.length; i++) {
             data[i].shortDate = data[i].date;
             data[i].date = cformat.parse(data[i].date);
-            data[i].value = +data[i].value;
         }
 
         timeseries = data;
@@ -954,18 +953,8 @@
             }; // check datedecoder.length
         }); // d3.json for events
 
-        // now let's try to load the frequency
-        d3.csv(dataUrl + "/" + directory + "/" + wordVecDir + "/" + sumHappsFile.replace('happs', 'freq'), function(data) {
-            // console.log(data);
-
-            for (i = 0; i < data.length; i++) {
-                data[i].shortDate = data[i].date;
-                data[i].date = cformat.parse(data[i].date);
-                data[i].value = +data[i].value;
-            }
-
             var freqExtent = d3.extent(data.map(function(d) {
-                return d.value;
+                return d.freq;
             }))
 
             y3.domain(freqExtent);
@@ -1062,12 +1051,9 @@
                 .attr({
                     "visibility": "hidden",
                 });
+    }; // main data load
 
-        }); // freq data load
-
-    }); // main data load
-
-    // function fishline(d) {
+    // function fishline(d) {    // function fishline(d) {
     //     return fishline0(d.map(function(d) {
     //         d = fisheye({x: x(d.date), y: y(d.value)});
     //         return [d.x, d.y];
@@ -1207,6 +1193,8 @@
     var fullRange = (endOfTime.getTime() - beginningOfTime.getTime());
     var rScale = d3.scale.linear().range([rmax, 1.25]);
     rScale.domain([0, fullRange]);
+
+
 
     function offsetXY(x, y, s) {
         // if on the right
@@ -1983,6 +1971,8 @@
     }
 
     d3.select("div.infobox").append("h5").html("<u>" + mediaFlag + "</u> in <u>" + language + "</u>.");
+
+    happs_loaded_callback(happs);
 
     console.log("enjoy :)");
 })();

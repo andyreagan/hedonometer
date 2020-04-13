@@ -13,7 +13,7 @@ from mysite.settings import STATIC_ROOT
 # import logging
 # logger = logging.getLogger(__name__)
 
-from hedonometer.models import NYT,Timeseries,Word,Contact
+from hedonometer.models import NYT, Timeseries, Word, Contact, Happs, Event
 
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from django.core import serializers
@@ -29,10 +29,6 @@ from .bookandmovieviews import *
 
 import datetime
 
-def dummy(request):
-    # latest_topic_list = Topic.objects.order_by('-pub_date')[:5]
-    # context = {'latest_topic_list': latest_topic_list}
-    return render(request, 'hedonometer/index.html')
 
 class nytlist(View):
      # return all of the annotations for a book
@@ -40,11 +36,13 @@ class nytlist(View):
         nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
         return render(request, 'hedonometer/nytlist.html',{"nyt_list": nyt_list})
 
+
 class outsidelist(View):
      # return all of the annotations for a book
     def get(self, request):
         nyt_list = NYT.objects.all().exclude(genre='all').order_by('-happs')
         return render(request, 'hedonometer/outside.html',{"nyt_list": nyt_list})
+
 
 class cbslist(View):
      # return all of the annotations for a book
@@ -79,8 +77,9 @@ def wordhapps(request):
     else:
         return HttpResponse('*{0}* not found in labMT database.'.format(word))
 
+
 def timeseries(request,urlregion):
-    t = get_object_or_404(Timeseries,title=urlregion)
+    t = get_object_or_404(Timeseries, title=urlregion)
 
     # langdict = {
     #     "lang": t.language,
@@ -92,9 +91,11 @@ def timeseries(request,urlregion):
     #     "sumHappsFile": t.sumHappsFile,
     #     "ignoreWords": t.ignoreWords,
     # }
+    all_happs = Happs.objects.filter(timeseries=t).order_by('date').values()
+    all_annotations = Event.objects.filter(happs__timeseries=t).values()
 
     # now pass those into the view
-    return render(request, 'hedonometer/indexlang.html', {"model": t})
+    return render(request, 'hedonometer/indexlang.html', {"model": t, "happs": all_happs, "annotations": all_annotations})
 
 class csv_view(View):
     # Create the HttpResponse object with the appropriate CSV header.

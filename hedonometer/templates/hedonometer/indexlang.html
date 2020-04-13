@@ -19,10 +19,13 @@
     var wordListEnglish = "{{ model.wordListEnglish|escapejs }}";
     var scoreList = "{{ model.scoreList|escapejs }}";
     var sourceDir = "{{ model.sourceDir|escapejs }}";
+    var happs = [{% for h in happs %}{{ '{' }}date: "{{ h.date.isoformat }}", value: {{ h.value|escapejs }},freq: {{ h.frequency|escapejs }}{{ '}' }},{% endfor %}];
+    {% comment %}
+    var annotations = [{% for a in annotations %}{{ a|safe }},{% endfor %}];
+    {% endcomment %}
     // hardcode these...
-    var startDate = "2008-09-10";
-    var today = new Date;
-    var endDate = today.toISOString().slice(0,10);
+    var startDate = happs[0].date;
+    var endDate = happs[happs.length-1].date;
 </script>
 {% endblock %}
 

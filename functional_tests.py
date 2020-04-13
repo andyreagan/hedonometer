@@ -1,6 +1,8 @@
 # inspiration: https://www.obeythetestinggoat.com/book/chapter_01.html
 from selenium import webdriver
 import unittest
+import requests
+import json
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -20,6 +22,8 @@ class TimeseriesTest(unittest.TestCase):
         Timeseries.objects.all().delete()
         Event.objects.all().delete()
         Happs.objects.all().delete()
+        r = requests.get("http://hedonometer.org/api/v1/happiness/?timeseries__title=en_rt")
+        x = json.loads(r.content)
 
         t_rt = Timeseries(
             title='en_rt',
@@ -42,9 +46,10 @@ class TimeseriesTest(unittest.TestCase):
         )
         t.save()
 
-        h = Happs(timeseries=t_rt, date=(datetime.date(2016,12,25)), value=6.0, frequency=0)
-        h.save()
-        e = Event(happs=h,
+        for h in x["objects"]:
+            Happs(timeseries=t_rt, date=datetime.datetime.strptime(h["date"], "%Y-%m-%d"), value=float(h["happiness"]), frequency=h["frequency"]).save()
+
+        e = Event(happs=Happs.objects.get(timeseries=t_rt, date=datetime.date(2016,12,25)),
                   importance = 100,
                   caption="xx",
                   picture="xx",
@@ -56,9 +61,7 @@ class TimeseriesTest(unittest.TestCase):
                   wiki = "http://en.wikipedia.org/wiki/Christmas",
         )
         e.save()
-        h = Happs(timeseries=t_rt, date=(datetime.date(2017,12,25)), value=6.0, frequency=0)
-        h.save()
-        e = Event(happs=h,
+        e = Event(happs=Happs.objects.get(timeseries=t_rt, date=(datetime.date(2017,12,25))),
                   importance = 100,
                   caption="xx",
                   picture="xx",
@@ -70,8 +73,6 @@ class TimeseriesTest(unittest.TestCase):
                   wiki = "http://en.wikipedia.org/wiki/Christmas",
         )
         e.save()
-        h = Happs(timeseries=t_rt, date=(datetime.date(2018,12,25)), value=6.0, frequency=0)
-        h.save()
 
         h = Happs(timeseries=t, date=(datetime.date(2016,12,25)), value=6.0, frequency=0)
         h.save()
