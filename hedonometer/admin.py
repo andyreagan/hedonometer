@@ -8,8 +8,8 @@ from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
     save_as = True
-    list_display = ('caption','importance','x','y','shorter',)
-    list_display_links = ('caption',)
+    list_display = ('importance','x','y','shorter',)
+    list_display_links = ('shorter',)
     list_editable = ('importance','x','y',)
 
 class EmbedAdmin(admin.ModelAdmin):
@@ -32,7 +32,7 @@ class HappsEventAdmin(admin.ModelAdmin):
     inlines = (EventInline,)
 
     def event_display(self, obj):
-        return obj.event.caption
+        return str(obj.event.shorter)
     event_display.short_description = "Event"
 
 class BookAdmin(admin.ModelAdmin):

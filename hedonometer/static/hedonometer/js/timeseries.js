@@ -1395,7 +1395,6 @@
                     });
                 var tmp = splitWidth(bigdays[i].longer, 230);
                 shortlist.append("text").attr("x", 20).attr("y", 38)
-                    //.html(function() { return '<b>'+bigdays[i].caption+'</b>'; })
                     .text(function() {
                         return tmp[0];
                     })

@@ -11,14 +11,10 @@ class WordList(models.Model):
 class Word(models.Model):
     wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMTenglish-v1')
     word = models.CharField(max_length=100)
-    word_english = models.CharField(max_length=100, blank=True, null=True)
-    rank = models.IntegerField(null=True)
+    word_english = models.CharField(max_length=200, blank=True)
+    rank = models.IntegerField()
     happs = models.FloatField()
     stdDev = models.FloatField()
-    twitterRank = models.IntegerField(null=True)
-    googleBooksRank = models.IntegerField(null=True)
-    newYorkTimesRank = models.IntegerField(null=True)
-    lyricsRank = models.IntegerField(null=True)
 
 
 class Timeseries(models.Model):
@@ -32,7 +28,7 @@ class Timeseries(models.Model):
         max_length=100, default='sumhapps.csv', help_text='Name of the CSV with date,happs for the full time series.')
     wordVecDir = models.CharField(max_length=100, default='word-vectors', help_text="Directory name with daily word vectors (as subdir of `directory`).")
     shiftDir = models.CharField(max_length=100, default='shifts', help_text="Directory name with daily pre-shifted word vectors (as subdir of `directory`).")
-    stopWordList = models.CharField(max_length=100, default='stopwords.csv', null=True, blank=True, help_text="Name of the csv of words to exclude.")
+    stopWordList = models.CharField(max_length=100, default='stopwords.csv',  blank=True, help_text="Name of the csv of words to exclude.")
     wordList = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words.")
     wordListEnglish = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words in English.")
     scoreList = models.CharField(max_length=100, default='labMTscores-english-covid.csv', help_text="Name of the csv of scores.")
@@ -63,17 +59,14 @@ class HappsEvent(Happs):
 class Event(models.Model):
     happs = models.OneToOneField(Happs, on_delete=models.CASCADE, related_name='event')
     importance = models.IntegerField(help_text="Centered at 0, higher numbers keep the event on the vizualization as you zoom out, lower numbers hide it earlier.")
-    caption = models.CharField(max_length=200, null=True, blank=True)
-    picture = models.CharField(max_length=200, null=True, blank=True)
     x = models.IntegerField(help_text="x offset of annotation")
     y = models.IntegerField(help_text="y offset of annotation")
     shorter = models.CharField(max_length=200, help_text="Use commas to make new lines on the main visualization label.")
     longer = models.TextField(max_length=200, help_text="Shows up in the description of the event inside shift popups (big and small).")
     wiki = models.URLField()
-    imagelink = models.URLField(null=True, blank=True)
 
     def __str__(self):
-        return self.caption
+        return self.shorter.replace(",", " ")
 
 
 class Book(models.Model):
@@ -95,7 +88,7 @@ class Book(models.Model):
 
 class GutenbergAuthor(models.Model):
     fullname = models.CharField(max_length=100)
-    note = models.CharField(max_length=100,null=True, blank=True)
+    note = models.CharField(max_length=100, blank=True)
     gutenberg_id = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
@@ -129,7 +122,7 @@ class GutenbergBook(models.Model):
 
     # if we had an issue processing it....
     exclude = models.BooleanField(default=False)
-    excludeReason = models.CharField(max_length=100, null=True, blank=True)
+    excludeReason = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.title
@@ -142,7 +135,7 @@ class NYT(models.Model):
     happs = models.FloatField()
     numwords = models.FloatField()
     variance = models.FloatField()
-    ignorewords = models.CharField(max_length=400, null=True, blank=True)
+    ignorewords = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
         return self.genre
@@ -205,7 +198,7 @@ class Movie(models.Model):
     director = models.ManyToManyField(Director)
     actor = models.ManyToManyField(Actor)
     writer = models.ManyToManyField(Writer)
-    language = models.CharField(max_length=100, null=True, blank=True)
+    language = models.CharField(max_length=100, blank=True)
     happs = models.FloatField()
     happsStart = models.FloatField()
     happsEnd = models.FloatField()
@@ -214,23 +207,23 @@ class Movie(models.Model):
     happsMax = models.FloatField()
     happsDiff = models.FloatField()
     exclude = models.BooleanField()
-    excludeReason = models.CharField(max_length=100, null=True, blank=True)
+    excludeReason = models.CharField(max_length=100, blank=True)
     length = models.IntegerField()
     # length = models.CharField(max_length=100, null=True, blank=True)
-    ignorewords = models.CharField(max_length=400, null=True, blank=True)
+    ignorewords = models.CharField(max_length=400, blank=True)
     wiki = models.URLField(null=True, blank=True)
     image = models.URLField(null=True, blank=True)
-    genre = models.CharField(max_length=400, null=True, blank=True)
-    imdbid = models.CharField(max_length=400, null=True, blank=True)
-    keywords = models.CharField(max_length=400, null=True, blank=True)
-    metascore = models.CharField(max_length=400, null=True, blank=True)
-    score = models.CharField(max_length=10, null=True, blank=True)
-    rating = models.CharField(max_length=400, null=True, blank=True)
+    genre = models.CharField(max_length=400, blank=True)
+    imdbid = models.CharField(max_length=400, blank=True)
+    keywords = models.CharField(max_length=400, blank=True)
+    metascore = models.CharField(max_length=400, blank=True)
+    score = models.CharField(max_length=10, blank=True)
+    rating = models.CharField(max_length=400, blank=True)
     releaseDate = models.DateTimeField(null=True, blank=True)
-    reviews = models.CharField(max_length=400, null=True, blank=True)
-    runtime = models.CharField(max_length=400, null=True, blank=True)
-    storyline = models.CharField(max_length=400, null=True, blank=True)
-    year = models.CharField(max_length=400, null=True, blank=True)
+    reviews = models.CharField(max_length=400, blank=True)
+    runtime = models.CharField(max_length=400, blank=True)
+    storyline = models.CharField(max_length=400, blank=True)
+    year = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
         return self.title
@@ -244,33 +237,33 @@ class Embeddable(models.Model):
     # will look things up by this
     h = models.CharField(max_length=64)
     # store the filenames and some titles for the things
-    refFile = models.CharField(max_length=200, null=True, blank=True)
-    refFileName = models.CharField(max_length=200, null=True, blank=True)
-    compFile = models.CharField(max_length=200, null=True, blank=True)
-    compFileName = models.CharField(max_length=200, null=True, blank=True)
+    refFile = models.CharField(max_length=200, blank=True)
+    refFileName = models.CharField(max_length=200, blank=True)
+    compFile = models.CharField(max_length=200, blank=True)
+    compFileName = models.CharField(max_length=200, blank=True)
 
     nickName = models.CharField(max_length=200, default="My super wordshift.")
 
     # two options here, which can be blank
     # this stores a full text, which is comma separated for the lines (up to four lines)
     # separate by the @-sign
-    customFullText = models.CharField(max_length=600, null=True, blank=True)
+    customFullText = models.CharField(max_length=600, blank=True)
     # this stores just a title
-    customTitleText = models.CharField(max_length=200, null=True, blank=True)
+    customTitleText = models.CharField(max_length=200, blank=True)
 
     # the idea here is that we can let the embed page know whether this is
     # coming from the user page, or from the
-    contextFlag = models.CharField(max_length=200, null=True, blank=True)
+    contextFlag = models.CharField(max_length=200, blank=True)
 
     # for the user-created embeds, so we can query by them
-    author = models.ForeignKey('twython_django.TwitterProfile',null=True,on_delete=models.CASCADE)
+    author = models.ForeignKey('twython_django.TwitterProfile', null=True, on_delete=models.CASCADE)
 
     # let's also add some more information about them
     createdDate = models.DateTimeField(null=True, blank=True)
     updatedDate = models.DateTimeField(null=True, blank=True)
 
     # a special list of words to exclude, comma separted
-    stopWords = models.CharField(max_length=600, null=True, blank=True)
+    stopWords = models.CharField(max_length=600, blank=True)
 
     lang = models.CharField(max_length=40)
 
@@ -310,6 +303,6 @@ class Band(models.Model):
 
 
 class Contact(models.Model):
-    name = models.CharField(max_length=100, null=True, blank=True)
-    email = models.CharField(max_length=100, null=True, blank=True)
-    comment = models.TextField(max_length=1000, null=True, blank=True)
+    name = models.CharField(max_length=100, blank=True)
+    email = models.CharField(max_length=100, blank=True)
+    comment = models.TextField(max_length=1000, blank=True)
