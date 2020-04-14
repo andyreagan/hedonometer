@@ -32,9 +32,4 @@ class Migration(migrations.Migration):
             name='stopword',
             field=models.BooleanField(default=False),
         ),
-        migrations.AlterField(
-            model_name='timeseries',
-            name='wordList',
-            field=models.ForeignKey(default='labMT-en-v2', on_delete=django.db.models.deletion.CASCADE, to='hedonometer.WordList', to_field='title'),
-        ),
     ]
