@@ -5,12 +5,18 @@ from django.contrib.auth.models import User
 class WordList(models.Model):
     date = models.DateField()
     title = models.CharField(max_length=100, unique=True)
-    language = models.CharField(max_length=50, default="english")
+    language = models.CharField(max_length=2, default="en")
     reference = models.URLField()
     referencetitle = models.CharField(max_length=300, default="this paper")
 
     def __str__(self):
         return self.title
+
+    def language_long(self):
+        shortcodes = {'arabic': 'ar', 'chinese': 'zh', 'english': 'en', 'french': 'fr', 'german': 'de', 'hindi': 'hi', 'indonesian': 'id', 'korean': 'ko', 'pashto': 'ps', 'portuguese': 'pt', 'russian': 'ru', 'spanish': 'es', 'urdu': 'ur'}
+        shortcodes_reverse = {y: x for x, y in shortcodes.items()}
+        return shortcodes_reverse[self.language]
+
 
 class Word(models.Model):
     wordlist = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMT-en-v1')

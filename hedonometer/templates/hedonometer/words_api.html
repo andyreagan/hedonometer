@@ -15,7 +15,7 @@
 {% block content %}
     <div class="container">
       <h1>Hedonometer word list: <i><strong>{{ wl.title }}</strong></i></h1>
-      <p>This is a score list created on {{ wl.date.isoformat }}, from native speakers of language "{{ wl.language }}".</p>
+      <p>This is a score list created on {{ wl.date.isoformat }}, from the most used words in {{ wl.language_long }} ("{{ wl.language }}"), rated by native speakers of the language.</p>
       <p>For reference and citation please use: <a href="{{ wl.reference }}" target="_blank">{{ wl.referencetitle }}</a>.</p>
       <h3 id="wait">Please be patient, this page takes ~10 seconds to load the table.</h3>
       <div class="row">
@@ -134,7 +134,7 @@
             </p>
             <p>All word lists:
                 <ul>{% for wl_ in all_lists %}
-                    <li><strong>{{ wl_.title }}</strong>: langauge <i>{{ wl_.language }}</i> created <i>{{ wl_.date.isoformat }}</i>. <a href="/words/{{ wl_.title }}/">[view list]</a></li>{% endfor %}
+                    <li><strong>{{ wl_.title }}</strong>: langauge <i>{{ wl_.language_long }}</i> ("{{ wl_.language }}") created <i>{{ wl_.date.isoformat }}</i>. <a href="/words/{{ wl_.title }}/">[view list]</a></li>{% endfor %}
                 </ul>
             </p>
     	</div> <!-- column -->
