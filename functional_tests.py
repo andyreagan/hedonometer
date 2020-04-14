@@ -8,15 +8,13 @@ import datetime
 import os
 
 
-def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT'):
+def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=1000):
     WordList.objects.all().delete()
     Word.objects.all().delete()
 
     # https://arxiv.org/abs/1108.5192
     wl = WordList(title="labMT-en-v1", date="2011-08-25", language="en", reference="https://arxiv.org/abs/1108.5192", referencetitle="Positivity of the English language")
     wl.save()
-
-    max_words = 1000
 
     with open(os.path.join(DATA_DIR, "labMTwords-english.csv"), "r") as f:
         labMTwords = f.read().strip().split("\n")
