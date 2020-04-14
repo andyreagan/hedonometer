@@ -11,6 +11,7 @@ class EventAdmin(admin.ModelAdmin):
     list_display = ('importance','x','y','shorter',)
     list_display_links = ('shorter',)
     list_editable = ('importance','x','y',)
+    autocomplete_fields = ('happs',)
 
 class EmbedAdmin(admin.ModelAdmin):
     save_as = True
@@ -23,6 +24,7 @@ class HappsAdmin(admin.ModelAdmin):
     list_filter = ('timeseries__title',)
     list_display = ('timeseries', 'date', 'value', 'frequency')
     readonly_fields = ('timeseries', 'date', 'value', 'frequency')
+    search_fields = ('timeseries__title', 'date',)
 
 class HappsEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
