@@ -1,21 +1,24 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+
+<head>
+    <meta http-equiv="X-UA-Compatible" content="IE=9" />
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 
     <title>Hedonometer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="application-name" content="Hedonometer"/>
-    <meta name="description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world."/>
-    <meta name="developer" content="Andy Reagan, University of Vermont (@andyreagan)"/>
+    <meta name="application-name" content="Hedonometer" />
+    <meta name="description"
+        content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world." />
+    <meta name="developer" content="Andy Reagan, University of Vermont (@andyreagan)" />
     <meta name="google-site-verification" content="qL0BJxj9IpszlaCQOt8ocvPUY4VgBBpsbsj5FnR6tyM" />
     {% block twittermeta %}
     <meta name="twitter:card" content="summary">
     <meta name="twitter:site" content="@hedonometer">
     <meta name="twitter:title" content="The Hedonometer">
-    <meta name="twitter:description" content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
+    <meta name="twitter:description"
+        content="Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.">
     <meta name="twitter:image" content="http://hedonometer.org/static/hedonometer/graphics/hedonometer-logo.png">
     {% endblock %}
     {% block headerextrameta %}
@@ -42,96 +45,103 @@
 
     <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-539b215a08fde1a0"></script>
     <script type="text/javascript">
-      var addthis_config = addthis_config || {};
-      addthis_config.data_track_addressbar = false;
-      addthis_config.data_track_clickback = false;
+        var addthis_config = addthis_config || {};
+        addthis_config.data_track_addressbar = false;
+        addthis_config.data_track_clickback = false;
 
-      var addthis_share = addthis_share || {}
-      addthis_share = {
-        // title: "title", // doesn't do anything, documentation patchy
-        passthrough : {
-          twitter: {
-            via: "hedonometer",
-            text: "hedonometer:"
-          }
+        var addthis_share = addthis_share || {}
+        addthis_share = {
+            // title: "title", // doesn't do anything, documentation patchy
+            passthrough: {
+                twitter: {
+                    via: "hedonometer",
+                    text: "hedonometer:"
+                }
+            }
         }
-      }
     </script>
 
-  </head>
+</head>
 
-  <body>
+<body>
     <noscript>
-      <div id="informational" class="container" itemscope itemtype="http://schema.org/WebApplication">
-	<a itemprop="url" href="http://hedonometer.org"><div itemprop="name"><strong>Hedonometer</strong></div>
-	</a><div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
-	<div itemprop="creator" itemscope itemtype="http://schema.org/Organization">
-	  Created by: <span itemprop="name">The MITRE Corporation</span> &amp; <span itemprop="name">University of Vermont Complex Systems Center</span></div>
-	<hr>
-      </div>
+        <div id="informational" class="container" itemscope itemtype="http://schema.org/WebApplication">
+            <a itemprop="url" href="http://hedonometer.org">
+                <div itemprop="name"><strong>Hedonometer</strong></div>
+            </a>
+            <div itemprop="description">Hedonometer.org is an instrument that measures the happiness of large populations in real time. The hedonometer is based on people’s online expressions, capitalizing on data-rich social media, and measures how people present themselves to the outside world.</div>
+            <div itemprop="creator" itemscope itemtype="http://schema.org/Organization">
+                Created by: span itemprop="name">University of Vermont Complex Systems Center</span></div>
+            <hr>
+        </div>
     </noscript>
 
     {% block nav %}
 
     <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-      <div class="container">
-	<div class="navbar-header">
-	  <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-collapse">
-	    <span class="icon-bar"></span>
-	    <span class="icon-bar"></span>
-	  </button>
-	  <!-- <div class="navbar-brand"> -->
-	  <!-- <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle brand" width="23px"> -->
-	  <a class="navbar-brand" href="http://hedonometer.org"><img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.png" %}" class="img-responsive img-circle brand" width="23px"></a>
-	  <!-- </div> -->
-	</div>
-	<div class="navbar-collapse collapse">
-	  <ul class="nav navbar-nav">
-	  <ul class="nav navbar-nav">
-	    <li class="dropdown">
-	      <a href="#" class="dropdown-toggle navbar-brand brand" data-toggle="dropdown" id="navbarbrand">projects <span class="caret"></span></a>
-	      <ul class="dropdown-menu" role="menu">
-		<li><a href="/index.html">Time series of Happiness: Twitter&mdash;World (English)</a></li>
-		<!-- <li><a href="/timeseries/france/">Time series of Happiness: Twitter&mdash;France (French)</a></li> -->
-		<!-- <li><a href="/timeseries/mexico/">Time series of Happiness: Twitter&mdash;Mexico (Spanish)</a></li> -->
-		<!-- <li><a href="/timeseries/germany/">Time series of Happiness: Twitter&mdash;Germany (German)</a></li> -->
-		<li role="presentation" class="divider"></li>
-		<li><a href="/maps.html">Geography of Happiness: Twitter&mdash;US States (English)</a></li>
-		<li><a href="/cities.html">Geography of Happiness: Twitter&mdash;US Cities (English)</a></li>
-		<li role="presentation" class="divider"></li>
-		<li><a href="/books.html">Happiness of Stories: Books in 10 languages</a></li>
-		<li><a href="/movies/Pulp Fiction/">Happiness of Stories: Movie Scripts Timeseries</a></li>
-		<li><a href="/movies/ranked-list.html">Happiness of Stories: Ranked List of Movie Scripts</a></li>
-		<li role="presentation" class="divider"></li>
-		<li><a href="/showcase/nyt/">Happiness of the News: The New York Times by Section</a></li>
-		<li><a href="/showcase/cbs/">Happiness of the News: CBS This Morning by Host</a></li>
-                <li role="presentation" class="divider"></li>
-                <li><a href="/showcase/outside/">Happiness of Outside: 50 Classic Articles</a></li>
-                <li><a href="/books/v1/?book=Into%20Thin%20Air">Happiness of Stories: Into Thin Air</a></li>
-	      </ul>
-	    </li>
-	  </ul>
-	    <li><a href="/about.html">About</a></li>
-	    <li><a href="/instructions.html">Instructions</a></li>
-	    <li><a href="/words.html">Words</a></li>
-	    <li><a href="http://onehappybird.com" target="_blank">Blog</a></li>
-	    <li><a href="/press.html">Press</a></li>
-	    <li><a href="/papers.html">Papers</a></li>
-	    <li><a href="/talks.html">Talks</a></li>
-	    <!-- <li><a href="/api.html">API</a></li> -->
-            <li><a href="/funding.html">Fund us</a></li>
-            <li><a href="/api.html">Data</a></li>
-            <li><a href="/consulting.html">Consulting</a></li>
-	    {% if user.is_authenticated %}
-            <!-- this doesnt work in bootstrap 3, but it could make the nav cleaner -->
-            <li role="separator" class="divider"></li>
-            <li><a href="/wordshifterator/">My Wordshifts</a></li>
-	    <li><a href="/twitter/logout" class="pull-right"><i class="fa fa-sign-out"></i></a></li>
-	    {% endif %}
-	  </ul>
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle pull-right" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- <div class="navbar-brand"> -->
+                <!-- <img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.pn" %}g" class="img-responsive img-circle brand" width="23px"> -->
+                <a class="navbar-brand" href="https://hedonometer.org/timeseries/en_all/"><img alt="logo" src="{% static "hedonometer/graphics/hedonometer-logo.png" %}" class="img-responsive img-circle brand" width="23px"></a>
+                <!-- </div> -->
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle navbar-brand brand" data-toggle="dropdown" id="navbarbrand">projects <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">
+                                {% for timeseries in timeseries_objects %}
+                                <li><a href="/timeseries/{{ timeseries.title }}/">Time series of Happiness: Twitter&mdash;{{ timeseries.wordList.language_long|title }}&mdash;{{ timeseries.mediaFlag|title }}</a></li>{% endfor %}
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="/maps.html">Geography of Happiness: Twitter&mdash;US States (English)</a></li>
+                                <li><a href="/cities.html">Geography of Happiness: Twitter&mdash;US Cities (English)</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="/books.html">Happiness of Stories: Books in 10 languages</a></li>
+                                <li><a href="/movies/Pulp Fiction/">Happiness of Stories: Movie Scripts Timeseries</a></li>
+                                <li><a href="/movies/ranked-list.html">Happiness of Stories: Ranked List of Movie Scripts</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="/showcase/nyt/">Happiness of the News: The New York Times by Section</a></li>
+                                <li><a href="/showcase/cbs/">Happiness of the News: CBS This Morning by Host</a></li>
+                                <li role="presentation" class="divider"></li>
+                                <li><a href="/showcase/outside/">Happiness of Outside: 50 Classic Articles</a></li>
+                                <li><a href="/books/v1/?book=Into%20Thin%20Air">Happiness of Stories: Into Thin Air</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/instructions.html">Instructions</a></li>
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Words <span class="caret"></span></a>
+                            <ul class="dropdown-menu" role="menu">{% for wl in wordlist_objects %}
+                                <li><a href="/words/{{ wl.title }}/">{{ wl.title }}</a></li>{% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                    <li><a href="http://onehappybird.com" target="_blank">Blog</a></li>
+                    <li><a href="/press.html">Press</a></li>
+                    <li><a href="/papers.html">Papers</a></li>
+                    <li><a href="/talks.html">Talks</a></li>
+                    <!-- <li><a href="/api.html">API</a></li> -->
+                    <li><a href="/funding.html">Fund us</a></li>
+                    <li><a href="/api.html">Data</a></li>
+                    <li><a href="/consulting.html">Consulting</a></li>
+                    {% if user.is_authenticated %}
+                    <!-- this doesnt work in bootstrap 3, but it could make the nav cleaner -->
+                    <li role="separator" class="divider"></li>
+                    <li><a href="/wordshifterator/">My Wordshifts</a></li>
+                    <li><a href="/twitter/logout" class="pull-right"><i class="fa fa-sign-out"></i></a></li>
+                    {% endif %}
+                </ul>
 
-	</div>
-      </div>
+            </div>
+        </div>
     </div>
 
     {% endblock %}
@@ -139,79 +149,79 @@
     {% block content %}
 
     <div class="container">
-      <div class="infobox">
-	<h4>Average Happiness for Twitter</h4>
-      </div>
-      <p style="margin-bottom:0px; font-size: 11px;">
-      </p>
+        <div class="infobox">
+            <h4>Average Happiness for Twitter</h4>
+        </div>
+        <p style="margin-bottom:0px; font-size: 11px;">
+        </p>
 
-      <noscript>
-	<div id='unsupported' class='container error'>
-	  <h5>JavaScript Not Detected</h5>
-	  <p>The Hedonometer requires JavaScript to be enabled.</p>
-	</div>
-      </noscript>
+        <noscript>
+            <div id='unsupported' class='container error'>
+                <h5>JavaScript Not Detected</h5>
+                <p>The Hedonometer requires JavaScript to be enabled.</p>
+            </div>
+        </noscript>
 
-      <!--[if lte IE 8]>
+        <!--[if lte IE 8]>
 	  <div class='ie' id='unsupported'>
 	    <h4>Incompatible Browser</h4>
 	    <p>The Hedonometer isn't compatible with versions of Internet Explorer before 9. Please upgrade or switch to <a href="http://google.com/chrome">Chrome</a>, <a href="http://mozilla.org/en-US/firefox/new/">Firefox</a>, <a href="http://apple.com/safari/">Safari</a>, or <a href="http://opera.com/">Opera</a> and revisit.</p>
 	  </div>
 	  <![endif]-->
 
-      <div id="datapanel"></div>
-      <div id="chart"></div>
+        <div id="datapanel"></div>
+        <div id="chart"></div>
 
-      <div id="wrap"></div>
-      <div id="bigbox" class="container"></div>
-      <div id="subrow"></div>
-      <div id="yearsrow" style="margin-left:-57px;"></div>
+        <div id="wrap"></div>
+        <div id="bigbox" class="container"></div>
+        <div id="subrow"></div>
+        <div id="yearsrow" style="margin-left:-57px;"></div>
 
     </div>
 
 
 
     <div class="modal" id="myModal">
-      <div class="modal-dialog">
-	<div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
-            <!-- <h3 class="modal-title" id="modaltitle">Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span></h3> -->
-	    <!-- <button class="btn btn-default btn-sm" type="button"><i class="fa fa-signal"></i> Major Event</button> -->
-          </div>
-          <div class="modal-body" id="moveshifthere">
-          </div>
-          <div class="modal-footer">
-	    <div class="addthis_sharing_toolbox pull-left"></div>
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 class="modal-title" id="modaltitle">Interactive Wordshift</h3>
+                    <!-- <h3 class="modal-title" id="modaltitle">Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span></h3> -->
+                    <!-- <button class="btn btn-default btn-sm" type="button"><i class="fa fa-signal"></i> Major Event</button> -->
+                </div>
+                <div class="modal-body" id="moveshifthere">
+                </div>
+                <div class="modal-footer">
+                    <div class="addthis_sharing_toolbox pull-left"></div>
 
-	    <div class="input-group restrain pull-right">
-	      <span class="input-group-btn">
-		<!-- <button class="btn btn-default" type="button" onclick="nextDay(-1);"> -->
-		<button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
-		  Prev Day
-		</button>
-	      </span>
-	      <input type="text" class="form-control" value="2013-04-15" id="dp1">
-	      <!-- <input type="text" class="form-control" > -->
-	      <span class="input-group-btn">
-		<button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
-		  Next Day
-		</button>
-	      </span>
-	    </div>
+                    <div class="input-group restrain pull-right">
+                        <span class="input-group-btn">
+                            <!-- <button class="btn btn-default" type="button" onclick="nextDay(-1);"> -->
+                            <button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))">
+                                Prev Day
+                            </button>
+                        </span>
+                        <input type="text" class="form-control" value="2013-04-15" id="dp1">
+                        <!-- <input type="text" class="form-control" > -->
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" onclick="$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))">
+                                Next Day
+                            </button>
+                        </span>
+                    </div>
 
-	    <!-- <div class="btn-group"> -->
-            <!--   <button class="btn btn-default" onclick="nextDay(-1);">Prev Day</button> -->
-	    <!--   <button class="btn btn-default"><input type="text" class="span2" value="02-16-2014" id="dp1"></button> -->
-            <!--   <button class="btn btn-default" onclick="nextDay(1);">Next Day</button> -->
-	    <!-- </div> -->
+                    <!-- <div class="btn-group"> -->
+                    <!--   <button class="btn btn-default" onclick="nextDay(-1);">Prev Day</button> -->
+                    <!--   <button class="btn btn-default"><input type="text" class="span2" value="02-16-2014" id="dp1"></button> -->
+                    <!--   <button class="btn btn-default" onclick="nextDay(1);">Next Day</button> -->
+                    <!-- </div> -->
 
-            <!-- <a href="#" class="btn btn-default">Embed Shift</a> -->
-            <!-- <a href="#" data-dismiss="modal" class="btn">Close</a> -->
-          </div>
-	</div>
-      </div>
+                    <!-- <a href="#" class="btn btn-default">Embed Shift</a> -->
+                    <!-- <a href="#" data-dismiss="modal" class="btn">Close</a> -->
+                </div>
+            </div>
+        </div>
     </div>
 
     {% endblock %}
@@ -237,17 +247,23 @@
     {% endblock %}
 
     <script>
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        (function(i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r;
+            i[r] = i[r] || function() {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date();
+            a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+            a.async = 1;
+            a.src = g;
+            m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-      ga('create', 'UA-45564756-3', 'auto');
-      ga('send', 'pageview');
+        ga('create', 'UA-45564756-3', 'auto');
+        ga('send', 'pageview');
     </script>
     <script src="{% static "hedonometer/js/banner.js" %}"></script>
 
-  </body>
+</body>
+
 </html>
-
-

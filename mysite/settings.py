@@ -38,6 +38,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
+                'hedonometer.menu_context.include_timeseries_wordlist_menus',
             ],
         },
     },
