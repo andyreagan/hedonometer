@@ -25,3 +25,4 @@ testdb
 pyenv/
 testenv/
 python38/
+scripts/data/
