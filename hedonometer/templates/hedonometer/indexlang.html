@@ -8,20 +8,20 @@
 <script>
     var title = "{{ model.title|escapejs }}";
     var directory = "{{ model.directory|escapejs }}";
-    var customLongTitle = "{{ model.customLongTitle|escapejs }}";
-    var language = "{{ model.language|escapejs }}";
-    var mediaFlag = "{{ model.mediaFlag|escapejs }}";
     var wordVecDir = "{{ model.wordVecDir|escapejs }}";
     var shiftDir = "{{ model.shiftDir|escapejs }}";
-    var stopWordList = "{{ model.stopWordList|escapejs }}";
-    var wordList = "{{ model.wordList|escapejs }}";
-    var wordListEnglish = "{{ model.wordListEnglish|escapejs }}";
-    var scoreList = "{{ model.scoreList|escapejs }}";
-    var sourceDir = "{{ model.sourceDir|escapejs }}";
+
+    var ignoreWords = [{% for word in model.stopwords %}"{{ word|escapejs }}",{% endfor %}];
+    var words = [{% for word in model.words %}"{{ word|escapejs }}",{% endfor %}];
+    var words_en = [{% for word in model.words_en %}"{{ word|escapejs }}",{% endfor %}];
+    var lens = [{% for word in model.scores %}{{ word|escapejs }},{% endfor %}];
+
     var happs = [{% for h in happs %}{{ '{' }}date: "{{ h.date.isoformat }}", value: {{ h.value|escapejs }},freq: {{ h.frequency|escapejs }}{{ '}' }},{% endfor %}];
+
     {% comment %}
     var annotations = [{% for a in annotations %}{{ a|safe }},{% endfor %}];
     {% endcomment %}
+
     // hardcode these...
     var startDate = happs[0].date;
     var endDate = happs[happs.length-1].date;
@@ -33,6 +33,7 @@
     <div class="container">
       <div class="infobox">
         <h4>{{ model.customLongTitle }}</h4>
+        <h5><u>{{ model.mediaFlag }}</u> in <u>{{ model.wordList.language_long }}</u>.</h5>
       </div>
       <p style="margin-bottom:0px; font-size: 11px;">
       </p>

@@ -25,6 +25,7 @@ class Word(models.Model):
     rank = models.IntegerField()
     happs = models.FloatField()
     stdDev = models.FloatField()
+    stopword = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.wordlist) + " - " + self.word + " ({0:.2f})".format(self.happs)
@@ -35,14 +36,10 @@ class Timeseries(models.Model):
     directory = models.CharField(max_length=100, help_text="Name of the directory for this particular time series.")
     customLongTitle = models.CharField(
         max_length=200, default='Average Happiness for Twitter', help_text='Title on the webpage.')
-    language = models.CharField(max_length=100, help_text='Second underlined part of the subtitle.')
     mediaFlag = models.CharField(max_length=50, default='All tweets', help_text='Describe the type of data. First part of the subtitle.')
     wordVecDir = models.CharField(max_length=100, default='word-vectors', help_text="Directory name with daily word vectors (as subdir of `directory`).")
     shiftDir = models.CharField(max_length=100, default='shifts', help_text="Directory name with daily pre-shifted word vectors (as subdir of `directory`).")
-    stopWordList = models.CharField(max_length=100, default='stopwords.csv',  blank=True, help_text="Name of the csv of words to exclude.")
-    wordList = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words.")
-    wordListEnglish = models.CharField(max_length=100, default='labMTwords-english-covid.csv', help_text="Name of the csv of words in English.")
-    scoreList = models.CharField(max_length=100, default='labMTscores-english-covid.csv', help_text="Name of the csv of scores.")
+    wordList = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMT-en-v2')
     sourceDir = models.CharField(max_length=200, default='/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text="Directory on the VACC to pull daily vectors from.")
 
     def __str__(self):
@@ -50,6 +47,22 @@ class Timeseries(models.Model):
 
     class Meta:
         ordering = ('title',)
+
+    def words(self):
+        return list(map(lambda x: x.word, Word.objects.filter(wordlist=self.wordList).order_by('rank')))
+
+    def scores(self):
+        return list(map(lambda x: x.happs, Word.objects.filter(wordlist=self.wordList).order_by('rank')))
+
+    def words_en(self):
+        return list(map(lambda x: x.word_english, Word.objects.filter(wordlist=self.wordList).order_by('rank')))
+
+    def stopwords(self):
+        return list(map(lambda x: x.word, Word.objects.filter(wordlist=self.wordList, stopword=True)))
+
+    def language(self):
+        return self.wordList.language
+
 
 
 class Happs(models.Model):

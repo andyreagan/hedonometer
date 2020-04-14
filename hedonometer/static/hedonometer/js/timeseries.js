@@ -9,8 +9,7 @@
 
     // these variables are all available to everything inside of this closure
     var dur = 550;
-    var ignoreWords = ["thirsty", "pakistan", "india"];
-    hedotools.shifter.ignore(ignoreWords);
+
     var today = new Date;
     var bigdays = {};
     var shiftTypeSelect = false;
@@ -1513,9 +1512,9 @@
                 // .attr("font-size","10px")
                 // .on("mousedown",function() { transitionBigShift(circle,sizes,types,names); });
 
-            }); // d3.json metadata
+            }); // d3.csv metadata
 
-        }); // d3.json data
+        }); // d3.csv data
 
     }; // drawSmallShift
 
@@ -1968,8 +1967,6 @@
 
         return source;
     }
-
-    d3.select("div.infobox").append("h5").html("<u>" + mediaFlag + "</u> in <u>" + language + "</u>.");
 
     happs_loaded_callback(happs);
 

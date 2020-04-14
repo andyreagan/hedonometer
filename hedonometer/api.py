@@ -94,7 +94,7 @@ class WordResource(ModelResource):
 
     class Meta:
         queryset = Word.objects.all()
-        excludes = ["id","wordlist",]
+        excludes = ["id", "stopword"]
         resource_name = "words"
         limit = 30000
         # default_format = ["json"]
