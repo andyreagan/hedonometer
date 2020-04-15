@@ -5,6 +5,7 @@ from django.contrib import admin
 # Eventually we can create a database for the big events
 from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,Word,Contact,HappsEvent,WordList
 
+
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
     save_as = True
@@ -13,11 +14,20 @@ class EventAdmin(admin.ModelAdmin):
     list_editable = ('importance','x','y',)
     autocomplete_fields = ('happs',)
 
+
+class WordListAdmin(admin.ModelAdmin):
+    list_display = ('date','title','language','reference','referencetitle','showindropdown','showinfulllist',)
+    list_display_links = ('title',)
+    list_editable = ('date','reference','referencetitle','showindropdown','showinfulllist',)
+
+
 class EmbedAdmin(admin.ModelAdmin):
     save_as = True
 
+
 class EventInline(admin.StackedInline):
     model = Event
+
 
 class HappsAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
@@ -25,6 +35,7 @@ class HappsAdmin(admin.ModelAdmin):
     list_display = ('timeseries', 'date', 'value', 'frequency')
     readonly_fields = ('timeseries', 'date', 'value', 'frequency')
     search_fields = ('timeseries__title', 'date',)
+
 
 class HappsEventAdmin(admin.ModelAdmin):
     date_hierarchy = 'date'
@@ -43,11 +54,13 @@ class BookAdmin(admin.ModelAdmin):
     list_display_links = ('title',)
     list_editable = ('language',)
 
+
 class NYTAdmin(admin.ModelAdmin):
     search_fields = ('genre',)
     list_display = ('genre','happs','variance','ignorewords','numwords')
     list_display_links = ('genre',)
     list_editable = ('ignorewords',)
+
 
 class MovieAdmin(admin.ModelAdmin):
     search_fields = ('title',)
@@ -55,8 +68,10 @@ class MovieAdmin(admin.ModelAdmin):
     list_display_links = ('title',)
     list_editable = ('ignorewords',)
 
+
 class ContactAdmin(admin.ModelAdmin):
     list_display = ('name','email','comment')
+
 
 admin.site.register(Event,EventAdmin)
 admin.site.register(Book,BookAdmin)
@@ -66,6 +81,6 @@ admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
 admin.site.register(Timeseries)
 admin.site.register(Word)
-admin.site.register(WordList)
+admin.site.register(WordList,WordListAdmin)
 admin.site.register(Contact,ContactAdmin)
 admin.site.register(Embeddable,EmbedAdmin)
