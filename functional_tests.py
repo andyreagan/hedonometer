@@ -8,7 +8,7 @@ import datetime
 import os
 
 
-def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=1000):
+def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
     WordList.objects.all().delete()
     Word.objects.all().delete()
 
@@ -49,10 +49,13 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=1000)
             w.save()
             # print(wl.title, word, wordEn, score, std)
 
-    for lang in {'english', 'spanish'}:
+    for lang in {'english', 'spanish', 'arabic', 'chinese', 'french', 'german', 'indonesian', 'korean', 'portuguese', 'russian'}:
         shortcode = shortcodes[lang]
         wl = WordList(title="labMT-"+shortcode+"-v2", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
         wl.save()
+        wl_h = WordList(title="labMT-"+shortcode+"-v2-hashtags", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
+        wl_h.save()
+
         with open(os.path.join(DATA_DIR, "labMTwords-"+lang+"-v2-2020-03-28.csv"), "r") as f:
             labMTwords = f.read().strip().split("\n")
         if os.path.isfile(os.path.join(DATA_DIR, "labMTwordsEn-"+lang+"-v2-2020-03-28.csv")):
@@ -67,9 +70,6 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=1000)
                 labMTscoresStd = f.read().strip().split("\n")
         else:
             labMTscoresStd = ["-1" for i in range(len(labMTscores))]
-
-        wl_h = WordList(title="labMT-"+shortcode+"-v2-hashtags", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
-        wl_h.save()
 
         for i, (word, wordEn, score, std) in enumerate(list(zip(labMTwords, labMTwordsEn, labMTscores, labMTscoresStd))[:max_words]):
             # print(wl.title, word, wordEn, score, std)

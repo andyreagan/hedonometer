@@ -77,7 +77,7 @@ class WordListResource(ModelResource):
     class Meta:
         queryset = WordList.objects.all()
         resource_name = 'wordlist'
-        excludes = ["id",]
+        excludes = ["id", "showindropdown", "showinfulllist"]
         include_resource_uri = False
         filtering = {
             'title': ALL

@@ -8,6 +8,8 @@ class WordList(models.Model):
     language = models.CharField(max_length=2, default="en")
     reference = models.URLField()
     referencetitle = models.CharField(max_length=300, default="this paper")
+    showindropdown = models.BooleanField(default=False)
+    showinfulllist = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -41,6 +43,7 @@ class Timeseries(models.Model):
     shiftDir = models.CharField(max_length=100, default='shifts', help_text="Directory name with daily pre-shifted word vectors (as subdir of `directory`).")
     wordList = models.ForeignKey(WordList, on_delete=models.CASCADE, to_field='title', default='labMT-en-v2')
     sourceDir = models.CharField(max_length=200, default='/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text="Directory on the VACC to pull daily vectors from.")
+    showindropdown = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -299,3 +302,6 @@ class Contact(models.Model):
     name = models.CharField(max_length=100, blank=True)
     email = models.CharField(max_length=100, blank=True)
     comment = models.TextField(max_length=1000, blank=True)
+
+    def __str__(self):
+        return " - ".join([self.name, self.email])
