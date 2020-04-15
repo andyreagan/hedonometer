@@ -100,7 +100,7 @@ def timeseries(request, urlregion):
 
 def wordlist(request, wordlisttitle):
     wl = get_object_or_404(WordList, title=wordlisttitle)
-    all_lists = WordList.objects.all()
+    all_lists = WordList.objects.filter(showinfulllist=True)
     # now pass those into the view
     return render(request, 'hedonometer/words_api.html', {"wl": wl, "all_lists": all_lists})
 
