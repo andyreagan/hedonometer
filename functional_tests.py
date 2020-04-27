@@ -7,6 +7,23 @@ from hedonometer.models import Timeseries, Happs, Event, WordList, Word
 import datetime
 import os
 
+shortcodes = {
+    "arabic": "ar",
+    "chinese": "zh",
+    "english": "en",
+    "french": "fr",
+    "german": "de",
+    "hindi": "hi",
+    "indonesian": "id",
+    "korean": "ko",
+    "pashto": "ps",
+    "portuguese": "pt",
+    "russian": "ru",
+    "spanish": "es",
+    "urdu": "ur",
+}
+shortcodes_reverse = {y: x for x, y in shortcodes.items()}
+
 
 def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
     WordList.objects.all().delete()
@@ -26,7 +43,6 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
         w = Word(wordlist=wl, word=word, word_english=word, rank=i, happs=float(score), stdDev=float(std))
         w.save()
 
-    shortcodes = {'arabic': 'ar', 'chinese': 'zh', 'english': 'en', 'french': 'fr', 'german': 'de', 'hindi': 'hi', 'indonesian': 'id', 'korean': 'ko', 'pashto': 'ps', 'portuguese': 'pt', 'russian': 'ru', 'spanish': 'es', 'urdu': 'ur'}
     for lang in {'arabic', 'chinese', 'french', 'german', 'hindi', 'indonesian', 'korean', 'pashto', 'portuguese', 'russian', 'spanish', 'urdu'}:
         shortcode = shortcodes[lang]
         # https://arxiv.org/abs/1406.3855
@@ -50,11 +66,16 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
             # print(wl.title, word, wordEn, score, std)
 
     for lang in {'english', 'spanish', 'arabic', 'chinese', 'french', 'german', 'indonesian', 'korean', 'portuguese', 'russian'}:
+    for lang in {'spanish'}:
         shortcode = shortcodes[lang]
-        wl = WordList(title="labMT-"+shortcode+"-v2", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
+        wl, created = WordList.objects.get_or_create(title="labMT-"+shortcode+"-v2", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
         wl.save()
-        wl_h = WordList(title="labMT-"+shortcode+"-v2-hashtags", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
+        if not created:
+            wl.word_set.all().delete()
+        wl_h, created = WordList.objects.get_or_create(title="labMT-"+shortcode+"-v2-hashtags", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
         wl_h.save()
+        if not created:
+            wl_h.word_set.all().delete()
 
         with open(os.path.join(DATA_DIR, "labMTwords-"+lang+"-v2-2020-03-28.csv"), "r") as f:
             labMTwords = f.read().strip().split("\n")
@@ -84,7 +105,7 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
 
 def create_timeseries():
     Timeseries.objects.all().delete()
-    for lang in {('en', 'english'), ('es', 'spanish')}:
+    for lang in {('en', 'english')}:
         for set_ in {('all', 'All Tweets'), ('rt', 'All original Tweets'), ('no_rt', 'Only Retweets')}:
             short = '_'.join([lang[0], set_[0]])
             t = Timeseries(
@@ -95,7 +116,22 @@ def create_timeseries():
                 sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/storywrangler_' + short + '/count_vec'
             )
             t.save()
-
+    langs = {"ar", "de", "es", "fr", "id", "ko", "pt", "ru"}
+    for lang in langs:
+        for set_ in {('all', 'All Tweets'), ('rt', 'All original Tweets'), ('no_rt', 'Only Retweets')}:
+            short = '_'.join([lang, set_[0]])
+            wl = WordList.objects.get(title="labMT-"+lang+"-v2-hashtags")
+            print(wl)
+            t = Timeseries(
+                title=short,
+                directory='storywrangler_' + short,
+                mediaFlag=set_[1],
+                wordList=wl,
+                sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/other_langs/storywrangler_' + short + '/count_vec'
+            )
+            t.save()
+            print('mkdir -p storywrangler_' + short + " shifts")
+            print('mkdir -p storywrangler_' + short + " word-vectors")
 
 def create_happs():
     Happs.objects.all().delete()
