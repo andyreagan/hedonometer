@@ -141,7 +141,6 @@ class Migration(migrations.Migration):
                 ('wordVecDir', models.CharField(default='word-vectors', help_text='Directory name with daily word vectors (as subdir of `directory`).', max_length=100)),
                 ('shiftDir', models.CharField(default='shifts', help_text='Directory name with daily pre-shifted word vectors (as subdir of `directory`).', max_length=100)),
                 ('stopWordList', models.CharField(blank=True, default='stopwords.csv', help_text='Name of the csv of words to exclude.', max_length=100)),
-                ('wordList', models.CharField(default='labMTwords-english-covid.csv', help_text='Name of the csv of words.', max_length=100)),
                 ('wordListEnglish', models.CharField(default='labMTwords-english-covid.csv', help_text='Name of the csv of words in English.', max_length=100)),
                 ('scoreList', models.CharField(default='labMTscores-english-covid.csv', help_text='Name of the csv of scores.', max_length=100)),
                 ('sourceDir', models.CharField(default='/users/j/m/jminot/scratch/labmt/storywrangler_en', help_text='Directory on the VACC to pull daily vectors from.', max_length=200)),
