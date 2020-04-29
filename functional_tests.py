@@ -106,7 +106,7 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
 def create_timeseries():
     Timeseries.objects.all().delete()
     for lang in {('en', 'english')}:
-        for set_ in {('all', 'All Tweets'), ('rt', 'All original Tweets'), ('no_rt', 'Only Retweets')}:
+        for set_ in {('all', 'All Tweets'), ('rt', 'Only Retweets'), ('no_rt', 'All original Tweets')}:
             short = '_'.join([lang[0], set_[0]])
             t = Timeseries(
                 title=short,
@@ -118,7 +118,7 @@ def create_timeseries():
             t.save()
     langs = {"ar", "de", "es", "fr", "id", "ko", "pt", "ru"}
     for lang in langs:
-        for set_ in {('all', 'All Tweets'), ('rt', 'All original Tweets'), ('no_rt', 'Only Retweets')}:
+        for set_ in {('all', 'All Tweets'), ('rt', 'Only Retweets'), ('no_rt', 'All original Tweets')}:
             short = '_'.join([lang, set_[0]])
             wl = WordList.objects.get(title="labMT-"+lang+"-v2-hashtags")
             print(wl)
