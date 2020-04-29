@@ -91,8 +91,8 @@ def timeseries(request, urlregion):
     #     "sumHappsFile": t.sumHappsFile,
     #     "ignoreWords": t.ignoreWords,
     # }
-    all_happs = Happs.objects.filter(timeseries=t).order_by('date').values()
-    all_annotations = Event.objects.filter(happs__timeseries=t).values()
+    all_happs = Happs.objects.filter(timeseries=t, exclude=False, frequency__gte=10000).order_by('date').values()
+    all_annotations = Event.objects.filter(happs__timeseries=t, happs__exclude=False, happs__frequency__gte=10000).values()
 
     # now pass those into the view
     return render(request, 'hedonometer/indexlang.html', {"model": t, "happs": all_happs, "annotations": all_annotations})

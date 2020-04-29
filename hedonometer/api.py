@@ -45,8 +45,8 @@ class HappsResource(ModelResource):
     happiness = FixedFloatField(attribute="value")
     timeseries = fields.ForeignKey(TimeseriesResource, 'timeseries')
     class Meta:
-        queryset = Happs.objects.all()
-        excludes = ["value","id",]
+        queryset = Happs.objects.filter(exclude=False, frequency__gte=10000)
+        excludes = ["value","id","exclude"]
         resource_name = "happiness"
         limit = 10000
         # default_format = ["json"]

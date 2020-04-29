@@ -6,6 +6,12 @@ from django.contrib import admin
 from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,Word,Contact,HappsEvent,WordList
 
 
+class TimeseriesAdmin(admin.ModelAdmin):
+    list_display = ('title', 'wordList', 'showindropdown', 'mediaFlag', 'sourceDir')
+    list_display_links = ('title',)
+    list_editable = ('showindropdown', 'mediaFlag', 'sourceDir')
+
+
 class EventAdmin(admin.ModelAdmin):
     search_fields = ('longer',)
     save_as = True
@@ -79,7 +85,7 @@ admin.site.register(Happs,HappsAdmin)
 admin.site.register(HappsEvent,HappsEventAdmin)
 admin.site.register(Movie,MovieAdmin)
 admin.site.register(NYT,NYTAdmin)
-admin.site.register(Timeseries)
+admin.site.register(Timeseries,TimeseriesAdmin)
 admin.site.register(Word)
 admin.site.register(WordList,WordListAdmin)
 admin.site.register(Contact,ContactAdmin)

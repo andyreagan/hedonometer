@@ -73,6 +73,7 @@ class Happs(models.Model):
     date = models.DateField()
     value = models.FloatField()
     frequency = models.FloatField(default=0)
+    exclude = models.BooleanField(default=False, help_text="Exclude day from timeseries and api.")
 
     def __str__(self):
         return " ".join([self.timeseries.title, self.date.strftime('%Y-%m-%d')])
