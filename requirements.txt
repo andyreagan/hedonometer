@@ -2,10 +2,9 @@ Jinja2==2.11.1
 Django==3.0.5
 django-tastypie==0.14.3
 twython==3.7.0
-labMTsimple==2.8.4
+labMTsimple==2.8.7
 marisa-trie==0.7.5
 numpy==1.14.5
 datrie==0.8.2
 requests==2.23.0
-django-dbbackup==3.2.0
-mysqlclient==1.4.6
+psycopg2-binary==2.8.5

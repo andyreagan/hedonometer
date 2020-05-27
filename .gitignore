@@ -1,28 +1,28 @@
-# annoyances
+# python
 *.pyc
+__pycache__/
+
+# emacs
 *~
+
 # private settings
 .env
+
 # static files served in production
 mysite/static/hedonometer
 mysite/static/consulting
 mysite/static/storybreaker
 mysite/static/swn
 mysite/static/vaccv
+
 # virtual environment
-pyenv*
-venv
+pyenv/
+
 # daily backup of graphics on the local computer
-screenshots
 .DS_Store
 
+# local scratch
+scratch
 
-
-
-
-
-testdb
-pyenv/
-testenv/
-python38/
+# data for the database
 scripts/data/

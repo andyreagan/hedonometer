@@ -66,7 +66,7 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
             # print(wl.title, word, wordEn, score, std)
 
     for lang in {'english', 'spanish', 'arabic', 'chinese', 'french', 'german', 'indonesian', 'korean', 'portuguese', 'russian'}:
-    for lang in {'spanish'}:
+    # for lang in {'spanish'}:
         shortcode = shortcodes[lang]
         wl, created = WordList.objects.get_or_create(title="labMT-"+shortcode+"-v2", date="2020-03-28", language=shortcode, reference="https://arxiv.org/abs/2003.12614", referencetitle="How the world's collective attention is being paid to a pandemic: COVID-19 related 1-gram time series for 24 languages on Twitter")
         wl.save()
@@ -184,7 +184,7 @@ class TimeseriesTest(unittest.TestCase):
         # Check out the homepage
         self.browser.get('http://127.0.0.1:8000/index.html')
         self.assertIn('Hedonometer', self.browser.title)
-        self.assertEquals('http://127.0.0.1:8000/timeseries/main/', self.browser.title)
+        self.assertEquals('http://127.0.0.1:8000/timeseries/en_all/', self.browser.title)
 
 
 if __name__ == '__main__':
