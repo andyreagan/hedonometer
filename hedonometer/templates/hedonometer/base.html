@@ -28,6 +28,14 @@
     <link href="{% static "hedonometer/css/base-all.min.css" %}" rel="stylesheet">
     {% endblock %}
     {% block extracss %}
+    <style>
+        .dropdown-submenu{position:relative;}
+        .dropdown-submenu>.dropdown-menu{top:0;left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius:0 6px 6px 6px;-moz-border-radius:0 6px 6px 6px;border-radius:0 6px 6px 6px;}
+        .dropdown-submenu:hover>.dropdown-menu{display:block;}
+        .dropdown-submenu>a:after{display:block;content:" ";float:right;width:0;height:0;border-color:transparent;border-style:solid;border-width:5px 0 5px 5px;border-left-color:#cccccc;margin-top:5px;margin-right:-10px;}
+        .dropdown-submenu:hover>a:after{border-left-color:#ffffff;}
+        .dropdown-submenu.pull-left{float:none;}.dropdown-submenu.pull-left>.dropdown-menu{left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+    </style>
     {% endblock %}
     {% block headerjs %}
     {% endblock %}
@@ -42,24 +50,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/static/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/static/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="/static/ico/apple-touch-icon-57-precomposed.png">
-
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-539b215a08fde1a0"></script>
-    <script type="text/javascript">
-        var addthis_config = addthis_config || {};
-        addthis_config.data_track_addressbar = false;
-        addthis_config.data_track_clickback = false;
-
-        var addthis_share = addthis_share || {}
-        addthis_share = {
-            // title: "title", // doesn't do anything, documentation patchy
-            passthrough: {
-                twitter: {
-                    via: "hedonometer",
-                    text: "hedonometer:"
-                }
-            }
-        }
-    </script>
 
 </head>
 
@@ -96,8 +86,16 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle navbar-brand brand" data-toggle="dropdown" id="navbarbrand">projects <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                {% for timeseries in timeseries_objects %}
-                                <li><a href="/timeseries/{{ timeseries.title }}/">Time series of Happiness: Twitter&mdash;{{ timeseries.wordList.language_long|title }}&mdash;{{ timeseries.mediaFlag|title }}</a></li>{% endfor %}
+                                {% for lang, timeseries in timeseries_grouped.items %}
+                                  <li class="dropdown-submenu">
+                                      <a tabindex="-1" href="#">Time series of Happiness: Twitter &mdash; {{ lang|title }}</a>
+                                      <ul class="dropdown-menu">
+                                          {% for t in timeseries %}
+                                          <li><a tabindex="-1" href="/timeseries/{{ t.title }}/">{{ t.mediaFlag|title }}</a></li>
+                                      {% endfor %}
+                                  </ul>
+                                </li>
+                                {% endfor %}
                                 <li role="presentation" class="divider"></li>
                                 <li><a href="/maps.html">Geography of Happiness: Twitter&mdash;US States (English)</a></li>
                                 <li><a href="/cities.html">Geography of Happiness: Twitter&mdash;US Cities (English)</a></li>
@@ -131,7 +129,7 @@
                     <li><a href="/funding.html">Fund us</a></li>
                     <li><a href="/api.html">Data</a></li>
                     <li><a href="/consulting.html">Consulting</a></li>
-                    <li><a href="https://twitter.com/compstorylab" target="_blank"><del>Blog</del>Microblog</a></li>
+                    <li><a href="https://twitter.com/hedonometer" target="_blank">Hedonometer Tweets</a></li>
                     {% if user.is_authenticated %}
                     <!-- this doesnt work in bootstrap 3, but it could make the nav cleaner -->
                     <li role="separator" class="divider"></li>
@@ -233,7 +231,7 @@
 
     <div id="footer">
         <div class="container">
-            <p style="padding-top: 10px;">Vermont Complex Systems Center | Computational Story Lab</p>
+            <p style="padding-top: 10px;"><a href="https://vermontcomplexsystems.org/" target="_blank">Vermont Complex Systems Center</a> | <a href="https://twitter.com/compstorylab" target="_blank">Computational Story Lab</a></p>
         </div> <!-- /containter -->
     </div> <!-- /footer -->
 

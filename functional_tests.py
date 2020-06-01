@@ -112,6 +112,7 @@ def create_timeseries():
                 title=short,
                 directory='storywrangler_' + short,
                 mediaFlag=set_[1],
+                showindropdown=(set_[0] == 'all'),
                 wordList=WordList.objects.get(title="labMT-"+lang[0]+"-v2"),
                 sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/storywrangler_' + short + '/count_vec'
             )
@@ -126,6 +127,7 @@ def create_timeseries():
                 title=short,
                 directory='storywrangler_' + short,
                 mediaFlag=set_[1],
+                showindropdown=(set_[0] == 'all'),
                 wordList=wl,
                 sourceDir='/users/j/m/jminot/scratch/labmt/storywrangler_v2/other_langs/storywrangler_' + short + '/count_vec'
             )
