@@ -1440,7 +1440,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     }
     function mousewheeled() {
       var dispatch = event.of(this, arguments);
-      if (mousewheelTimer) clearTimeout(mousewheelTimer); else d3_selection_interrupt.call(this), 
+      if (mousewheelTimer) clearTimeout(mousewheelTimer); else d3_selection_interrupt.call(this),
       zoomstarted(dispatch);
       mousewheelTimer = setTimeout(function() {
         mousewheelTimer = null;
@@ -1852,7 +1852,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
   d3.xhr = d3_xhrType(d3_identity);
   function d3_xhrType(response) {
     return function(url, mimeType, callback) {
-      if (arguments.length === 2 && typeof mimeType === "function") callback = mimeType, 
+      if (arguments.length === 2 && typeof mimeType === "function") callback = mimeType,
       mimeType = null;
       return d3_xhr(url, mimeType, response, callback);
     };
@@ -2684,7 +2684,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     return n ? (date.y = d3_time_expandYear(+n[0]), i + n[0].length) : -1;
   }
   function d3_time_parseZone(date, string, i) {
-    return /^[+-]\d{4}$/.test(string = string.substring(i, i + 5)) ? (date.Z = -string, 
+    return /^[+-]\d{4}$/.test(string = string.substring(i, i + 5)) ? (date.Z = -string,
     i + 5) : -1;
   }
   function d3_time_expandYear(d) {
@@ -2877,7 +2877,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     var λ00, φ00, λ0, cosφ0, sinφ0;
     d3_geo_area.point = function(λ, φ) {
       d3_geo_area.point = nextPoint;
-      λ0 = (λ00 = λ) * d3_radians, cosφ0 = Math.cos(φ = (φ00 = φ) * d3_radians / 2 + π / 4), 
+      λ0 = (λ00 = λ) * d3_radians, cosφ0 = Math.cos(φ = (φ00 = φ) * d3_radians / 2 + π / 4),
       sinφ0 = Math.sin(φ);
     };
     function nextPoint(λ, φ) {
@@ -4706,7 +4706,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
       return _ ? center([ -_[1], _[0] ]) : (_ = center(), [ -_[1], _[0] ]);
     };
     projection.rotate = function(_) {
-      return _ ? rotate([ _[0], _[1], _.length > 2 ? _[2] + 90 : 90 ]) : (_ = rotate(), 
+      return _ ? rotate([ _[0], _[1], _.length > 2 ? _[2] + 90 : 90 ]) : (_ = rotate(),
       [ _[0], _[1], _[2] - 90 ]);
     };
     return projection.rotate([ 0, 0 ]);
@@ -5557,7 +5557,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     };
     quadtree.extent = function(_) {
       if (!arguments.length) return x1 == null ? null : [ [ x1, y1 ], [ x2, y2 ] ];
-      if (_ == null) x1 = y1 = x2 = y2 = null; else x1 = +_[0][0], y1 = +_[0][1], x2 = +_[1][0], 
+      if (_ == null) x1 = y1 = x2 = y2 = null; else x1 = +_[0][0], y1 = +_[0][1], x2 = +_[1][0],
       y2 = +_[1][1];
       return quadtree;
     };
@@ -7234,7 +7234,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
         return d3_layout_treemapPad(node, x);
       }
       var type;
-      pad = (padding = x) == null ? d3_layout_treemapPadNull : (type = typeof x) === "function" ? padFunction : type === "number" ? (x = [ x, x, x, x ], 
+      pad = (padding = x) == null ? d3_layout_treemapPadNull : (type = typeof x) === "function" ? padFunction : type === "number" ? (x = [ x, x, x, x ],
       padConstant) : padConstant;
       return treemap;
     };
@@ -7534,7 +7534,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     scale.tickFormat = function(n, format) {
       if (!arguments.length) return d3_scale_logFormat;
       if (arguments.length < 2) format = d3_scale_logFormat; else if (typeof format !== "function") format = d3.format(format);
-      var k = Math.max(.1, n / scale.ticks().length), f = positive ? (e = 1e-12, Math.ceil) : (e = -1e-12, 
+      var k = Math.max(.1, n / scale.ticks().length), f = positive ? (e = 1e-12, Math.ceil) : (e = -1e-12,
       Math.floor), e;
       return function(d) {
         return d / pow(f(log(d) + e)) <= k ? format(d) : "";
@@ -7820,7 +7820,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
   d3.svg.arc = function() {
     var innerRadius = d3_svg_arcInnerRadius, outerRadius = d3_svg_arcOuterRadius, startAngle = d3_svg_arcStartAngle, endAngle = d3_svg_arcEndAngle;
     function arc() {
-      var r0 = innerRadius.apply(this, arguments), r1 = outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) + d3_svg_arcOffset, a1 = endAngle.apply(this, arguments) + d3_svg_arcOffset, da = (a1 < a0 && (da = a0, 
+      var r0 = innerRadius.apply(this, arguments), r1 = outerRadius.apply(this, arguments), a0 = startAngle.apply(this, arguments) + d3_svg_arcOffset, a1 = endAngle.apply(this, arguments) + d3_svg_arcOffset, da = (a1 < a0 && (da = a0,
       a0 = a1, a1 = da), a1 - a0), df = da < π ? "0" : "1", c0 = Math.cos(a0), s0 = Math.sin(a0), c1 = Math.cos(a1), s1 = Math.sin(a1);
       return da >= d3_svg_arcMax ? r0 ? "M0," + r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + -r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + r1 + "M0," + r0 + "A" + r0 + "," + r0 + " 0 1,0 0," + -r0 + "A" + r0 + "," + r0 + " 0 1,0 0," + r0 + "Z" : "M0," + r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + -r1 + "A" + r1 + "," + r1 + " 0 1,1 0," + r1 + "Z" : r0 ? "M" + r1 * c0 + "," + r1 * s0 + "A" + r1 + "," + r1 + " 0 " + df + ",1 " + r1 * c1 + "," + r1 * s1 + "L" + r0 * c1 + "," + r0 * s1 + "A" + r0 + "," + r0 + " 0 " + df + ",0 " + r0 * c0 + "," + r0 * s0 + "Z" : "M" + r1 * c0 + "," + r1 * s0 + "A" + r1 + "," + r1 + " 0 " + df + ",1 " + r1 * c1 + "," + r1 * s1 + "L0,0" + "Z";
     }
@@ -7956,7 +7956,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
     return points.length < 4 ? d3_svg_lineLinear(points) : points[1] + d3_svg_lineHermite(points.slice(1, points.length - 1), d3_svg_lineCardinalTangents(points, tension));
   }
   function d3_svg_lineCardinalClosed(points, tension) {
-    return points.length < 3 ? d3_svg_lineLinear(points) : points[0] + d3_svg_lineHermite((points.push(points[0]), 
+    return points.length < 3 ? d3_svg_lineLinear(points) : points[0] + d3_svg_lineHermite((points.push(points[0]),
     points), d3_svg_lineCardinalTangents([ points[points.length - 2] ].concat(points, [ points[1] ]), tension));
   }
   function d3_svg_lineCardinal(points, tension) {
@@ -8662,7 +8662,7 @@ if("undefined"==typeof jQuery)throw new Error("Bootstrap's JavaScript requires j
         var g = d3.select(this);
         var scale0 = this.__chart__ || scale, scale1 = this.__chart__ = scale.copy();
         var ticks = tickValues == null ? scale1.ticks ? scale1.ticks.apply(scale1, tickArguments_) : scale1.domain() : tickValues, tickFormat = tickFormat_ == null ? scale1.tickFormat ? scale1.tickFormat.apply(scale1, tickArguments_) : d3_identity : tickFormat_, tick = g.selectAll(".tick").data(ticks, scale1), tickEnter = tick.enter().insert("g", ".domain").attr("class", "tick").style("opacity", ε), tickExit = d3.transition(tick.exit()).style("opacity", ε).remove(), tickUpdate = d3.transition(tick.order()).style("opacity", 1), tickTransform;
-        var range = d3_scaleRange(scale1), path = g.selectAll(".domain").data([ 0 ]), pathUpdate = (path.enter().append("path").attr("class", "domain"), 
+        var range = d3_scaleRange(scale1), path = g.selectAll(".domain").data([ 0 ]), pathUpdate = (path.enter().append("path").attr("class", "domain"),
         d3.transition(path));
         tickEnter.append("line");
         tickEnter.append("text");
@@ -9304,7 +9304,7 @@ I like this feature
 	    var varval = [];
 	    var show = true;
 	    //var that = this;
-	    
+
 	    function urllib(d) {
 		// nothing yet
 		//console.log(this);
@@ -9351,7 +9351,7 @@ I like this feature
 		}
 
 		urlString = urlString.substring(0,urlString.length-1);
-		
+
 		// only add to url if there is stuff
 		if (urlString.length > 0) {
 		    newDataUrl = baseUrl+"?"+urlString
@@ -9388,7 +9388,7 @@ I like this feature
 	    var varname = "tmp";
 	    var varresult = [];
 	    var defvalue = [];
-	    
+
 	    function urllib(d) {
 		parseurl();
 		return {current: varresult,
@@ -9407,7 +9407,7 @@ I like this feature
 
 		if (varname in GET) {
 		    if (GET[varname].length > 0 && GET[varname][0] === "[") {
-			if (GET[varname][GET[varname].length-1] === "]") { 
+			if (GET[varname][GET[varname].length-1] === "]") {
 			    var tmpArray = GET[varname].substring(1, GET[varname].length - 1).split(',');
 			}
 			else {
@@ -9479,7 +9479,7 @@ I like this feature
     newsmalllist.append("text")
 	.text("Per word average happiness shift")
 	.attr("class","axes-text")
-	.attr("x",(modalwidth-20-10)/2+20) // 350-20-10 for svg width,  
+	.attr("x",(modalwidth-20-10)/2+20) // 350-20-10 for svg width,
 	.attr("y",modalheight-7)
 	.attr("font-size", "18.0px")
 	.attr("fill", "#000000")
@@ -9512,10 +9512,10 @@ I like this feature
     // take the longest of the top five words
     // console.log("appending to sorted words");
     // console.log(sortedWords);
-    sortedWords = sortedWords.map(function(d,i) { 
+    sortedWords = sortedWords.map(function(d,i) {
 	if (sortedType[i] == 0) {
 	    return d.concat("-\u2193");
-	} 
+	}
 	else if (sortedType[i] == 1) {
 	    return "\u2193+".concat(d);
 	}
@@ -9536,7 +9536,7 @@ I like this feature
     // linear scale function
     var bigshifty = d3.scale.linear()
 	.domain([numWords+1,1])
-	.range([height+2, yHeight]); 
+	.range([height+2, yHeight]);
 
     // zoom object for the axes
     var zoom = d3.behavior.zoom()
@@ -9573,7 +9573,7 @@ I like this feature
 	.attr("fill", "#000000")
 	.attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
 
-    // going to append this outside the svg		       
+    // going to append this outside the svg
     // canvas.append("text")
     //     .text("Per word average happiness shift")
     //     .attr("class","axes-text")
@@ -9588,13 +9588,13 @@ I like this feature
     if (compH >= refH) {
 	var happysad = "happier";
     }
-    else { 
+    else {
 	var happysad = "less happy";
     }
 
     // figure.selectAll("p.sumtext.ref")
     // 	.data([refH,])
-    // 	.html(function(d,i) { 
+    // 	.html(function(d,i) {
     // 	    if (i===0) {
     // 		return "Reference: happiness " + (d.toFixed(3));
     // 	    }
@@ -9602,28 +9602,28 @@ I like this feature
 
     // figure.selectAll("p.sumtext.comp")
     // 	.data([compH,])
-    // 	.html(function(d,i) { 
+    // 	.html(function(d,i) {
     // 	    if (i===0) {
     // 		return "Comparison: happiness " + (d.toFixed(3));
     // 	    }
     // 	});
 
-    addthis_share.passthrough.twitter.text = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
-
-    addthis_share.title = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
-
-    addthis_share.url = document.URL;
+    // addthis_share.passthrough.twitter.text = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
+    //
+    // addthis_share.title = "Why "+allData[shiftComp].name+" was "+happysad+" than "+allData[shiftRef].name+" in "+timeseldecoder().cached;
+    //
+    // addthis_share.url = document.URL;
 
     // d3.select("[id=fbtitle]").attr("content","Hedonometer Maps: Andy has been here");
 
     figure.selectAll("p.sumtext.text")
 	.data(["Why ",])
-	.text(function(d,i) { 
+	.text(function(d,i) {
 	    if (i===0) {
 		return d+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":";
 	    }
 	});
-    
+
     var typeClass = ["negdown","posdown","negup","posup"];
 
     axes.selectAll("rect.shiftrect")
@@ -9631,8 +9631,8 @@ I like this feature
 	.enter()
 	.append("rect")
 	.attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]+" "+typeClass[sortedType[i]]; })
-	.attr("x",function(d,i) { 
-	    if (d>0) { return bigfigcenter; } 
+	.attr("x",function(d,i) {
+	    if (d>0) { return bigfigcenter; }
 	    else { return bigshiftx(d)} })
 	.attr("y",function(d,i) { return bigshifty(i+1); } )
 	.attr("height",function(d,i) { return iBarH; } )
@@ -9678,7 +9678,7 @@ I like this feature
 	axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-	axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+	axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
     }
     else if (shiftseldecoder().current === "posdown") {
 	shiftTypeSelect = true;
@@ -9704,7 +9704,7 @@ I like this feature
 	axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 	axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
     }
-    
+
     // draw a white rectangle to hide the shift bars behind the summary shifts
     // move x,y to 3 and width to -6 to give the bg a little space
     axes.append("rect").attr("x",3).attr("y",3).attr("width",width-6).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
@@ -9734,10 +9734,10 @@ I like this feature
 	.enter()
 	.append("rect")
 	.attr("class", function(d,i) { return "sumrectR "+intStr[i]+" "+typeClass[i]; })
-	.attr("x",function(d,i) { 
-	    if (d>0) { 
+	.attr("x",function(d,i) {
+	    if (d>0) {
 		return bigfigcenter;
-	    } 
+	    }
 	    else { return topScale(d)} }
 	     )
 	.attr("y",function(d,i) { if (i<3) { return i*17+7;} else { return i*17+7-2;} } )
@@ -9750,7 +9750,7 @@ I like this feature
 	.on('mouseout', function(d){
 	    var rectSelection = d3.select(this).style({opacity:'0.7'});
 	})
-	.on('click', function(d,i) { 
+	.on('click', function(d,i) {
 	    if (i==0) {
 		shiftTypeSelect = true;
 		resetButton();
@@ -9811,11 +9811,11 @@ I like this feature
 	.enter()
 	.append("rect")
 	.attr("class",function(d,i) { return "sumrectL "+intStr[i]+" "+typeClass[i]; })
-	.attr("x",function(d,i) { 
-	    if (i<2) { 
+	.attr("x",function(d,i) {
+	    if (i<2) {
 		return topScale(d);
-	    } 
-	    else { 
+	    }
+	    else {
 		// place the sum of negatives bar
 		// if they are not opposing
 		if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
@@ -9827,9 +9827,9 @@ I like this feature
 		    else {
 			return topScale(d)-(bigfigcenter-topScale((sumTypes[3]+sumTypes[1])));
 		    }
-		} 
-		else { 
-		    if (d>0) {return bigfigcenter} 
+		}
+		else {
+		    if (d>0) {return bigfigcenter}
 		    else { return topScale(d)} }
 	    }
 	})
@@ -9901,7 +9901,7 @@ I like this feature
 
     function reset() {
 	// console.log("reset function");
-	shiftTypeSelect = false;		
+	shiftTypeSelect = false;
 	d3.selectAll("rect.shiftrect").transition().duration(1000)
 	    .attr("y", function(d,i) { return bigshifty(i+1) })
 	    .attr("transform","translate(0,0)");
@@ -9917,7 +9917,7 @@ I like this feature
 	// console.log("resetbutton function");
 
 	d3.selectAll(".resetbutton").remove();
-	
+
 	var shiftsvg = d3.select("#shiftsvg");
 
 	var resetGroup = shiftsvg.append("g")
@@ -9949,10 +9949,10 @@ I like this feature
 	    .attr("height",18)
 	    .attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
 	    .style({"opacity": "0.0"})
-	    .on("click",function() { 
+	    .on("click",function() {
 		reset();
 	    });
-	
+
     }; // resetButton
 
     // call it
@@ -9979,7 +9979,7 @@ function shift(refF,compF,lens,words) {
     //     refF[i] = parseFloat(refF[i])/Nref;
     //     compF[i] = parseFloat(compF[i])/Ncomp;
     // }
-    
+
     // compute reference happiness
     var refH = 0.0;
     var refV = 0.0;
@@ -9991,7 +9991,7 @@ function shift(refF,compF,lens,words) {
     for (var i=0; i<refF.length; i++) {
 	refV += refF[i]*Math.pow(parseFloat(lens[i])-refH,2);
     }
-    refV = refV/Nref; 
+    refV = refV/Nref;
     console.log(refV);
 
     // compute comparison happiness
@@ -10022,16 +10022,16 @@ function shift(refF,compF,lens,words) {
     var sortedType = Array(refF.length);
     var sortedWords = Array(refF.length);
 
-    for (var i = 0; i < refF.length; i++) { 
-	sortedMag[i] = shiftMag[indices[i]]; 
-	sortedType[i] = shiftType[indices[i]]; 
-	sortedWords[i] = words[indices[i]]; 
+    for (var i = 0; i < refF.length; i++) {
+	sortedMag[i] = shiftMag[indices[i]];
+	sortedType[i] = shiftType[indices[i]];
+	sortedWords[i] = words[indices[i]];
     }
 
     // compute the sum of contributions of different types
     var sumTypes = [0.0,0.0,0.0,0.0];
     for (var i = 0; i < refF.length; i++)
-    { 
+    {
         sumTypes[shiftType[i]] += shiftMag[i];
     }
 
@@ -10062,7 +10062,7 @@ function drawLensGeo(figure,lens) {
        -reload data csv's
        -cut out stops words (0 the frequencies)
        -call shift on these frequency vectors */
-    
+
     lensExtent = lensdecoder().cached;
 
     var margin = {top: 0, right: 55, bottom: 0, left: 0},
@@ -10088,7 +10088,7 @@ function drawLensGeo(figure,lens) {
 	//.domain([d3.min(lens),d3.max(lens)])
 	    .domain([1.00,9.00])
 	    .range([0,width]);
-	
+
 	// use d3.layout http://bl.ocks.org/mbostock/3048450
 	var data = d3.layout.histogram()
             .bins(x.ticks(65))
@@ -10097,7 +10097,7 @@ function drawLensGeo(figure,lens) {
 	// linear scale function
 	var y =  d3.scale.linear()
 	    .domain([0,d3.max(data,function(d) { return d.y; } )])
-	    .range([height, 0]); 
+	    .range([height, 0]);
 
 	// create the axes themselves
 	var axes = canvas.append("g")
@@ -10162,7 +10162,7 @@ function drawLensGeo(figure,lens) {
 	    .attr("height",height-80);
 
 	var unclipped_axes = axes;
-	
+
 	//axes = axes.append("g")
 	//.attr("clip-path","url(#clip)");
 
@@ -10217,18 +10217,18 @@ function drawLensGeo(figure,lens) {
 	var brushX = d3.scale.linear()
             .domain([1,9])
             .range([figwidth*.125,width+figwidth*.125]);
-	
+
 
 
 	function brushended() {
 	    if (!d3.event.sourceEvent) return;
 	    var extent0 = brush.extent(),
 	    extent1 = extent0; // should round it to bins
-	    
+
 	    // window.stopVals = extent1;
 	    // console.log(extent1);
 	    if ((extent1[0] !== lensExtent[0]) || (extent1[1] !== lensExtent[1]))
-	    {	    
+	    {
 
 		lensExtent = [Math.round(extent1[0]*4)/4,Math.round(extent1[1]*4)/4];
 
@@ -10252,7 +10252,7 @@ function drawLensGeo(figure,lens) {
 			    allData[j].freq[i] = allData[j].rawFreq[i];
 			}
 			else { allData[j].freq[i] = 0; }
-			
+
 		    }
 		}
 		computeHapps();
@@ -10307,7 +10307,7 @@ function drawLensGeo(figure,lens) {
 	    bgrect.attr("width",width);
 	    //axes.attr("transform", "translate(" + (0.125 * figwidth) + "," +
 	    //      ((1 - 0.125 - 0.775) * figheight) + ")");
-	    
+
 	    mainline.attr("d",line);
 
 	    //create_xAxis.scale(x);
@@ -10315,7 +10315,7 @@ function drawLensGeo(figure,lens) {
 	    canvas.select(".x.axis").call(xAxis);
 
 	    canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
-	    
+
 	    // xlabel.attr("x",(leftOffsetStatic+width/2));
 
 	    d3.selectAll(".tick line").style({'stroke':'black'});
@@ -10346,9 +10346,9 @@ function drawLensGeo(figure,lens) {
 	    .attr({"type":"button",
                    "class": function(d,i) { return "btn btn-default btn-xs "+defaultnames[i]; },})
 	    .html(function(d,i) { return defaultnames[i]; })
-	    .on("click",function(d,i) { 
-		figure.selectAll("button").attr("class","btn btn-default btn-xs"); 
-		d3.select(this).attr("class","btn btn-primary btn-xs"); 
+	    .on("click",function(d,i) {
+		figure.selectAll("button").attr("class","btn btn-default btn-xs");
+		d3.select(this).attr("class","btn btn-primary btn-xs");
 		d3.select(".lensbrush") //.transition()
 		    .call(brush.extent(d))
 		    .call(brush.event);
@@ -10366,7 +10366,7 @@ function drawLensGeo(figure,lens) {
     }; // if figwidth > 10
 }
 function drawMap(figure) {
-    /* 
+    /*
        plot the state map!
 
        drawMap(figure,geoJson,stateHapps);
@@ -10425,7 +10425,7 @@ function drawMap(figure) {
 		   "fill": "#F8F8F8",
 		   'stroke-width': '0.5',
 		   'stroke': 'rgb(0,0,0)'});
-	
+
 	selgroup.selectAll("rect.colorclick")
     	    .data(selarray)
     	    .enter()
@@ -10446,13 +10446,13 @@ function drawMap(figure) {
     	    .data(selstrings)
     	    .enter()
     	    .append("text")
-    	    .attr({ "x": function(d,i) { 
+    	    .attr({ "x": function(d,i) {
 		// start at 2
 		if (i==0) { return initialpadding; }
 		// then use 2+width+10+width+10+width...
 		// for default padding of 5 on L/R
 		else { return d3.sum(selstringslen.slice(0,i))+initialpadding+i*boxpadding*2; } },
-    		    "y": 14, 
+    		    "y": 14,
     		    "class": function(d,i) { return "seltext "+intStr[i]; },
 		  })
     	    .text(function(d,i) { return d; });
@@ -10476,7 +10476,7 @@ function drawMap(figure) {
 		    d3.selectAll("text.seltext").attr("fill","black")
 		    d3.select("text.seltext."+intStr[i]).attr("fill","white")
 		    d3.selectAll("rect.colorclick").attr("fill","#F8F8F8").attr("stroke","rgb(0,0,0)")
-		    d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca"); 
+		    d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca");
 		    d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one");
 		    d3.select(".selbutton.two").attr("class","btn btn-default btn-xs pull-right selbutton two");
 		    d3.select(".selbutton."+intStr[i]).attr("class","btn btn-primary btn-xs pull-right selbutton "+intStr[i]);
@@ -10490,20 +10490,20 @@ function drawMap(figure) {
     	    .append("line")
     	    .attr("stroke","grey")
     	    .attr("stroke-width","2")
-    	    .attr("x1", function(d,i) { 
+    	    .attr("x1", function(d,i) {
 		return d3.sum(selstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	    })
-    	    .attr("x2", function(d,i) { 
+    	    .attr("x2", function(d,i) {
 		return d3.sum(selstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	    })
     	    .attr("y1", 0)
-    	    .attr("y2", 19); 
+    	    .attr("y2", 19);
 
 	if (stateSelType) {
-	    var i = 1; 
+	    var i = 1;
 	}
-	else { 
-	    var i = 0; 
+	else {
+	    var i = 0;
 	}
 
 	d3.selectAll("text.seltext").attr("fill","black")
@@ -10513,7 +10513,7 @@ function drawMap(figure) {
 
     }
 
-    function makeLegend(legendwidth,legendheight,textsize) { 
+    function makeLegend(legendwidth,legendheight,textsize) {
 
     var legendarray = [0,1,2,3,4,5,6],
     legendstringslen = [legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,legendwidth,],
@@ -10547,7 +10547,7 @@ function drawMap(figure) {
 	.attr({"x": function(d,i) {
 	    if (i==0) { return 0; }
 	    else { return fulllegendboxwidth-d.width(textsize+"px arial"); } },
-    	       "y": legendheight+legendheight, 
+    	       "y": legendheight+legendheight,
     	       "class": function(d,i) { return "legendtext"; },
 	       "font-size": textsize+"px",
 	      })
@@ -10581,14 +10581,14 @@ function drawMap(figure) {
     }
     // console.log(colors);
     // console.log(colorStrings);
-    
-    
+
+
     //Define quantize scale to sort data values into buckets of color
     color = d3.scale.quantize()
 	//.range(["rgb(237,248,233)","rgb(186,228,179)","rgb(116,196,118)","rgb(49,163,84)","rgb(0,109,44)"]);
         .range(colorStrings)
 	.domain([
-	    d3.min(allData, function(d) { return d.avhapps; }), 
+	    d3.min(allData, function(d) { return d.avhapps; }),
 	    d3.max(allData, function(d) { return d.avhapps; })
 	]);
 
@@ -10612,7 +10612,7 @@ function drawMap(figure) {
     //Bind data and create one path per GeoJSON feature
     var states = canvas.selectAll("path")
 	.data(stateFeatures);
-    
+
     states.enter()
 	.append("path")
 	.attr("d", function(d,i) { return path(d.geometry); } )
@@ -10628,11 +10628,11 @@ function drawMap(figure) {
 	.attr("stroke","black")
 	.attr("stroke-width",".7");
 
-    function state_clicked(d,i) { 
+    function state_clicked(d,i) {
 	// next line verifies that the data and json line up
 	// console.log(d.properties.name); console.log(allData[i].name);
 
-	if (activeHover) { 
+	if (activeHover) {
 	    // stop hovering
 	    activeHover = false;
 	    // remove the color
@@ -10655,7 +10655,7 @@ function drawMap(figure) {
 
 	//.text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
 
-	
+
 
 	// if (shiftRef !== i) {
 	//     //console.log("reference "+allData[i].name);
@@ -10665,14 +10665,14 @@ function drawMap(figure) {
 	//     d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
 	// 	.attr("stroke-width",3);
 	// }
-	// else { 
+	// else {
 	//     //console.log("reference everything");
 	//     shiftRef = 51;
 	//     d3.selectAll(".state.map").attr("stroke-width","0.7");
 	//     d3.selectAll(".state.list").attr("stroke","none");
 	//         //.attr("stroke-width",3);
 	// }
-	
+
 	// if (shiftRef !== shiftComp) {
 	//     shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 	//     plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
@@ -10684,9 +10684,9 @@ function drawMap(figure) {
 	// }
     }
 
-    function state_hover(d,i) { 
-	var bbox = this.getBBox(); 
-	var x = Math.floor(bbox.x + bbox.width/2.0); 
+    function state_hover(d,i) {
+	var bbox = this.getBBox();
+	var x = Math.floor(bbox.x + bbox.width/2.0);
 	var y = Math.floor(bbox.y + bbox.height/2.0);
 	// console.log(x);
 	// console.log(y);
@@ -10700,12 +10700,12 @@ function drawMap(figure) {
 	hoverboxheight = 125+51,
 	hoverboxwidth = d3.max([wordsstring.width('13px arial'),happsstring.width('15px arial'),wordsstring2.width('13px arial'),USwordsstring.width('13px arial'),USwordsstring2.width('13px arial')])+20,
 	hoverboxxoffset = 60;
-	
+
 	// if it would wrap it over, move it to the left side
 	if ((x+hoverboxwidth+hoverboxxoffset)>w) {
 	    hoverboxxoffset = -hoverboxxoffset-hoverboxwidth;
 	}
-	
+
 	var hovergroup = canvas.append("g").attr({
 	    "class": "hoverinfogroup",
 	    "transform": "translate("+(x+hoverboxxoffset)+","+(y-hoverboxheight/2)+")",	    });
@@ -10828,7 +10828,7 @@ function drawMap(figure) {
 	    }
 
 	    // next line verifies that the data and json line up
-	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
+	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
 	    d3.selectAll(".state."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]).style("fill","#428bca");
 
 	    if (shiftRef !== shiftComp) {
@@ -10843,13 +10843,13 @@ function drawMap(figure) {
 	}
     }
 
-    function state_unhover(d,i) { 
+    function state_unhover(d,i) {
 
 	d3.select(".hoverinfogroup").remove();
 
 	if (activeHover) {
 	    // next line verifies that the data and json line up
-	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]); 
+	    // console.log(d.properties.name); console.log(allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
 	    // shiftComp = i;
 	    //console.log(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1]);
 	    //d3.selectAll(".state.list."+allData[i].name[0]+allData[i].name.split(" ")[allData[i].name.split(" ").length-1])
@@ -10932,7 +10932,7 @@ function sortStates(figure) {
     // for (var i=0; i<allData.length; i++) {
     // 	happsVector[i] = allData[i].avhapps;
     // }
-    
+
     if (parseInt(figure.style('width')) > 10) {
 
 	// do the sorting
@@ -11044,7 +11044,7 @@ function sortStates(figure) {
 
 	// now something else
 	var unclipped_axes = axes;
-	
+
 	axes = axes.append("g")
 	    .attr("clip-path","url(#listclip)");
 
@@ -11088,9 +11088,9 @@ function sortStates(figure) {
 
 
 
-	function state_list_clicked(d,i) { 
+	function state_list_clicked(d,i) {
 	    // next line verifies that the data and json line up
-	    // console.log(d.properties.name); console.log(allData[i].name); 
+	    // console.log(d.properties.name); console.log(allData[i].name);
 
 	    // toggle the reference
 	    if (shiftRef !== d[1]) {
@@ -11101,13 +11101,13 @@ function sortStates(figure) {
 		d3.selectAll(".state."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1]).attr("stroke","black")
 	            .attr("stroke-width",3);
 	    }
-	    else { 
+	    else {
 		//console.log("reference everything");
 		shiftRef = 51;
 		d3.selectAll(".state.list").attr("stroke","none");
 		d3.selectAll(".state.map").attr("stroke-width","0.7");
 	    }
-	    
+
 	    if (shiftRef !== shiftComp) {
 		shiftObj = shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 		plotShift(d3.select('#shift01'),shiftObj.sortedMag.slice(0,200),
@@ -11119,10 +11119,10 @@ function sortStates(figure) {
 	    }
 	}
 
-	function state_list_hover(d,i) { 
+	function state_list_hover(d,i) {
 	    // next line verifies that the data and json line up
-	    // console.log(d.properties.name); console.log(allData[i].name); 
-	    shiftComp = d[1];  
+	    // console.log(d.properties.name); console.log(allData[i].name);
+	    shiftComp = d[1];
 	    d3.selectAll(".state."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1]).style("fill","red");
 
 	    if (shiftRef !== shiftComp) {
@@ -11134,15 +11134,15 @@ function sortStates(figure) {
 			  shiftObj.refH,
 			  shiftObj.compH);
 	    }
-	    if (shiftRef !== shiftComp) { 
+	    if (shiftRef !== shiftComp) {
 		//console.log("comparison "+allData[shiftComp].name);
-		//shift(); 
+		//shift();
 	    }
 	}
 
-	function state_list_unhover(d,i) { 
+	function state_list_unhover(d,i) {
 	    // next line verifies that the data and json line up
-	    // console.log(d.properties.name); console.log(allData[i].name); 
+	    // console.log(d.properties.name); console.log(allData[i].name);
 	    shiftComp = d[1];
 	    console.log("unhover");
 	    d3.selectAll(".state.list."+d[2][0]+d[2].split(" ")[d[2].split(" ").length-1])
@@ -11209,7 +11209,7 @@ var stateSelType = true;
 var activeHover = true;
 // until a selection is fixed, let this be true
 
-d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) { 
+d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
     	    if (stateSelType !== d) {
 		stateSelType = d;
 		activeHover = true;
@@ -11217,7 +11217,7 @@ d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
 		d3.selectAll("text.seltext").attr("fill","black")
 		d3.select("text.seltext."+intStr[i]).attr("fill","white")
 		d3.selectAll("rect.colorclick").attr("fill","#F8F8F8").attr("stroke","rgb(0,0,0)")
-		d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca");  
+		d3.select("rect.colorclick."+intStr[i]).attr("fill","#428bca").attr("stroke","#428bca");
 		d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one")
 		d3.select(".selbutton.two").attr("class","btn btn-default btn-xs pull-right selbutton two")
 		d3.select(this).attr("class",d3.select(this).attr("class").replace("default","primary"));
@@ -11234,7 +11234,7 @@ function initializePlot() {
     var timeF = timeseldecoder().cached.replace(/\+/g,' ');
     console.log(timeF);
     d3.select(".timelabel").text(timeF);
-    for (var i=0; i<timeFrames.length; i++) { 
+    for (var i=0; i<timeFrames.length; i++) {
 	if (timeF === timeFrameText[i]) {
 	    timeF = timeFrames[i];
 	    break;
@@ -11276,7 +11276,7 @@ var refencoder = d3.urllib.encoder().varname("ref"), //.varval(lensExtent);
 refdecoder = d3.urllib.decoder().varname("ref").varresult(allStateNames[51]); //.varval(lensExtent);
 
 var compencoder = d3.urllib.encoder().varname("comp"), //.varval(lensExtent);
-compdecoder = d3.urllib.decoder().varname("comp").varresult(allStateNames[0]); //.varval(lensExtent); 
+compdecoder = d3.urllib.decoder().varname("comp").varresult(allStateNames[0]); //.varval(lensExtent);
 
 // need to get these from the state name in the browser
 var shiftRef = stateIndex(refdecoder().cached),
@@ -11311,7 +11311,7 @@ function refcompdrops() {
             // timeName = timeFrames[key];
 	    // d3.select(".timelabel").text(timeFrameText[key]);
 	    // timeselencoder.varval(timeFrameText[key]);
-            // loadCsv(timeName); 
+            // loadCsv(timeName);
 
 	    if (shiftRef !== shiftComp) {
 		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
@@ -11337,7 +11337,7 @@ function refcompdrops() {
             // timeName = timeFrames[key];
 	    // d3.select(".timelabel").text(timeFrameText[key]);
 	    // timeselencoder.varval(timeFrameText[key]);
-            // loadCsv(timeName); 
+            // loadCsv(timeName);
 	});
 
     d3.select("#rotate")
@@ -11353,7 +11353,7 @@ function refcompdrops() {
 	    d3.select(".reflabel").text(tmp);
 	    refencoder.varval(allData[shiftRef].name);
 	    compencoder.varval(allData[shiftComp].name);
-	    
+
 	    if (shiftRef !== shiftComp) {
 		hedotools.shifter.shift(allData[shiftRef].freq,allData[shiftComp].freq,lens,words);
 		hedotools.shifter.setfigure(d3.select('#shift01')).setText("Why "+allData[shiftComp].name+" is "+happysad+" than "+allData[shiftRef].name+":").plot();
@@ -11370,7 +11370,7 @@ function timeDrop() {
 	    d3.select(".timelabel").text(timeFrameText[key]);
 	    timeselencoder.varval(timeFrameText[key]);
 	    console.log(timeName);
-            loadCsv(timeName); 
+            loadCsv(timeName);
 	});
 }
 
@@ -11491,7 +11491,7 @@ function initializePlotPlot(lens,words) {
 		allData[j].freq[i] = allData[j].rawFreq[i];
 	    }
 	    else { allData[j].freq[i] = 0; }
-	    
+
 	}
     }
 
@@ -11540,7 +11540,7 @@ function initializePlotPlot(lens,words) {
 		allDataOld[51].rawFreq[j] += parseFloat(allDataOld[i].rawFreq[j]);
 	    }
 	}
-	
+
 	// this is computeHapps() with allData -> allDataOld
 	for (var j=0; j<52; j++) {
 	    // compute total frequency
@@ -11559,7 +11559,7 @@ function initializePlotPlot(lens,words) {
 	    stateHappsListOld[i] = allDataOld[i].avhapps;
 	}
 
-	// plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);	
+	// plotSankey(d3.select("#sankeyChart"),stateHappsListOld,stateHappsList,stateFeatures);
     });
 };
 

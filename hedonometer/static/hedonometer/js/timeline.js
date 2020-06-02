@@ -764,7 +764,7 @@
 			bigdaywiki = bigdays[i].wiki;
 			bigdaytext = bigdays[i].longer;
 			// console.log(addthis_share.passthrough.twitter.text);
-			addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
+			// addthis_share.passthrough.twitter.text = bigdaytext+", "+longformat(pulldate)+", word shift:"
 			// console.log(addthis_share.passthrough.twitter.text);
 			d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="'+bigdaywiki.safe()+'" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
 			var modalbody = d3.select("#moveshifthere");
@@ -1359,7 +1359,7 @@
 	// grab the date
 	dateencoder.varval(cformat(update));
 
-	addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
+	// addthis_share.passthrough.twitter.text = longformat(update)+", word shift:";
 
 	d3.text("https://hedonometer.org/data/word-vectors/world/"+cformat(update)+"-sum.csv",function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
@@ -1371,7 +1371,7 @@
 		var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
 		var bigdaytext = [];
 
-		addthis_share.passthrough.twitter.text = longformat(update)+", word shift:"
+		// addthis_share.passthrough.twitter.text = longformat(update)+", word shift:"
 
 		for (var i=0; i<bigdays.length; i++) {
 		    if (bigdays[i].date.getTime() === update.getTime()) {
@@ -1379,7 +1379,7 @@
 			bigdaywiki.push(bigdays[i].wiki);
 			bigdaytext.push(bigdays[i].longer);
 			// always share the last event
-			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(update)+", word shift:"
+			// addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(update)+", word shift:"
 			// don't break for multiple events
 			// break;
 		    }

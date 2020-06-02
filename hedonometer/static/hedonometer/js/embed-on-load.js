@@ -1,13 +1,13 @@
-var addthis_share = addthis_share || {}
-addthis_share = {
-    // title: "title", // doesn't do anything, documentation patchy
-    passthrough : {
-        twitter: {
-            via: "hedonometer",
-            text: "hedonometer:"
-        }
-    }
-}
+// var addthis_share = addthis_share || {}
+// addthis_share = {
+//     // title: "title", // doesn't do anything, documentation patchy
+//     passthrough : {
+//         twitter: {
+//             via: "hedonometer",
+//             text: "hedonometer:"
+//         }
+//     }
+// }
 
 hedotools.loader = function() {
     var lensExtent = [4,6];
@@ -65,7 +65,7 @@ hedotools.loader = function() {
 	    if (!--csvLoadsRemaining) onload();
 	});
     };
-    
+
     var onload = function() {
 	// need to cut out the refF and compF middles
 	for (var i=0; i<refFvec.length; i++) {

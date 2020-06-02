@@ -117,10 +117,10 @@
 	    }
 	}
 	// check the highlight individually
-	if (legendDict['hilite'] == 'on') { 
+	if (legendDict['hilite'] == 'on') {
 	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "visible");
 	}
-	else { 
+	else {
 	    d3.selectAll(".Hilite").transition().duration(250).attr("visibility", "hidden");
 	}
     };
@@ -338,16 +338,16 @@
  	.attr("x2", function(d,i) { return 42+legendboxwidth*i+d; })
 	.attr("y1", 0)
 	.attr("y2", 19);
-    
+
     // was at 350
     legendgroup.append("svg:circle").on("mousedown", function() {
 	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
 	legendDict.toggle('togall',rScale(currRange));
 	//toggleAll();
     }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
-    
+
     legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id","togall");
-    
+
     legendgroup.append("rect")
 	.attr({"class": "legendrect",
 	       "x": 301,
@@ -416,7 +416,7 @@
     	.data(yearstrings)
     	.enter()
     	.append("text")
-    	.attr("x", function(d,i) { 
+    	.attr("x", function(d,i) {
 	    // start at 2
 	    if (i==0) { return initialpadding; }
 	    // then use 2+width+10+width+10+width...
@@ -457,10 +457,10 @@
     	.append("line")
     	.attr("stroke","grey")
     	.attr("stroke-width","2")
-    	.attr("x1", function(d,i) { 
+    	.attr("x1", function(d,i) {
 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	})
-    	.attr("x2", function(d,i) { 
+    	.attr("x2", function(d,i) {
 	    return d3.sum(yearstringslen.slice(0,i+1))+i*boxpadding+(i+1)*boxpadding+initialpadding;
 	})
     	.attr("y1", 0)
@@ -523,11 +523,11 @@
 	    .attr("stroke",function(d,i) { if (i===0) {return "grey";} else {return "grey";} })
 	//.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
 	    .attr("stroke-width","1.7px");
-	
+
 	// focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
 
 	// console.log(data);
-	
+
 	var circle = focus2.selectAll("circle").data(data);
 
     	var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
@@ -545,7 +545,7 @@
 		"cy": function(d) { return y(d.value); },
 		"r": function(d) { return rScale(currRange); }, })
 	    .on("mouseover.enlarge", function() { d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5); })
-	    .on("mouseover.popup",myMouseOverFunction) 
+	    .on("mouseover.popup",myMouseOverFunction)
 	    .on("mouseout", myMouseOutFunction)
 	    .on("mousedown", myMouseDownOpenWordShiftFunction);
 
@@ -557,15 +557,15 @@
 	var format = d3.time.format("%m-%d");
 
 	// https://hedonometer.org/api/v1/events/?format=json
-	d3.json('/api/v1/events/?format=json',function(json) { 
-	// d3.json('/static/hedonometer/data/bigdays.json',function(json) { 
+	d3.json('/api/v1/events/?format=json',function(json) {
+	// d3.json('/static/hedonometer/data/bigdays.json',function(json) {
 	    bigdays = json.objects;
-	    
+
 	    bigdays.map( function(d) { d.date = dformat.parse(d.date);
 				       d.x = parseFloat(d.x);
 				       d.shorter = d.shorter.split(',');
 				       // don't let them overflow the bottom
-				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]); 
+				       d.y = d3.min([parseFloat(d.y),height-parseFloat(y(d.value))-d.shorter.length*10]);
 				       d.importance = parseFloat(d.importance);})
 
 	    var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
@@ -582,22 +582,22 @@
 		.append("g")
 	        .attr("class","bigdaygroup")
 		.attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
-	    
+
 	    var textwidth = 6;
 	    // width of characters
 	    var charwidth = 3;
 
 	    var line0 = bigdaygroups
 		.append("text")
-		.text(function(d) { // console.log(d.shorter.length); 
+		.text(function(d) { // console.log(d.shorter.length);
  return d.shorter[0]; } )
 		.attr("class","bigdaytext")
  	    // .attr("stroke-width","0.1")
 		.attr("dx", 0)
-		      //function(d) { 
-		    // return -d.shorter[0].width()/2; 
-		    // return 0; 
-		    //return -d.shorter[0].length*charwidth/2; 
+		      //function(d) {
+		    // return -d.shorter[0].width()/2;
+		    // return 0;
+		    //return -d.shorter[0].length*charwidth/2;
 		    // return -d3.select(this).attr("width")/2;
 		//})
 		.attr("dy", function(d) { return 0; })
@@ -610,15 +610,15 @@
 		.text(function(d) { if (d.shorter.length > 1) { return d.shorter[1]; }
 				    else { return ""; } })
 		.attr("class","bigdaytext")
-		.attr("dx", 0) // function(d) { 
+		.attr("dx", 0) // function(d) {
 		//     if (d.shorter.length > 1) {
-		// 	// return -d.shorter[1].width()/2; 
+		// 	// return -d.shorter[1].width()/2;
 		// 	// return 0;
-		// 	return -d.shorter[1].length*charwidth/2; 
-		//     } 
-		//     else { 
-		// 	return 0; 
-		//     } 
+		// 	return -d.shorter[1].length*charwidth/2;
+		//     }
+		//     else {
+		// 	return 0;
+		//     }
 		// })
 		.attr("dy", function(d) { return 15; })
 		.attr("stroke","")
@@ -646,7 +646,7 @@
 		.attr("stroke","")
 		.attr("fill","grey")
 		.attr("visibility","hidden");
-	    
+
 	    // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
 	    // 	return -d3.select(this).attr("width")/2;
 	    // })
@@ -654,7 +654,7 @@
 	    // call the brush initially
 	    brushing();
 	    focus.selectAll(".brushingline")
-		.attr({ 
+		.attr({
 		    "visibility": "hidden",
 		});
 
@@ -668,7 +668,7 @@
 	var brushgroup = context.append("g").attr("class", "x brush")
 	    .call(brush);
 	// .call(brush.event);
-	
+
 	brushgroup
 	    .selectAll("rect")
 	    .attr("y", -6)
@@ -678,21 +678,21 @@
 	brushing();
 
 	focus.selectAll(".brushingline")
-	    .attr({ 
+	    .attr({
 		"visibility": "hidden",
 	    });
 
 
     }); // main data load
 
-    // function fishline(d) { 
+    // function fishline(d) {
     // 	return fishline0(d.map(function(d) {
     // 	    d = fisheye({x: x(d.date), y: y(d.value)});
     // 	    return [d.x, d.y];
     // 	}));
     // };
 
-    function line(d) { 
+    function line(d) {
 	return line0(d.map(function(d) {
 	    return [d.x, d.y];
 	}));
@@ -703,7 +703,7 @@
 	fromencoder.varval(cformat(x.domain()[0]));
 	toencoder.varval(cformat(x.domain()[1]));
 	focus.selectAll(".brushingline")
-	    .attr({ 
+	    .attr({
 		"visibility": "hidden",
 	    });
     }
@@ -734,9 +734,9 @@
 	//focus.select("#path").attr("d", fishline);
 	focus.select("#path").attr("d", line);
 	focus.select(".x.axis").call(xAxis);
-	
+
 	focus.selectAll(".brushingline")
-	    .attr({ 
+	    .attr({
 		"x2": function(d,i) { return x2(brush.extent()[i]) },
 		"visibility": "visible",
 	    });
@@ -763,12 +763,12 @@
 		"y1": function(d,i) { return y(d.value)+3*(d.y/Math.abs(d.y)); }, // 2 in the direction of the offset +2*(d.y/d.y)
 		"y2": function(d,i) { if (d.y > 0) { return y(d.value)+d.y-10; } else { return y(d.value)+d.y+d.shorter.length*12-6;} },
 	    });
-	
+
 	var groups = focus2.selectAll("g.bigdaygroup")
 	    .attr("transform",function(d,i) { return "translate("+(x(d.date)+d.x)+","+(y(d.value)+d.y)+")"; });
 
 	d3.select("#minilist").remove();
-	
+
 	var cutoff = bigdayscale(currRange);
 	// console.log(cutoff);
 
@@ -787,12 +787,12 @@
 	if (x >= 600) {
 	    x = x - 220;
 	    // if on the top
-	    if (y <= 210) { 
+	    if (y <= 210) {
 		y = y - 10;
 		x = x - 30;
-	    } 
+	    }
 	    else { y = y - 224; }
-	} 
+	}
 	// on the left
 	else {
 	    x = x - 7;
@@ -888,7 +888,7 @@
 		var bigdaytest = false;
 		var bigdaywiki = ''; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
 
-		addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
+		// addthis_share.passthrough.twitter.text = longformat(popdate)+", word shift:"
 
 		for (var i=0; i<bigdays.length; i++) {
 		    //console.log(bigdays[i].date);
@@ -897,7 +897,7 @@
 			// console.log("major event wiki");
 			bigdaytest = true;
 			bigdaywiki = bigdays[i].wiki;
-			addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
+			// addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
 			break;
 		    }
 		}
@@ -957,12 +957,12 @@
 		newsmalllist.append("text")
 		    .text("Per word average happiness shift")
 		    .attr("class","axes-text")
-		    .attr("x",(modalwidth-20-10)/2+20) // 350-20-10 for svg width,  
+		    .attr("x",(modalwidth-20-10)/2+20) // 350-20-10 for svg width,
 		    .attr("y",modalheight-7)
 		    .attr("font-size", "18.0px")
 		    .attr("fill", "#000000")
 		    .attr("style", "text-anchor: middle;");
-		
+
 		// var canvas = smallList.select("svg"),
 		var canvas = newsmalllist.select("svg"),
 		boxwidth = (modalwidth-20-10),
@@ -988,10 +988,10 @@
 		// take the longest of the top five words
 		// console.log("appending to sorted words");
 		// console.log(sortedWords);
-		sortedWords = sortedWords.map(function(d,i) { 
+		sortedWords = sortedWords.map(function(d,i) {
 		    if (sortedType[i] == 0) {
 			return d.concat("-\u2193");
-		    } 
+		    }
 		    else if (sortedType[i] == 1) {
 			return "\u2193+".concat(d);
 		    }
@@ -1012,7 +1012,7 @@
 		// linear scale function
 		var bigshifty = d3.scale.linear()
 		    .domain([numWords+1,1])
-		    .range([height+2, yHeight]); 
+		    .range([height+2, yHeight]);
 
 		// zoom object for the axes
 		var zoom = d3.behavior.zoom()
@@ -1049,7 +1049,7 @@
 		    .attr("fill", "#000000")
 		    .attr("transform", "rotate(-90.0," + (15) + "," + (figheight/2+60) + ")");
 
-		// going to append this outside the svg		       
+		// going to append this outside the svg
 		// canvas.append("text")
 		//     .text("Per word average happiness shift")
 		//     .attr("class","axes-text")
@@ -1068,8 +1068,8 @@
 		// color
 		    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
 		    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
-		    .attr("x",function(d,i) { 
-			if (d>0) { return bigfigcenter; } 
+		    .attr("x",function(d,i) {
+			if (d>0) { return bigfigcenter; }
 			else { return bigshiftx(d)} })
 		    .attr("y",function(d,i) { return bigshifty(i+1); } )
 		    .attr("height",function(d,i) { return iBarH; } )
@@ -1115,7 +1115,7 @@
 		    axes.selectAll("rect.shiftrect.two").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    axes.selectAll("text.shifttext.two").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		}
 		else if (shiftseldecoder().current === "posdown") {
 		    shiftTypeSelect = true;
@@ -1141,7 +1141,7 @@
 		    axes.selectAll("rect.shiftrect.three").attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    axes.selectAll("text.shifttext.three").attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		}
-		
+
 		// draw a white rectangle to hide the shift bars behind the summary shifts
 		// move x,y to 3 and width to -6 to give the bg a little space
 		axes.append("rect").attr("x",3).attr("y",3).attr("width",width-6).attr("height",73-13).attr("fill","white").style({"opacity": "1.0"});
@@ -1168,23 +1168,23 @@
 		    .data(summaryArray)
 		    .enter()
 		    .append("rect")
-		    .attr("fill", function(d,i) { 
+		    .attr("fill", function(d,i) {
 			if (i==0) {
 			    return "#FFFF4C";
-			} 
+			}
 			else if (i==1) {
 			    return "#B3B3FF";
-			} 
+			}
 			else {
 			    // always dark grey
 			    return "#272727";
 			}
 		    })
 		    .attr("class", "sumrectR")
-		    .attr("x",function(d,i) { 
-			if (d>0) { 
+		    .attr("x",function(d,i) {
+			if (d>0) {
 			    return bigfigcenter;
-			} 
+			}
 			else { return topScale(d)} }
 			 )
 		    .attr("y",function(d,i) { if (i<3) { return i*17+7;} else { return i*17+7-2;} } )
@@ -1197,7 +1197,7 @@
 		    .on('mouseout', function(d){
 			var rectSelection = d3.select(this).style({opacity:'0.7'});
 		    })
-		    .on('click', function(d,i) { 
+		    .on('click', function(d,i) {
 			if (i==0) {
 			    shiftTypeSelect = true;
 			    resetButton();
@@ -1255,13 +1255,13 @@
 		    .data(summaryArray)
 		    .enter()
 		    .append("rect")
-		    .attr("fill", function(d,i) { 
+		    .attr("fill", function(d,i) {
 			if (i==0) {
 			    return "#FFFFB3";
-			} 
+			}
 			else if (i==1) {
 			    return "#4C4CFF";
-			} 
+			}
 			else {
 			    // choose color based on whether increasing/decreasing wins
 			    if (d>0) {
@@ -1273,11 +1273,11 @@
 			}
 		    })
 		    .attr("class", "sumrectL")
-		    .attr("x",function(d,i) { 
-			if (i<2) { 
+		    .attr("x",function(d,i) {
+			if (i<2) {
 			    return topScale(d);
-			} 
-			else { 
+			}
+			else {
 			    // place the sum of negatives bar
 			    // if they are not opposing
 			    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
@@ -1289,9 +1289,9 @@
 				else {
 				    return topScale(d)-(bigfigcenter-topScale((sumTypes[3]+sumTypes[1])));
 				}
-			    } 
-			    else { 
-				if (d>0) {return bigfigcenter} 
+			    }
+			    else {
+				if (d>0) {return bigfigcenter}
 				else { return topScale(d)} }
 			}
 		    })
@@ -1376,7 +1376,7 @@
 
 		function reset() {
 		    // console.log("reset function");
-		    shiftTypeSelect = false;		
+		    shiftTypeSelect = false;
 		    d3.selectAll("rect.shiftrect").transition().duration(1000)
 			.attr("y", function(d,i) { return bigshifty(i+1) })
 			.attr("transform","translate(0,0)");
@@ -1392,7 +1392,7 @@
 		    // console.log("resetbutton function");
 
 		    d3.selectAll(".resetbutton").remove();
-		    
+
 		    var shiftsvg = d3.select("#modalsvg");
 
 		    var resetGroup = shiftsvg.append("g")
@@ -1424,10 +1424,10 @@
 			.attr("height",189)
 			.attr("fill","white") //http://www.w3schools.com/html/html_colors.asp
 			.style({"opacity": "0.0"})
-			.on("click",function() { 
+			.on("click",function() {
 			    reset();
 			});
-		    
+
 		}; // resetButton
 
 		// call it
@@ -1452,10 +1452,10 @@
 		//     newParent.appendChild(oldParent.childNodes[0]);
 		// }
 
-		$('#myModal').modal('toggle'); 
+		$('#myModal').modal('toggle');
 
 	    }) // data
-	    
+
 	}) // metadata
 
 	// d3.select("#dp1").attr("value",function() { return cformat(popdate); });
@@ -1468,11 +1468,11 @@
 	// });
 
 	$('#dp1').datepicker('setDate',popdate);
-	
+
     }; // transitionBigShift
 
     var numWords = 27;
-    
+
     // global declaration
     // drawSmallShift = function drawSmallShift(circle) {
     // inside function closure
@@ -1484,7 +1484,7 @@
 	// var circleY = parseFloat(circle.attr("cy"));
 	var circleX = parseFloat(cx);
 	var circleY = parseFloat(cy);
-	
+
 	var miniboxX = offsetXY(circleX, circleY, "X");
 	var miniboxY = offsetXY(circleX, circleY, "Y");
 
@@ -1496,7 +1496,7 @@
 	var px = 210;
 	// number of bars
 	var barcount = 9;
-	
+
 	// append the main svg
 	var shortlist = d3.select("#timeseries").append("g")
 	    .attr("transform", "translate(" + miniboxX + "," + miniboxY + ")")
@@ -1504,11 +1504,11 @@
 	    .on("mouseleave",function(d,i) {
 		//console.log("mouseleave");
 		minilistMouseLeaveTimer = setTimeout(function() {
-		    d3.select("#minilistbg").transition().duration(200).remove(); 
+		    d3.select("#minilistbg").transition().duration(200).remove();
 		    d3.select("#minilist").transition().duration(200).remove();
 		},popupExitDur);
 	    })
-	    .on("mouseenter",function(d,i) { 
+	    .on("mouseenter",function(d,i) {
 		//console.log("mouseenter");
 		try {
 		    clearTimeout(minilistMouseLeaveTimer);
@@ -1521,10 +1521,10 @@
 	// I was having issues when the minilistbg was appended
 	// before the shortlist. I appended it after, and attached
 	// these (the above) events to the group, not the rect
-	// .on("mouseout",function(d,i) { 
+	// .on("mouseout",function(d,i) {
 	// 	console.log("mouseout");
 	// });
-	// .on("mouseover",function(d,i) { 
+	// .on("mouseover",function(d,i) {
 	// 	console.log("mouseover");
 	// });
 
@@ -1556,7 +1556,7 @@
 	    }).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
 
 	    // shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
-	    shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate"); 
+	    shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
 
 	for (var i=0; i<bigdays.length; i++) {
 	    //console.log(bigdays[i].date);
@@ -1565,7 +1565,7 @@
 		shortlist.append("text").attr("x", 200).attr("y", 24)
 		    .attr('font-family', 'FontAwesome')
 		    .attr('font-size', function(d) { return '2em'} )
-		    .text(function() { return '\uF012' }); 
+		    .text(function() { return '\uF012' });
 		var tmp = splitWidth(bigdays[i].longer,230);
 		shortlist.append("text").attr("x", 20).attr("y", 38)
 		//.html(function() { return '<b>'+bigdays[i].caption+'</b>'; })
@@ -1637,7 +1637,7 @@
 		//.attr("data-toggle","modal")
 		//.attr("href","#myModal")
 		    .attr("class","expanderbutton")
-	            .on("click",function() { 
+	            .on("click",function() {
 		                             transitionBigShift(popdate);
 					   });
 
@@ -1662,7 +1662,7 @@
 		    "height": 200,
 		    "fill": "white",
 		    "opacity": 0.01,})
-		    .on("click",function() { 
+		    .on("click",function() {
 		        transitionBigShift(popdate);
 		    });
 
@@ -1685,7 +1685,7 @@
 	   -take a d3 selection, and draw the shift SVG on it
 	   -requires sorted vectors of the shift magnitude, type and word
 	   for each word
-	   
+
 	   selection: will append an svg to this on which to draw
 	   boxwidth: will use all of this
 	   boxheight: will use all of this
@@ -1721,10 +1721,10 @@
 	// make these local
 	// var x0 = Math.max(-d3.min(sortedMag) * 1.33, d3.max(sortedMag) * 1.33);
 
-	sortedWords = sortedWords.map(function(d,i) { 
+	sortedWords = sortedWords.map(function(d,i) {
 	    if (sortedType[i] == 0) {
 		return d.concat("-\u2193");
-	    } 
+	    }
 	    else if (sortedType[i] == 1) {
 		return "\u2193+".concat(d);
 	    }
@@ -1743,7 +1743,7 @@
 	// linear scale function
 	var y =  d3.scale.linear()
 	    .domain([numWords+1,1])
-	    .range([height+2, yHeight]); 
+	    .range([height+2, yHeight]);
 
 	// zoom object for the axes
 	var zoom = d3.behavior.zoom()
@@ -1777,8 +1777,8 @@
 	// color
 	    .attr("fill", function(d,i) { if (sortedType[i] == 2) {return "#4C4CFF";} else if (sortedType[i] == 3) {return "#FFFF4C";} else if (sortedType[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
 	    .attr("class", function(d,i) { return "shiftrect "+intStr[sortedType[i]]; })
-	    .attr("x",function(d,i) { 
-                if (d>0) { return figcenter; } 
+	    .attr("x",function(d,i) {
+                if (d>0) { return figcenter; }
                 else { return x(d)} })
 	    .attr("y",function(d,i) { return y(i+1); } )
 	    .style({'opacity':'0.7','stroke-width':'1','stroke':'rgb(0,0,0)'})
@@ -1827,11 +1827,11 @@
 	// var newdate = d3.time.day.offset(cformat.parse(date),offset);
 	var newdate = update;
 	// console.log(newdate);
-	// console.log(cformat(newdate));	
+	// console.log(cformat(newdate));
 	dateencoder.varval(cformat(newdate));
 	// grab the date
 
-	addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
+	// addthis_share.passthrough.twitter.text = longformat(newdate)+", word shift:"
 
 	//console.log(cformat.parse(circle.attr("shortdate")));
 	var bigdaytest = false;
@@ -1842,7 +1842,7 @@
 		//console.log("major event");
 		bigdaytest = true;
 		bigdaywiki = bigdays[i].wiki;
-		addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
+		// addthis_share.passthrough.twitter.text = bigdays[i].longer+", "+longformat(popdate)+", word shift:"
 		break;
 	    }
 	}
@@ -1925,18 +1925,18 @@
 		// linear scale function
 		var bigshifty = d3.scale.linear()
 		    .domain([numWords+1,1])
-		    .range([height+2, yHeight]); 
+		    .range([height+2, yHeight]);
 
 		var newbars = axes.selectAll("rect.shiftrect").data(sizes);
 		var newwords = axes.selectAll("text.shifttext").data(sizes);
-		
+
 		// if we haven't dont a subselection, apply with a transition
 		if (shiftseldecoder().current === "none" || shiftseldecoder().current.length === 0) {
 		    newbars.transition()
 			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
 			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-			.attr("x",function(d,i) { 
-			    if (d>0) { return bigfigcenter; } 
+			.attr("x",function(d,i) {
+			    if (d>0) { return bigfigcenter; }
 			    else { return bigshiftx(d)} })
 			.attr("height",function(d,i) { return iBarH; } )
 			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
@@ -1954,8 +1954,8 @@
 		    newbars
 			.attr("fill", function(d,i) { if (types[i] == 2) {return "#4C4CFF";} else if (types[i] == 3) {return "#FFFF4C";} else if (types[i] == 0) {return "#B3B3FF";} else { return "#FFFFB3"; }})
 			.attr("class", function(d,i) { return "shiftrect "+intStr[types[i]]; })
-			.attr("x",function(d,i) { 
-			    if (d>0) { return bigfigcenter; } 
+			.attr("x",function(d,i) {
+			    if (d>0) { return bigfigcenter; }
 			    else { return bigshiftx(d)} })
 			.attr("height",function(d,i) { return iBarH; } )
 			.attr("width",function(d,i) { if ((d)>0) {return bigshiftx(d)-bigshiftx(0);} else {return bigshiftx(0)-bigshiftx(d); } } )
@@ -1986,7 +1986,7 @@
 			axes.selectAll("rect.shiftrect.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 			axes.selectAll("text.shifttext.two").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 			axes.selectAll("rect.shiftrect.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
-			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});		
+			axes.selectAll("text.shifttext.three").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1)+iBarH; } ).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
 		    }
 		    else if (shiftseldecoder().current === "posdown") {
 			axes.selectAll("rect.shiftrect.zero").transition().duration(1000).attr("y", function(d,i) { return bigshifty(i+1) }).attr("transform",function(d,i) { if (d<0) { return "translate(-500,0)"; } else {return "translate(500,0)"; }});
@@ -2026,7 +2026,7 @@
 		}
 		else {
 		    modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<br>"; });
-		}	    
+		}
 		modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average Happiness: "+parseFloat(tcomp).toFixed(3); });
 		modalbody.insert("p","svg").text(function() {
 		    var head = "What's making this day ";
@@ -2048,12 +2048,12 @@
 
 		var newRtopbars = axes.selectAll(".sumrectR")
 		    .data(summaryArray);
-		
+
 		newRtopbars.transition()
-		    .attr("x",function(d,i) { 
-			if (d>0) { 
+		    .attr("x",function(d,i) {
+			if (d>0) {
 			    return bigfigcenter;
-			} 
+			}
 			else { return topScale(d)} })
 		    .attr("width",function(d,i) { if (d>0) {return topScale(d)-bigfigcenter;} else {return bigfigcenter-topScale(d); } } );
 
@@ -2064,19 +2064,19 @@
 		    .style("text-anchor",function(d,i) { if (d>0) {return "start";} else {return "end";} })
 		    .attr("x",function(d,i) { return topScale(d)+5*d/Math.abs(d); });
 
-		
+
 		var summaryArray = [sumTypes[1],sumTypes[2],sumTypes[0]+sumTypes[2]];
 
 		var newLtopbars = axes.selectAll(".sumrectL")
 		    .data(summaryArray);
 
-		newLtopbars.transition().attr("fill", function(d,i) { 
+		newLtopbars.transition().attr("fill", function(d,i) {
 		    if (i==0) {
 			return "#FFFFB3";
-		    } 
+		    }
 		    else if (i==1) {
 			return "#4C4CFF";
-		    } 
+		    }
 		    else {
 			// choose color based on whether increasing/decreasing wins
 			if (d>0) {
@@ -2087,11 +2087,11 @@
 			}
 		    }
 		})
-		    .attr("x",function(d,i) { 
-			if (i<2) { 
+		    .attr("x",function(d,i) {
+			if (i<2) {
 			    return topScale(d);
-			} 
-			else { 
+			}
+			else {
 			    // place the sum of negatives bar
 			    // if they are not opposing
 			    if ((sumTypes[3]+sumTypes[1])*(sumTypes[0]+sumTypes[2])>0) {
@@ -2103,9 +2103,9 @@
 				else {
 				    return topScale(d)-(bigfigcenter-topScale((sumTypes[3]+sumTypes[1])));
 				}
-			    } 
-			    else { 
-				if (d>0) {return bigfigcenter} 
+			    }
+			    else {
+				if (d>0) {return bigfigcenter}
 				else { return topScale(d)} }
 			}
 		    })
@@ -2118,7 +2118,7 @@
 
 	    }); // d3.json metadata
 
-	}); // d3.json 
+	}); // d3.json
 
 	// d3.select("#dp1").attr("value",function() { return cformat(newdate); });
 
@@ -2162,12 +2162,12 @@
 	return result;
     }
 
-    var leftbutton = d3.select("button.left").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1)) 
+    var leftbutton = d3.select("button.left").on("click",function(d) {
+	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),-1))
     });
 
-    var rightbutton = d3.select("button.right").on("click",function(d) { 
-	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1)) 
+    var rightbutton = d3.select("button.right").on("click",function(d) {
+	$('#dp1').datepicker('setDate',addDays($('#dp1').datepicker('getDate'),1))
     });
 
     console.log("enjoy :)");
