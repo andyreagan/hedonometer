@@ -4,6 +4,7 @@ from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.serializers import Serializer
+from django.utils.html import smart_urlquote
 
 
 class FixedFloatField(fields.ApiField):
@@ -29,6 +30,25 @@ class FixedFloatField(fields.ApiField):
             value = '{0:.3f}'.format(value)
 
         return value
+
+
+class SmartUrlField(fields.ApiField):
+    """
+    A field for urls in plain text.
+    """
+    dehydrated_type = 'string'
+    help_text = 'a field for urls in plain text.'
+
+    def convert(self, value):
+        if value is None:
+            return None
+
+        return smart_urlquote(value)
+
+    def hydrate(self, bundle):
+        value = super(SmartUrlField, self).hydrate(bundle)
+
+        self.convert(value)
 
 
 class TimeseriesResource(ModelResource):
@@ -61,6 +81,7 @@ class HappsResource(ModelResource):
 
 class EventResource(ModelResource):
     happs = fields.ToOneField(HappsResource, 'happs', full=True)
+    wiki = SmartUrlField(attribute="wiki")
     class Meta:
         queryset = Event.objects.all()
         resource_name = "events"

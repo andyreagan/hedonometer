@@ -1,11 +1,16 @@
 # inspiration: https://www.obeythetestinggoat.com/book/chapter_01.html
+import datetime
+import os
 from selenium import webdriver
 import unittest
 import requests
 import json
+import django
+
+os.environ["DJANGO_SETTINGS_MODULE"] = 'mysite.settings'
+django.setup()
+
 from hedonometer.models import Timeseries, Happs, Event, WordList, Word
-import datetime
-import os
 
 shortcodes = {
     "arabic": "ar",
@@ -25,10 +30,15 @@ shortcodes = {
 shortcodes_reverse = {y: x for x, y in shortcodes.items()}
 
 
-def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
+def clear_all():
+    Event.objects.all().delete()
+    Happs.objects.all().delete()
+    Timeseries.objects.all().delete()
     WordList.objects.all().delete()
     Word.objects.all().delete()
 
+
+def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
     # https://arxiv.org/abs/1108.5192
     wl = WordList(title="labMT-en-v1", date="2011-08-25", language="en", reference="https://arxiv.org/abs/1108.5192", referencetitle="Positivity of the English language")
     wl.save()
@@ -104,7 +114,6 @@ def load_wordlists(DATA_DIR='../hedonometer-data-munging/labMT', max_words=100):
 
 
 def create_timeseries():
-    Timeseries.objects.all().delete()
     for lang in {('en', 'english')}:
         for set_ in {('all', 'All Tweets'), ('rt', 'Only Retweets'), ('no_rt', 'All original Tweets')}:
             short = '_'.join([lang[0], set_[0]])
@@ -136,7 +145,6 @@ def create_timeseries():
             print('mkdir -p storywrangler_' + short + " word-vectors")
 
 def create_happs():
-    Happs.objects.all().delete()
     for t in Timeseries.objects.all():
         r = requests.get("http://hedonometer.org/api/v1/happiness/?timeseries__title=" + t.title)
         x = json.loads(r.content)
@@ -145,7 +153,6 @@ def create_happs():
 
 
 def create_events():
-    Event.objects.all().delete()
     for t in Timeseries.objects.all():
         r = requests.get("http://hedonometer.org/api/v1/events/?happs__timeseries__title=" + t.title)
         x = json.loads(r.content)
@@ -159,6 +166,13 @@ def create_events():
                       wiki = e['wiki'],
             )
             e.save()
+
+
+def create_all():
+    load_wordlists(max_words=100)
+    create_timeseries()
+    create_happs()
+    create_events()
 
 
 class NewVisitorTest(unittest.TestCase):
@@ -179,7 +193,7 @@ class TimeseriesTest(unittest.TestCase):
 
     def test_can_get_homepage(self):
         # Check out the homepage
-        self.browser.get('http://127.0.0.1:8000/timeseries/main/')
+        self.browser.get('http://127.0.0.1:8000/timeseries/en_all/')
         self.assertIn('Hedonometer', self.browser.title)
 
     def test_index_redirect(self):
@@ -190,4 +204,6 @@ class TimeseriesTest(unittest.TestCase):
 
 
 if __name__ == '__main__':
+    # clear_all()
+    # create_all()
     unittest.main(warnings='ignore')
