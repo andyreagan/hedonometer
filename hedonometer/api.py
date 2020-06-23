@@ -48,7 +48,7 @@ class SmartUrlField(fields.ApiField):
     def hydrate(self, bundle):
         value = super(SmartUrlField, self).hydrate(bundle)
 
-        self.convert(value)
+        return self.convert(value)
 
 
 class TimeseriesResource(ModelResource):
