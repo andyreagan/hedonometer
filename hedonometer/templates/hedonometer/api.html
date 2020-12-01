@@ -2,28 +2,29 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
-      <div class="row">
-	<div class="col-xs-12 col-md-7">
-	  <h3>API Endpoints</h3>
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-md-7">
+            <h3>API Endpoints</h3>
 
-	  <p>This RESTful API is intended to allow researchers and developers to access the data behind the Hedonometer.
-	  Twitter data is updated daily.
+            <p>This RESTful API is intended to allow researchers and developers to access the data behind the Hedonometer.
+                Twitter data is updated daily.
 
-	  <br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License </a>
-<span class="fa-stack">
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img height="20" alt="Creative Commons License" src="/static/hedonometer/graphics/cc.png" />
-</a></span>
-<!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> -->
-<!-- <span class="fa-stack"> -->
-<!--     <i class="fa fa-circle-o fa-stack-2x"></i> -->
-<!--     <i class="fa fa-stack-1x" style="font-weight: bold; font-size: .7em;">CC</i> -->
-<!-- </span></a> -->
-</p>
+                <br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License </a>
+                <span class="fa-stack">
+                    <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img height="20" alt="Creative Commons License" src="/static/hedonometer/graphics/cc.png" />
+                    </a></span>
+                <!-- <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"> -->
+                <!-- <span class="fa-stack"> -->
+                <!--     <i class="fa fa-circle-o fa-stack-2x"></i> -->
+                <!--     <i class="fa fa-stack-1x" style="font-weight: bold; font-size: .7em;">CC</i> -->
+                <!-- </span></a> -->
+            </p>
 
-<p>
-If this work is used in academic publication, please use the following citation (provided in bibtex format):
-<pre>
+            <p>
+                If this work is used in academic publication, please use the following citation (provided in bibtex format):
+            </p>
+            <pre>
 @Misc{dodds2014a,
   author = 	 {Dodds, P. S. and Clark, E. M. and Desu, S. and Frank, M. R. and Reagan, A. J. and  Williams, J. R. and Mitchell, L. and Harris, K. D. and Kloumann, I. M. and Bagrow, J. P. and Megerdoomian, K. and McMahon, M. T. and Tivnan, B. F. and Danforth, C. M.},
   title = 	 {Human language reveals a universal positivity bias},
@@ -34,245 +35,167 @@ If this work is used in academic publication, please use the following citation 
   OPTannote = 	 {}
 }
 </pre>
-</p>
-
-	  <hr>
-
-	  <h4>Twitter Daily Timeseries</h4>
-	  <br>
 
 
+            <hr>
 
-	  <a href="http://hedonometer.org/api/v1/timeseries/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire timeseries</button></a>
-
-	  <br>
-	  <br>
-
-	  <p>Example query and response:</p>
-
-
-	  <a href="http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/timeseries/?format=json</button></a>
-
-	  <br>
-	  <br>
-
-
-	  <pre>
-http://hedonometer.org/api/v1/timeseries/?format=json&limit=3&offset=2100
-
-{
-    meta: {
-	limit: 3,
-	next: "?format=json&limit=3&offset=2103",
-	offset: 2100,
-	previous: "?format=json&limit=3&offset=2097",
-	total_count: 2121
+            <h4>Happiness Time Series</h4>
+            <p>This is the API link: <a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=1000"
+                    rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=1000</a></p>
+            <p>You can also query the rt, no_rt versions:</p>
+            <ul>
+                <li><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_rt&amp;date__gte=2019-01-01&amp;limit=1000"
+                        rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_rt&amp;date__gte=2019-01-01&amp;limit=1000</a></li>
+                <li><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_no_rt&amp;date__gte=2019-01-01&amp;limit=1000"
+                        rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_no_rt&amp;date__gte=2019-01-01&amp;limit=1000</a></li>
+            </ul>
+            <p>Here’s the top of <a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2"
+                    rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2</a></p>
+            <pre><code>{
+  "meta": {
+    "limit": 2,
+    "next": "/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2&amp;offset=2",
+    "offset": 0,
+    "previous": null,
+    "total_count": 525
+  },
+  "objects": [
+    {
+      "date": "2020-03-19",
+      "frequency": 239061347,
+      "happiness": "5.748",
+      "timeseries": "/api/v1/timeseries/3/"
     },
-    objects: [
-	{
-	    date: "2014-06-24T00:00:00",
-	    happiness: "5.988"
-	},
-	{
-	    date: "2014-06-25T00:00:00",
-	    happiness: "5.998"
-	},
-	{
-	    date: "2014-06-26T00:00:00",
-	    happiness: "6.009"
-	}
-    ]
-}
-</pre>
+    {
+      "date": "2020-03-20",
+      "frequency": 236448165,
+      "happiness": "5.774",
+      "timeseries": "/api/v1/timeseries/3/"
+    }
+  ]
+}</code></pre>
+            <p>They all have the frequency, that’s the total word count.</p>
+            <h5>Languages</h5>
+            <p>In the above, <code>en</code> denoted english.
+                The API also provide time series of happiness for each of the other langauges on hedonometer.org.
+                To see which are available, look in the drop-down list on hedonometer.org.
+                To the get the shortcode (<code>en</code>, <code>es</code>, etc), look in the URL for each of the time series visualizations after clickig the drop down link.</p>
 
-	  <p>We are aware that the following days are missing from the dataset, due to either backend issues experienced by Twitter or missing data from our end:</p>
-<ul class="missing">
-<li>2012-04-22</li>
-<li>2009-12-18</li>
-<li>2009-12-19</li>
-<li>2009-12-20</li>
-<li>2009-08-03</li>
-<li>2009-08-04</li>
-<li>2009-08-05</li>
-<li>2009-05-19</li>
-<li>2009-05-18</li>
-<li>2009-05-17</li>
-<li>2009-05-16</li>
-<li>2009-05-15</li>
-<li>2009-05-14</li>
-</ul>
+            <h5>Using in Python</h5>
+            <p>Example of pulling this down in Python:</p>
+            <pre><code>import requests
+import pandas as pd
+import json
+uri = 'http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=1000'
+r = requests.get(uri)
+df = pd.DataFrame(json.loads(r.content)['objects'])
+df.sort_values('date', inplace=True)
+df.head()</code></pre>
+            <p>The last line shows:</p>
+            <pre><code>In [19]: df.head()
+Out[19]:
+    date    frequency happiness             timeseries
+37  2019-01-01  145361578.0     6.095  /api/v1/timeseries/3/
+38  2019-01-02  156353260.0     6.007  /api/v1/timeseries/3/
+39  2019-01-03  161389001.0     6.002  /api/v1/timeseries/3/
+40  2019-01-04  163318124.0     5.983  /api/v1/timeseries/3/
+41  2019-01-05  159511070.0     5.984  /api/v1/timeseries/3/</code></pre>
 
-	  <hr>
+            <h5>Known issues</h5>
 
-<!-- 	  <h4>Project Gutenberg Books <span class="label label-default">New</span></h4> -->
+            <p>The following days may be missing from the dataset, due to either backend issues experienced by Twitter or missing data from our end:</p>
+            <ul class="missing">
+                <li>2012-04-22</li>
+                <li>2009-12-18</li>
+                <li>2009-12-19</li>
+                <li>2009-12-20</li>
+                <li>2009-08-03</li>
+                <li>2009-08-04</li>
+                <li>2009-08-05</li>
+                <li>2009-05-19</li>
+                <li>2009-05-18</li>
+                <li>2009-05-17</li>
+                <li>2009-05-16</li>
+                <li>2009-05-15</li>
+                <li>2009-05-14</li>
+            </ul>
 
-<!-- 	  <br> -->
+            <hr>
 
-<!-- 	  <a href="http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/gutenberg/?format=json</button></a> -->
+            <h4>Events</h4>
+            <p>If you want the annotated events, they are available as well:</p>
+            <p><a href="http://hedonometer.org/api/v1/events/?format=json&amp;happs__timeseries__title=en_all&amp;happs__date__gte=2020-05-15&amp;limit=1000"
+                    rel="nofollow">http://hedonometer.org/api/v1/events/?format=json&amp;happs__timeseries__title=en_all&amp;happs__date__gte=2020-05-15&amp;limit=1000</a></p>
+            <p>(set the date back to 2019-01-01 or whenever you want them starting at).</p>
+            <p>Here’s what you get from the events api:</p>
+            <pre><code>{"meta": {"limit": 1000, "next": null, "offset": 0, "previous": null, "total_count": 2}, "objects": [{"happs": {"date": "2020-05-26", "frequency": 249581473.0, "happiness": "5.870", "timeseries": "/api/v1/timeseries/3/"}, "id": 733, "importance": 5, "longer": "Murder of George Floyd during arrest in Minnesota", "resource_uri": "/api/v1/events/733/", "shorter": "Murder of,George Floyd", "wiki": "https://en.wikipedia.org/wiki/Death_of_George_Floyd", "x": -35, "y": 30}, {"happs": {"date": "2020-05-29", "frequency": 344542921.0, "happiness": "5.659", "timeseries": "/api/v1/timeseries/3/"}, "id": 735, "importance": 100, "longer": "Protests of police violence in response to the death of George Floyd", "resource_uri": "/api/v1/events/735/", "shorter": "Protests of,police violence", "wiki": "https://en.wikipedia.org/wiki/Twin_Cities_protests", "x": -50, "y": 50}]}
+      </code></pre>
 
-<!-- 	  <br> -->
-<!-- 	  <br> -->
+            <hr>
 
-<!-- 	  <p>Example query and response:</p> -->
+            <!-- 	  <h4>Project Gutenberg Books <span class="label label-default">New</span></h4> -->
 
-<!-- 	  <pre> -->
-<!-- http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200 -->
+            <!-- 	  <br> -->
 
-<!-- { -->
-<!--     meta: { -->
-<!-- 	limit: 3, -->
-<!-- 	next: "?format=json&limit=3&offset=203", -->
-<!-- 	offset: 200, -->
-<!-- 	previous: "?format=json&limit=3&offset=197", -->
-<!-- 	total_count: 12437 -->
-<!--     }, -->
-<!--     objects: [ -->
-<!-- 	{ -->
-<!-- 	    author: "Albert Delpit", -->
-<!-- 	    happiness: "5.278", -->
-<!-- 	    language: "french", -->
-<!-- 	    length: 100113, -->
-<!-- 	    title: "Jean-nu-pieds, Vol. 2" -->
-<!-- 	}, -->
-<!-- 	{ -->
-<!-- 	    author: "Albert E. McKinley, Charles A. Coulomb, and Armand J. Gerson", -->
-<!-- 	    happiness: "5.293", -->
-<!-- 	    language: "english", -->
-<!-- 	    length: 45937, -->
-<!-- 	    title: "A School History of the Great War" -->
-<!-- 	}, -->
-<!-- 	{ -->
-<!-- 	    author: "Albert F. Blaisdell", -->
-<!-- 	    happiness: "5.298", -->
-<!-- 	    language: "english", -->
-<!-- 	    length: 141641, -->
-<!-- 	    title: "A Practical Physiology" -->
-<!-- 	} -->
-<!--     ] -->
-<!-- } -->
-<!-- </pre> -->
+            <!-- 	  <a href="http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/gutenberg/?format=json</button></a> -->
 
-<!-- 	  <hr> -->
+            <!-- 	  <br> -->
+            <!-- 	  <br> -->
 
-	  <h4>LabMT Words</h4>
-	  <br>
+            <!-- 	  <p>Example query and response:</p> -->
 
-	  <a href="http://hedonometer.org/api/v1/words/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire dataset</button></a>
+            <!-- 	  <pre> -->
+            <!-- http://hedonometer.org/api/v1/gutenberg/?format=json&limit=3&offset=200 -->
 
-	  <br>
-	  <br>
+            <!-- { -->
+            <!--     meta: { -->
+            <!-- 	limit: 3, -->
+            <!-- 	next: "?format=json&limit=3&offset=203", -->
+            <!-- 	offset: 200, -->
+            <!-- 	previous: "?format=json&limit=3&offset=197", -->
+            <!-- 	total_count: 12437 -->
+            <!--     }, -->
+            <!--     objects: [ -->
+            <!-- 	{ -->
+            <!-- 	    author: "Albert Delpit", -->
+            <!-- 	    happiness: "5.278", -->
+            <!-- 	    language: "french", -->
+            <!-- 	    length: 100113, -->
+            <!-- 	    title: "Jean-nu-pieds, Vol. 2" -->
+            <!-- 	}, -->
+            <!-- 	{ -->
+            <!-- 	    author: "Albert E. McKinley, Charles A. Coulomb, and Armand J. Gerson", -->
+            <!-- 	    happiness: "5.293", -->
+            <!-- 	    language: "english", -->
+            <!-- 	    length: 45937, -->
+            <!-- 	    title: "A School History of the Great War" -->
+            <!-- 	}, -->
+            <!-- 	{ -->
+            <!-- 	    author: "Albert F. Blaisdell", -->
+            <!-- 	    happiness: "5.298", -->
+            <!-- 	    language: "english", -->
+            <!-- 	    length: 141641, -->
+            <!-- 	    title: "A Practical Physiology" -->
+            <!-- 	} -->
+            <!--     ] -->
+            <!-- } -->
+            <!-- </pre> -->
 
-	  <p>Example query and response, where we looking for words with happiness greater than 6, rank less than 500, and standard deviation less than 1, and limiting our result to the first three.</p>
+            <!-- 	  <hr> -->
 
-	  <a href="http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1</button></a>
+            <h4>LabMT Words</h4>
 
-	  <br>
-	  <br>
+            <p>A table of words (downloadable as csv, excel) are available for each language by using the "words" dropdown in the menu bar at the top of the page. There are many languages and lists available, with an example query and result
+                available for each on that page.</p>
 
+            <p>The API is searchable by word, happiness, rank, and standard deviation.
+                To search any of these, append the URL option like in the query examples on each word list page, where the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/"
+                    target="_blank">documentation</a>).</p>
 
-	  <pre>
-http://hedonometer.org/api/v1/words/?format=json&happs__gt=6&rank__lt=500&stdDev__lt=1&limit=3
-
-{
-    meta: {
-	limit: 3,
-	next: null,
-	offset: 0,
-	previous: null,
-	total_count: 9
-    },
-    objects: [
-	{
-	    googleBooksRank: -1,
-	    happs: 8.5,
-	    lyricsRank: 1728,
-	    newYorkTimesRank: -1,
-	    rank: 1,
-	    stdDev: 0.9313,
-	    twitterRank: 3600,
-	    word: "laughter"
-	},
-	{
-	    googleBooksRank: 2458,
-	    happs: 8.44,
-	    lyricsRank: 1230,
-	    newYorkTimesRank: -1,
-	    rank: 2,
-	    stdDev: 0.9723,
-	    twitterRank: 1853,
-	    word: "happiness"
-	},
-	{
-	    googleBooksRank: 1372,
-	    happs: 8.3,
-	    lyricsRank: 375,
-	    newYorkTimesRank: 1313,
-	    rank: 4,
-	    stdDev: 0.9949,
-	    twitterRank: 65,
-	    word: "happy"
-	}
-    ]
-}
-</pre>
-
-	  <p>The API is searchable by word, happiness, rank, and standard deviation.
-	    To search any of these, append the URL option like in the above query, where the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/" target="_blank">documentation</a>).
-
-	  <hr>
-
-	  <br>
-
-	  <h4>Happiness by State in US  <span class="label label-default">New</span></h4>
-
-	  <!-- <a href="http://hedonometer.org/api/v1/words/?format=json" target="_blank"><button type="button" class="btn btn-info">Download entire dataset</button></a> -->
-
-	  <br>
-
-	  <p>Example query and response, where we looking for happiness in California on August 10, 2014.</p>
-
-	  <a href="http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5" target="_blank"><button type="button" class="btn btn-primary">http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5</button></a>
-
-	  <br>
-	  <br>
-
-
-	  <pre>
-http://hedonometer.org/api/v1/geohapps/?format=json&stateName=California&date=2014-08-10&stateId=5
-
-{
-    meta: {
-	limit: 500,
-	next: null,
-	offset: 0,
-	previous: null,
-	total_count: 1
-    },
-    objects: [
-	{
-	    date: "2014-08-10T00:00:00",
-	    happiness: "5.979",
-	    stateId: 5,
-	    stateName: "California"
-	}
-    ]
-}
-</pre>
-
-	  <p>The API is searchable by state name, state ID, and date.
-	    To search any of these, append the URL option like in the above query, where again the full set of Django model queries are available (see <a href="https://docs.djangoproject.com/en/dev/topics/db/queries/" target="_blank">documentation</a>).
-
-	  <hr>
-	</div> <!-- column -->
-      </div>
-    </div><!--container-->
+            <hr>
+        </div> <!-- column -->
+    </div>
+</div>
+<!--container-->
 
 {% endblock %}
-
-
-
-
-
-
-
-

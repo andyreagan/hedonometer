@@ -42,18 +42,15 @@ urlpatterns = [
     url(r'^talks.html', TemplateView.as_view(template_name='hedonometer/talks.html'), name='talks'),
     url(r'^contact/',views.contact.as_view(), name='contactform'),
     url(r'^funding.html', TemplateView.as_view(template_name='hedonometer/funding.html'), name='funding'),
-    url(r'^api.html', TemplateView.as_view(template_name='hedonometer/data.html'), name='funding'),
-    url(r'^consulting.html', TemplateView.as_view(template_name='hedonometer/consulting.html'), name='funding'),
+    url(r'^api.html', TemplateView.as_view(template_name='hedonometer/api.html'), name='api'),
+    url(r'^consulting.html', TemplateView.as_view(template_name='hedonometer/consulting.html'), name='consulting'),
     url(r'^storylab.html', TemplateView.as_view(template_name='hedonometer/lab.html'), name='lab'),
     url(r'^maps.html', TemplateView.as_view(template_name='hedonometer/maps.html'),  name='maps'),
-    url(r'^devmaps.html', TemplateView.as_view(template_name='hedonometer/devmaps.html'), name='maps'),
+    url(r'^devmaps.html', TemplateView.as_view(template_name='hedonometer/devmaps.html'), name='devmaps'),
     url(r'^statesankey.html', TemplateView.as_view(template_name='hedonometer/statesankey.html'), name='statesankey'),
     url(r'^citysankey.html', TemplateView.as_view(template_name='hedonometer/citysankey.html'), name='citysankey'),
     url(r'^cities.html', TemplateView.as_view(template_name='hedonometer/cities2.html'), name='cities'),
-    url(r'^cities2.html', TemplateView.as_view(template_name='hedonometer/cities2.html'), name='cities'),
-    url(r'^legacyapi.html',
-        TemplateView.as_view(template_name='hedonometer/api.html'),
-        name='api'),
+    url(r'^cities2.html', TemplateView.as_view(template_name='hedonometer/cities2.html'), name='cities2'),
 
     # books
     # redirect this to version 1
