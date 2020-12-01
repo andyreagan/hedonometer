@@ -43,15 +43,15 @@
             <p>This is the API link: <a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=1000"
                     rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=1000</a></p>
             <p>You can also query the rt, no_rt versions:</p>
-            <ul>
-                <li><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_rt&amp;date__gte=2019-01-01&amp;limit=1000"
+            <ul class="list-group">
+                <li class="list-group-item"><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_rt&amp;date__gte=2019-01-01&amp;limit=1000"
                         rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_rt&amp;date__gte=2019-01-01&amp;limit=1000</a></li>
-                <li><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_no_rt&amp;date__gte=2019-01-01&amp;limit=1000"
+                <li class="list-group-item"><a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_no_rt&amp;date__gte=2019-01-01&amp;limit=1000"
                         rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_no_rt&amp;date__gte=2019-01-01&amp;limit=1000</a></li>
             </ul>
             <p>Here’s the top of <a href="http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2"
                     rel="nofollow">http://hedonometer.org/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2</a></p>
-            <pre><code>{
+                    <pre><code>{
   "meta": {
     "limit": 2,
     "next": "/api/v1/happiness/?format=json&amp;timeseries__title=en_all&amp;date__gte=2019-01-01&amp;limit=2&amp;offset=2",
@@ -128,8 +128,49 @@ Out[19]:
                     rel="nofollow">http://hedonometer.org/api/v1/events/?format=json&amp;happs__timeseries__title=en_all&amp;happs__date__gte=2020-05-15&amp;limit=1000</a></p>
             <p>(set the date back to 2019-01-01 or whenever you want them starting at).</p>
             <p>Here’s what you get from the events api:</p>
-            <pre><code>{"meta": {"limit": 1000, "next": null, "offset": 0, "previous": null, "total_count": 2}, "objects": [{"happs": {"date": "2020-05-26", "frequency": 249581473.0, "happiness": "5.870", "timeseries": "/api/v1/timeseries/3/"}, "id": 733, "importance": 5, "longer": "Murder of George Floyd during arrest in Minnesota", "resource_uri": "/api/v1/events/733/", "shorter": "Murder of,George Floyd", "wiki": "https://en.wikipedia.org/wiki/Death_of_George_Floyd", "x": -35, "y": 30}, {"happs": {"date": "2020-05-29", "frequency": 344542921.0, "happiness": "5.659", "timeseries": "/api/v1/timeseries/3/"}, "id": 735, "importance": 100, "longer": "Protests of police violence in response to the death of George Floyd", "resource_uri": "/api/v1/events/735/", "shorter": "Protests of,police violence", "wiki": "https://en.wikipedia.org/wiki/Twin_Cities_protests", "x": -50, "y": 50}]}
-      </code></pre>
+            <pre><code>{
+  "meta": {
+    "limit": 1000,
+    "next": null,
+    "offset": 0,
+    "previous": null,
+    "total_count": 2
+  },
+  "objects": [
+    {
+      "happs": {
+        "date": "2020-05-26",
+        "frequency": 249581473,
+        "happiness": "5.870",
+        "timeseries": "/api/v1/timeseries/3/"
+      },
+      "id": 733,
+      "importance": 5,
+      "longer": "Murder of George Floyd during arrest in Minnesota",
+      "resource_uri": "/api/v1/events/733/",
+      "shorter": "Murder of,George Floyd",
+      "wiki": "https://en.wikipedia.org/wiki/Death_of_George_Floyd",
+      "x": -35,
+      "y": 30
+    },
+    {
+      "happs": {
+        "date": "2020-05-29",
+        "frequency": 344542921,
+        "happiness": "5.659",
+        "timeseries": "/api/v1/timeseries/3/"
+      },
+      "id": 735,
+      "importance": 100,
+      "longer": "Protests of police violence in response to the death of George Floyd",
+      "resource_uri": "/api/v1/events/735/",
+      "shorter": "Protests of,police violence",
+      "wiki": "https://en.wikipedia.org/wiki/Twin_Cities_protests",
+      "x": -50,
+      "y": 50
+    }
+  ]
+}</code></pre>
 
             <hr>
 
