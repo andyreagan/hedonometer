@@ -151,7 +151,6 @@ function initializePlotPlot(lens, words) {
     hedotools.booktimeseries.setFigure(d3.select("#chapters03"));
     hedotools.booktimeseries.setData(fulltimeseries);
     hedotools.booktimeseries.plot();
-    hedotools.booktimeseries.drawAnnotations();
     hedotools.booktimeseries.showLine(true);
     selectChapterTop(d3.select("#chapters01"), timeseries.length);
     selectChapter(d3.select("#chapters02"), timeseries.length);
