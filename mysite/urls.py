@@ -13,7 +13,6 @@ urlpatterns = [
     # url(r'^$', 'mysite.views.home', name='home'),
     # url(r'^blog/', include('blog.urls')),
     url(r'^admin/', admin.site.urls),
-    url(r'^twitter/', include('twython_django.urls')),
     url(r'^', include('hedonometer.urls')),
 ]
 

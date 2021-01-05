@@ -1,6 +1,5 @@
 from hedonometer.models import *
 # from hedonometer.models import Event,Book,Happs,Word,Movie,Director,Actor,Writer,NYT
-from twython_django.models import TwitterProfile,Annotation,MovieAnnotation
 from tastypie.resources import ModelResource, ALL, ALL_WITH_RELATIONS
 from tastypie import fields
 from tastypie.serializers import Serializer
@@ -285,33 +284,6 @@ class RandomMovieResource(ModelResource):
         queryset = Movie.objects.all().order_by("?")
         resource_name = "randommovie"
         limit = 1
-
-class AnnotationResource(ModelResource):
-    book = fields.ForeignKey(BookResource, 'book')
-    class Meta:
-        queryset = Annotation.objects.all()
-        resource_name = "annotation"
-        limit = 500
-        filtering = {
-            "book": ALL_WITH_RELATIONS,
-            "position": ALL,
-            "winner": ALL,
-        }
-
-class MovieAnnotationResource(ModelResource):
-    movie = fields.ForeignKey(MovieResource, 'movie')
-    class Meta:
-        queryset = MovieAnnotation.objects.all()
-        resource_name = "movieannotation"
-        limit = 500
-        filtering = {
-            "movie": ALL_WITH_RELATIONS,
-            "position": ALL,
-            "winner": ALL,
-            "window": ALL,
-        }
-
-
 
 
 

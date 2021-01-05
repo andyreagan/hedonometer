@@ -13,11 +13,8 @@ from labMTsimple.speedy import *
 
 User = get_user_model()
 
-
 # If you've got your own Profile setup, see the note in the models file
 # about adapting this to your own setup.
-from twython_django.models import TwitterProfile
-
 
 def logout(request, redirect_url=settings.LOGOUT_REDIRECT_URL):
     """

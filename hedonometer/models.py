@@ -283,9 +283,6 @@ class Embeddable(models.Model):
     # coming from the user page, or from the
     contextFlag = models.CharField(max_length=200, blank=True)
 
-    # for the user-created embeds, so we can query by them
-    author = models.ForeignKey('twython_django.TwitterProfile', null=True, on_delete=models.CASCADE)
-
     # let's also add some more information about them
     createdDate = models.DateTimeField(null=True, blank=True)
     updatedDate = models.DateTimeField(null=True, blank=True)
