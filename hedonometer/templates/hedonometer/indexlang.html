@@ -131,14 +131,12 @@
 
 {% block bottomjs %}
 
-    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="https://d3js.org/d3.v4.js"></script>
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap-datepicker.js" %}"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
-    <script src="{% static "hedonometer/js/loadLabMTlang.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/d3-shifterator@4/dist/shifterator.js"></script>
     <script src="{% static "hedonometer/js/timeseries.js" %}"></script>
 
 {% endblock %}

@@ -1,5 +1,80 @@
+// hedonometer.org/maps.html needs this in hedotools.map.js
+var classColor = d3.scaleQuantize()
+    .range([0, 1, 2, 3, 4, 5, 6])
+    .domain([50, 1]);
+
+// begin with some helper functions
+// http://stackoverflow.com/a/1026087/3780153
+function capitaliseFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// this works really well, but it's deadly slow (working max 5 elements)
+// and it's coupled to jquery
+// http://stackoverflow.com/a/5047712/3780153
+String.prototype.width = function(font) {
+    var f = font || '12px arial',
+        o = $('<div>' + this + '</div>')
+        .css({
+            'position': 'absolute',
+            'float': 'left',
+            'white-space': 'nowrap',
+            'visibility': 'hidden',
+            'font': f
+        })
+        .appendTo($('body')),
+        w = o.width();
+    o.remove();
+    return w;
+}
+
+String.prototype.safe = function() {
+    var tmp = this.split("/")
+    tmp[tmp.length - 1] = escape(tmp[tmp.length - 1])
+    return tmp.join("/");
+}
+
+// yup
+// http://stackoverflow.com/questions/3883342/add-commas-to-a-number-in-jquery
+function commaSeparateNumber(val) {
+    while (/(\d+)(\d{3})/.test(val.toString())) {
+        val = val.toString().replace(/(\d+)(\d{3})/, '$1' + ',' + '$2');
+    }
+    return val;
+}
+
+function splitWidth(s, w) {
+    // s is the string
+    // w is the width that we want to split it to
+    var t = s.split(" ");
+    var n = [t[0]];
+    var i = 1;
+    var j = 0;
+    while (i < t.length) {
+        if ((n[j] + t[i]).width() < w) {
+            n[j] += " " + t[i]
+        } else {
+            j++;
+            n.push(t[i]);
+        }
+        i++;
+    }
+    return n;
+}
+
+// look away
+var intStr = ["one", "two", "three", "four"];
+var intStr0 = ["zero", "one", "two", "three"];
+
 // main context
 (function() {
+
+    var hedotools = {};
+    hedotools.shifter = shifterator.shifterator();
+    hedotools.shifter._lens(lens);
+    hedotools.shifter._words(words);
+    hedotools.shifter._words_en(words_en);
+    hedotools.shifter.ignore(ignoreWords);
 
     if (document.documentElement.clientWidth < 500) {
         var initialMonths = 3;
@@ -13,21 +88,23 @@
     var today = new Date;
     var bigdays = {};
     var shiftTypeSelect = false;
-    var formatDate = d3.time.format("%b %Y");
-    var cformat = d3.time.format("%Y-%m-%d");
+    var formatDate = d3.timeFormat("%b %Y");
+    var parseDate = d3.timeParse("%b %Y");
+    var cformat = d3.timeFormat("%Y-%m-%d");
+    var cparse = d3.timeParse("%Y-%m-%d");
     // pull these from the page template
-    var beginningOfTime = cformat.parse(startDate);
-    var endOfTime = cformat.parse(endDate);
-    var dformat = d3.time.format("%Y-%m-%dT00:00:00");
-    var longformat = d3.time.format("%B %e, %Y");
-    var longerformat = d3.time.format("%A, %B %e, %Y");
+    var beginningOfTime = cparse(startDate);
+    var endOfTime = cparse(endDate);
+    var dformat = d3.timeFormat("%Y-%m-%dT00:00:00");
+    var longformat = d3.timeFormat("%B %e, %Y");
+    var longerformat = d3.timeFormat("%A, %B %e, %Y");
     // declare all of the URL coders
     var fromencoder = d3.urllib.encoder().varname("from");
     var toencoder = d3.urllib.encoder().varname("to");
     // var fromdecoder = d3.urllib.decoder().varname("from").varresult(startDate);
     // var todecoder = d3.urllib.decoder().varname("to").varresult(endDate);
-    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.time.month.offset(today, -initialMonths)));
-    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.time.day.offset(today, -1)));
+    var fromdecoder = d3.urllib.decoder().varname("from").varresult(cformat(d3.timeMonth.offset(today, -initialMonths)));
+    var todecoder = d3.urllib.decoder().varname("to").varresult(cformat(d3.timeDay.offset(today, -1)));
     var dateencoder = d3.urllib.encoder().varname("date");
     var datedecoder = d3.urllib.decoder().varname("date");
     var shiftselencoder = d3.urllib.encoder().varname("wordtypes");
@@ -98,7 +175,7 @@
     // this will be ran whenever we mouse over a circle
     function myMouseDownOpenWordShiftFunction() {
         var circle = d3.select(this);
-        popdate = cformat.parse(circle.attr("shortdate"));
+        popdate = cparse(circle.attr("shortdate"));
         transitionBigShift(popdate);
     };
 
@@ -152,7 +229,7 @@
     function myMouseOverFunction() {
         // context is invoked inside mouseover event
         var circle = d3.select(this);
-        popdate = cformat.parse(circle.attr("shortdate"));
+        popdate = cparse(circle.attr("shortdate"));
         hovertimer = setTimeout(function() {
             drawSmallShift(parseFloat(circle.attr("cx")), parseFloat(circle.attr("cy")), popdate, false)
         }, popupEnterDur);
@@ -175,53 +252,32 @@
     var MainxAxisSpace = 40;
     //height2 = document.documentElement.clientHeight * 0.5;
 
-    var bigdayscale = d3.scale.linear()
+    var bigdayscale = d3.scaleLinear()
         .domain([0, endOfTime.getTime() - beginningOfTime.getTime()])
         .range([-100, 99.5]);
 
-    var x = d3.time.scale().range([0, width - 7]); //.domain([new Date(2008,8,10),endOfTime]);
-    var x2 = d3.time.scale().range([0, width - 7]).domain([beginningOfTime, endOfTime]);
+    var x = d3.scaleTime().range([0, width - 7]); //.domain([new Date(2008,8,10),endOfTime]);
+    var x2 = d3.scaleTime().range([0, width - 7]).domain([beginningOfTime, endOfTime]);
 
-    var y = d3.scale.linear().range([height, 0]);
-    var y2 = d3.scale.linear().range([height2, 0]);
+    var y = d3.scaleLinear().range([height, 0]);
+    var y2 = d3.scaleLinear().range([height2, 0]);
     // for the frequency plot
-    var y3 = d3.scale.linear().range([height, 6 * height / 7]);
+    var y3 = d3.scaleLinear().range([height, 6 * height / 7]);
 
-    var xAxis = d3.svg.axis().scale(x).orient("bottom"),
-        xAxis2 = d3.svg.axis().scale(x2).orient("bottom"),
-        yAxis = d3.svg.axis().scale(y).orient("left"),
-        yAxis2 = d3.svg.axis().scale(y).orient("right").ticks(7);
-    // for the freqency
-    // var formatInteger = d3.format(".0f");
-    // var formatMillions = function(d) {
-    //     if (d>0) {
-    //         return formatInteger(d / 1e6) + "M";
-    //     }
-    //     else {
-    //         return "0";
-    //     }
-    // };
+    var xAxis = d3.axisBottom(x),
+        xAxis2 = d3.axisBottom(x2),
+        yAxis = d3.axisLeft(y),
+        yAxis2 = d3.axisRight(y).ticks(7);
 
-    // yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatMillions);
+    var brush = d3.brushX()
+        .extent([
+            [0, 0],
+            [width - 7, height2]
+        ])
+        .on("brush", brushed)
+        .on("end", brushended);
 
-    // console.log([d3.time.month.offset(endOfTime,-18),endOfTime]);
-    // console.log([x2(d3.time.month.offset(endOfTime,-18)),x2(endOfTime)]);
-    // var brush = d3.svg.brush().x(x2).extent([d3.time.month.offset(endOfTime,-18),endOfTime]).on("brush", brushing).on("brushend",brushended);
-    var brush = d3.svg.brush()
-        .x(x2)
-        .extent([cformat.parse(fromdecoder().cached), cformat.parse(todecoder().cached)])
-        .on("brush", brushing)
-        .on("brushend", brushended);
-
-    // console.log(brush.extent());
-    // console.log([fromdecoder().current,todecoder().current]);
-
-    // var fisheye = d3.fisheye.circular()
-    //     .radius(120);
-
-    var line = d3.svg.line()
-        // .interpolate('cardinal')
-        .interpolate('linear')
+    var line = d3.line()
         .x(function(d) {
             return x(d.date);
         })
@@ -229,19 +285,16 @@
             return y(d.value);
         });
 
-    var line0 = d3.svg.line();
-    // var fishline0 = d3.svg.line();
-    //     // .x(function(d) { return d.x })
-    //     // .y(function(d) { return d.y });
+    var line0 = d3.line();
 
     var date1 = new Date(0000, 11, 25);
-    var format = d3.time.format("%m-%d");
+    var format = d3.timeFormat("%m-%d");
 
     var prevx = 0;
     var prevy = 0;
 
     //This attempts to draw a line that connects all dates that match 11/25
-    var line3 = d3.svg.line()
+    var line3 = d3.line()
         .x(function(d) {
             if ((format(d.date) == format(date1))) {
                 prevx = d.date;
@@ -259,14 +312,8 @@
             }
         });
 
-    // var area2 = d3.svg.area()
-    //     .interpolate("linear")
-    //     .x(function(d) { return x2(d.date); })
-    //     .y0(height2)
-    //     .y1(function(d) { return y2(d.value); });
-
     // make the bottom area into a line
-    var area2 = d3.svg.line()
+    var area2 = d3.line()
         .x(function(d) {
             return x2(d.date);
         })
@@ -275,8 +322,7 @@
         });
 
     // area for the freq
-    var area3 = d3.svg.area()
-        .interpolate("linear")
+    var area3 = d3.area()
         .x(function(d) {
             return x(d.date);
         })
@@ -306,24 +352,21 @@
     // .on("mousedown",function() { d3.select("#minilist").remove() });
 
     var legendgroup = svg.append("g")
-        .attr({
-            "class": "legendgroup",
-            "transform": "translate(" + (width - 10 - 366) + "," + 1 + ")",
-        });
+        .attr(
+            "class", "legendgroup")
+        .attr("transform", "translate(" + (width - 10 - 366) + "," + 1 + ")");
 
     legendgroup.append("rect")
-        .attr({
-            "class": "legendbox",
-            "x": 0,
-            "y": 0,
-            "rx": 3,
-            "ry": 3,
-            "width": 366,
-            "height": 19,
-            "fill": "#F0F0F0",
-            'stroke-width': '0.5',
-            'stroke': 'rgb(0,0,0)'
-        });
+        .attr("class", "legendbox")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("rx", 3)
+        .attr("ry", 3)
+        .attr("width", 366)
+        .attr("height", 19)
+        .attr("fill", "#F0F0F0")
+        .attr('stroke-width', '0.5')
+        .attr('stroke', 'rgb(0,0,0)')
 
     var legendboxwidth = 43;
 
@@ -372,17 +415,13 @@
         .data(weekDaysShort)
         .enter()
         .append("rect")
-        .attr({
-            "class": "legendrect",
-            "x": function(d, i) {
-                return legendboxwidth * i;
-            },
-            "y": 0,
-            "width": legendboxwidth - 2,
-            "height": 19,
-            "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-            "opacity": "0.0",
-        })
+        .attr("class", "legendrect")
+        .attr("x", (d, i) => legendboxwidth * i)
+        .attr("y", 0)
+        .attr("width", legendboxwidth - 2)
+        .attr("height", 19)
+        .attr("fill", "white")
+        .attr("opacity", "0.0")
         .on("mousedown", function(d, i) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
@@ -412,15 +451,13 @@
     legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id", "togall");
 
     legendgroup.append("rect")
-        .attr({
-            "class": "legendrect",
-            "x": 301,
-            "y": 0,
-            "width": 66,
-            "height": 20,
-            "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-            "opacity": "0.0",
-        })
+        .attr("class", "legendrect")
+        .attr("x", 301)
+        .attr("y", 0)
+        .attr("width", 66)
+        .attr("height", 20)
+        .attr("fill", "white")
+        .attr("opacity", "0.0")
         .on("mousedown", function() {
             legendDict.toggle('togall');
             legendDict['mon'] = legendDict['togall'];
@@ -454,7 +491,7 @@
                 [new Date(2019, 00, 01), new Date(2019, 11, 31)],
                 [new Date(2020, 00, 01), endOfTime],
                 [beginningOfTime, endOfTime],
-                [d3.time.month.offset(endOfTime, -18), endOfTime],
+                [d3.timeMonth.offset(endOfTime, -18), endOfTime],
             ],
             yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "Full", "Last 18 mo"],
             yearstringslen = yearstrings.map(function(d) {
@@ -466,32 +503,26 @@
 
 
         svg.append("text")
-            .attr({
-                "x": (width - 10 - fullyearboxwidth - 53),
-                "y": 44,
-                "fill": "grey",
-            })
+            .attr("x", (width - 10 - fullyearboxwidth - 53))
+            .attr("y", 44)
+            .attr("fill", "grey")
             .text("Jump to:");
 
         var yeargroup = svg.append("g")
-            .attr({
-                "class": "yeargroup",
-                "transform": "translate(" + (width - 10 - fullyearboxwidth) + "," + 30 + ")",
-            });
+            .attr("class", "yeargroup")
+            .attr("transform", "translate(" + (width - 10 - fullyearboxwidth) + "," + 30 + ")")
 
         yeargroup.append("rect")
-            .attr({
-                "class": "yearbox",
-                "x": 0,
-                "y": 0,
-                "rx": 3,
-                "ry": 3,
-                "width": fullyearboxwidth,
-                "height": 19,
-                "fill": "#F0F0F0",
-                'stroke-width': '0.5',
-                'stroke': 'rgb(0,0,0)'
-            });
+            .attr("class", "yearbox")
+            .attr("x", 0)
+            .attr("y", 0)
+            .attr("rx", 3)
+            .attr("ry", 3)
+            .attr("width", fullyearboxwidth)
+            .attr("height", 19)
+            .attr("fill", "#F0F0F0")
+            .attr('stroke-width', '0.5')
+            .attr('stroke', 'rgb(0,0,0)')
 
         yeargroup.selectAll("text")
             .data(yearstrings)
@@ -517,35 +548,28 @@
             .data(datearray)
             .enter()
             .append("rect")
-            .attr({
-                "class": "yearrect",
-                "x": function(d, i) {
-                    if (i === 0) {
-                        return 0;
-                    } else {
-                        return d3.sum(yearstringslen.slice(0, i)) + i * boxpadding + (i - 1) * boxpadding + initialpadding;
-                    }
-                },
-                "y": 0,
-                "width": function(d, i) {
-                    if (i === 0) {
-                        return yearstringslen[i] + initialpadding + boxpadding;
-                    } else {
-                        return yearstringslen[i] + boxpadding * 2;
-                    }
-                },
-                "height": 19,
-                "fill": "white", //http://www.w3schools.com/html/html_colors.asp
-                "opacity": "0.0",
+            .attr("class", "yearrect")
+            .attr("x", function(d, i) {
+                if (i === 0) {
+                    return 0;
+                } else {
+                    return d3.sum(yearstringslen.slice(0, i)) + i * boxpadding + (i - 1) * boxpadding + initialpadding;
+                }
             })
+            .attr("y", 0)
+            .attr("width", function(d, i) {
+                if (i === 0) {
+                    return yearstringslen[i] + initialpadding + boxpadding;
+                } else {
+                    return yearstringslen[i] + boxpadding * 2;
+                }
+            })
+            .attr("height", 19)
+            .attr("fill", "white")
+            .attr("opacity", "0.0")
             .on("mousedown", function(d, i) {
-                // console.log(yearstrings[i]);
-                // do everything brush related
-                brush.extent(d);
-                brushing();
-                brushended();
-                context.select(".x.brush")
-                    .call(brush);
+                console.log([x2(d[0]), x2(d[1])]);
+                brushgroup.call(brush.move, [x2(d[0]), x2(d[1])])
                 var cutoff = bigdayscale(d[1].getTime() - d[0].getTime());
                 d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility", function(d, i) {
                     if (d.importance > cutoff) {
@@ -584,582 +608,67 @@
 
     var minDate, maxDate;
 
-    var happs_loaded_callback = function(data) {
-        minDate = getDate(data[0]);
-        maxDate = getDate(data[data.length - 1]);
-        console.log('here are the min and max date picked up from happs encoded in html');
-        console.log(minDate);
-        console.log(maxDate);
-        // var parse = d3.time.format("%Y-%m-%d").parse;
-
-        for (i = 0; i < data.length; i++) {
-            data[i].shortDate = data[i].date;
-            data[i].date = cformat.parse(data[i].date);
-        }
-
-        timeseries = data;
-
-        x.domain(d3.extent(data.map(function(d) {
-            return d.date;
-        })));
-        // y.domain([5.8, 6.40]);
-        var happsextent = d3.extent(data.map(function(d) {
-            return d.value;
-        }))
-        var extraspace = .1;
-        y.domain([happsextent[0] - extraspace, happsextent[1] + extraspace]);
-        //x2.domain(x.domain());
-        y2.domain(y.domain());
-
-        // var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
-        var path = focus.append("path")
-            .attr("id", "path")
-            .data([data])
-            .attr({
-                "clip-path": "url(#clip)",
-                "d": line,
-                "fill": "none",
-                "stroke": "grey",
-                "stroke-width": "1.2px",
-            });
-
-        // focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
-
-        focus.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").transition().duration(dur).call(xAxis);
-        // text for legend h_avg
-        // focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
-        //focus.append("g").attr("class", "y axis").call(yAxis);
-        focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
-        // focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
-
-        // go ahead and apply styles directly to these
-        focus.select(".x.axis").select("path").attr("fill", "none");
-        focus.select(".x.axis").selectAll("line")
-            .attr({
-                "fill": "none",
-                "stroke": "grey",
-                "shape-rendering": "crispEdges",
-            });
-        focus.selectAll(".y.axis").select("path").attr("fill", "none");
-
-        horizontalLineGroup = focus.append("g")
-        // horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
-        horizontalLineGroup.selectAll("line").data(y.ticks(7)).enter().append("line")
-            .attr("class", "horizontalLines")
-            //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
-            .attr("x1", 0)
-            .attr("x2", width)
-            .attr("y1", function(d) {
-                return y(d);
-            })
-            .attr("y2", function(d) {
-                return y(d);
-            })
-            .attr("fill", "none")
-            .attr("stroke", function(d, i) {
-                if (i === 0) {
-                    return "grey";
-                } else {
-                    return "grey";
-                }
-            })
-            .attr("stroke-dasharray", function(d, i) {
-                if (i === 0) {
-                    return "5";
-                } else {
-                    return "5";
-                }
-            })
-            .attr("stroke-width", "0.3px");
-
-        horizontalLineGroup.append("line")
-            .attr("class", "horizontalLinesFirst") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
-            .attr("x1", 0)
-            .attr("x2", width)
-            .attr("y1", function(d) {
-                return height;
-            })
-            .attr("y2", function(d) {
-                return height;
-            }) // y(y.ticks(7)[0]); })
-            .attr("fill", "none")
-            .attr("stroke", function(d, i) {
-                if (i === 0) {
-                    return "grey";
-                } else {
-                    return "grey";
-                }
-            })
-            //.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
-            .attr("stroke-width", "1.5px");
-
-        // focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
-
-        // console.log(data);
-
-        var circle = focus2.selectAll("circle").data(data);
-
-        var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
-        //yearDict.toggle(d,);
-
-        circle.enter().append("circle")
-            .attr({
-                "class": function(d) {
-                    return weekDays[d.date.getDay()];
-                },
-                "fill": function(d) {
-                    return circleColors[weekDays[d.date.getDay()]].fill;
-                },
-                "stroke": "#000",
-                "stroke-width": "0.5",
-                "opacity": "0.7",
-                "cursor": "hand",
-                "cursor": "pointer",
-                "cx": function(d, i) {
-                    return x(d.date);
-                },
-                "clip-path": "url(#clip)",
-                "shortdate": function(d) {
-                    return d.shortDate;
-                },
-                "havg": function(d) {
-                    d.value.toFixed(2);
-                },
-                "day": function(d) {
-                    return weekDays[d.date.getDay()];
-                },
-                "date": function(d) {
-                    return d.date;
-                },
-                "cy": function(d) {
-                    return y(d.value);
-                },
-                "r": function(d) {
-                    return rScale(currRange);
-                },
-            })
-            .on("mouseover.enlarge", function() {
-                d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5);
-            })
-            .on("mouseover.popup", myMouseOverFunction)
-            .on("mouseout", myMouseOutFunction)
-            .on("mousedown", myMouseDownOpenWordShiftFunction);
-
-        context.append("path")
-            .data([data])
-            .attr({
-                "class": "mini",
-                "fill": "none",
-                "stroke": "grey",
-                // "stroke": "#5788C7",
-                // "stroke": "#34ACE4",
-                "stroke-width": "1.5px",
-                "d": area2,
-            });
-
-        // need a line below now too
-        context.append("line")
-            .attr("x1", 0)
-            .attr("x2", width)
-            .attr("y1", function(d) {
-                return height2;
-            })
-            .attr("y2", function(d) {
-                return height2;
-            }) // y(y.ticks(7)[0]); })
-            .attr("fill", "none")
-            .attr("stroke", function(d, i) {
-                return "grey"
-            })
-            .attr("stroke-width", ".7px");
-
-        context.append("g").attr("class", "x axis")
-            .attr("transform", "translate(" + "0" + "," + height2 + ")")
-            .call(xAxis2);
-
-        context.select(".x.axis").selectAll("line")
-            .attr({
-                "fill": "none",
-                "stroke": "grey",
-                "shape-rendering": "crispEdges",
-            });
-
-        context.select(".x.axis").select("path").attr("fill", "none");
-
-        var format = d3.time.format("%m-%d");
-
-        d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title,
-            function(json) {
-            bigdays = json.objects.map(function(d) {
-                d.date = cformat.parse(d.happs.date);
-                d.x = +d.x;
-                d.y = +d.y;
-                d.value = +d.happs.happiness;
-                d.importance = +d.importance;
-                d.shorter = d.shorter.split(',');
-                // don't let them overflow the bottom
-                d.y = d3.min([d.y, height - (y(d.value)) - d.shorter.length * 10]);
-                return d;
-            });
-            console.log("the events are:");
-            console.log(bigdays);
-
-            var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
-                .append("line")
-                .attr({
-                    // the x and y get set upon brushing
-                    "stroke": "grey",
-                    "stroke-width": 0.5,
-                    "class": "bigdayline",
-                    "visibility": "hidden",
-                });
-
-            var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
-                .append("g")
-                .attr("class", "bigdaygroup")
-                .attr("transform", function(d, i) {
-                    return "translate(" + (x(d.date) + d.x) + "," + (y(d.value) + d.y) + ")";
-                });
-
-            var textwidth = 6;
-            // width of characters
-            var charwidth = 3;
-
-            var line0 = bigdaygroups
-                .append("text")
-                .text(function(d) { // console.log(d.shorter.length);
-                    return d.shorter[0];
-                })
-                .attr("class", "bigdaytext")
-                // .attr("stroke-width","0.1")
-                .attr("dx", 0)
-                //function(d) {
-                // return -d.shorter[0].width()/2;
-                // return 0;
-                //return -d.shorter[0].length*charwidth/2;
-                // return -d3.select(this).attr("width")/2;
-                //})
-                .attr("dy", function(d) {
-                    return 0;
-                })
-                .attr("stroke", "")
-                .attr("fill", "grey")
-                .attr("visibility", "hidden");
-
-            bigdaygroups
-                .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 1) {
-                        return d.shorter[1];
-                    } else {
-                        return "";
-                    }
-                })
-                .attr("class", "bigdaytext")
-                .attr("dx", 0) // function(d) {
-                //     if (d.shorter.length > 1) {
-                //     // return -d.shorter[1].width()/2;
-                //     // return 0;
-                //     return -d.shorter[1].length*charwidth/2;
-                //     }
-                //     else {
-                //     return 0;
-                //     }
-                // })
-                .attr("dy", function(d) {
-                    return 15;
-                })
-                .attr("stroke", "")
-                .attr("fill", "grey")
-                .attr("visibility", "hidden");
-
-            bigdaygroups
-                .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 2) {
-                        return d.shorter[2];
-                    } else {
-                        return "";
-                    }
-                })
-                .attr("class", "bigdaytext")
-                .attr("dx", 0)
-                .attr("dy", function(d) {
-                    return 30;
-                })
-                .attr("stroke", "")
-                .attr("fill", "grey")
-                .attr("visibility", "hidden");
-
-            bigdaygroups
-                .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 3) {
-                        return d.shorter[3];
-                    } else {
-                        return "";
-                    }
-                })
-                .attr("class", "bigdaytext")
-                .attr("dx", 0)
-                .attr("dy", function(d) {
-                    return 45;
-                })
-                .attr("stroke", "")
-                .attr("fill", "grey")
-                .attr("visibility", "hidden");
-
-            // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
-            //     return -d3.select(this).attr("width")/2;
-            // })
-
-            // call the brush initially
-            brushing();
-            focus.selectAll(".brushingline")
-                .attr({
-                    "visibility": "hidden",
-                });
-
-            // now go and fix all of the offsets
-            d3.selectAll("text.bigdaytext").attr("dx", function(d, i) {
-                return -this.clientWidth / 2;
-            })
-            // d3.selectAll("text.bigdaytext").attr("fill","white")
-            // d3.selectAll("line.bigdayline").attr("stroke","white")
-
-            // add a catch to update the popup based on whether there was a big event
-            // console.log(datedecoder().current);
-            if (datedecoder().current.length > 0) {
-                // console.log("checking for popup event");
-                var pulldate = cformat.parse(datedecoder().current);
-                for (var i = 0; i < bigdays.length; i++) {
-                    if (bigdays[i].date.getTime() === pulldate.getTime()) {
-                        bigdaytest = true;
-                        bigdaywiki = bigdays[i].wiki;
-                        bigdaytext = bigdays[i].longer;
-                        // console.log(addthis_share.passthrough.twitter.text);
-                        // addthis_share.passthrough.twitter.text = bigdaytext + ", " + longformat(pulldate) + ", word shift:"
-                        // console.log(addthis_share.passthrough.twitter.text);
-                        d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="' + bigdaywiki.safe() + '" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
-                        var modalbody = d3.select("#moveshifthere");
-                        var paragraphs = modalbody.selectAll("p").data(["<b>" + longerformat(pulldate) + "</b>", "<b>" + bigdaytext + "</b>"]);
-                        paragraphs.attr("class", "shifttitle").html(function(d, i) {
-                            return d;
-                        });
-                        break;
-                    };
-                }; // loop over events
-            }; // check datedecoder.length
-        }); // d3.json for events
-
-            var freqExtent = d3.extent(data.map(function(d) {
-                return d.freq;
-            }))
-
-            y3.domain(freqExtent);
-
-            function formatPrefix(ticks) {
-                var prefix = d3.formatPrefix(ticks[1] - ticks[0]),
-                    format = d3.format(".0f");
-                return function(d) {
-                    return format(prefix.scale(d)) + prefix.symbol;
-                };
-            }
-
-            formatAuto = formatPrefix(freqExtent);
-
-            var formatAutoZero = function(d) {
-                if (d > 0) {
-                    return formatAuto(d);
-                } else {
-                    return "0";
-                }
-            };
-
-            yAxis3 = d3.svg.axis().scale(y3).orient("left").ticks(2).tickFormat(formatAutoZero);
-
-            focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
-            focus.selectAll(".y.axis").select("path").attr("fill", "none");
-
-            focus.append("path")
-                .data([data])
-                .attr({
-                    "clip-path": "url(#clip)",
-                    "id": "freq",
-                    "fill": "#E0E0E0",
-                    "stroke": "#C8C8C8",
-                    "stroke-width": ".5px",
-                    "d": area3,
-                });
-
-            // d3.select(".x.brush").call(brush.event);
-            var brushgroup = context.append("g").attr("class", "x brush")
-                .call(brush);
-            // .call(brush.event);
-
-            brushgroup
-                .selectAll("rect")
-                .attr({
-                    "y": -6,
-                    "height": (height2 + 7),
-                    "stroke": "#fff",
-                    // "fill-opacity": .125,
-                    // "shape-rendering": "crispEdges",
-                    "cursor": "ew-resize",
-                });
-
-            brushgroup
-                .select("rect.extent")
-                .attr({
-                    "fill": "wheat",
-                    "opacity": "0.5",
-                });
-
-            brushgroup
-                .select("g.resize.w")
-                .select("rect")
-                .attr({
-                    "y": -6,
-                    "height": (height2 + 7),
-                    "stroke": "#fff",
-                    "fill": "darkgrey",
-                    // "fill-opacity": null,
-                    // "shape-rendering": null,
-                    "cursor": "ew-resize",
-                })
-                .style("visibility", "visible");
-
-            brushgroup
-                .select("g.resize.e")
-                .select("rect")
-                .attr({
-                    "y": -6,
-                    "height": (height2 + 7),
-                    "stroke": "#fff",
-                    "fill": "darkgrey",
-                    // "fill-opacity": null,
-                    // "shape-rendering": null,
-                    "cursor": "ew-resize",
-                })
-                .style("visibility", "visible");
-
-            // call the brush initially
-            brushing();
-
-            focus.selectAll(".brushingline")
-                .attr({
-                    "visibility": "hidden",
-                });
-    }; // main data load
-
-    // function fishline(d) {    // function fishline(d) {
-    //     return fishline0(d.map(function(d) {
-    //         d = fisheye({x: x(d.date), y: y(d.value)});
-    //         return [d.x, d.y];
-    //     }));
-    // };
-
     function line(d) {
         return line0(d.map(function(d) {
             return [d.x, d.y];
         }));
     };
 
-    function brushended() {
-        console.log("brushended");
+    function brushended(selection) {
+        // console.log("brushended");
+        // console.log(d3.event);
+
         fromencoder.varval(cformat(x.domain()[0]));
         toencoder.varval(cformat(x.domain()[1]));
-        focus.selectAll(".brushingline")
-            .attr({
-                "visibility": "hidden",
-            });
+
+        // focus.selectAll(".brushedline")
+        //     .attr("visibility", "hidden");
     }
 
-    focus.selectAll("brushingline").data([0, width]).enter().append("line")
-        .attr({
-            "class": "brushingline",
-            "x1": function(d, i) {
-                return d;
-            },
-            "x2": function(d, i) {
-                return x2(brush.extent()[i]);
-            },
-            "y1": 475,
-            "y2": 500,
-            "stroke": "#C0C0C0",
-            "stroke-width": 2,
-            "visibility": "hidden",
-        });
-
-    function brushing() {
-        console.log("brushing");
+    function brushed() {
+        // console.log("brushed");
+        // console.log(d3.event);
+        // console.log(d3.event.selection.map(x2.invert));
+        //
         // console.log(x.domain()[0].getTime());
         // console.log(x.domain()[1].getTime());
         // console.log(x2.domain());
-        // console.log(brush.extent());
+        // console.log(brush.extent()());
 
-        var currRange = (brush.extent()[1].getTime() - brush.extent()[0].getTime());
-        // var currRange = (x.domain()[1].getTime()-x.domain()[0].getTime());
-        // toggleDays(rScale(currRange));
+        const currRange = d3.event.selection.map(x2.invert);
+        console.log(currRange);
 
-        //x.domain(brush.empty() ? x2.domain() : brush.extent());
-        x.domain(brush.empty() ? x2.domain() : brush.extent());
-        //focus.select("#path").attr("d", fishline);
+        x.domain(currRange);
         focus.select("#path").attr("d", line);
         focus.select("#freq").attr("d", area3);
         focus.select(".x.axis").call(xAxis);
 
         focus.select(".x.axis").selectAll("line")
-            .attr({
-                "fill": "none",
-                "stroke": "grey",
-                "shape-rendering": "crispEdges",
-            });
+            .attr("fill", "none")
+            .attr("stroke", "grey")
+            .attr("shape-rendering", "crispEdges")
 
-        focus.selectAll(".brushingline")
-            .attr({
-                "x2": function(d, i) {
-                    return x2(brush.extent()[i])
-                },
-                "visibility": "visible",
-            });
+        // focus.selectAll(".brushedline")
+        //     .attr("x2", (d, i) => x2(brush.extent()[i]))
+        //     .attr("visibility", "visible")
 
-        var circle = focus2.selectAll("circle").attr("cx", function(d) {
-            return x(d.date);
-        }).attr("cy", function(d) {
-            return y(d.value);
-        });
+        var circle = focus2.selectAll("circle")
+            .attr("cx", d => x(d.date))
+            .attr("cy", d => y(d.value))
 
         focus2.selectAll("circle")
-            .attr("r", function(d) {
-                return rScale(currRange);
-            });
+            .attr("r", rScale(x.domain()[1].getTime() - x.domain()[0].getTime()))
 
-        var rect = focus2.selectAll("rect").attr("x", function(d) {
-            return x(d.date);
-        }).attr("y", function(d) {
-            return y(d.value + .02);
-        });
+        var rect = focus2.selectAll("rect")
+            .attr("x", d => x(d.date))
+            .attr("y", d => y(d.value + .02));
 
         var lines = focus2.selectAll("line.bigdayline")
-            .attr({
-                "x1": function(d, i) {
-                    return x(d.date);
-                },
-                "x2": function(d, i) {
-                    return x(d.date) + d.x;
-                },
-                "y1": function(d, i) {
-                    return y(d.value) + 3 * (d.y / Math.abs(d.y));
-                }, // 2 in the direction of the offset +2*(d.y/d.y)
-                "y2": function(d, i) {
-                    if (d.y > 0) {
-                        return y(d.value) + d.y - 10;
-                    } else {
-                        return y(d.value) + d.y + d.shorter.length * 12 - 6;
-                    }
-                },
-            });
+            .attr("x1", d => x(d.date))
+            .attr("x2", (d, i) => x(d.date) + d.x)
+            .attr("y1", (d, i) => y(d.value) + 3 * (d.y / Math.abs(d.y)))
+            // 2 in the direction of the offset +2*(d.y/d.y)
+            .attr("y2", (d, i) => (d.y > 0) ? y(d.value) + d.y - 10 : y(d.value) + d.y + d.shorter.length * 12 - 6)
 
         var groups = focus2.selectAll("g.bigdaygroup")
             .attr("transform", function(d, i) {
@@ -1168,11 +677,9 @@
 
         d3.select("#minilist").remove();
 
-        var cutoff = bigdayscale(currRange);
+        var cutoff = bigdayscale(x.domain()[1].getTime() - x.domain()[0].getTime());
         // console.log(cutoff);
 
-        // d3.selectAll("text.bigdaytext").attr("fill",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
-        // d3.selectAll("line.bigdayline").attr("stroke",function(d,i) { if ( d.importance > cutoff ) { return "grey"; } else { return "white"; } })
         d3.selectAll("text.bigdaytext").transition().duration(1000).attr("visibility", function(d, i) {
             if (d.importance > cutoff) {
                 return "visible";
@@ -1190,7 +697,7 @@
     }
 
     var fullRange = (endOfTime.getTime() - beginningOfTime.getTime());
-    var rScale = d3.scale.linear().range([rmax, 1.25]);
+    var rScale = d3.scaleLinear().range([rmax, 1.25]);
     rScale.domain([0, fullRange]);
 
 
@@ -1267,7 +774,7 @@
         d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv", function(tmp) {
             // compFvec = tmp.split(',').slice(0,10222);
             compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.time.day.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
+            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
                 // refFvec = tmp2.split(',').slice(0,10222);
                 refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -1284,7 +791,7 @@
                 hedotools.shifter.shifter();
                 hedotools.shifter.setWidth(modalwidth);
                 hedotools.shifter.setText([" ", " ", " ", " "]);
-                hedotools.shifter.setfigure(d3.select('#moveshifthere')).plot();
+                hedotools.shifter.setfigure('#moveshifthere').plot();
 
                 // danger! this calls next day
                 // so, it's replotting
@@ -1377,7 +884,7 @@
             return triangleptsXY(circleX, circleY);
         }).attr("stroke", "grey").attr("fill", "white").attr("opacity", 0.96).attr("stroke-width", "1");
 
-        // shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cformat.parse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
+        // shortlist.append("svg:text").attr("x", 20).attr("y", 14).attr("shortdate", circle.attr("shortdate")).text(circle.attr("day") + ", " + longformat(cparse(circle.attr("shortdate")))).attr("font-size", "10px").attr("font-weight", "bold").attr("class","shifttitledate");
         shortlist.append("svg:text").attr("x", 20).attr("y", 14).text(longerformat(popdate)).attr("font-size", "10px").attr("font-weight", "bold").attr("class", "shifttitledate");
 
         for (var i = 0; i < bigdays.length; i++) {
@@ -1426,8 +933,8 @@
 
             // set the width for bars
             //var x0 = Math.max(-d3.min(sizes) * 1.33, d3.max(sizes) * 1.33);
-            //var x = d3.scale.linear().domain([-x0, x0]).range([0, 400]);
-            //var y = d3.scale.linear().domain(d3.range(sizes.length)).range([5, 7]);
+            //var x = d3.scaleLinear().domain([-x0, x0]).range([0, 400]);
+            //var y = d3.scaleLinear().domain(d3.range(sizes.length)).range([5, 7]);
 
             d3.csv(dataUrl + "/" + directory + "/" + shiftDir + "/" + cformat(popdate) + "-metashift.csv", function(csv) {
                 var havg = csv.map(function(d) {
@@ -1493,14 +1000,13 @@
 
                 plotSmallShift(shiftsvg, figwidth, figheight, numWords, sizes, types, names);
 
-                shortlist.append("rect").attr({
-                        "x": 0,
-                        "y": 0,
-                        "width": 220,
-                        "height": 200,
-                        "fill": "white",
-                        "opacity": 0.01,
-                    })
+                shortlist.append("rect")
+                    .attr("x", 0)
+                    .attr("y", 0)
+                    .attr("width", 220)
+                    .attr("height", 200)
+                    .attr("fill", "white")
+                    .attr("opacity", 0.01)
                     .on("click", function() {
                         transitionBigShift(popdate);
                     });
@@ -1574,36 +1080,28 @@
         var maxWidth = d3.max(sortedWords.slice(0, 5).map(function(d) {
             return d.width();
         }));
-        var x = d3.scale.linear()
+        var x = d3.scaleLinear()
             .domain([-Math.abs(sortedMag[0]), Math.abs(sortedMag[0])])
             //.range([-x0,x0]);
             .range([maxWidth - 5, boxwidth - maxWidth + 5]);
 
         // linear scale function
-        var y = d3.scale.linear()
+        var y = d3.scaleLinear()
             .domain([numWords + 1, 1])
             .range([height + 2, yHeight]);
 
-        // zoom object for the axes
-        var zoom = d3.behavior.zoom()
-            .y(y) // pass linear scale function
-            // .translate([10,10])
-            .scaleExtent([1, 1])
-            .on("zoom", zoomed);
 
         // create the axes themselves
         var axes = canvas.append("g")
             .attr("width", width)
             .attr("height", height)
-            .attr("class", "main")
-            .call(zoom);
+            .attr("class", "main");
 
         // create the axes background
         axes.append("svg:rect")
             .attr("width", width)
             .attr("height", height)
             .attr("class", "bg")
-            //.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
             .attr("fill", "#FCFCFC")
             .attr("opacity", "0.96");
 
@@ -1636,11 +1134,9 @@
             .attr("y", function(d, i) {
                 return y(i + 1);
             })
-            .style({
-                'opacity': '0.7',
-                'stroke-width': '1',
-                'stroke': 'rgb(0,0,0)'
-            })
+            .style('opacity', '0.7')
+            .style('stroke-width', '1')
+            .style('stroke', 'rgb(0,0,0)')
             .attr("height", function(d, i) {
                 return iBarH;
             })
@@ -1651,13 +1147,11 @@
                     return x(0) - x(d);
                 }
             })
-            .on('mouseover', function(d) {
-                // var rectSelection = d3.select(this).style({opacity:'1.0'});
-            })
+            .on('mouseover', null)
             .on('mouseout', function(d) {
-                var rectSelection = d3.select(this).style({
-                    opacity: '0.7'
-                });
+                var rectSelection = d3.select(this).style(
+                    opacity, '0.7'
+                );
             });
 
         axes.selectAll("text.shifttext")
@@ -1667,16 +1161,15 @@
             .attr("class", function(d, i) {
                 return "shifttext " + intStr0[sortedType[i]];
             })
-            .style({
-                "text-anchor": function(d, i) {
+            .style(
+                "text-anchor", function(d, i) {
                     if (sortedMag[i] < 0) {
                         return "end";
                     } else {
                         return "start";
                     }
-                },
-                "font-size": 11
-            })
+                })
+            .style("font-size", 11)
             .attr("y", function(d, i) {
                 return y(i + 1) + iBarH;
             })
@@ -1690,17 +1183,6 @@
                     return x(d) - 2;
                 }
             });
-
-        function zoomed() {
-            //axes.selectAll("rect.shiftrect").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
-            //axes.selectAll("text.shifttext").attr("transform", "translate(0," + Math.min(0,d3.event.translate[1]) + ")");
-            axes.selectAll("rect.shiftrect").attr("y", function(d, i) {
-                return y(i + 1)
-            });
-            axes.selectAll("text.shifttext").attr("y", function(d, i) {
-                return y(i + 1) + iBarH;
-            })
-        };
     };
 
     // store the function in a object of the same name globally
@@ -1715,12 +1197,12 @@
 
         // var date = datedecoder().current;
         // console.log(date);
-        // console.log(cformat.parse(date));
+        // console.log(cparse(date));
 
         // was used 2014-10-08
         // var bigshiftdiv = d3.select("#moveshifthere");
 
-        // var newdate = d3.time.day.offset(cformat.parse(date),offset);
+        // var newdate = d3.timeDay.offset(cparse(date),offset);
 
         // was used 2014-10-08
         // var newdate = update;
@@ -1735,7 +1217,7 @@
         d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(update) + "-sum.csv", function(tmp) {
             // compFvec = tmp.split(',').slice(0,10222);
             compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.time.day.offset(update, 0)) + "-prev7.csv", function(tmp2) {
+            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(update, 0)) + "-prev7.csv", function(tmp2) {
                 // refFvec = tmp2.split(',').slice(0,10222);
                 refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -1750,7 +1232,7 @@
 
                 for (var i = 0; i < bigdays.length; i++) {
                     //console.log(bigdays[i].date);
-                    //if (bigdays[i].date.getTime() === cformat.parse(circle.attr("shortdate")).getTime()) {
+                    //if (bigdays[i].date.getTime() === cparse(circle.attr("shortdate")).getTime()) {
                     if (bigdays[i].date.getTime() === update.getTime()) {
                         // console.log("major event wiki");
                         bigdaytest = true;
@@ -1802,12 +1284,12 @@
 
                 tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
 
-                if (update.getTime() === timeseries[0].date.getTime()) {
+                if (update.getTime() === data[0].date.getTime()) {
                     modalfooter.select(".left").attr("disabled", "disabled");
                 } else {
                     modalfooter.select(".left").attr("disabled", null);
                 }
-                if (update.getTime() === timeseries[timeseries.length - 1].date.getTime()) {
+                if (update.getTime() === data[data.length - 1].date.getTime()) {
                     modalfooter.select(".right").attr("disabled", "disabled");
                 } else {
                     modalfooter.select(".right").attr("disabled", null);
@@ -1850,11 +1332,9 @@
         nextDay(e.date);
     });
 
-    // d3.select(".x.brush").call(brush.event);
-
     if (datedecoder().current !== "none" && datedecoder().current.length > 0) {
-        var pulldate = cformat.parse(datedecoder().current);
-        // drawSmallShift(100,100,cformat.parse(datedecoder().current),true);
+        var pulldate = cparse(datedecoder().current);
+        // drawSmallShift(100,100,cparse(datedecoder().current),true);
         //resetButton();
         transitionBigShift(pulldate);
     }
@@ -1968,7 +1448,413 @@
         return source;
     }
 
-    happs_loaded_callback(happs);
+    var data = happs;
+
+    minDate = getDate(data[0]);
+    maxDate = getDate(data[data.length - 1]);
+    console.log('here are the min and max date picked up from happs encoded in html');
+    console.log(minDate);
+    console.log(maxDate);
+    // var parse = d3.timeFormat("%Y-%m-%d").parse;
+
+    for (i = 0; i < data.length; i++) {
+        data[i].shortDate = data[i].date;
+        data[i].date = cparse(data[i].date);
+    }
+
+    x.domain(d3.extent(data.map(function(d) {
+        return d.date;
+    })));
+    // y.domain([5.8, 6.40]);
+    var happsextent = d3.extent(data.map(function(d) {
+        return d.value;
+    }))
+    var extraspace = .1;
+    y.domain([happsextent[0] - extraspace, happsextent[1] + extraspace]);
+    //x2.domain(x.domain());
+    y2.domain(y.domain());
+
+    // var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
+    var path = focus.append("path")
+        .attr("id", "path")
+        .data([data])
+        .attr("d", line)
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("clip-path", "url(#clip)")
+        .attr("stroke-width", "1.2px")
+
+    // focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
+
+    focus.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").transition().duration(dur).call(xAxis);
+    // text for legend h_avg
+    // focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
+    //focus.append("g").attr("class", "y axis").call(yAxis);
+    focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
+    // focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
+
+    // go ahead and apply styles directly to these
+    focus.select(".x.axis").select("path").attr("fill", "none");
+    focus.select(".x.axis").selectAll("line")
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("shape-rendering", "crispEdges")
+    focus.selectAll(".y.axis").select("path").attr("fill", "none");
+
+    horizontalLineGroup = focus.append("g")
+    // horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
+    horizontalLineGroup.selectAll("line").data(y.ticks(7)).enter().append("line")
+        .attr("class", "horizontalLines")
+        //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
+        .attr("x1", 0)
+        .attr("x2", width)
+        .attr("y1", function(d) {
+            return y(d);
+        })
+        .attr("y2", function(d) {
+            return y(d);
+        })
+        .attr("fill", "none")
+        .attr("stroke", function(d, i) {
+            if (i === 0) {
+                return "grey";
+            } else {
+                return "grey";
+            }
+        })
+        .attr("stroke-dasharray", function(d, i) {
+            if (i === 0) {
+                return "5";
+            } else {
+                return "5";
+            }
+        })
+        .attr("stroke-width", "0.3px");
+
+    horizontalLineGroup.append("line")
+        .attr("class", "horizontalLinesFirst") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
+        .attr("x1", 0)
+        .attr("x2", width)
+        .attr("y1", function(d) {
+            return height;
+        })
+        .attr("y2", function(d) {
+            return height;
+        }) // y(y.ticks(7)[0]); })
+        .attr("fill", "none")
+        .attr("stroke", function(d, i) {
+            if (i === 0) {
+                return "grey";
+            } else {
+                return "grey";
+            }
+        })
+        //.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
+        .attr("stroke-width", "1.5px");
+
+    // focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
+
+    // console.log(data);
+
+    var circle = focus2.selectAll("circle").data(data);
+
+    var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
+    //yearDict.toggle(d,);
+
+    circle.enter().append("circle")
+        .attr("stroke-width", "0.5")
+        .attr("clip-path", "url(#clip)")
+        .attr("class", function(d) {
+            return weekDays[d.date.getDay()];
+        })
+        .attr("fill", function(d) {
+            return circleColors[weekDays[d.date.getDay()]].fill;
+        })
+        .attr("stroke", "#000")
+        .attr("opacity", "0.7")
+        .attr("cursor", "hand")
+        .attr("cursor", "pointer")
+        .attr("cx", d => x(d.date))
+        .attr("shortdate", d => d.shortDate)
+        .attr("havg", d => d.value.toFixed(2))
+        .attr("day", d => weekDays[d.date.getDay()])
+        .attr("date", d => d.date)
+        .attr("cy", d => y(d.value))
+        .attr("r", d => rScale(currRange))
+        .on("mouseover.enlarge", function() {
+            d3.select(this).transition().duration(250).attr("r", 7.5).style("stroke-width", .5);
+        })
+        .on("mouseover.popup", myMouseOverFunction)
+        .on("mouseout", myMouseOutFunction)
+        .on("mousedown", myMouseDownOpenWordShiftFunction);
+
+    context.append("path")
+        .data([data])
+        .attr("class", "mini")
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("d", area2)
+        .attr("stroke-width", "1.5px")
+
+    // need a line below now too
+    context.append("line")
+        .attr("x1", 0)
+        .attr("x2", width)
+        .attr("y1", function(d) {
+            return height2;
+        })
+        .attr("y2", function(d) {
+            return height2;
+        }) // y(y.ticks(7)[0]); })
+        .attr("fill", "none")
+        .attr("stroke", function(d, i) {
+            return "grey"
+        })
+        .attr("stroke-width", ".7px");
+
+    context.append("g").attr("class", "x axis")
+        .attr("transform", "translate(" + "0" + "," + height2 + ")")
+        .call(xAxis2);
+
+    context.select(".x.axis").selectAll("line")
+        .attr("fill", "none")
+        .attr("stroke", "grey")
+        .attr("shape-rendering", "crispEdges")
+
+    context.select(".x.axis").select("path").attr("fill", "none");
+
+    var format = d3.timeFormat("%m-%d");
+
+    d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title,
+        function(err, json) {
+            // console.log(err);
+            // console.log(json);
+            bigdays = json.objects.map(function(d) {
+                d.date = cparse(d.happs.date);
+                d.x = +d.x;
+                d.y = +d.y;
+                d.value = +d.happs.happiness;
+                d.importance = +d.importance;
+                d.shorter = d.shorter.split(',');
+                // don't let them overflow the bottom
+                d.y = d3.min([d.y, height - (y(d.value)) - d.shorter.length * 10]);
+                return d;
+            });
+            // console.log("the events are:");
+            // console.log(bigdays);
+
+            var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
+                .append("line")
+                // the x and y get set upon brushed
+                .attr("stroke", "grey")
+                .attr("class", "bigdayline")
+                .attr("visibility", "hidden")
+                .attr("stroke-width", 0.5)
+
+            var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
+                .append("g")
+                .attr("class", "bigdaygroup")
+                .attr("transform", function(d, i) {
+                    return "translate(" + (x(d.date) + d.x) + "," + (y(d.value) + d.y) + ")";
+                });
+
+            var textwidth = 6;
+            // width of characters
+            var charwidth = 3;
+
+            var line0 = bigdaygroups
+                .append("text")
+                .text(function(d) { // console.log(d.shorter.length);
+                    return d.shorter[0];
+                })
+                .attr("class", "bigdaytext")
+                // .attr("stroke-width","0.1")
+                .attr("dx", 0)
+                //function(d) {
+                // return -d.shorter[0].width()/2;
+                // return 0;
+                //return -d.shorter[0].length*charwidth/2;
+                // return -d3.select(this).attr("width")/2;
+                //})
+                .attr("dy", function(d) {
+                    return 0;
+                })
+                .attr("stroke", "")
+                .attr("fill", "grey")
+                .attr("visibility", "hidden");
+
+            bigdaygroups
+                .append("text")
+                .text(function(d) {
+                    if (d.shorter.length > 1) {
+                        return d.shorter[1];
+                    } else {
+                        return "";
+                    }
+                })
+                .attr("class", "bigdaytext")
+                .attr("dx", 0) // function(d) {
+                //     if (d.shorter.length > 1) {
+                //     // return -d.shorter[1].width()/2;
+                //     // return 0;
+                //     return -d.shorter[1].length*charwidth/2;
+                //     }
+                //     else {
+                //     return 0;
+                //     }
+                // })
+                .attr("dy", function(d) {
+                    return 15;
+                })
+                .attr("stroke", "")
+                .attr("fill", "grey")
+                .attr("visibility", "hidden");
+
+            bigdaygroups
+                .append("text")
+                .text(function(d) {
+                    if (d.shorter.length > 2) {
+                        return d.shorter[2];
+                    } else {
+                        return "";
+                    }
+                })
+                .attr("class", "bigdaytext")
+                .attr("dx", 0)
+                .attr("dy", function(d) {
+                    return 30;
+                })
+                .attr("stroke", "")
+                .attr("fill", "grey")
+                .attr("visibility", "hidden");
+
+            bigdaygroups
+                .append("text")
+                .text(function(d) {
+                    if (d.shorter.length > 3) {
+                        return d.shorter[3];
+                    } else {
+                        return "";
+                    }
+                })
+                .attr("class", "bigdaytext")
+                .attr("dx", 0)
+                .attr("dy", function(d) {
+                    return 45;
+                })
+                .attr("stroke", "")
+                .attr("fill", "grey")
+                .attr("visibility", "hidden");
+
+            // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
+            //     return -d3.select(this).attr("width")/2;
+            // })
+
+            // call the brush initially
+            // console.log('call the brush initially');
+            // console.log([x(cparse(fromdecoder().cached)), x(cparse(todecoder().cached))]);
+            brushgroup.call(brush.move, [x(cparse(fromdecoder().cached)), x(cparse(todecoder().cached))])
+            // focus.selectAll(".brushedline")
+            //     .attr("visibility", "hidden")
+
+            // now go and fix all of the offsets
+            d3.selectAll("text.bigdaytext").attr("dx", function(d, i) {
+                return -this.clientWidth / 2;
+            })
+            // d3.selectAll("text.bigdaytext").attr("fill","white")
+            // d3.selectAll("line.bigdayline").attr("stroke","white")
+
+            // add a catch to update the popup based on whether there was a big event
+            // console.log(datedecoder().current);
+            if (datedecoder().current.length > 0) {
+                // console.log("checking for popup event");
+                var pulldate = cparse(datedecoder().current);
+                for (var i = 0; i < bigdays.length; i++) {
+                    if (bigdays[i].date.getTime() === pulldate.getTime()) {
+                        bigdaytest = true;
+                        bigdaywiki = bigdays[i].wiki;
+                        bigdaytext = bigdays[i].longer;
+                        // console.log(addthis_share.passthrough.twitter.text);
+                        // addthis_share.passthrough.twitter.text = bigdaytext + ", " + longformat(pulldate) + ", word shift:"
+                        // console.log(addthis_share.passthrough.twitter.text);
+                        d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="' + bigdaywiki.safe() + '" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
+                        var modalbody = d3.select("#moveshifthere");
+                        var paragraphs = modalbody.selectAll("p").data(["<b>" + longerformat(pulldate) + "</b>", "<b>" + bigdaytext + "</b>"]);
+                        paragraphs.attr("class", "shifttitle").html(function(d, i) {
+                            return d;
+                        });
+                        break;
+                    };
+                }; // loop over events
+            }; // check datedecoder.length
+        }); // d3.json for events
+
+    var freqExtent = d3.extent(data.map(function(d) {
+        return d.freq;
+    }))
+
+    y3.domain(freqExtent);
+
+    // TODO: format the ticks
+    yAxis3 = d3.axisLeft().scale(y3).ticks(2);
+
+    focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
+    focus.selectAll(".y.axis").select("path").attr("fill", "none");
+
+    focus.append("path")
+        .data([data])
+
+        .attr("id", "freq")
+        .attr("fill", "#E0E0E0")
+        .attr("stroke", "#C8C8C8")
+        .attr("d", area3)
+        .attr("clip-path", "url(#clip)")
+        .attr("stroke-width", ".5px")
+
+    var brushgroup = context.append("g").attr("class", "x brush")
+        .call(brush);
+
+    brushgroup
+        .selectAll("rect")
+        .attr("y", -6)
+        .attr("height", (height2 + 7))
+        .attr("stroke", "#fff")
+        .attr("cursor", "ew-resize")
+
+    brushgroup
+        .select("rect.extent")
+        .attr("fill", "wheat")
+        .attr("opacity", "0.5")
+
+    brushgroup
+        .select("g.resize.w")
+        .select("rect")
+        .attr("y", -6)
+        .attr("height", (height2 + 7))
+        .attr("stroke", "#fff")
+        .attr("fill", "darkgrey")
+        .attr("cursor", "ew-resize")
+        .style("visibility", "visible");
+
+    brushgroup
+        .select("g.resize.e")
+        .select("rect")
+        .attr("y", -6)
+        .attr("height", (height2 + 7))
+        .attr("stroke", "#fff")
+        .attr("fill", "darkgrey")
+        .attr("cursor", "ew-resize")
+        .style("visibility", "visible");
+
+    // focus.selectAll("brushedline").data([0, width]).enter().append("line")
+    //     .attr("class", "brushedline")
+    //     .attr("x1", d => d)
+    //     .attr("x2", (d, i) => x2(brush.extent()[i]))
+    //     .attr("y1", 475)
+    //     .attr("y2", 500)
+    //     .attr("stroke", "#C0C0C0")
+    //     .attr("visibility", "hidden")
+    //     .attr("stroke-width", 2);
 
     console.log("enjoy :)");
 })();
