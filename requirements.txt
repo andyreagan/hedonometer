@@ -1,5 +1,5 @@
 Jinja2==2.11.3
-Django==3.1.6
+Django==3.1.8
 django-tastypie==0.14.3
 twython==3.7.0
 labMTsimple==2.8.7
