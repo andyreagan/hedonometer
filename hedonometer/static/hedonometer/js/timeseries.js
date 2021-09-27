@@ -1796,9 +1796,9 @@ var intStr0 = ["zero", "one", "two", "three"];
     y3.domain(freqExtent);
 
     // TODO: format the ticks
-    yAxis3 = d3.axisLeft().scale(y3).ticks(2);
+    yAxis3 = d3.axisLeft().scale(y3).ticks(2).tickFormat(d3.format(".1s"));
 
-    focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
+    focus.append("g").attr("class", "y axis freq").attr("transform", "translate(0,0)").call(yAxis3);
     focus.selectAll(".y.axis").select("path").attr("fill", "none");
 
     focus.append("path")
