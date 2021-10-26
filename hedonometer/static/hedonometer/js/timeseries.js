@@ -62,7 +62,6 @@ function splitWidth(s, w) {
     return n;
 }
 
-// look away
 var intStr = ["one", "two", "three", "four"];
 var intStr0 = ["zero", "one", "two", "three"];
 
@@ -76,11 +75,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     hedotools.shifter._words_en(words_en);
     hedotools.shifter.ignore(ignoreWords);
 
-    if (document.documentElement.clientWidth < 500) {
-        var initialMonths = 3;
-    } else {
-        var initialMonths = 18;
-    }
+    const initialMonths = (document.documentElement.clientWidth < 500) ? 3 : 18;
 
     // these variables are all available to everything inside of this closure
     var dur = 550;
@@ -1303,13 +1298,6 @@ var intStr0 = ["zero", "one", "two", "three"];
         nextDay(e.date);
     });
 
-    if (datedecoder().current !== "none" && datedecoder().current.length > 0) {
-        var pulldate = cparse(datedecoder().current);
-        // drawSmallShift(100,100,cparse(datedecoder().current),true);
-        //resetButton();
-        transitionBigShift(pulldate);
-    }
-
     addDays = function addDays(date, days) {
         var result = new Date(date);
         result.setDate(date.getDate() + days);
@@ -1614,24 +1602,20 @@ var intStr0 = ["zero", "one", "two", "three"];
             // console.log("the events are:");
             // console.log(bigdays);
 
-            var bigdaylines = focus2.selectAll("line.bigdayline").data(bigdays).enter()
+            focus2.selectAll("line.bigdayline").data(bigdays).enter()
                 .append("line")
                 // the x and y get set upon brushed
                 .attr("stroke", "grey")
                 .attr("class", "bigdayline")
                 .attr("visibility", "hidden")
-                .attr("stroke-width", 0.5)
+                .attr("stroke-width", 0.5);
 
-            var bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
+            const bigdaygroups = focus2.selectAll("g.bigdaygroup").data(bigdays).enter()
                 .append("g")
                 .attr("class", "bigdaygroup")
                 .attr("transform", function(d, i) {
                     return "translate(" + (x(d.date) + d.x) + "," + (y(d.value) + d.y) + ")";
                 });
-
-            var textwidth = 6;
-            // width of characters
-            var charwidth = 3;
 
             var line0 = bigdaygroups
                 .append("text")
@@ -1639,14 +1623,7 @@ var intStr0 = ["zero", "one", "two", "three"];
                     return d.shorter[0];
                 })
                 .attr("class", "bigdaytext")
-                // .attr("stroke-width","0.1")
                 .attr("dx", 0)
-                //function(d) {
-                // return -d.shorter[0].width()/2;
-                // return 0;
-                //return -d.shorter[0].length*charwidth/2;
-                // return -d3.select(this).attr("width")/2;
-                //})
                 .attr("dy", function(d) {
                     return 0;
                 })
@@ -1656,109 +1633,50 @@ var intStr0 = ["zero", "one", "two", "three"];
 
             bigdaygroups
                 .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 1) {
-                        return d.shorter[1];
-                    } else {
-                        return "";
-                    }
-                })
+                .text(d => (d.shorter.length > 1) ? d.shorter[1] : "")
                 .attr("class", "bigdaytext")
-                .attr("dx", 0) // function(d) {
-                //     if (d.shorter.length > 1) {
-                //     // return -d.shorter[1].width()/2;
-                //     // return 0;
-                //     return -d.shorter[1].length*charwidth/2;
-                //     }
-                //     else {
-                //     return 0;
-                //     }
-                // })
-                .attr("dy", function(d) {
-                    return 15;
-                })
+                .attr("dx", 0)
+                .attr("dy", 15)
                 .attr("stroke", "")
                 .attr("fill", "grey")
                 .attr("visibility", "hidden");
 
             bigdaygroups
                 .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 2) {
-                        return d.shorter[2];
-                    } else {
-                        return "";
-                    }
-                })
+                .text(d => (d.shorter.length > 2) ? d.shorter[2] : "")
                 .attr("class", "bigdaytext")
                 .attr("dx", 0)
-                .attr("dy", function(d) {
-                    return 30;
-                })
+                .attr("dy", 30)
                 .attr("stroke", "")
                 .attr("fill", "grey")
                 .attr("visibility", "hidden");
 
             bigdaygroups
                 .append("text")
-                .text(function(d) {
-                    if (d.shorter.length > 3) {
-                        return d.shorter[3];
-                    } else {
-                        return "";
-                    }
-                })
+                .text(d => (d.shorter.length > 3) ? d.shorter[3] : "")
                 .attr("class", "bigdaytext")
                 .attr("dx", 0)
-                .attr("dy", function(d) {
-                    return 45;
-                })
+                .attr("dy", 45)
                 .attr("stroke", "")
                 .attr("fill", "grey")
                 .attr("visibility", "hidden");
 
-            // d3.selectAll("text.bigdaytext").attr("dx",function(d) {
-            //     return -d3.select(this).attr("width")/2;
-            // })
 
-            // call the brush initially
-            // console.log('call the brush initially');
-            // console.log([x(cparse(fromdecoder().cached)), x(cparse(todecoder().cached))]);
+            console.log('call the brush initially');
+            console.log([x(cparse(fromdecoder().cached)), x(cparse(todecoder().cached))]);
             brushgroup.call(brush.move, [x(cparse(fromdecoder().cached)), x(cparse(todecoder().cached))])
-            // focus.selectAll(".brushedline")
-            //     .attr("visibility", "hidden")
 
             // now go and fix all of the offsets
             d3.selectAll("text.bigdaytext").attr("dx", function(d, i) {
                 return -this.clientWidth / 2;
             })
-            // d3.selectAll("text.bigdaytext").attr("fill","white")
-            // d3.selectAll("line.bigdayline").attr("stroke","white")
 
-            // add a catch to update the popup based on whether there was a big event
-            // console.log(datedecoder().current);
-            if (datedecoder().current.length > 0) {
-                // console.log("checking for popup event");
+            if (datedecoder().current !== "none" && datedecoder().current.length > 0) {
                 var pulldate = cparse(datedecoder().current);
-                for (var i = 0; i < bigdays.length; i++) {
-                    if (bigdays[i].date.getTime() === pulldate.getTime()) {
-                        bigdaytest = true;
-                        bigdaywiki = bigdays[i].wiki;
-                        bigdaytext = bigdays[i].longer;
-                        // console.log(addthis_share.passthrough.twitter.text);
-                        // addthis_share.passthrough.twitter.text = bigdaytext + ", " + longformat(pulldate) + ", word shift:"
-                        // console.log(addthis_share.passthrough.twitter.text);
-                        d3.select('#modaltitle').html('Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> <a href="' + bigdaywiki.safe() + '" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35"/></a>');
-                        var modalbody = d3.select("#moveshifthere");
-                        var paragraphs = modalbody.selectAll("p").data(["<b>" + longerformat(pulldate) + "</b>", "<b>" + bigdaytext + "</b>"]);
-                        paragraphs.attr("class", "shifttitle").html(function(d, i) {
-                            return d;
-                        });
-                        break;
-                    };
-                }; // loop over events
-            }; // check datedecoder.length
-        }); // d3.json for events
+                transitionBigShift(pulldate);
+            }
+        } // d3.json callback
+    ); // d3.json for events
 
     var freqExtent = d3.extent(data.map(function(d) {
         return d.freq;
