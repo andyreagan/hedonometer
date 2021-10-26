@@ -42,7 +42,6 @@ urlpatterns = [
     url(r'^funding.html', TemplateView.as_view(template_name='hedonometer/funding.html'), name='funding'),
     url(r'^api.html', TemplateView.as_view(template_name='hedonometer/api.html'), name='api'),
     url(r'^maps.html', TemplateView.as_view(template_name='hedonometer/maps.html'),  name='maps'),
-    url(r'^devmaps.html', TemplateView.as_view(template_name='hedonometer/devmaps.html'), name='devmaps'),
     url(r'^statesankey.html', TemplateView.as_view(template_name='hedonometer/statesankey.html'), name='statesankey'),
     url(r'^citysankey.html', TemplateView.as_view(template_name='hedonometer/citysankey.html'), name='citysankey'),
     url(r'^cities.html', TemplateView.as_view(template_name='hedonometer/cities2.html'), name='cities'),
@@ -99,11 +98,6 @@ urlpatterns = [
     url(r'^embed/test/(?P<reffile>[\w-]+).csv/(?P<compfile>[\w-]+).csv/$',views.shifttest,name='test'),
     url(r'^embed/happs/(?P<reffile>[\w-]+)/$',views.personalhapps,name='test'),
     url(r'^embed/(?P<some_hash>[\w-]+)/$',views.embedUpload,name='embed'),
-
-    # some teletherming stuff
-    url(r'^teletherm/',
-        TemplateView.as_view(template_name='hedonometer/teletherm.html'),
-        name='teletherm'),
 
     # others
     url(r'^api/', include(v1_api.urls)),

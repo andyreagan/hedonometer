@@ -760,30 +760,19 @@ var intStr0 = ["zero", "one", "two", "three"];
         // resizes the #minilist group and the svg within it
         //   -> the svg gets both it's transform and width, height updated
 
-        // console.log(cformat(circle));
-
         d3.select('#moveshifthere').selectAll('svg').remove();
         d3.select('#minilist').remove();
 
         var modalwidth = 558;
-        // this call will work only once the modal is active
         // parseInt(d3.select("#moveshifthere").style("width"));
         var modalheight = 495;
 
-        // now trying to load in data from zoo
         d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv", function(tmp) {
-            // compFvec = tmp.split(',').slice(0,10222);
-            compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
-                // refFvec = tmp2.split(',').slice(0,10222);
-                refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
+            const compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
 
-                // console.log("see if all four vectors are here:");
-                // console.log(lens);
-                // console.log(words);
-                // console.log(refFvec);
-                // console.log(compFvec);
-                // console.log(d3.select('#moveshifthere'));
+            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
+
+                const refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
                 hedotools.shifter._refF(refFvec);
                 hedotools.shifter._compF(compFvec);
@@ -791,9 +780,10 @@ var intStr0 = ["zero", "one", "two", "three"];
                 hedotools.shifter.shifter();
                 hedotools.shifter.setWidth(modalwidth);
                 hedotools.shifter.setText([" ", " ", " ", " "]);
-                hedotools.shifter.setfigure('#moveshifthere').plot();
+                hedotools.shifter.setfigure('#moveshifthere');
+                hedotools.shifter.plot();
 
-                // danger! this calls next day
+                // this calls next day
                 // so, it's replotting
                 // but this does get the main text up, and set the date
                 // the previous call should really just initialize the plot with blank data
@@ -1187,41 +1177,14 @@ var intStr0 = ["zero", "one", "two", "three"];
 
     // store the function in a object of the same name globally
     nextDay = function nextDay(update) {
-        // trying to get this function to remember it's context
-        var that = this;
-        // console.log(this);
-        // console.log(that);
-
-        // shiftselencoder.varval("none");
-        // shiftselencoder.destroy();
-
-        // var date = datedecoder().current;
-        // console.log(date);
-        // console.log(cparse(date));
-
-        // was used 2014-10-08
-        // var bigshiftdiv = d3.select("#moveshifthere");
-
-        // var newdate = d3.timeDay.offset(cparse(date),offset);
-
-        // was used 2014-10-08
-        // var newdate = update;
-
-        // console.log(newdate);
-        // console.log(cformat(newdate));
         dateencoder.varval(cformat(update));
-        // grab the date
-
-        // addthis_share.passthrough.twitter.text = longformat(update) + ", word shift:";
 
         d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(update) + "-sum.csv", function(tmp) {
-            // compFvec = tmp.split(',').slice(0,10222);
-            compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
+
+            const compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
             d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(update, 0)) + "-prev7.csv", function(tmp2) {
-                // refFvec = tmp2.split(',').slice(0,10222);
-                refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
-
+                const refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
                 // nextDay changing the text at the top
                 var bigdaytest = false;
@@ -1273,6 +1236,11 @@ var intStr0 = ["zero", "one", "two", "three"];
                     tmptext = tmptext.concat([""]);
                 }
 
+                hedotools.shifter._refF(refFvec);
+                hedotools.shifter._compF(compFvec);
+                hedotools.shifter.stop();
+                hedotools.shifter.shifter();
+
                 // modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
 
                 tmptext = tmptext.concat(["Average happiness: " + parseFloat(hedotools.shifter._compH()).toFixed(2)]);
@@ -1295,12 +1263,9 @@ var intStr0 = ["zero", "one", "two", "three"];
                     modalfooter.select(".right").attr("disabled", null);
                 }
 
-                hedotools.shifter._refF(refFvec);
-                hedotools.shifter._compF(compFvec);
-                hedotools.shifter.stop();
-                hedotools.shifter.shifter();
                 console.log("the text is");
                 console.log(tmptext);
+
                 hedotools.shifter.setText(tmptext);
                 hedotools.shifter.drawlogo();
                 hedotools.shifter.replot();
