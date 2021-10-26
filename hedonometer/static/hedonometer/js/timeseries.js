@@ -756,6 +756,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     };
 
     function transitionBigShift(popdate) {
+        console.log("transitionBigShift", popdate)
         // called directly on "expand detailed shift" click
         // resizes the #minilist group and the svg within it
         //   -> the svg gets both it's transform and width, height updated
@@ -1177,6 +1178,7 @@ var intStr0 = ["zero", "one", "two", "three"];
 
     // store the function in a object of the same name globally
     nextDay = function nextDay(update) {
+        console.log("nextDay", update);
         dateencoder.varval(cformat(update));
 
         d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(update) + "-sum.csv", function(tmp) {
@@ -1186,7 +1188,7 @@ var intStr0 = ["zero", "one", "two", "three"];
 
                 const refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
-                // nextDay changing the text at the top
+                console.log("nextDay changing the text at the top");
                 var bigdaytest = false;
                 var bigdaywiki = []; //'http://en.wikipedia.org/wiki/Wedding_of_Prince_William_and_Catherine_Middleton';
                 var bigdaytext = [];
@@ -1194,10 +1196,9 @@ var intStr0 = ["zero", "one", "two", "three"];
                 // addthis_share.passthrough.twitter.text = longformat(update) + ", word shift:"
 
                 for (var i = 0; i < bigdays.length; i++) {
-                    //console.log(bigdays[i].date);
-                    //if (bigdays[i].date.getTime() === cparse(circle.attr("shortdate")).getTime()) {
+                    console.log(i, bigdays[i].date);
                     if (bigdays[i].date.getTime() === update.getTime()) {
-                        // console.log("major event wiki");
+                        console.log("major event found");
                         bigdaytest = true;
                         bigdaywiki.push(bigdays[i].wiki);
                         bigdaytext.push(bigdays[i].longer);
@@ -1208,6 +1209,7 @@ var intStr0 = ["zero", "one", "two", "three"];
                     }
                 }
                 if (bigdaytest) {
+                    console.log(bigdaytest, "bigdaytest=true, adding wiki link to header")
                     var tmpStr = 'Interactive Wordshift <span class="label label-default">Major Event <i class="fa fa-signal"></i></span> ';
                     for (var i = 0; i < bigdaywiki.length; i++) {
                         tmpStr += '<a href="' + bigdaywiki[i].safe() + '" target="_blank"><img src="https://lh6.ggpht.com/-Eq7SGa8CVtZCQPXmnux59sebPPU04j1gak4ppkMVboUMQ_ucceGCHrC1wtqfqyByg=w300" height="35" class="wikilogo"/></a>';
@@ -1217,17 +1219,18 @@ var intStr0 = ["zero", "one", "two", "three"];
                     d3.select("#modaltitle").html("Interactive Wordshift <span class='label label-default'></span><img src='/static/hedonometer/graphics/white.png' height='35'/>");
                 }
 
-                // grab the modal body
+                console.log("grab the modal body");
                 var modalbody = d3.select("#moveshifthere");
                 var modalfooter = d3.select("#moveshiftherefooter");
                 // remove the text at the top
                 // modalbody.selectAll("p").remove();
                 // modalbody.insert("p","svg").attr("class","shifttitle").html(function(d,i) { return "<b>"+longerformat(update)+"</b>"; });
                 var tmptext = [longerformat(update)];
+                console.log(tmptext);
                 if (bigdaytest) {
-                    // console.log(bigdaytext);
+                    console.log(bigdaytext);
                     for (var bc = 0; bc < bigdaytext.length; bc++) {
-                        // console.log("appending event "+bc+" text");
+                        console.log("appending event " + bc + " text");
                         // modalbody.insert("p","svg").attr("class","shifttitle pullright").html(function() { return "<b>"+""+bigdaytext[bc]+"</b>"; });
                         tmptext = tmptext.concat([bigdaytext[bc]]);
                     }
