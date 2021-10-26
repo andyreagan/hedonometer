@@ -132,40 +132,16 @@ var intStr0 = ["zero", "one", "two", "three"];
         },
     };
     var circleColors = {
-        "sunday": {
-            "fill": "#FFCCFF",
-        },
-        "monday": {
-            "fill": "#9933FF",
-        },
-        "tuesday": {
-            "fill": "#4BFFFE",
-        },
-        "wednesday": {
-            "fill": "#8AFF82",
-        },
-        "thursday": {
-            "fill": "#009900",
-        },
-        "friday": {
-            "fill": "#F87D15",
-        },
-        "saturday": {
-            "fill": "#F70012",
-        },
-        "hilite": {
-            "fill": "#000",
-        },
-        "togall": {
-            "fill": "#000",
-        },
+        "sunday": {"fill": "#FFCCFF",},
+        "monday": {"fill": "#9933FF",},
+        "tuesday": {"fill": "#4BFFFE",},
+        "wednesday": {"fill": "#8AFF82",},
+        "thursday": {"fill": "#009900",},
+        "friday": {"fill": "#F87D15",},
+        "saturday": {"fill": "#F70012",},
+        "hilite": {"fill": "#000",},
+        "togall": {"fill": "#000",},
     };
-
-    // no longer in use
-    function getDay(d) {
-        return weekDays[d.date.getDay()];
-    };
-
 
     // this will be ran whenever we mouse over a circle
     function myMouseDownOpenWordShiftFunction() {
@@ -191,26 +167,6 @@ var intStr0 = ["zero", "one", "two", "three"];
         }
     };
 
-    // not in use
-    function myMouseDownHideDiv() {
-        var item = d3.select(this);
-        item.attr("style", "display: none;")
-    };
-
-    // not in use
-    function myMouseDownClearMinibox() {
-        var item = d3.select("#minibox");
-        item.attr("style", "display: hidden;")
-    };
-
-    function popitup(url) {
-        newwindow = window.open(url, 'name', 'height=820,width=780,scrollbars=no,resizeable=0');
-        if (window.focus) {
-            newwindow.focus()
-        }
-        return false;
-    };
-
     function myMouseOutFunction() {
         // don't remove the popup
         // d3.select("#minilist").remove();
@@ -230,10 +186,6 @@ var intStr0 = ["zero", "one", "two", "three"];
         }, popupEnterDur);
     };
 
-    function getDate(d) {
-        return new Date(d.date);
-    };
-
     var margin = {
         top: 10,
         right: 40,
@@ -244,8 +196,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     var height = d3.max([300, parseInt(d3.select("#bigbox").style("width")) * 0.5 - margin.bottom - margin.top]);
     var height2 = 50;
     // vertical space to give the bottom brush selection
-    var MainxAxisSpace = 40;
-    //height2 = document.documentElement.clientHeight * 0.5;
+    var mainxAxisSpace = 40;
 
     var bigdayscale = d3.scaleLinear()
         .domain([0, endOfTime.getTime() - beginningOfTime.getTime()])
@@ -273,12 +224,8 @@ var intStr0 = ["zero", "one", "two", "three"];
         .on("end", brushended);
 
     var line = d3.line()
-        .x(function(d) {
-            return x(d.date);
-        })
-        .y(function(d) {
-            return y(d.value);
-        });
+        .x(d => x(d.date))
+        .y(d => y(d.value));
 
     var line0 = d3.line();
 
@@ -309,22 +256,14 @@ var intStr0 = ["zero", "one", "two", "three"];
 
     // make the bottom area into a line
     var area2 = d3.line()
-        .x(function(d) {
-            return x2(d.date);
-        })
-        .y(function(d) {
-            return y2(d.value);
-        });
+        .x(d => x2(d.date))
+        .y(d => y2(d.value));
 
     // area for the freq
     var area3 = d3.area()
-        .x(function(d) {
-            return x(d.date);
-        })
+        .x(d => x(d.date))
         .y0(height)
-        .y1(function(d) {
-            return y3(d.freq);
-        });
+        .y1(d => y3(d.freq));
 
     var svg = d3.select("#bigbox").append("svg")
         .attr("id", "timeseries")
@@ -341,14 +280,9 @@ var intStr0 = ["zero", "one", "two", "three"];
     var focus2 = svg.append("g")
         .attr("id", "focus2")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-    // remove the popup wordshift for any click on this group
-    // which should be behind the wordshift
-    // doesn't work in chrome
-    // .on("mousedown",function() { d3.select("#minilist").remove() });
 
     var legendgroup = svg.append("g")
-        .attr(
-            "class", "legendgroup")
+        .attr("class", "legendgroup")
         .attr("transform", "translate(" + (width - 10 - 366) + "," + 1 + ")");
 
     legendgroup.append("rect")
@@ -371,40 +305,29 @@ var intStr0 = ["zero", "one", "two", "three"];
         .append("circle").on("mousedown", function(d, i) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
-            //toggleDays();
         })
-        .attr("cx", function(d, i) {
-            return 8 + legendboxwidth * i;
-        })
+        .attr("cx", (d, i) => 8 + legendboxwidth * i)
         .attr("cy", 9)
         .attr("r", rmax)
         .attr("stroke", "black")
         .attr("stroke-width", 0.7)
-        .attr("fill", function(d, i) {
-            return circleColors[weekDays[i]].fill;
-        })
-        .attr("class", function(d, i) {
-            return weekDays[i];
-        });
+        .attr("fill", (d, i) => circleColors[weekDays[i]].fill)
+        .attr("class", (d, i) => weekDays[i]);
 
     legendgroup.selectAll("text")
         .data(weekDaysShort)
         .enter()
         .append("text")
-        .attr("x", function(d, i) {
-            return 15 + legendboxwidth * i;
-        })
+        .attr("x", (d, i) => 15 + legendboxwidth * i)
         .attr("y", 14)
         .on("mousedown", function(d, i) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
-            //toggleDays();
         })
         // return first three letters for the name
         .text(function(d, i) {
             return weekDays[i][0].toUpperCase() + weekDays[i][1] + weekDays[i][2]
         });
-    //.attr("class",function(d,i) { return weekDays[i] });
 
     legendgroup.selectAll("rect.legendclick")
         .data(weekDaysShort)
@@ -428,22 +351,30 @@ var intStr0 = ["zero", "one", "two", "three"];
         .append("line")
         .attr("stroke", "grey")
         .attr("stroke-width", "2")
-        .attr("x1", function(d, i) {
-            return 42 + legendboxwidth * i + d;
-        })
-        .attr("x2", function(d, i) {
-            return 42 + legendboxwidth * i + d;
-        })
+        .attr("x1", (d, i) => 42 + legendboxwidth * i + d)
+        .attr("x2", (d, i) => 42 + legendboxwidth * i + d)
         .attr("y1", 0)
         .attr("y2", 19);
 
     // was at 350
-    legendgroup.append("svg:circle").on("mousedown", function() {
-        var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
-        legendDict.toggle('togall', rScale(currRange));
-    }).attr("cx", 306).attr("cy", 9).attr("r", rmax).attr("stroke", "black").attr("stroke-width", 0.7).attr("class", "Togall")
+    legendgroup.append("svg:circle")
+        .on("mousedown", function() {
+            var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
+            legendDict.toggle('togall', rScale(currRange));
+        })
+        .attr("cx", 306)
+        .attr("cy", 9)
+        .attr("r", rmax)
+        .attr("stroke", "black")
+        .attr("stroke-width", 0.7)
+        .attr("class", "Togall")
 
-    legendgroup.append("svg:text").attr("x", 306 + 6).attr("y", 14).text("All on/off").attr("class", "togall").attr("id", "togall");
+    legendgroup.append("svg:text")
+        .attr("x", 306 + 6)
+        .attr("y", 14)
+        .text("All on/off")
+        .attr("class", "togall")
+        .attr("id", "togall");
 
     legendgroup.append("rect")
         .attr("class", "legendrect")
@@ -600,7 +531,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     }
     makeNavBar();
 
-    var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height + MainxAxisSpace) + ")");
+    var context = svg.append("g").attr("id", "context").attr("transform", "translate(" + margin.left + "," + (height + mainxAxisSpace) + ")");
 
     var minDate, maxDate;
 
@@ -1253,12 +1184,12 @@ var intStr0 = ["zero", "one", "two", "three"];
 
                 tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
 
-                if (update.getTime() === data[0].date.getTime()) {
+                if (update.getTime() === happs[0].date.getTime()) {
                     modalfooter.select(".left").attr("disabled", "disabled");
                 } else {
                     modalfooter.select(".left").attr("disabled", null);
                 }
-                if (update.getTime() === data[data.length - 1].date.getTime()) {
+                if (update.getTime() === happs[happs.length - 1].date.getTime()) {
                     modalfooter.select(".right").attr("disabled", "disabled");
                 } else {
                     modalfooter.select(".right").attr("disabled", null);
@@ -1345,8 +1276,6 @@ var intStr0 = ["zero", "one", "two", "three"];
             form['data'].value = string;
             form.submit();
         })
-
-
     })
 
     var crowbar = function(s) {
@@ -1361,22 +1290,6 @@ var intStr0 = ["zero", "one", "two", "three"];
 
         var styles = '';
         var styleSheets = document.styleSheets;
-
-        // for (var i=0; i < styleSheets.length; i++) {
-        //     processStyleSheet(styleSheets[i]);
-        // }
-
-        // // much simplified code from the crowbar
-        // // don't care about illustrator
-        // // and i don't use import rules
-        // function processStyleSheet(ss) {
-        //     if (ss.cssRules) {
-        //     for (var i = 0; i < ss.cssRules.length; i++) {
-        //         var rule = ss.cssRules[i];
-        //         styles += "\n" + rule.cssText;
-        //     }
-        //     }
-        // }
 
         // mostly untouched from the crowbar
         var svg = document.getElementById(s);
@@ -1407,50 +1320,39 @@ var intStr0 = ["zero", "one", "two", "three"];
         return source;
     }
 
-    var data = happs;
-
-    minDate = getDate(data[0]);
-    maxDate = getDate(data[data.length - 1]);
+    minDate = new Date(happs[0].date);
+    maxDate = new Date(happs[happs.length - 1].date);
     console.log('here are the min and max date picked up from happs encoded in html');
     console.log(minDate);
     console.log(maxDate);
     // var parse = d3.timeFormat("%Y-%m-%d").parse;
 
-    for (i = 0; i < data.length; i++) {
-        data[i].shortDate = data[i].date;
-        data[i].date = cparse(data[i].date);
+    for (i = 0; i < happs.length; i++) {
+        happs[i].shortDate = happs[i].date;
+        happs[i].date = cparse(happs[i].date);
     }
 
-    x.domain(d3.extent(data.map(function(d) {
+    x.domain(d3.extent(happs.map(function(d) {
         return d.date;
     })));
-    // y.domain([5.8, 6.40]);
-    var happsextent = d3.extent(data.map(function(d) {
+    var happsextent = d3.extent(happs.map(function(d) {
         return d.value;
     }))
     var extraspace = .1;
     y.domain([happsextent[0] - extraspace, happsextent[1] + extraspace]);
-    //x2.domain(x.domain());
     y2.domain(y.domain());
 
-    // var path = focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", fishline);
     var path = focus.append("path")
         .attr("id", "path")
-        .data([data])
+        .data([happs])
         .attr("d", line)
         .attr("fill", "none")
         .attr("stroke", "grey")
         .attr("clip-path", "url(#clip)")
         .attr("stroke-width", "1.2px")
 
-    // focus.append("path").attr("id", "path").data([data]).attr("clip-path", "url(#clip)").attr("d", line3);
-
     focus.append("g").attr("class", "x axis").attr("transform", "translate(0," + height + ")").transition().duration(dur).call(xAxis);
-    // text for legend h_avg
-    // focus.append("text").attr("class", "y labelTimeseries").attr("text-anchor", "start").attr("y", 6).attr("x", width-250).attr("dy", ".75em").attr("transform", "rotate(0)").text("Average Happiness h").append("tspan").attr("baseline-shift","sub").text("avg");
-    //focus.append("g").attr("class", "y axis").call(yAxis);
     focus.append("g").attr("class", "y axis").attr("transform", "translate(" + width + ",0)").call(yAxis2);
-    // focus.append("g").attr("class", "y axis freq").attr("transform", "translate(" + 7 + ",0)").call(yAxis3);
 
     // go ahead and apply styles directly to these
     focus.select(".x.axis").select("path").attr("fill", "none");
@@ -1461,74 +1363,36 @@ var intStr0 = ["zero", "one", "two", "three"];
     focus.selectAll(".y.axis").select("path").attr("fill", "none");
 
     horizontalLineGroup = focus.append("g")
-    // horizontalLineGroup.selectAll("line").data(y.ticks(7).slice(1,7)).enter().append("line")
     horizontalLineGroup.selectAll("line").data(y.ticks(7)).enter().append("line")
         .attr("class", "horizontalLines")
-        //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
         .attr("x1", 0)
         .attr("x2", width)
-        .attr("y1", function(d) {
-            return y(d);
-        })
-        .attr("y2", function(d) {
-            return y(d);
-        })
+        .attr("y1", y)
+        .attr("y2", y)
         .attr("fill", "none")
-        .attr("stroke", function(d, i) {
-            if (i === 0) {
-                return "grey";
-            } else {
-                return "grey";
-            }
-        })
-        .attr("stroke-dasharray", function(d, i) {
-            if (i === 0) {
-                return "5";
-            } else {
-                return "5";
-            }
-        })
+        .attr("stroke", "grey")
+        .attr("stroke-dasharray", "5")
         .attr("stroke-width", "0.3px");
 
     horizontalLineGroup.append("line")
-        .attr("class", "horizontalLinesFirst") //.attr("transform", "translate(" + width + ",0)").call(yAxis2);
+        .attr("class", "horizontalLinesFirst")
         .attr("x1", 0)
         .attr("x2", width)
-        .attr("y1", function(d) {
-            return height;
-        })
-        .attr("y2", function(d) {
-            return height;
-        }) // y(y.ticks(7)[0]); })
+        .attr("y1", height)
+        .attr("y2", height)
         .attr("fill", "none")
-        .attr("stroke", function(d, i) {
-            if (i === 0) {
-                return "grey";
-            } else {
-                return "grey";
-            }
-        })
-        //.attr("stroke-dasharray",function(d,i) { if (i===0) {return "";} else {return "5";} })
+        .attr("stroke", "grey")
         .attr("stroke-width", "1.5px");
 
-    // focus2.append("text").attr("class", "labelTimeseries whitebox").attr("text-anchor", "end").attr("x", 168).attr("y", 427).attr("dy", ".75em").text("Select and slide time periods:").order();
-
-    // console.log(data);
-
-    var circle = focus2.selectAll("circle").data(data);
+    var circle = focus2.selectAll("circle").data(happs);
 
     var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
-    //yearDict.toggle(d,);
 
     circle.enter().append("circle")
         .attr("stroke-width", "0.5")
         .attr("clip-path", "url(#clip)")
-        .attr("class", function(d) {
-            return weekDays[d.date.getDay()];
-        })
-        .attr("fill", function(d) {
-            return circleColors[weekDays[d.date.getDay()]].fill;
-        })
+        .attr("class", d => weekDays[d.date.getDay()])
+        .attr("fill", d => circleColors[weekDays[d.date.getDay()]].fill)
         .attr("stroke", "#000")
         .attr("opacity", "0.7")
         .attr("cursor", "hand")
@@ -1548,7 +1412,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         .on("mousedown", myMouseDownOpenWordShiftFunction);
 
     context.append("path")
-        .data([data])
+        .data([happs])
         .attr("class", "mini")
         .attr("fill", "none")
         .attr("stroke", "grey")
@@ -1559,16 +1423,10 @@ var intStr0 = ["zero", "one", "two", "three"];
     context.append("line")
         .attr("x1", 0)
         .attr("x2", width)
-        .attr("y1", function(d) {
-            return height2;
-        })
-        .attr("y2", function(d) {
-            return height2;
-        }) // y(y.ticks(7)[0]); })
+        .attr("y1", height2)
+        .attr("y2", height2)
         .attr("fill", "none")
-        .attr("stroke", function(d, i) {
-            return "grey"
-        })
+        .attr("stroke", "grey")
         .attr("stroke-width", ".7px");
 
     context.append("g").attr("class", "x axis")
@@ -1586,8 +1444,8 @@ var intStr0 = ["zero", "one", "two", "three"];
 
     d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title,
         function(err, json) {
-            // console.log(err);
-            // console.log(json);
+            console.log(err);
+            console.log(json);
             bigdays = json.objects.map(function(d) {
                 d.date = cparse(d.happs.date);
                 d.x = +d.x;
@@ -1599,8 +1457,8 @@ var intStr0 = ["zero", "one", "two", "three"];
                 d.y = d3.min([d.y, height - (y(d.value)) - d.shorter.length * 10]);
                 return d;
             });
-            // console.log("the events are:");
-            // console.log(bigdays);
+            console.log("the events are:");
+            console.log(bigdays);
 
             focus2.selectAll("line.bigdayline").data(bigdays).enter()
                 .append("line")
@@ -1619,14 +1477,10 @@ var intStr0 = ["zero", "one", "two", "three"];
 
             var line0 = bigdaygroups
                 .append("text")
-                .text(function(d) { // console.log(d.shorter.length);
-                    return d.shorter[0];
-                })
+                .text(d => d.shorter[0])
                 .attr("class", "bigdaytext")
                 .attr("dx", 0)
-                .attr("dy", function(d) {
-                    return 0;
-                })
+                .attr("dy", 0)
                 .attr("stroke", "")
                 .attr("fill", "grey")
                 .attr("visibility", "hidden");
@@ -1678,7 +1532,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         } // d3.json callback
     ); // d3.json for events
 
-    var freqExtent = d3.extent(data.map(function(d) {
+    var freqExtent = d3.extent(happs.map(function(d) {
         return d.freq;
     }))
 
@@ -1690,7 +1544,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     focus.selectAll(".y.axis").select("path").attr("fill", "none");
 
     focus.append("path")
-        .data([data])
+        .data([happs])
         .attr("id", "freq")
         .attr("fill", "#E0E0E0")
         .attr("stroke", "#C8C8C8")
@@ -1732,16 +1586,6 @@ var intStr0 = ["zero", "one", "two", "three"];
         .attr("fill", "darkgrey")
         .attr("cursor", "ew-resize")
         .style("visibility", "visible");
-
-    // focus.selectAll("brushedline").data([0, width]).enter().append("line")
-    //     .attr("class", "brushedline")
-    //     .attr("x1", d => d)
-    //     .attr("x2", (d, i) => x2(brush.extent()[i]))
-    //     .attr("y1", 475)
-    //     .attr("y2", 500)
-    //     .attr("stroke", "#C0C0C0")
-    //     .attr("visibility", "hidden")
-    //     .attr("stroke-width", 2);
 
     console.log("enjoy :)");
 })();
