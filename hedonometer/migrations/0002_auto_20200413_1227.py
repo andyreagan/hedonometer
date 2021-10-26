@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('hedonometer', '0001_initial'),
-        ('twython_django', '0001_initial'),
     ]
 
     operations = [

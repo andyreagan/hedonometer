@@ -84,9 +84,6 @@ urlpatterns = [
     url(r'^embed/nyt/(?P<sectionref>[\w-]+)/(?P<sectioncomp>[\w-]+)/$',views.embedNYT,name='embed'),
     url(r'^embed/CBS/(?P<hostref>[\w-]+)/(?P<hostcomp>[\w-]+)/$',views.embedCBS,name='embed'),
     url(r'^embed/main/(?P<onedate>[\w-]+)/$',views.embedMainSimple,name='embed'),
-    url(r'^embed/test/(?P<reffile>[\w-]+).csv/(?P<compfile>[\w-]+).csv/$',views.shifttest,name='test'),
-    url(r'^embed/happs/(?P<reffile>[\w-]+)/$',views.personalhapps,name='test'),
-    url(r'^embed/(?P<some_hash>[\w-]+)/$',views.embedUpload,name='embed'),
 
     # others
     url(r'^api/', include(v1_api.urls)),

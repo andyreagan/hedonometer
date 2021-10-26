@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 # No models for now
 # Eventually we can create a database for the big events
-from hedonometer.models import Event,Book,Happs,Embeddable,Movie,NYT,Timeseries,Word,Contact,HappsEvent,WordList
+from hedonometer.models import Event,Book,Happs,Movie,NYT,Timeseries,Word,Contact,HappsEvent,WordList
 
 
 class TimeseriesAdmin(admin.ModelAdmin):
@@ -25,10 +25,6 @@ class WordListAdmin(admin.ModelAdmin):
     list_display = ('date','title','language','reference','referencetitle','showindropdown','showinfulllist',)
     list_display_links = ('title',)
     list_editable = ('date','reference','referencetitle','showindropdown','showinfulllist',)
-
-
-class EmbedAdmin(admin.ModelAdmin):
-    save_as = True
 
 
 class EventInline(admin.StackedInline):
@@ -89,4 +85,4 @@ admin.site.register(Timeseries,TimeseriesAdmin)
 admin.site.register(Word)
 admin.site.register(WordList,WordListAdmin)
 admin.site.register(Contact,ContactAdmin)
-admin.site.register(Embeddable,EmbedAdmin)
+

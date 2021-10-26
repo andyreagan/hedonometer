@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.template import Context
 
-from hedonometer.models import Embeddable,Event,NYT
+from hedonometer.models import Event,NYT
 
 import datetime
 
@@ -36,6 +36,7 @@ def embedNYT(request,sectionref,sectioncomp):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
+
 def embedCBS(request,hostref,hostcomp):
     # # but I do need a dates
     # logger.debug(some_hash)
@@ -63,6 +64,7 @@ def embedCBS(request,hostref,hostcomp):
 
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
+
 
 def embedMainSimple(request,onedate):
     [year,month,day] = map(int,onedate.split('-'))
@@ -92,64 +94,6 @@ def embedMainSimple(request,onedate):
     # now pass those into the view
     return render(request, 'hedonometer/embed.html', Context(filenames))
 
-def shifttest(request,reffile,compfile):
-    # # but I do need a dates
-    # logger.debug(some_hash)
-
-    filenames = {'refFile': '/static/hedonometer/'+reffile+'.csv',
-                 'compFile': '/static/hedonometer/'+compfile+'.csv',
-    }
-
-    # logger.debug(filenames)
-    # logger.debug(Context(filenames))
-
-    # now pass those into the view
-    return render(request, 'hedonometer/shifttest.html', Context(filenames))
-
-def personalhapps(request,compfile):
-    # # but I do need a dates
-    # logger.debug(some_hash)
-
-    filenames = {'refFile': '/data/word-vectors/vacc/2015-12-08-prev7.csv',
-                 'compFile': '/data/embeds/word-vectors/'+compfile+'.csv',
-    }
-
-    # logger.debug(filenames)
-    # logger.debug(Context(filenames))
-
-    # now pass those into the view
-    return render(request, 'hedonometer/shifttest.html', Context(filenames))
-
-def embedUpload(request,some_hash):
-    # don't expect any post data
-    # logger.debug(request.POST)
-
-    # # but I do need a hash
-    # logger.debug(some_hash)
-
-    # look up that hash in our database
-    # m = Embeddable.objects.filter(compFile__contains='2014-06-06')
-    m = Embeddable.objects.get(h=some_hash)
-
-    # grab the filenames of the data from the database
-    # filenames = [m.refFile,m.compFile]
-    filenames = {
-        'refFile': m.refFile,
-        'compFile': m.compFile,
-        'stopWords': m.stopWords,
-        'hash': some_hash,
-    }
-    if len(m.customTitleText) > 0:
-        filenames['contextflag'] = 'justtitle'
-        filenames['fulltext'] = m.customTitleText
-    if len(m.customFullText) > 0:
-        filenames['fulltext'] = m.customFullText
-
-    # logger.debug(filenames)
-    # logger.debug(Context(filenames))
-
-    # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
 
 def embedMain(request,dateref,datecomp):
     # # but I do need a dates
