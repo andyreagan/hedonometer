@@ -489,11 +489,12 @@ var intStr0 = ["zero", "one", "two", "three"];
                 [new Date(2017, 00, 01), new Date(2017, 11, 31)],
                 [new Date(2018, 00, 01), new Date(2018, 11, 31)],
                 [new Date(2019, 00, 01), new Date(2019, 11, 31)],
-                [new Date(2020, 00, 01), endOfTime],
+                [new Date(2020, 00, 01), new Date(2020, 11, 31)],
+                [new Date(2021, 00, 01), endOfTime],
                 [beginningOfTime, endOfTime],
                 [d3.timeMonth.offset(endOfTime, -18), endOfTime],
             ],
-            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "Full", "Last 18 mo"],
+            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "Full", "Last 18 mo"],
             yearstringslen = yearstrings.map(function(d) {
                 return d.width();
             }),
@@ -1194,6 +1195,8 @@ var intStr0 = ["zero", "one", "two", "three"];
                 var bigdaytext = [];
 
                 // addthis_share.passthrough.twitter.text = longformat(update) + ", word shift:"
+
+                console.log(bigdays.length);
 
                 for (var i = 0; i < bigdays.length; i++) {
                     console.log(i, bigdays[i].date);
