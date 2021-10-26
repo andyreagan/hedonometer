@@ -260,42 +260,6 @@ class Movie(models.Model):
         ordering = ('title',)
 
 
-class Embeddable(models.Model):
-    # the hash
-    # will look things up by this
-    h = models.CharField(max_length=64)
-    # store the filenames and some titles for the things
-    refFile = models.CharField(max_length=200, blank=True)
-    refFileName = models.CharField(max_length=200, blank=True)
-    compFile = models.CharField(max_length=200, blank=True)
-    compFileName = models.CharField(max_length=200, blank=True)
-
-    nickName = models.CharField(max_length=200, default="My super wordshift.")
-
-    # two options here, which can be blank
-    # this stores a full text, which is comma separated for the lines (up to four lines)
-    # separate by the @-sign
-    customFullText = models.CharField(max_length=600, blank=True)
-    # this stores just a title
-    customTitleText = models.CharField(max_length=200, blank=True)
-
-    # the idea here is that we can let the embed page know whether this is
-    # coming from the user page, or from the
-    contextFlag = models.CharField(max_length=200, blank=True)
-
-    # let's also add some more information about them
-    createdDate = models.DateTimeField(null=True, blank=True)
-    updatedDate = models.DateTimeField(null=True, blank=True)
-
-    # a special list of words to exclude, comma separted
-    stopWords = models.CharField(max_length=600, blank=True)
-
-    lang = models.CharField(max_length=40)
-
-    def __str__(self):
-        return self.nickName
-
-
 class Contact(models.Model):
     name = models.CharField(max_length=100, blank=True)
     email = models.CharField(max_length=100, blank=True)

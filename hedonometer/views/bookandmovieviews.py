@@ -42,7 +42,7 @@ class annotation(View):
 
 class gutenberg_paper(View):
     # return all of the annotations for a book
-     
+
     def get(self, request, book):
         gutbook = get_object_or_404(GutenbergBook,gutenberg_id=book)
         return render(request, 'hedonometer/books/v3.html',{"book": gutbook})
@@ -59,4 +59,4 @@ class movieannotation(View):
             fulltext = "fulltext not found, please report to @hedonometer :)"
 
         return render(request, 'hedonometer/movie.html',{"movie": movie, "fulltext": fulltext})
-    
+

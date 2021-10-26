@@ -25,11 +25,8 @@ v1_api.register(BookResourceV3())
 urlpatterns = [
     # the main view!!
     url(r'^index.html', RedirectView.as_view(url='timeseries/en_all/',query_string=True)),
-    # this preserves a link from the MITRE version of the site
-    url(r'^wordshift.html', RedirectView.as_view(url='index.html',query_string=True)),
     # the rest of these are just staticically built pages:
     url(r'^about.html', TemplateView.as_view(template_name='hedonometer/about.html'), name='about'),
-    url(r'^shifts.html', RedirectView.as_view(url='instructions.html#wordshifts'),),
     url(r'^instructions.html', TemplateView.as_view(template_name='hedonometer/instructions.html'),name='instructions'),
     url(r'^words.html', RedirectView.as_view(url='words/labMT-en-v1/'),),
     url(r'^words/(?P<wordlisttitle>[\w-]+)/',views.wordlist, name='wordlist'),
@@ -78,14 +75,6 @@ urlpatterns = [
 
     # this powers the slack command
     url(r'^happs/',views.wordhapps,name='happs'),
-
-    # wordshifterator
-    url(r'^wordshifterator/edit/(?P<some_hash>[\w-]+)/$',views.editwordshift.as_view(),name=''),
-    url(r'^wordshifterator/share/(?P<some_hash>[\w-]+)/$',views.sharewordshift.as_view(),name=''),
-    url(r'^wordshifterator/view/(?P<some_hash>[\w-]+)/$',views.viewwordshift.as_view(),name=''),
-    # create is the most basic view
-    url(r'^wordshifterator/create/$', TemplateView.as_view(template_name='hedonometer/wordshifterator/create.html') ,name=''),
-    url(r'^wordshifterator/',views.main.as_view(),name=''),
 
     # backend for making png and pdf
     url(r'^convertSVG', views.csv_view.as_view(), name='convertSVG'),

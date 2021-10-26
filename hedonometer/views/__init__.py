@@ -9,10 +9,6 @@ from django.template import Context
 
 from mysite.settings import STATIC_ROOT
 
-# proper logging (not using "print")
-# import logging
-# logger = logging.getLogger(__name__)
-
 from hedonometer.models import NYT, Timeseries, Word, Contact, Happs, Event, WordList, Word
 
 from django.views.decorators.csrf import csrf_exempt, csrf_protect
@@ -21,10 +17,8 @@ from django.core import serializers
 import csv
 import subprocess
 import codecs
-# import json
 
 from .embedviews import *
-from .wordshifteratorviews import *
 from .bookandmovieviews import *
 
 import datetime
