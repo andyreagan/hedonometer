@@ -41,7 +41,6 @@ urlpatterns = [
     url(r'^contact/',views.contact.as_view(), name='contactform'),
     url(r'^funding.html', TemplateView.as_view(template_name='hedonometer/funding.html'), name='funding'),
     url(r'^api.html', TemplateView.as_view(template_name='hedonometer/api.html'), name='api'),
-    url(r'^storylab.html', TemplateView.as_view(template_name='hedonometer/lab.html'), name='lab'),
     url(r'^maps.html', TemplateView.as_view(template_name='hedonometer/maps.html'),  name='maps'),
     url(r'^devmaps.html', TemplateView.as_view(template_name='hedonometer/devmaps.html'), name='devmaps'),
     url(r'^statesankey.html', TemplateView.as_view(template_name='hedonometer/statesankey.html'), name='statesankey'),
