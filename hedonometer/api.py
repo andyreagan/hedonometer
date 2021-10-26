@@ -113,7 +113,7 @@ class WordResource(ModelResource):
         return bundle
 
     class Meta:
-        queryset = Word.objects.all()
+        queryset = Word.objects.all().order_by('rank')
         excludes = ["id", "stopword"]
         resource_name = "words"
         limit = 30000
@@ -132,6 +132,7 @@ class WordResource(ModelResource):
         # these other formats could be better
         # but HTML, for example, isn't implemented yet
         # serializer = Serializer(formats=['json', 'jsonp', 'xml', 'yaml', 'html', 'plist'])
+        ordering = ["rank"]
 
 
 class NYTResource(ModelResource):
