@@ -1,0 +1,8139 @@
+uk score en
+люблю 8.22 love
+любов 8.22 love
+щаслива 8.2 happy
+щасливий 8.2 happy
+кохати 8.16 love
+щастя 8.12 happiness
+улюблена 8.1 favorite
+щасливі 8.08 happy
+щасливою 8.08 happy
+улюблений 8.04 favorite
+щасливим 8.0 happy
+радість 7.98 joy
+коханої 7.92 beloved
+коханим 7.92 beloved
+любов&#39;ю 7.9 love
+прекрасною 7.88 beautiful
+любиш 7.88 "you love"
+щасливого 7.88 happy
+прекрасно 7.86 wonderful
+кохані 7.84 beloved
+коханих 7.84 "loved ones"
+wonderful 7.82 wonderful
+коханого 7.82 beloved
+закохалася 7.8 "fell in love"
+відмінна 7.8 excellent
+happy 7.8 happy
+успіх 7.8 success
+щасливо 7.8 happily
+відмінне 7.76 excellent
+кохану 7.76 beloved
+приголомшливо 7.76 stunning
+любить 7.76 "to love"
+весілля 7.74 wedding
+перемога 7.72 victory
+відмінний 7.72 distinctive
+рай 7.72 paradise
+закохався 7.72 "fell in love"
+радості 7.72 joy
+свято 7.7 holiday
+обожнюю 7.7 "I adore"
+новорічну 7.7 "New Year&#39;s"
+love 7.7 love
+радіти 7.68 rejoice
+задоволення 7.68 satisfaction
+подарунки 7.68 gifts
+прекрасне 7.68 wonderful
+сміх 7.66 laughter
+посмішка 7.66 smile
+смішно 7.64 ridiculously
+любимо 7.64 "we love"
+кохане 7.64 love
+радістю 7.62 joy
+дружба 7.62 friendship
+посмішкою 7.62 "with a smile"
+поцілувати 7.6 kiss
+люблять 7.6 "to love"
+найкраща 7.6 "the best"
+шикарно 7.6 chic
+розумниця 7.58 "clever girl"
+поцілунок 7.58 kiss
+посміхатися 7.58 smile
+ура 7.56 Hooray
+новорічний 7.56 "New Year"
+краса 7.56 beauty
+весело 7.56 fun
+удача 7.54 luck
+красивою 7.54 beautiful
+добрий 7.52 good
+сміється 7.52 laughs
+удачу 7.5 "good luck"
+захваті 7.5 delight
+супер 7.5 super
+smile 7.5 smile
+урааа 7.48 uraaa
+диво 7.48 miracle
+новорічного 7.48 "New Year&#39;s"
+перемогою 7.48 victory
+новорічне 7.46 "New Year&#39;s"
+новорічні 7.44 "New Year&#39;s"
+beautiful 7.44 beautiful
+маму 7.44 mom
+добро 7.44 good
+гумор 7.44 humor
+молодці 7.44 "well done"
+super 7.44 super
+шикарний 7.44 smart
+виграли 7.44 won
+сонечко 7.44 ladybug
+best 7.44 best
+сміятися 7.44 laugh
+любите 7.42 love
+вихідний 7.42 weekend
+подарунок 7.42 gift
+свобода 7.42 freedom
+сміху 7.42 laughter
+красиво 7.4 beautiful
+birthday 7.4 birthday
+святкувати 7.4 celebrate
+мами 7.4 mom
+ідеально 7.4 ideally
+браво 7.4 Bravo
+відмінні 7.4 excellent
+молодець 7.38 "Well done"
+виграв 7.38 won
+перемогти 7.38 "to win"
+матуся 7.38 mother
+новорічних 7.38 "New Year&#39;s"
+класно 7.38 cool
+сюрприз 7.38 surprise
+багатство 7.38 wealth
+виграла 7.38 won
+перемогу 7.38 victory
+смішного 7.38 funny
+краси 7.38 beauty
+perfect 7.36 perfect
+кращого 7.36 "the best"
+коханий-це 7.36 "beloved is"
+переміг 7.36 won
+класні 7.36 cool
+мила 7.36 darling
+подобатися 7.36 like
+новорічна 7.36 "New Year&#39;s"
+задоволенням 7.36 pleasure
+доброю 7.34 good
+kiss 7.34 kiss
+новорічної 7.34 "New Year&#39;s"
+канікули 7.34 vacation
+доброго 7.34 good
+loves 7.34 loves
+подобаюсь 7.34 "I like it"
+успіхом 7.34 success
+успішно 7.32 successfully
+paradise 7.32 paradise
+вдало 7.32 successfully
+чудеса 7.32 miracles
+приємно 7.32 pleasantly
+милі 7.32 miles
+чудес 7.32 miracles
+тішить 7.3 pleases
+кохай 7.3 love
+симпатичний 7.3 sympathetic
+радий 7.3 glad
+мамою 7.3 mom
+успіху 7.3 success
+милий 7.28 nice
+привітати 7.28 welcome
+смачно 7.28 deliciously
+funny 7.28 funny
+класний 7.28 class
+подобаєшся 7.28 "do you like"
+розумна 7.28 clever
+батьки 7.28 parents
+подарунками 7.28 gifts
+гарного 7.28 good
+дружби 7.28 friendships
+друзями 7.26 friends
+задоволений 7.26 satisfied
+перемогла 7.26 won
+найкращих 7.26 "the best"
+янгол 7.26 angel
+відпочивати 7.24 rest
+симпатична 7.24 cute
+приз 7.24 prize
+геній 7.22 genius
+приємний 7.22 pleasant
+сподобався 7.22 "liked it"
+гарну 7.22 good
+найкращим 7.22 "the best"
+виграти 7.22 win
+святом 7.22 holy
+гумору 7.2 humor
+сонце 7.2 sun
+солодка 7.2 sweet
+рідний 7.2 native
+відпочинок 7.2 vacation
+гарною 7.2 good
+гарний 7.2 good
+жарти 7.18 jokes
+гарне 7.18 nice
+добре 7.18 fine
+дитинство 7.18 childhood
+розумний 7.18 clever
+вихідних 7.18 weekend
+вечірка 7.18 party
+здорово 7.16 Wow
+наречена 7.16 bride
+nice 7.16 nice
+смішні 7.16 funny
+добрі 7.16 good
+відпустка 7.16 vacation
+сім&#39;я 7.16 family
+holiday 7.16 holiday
+герой 7.16 hero
+мрія 7.16 dream
+подорож 7.14 travel
+любили 7.14 loved
+sweet 7.14 sweet
+christmas 7.14 christmas
+хахаха 7.14 hahaha
+друг 7.14 friend
+подарувати 7.12 present
+свят 7.12 world
+welcome 7.12 welcome
+перемоги 7.12 victory
+приємне 7.12 nice
+літо 7.12 summer
+друзям 7.1 "to friends"
+благо 7.1 good
+приємного 7.1 pleasant
+приємних 7.1 pleasant
+сподобалося 7.1 "liked it"
+enjoy 7.1 enjoy
+добрих 7.08 good
+живий 7.08 live
+цілую 7.08 kiss
+свободи 7.08 freedom
+жарт 7.08 joke
+подобаються 7.08 like
+luck 7.06 luck
+бабуся 7.06 grandmother
+мрію 7.06 dream
+смачний 7.06 delicious
+чемпіон 7.06 champion
+вдалого 7.06 successful
+успіхи 7.06 successes
+шоколад 7.06 chocolate
+вільною 7.06 free
+обійняти 7.06 "to hug"
+friends 7.06 friends
+мам 7.04 mam
+славний 7.04 glorious
+вдячний 7.04 grateful
+мир 7.04 peace
+кайф 7.04 high
+good 7.02 good
+весна 7.02 spring
+раді 7.02 glad
+friend 7.02 friend
+подобається 7.02 like
+матір&#39;ю 7.02 mother
+друзів 7.02 friends
+сонця 7.0 "of the sun"
+пишаюся 7.0 "I am proud"
+торт 7.0 pie
+вечірки 7.0 parties
+солодкий 7.0 sweet
+привітав 7.0 congratulations
+бонус 7.0 bonus
+sun 7.0 sun
+хорошому 6.98 good
+свободі 6.98 freedom
+найкращою 6.98 "the best"
+дорога 6.98 road
+life 6.98 life
+сім&#39;ю 6.98 family
+виспався 6.98 slept
+great 6.98 great
+прикольний 6.98 cool
+успіхів 6.96 success
+подарували 6.96 donated
+молодий 6.96 young
+подякувати 6.96 thank
+другові 6.96 "to a friend"
+побачення 6.96 date
+пощастило 6.94 lucky
+сім&#39;єю 6.94 family
+вільні 6.94 free
+слава 6.94 glory
+життя 6.94 life
+пишатися 6.94 boast
+сестра 6.94 sister
+favorite 6.94 favorite
+подарунків 6.94 gifts
+вечірку 6.92 "the party"
+друга 6.92 another
+талант 6.92 talent
+матір 6.92 mother
+квіти 6.92 flowers
+дитина 6.92 child
+відпочити 6.92 "to rest"
+одружився 6.92 married
+подруга 6.92 girlfriend
+золотий 6.92 gold
+гарним 6.92 good
+жартую 6.92 "I&#39;m kidding"
+музика 6.9 music
+малюк 6.9 baby
+тріумфальна 6.9 triumphant
+fun 6.9 fun
+сподобалась 6.9 "liked it"
+королева 6.9 queen
+героїв 6.9 heroes
+морозиво 6.9 "ice cream"
+канікул 6.9 vacation
+мрії 6.9 dreams
+молода 6.88 young
+вечірці 6.88 parties
+цукерки 6.88 sweets
+син 6.88 son
+цікаве 6.88 interesting
+дар 6.88 gift
+анекдот 6.86 anecdote
+одружуватися 6.86 marry
+нагороду 6.86 award
+like 6.86 like
+summer 6.86 summer
+принцеса 6.86 princess
+дарувати 6.86 give
+win 6.86 win
+dream 6.86 dream
+діти 6.86 children
+свободу 6.86 freedom
+цікаві 6.86 interesting
+народження 6.86 birth
+прикольні 6.84 funny
+повага 6.84 respect
+пощастить 6.84 "to be lucky"
+краще 6.84 better
+fine 6.84 fine
+подарував 6.82 gave
+природа 6.82 nature
+family 6.82 family
+мистецтво 6.82 art
+thanks 6.82 thanks
+дівчата 6.82 girls
+круто 6.82 cool
+better 6.82 better
+подарувала 6.82 gave
+сподобається 6.82 "will like"
+ахахха 6.82 ahahaha
+прикол 6.82 joke
+батьків 6.8 parents
+дружиною 6.8 wife
+pretty 6.8 pretty
+святий 6.8 holy
+батькам 6.8 parents
+розумні 6.8 smart
+кращому 6.8 "the best"
+дитинства 6.8 childhood
+довіра 6.8 trust
+жартуєш 6.8 "you&#39;re kidding"
+неділя 6.8 Sunday
+танцювати 6.8 dance
+надії 6.8 hope
+море 6.8 sea
+dear 6.78 dear
+дорогий 6.78 dear
+дочка 6.78 daughter
+квітка 6.78 flower
+baby 6.78 baby
+поваги 6.78 respect
+здоров&#39;я 6.78 health
+дітям 6.78 children
+sex 6.78 sex
+gift 6.78 gift
+премії 6.78 awards
+живим 6.78 alive
+молоді 6.78 "young people"
+жартуйте 6.78 joke
+надію 6.76 hope
+щиро 6.76 sincerely
+матері 6.76 mother
+amazing 6.76 amazing
+вдалося 6.76 succeeded
+троянда 6.76 rose
+чесне 6.76 honestly
+золото 6.76 gold
+танці 6.76 dancing
+вільно 6.76 free
+брат 6.76 brother
+серцем 6.76 heart
+надія 6.76 hope
+солодких 6.76 sweet
+казка 6.76 tale
+подружка 6.76 girlfriend
+чемпіонів 6.76 champions
+виспатися 6.74 "to sleep"
+цікавий 6.74 interesting
+сім&#39;ї 6.74 family
+дружина 6.74 wife
+ахаха 6.74 ahaha
+казки 6.74 tales
+секс 6.74 sex
+героєм 6.74 hero
+тепло 6.74 warm
+дітей 6.74 children
+прибуток 6.74 profit
+любив 6.74 loved
+батьками 6.74 parents
+хаха 6.74 haha
+бажання 6.74 desire
+творчою 6.74 creative
+жити 6.72 live
+танець 6.72 dance
+цікаво 6.72 interesting
+дитини 6.72 children
+дітьми 6.72 children
+дитя 6.72 child
+health 6.72 health
+дочкою 6.7 daughter
+чесно 6.7 fair
+гарненько 6.7 properly
+вільного 6.7 free
+dance 6.7 dance
+music 6.7 music
+знижка 6.7 discount
+прикольно 6.7 cool
+цікавого 6.7 interesting
+dreams 6.7 dreams
+героя 6.7 "the hero"
+подаруй 6.7 give
+відпочинку 6.7 rest
+музики 6.7 music
+безкоштовно 6.7 free
+вільна 6.7 free
+дочки 6.7 daughters
+музику 6.7 music
+покращення 6.7 improvement
+щастить 6.7 "to be happy"
+рекорд 6.68 record
+визволення 6.68 liberation
+сильний 6.68 strong
+тріумфальної 6.68 triumphant
+душа 6.68 soul
+дитинстві 6.68 childhood
+мирного 6.68 peaceful
+дитяча 6.68 children&#39;s
+правильно 6.68 right
+герої 6.68 heroes
+незалежність 6.68 independence
+цирк 6.68 circus
+подруги 6.68 girlfriends
+правду 6.68 "the truth"
+cool 6.66 cool
+влітку 6.66 "in summer"
+цікавіше 6.66 "more interesting"
+довіряю 6.66 "I trust"
+іграшки 6.66 toys
+доходи 6.66 income
+дідусь 6.66 grandfather
+виспалася 6.66 slept
+sexy 6.66 sexy
+сина 6.66 son
+новий 6.64 new
+чесні 6.64 honest
+честь 6.64 honor
+merry 6.64 merry
+дівчину 6.64 girl
+вижив 6.64 survived
+фантастика 6.64 fantasy
+легко 6.64 light
+дівчиною 6.64 girl
+народився 6.64 "was born"
+богом 6.64 god
+party 6.64 party
+дбати 6.64 care
+справедливо 6.62 rightly
+шановні 6.62 dear
+творчість 6.62 art
+гості 6.62 guests
+кішка 6.62 cat
+грати 6.62 play
+наречений 6.62 fiance
+hello 6.62 hello
+світло 6.62 light
+молодь 6.62 young
+батьківщини 6.62 homeland
+ялинку 6.62 "Christmas tree"
+чисто 6.62 purely
+небо 6.62 sky
+дитиною 6.62 child
+збуваються 6.62 "come true"
+well 6.62 well
+дитячий 6.62 baby
+чистих 6.62 clean
+безкоштовний 6.62 free
+санта 6.62 santa
+вільних 6.62 free
+граємо 6.62 "we play"
+квн 6.62 kvn
+бабусі 6.62 grandmothers
+печиво 6.62 cookies
+дружок 6.62 buddy
+поважаю 6.6 "I respect"
+любила 6.6 loved
+зручно 6.6 easy
+поезія 6.6 poetry
+познайомитись 6.6 "to get acquainted"
+пісні 6.6 songs
+дитячих 6.6 children&#39;s
+дохід 6.6 income
+мріяв 6.6 dreamed
+free 6.6 free
+порятунок 6.6 salvation
+творчості 6.58 creativity
+батьківщину 6.58 homeland
+модно 6.58 fashionably
+переваги 6.58 benefits
+зірка 6.58 star
+співати 6.58 sing
+моря 6.58 sea
+живу 6.58 "I live"
+вийшло 6.58 "it turned out"
+навесні 6.58 "in the spring"
+серцю 6.58 heart
+серця 6.58 hearts
+плюс 6.58 plus
+всесвіту 6.58 universe
+досяг 6.58 reached
+дівчинка 6.58 girl
+спорт 6.58 sport
+життям 6.58 life
+концерт 6.58 concert
+приятель 6.58 friend
+мандарини 6.58 tangerines
+пиріг 6.58 pie
+молодих 6.58 young
+правда 6.58 truth
+яскраво 6.58 bright
+ялинка 6.56 tree
+подаруйте 6.56 give
+близькі 6.56 close
+цінність 6.56 value
+правильний 6.56 correct
+дівчатка 6.56 girls
+майбутнє 6.56 future
+пушкін 6.56 Pushkin
+розум 6.56 mind
+досягнень 6.56 achievements
+всесвіт 6.56 universe
+живих 6.56 alive
+крутий 6.56 steep
+заробляти 6.56 earn
+респект 6.54 respect
+синок 6.54 sonny
+субота 6.54 Saturday
+дівчина 6.54 girl
+подобалося 6.54 "liked it"
+подругою 6.54 girlfriend
+культура 6.54 culture
+cute 6.54 cute
+сильна 6.54 strong
+живи 6.54 alive
+кішки 6.54 cats
+врятували 6.54 saved
+справедливості 6.52 justice
+культурних 6.52 cultural
+marry 6.52 marry
+дружині 6.52 wife
+окей 6.52 okay
+культурного 6.52 cultural
+запрошення 6.52 invitation
+шампанське 6.52 Champagne
+god 6.52 yr
+квітів 6.52 flowers
+жінка 6.52 woman
+довіряти 6.52 trust
+жінкою 6.52 woman
+home 6.52 home
+сексом 6.52 sex
+фестиваль 6.52 festival
+врожай 6.52 harvest
+театр 6.5 theater
+близьких 6.5 relatives
+дівчинку 6.5 "baby girl"
+пісня 6.5 song
+я 6.5 I
+нового 6.5 new
+пристрасть 6.5 passion
+одружені 6.5 married
+серце 6.5 heart
+віра 6.5 faith
+заміж 6.5 married
+народилася 6.5 "was born"
+чистий 6.5 clean
+чистою 6.5 clean
+батьківщині 6.5 homeland
+заміжня 6.48 married
+вечеря 6.48 supper
+інтерес 6.48 interest
+врятував 6.48 saved
+вірити 6.48 believe
+грає 6.48 plays
+дитячі 6.48 children&#39;s
+книги 6.48 books
+богу 6.48 god
+літати 6.48 fly
+навчився 6.48 learned
+батька 6.48 father
+пограти 6.48 "to play"
+дівчині 6.48 girl
+ігри 6.48 games
+співають 6.48 sing
+кіно 6.48 cinema
+okay 6.48 okay
+допоміг 6.48 helped
+спілкування 6.48 communication
+хлопці 6.48 guys
+джентльмени 6.48 gentlemen
+please 6.48 please
+знайомства 6.48 dating
+дитинко 6.48 baby
+хліб 6.46 bread
+дорогі 6.46 expensive
+заробив 6.46 earned
+порятунку 6.46 rescue
+haha 6.46 haha
+дружини 6.46 wives
+girls 6.46 girls
+разом 6.46 together
+quality 6.46 quality
+жінки 6.46 women
+розслабитися 6.46 "to relax"
+дівчат 6.46 girls
+жінками 6.46 women
+прогулятися 6.46 "take a walk"
+santa 6.46 santa
+young 6.46 young
+підвищення 6.46 increase
+допомагати 6.46 help
+нові 6.46 new
+врятувати 6.46 save
+подобався 6.44 "liked it"
+культурно 6.44 culturally
+грай 6.44 play
+брата 6.44 brother
+охоче 6.44 willingly
+знання 6.44 knowledge
+заробіток 6.44 earnings
+жінок 6.44 women
+океан 6.44 ocean
+розумніший 6.44 smarter
+художньої 6.44 artistic
+цінності 6.44 values
+художник 6.44 painter
+дівчинкою 6.44 "little girl"
+google 6.44 google
+крутіше 6.44 steeper
+дівчаток 6.44 girls
+планета 6.44 planet
+вау 6.44 wow
+live 6.44 live
+lol 6.42 lol
+воскрес 6.42 resurrected
+впевнена 6.42 sure
+небесах 6.42 heaven
+грають 6.42 play
+прогрес 6.42 progress
+thank 6.42 thank
+справжні 6.42 real
+сестри 6.42 sisters
+зірки 6.42 stars
+нову 6.42 new
+yes 6.42 yes
+hope 6.42 hope
+познайомилися 6.42 met
+лідер 6.42 leader
+батько 6.42 father
+культури 6.42 culture
+озеро 6.42 lake
+грошей 6.42 money
+впевнений 6.42 assured
+зустрічатися 6.42 meet
+захист 6.42 protection
+сильним 6.42 strong
+шанс 6.42 chance
+знижки 6.42 discounts
+ялинки 6.4 "Christmas trees"
+вдається 6.4 succeeds
+книга 6.4 book
+вірно 6.4 True
+гра 6.4 game
+ок 6.4 OK
+кота 6.4 cat
+повітря 6.4 air
+чистого 6.4 clean
+концерті 6.4 concert
+heart 6.4 heart
+future 6.4 future
+так 6.4 so
+believe 6.4 believe
+синові 6.4 son
+бажаю 6.4 "I wish"
+борщ 6.4 borsch
+травень 6.4 May
+bmw 6.4 bmw
+сніжинки 6.4 snowflakes
+познайомився 6.4 met
+заробити 6.4 "to earn"
+гуляти 6.4 walk
+енергії 6.4 energy
+light 6.4 light
+малювати 6.4 draw
+живого 6.4 alive
+святого 6.4 saint
+батьком 6.38 father
+культурі 6.38 culture
+woman 6.38 woman
+сподіватися 6.38 hope
+ефективність 6.38 efficiency
+#anekdot 6.38 #anekdot
+ідеї 6.38 ideas
+заплатили 6.38 paid
+додому 6.38 home
+допомогла 6.38 helped
+жінку 6.38 woman
+зарплату 6.38 salary
+кінь 6.38 horse
+кататися 6.38 ride
+грошима 6.38 money
+погуляти 6.38 "to take a walk"
+мистецтва 6.38 art
+париж 6.38 Paris
+hi 6.38 hi
+нова 6.38 new
+природі 6.38 nature
+знижку 6.38 discount
+підтримую 6.38 "I support"
+впораєшся 6.38 "you will manage"
+татом 6.38 dad
+благослови 6.38 bless
+граю 6.38 "I play"
+відчувати 6.38 feel
+театрі 6.38 theater
+сексу 6.38 sex
+людина 6.36 man
+живеш 6.36 "you live"
+money 6.36 money
+культурної 6.36 cultural
+мільйон 6.36 million
+бог 6.36 God
+гість 6.36 guest
+леді 6.36 lady
+зустрінемось 6.36 "see you"
+ресторан 6.36 restaurant
+доходів 6.36 income
+сад 6.36 garden
+п&#39;ятниця 6.36 Friday
+згоден 6.36 agree
+новим 6.36 new
+wow 6.36 wow
+зустрітися 6.36 "to meet"
+справжній 6.36 real
+song 6.36 song
+живете 6.36 live
+internet 6.36 internet
+star 6.36 star
+дуже 6.36 very
+хата 6.36 cottage
+океану 6.36 ocean
+сніданок 6.36 breakfast
+художніх 6.36 artistic
+настрій 6.36 mood
+wish 6.36 wish
+допомогли 6.36 helped
+women 6.36 women
+важливий 6.36 important
+активних 6.36 active
+басейн 6.36 basin
+гроші 6.34 money
+честі 6.34 honor
+можливостей 6.34 opportunities
+південь 6.34 South
+неймовірні 6.34 incredible
+оновлення 6.34 renewal
+енергія 6.34 energy
+допомагає 6.34 helps
+бажань 6.34 desires
+доходу 6.34 income
+готово 6.34 done
+girl 6.34 girl
+знайомий 6.34 familiar
+братом 6.34 brother
+світу 6.34 world
+ціную 6.34 appreciate
+новою 6.34 new
+прибутку 6.34 profit
+поет 6.34 poet
+христа 6.34 "of Christ"
+справжня 6.34 real
+мистецтві 6.34 art
+вдома 6.34 home
+врожаю 6.34 harvest
+якість 6.34 quality
+yeah 6.34 yeah
+молодого 6.34 young
+кафе 6.34 cafe
+небеса 6.34 heaven
+сучасною 6.34 modern
+подбати 6.34 "take care"
+театру 6.34 theater
+незалежності 6.34 independence
+songs 6.34 songs
+співає 6.32 sings
+безпечно 6.32 safely
+заслужив 6.32 deserved
+ефективності 6.32 efficiency
+світлість 6.32 Excellency
+потенціал 6.32 potential
+крихта 6.32 crumb
+встигаю 6.32 "I have time"
+гол 6.32 Goal
+вірю 6.32 "I believe"
+вдасться 6.32 "will succeed"
+розвитку 6.32 development
+пушкіна 6.32 Pushkin
+величезної 6.32 huge
+почуття 6.32 sense
+картина 6.32 picture
+відновлення 6.32 restoration
+хлопців 6.32 guys
+спокійною 6.32 calm
+велике 6.32 great
+cat 6.32 cat
+освіта 6.32 education
+дружину 6.32 wife
+інтернету 6.32 internet
+сильне 6.32 strong
+сестру 6.32 sister
+ідея 6.32 idea
+зарплати 6.32 salaries
+вмію 6.32 "I can"
+художника 6.3 artist
+здатний 6.3 capable
+домогтися 6.3 "to achieve"
+жінці 6.3 woman
+фільм 6.3 film
+допоможуть 6.3 "will help"
+ранок 6.3 morning
+вірш 6.3 verse
+вірші 6.3 poems
+істини 6.3 "the truth"
+зустрілися 6.3 met
+озера 6.3 Lakes
+спрацювало 6.3 worked
+відомий 6.3 known
+піцу 6.3 pizza
+активність 6.3 activity
+сніжок 6.3 snowball
+сила 6.3 power
+духовного 6.3 spiritual
+бібліотека 6.3 library
+енергію 6.3 energy
+небес 6.3 heaven
+play 6.3 play
+знаю 6.3 "I know"
+skype 6.3 skype
+зустріч 6.3 meeting
+майстер 6.3 master
+великий 6.3 big
+культуру 6.3 culture
+ооочень 6.3 ooochen
+підвищенні 6.3 increase
+хокей 6.3 hockey
+бога 6.28 god
+новими 6.28 new
+нових 6.28 new
+посплю 6.28 "I will sleep"
+гостей 6.28 guests
+світі 6.28 "the world"
+розуму 6.28 mind
+діда 6.28 grandfather
+hearts 6.28 hearts
+зможу 6.28 "I can"
+шанси 6.28 odds
+book 6.28 book
+справжньою 6.28 real
+true 6.28 true
+game 6.28 game
+мільйони 6.28 millions
+братові 6.28 brother
+співробітництво 6.28 cooperation
+розуміння 6.28 understanding
+babe 6.28 babe
+враження 6.28 impression
+пісню 6.28 "the song"
+храм 6.28 temple
+розвиток 6.28 development
+максимум 6.28 maximum
+активною 6.28 active
+величезний 6.28 huge
+відкриття 6.28 discovery
+будиночок 6.26 lodge
+перспективи 6.26 perspectives
+тат 6.26 tat
+залік 6.26 test
+hotel 6.26 hotel
+лав 6.26 lav
+шампанського 6.26 "of champagne"
+впораюся 6.26 "I will manage"
+вищого 6.26 higher
+порядок 6.26 order
+платять 6.26 "to pay"
+віри 6.26 faith
+можливості 6.26 opportunities
+підтримав 6.26 supported
+величезні 6.26 huge
+жінкам 6.26 women
+величезне 6.26 huge
+жіночий 6.26 female
+ідею 6.26 idea
+сочі 6.26 sochi
+концерту 6.26 concert
+сином 6.26 son
+принц 6.24 prince
+літератури 6.24 literature
+товариша 6.24 comrade
+росії 6.24 Russia
+світом 6.24 "the world"
+відчуваєш 6.24 "you feel"
+англійська 6.24 English
+liked 6.24 liked
+спати 6.24 sleep
+ясно 6.24 clear
+гру 6.24 game
+art 6.24 art
+висока 6.24 high
+морський 6.24 marine
+лідери 6.24 leaders
+легкої 6.24 easy
+людство 6.24 humanity
+прогресу 6.24 progress
+читати 6.24 read
+поетів 6.24 poets
+яблуко 6.24 apple
+цінностей 6.24 values
+запросили 6.24 invited
+живопису 6.24 painting
+new 6.24 new
+подбаю 6.24 "I&#39;ll take care of it"
+кава 6.24 coffee
+батькові 6.24 father
+ахах 6.24 ahah
+english 6.24 english
+природи 6.24 nature
+online 6.22 online
+тост 6.22 toast
+знайомі 6.22 familiar
+запросив 6.22 invited
+єдина 6.22 "the only one"
+вода 6.22 water
+допоможу 6.22 "I will help"
+відкрито 6.22 openly
+mom 6.22 mom
+парк 6.22 park
+художнього 6.22 artistic
+клас 6.22 class
+допомога 6.22 help
+суботу 6.22 Saturday
+сильні 6.22 strong
+можеш 6.22 "you can"
+вміє 6.22 "is able"
+ковзанка 6.22 "skating rink"
+віриш 6.22 "you believe"
+розслабся 6.22 relax
+поезії 6.22 poetry
+побачитися 6.22 "see you"
+хлопець 6.22 boy
+ноутбук 6.22 laptop
+художників 6.22 artists
+вищих 6.22 higher
+гостях 6.22 guests
+співачка 6.22 singer
+встиг 6.22 "had time"
+паті 6.22 party
+липні 6.22 July
+пісень 6.2 songs
+література 6.2 literature
+movie 6.2 movie
+зустрічати 6.2 meet
+ліс 6.2 forest
+підтримки 6.2 support
+шоу 6.2 show
+співаємо 6.2 "we sing"
+зустрічаються 6.2 occur
+чемпіонат 6.2 championship
+навчити 6.2 "to teach"
+високого 6.2 high
+легше 6.2 easier
+живемо 6.2 "we live"
+кільце 6.2 ring
+справжнє 6.2 real
+готова 6.2 ready
+завдяки 6.2 "thanks to"
+взаємно 6.2 mutually
+величезна 6.2 huge
+galaxy 6.2 galaxy
+обід 6.2 dinner
+іспанії 6.2 Spain
+п&#39;ятниці 6.2 Friday
+отримувати 6.2 get
+півдні 6.2 south
+любителів 6.2 amateurs
+допомогти 6.2 help
+знайомств 6.2 dating
+космос 6.2 space
+нг 6.2 ng
+спорту 6.2 sports
+вийде 6.2 "will come out"
+жіноча 6.2 female
+перша 6.2 first
+коні 6.18 horses
+інтересу 6.18 interest
+відчути 6.18 "to feel"
+розуміють 6.18 understand
+зірок 6.18 stars
+велику 6.18 great
+реальна 6.18 real
+рух 6.18 movement
+відчуваю 6.18 feel
+top 6.18 top
+композитор 6.18 composer
+духовною 6.18 spiritual
+фільмі 6.18 movies
+wi-fi 6.18 wi-fi
+зможемо 6.18 "we can"
+емоції 6.18 emotions
+європейських 6.18 European
+більше 6.18 more
+зелений 6.18 green
+природу 6.18 nature
+велика 6.18 great
+рівності 6.18 equality
+свідомість 6.18 consciousness
+автомобіль 6.18 car
+можливість 6.18 possibility
+інтернет 6.18 Internet
+world 6.18 world
+високий 6.18 high
+створювати 6.18 create
+картини 6.18 paintings
+душі 6.18 souls
+спілкуватися 6.18 communicate
+малюнок 6.18 picture
+хлопчики 6.18 boys
+сестрою 6.18 sister
+логіка 6.18 logic
+прагнення 6.18 desire
+сподіваюся 6.18 "I hope"
+розумію 6.18 "I understand"
+знижкою 6.18 discount
+high 6.18 high
+досвід 6.16 experience
+чай 6.16 tea
+каліфорнії 6.16 California
+навчання 6.16 teaching
+хочу 6.16 "I want to"
+мізки 6.16 brains
+комп&#39;ютер 6.16 computer
+нове 6.16 new
+ефект 6.16 effect
+самий 6.16 very
+запросити 6.16 "to invite"
+дерев 6.16 trees
+парфуми 6.16 perfumes
+вчені 6.16 scientists
+гори 6.16 mountains
+правди 6.16 "the truth"
+сукні 6.16 dresses
+вірить 6.16 believes
+крут 6.16 cool
+басейну 6.16 pool
+збільшити 6.16 increase
+майбутньому 6.16 future
+сплю 6.16 "I sleep"
+острови 6.16 islands
+парку 6.16 park
+олів&#39;є 6.16 Olivier
+ідей 6.16 ideas
+активного 6.16 active
+сучасного 6.16 modern
+прем&#39;єра 6.16 premiere
+#правда 6.16 #truth
+намагаюся 6.16 trying
+новому 6.14 new
+майбутнього 6.14 "of the future"
+книгу 6.14 "a book"
+активне 6.14 active
+багато 6.14 many
+важливе 6.14 important
+єдиний 6.14 only
+братів 6.14 brothers
+playing 6.14 playing
+інтереси 6.14 interests
+росію 6.14 Russia
+грудей 6.14 chest
+високою 6.14 high
+смак 6.14 taste
+nokia 6.14 nokia
+power 6.14 power
+ліси 6.14 forests
+повернулася 6.14 returned
+сік 6.14 juice
+сильніше 6.14 stronger
+вміють 6.14 "are able"
+ранку 6.14 a.m.
+зустрічі 6.14 meetings
+прав 6.14 right
+росією 6.14 Russia
+погодився 6.14 agreed
+особистість 6.14 personality
+дизайн 6.14 design
+pictures 6.14 pictures
+дерева 6.14 trees
+дешевше 6.14 cheaper
+сучасний 6.14 modern
+значний 6.14 considerable
+одружений 6.14 married
+встигну 6.14 "I&#39;ll make it"
+активності 6.14 activity
+христос 6.14 Christ
+звичайно 6.14 "Of course"
+боги 6.14 gods
+віршів 6.14 poems
+впевнені 6.14 sure
+значних 6.14 significant
+повірити 6.12 believe
+чоловіка 6.12 husband
+груди 6.12 breast
+спокій 6.12 rest
+готовий 6.12 finished
+айпад 6.12 iPad
+хах 6.12 haha
+грі 6.12 game
+круті 6.12 cool
+переконливо 6.12 convincingly
+правді 6.12 "the truth"
+безпека 6.12 security
+apple 6.12 apple
+відомих 6.12 famous
+вперед 6.12 forward
+онлайн 6.12 online
+зможе 6.12 "will be able to"
+встигнути 6.12 catch
+їжа 6.12 food
+хліба 6.12 bread
+конкурс 6.12 competition
+вчений 6.12 scientist
+найбільших 6.12 "the largest"
+виставка 6.12 exhibition
+чоловіки 6.12 men
+скоро 6.12 shortly
+доларів 6.12 dollars
+фотки 6.12 photos
+youtube 6.12 youtube
+придумав 6.12 "came up with"
+безпеки 6.12 security
+відносини 6.12 relationships
+фотографії 6.12 photos
+відчуває 6.12 feels
+зустріти 6.12 "to meet"
+собака 6.12 dog
+точність 6.1 precision
+музей 6.1 museum
+right 6.1 right
+sure 6.1 sure
+молоко 6.1 milk
+відомої 6.1 known
+почуттів 6.1 feelings
+літературної 6.1 literary
+товариші 6.1 comrades
+наше 6.1 our
+лол 6.1 lol
+співпраці 6.1 cooperation
+граєш 6.1 "you play"
+ковдра 6.1 blanket
+відновити 6.1 restore
+вміти 6.1 "be able"
+leto 6.1 summer
+здатність 6.1 ability
+хлопцем 6.1 guy
+грошових 6.1 cash
+sleep 6.1 sleep
+моя 6.1 my
+головний 6.1 main
+помічник 6.1 assistant
+помаранчеві 6.1 orange
+бажано 6.1 desirable
+start 6.1 start
+пліз 6.1 please
+лайк 6.1 like
+інтернеті 6.1 online
+квартира 6.1 apartment
+дід 6.1 grandfather
+книзі 6.1 book
+фотографія 6.1 photo
+дихати 6.1 breathe
+уявлення 6.1 idea
+відкрили 6.1 opened
+традицій 6.1 traditions
+сучасні 6.1 modern
+рослин 6.1 plants
+знайшов 6.1 found
+настрої 6.1 mood
+птахи 6.1 birds
+полагодити 6.1 repair
+ok 6.1 ok
+партнер 6.1 partner
+отримую 6.1 "I receive"
+змогли 6.1 could
+англійської 6.1 English
+морського 6.1 marine
+граєте 6.1 "you play"
+спокійно 6.1 quietly
+російської 6.1 Russian
+поета 6.08 "the poet"
+купив 6.08 bought
+захистити 6.08 "to protect"
+п&#39;ятницю 6.08 Friday
+твори 6.08 writings
+погодитися 6.08 "to agree"
+липня 6.08 July
+південних 6.08 southern
+хвилі 6.08 waves
+можемо 6.08 "we can"
+вийшов 6.08 "came out"
+дама 6.08 lady
+грали 6.08 played
+туфлі 6.08 shoes
+ресторані 6.08 restaurant
+речення 6.08 sentence
+зростати 6.08 grow
+знайомих 6.08 acquaintances
+збільшення 6.08 magnification
+знань 6.08 knowledge
+зустрічайте 6.08 meet
+здатні 6.08 capable
+достатньо 6.08 enough
+вічно 6.08 forever
+допоможе 6.08 "will help"
+сонцепомаранчеві 6.08 sun-orange
+чоловік 6.08 man
+великого 6.08 great
+поспати 6.08 "to sleep"
+samsung 6.08 samsung
+суші 6.08 sushi
+людського 6.08 human
+важливих 6.08 important
+клуб 6.08 club
+інтересам 6.08 interests
+збільшується 6.08 increases
+потенціалу 6.08 potential
+літературу 6.08 literature
+вірять 6.08 believe
+мозок 6.08 brain
+плавати 6.08 swim
+ready 6.08 ready
+високі 6.08 high
+університет 6.06 university
+головне 6.06 "the main thing"
+віру 6.06 faith
+господь 6.06 Lord
+другом 6.06 another
+film 6.06 film
+портрет 6.06 portrait
+запаси 6.06 stocks
+активно 6.06 actively
+грошах 6.06 money
+однокласники 6.06 classmates
+товаришів 6.06 comrades
+мільярдів 6.06 billions
+приїду 6.06 "I will come"
+місяця 6.06 month
+гаряча 6.06 hot
+культур 6.06 cultures
+отримуєш 6.06 "you get"
+чемпіонаті 6.06 championship
+інтелігенції 6.06 intelligentsia
+захочу 6.06 "I want"
+сучасних 6.06 modern
+перший 6.06 first
+vegas 6.06 vegas
+страва 6.06 dish
+прагне 6.06 craves
+санти 6.06 santi
+тварин 6.06 animals
+значно 6.06 much
+ціла 6.06 whole
+розуміє 6.06 understands
+готові 6.06 ready
+бібліотек 6.06 libraries
+планеті 6.06 planet
+сон 6.06 sleep
+збільшенні 6.06 increase
+значне 6.06 significantly
+величність 6.06 majesty
+стиль 6.06 style
+традиції 6.06 traditions
+приріст 6.06 increase
+російська 6.06 Russian
+міжнародний 6.06 international
+morning 6.06 morning
+жіночі 6.06 women
+вчитися 6.06 "to study"
+цікавить 6.06 interested
+хоче 6.06 wants
+білого 6.04 white
+живуть 6.04 live
+твоя 6.04 your
+хлопчика 6.04 "the boy"
+виріс 6.04 "grew up"
+вченого 6.04 scientist
+кольори 6.04 colors
+рослини 6.04 plants
+першою 6.04 "the first"
+зміг 6.04 could
+реальною 6.04 real
+збільшенням 6.04 increase
+молока 6.04 milk
+чоловіком 6.04 husband
+впоратися 6.04 "to cope"
+планшет 6.04 tablet
+неймовірно 6.04 unbelievable
+вранці 6.04 "in the morning"
+острів 6.04 island
+розвивається 6.04 "is developing"
+скайп 6.04 skype
+храму 6.04 "the temple"
+європі 6.04 Europe
+великими 6.04 large
+аха 6.04 aha
+оранжево 6.04 orange
+університеті 6.04 university
+визнання 6.04 recognition
+губи 6.04 lose
+вірите 6.04 believe
+хлопчиком 6.04 "a boy"
+травня 6.04 May
+отримали 6.04 received
+білих 6.04 white
+оригінал 6.04 original
+результат 6.04 result
+хочеш 6.04 "you want"
+літературного 6.04 literary
+здатна 6.04 capable
+лев 6.04 lion
+навчив 6.04 taught
+отримаю 6.04 "I will receive"
+мода 6.04 fashion
+приїжджай 6.04 come
+lady 6.04 lady
+підтримувати 6.04 support
+вмієш 6.04 "you can"
+зустрічається 6.04 occurs
+поїсти 6.04 eat
+dress 6.04 dress
+бажає 6.04 wants
+дерево 6.04 tree
+приснився 6.04 dreamed
+перші 6.04 "the first"
+читаю 6.04 "I read"
+тварини 6.04 animals
+великі 6.04 large
+музею 6.02 museum
+зустрів 6.02 met
+white 6.02 white
+здібності 6.02 abilities
+справжнього 6.02 real
+готувати 6.02 prepare
+значні 6.02 significant
+fan 6.02 fan
+facebook 6.02 facebook
+park 6.02 park
+вічність 6.02 eternity
+бібліотеки 6.02 libraries
+письменник 6.02 writer
+річки 6.02 river
+поїду 6.02 "I&#39;ll go"
+світла 6.02 light
+живіше 6.02 "more alive"
+єдність 6.02 unity
+придумати 6.02 "come up with"
+знайдеш 6.02 "you will find"
+пікантні 6.02 spicy
+команда 6.02 team
+подія 6.02 event
+ванну 6.02 bath
+повітрі 6.02 air
+давайте 6.02 Let&#39;s
+широкого 6.02 wide
+піднятися 6.02 "to rise"
+зростає 6.02 "is growing"
+можу 6.02 can
+чемпіонату 6.02 championship
+ігор 6.02 Igor
+важливу 6.02 important
+поеми 6.02 poems
+мільйонів 6.02 millions
+емоцій 6.02 emotions
+фільму 6.02 movie
+грав 6.02 played
+зустріла 6.02 met
+#russia 6.02 #russia
+м&#39;яч 6.02 ball
+згодні 6.02 agree
+читач 6.02 reader
+зрозуміла 6.02 understood
+місіс 6.02 Mrs.
+пам&#39;ятати 6.02 remember
+створити 6.02 "to create"
+річка 6.02 river
+підвищити 6.02 "to raise"
+лідера 6.02 leader
+розвитком 6.02 development
+білка 6.0 squirrel
+читаєш 6.0 "you read"
+літак 6.0 plane
+підходить 6.0 fits
+вчусь 6.0 "I&#39;m studying"
+дихай 6.0 breathe
+ціль 6.0 goal
+побудувати 6.0 build
+big 6.0 big
+фотографію 6.0 photography
+побачимось 6.0 "see you"
+лист 6.0 letter
+купити 6.0 "to buy"
+#prettywomen 6.0 #prettywomen
+картину 6.0 picture
+кухар 6.0 cook
+кубок 6.0 cup
+вгору 6.0 above
+салат 6.0 salad
+встигла 6.0 "had time"
+важливо 6.0 importantly
+відкрився 6.0 opened
+колекція 6.0 collection
+роман 6.0 novel
+ха 6.0 ha
+письменники 6.0 writers
+згадала 6.0 mentioned
+товариш 6.0 friend
+небі 6.0 "the sky"
+лісів 6.0 forests
+рішуче 6.0 strongly
+movies 6.0 movies
+цілий 6.0 whole
+високих 6.0 high
+даааа 6.0 даааа
+house 6.0 house
+зробила 6.0 did
+купила 6.0 bought
+актор 6.0 actor
+вконтакті 6.0 vkontakte
+favorited 6.0 favorited
+бесіди 6.0 conversations
+зображення 6.0 image
+освітою 6.0 education
+першим 6.0 first
+дихання 6.0 breath
+хочете 5.98 "you want"
+зможеш 5.98 "you can"
+літературних 5.98 literary
+mind 5.98 mind
+фотографій 5.98 photos
+відомого 5.98 famous
+годиться 5.98 suitable
+джинси 5.98 jeans
+червні 5.98 June
+відчуваєте 5.98 feel
+південній 5.98 southern
+захищати 5.98 protect
+духу 5.98 spirit
+перерва 5.98 break
+прокинутися 5.98 "wake up"
+навчитися 5.98 "to learn"
+широке 5.98 wide
+знайшли 5.98 found
+тітка 5.98 aunt
+книг 5.98 books
+відповіла 5.98 answered
+radio 5.98 radio
+міс 5.98 miss
+душ 5.98 shower
+приготувати 5.98 prepare
+отримуємо 5.98 "we receive"
+знати 5.98 know
+кристалів 5.98 crystals
+фінал 5.98 final
+планету 5.98 planet
+головною 5.98 main
+радіо 5.98 radio
+допоможеш 5.98 "you will help"
+виховання 5.98 education
+інтересах 5.98 interests
+внесок 5.98 contribution
+постараюся 5.98 "I will try"
+візит 5.98 visit
+photos 5.98 photos
+птах 5.98 bird
+поїздка 5.98 trip
+чаю 5.98 tea
+found 5.98 found
+попереду 5.98 ahead
+швидко 5.96 quickly
+розуміємо 5.96 "we understand"
+фото 5.96 photo
+original 5.96 original
+зрозуміли 5.96 understood
+можете 5.96 "you can"
+спеціаліст 5.96 specialist
+їдять 5.96 eat
+#тріумфальна 5.96 "# triumphant"
+взаємодії 5.96 interaction
+зможете 5.96 "you can"
+діяти 5.96 act
+стійкості 5.96 stability
+рекомендую 5.96 "I recommend"
+більшого 5.96 more
+підтримку 5.96 support
+кисню 5.96 oxygen
+віриться 5.96 "it is believed"
+яндекс 5.96 Yandex
+машину 5.96 "the car"
+тренер 5.96 coach
+коней 5.96 horses
+стійкість 5.96 stability
+green 5.96 green
+допомогою 5.96 help
+чехії 5.96 "Czech Republic"
+прокидається 5.96 "wakes up"
+аеропорт 5.96 airport
+синьйора 5.96 signora
+сниться 5.96 "to dream"
+студенти 5.96 students
+пам&#39;ятаю 5.96 "I remember"
+апартаменти 5.96 apartments
+біла 5.96 white
+зміцнення 5.96 strengthening
+людьми 5.96 people
+сили 5.96 forces
+приєднуйтесь 5.96 join
+приєднатися 5.96 join
+вчиться 5.96 "to study"
+грала 5.96 played
+відзначати 5.96 mark
+летіти 5.96 fly
+car 5.96 car
+людської 5.96 human
+амінь 5.96 amen
+читає 5.96 reads
+хлопчик 5.96 boy
+диван 5.96 sofa
+майстри 5.96 masters
+знайшла 5.96 found
+нормальний 5.96 normal
+міцно 5.96 firmly
+хочеться 5.96 "I want to"
+picture 5.96 picture
+first 5.96 first
+очевидно 5.94 obviously
+високим 5.94 high
+e-book 5.94 e-book
+російське 5.94 Russian
+травні 5.94 May
+special 5.94 special
+мій 5.94 my
+meet 5.94 meet
+побачила 5.94 saw
+макіяжу 5.94 makeup
+чітко 5.94 clearly
+design 5.94 design
+планети 5.94 planets
+схуднути 5.94 "lose weight"
+мадам 5.94 madam
+дорослий 5.94 adult
+птахів 5.94 birds
+баксів 5.94 bucks
+справжнім 5.94 real
+квиток 5.94 ticket
+творах 5.94 works
+першими 5.94 first
+досягає 5.94 reaches
+тур 5.94 tour
+наука 5.94 science
+заслуговує 5.94 deserves
+сімей 5.94 families
+collection 5.94 collection
+острові 5.94 island
+вчення 5.94 doctrine
+єдності 5.94 unity
+самостійно 5.94 independently
+запропонувати 5.94 offer
+наступаючим 5.94 coming
+змогла 5.94 could
+починати 5.94 start
+удвох 5.94 together
+захотілося 5.94 "I wanted to"
+актором 5.94 actor
+many 5.94 many
+отримані 5.94 received
+зарубіжних 5.94 foreign
+морських 5.94 marine
+горах 5.94 mountains
+фотку 5.94 photo
+зрозумієш 5.94 "you will understand"
+придумала 5.94 "came up with"
+потужність 5.94 power
+хлопця 5.94 guy
+захочеш 5.94 "you want"
+собаку 5.94 "the dog"
+дядько 5.94 uncle
+продовжуйте 5.94 "keep going"
+суп 5.94 soup
+лісовий 5.94 forest
+найважливіших 5.94 "the most important"
+very 5.94 very
+ближче 5.94 closer
+землю 5.94 land
+заробітної 5.94 salary
+професор 5.94 professor
+сюжет 5.94 plot
+власні 5.94 own
+розповім 5.94 "I will tell"
+приїхала 5.94 arrived
+видобутку 5.92 mining
+душу 5.92 soul
+спрацює 5.92 "will work"
+реальність 5.92 reality
+отримано 5.92 received
+сучасному 5.92 modern
+квартиру 5.92 apartment
+поживаєш 5.92 "you live"
+рецепти 5.92 recipes
+обіцяю 5.92 "I promise"
+awesome 5.92 awesome
+реально 5.92 really
+мобільний 5.92 mobile
+photo 5.92 photo
+очі 5.92 eyes
+rock 5.92 rock
+освіти 5.92 education
+forever 5.92 forever
+більшої 5.92 greater
+ромео 5.92 romeo
+простір 5.92 space
+хлопчиків 5.92 boys
+боже 5.92 God
+вперше 5.92 "for the first time"
+розуміти 5.92 understand
+знайдено 5.92 found
+done 5.92 done
+відчував 5.92 felt
+фільмів 5.92 movies
+токіо 5.92 Tokyo
+земля 5.92 Earth
+team 5.92 team
+отримав 5.92 got
+boy 5.92 boy
+відчув 5.92 felt
+відчувала 5.92 felt
+купили 5.92 bought
+нашої 5.92 our
+європейської 5.92 European
+інтересів 5.92 interests
+головні 5.92 main
+know 5.92 know
+готель 5.92 hotel
+досягається 5.92 achieved
+microsoft 5.92 microsoft
+заспокоїтися 5.92 "calm down"
+майстрів 5.92 masters
+вище 5.92 above
+великих 5.92 large
+club 5.92 club
+отримати 5.92 get
+ціле 5.9 whole
+хлопцю 5.9 guy
+вчинив 5.9 "I did"
+island 5.9 island
+історія 5.9 history
+прийшла 5.9 came
+реальних 5.9 real
+міжнародної 5.9 international
+дочекатися 5.9 wait
+отримала 5.9 received
+поїдемо 5.9 "let&#39;s go"
+спб 5.9 спб
+вино 5.9 wine
+сни 5.9 dreams
+розумієте 5.9 "you understand"
+розумів 5.9 understood
+людини 5.9 man
+старовина 5.9 old
+приймають 5.9 accept
+ліжко 5.9 bed
+відомо 5.9 known
+відео 5.9 video
+приходь 5.9 come
+рукопису 5.9 manuscript
+зіграти 5.9 "to play"
+чоловіків 5.9 men
+оповідання 5.9 story
+головних 5.9 major
+want 5.9 want
+подумати 5.9 think
+слухати 5.9 listen
+much 5.9 much
+update 5.9 update
+boys 5.9 boys
+людських 5.9 human
+відкрити 5.9 open
+сцені 5.9 "the wall"
+літературі 5.9 literature
+open 5.9 open
+пітер 5.9 Peter
+князь 5.9 prince
+чоловічий 5.9 male
+ми 5.9 we
+створюється 5.9 "is being created"
+дихає 5.9 breathes
+продовження 5.9 continuation
+новина 5.9 news
+звуки 5.9 sounds
+пані 5.9 Mrs.
+сном 5.9 sleep
+поверненням 5.88 return
+заходьте 5.88 "come in"
+повідомлення 5.88 message
+доставити 5.88 "to deliver"
+холодильник 5.88 refrigerator
+відкрив 5.88 opened
+повертаюсь 5.88 "I&#39;m coming back"
+надійшла 5.88 received
+рублів 5.88 rubles
+значну 5.88 significant
+прокинувся 5.88 "woke up"
+відзначити 5.88 "to note"
+міжнародних 5.88 international
+достоєвського 5.88 Dostoevsky
+одягу 5.88 clothes
+води 5.88 water
+доріг 5.88 roads
+знайдемо 5.88 "we will find"
+просто 5.88 simply
+богів 5.88 gods
+греції 5.88 Greece
+care 5.88 kings
+важливіше 5.88 "more important"
+допоможете 5.88 "will help"
+повернувся 5.88 returned
+назустріч 5.88 towards
+готує 5.88 prepares
+здав 5.88 passed
+нормальна 5.88 normal
+телефон 5.88 phone
+знайде 5.88 "will find"
+дістатися 5.88 "to get there"
+король 5.88 king
+мужики 5.88 men
+we 5.88 we
+будинком 5.88 house
+доставка 5.88 delivery
+повертається 5.88 returns
+зможуть 5.88 "will be able to"
+збереглися 5.88 preserved
+човен 5.88 boat
+будувати 5.88 build
+повернулися 5.88 returned
+продуктів 5.88 products
+росіян 5.88 Russians
+зроблю 5.88 "I will do"
+обіду 5.88 lunch
+ipad 5.88 ipad
+їжу 5.88 food
+королем 5.88 "the king"
+магазинам 5.88 shops
+зазначає 5.88 notes
+підтверджується 5.88 confirmed
+може 5.88 may
+спільно 5.88 together
+переважно 5.88 mainly
+читають 5.88 read
+спробувати 5.88 try
+приймаю 5.88 "I accept"
+show 5.86 show
+присвячена 5.86 dedicated
+власний 5.86 own
+автомобіля 5.86 car
+подивлюсь 5.86 "I&#39;ll see"
+розумієш 5.86 "you understand"
+куплю 5.86 "I will buy"
+зрозуміло 5.86 "of course"
+потужності 5.86 power
+губ 5.86 gub
+розумі 5.86 mind
+точністю 5.86 accuracy
+фотограф 5.86 photographer
+захоче 5.86 "will want"
+здійснити 5.86 make
+join 5.86 join
+участі 5.86 participation
+березі 5.86 shore
+зроблено 5.86 done
+жваво 5.86 lively
+відомі 5.86 known
+великому 5.86 great
+своя 5.86 own
+купувати 5.86 buy
+переконати 5.86 convince
+пробачити 5.86 sorry
+розширення 5.86 expansion
+почався 5.86 began
+sony 5.86 sony
+приїде 5.86 "will come"
+воді 5.86 water
+дослідники 5.86 researchers
+моєї 5.86 my
+відкривай 5.86 open
+отримують 5.86 receive
+особистості 5.86 personality
+bday 5.86 bday
+стилю 5.86 style
+бачиш 5.86 "you see"
+заходь 5.86 "come in"
+годувати 5.86 feed
+конкурсі 5.86 competition
+real 5.86 real
+уявляю 5.86 "I imagine"
+робот 5.86 robot
+одяг 5.86 clothes
+квартири 5.86 apartments
+actors 5.86 actors
+російські 5.86 Russian
+здійснюється 5.86 "carried out"
+людині 5.86 man
+мега 5.86 mega
+мови 5.86 languages
+південного 5.86 southern
+рухатися 5.86 move
+водою 5.86 "with water"
+visit 5.86 visit
+великим 5.86 great
+продукти 5.86 products
+hey 5.86 hey
+серпні 5.86 August
+якості 5.86 quality
+світового 5.86 world
+клубі 5.86 club
+читав 5.86 "I read"
+магазинах 5.86 shops
+країна 5.86 country
+повертайся 5.86 "come back"
+створіння 5.86 creature
+зрозумію 5.86 "I will understand"
+п&#39;ять 5.84 five
+участь 5.84 participation
+подзвони 5.84 call
+рукопис 5.84 manuscript
+університету 5.84 university
+авто 5.84 auto
+повернусь 5.84 "I&#39;ll be back"
+розповідати 5.84 tell
+elena 5.84 elena
+вітчизняної 5.84 domestic
+крістини 5.84 christening
+готую 5.84 "I&#39;m cooking"
+виглядати 5.84 "to look"
+клубу 5.84 club
+діяльність 5.84 activity
+напарник 5.84 partner
+житель 5.84 inhabitant
+навушники 5.84 headphone
+з&#39;їсти 5.84 "to eat"
+мільйона 5.84 million
+результати 5.84 results
+собаки 5.84 dogs
+відвезу 5.84 "take away"
+підемо 5.84 "let&#39;s go"
+повернешся 5.84 "you will return"
+думати 5.84 think
+face 5.84 face
+прийняті 5.84 accepted
+журнал 5.84 magazine
+власну 5.84 own
+почали 5.84 started
+виглядаєш 5.84 "you look"
+знайдені 5.84 found
+сайт 5.84 site
+науці 5.84 science
+широко 5.84 widely
+історичні 5.84 historical
+першу 5.84 "the first"
+буду 5.84 "I will"
+вирішила 5.84 decided
+сервіс 5.84 service
+природно 5.84 naturally
+підійде 5.84 "will fit"
+дізналася 5.84 learned
+сну 5.84 sleep
+спробуй 5.84 "try it"
+особисте 5.84 personal
+показують 5.84 show
+верблюд 5.84 camel
+отримання 5.84 receiving
+смс 5.84 sms
+комп 5.84 comp
+створив 5.84 created
+подзвоню 5.84 "I&#39;ll call"
+blonde 5.84 blonde
+почитати 5.84 "to read"
+няша 5.84 nyasha
+повір 5.84 "believe me"
+цезар 5.84 Caesar
+створені 5.84 created
+support 5.84 support
+квитки 5.84 tickets
+людям 5.84 people
+feel 5.84 feel
+продовжуй 5.84 "go on"
+половинка 5.84 half
+магазині 5.84 shop
+освіті 5.84 education
+індіанці 5.84 Indians
+реальні 5.84 real
+євро 5.84 euro
+єдиним 5.84 "the only one"
+передових 5.82 advanced
+дослідників 5.82 researchers
+hot 5.82 hot
+почула 5.82 heard
+топ 5.82 top
+колір 5.82 color
+досліджень 5.82 research
+тиша 5.82 silence
+взаємодія 5.82 interaction
+читала 5.82 read
+дааа 5.82 yeah
+режисер 5.82 director
+повість 5.82 story
+право 5.82 right
+важливою 5.82 important
+приїхали 5.82 arrived
+цілей 5.82 goals
+наявність 5.82 availability
+представила 5.82 presented
+встав 5.82 "got up"
+space 5.82 space
+риби 5.82 Pisces
+ага 5.82 Aha
+нашими 5.82 ours
+знайду 5.82 "I will find"
+корабля 5.82 ship
+really 5.82 really
+широкою 5.82 wide
+роману 5.82 novel
+п&#39;єси 5.82 plays
+вчителі 5.82 teachers
+прямий 5.82 direct
+світовий 5.82 world
+піднявся 5.82 rose
+моделі 5.82 models
+followers 5.82 followers
+перших 5.82 "the first"
+приходять 5.82 come
+дізнаюся 5.82 "find out"
+марія 5.82 Maria
+tomorrow 5.82 tomorrow
+знає 5.82 knows
+річку 5.82 "the river"
+оплати 5.82 payment
+особистих 5.82 personal
+еволюції 5.82 evolution
+головним 5.82 "the main thing"
+збігається 5.82 coincides
+спробуємо 5.82 "let&#39;s try"
+власних 5.82 own
+сніг 5.82 snow
+власність 5.82 property
+зрозуміти 5.82 understand
+свій 5.82 your
+науки 5.82 science
+додано 5.82 added
+дійсність 5.82 reality
+eyes 5.82 eyes
+поїзд 5.82 train
+прийняли 5.82 accepted
+точно 5.82 exactly
+початок 5.82 beginning
+відзначимо 5.82 note
+молитися 5.82 pray
+лісових 5.82 forest
+царство 5.82 kingdom
+повірив 5.82 believed
+погоду 5.82 weather
+найближчі 5.82 coming
+можливим 5.82 possible
+album 5.8 album
+повіриш 5.8 "you will believe"
+нормально 5.8 normally
+додав 5.8 added
+рекомендаціями 5.8 recommendations
+поїхати 5.8 go
+початку 5.8 beginning
+людей 5.8 people
+головна 5.8 home
+уважно 5.8 closely
+компом 5.8 comp
+створенню 5.8 creation
+набагато 5.8 lot
+вечір 5.8 evening
+влаштовує 5.8 suits
+download 5.8 download
+mp3 5.8 mp3
+запропонували 5.8 offered
+хочемо 5.8 "we want"
+починаю 5.8 "I&#39;m starting"
+росіяни 5.8 Russians
+читайте 5.8 read
+mature 5.8 mature
+бар 5.8 bar
+думаю 5.8 "I think"
+америку 5.8 America
+швидше 5.8 rather
+воду 5.8 water
+квітні 5.8 April
+зробив 5.8 did
+письменників 5.8 writers
+швидкість 5.8 speed
+збірна 5.8 "national team"
+передовий 5.8 advanced
+науковий 5.8 scientific
+ключі 5.8 keys
+повністю 5.8 fully
+голова 5.8 head
+згадати 5.8 mention
+з&#39;явилася 5.8 appeared
+мого 5.8 my
+з&#39;явились 5.8 appeared
+білий 5.8 white
+video 5.8 video
+підняти 5.8 "to raise"
+цілого 5.8 whole
+3d 5.8 3d
+квітня 5.8 April
+придумали 5.8 "came up with"
+можуть 5.8 can
+легень 5.8 lungs
+повісті 5.8 stories
+руху 5.8 movement
+images 5.8 images
+завантажити 5.8 download
+кухню 5.8 "the kitchen"
+незалежно 5.8 regardless
+людиною 5.8 man
+tonight 5.8 tonight
+послання 5.8 letter
+день 5.8 day
+повернемося 5.8 "let&#39;s go back"
+шлях 5.8 way
+забезпечити 5.8 "to provide"
+виглядаю 5.8 "I look"
+створює 5.8 creates
+ключ 5.8 key
+особисті 5.8 personal
+червня 5.8 June
+відносин 5.8 relations
+поговоримо 5.8 "let&#39;s talk"
+пшениці 5.78 wheat
+вгадай 5.78 "guess what"
+історії 5.78 stories
+самої 5.78 most
+#спорт 5.78 #sport
+французької 5.78 French
+more 5.78 "the sea"
+широкий 5.78 wide
+цілі 5.78 purposes
+дізнаєшся 5.78 "you will learn"
+свою 5.78 own
+квартирі 5.78 apartment
+вегас 5.78 vegas
+особа 5.78 person
+пари 5.78 money
+windows 5.78 windows
+увімкнути 5.78 "turn on"
+вчитель 5.78 teacher
+серпня 5.78 August
+листя 5.78 leaf
+дядьки 5.78 uncles
+листи 5.78 leaves
+якостей 5.78 qualities
+сплять 5.78 "to sleep"
+пам&#39;ять 5.78 memory
+зір 5.78 vision
+повне 5.78 full
+тисяч 5.78 thousands
+письменника 5.78 writer
+вчити 5.78 "to teach"
+дають 5.78 give
+my 5.78 we
+бачилися 5.78 "saw each other"
+виступи 5.78 performances
+французька 5.78 French
+нашу 5.78 our
+компанію 5.78 company
+старший 5.78 senior
+правою 5.78 right
+chat 5.78 chat
+особистого 5.78 personal
+америці 5.78 America
+отримаємо 5.78 "we will receive"
+будівництво 5.78 construction
+додала 5.78 added
+відкрила 5.78 opened
+реалізації 5.78 implementation
+особливого 5.78 special
+huge 5.78 huge
+мої 5.78 my
+мене 5.78 me
+швидкістю 5.78 speed
+наукова 5.78 scientific
+виконати 5.78 perform
+прочитав 5.78 "I read"
+важливі 5.78 important
+зробить 5.78 "will do"
+ведучих 5.78 leading
+широкі 5.78 wide
+вивчення 5.78 study
+вчинити 5.78 "to do"
+нормальні 5.78 normal
+пес 5.78 dog
+березня 5.78 March
+наукової 5.78 scientific
+рівноваги 5.78 balance
+раджу 5.78 "I advise"
+дамо 5.78 give
+будемо 5.78 "we will"
+бачу 5.78 "I see"
+навушниках 5.78 headphones
+силі 5.78 strength
+моделей 5.78 models
+ванною 5.78 bathroom
+мілорд 5.78 milord
+допомоги 5.78 assistance
+прибув 5.78 arrived
+переклад 5.78 translation
+входите 5.78 enter
+перше 5.78 first
+міжнародного 5.76 international
+їдемо 5.76 "let&#39;s go"
+риба 5.76 fish
+web 5.76 web
+приїхав 5.76 arrived
+прийде 5.76 "will come"
+почати 5.76 begin
+прийнято 5.76 accepted
+коня 5.76 horse
+вчився 5.76 studied
+наявності 5.76 availability
+кліп 5.76 clip
+корова 5.76 cow
+downloads 5.76 downloads
+зрозумів 5.76 understood
+власною 5.76 own
+сенс 5.76 sense
+дзвоніть 5.76 call
+пам&#39;ятаєш 5.76 remember
+катя 5.76 katya
+дух 5.76 spirit
+знають 5.76 "they know"
+почалося 5.76 started
+думаємо 5.76 "we think"
+академії 5.76 academy
+наша 5.76 our
+автори 5.76 authors
+продуктивність 5.76 productivity
+історичний 5.76 historical
+принесла 5.76 brought
+чути 5.76 hear
+лежати 5.76 lie
+читача 5.76 "the reader"
+корпоратив 5.76 corporate
+завжди 5.76 always
+мімімі 5.76 mimimi
+історична 5.76 historical
+їздити 5.76 ride
+videos 5.76 videos
+вдень 5.76 "during the day"
+граф 5.76 earl
+ширше 5.76 wider
+звук 5.76 sound
+широким 5.76 wide
+читачів 5.76 readers
+починай 5.76 start
+наукового 5.76 scientific
+села 5.76 villages
+soon 5.76 soon
+виступ 5.76 performance
+рівно 5.76 exactly
+демократії 5.76 democracy
+особисто 5.76 personally
+історію 5.76 history
+побачу 5.76 "I&#39;ll see"
+своє 5.76 own
+ipod 5.76 ipod
+совість 5.76 conscience
+автомобілів 5.76 cars
+коледж 5.76 college
+наукові 5.76 scientific
+ліжка 5.76 beds
+діє 5.76 acts
+починається 5.76 begins
+оплата 5.76 payment
+надіслав 5.76 sent
+full 5.76 full
+особистою 5.76 personal
+буде 5.76 "will be"
+пропозиції 5.76 offers
+важливим 5.76 important
+білої 5.76 white
+берег 5.76 Bank
+додати 5.74 add
+зателефонував 5.74 called
+світлана 5.74 Svetlana
+першого 5.74 "the first"
+уявляєш 5.74 "you imagine"
+знаєш 5.74 "you know"
+зберігається 5.74 saved
+запропонував 5.74 suggested
+джин 5.74 gin
+отримує 5.74 receives
+маємо 5.74 "we have"
+займається 5.74 engaged
+бачила 5.74 saw
+об&#39;єктивно 5.74 objectively
+здійснення 5.74 implementation
+японії 5.74 Japan
+прийшли 5.74 came
+часто 5.74 often
+уявити 5.74 imagine
+заняття 5.74 occupation
+технології 5.74 technology
+народні 5.74 folk
+євро-2012 5.74 "Euro 2012"
+метою 5.74 purpose
+city 5.74 city
+гравець 5.74 player
+залишся 5.74 stay
+починаємо 5.74 "let&#39;s start"
+buy 5.74 buy
+універ 5.74 University
+столиці 5.74 "the capital"
+капітан 5.74 captain
+потужністю 5.74 power
+прямому 5.74 direct
+дадуть 5.74 "will give"
+костюм 5.74 suit
+story 5.74 story
+молодший 5.74 younger
+продовжимо 5.74 "let&#39;s continue"
+наукових 5.74 scientific
+вона 5.74 she
+рецепт 5.74 recipe
+спиш 5.74 "you sleep"
+читай 5.74 read
+повірте 5.74 "believe me"
+особливий 5.74 special
+розкажеш 5.74 "you will tell"
+імператор 5.74 emperor
+йорк 5.74 york
+айфон 5.74 iPhone
+досвіді 5.74 experience
+роблю 5.74 "I do"
+моєму 5.74 "to mine"
+інет 5.74 "the Internet"
+united 5.74 united
+photoset 5.74 photoset
+простий 5.74 simple
+свого 5.74 his
+зробили 5.74 did
+думає 5.74 thinks
+експедиції 5.74 expedition
+think 5.74 think
+yourself 5.74 yourself
+гвинтокрил 5.74 helicopter
+вибратися 5.74 "get out"
+простіше 5.74 easier
+ма 5.74 ma
+побачиш 5.74 "you will see"
+прийшов 5.74 came
+кажеш 5.74 "you say"
+простору 5.74 space
+входь 5.74 enter
+місія 5.74 mission
+ресурси 5.74 resource
+знаходимо 5.74 "we find"
+набуває 5.74 acquires
+айпади 5.74 ipadi
+уявіть 5.74 imagine
+приїхати 5.74 come
+розмова 5.74 conversation
+вчених 5.74 scientists
+моє 5.74 my
+знайдеться 5.74 "will be found"
+відповіді 5.74 answers
+даа 5.74 yes
+прикладом 5.74 butt
+захотів 5.74 wanted
+поява 5.74 appearance
+дозволить 5.74 "to allow"
+сорочку 5.74 shirt
+контакт 5.72 contact
+беру 5.72 "I take"
+подивилася 5.72 looked
+action 5.72 action
+виправити 5.72 "to fix"
+діалог 5.72 dialogue
+розповість 5.72 "will tell"
+маєш 5.72 "you have"
+картоплі 5.72 potatoes
+індії 5.72 india
+бігати 5.72 run
+автор 5.72 author
+сцени 5.72 scenes
+русі 5.72 movement
+give 5.72 give
+знімки 5.72 pictures
+природних 5.72 natural
+вивченню 5.72 study
+характеру 5.72 character
+відповідаю 5.72 "I answer"
+вікна 5.72 windows
+бачимо 5.72 "we see"
+москву 5.72 Moscow
+починають 5.72 begin
+пряма 5.72 straight
+косметика 5.72 makeup
+зберігати 5.72 save
+сума 5.72 sum
+дозволю 5.72 "I will allow"
+своїми 5.72 "their own"
+збіг 5.72 coincidence
+почути 5.72 hear
+магазину 5.72 shop
+голос 5.72 voice
+таня 5.72 tanya
+столик 5.72 table
+джерела 5.72 sources
+альбом 5.72 album
+rus 5.72 rus
+відчуття 5.72 feeling
+думай 5.72 think
+особистий 5.72 personal
+романі 5.72 novels
+широких 5.72 wide
+most 5.72 bridge
+авторів 5.72 authors
+прийняла 5.72 accepted
+пише 5.72 "he writes"
+вечора 5.72 p.m.
+школі 5.72 school
+знаємо 5.72 "we know"
+зізнатися 5.72 "to confess"
+господи 5.72 "my god"
+fans 5.72 fans
+яйця 5.72 eggs
+ордени 5.72 orders
+ого 5.72 Oho
+капітал 5.72 capital
+побачимо 5.72 "we&#39;ll see"
+дізнатися 5.72 "find out"
+займаються 5.72 engaged
+силах 5.72 forces
+снігом 5.72 snow
+єдиного 5.72 "the only one"
+поясню 5.72 "I will explain"
+подібність 5.72 similarity
+дізнаємося 5.72 "we will learn"
+землі 5.72 land
+журналі 5.72 magazines
+їхати 5.72 go
+горизонту 5.72 horizon
+приніс 5.72 brought
+напишу 5.72 "I will write"
+подивися 5.72 look
+їсть 5.72 eats
+незабаром 5.72 soon
+сприяти 5.72 promote
+наш 5.72 our
+збирати 5.72 collect
+always 5.72 always
+прийняти 5.72 "to accept"
+поговорити 5.72 speak
+ефекту 5.7 effect
+меню 5.7 menu
+мою 5.7 mine
+робить 5.7 does
+розмовляти 5.7 talk
+hair 5.7 hair
+чую 5.7 "I hear"
+ленінград 5.7 Leningrad
+плани 5.7 plans
+громадянин 5.7 citizen
+майя 5.7 Maya
+свої 5.7 your
+містер 5.7 Mr.
+щоденник 5.7 diary
+мак 5.7 poppy
+водних 5.7 aquatic
+погода 5.7 weather
+мовою 5.7 language
+підйому 5.7 lifting
+рід 5.7 family
+з&#39;являються 5.7 appear
+думаєш 5.7 "you think"
+машини 5.7 cars
+історичне 5.7 historical
+захисту 5.7 protection
+збереження 5.7 preservation
+снів 5.7 dreams
+повернутися 5.7 return
+знаючи 5.7 knowing
+виникнення 5.7 occurrence
+зайнятися 5.7 "to do"
+дослідження 5.7 research
+довгий 5.7 long
+secret 5.7 secret
+американський 5.7 American
+зріст 5.7 height
+звучить 5.7 "to sound"
+характер 5.7 nature
+матч 5.7 match
+корабель 5.7 ship
+широкому 5.7 wide
+подумаю 5.7 "I will think"
+відкрию 5.7 "I will open"
+студентів 5.7 students
+рухайся 5.7 move
+поля 5.7 fields
+повно 5.7 full
+-так 5.7 -so
+season 5.7 season
+летить 5.7 "to fly"
+she 5.7 she
+краснодар 5.7 krasnodar
+застосовувати 5.7 apply
+рулить 5.7 "to steer"
+коледжу 5.7 college
+власник 5.7 owner
+найбільш 5.7 most
+листування 5.7 correspondence
+дозволяють 5.7 allow
+лежу 5.7 "I&#39;m lying"
+знаходилася 5.7 was
+новгород 5.7 Novgorod
+швидкості 5.7 speed
+стилі 5.7 style
+international 5.7 international
+очима 5.7 eyes
+повернуться 5.7 "to return"
+повернеться 5.7 "will return"
+питай 5.7 ask
+нашого 5.7 our
+міцності 5.7 strength
+повідомив 5.7 reported
+науково 5.7 scientifically
+зберегти 5.7 save
+образ 5.7 image
+подробиці 5.7 details
+нхл 5.7 nhl
+йде 5.7 goes
+зібралися 5.7 gathered
+рухом 5.7 movement
+бажаючи 5.7 wishing
+запевняю 5.7 "I assure you"
+конкурсу 5.7 competition
+твоєї 5.7 yours
+безліч 5.7 many
+увійдіть 5.7 "Come in"
+продовжувати 5.7 continue
+постійного 5.7 permanent
+неодмінно 5.7 certainly
+давати 5.7 give
+розповіла 5.7 told
+наших 5.68 ours
+сайти 5.68 sites
+простого 5.68 simple
+фахівці 5.68 specialists
+джеррі 5.68 jerry
+зіграє 5.68 "will play"
+принесли 5.68 brought
+дивимося 5.68 "we look"
+місті 5.68 city
+холодильнику 5.68 refrigerator
+remember 5.68 remember
+поїзді 5.68 "by train"
+досвіду 5.68 experience
+наук 5.68 Science
+почнемо 5.68 "let&#39;s start"
+рекомендації 5.68 recommendations
+ноут 5.68 laptop
+build 5.68 build
+за 5.68 by
+привезли 5.68 brought
+команді 5.68 team
+дізнайтесь 5.68 "find out"
+own 5.68 own
+обіцяє 5.68 promises
+творів 5.68 works
+погляд 5.68 view
+випуск 5.68 output
+забезпечує 5.68 provides
+працювати 5.68 work
+автором 5.68 author
+аня 5.68 anya
+вибрати 5.68 "to choose"
+новини 5.68 news
+почну 5.68 "I&#39;ll start"
+полях 5.68 fields
+альбому 5.68 album
+моїх 5.68 mine
+відзначав 5.68 noted
+проект 5.68 project
+зроблять 5.68 "will do"
+починає 5.68 begins
+даю 5.68 "I give"
+news 5.68 news
+поле 5.68 field
+слухаєш 5.68 "you listen"
+вистачає 5.68 enough
+почав 5.68 started
+по-моєму 5.68 "in my opinion"
+їдеш 5.68 "you go"
+колеги 5.68 colleagues
+покажу 5.68 "I will show"
+вирішив 5.68 decided
+патрік 5.68 patrick
+двір 5.68 court
+підняв 5.68 raised
+digital 5.68 digital
+залишайся 5.68 stay
+збираюся 5.68 "I&#39;m going"
+марина 5.68 marina
+будеш 5.68 "you will"
+уваги 5.68 attention
+anna 5.68 anna
+софі 5.68 sophie
+сенсу 5.68 sense
+привіз 5.68 brought
+прийму 5.68 "I will accept"
+ролик 5.68 roller
+словник 5.68 vocabulary
+згідно 5.68 "according to"
+андроїд 5.68 android
+уявлень 5.68 representations
+looking 5.68 looking
+з&#39;явилося 5.68 appeared
+представляють 5.68 represent
+студії 5.68 studios
+розмовляє 5.66 speaks
+продовжує 5.66 continues
+суттєве 5.66 essential
+створенні 5.66 creation
+торгівля 5.66 trade
+власності 5.66 property
+своєю 5.66 his
+спи 5.66 sleep
+бери 5.66 take
+повертайтесь 5.66 "come back"
+гору 5.66 mountain
+відбудеться 5.66 "will take place"
+замовити 5.66 order
+залишусь 5.66 "I will stay"
+червоного 5.66 red
+da 5.66 yes
+сьогодні 5.66 today
+америка 5.66 America
+подивіться 5.66 look
+слухаю 5.66 "I&#39;m listening"
+up 5.66 ref
+прямого 5.66 direct
+досвідом 5.66 experience
+схожа 5.66 similar
+phone 5.66 phone
+частіше 5.66 "more often"
+дзвонить 5.66 "to call"
+отримає 5.66 "will receive"
+станемо 5.66 "let&#39;s get up"
+підйом 5.66 lift
+згадую 5.66 "I remember"
+саша 5.66 sasha
+історичної 5.66 historical
+поїдеш 5.66 "you will go"
+зa 5.66 for
+почнеться 5.66 "will begin"
+людях 5.66 people
+реальності 5.66 reality
+писати 5.66 write
+моїми 5.66 mine
+body 5.66 body
+належить 5.66 "belongs to"
+оцінити 5.66 "to evaluate"
+розповідає 5.66 tells
+масло 5.66 butter
+давай 5.66 "come on"
+починайте 5.66 "get started"
+трейлер 5.66 trailer
+прямих 5.66 direct
+подивитися 5.66 look
+dj 5.66 dj
+почалася 5.66 began
+працює 5.66 works
+сні 5.66 dreams
+прийняв 5.66 accepted
+силу 5.66 force
+будь 5.66 be
+школах 5.66 schools
+особи 5.66 persons
+кореша 5.66 mate
+інформації 5.66 information
+більшість 5.66 majority
+сцену 5.66 stage
+#вконтакте 5.66 #Vkontakte
+будьте 5.66 be
+продовжував 5.66 continued
+спогади 5.66 memoirs
+продовжується 5.66 continues
+#sport 5.66 #sport
+послухати 5.66 "to listen"
+працюю 5.66 "I work"
+подумала 5.66 "she thought"
+головного 5.66 "the main thing"
+послухайте 5.66 listen
+сильно 5.66 strongly
+нашим 5.66 ours
+високо 5.66 high
+portable 5.66 portable
+робите 5.66 "you do"
+прапор 5.66 flag
+рівною 5.66 equal
+американської 5.66 American
+особливість 5.66 feature
+постійною 5.66 constant
+новин 5.66 news
+думають 5.66 think
+народний 5.66 national
+поряд 5.66 near
+ночі 5.66 night
+дослідженнях 5.66 research
+зробити 5.66 do
+спить 5.66 sleeping
+компанія 5.66 company
+вирішити 5.66 solve
+торгівлі 5.66 trade
+дивиться 5.66 looks
+починаєш 5.66 "you start"
+відправитися 5.66 "to go"
+android 5.66 android
+покажи 5.66 show
+сьогоднішнього 5.66 today
+голові 5.66 head
+машиною 5.66 "by car"
+обіцянка 5.66 promise
+can 5.64 can
+фотошоп 5.64 photoshop
+відношенні 5.64 "in relation to"
+отримаєш 5.64 "you will receive"
+зустрічалися 5.64 met
+miss 5.64 miss
+мені 5.64 "to me"
+робимо 5.64 "we do"
+капіталу 5.64 capital
+совісті 5.64 conscience
+телефоні 5.64 phone
+настя 5.64 Nastya
+подумав 5.64 "I thought"
+фоток 5.64 photos
+завгодно 5.64 anything
+власного 5.64 own
+двоє 5.64 two
+дасть 5.64 "will give"
+відношення 5.64 relation
+завести 5.64 "to seduce"
+з&#39;являється 5.64 appears
+вижити 5.64 survive
+взяла 5.64 took
+висоти 5.64 altitude
+пояснити 5.64 "to explain"
+вистачило 5.64 enough
+мить 5.64 moment
+подальше 5.64 further
+займатися 5.64 "engage in"
+збірної 5.64 "national team"
+автора 5.64 author
+unlocked 5.64 unlocked
+господарство 5.64 household
+роблять 5.64 do
+розповідав 5.64 told
+відкривається 5.64 opens
+даєш 5.64 "you give"
+товарів 5.64 goods
+wants 5.64 wants
+стверджувати 5.64 affirm
+міста 5.64 cities
+приготуватися 5.64 "to prepare"
+me 5.64 me
+зробимо 5.64 "let&#39;s do it"
+you 5.64 you
+погляду 5.64 look
+іноземних 5.64 foreign
+збираємось 5.64 "we are going"
+сезон 5.64 season
+мати 5.64 have
+приносить 5.64 "to bring"
+погляди 5.64 views
+червоний 5.64 red
+тобою 5.64 you
+моїм 5.64 my
+пропонують 5.64 offer
+епохи 5.64 epoch
+нарис 5.64 sketch
+висота 5.64 height
+цілому 5.64 "in general"
+зараз 5.64 now
+вчителів 5.64 teachers
+входять 5.64 included
+шансів 5.64 chances
+заради 5.64 for
+розповідала 5.64 told
+хочуть 5.64 want
+синьйор 5.64 signor
+вистачало 5.64 enough
+займаєшся 5.64 "you are engaged"
+coming 5.64 coming
+абсолютно 5.64 absolutely
+мері 5.64 measure
+спробую 5.64 "I&#39;ll try"
+результатом 5.64 "the result"
+родовищ 5.64 deposits
+побачив 5.64 saw
+показувати 5.64 show
+зателефонувала 5.64 called
+спостерігати 5.64 watch
+шматочок 5.64 "a piece"
+вибрав 5.64 chose
+мозку 5.64 brain
+люсі 5.64 Lucy
+голову 5.64 head
+гарячий 5.64 hot
+history 5.64 history
+#ipad 5.64 #ipad
+чує 5.64 hears
+будинків 5.64 houses
+пропоную 5.64 "I offer"
+історично 5.64 historically
+млрд 5.64 billion
+початком 5.64 "the beginning"
+пропозицій 5.64 proposals
+looks 5.64 looks
+бачити 5.64 see
+англ 5.64 English
+почне 5.64 "will begin"
+пам&#39;ятає 5.64 remembers
+head 5.64 head
+портал 5.62 portal
+міст 5.62 bridge
+дізнайся 5.62 "find out"
+репортаж 5.62 reportage
+суть 5.62 essence
+з&#39;єднання 5.62 connection
+західних 5.62 western
+матеріальних 5.62 material
+статус 5.62 status
+дзвонив 5.62 called
+ведмідь 5.62 bear
+звання 5.62 rank
+звернення 5.62 appeal
+постійних 5.62 permanent
+землеробства 5.62 agriculture
+напишіть 5.62 write
+дозволило 5.62 allowed
+виявив 5.62 discovered
+почув 5.62 heard
+пишу 5.62 "I write"
+штука 5.62 thing
+історичного 5.62 historical
+зібрали 5.62 collected
+рука 5.62 hand
+практики 5.62 practices
+червона 5.62 red
+жанр 5.62 genre
+feat 5.62 feat
+effects 5.62 effects
+пальто 5.62 coat
+магазин 5.62 shop
+доцільно 5.62 expedient
+захочете 5.62 "you want"
+надходити 5.62 come
+березні 5.62 March
+універі 5.62 university
+пропонує 5.62 offers
+відзначив 5.62 noted
+мова 5.62 language
+схід 5.62 East
+доступ 5.62 access
+команди 5.62 commands
+потрібна 5.62 required
+жителі 5.62 residents
+delivery 5.62 delivery
+листів 5.62 letters
+союзі 5.62 unions
+дивлюсь 5.62 "I look"
+завтра 5.62 tomorrow
+розкажи 5.62 "tell me"
+національний 5.62 national
+телефону 5.62 phone
+рішень 5.62 decisions
+влаштувати 5.62 "to arrange"
+нашому 5.62 ours
+капітана 5.62 captain
+суми 5.62 Sumy
+слухайте 5.62 listen
+команду 5.62 team
+тримай 5.62 "hold on"
+ресурсів 5.62 resources
+порядку 5.62 order
+встигни 5.62 "catch up"
+майно 5.62 property
+розповісти 5.62 "to tell"
+обидва 5.62 both
+об&#39;єднання 5.62 association
+береги 5.62 shores
+making 5.62 making
+встала 5.62 "got up"
+максим 5.62 max
+готується 5.62 "is preparing"
+порада 5.62 advice
+підкажіть 5.62 prompt
+хвиль 5.62 waves
+містеру 5.62 Mr.
+приймати 5.62 accept
+watch 5.62 watch
+тобі 5.62 you
+телефони 5.62 phones
+країни 5.62 countries
+побачили 5.62 saw
+have 5.62 have
+анджелес 5.62 angeles
+зайшла 5.62 "came in"
+підійти 5.62 "to approach"
+вікно 5.62 window
+run 5.62 run
+приходити 5.62 come
+філософії 5.62 philosophy
+виконання 5.62 implementation
+знайдете 5.62 find
+побачити 5.62 see
+дивіться 5.62 look
+інформація 5.62 information
+народу 5.62 people
+болгарії 5.62 Bulgaria
+інститут 5.62 institute
+розповідай 5.62 "tell me"
+є 5.62 is
+здала 5.62 passed
+school 5.62 school
+read 5.62 read
+відповідь 5.62 reply
+сама 5.62 itself
+рухайтесь 5.62 move
+already 5.6 already
+матеріального 5.6 material
+призначення 5.6 appointment
+можливих 5.6 possible
+союзних 5.6 allied
+потужностей 5.6 capacities
+фортеці 5.6 fortress
+замок 5.6 lock
+знаєте 5.6 "you know"
+фахівців 5.6 specialists
+твоєму 5.6 yours
+інформацію 5.6 information
+належать 5.6 "belong to"
+ефірі 5.6 "on the air"
+скажемо 5.6 "let&#39;s say"
+вісник 5.6 herald
+почалися 5.6 started
+hit 5.6 hit
+вдвічі 5.6 double
+дали 5.6 whether
+інеті 5.6 "the Internet"
+говорити 5.6 speak
+бачать 5.6 "to see"
+своїх 5.6 "their own"
+існування 5.6 existence
+долі 5.6 fate
+твій 5.6 thy
+зустрічав 5.6 met
+ім&#39;я 5.6 name
+народ 5.6 people
+говоримо 5.6 "we are talking"
+займаюся 5.6 "I do"
+проходь 5.6 pass
+самара 5.6 Samara
+everything 5.6 everything
+business 5.6 business
+результатам 5.6 results
+приймаючи 5.6 taking
+спробуйте 5.6 "try it"
+принесу 5.6 "I will bring"
+запасів 5.6 stocks
+тисячу 5.6 thousand
+ваші 5.6 your
+тварина 5.6 animal
+повернути 5.6 return
+чуєш 5.6 "you hear"
+ходять 5.6 "to walk"
+країну 5.6 country
+твоїм 5.6 yours
+сприяє 5.6 contributes
+трансляція 5.6 broadcasting
+головою 5.6 head
+особливо 5.6 especially
+закінчити 5.6 "to finish"
+собі 5.6 itself
+діяльності 5.6 activities
+білизна 5.6 whiteness
+увечері 5.6 "in the evening"
+уявляєте 5.6 imagine
+з&#39;явився 5.6 appeared
+приймає 5.6 accepts
+фігури 5.6 figures
+everyone 5.6 everyone
+забезпечення 5.6 software
+динаміка 5.6 dynamics
+зв&#39;язок 5.6 connection
+приходьте 5.6 come
+ти 5.6 you
+тисяча 5.6 thousand
+дзвонити 5.6 call
+майна 5.6 property
+поглядом 5.6 look
+планування 5.6 planning
+увійшли 5.6 entered
+знала 5.6 "she knew"
+більшості 5.6 most
+отримайте 5.6 get
+зібралася 5.6 gathered
+група 5.6 group
+повертатися 5.6 turn
+союзом 5.6 union
+слухає 5.6 listens
+займалися 5.6 engaged
+гірських 5.6 mountain
+рибу 5.6 fish
+демократичних 5.6 democratic
+джерело 5.6 source
+лорд 5.6 lord
+себе 5.6 himself
+вирішувати 5.6 solve
+подивимося 5.6 "let&#39;s see"
+очах 5.6 eyes
+вважаю 5.6 "I think"
+заходи 5.6 measures
+прізвище 5.6 name
+особливих 5.6 special
+існують 5.6 exist
+поверну 5.6 "I will return"
+думайте 5.6 think
+дорогу 5.6 "the road"
+рок 5.6 rock
+показав 5.6 showed
+видавництво 5.6 "publishing house"
+представлені 5.6 presented
+священик 5.6 priest
+контракт 5.6 contract
+заплатив 5.6 "I paid"
+народного 5.6 folk
+пообіцяв 5.6 promised
+тілом 5.6 body
+школи 5.6 schools
+простим 5.6 sorry
+взуття 5.6 shoes
+хвилиночку 5.6 "wait a minute"
+степу 5.58 steppe
+сеньйор 5.58 seigneur
+єс 5.58 yes
+її 5.58 her
+вика 5.58 vetch
+приходить 5.58 "to come"
+ваш 5.58 your
+знаходить 5.58 "to find"
+дає 5.58 gives
+експерти 5.58 experts
+робила 5.58 did
+літери 5.58 letters
+компанії 5.58 companies
+спала 5.58 slept
+франциско 5.58 Francisco
+ходить 5.58 "to walk"
+дізнається 5.58 learns
+дозвольте 5.58 "let me"
+дізналися 5.58 learned
+недалеко 5.58 near
+інтерв&#39;ю 5.58 interview
+каже 5.58 "he says"
+штуку 5.58 piece
+write 5.58 write
+may 5.58 may
+спираючись 5.58 leaning
+безсумнівно 5.58 undoubtedly
+помітила 5.58 noticed
+послуг 5.58 services
+дзвони 5.58 bells
+продажу 5.58 sales
+тебе 5.58 you
+розповів 5.58 told
+скажіть 5.58 "tell me"
+мапа 5.58 map
+географії 5.58 geography
+вашому 5.58 your
+сусіди 5.58 neighborhood
+#spb 5.58 #spb
+народами 5.58 peoples
+праці 5.58 labor
+практику 5.58 practice
+обіцяв 5.58 promised
+answer 5.58 answer
+школа 5.58 school
+говорю 5.58 "I say"
+учнів 5.58 students
+з&#39;єднань 5.58 connections
+find 5.58 find
+атмосфери 5.58 atmosphere
+стародавньої 5.58 ancient
+постарайся 5.58 try
+безруків 5.58 armless
+акції 5.58 shares
+наближається 5.58 "is approaching"
+твоє 5.58 your
+прийми 5.58 accept
+суспільстві 5.58 society
+night 5.58 night
+докладно 5.58 "in detail"
+існує 5.58 exist
+нарешті 5.58 finally
+побачите 5.58 see
+подивився 5.58 looked
+принести 5.58 bring
+подальшого 5.58 further
+шляхом 5.58 by
+організм 5.58 organism
+алло 5.58 Hello
+робиш 5.58 "you do"
+розмовляв 5.58 talked
+мов 5.58 as
+атмосфері 5.58 atmosphere
+today 5.58 today
+народних 5.58 folk
+скажу 5.58 "I will say"
+верхнього 5.58 upper
+імператора 5.58 emperor
+їж 5.58 eat
+потрібен 5.58 needed
+князя 5.58 "the prince"
+ніч 5.58 night
+своїм 5.58 "their own"
+прояви 5.58 manifestations
+машині 5.58 "the car"
+трек 5.58 track
+маю 5.58 "I have"
+заснути 5.58 "fall asleep"
+дивитися 5.58 watch
+зібрався 5.58 gathered
+look 5.58 look
+думаєте 5.58 "you think"
+відповів 5.58 replied
+йти 5.58 "to go"
+праця 5.58 labor
+ксенія 5.58 Xenia
+народне 5.58 folk
+знімок 5.58 photo
+мною 5.58 me
+згадай 5.58 remember
+клієнт 5.58 client
+тіло 5.58 body
+розкажіть 5.58 "tell me"
+річці 5.58 river
+snow 5.58 snow
+дивись 5.58 Look
+країнах 5.58 countries
+повного 5.58 complete
+наші 5.58 our
+person 5.58 person
+кімнату 5.58 room
+відповідних 5.58 relevant
+послідовно 5.58 successively
+своєму 5.58 "to his"
+зміни 5.58 changes
+подумай 5.58 think
+mix 5.58 mix
+мсьє 5.58 monsieur
+дізнаються 5.58 learn
+хотілося 5.58 "I wanted to"
+факти 5.58 facts
+повторити 5.58 repeat
+руки 5.58 hands
+явище 5.58 phenomenon
+метро 5.58 underground
+прожити 5.58 "to live"
+реконструкції 5.58 reconstruction
+простих 5.58 simple
+поклич 5.58 call
+демократія 5.58 democracy
+маленьку 5.58 small
+безумовно 5.58 certainly
+волосся 5.58 hair
+чіпати 5.58 touch
+практика 5.56 practice
+зателефонували 5.56 called
+підеш 5.56 "you will go"
+пишуть 5.56 write
+чимало 5.56 "a lot"
+маючи 5.56 having
+собору 5.56 cathedral
+пропонується 5.56 offered
+собак 5.56 dogs
+розробки 5.56 development
+корів 5.56 cows
+your 5.56 your
+результатів 5.56 results
+зібрати 5.56 "to collect"
+руками 5.56 hands
+основне 5.56 basic
+зв&#39;язку 5.56 communication
+даша 5.56 dasha
+щоденний 5.56 daily
+вивченні 5.56 study
+прийду 5.56 "I will come"
+man 5.56 man
+будете 5.56 will
+зовнішності 5.56 appearance
+відкрий 5.56 open
+тримайся 5.56 "hold on"
+маленького 5.56 small
+американські 5.56 American
+загальне 5.56 general
+секрет 5.56 secret
+четвер 5.56 Thursday
+погоди 5.56 weather
+ходили 5.56 went
+міського 5.56 urban
+canon 5.56 canon
+самі 5.56 themselves
+голосніше 5.56 louder
+wanna 5.56 wanna
+основним 5.56 basic
+дослідницьких 5.56 research
+вироби 5.56 ware
+східних 5.56 eastern
+will 5.56 will
+selena 5.56 selenium
+роль 5.56 role
+бізнес 5.56 business
+з&#39;їла 5.56 ate
+записки 5.56 notes
+секрети 5.56 secrets
+паркер 5.56 parker
+визнати 5.56 "to recognize"
+чарлі 5.56 Charlie
+дзвінок 5.56 call
+ваших 5.56 your
+listen 5.56 listen
+дам 5.56 "I will give"
+пишеш 5.56 "you write"
+зазначалося 5.56 noted
+вкладень 5.56 investments
+обрала 5.56 chose
+резюме 5.56 resume
+тріумфалці 5.56 triumphants
+входить 5.56 "to enter"
+ксюша 5.56 ksyusha
+пане 5.56 sir
+акція 5.56 action
+продаж 5.56 selling
+напрямку 5.56 direction
+продовжували 5.56 continued
+плей-офф 5.56 playoffs
+next 5.56 next
+джерел 5.56 sources
+нормі 5.56 norm
+рейтинг 5.56 rating
+новосибірськ 5.56 Novosibirsk
+основна 5.56 basic
+йду 5.56 "I&#39;m going"
+обіцяють 5.56 promise
+з&#39;явиться 5.56 "will appear"
+збираєтесь 5.56 going
+lot 5.56 lot
+пишемо 5.56 "we write"
+варіантів 5.56 options
+подумали 5.56 thought
+зустрічався 5.56 met
+злегка 5.56 slightly
+керувати 5.56 manage
+ололо 5.56 ololo
+ходити 5.56 walk
+вся 5.56 all
+повну 5.56 full
+продукт 5.56 product
+коріння 5.56 roots
+маленьких 5.56 small
+нариси 5.56 sketches
+залазь 5.56 iron
+фінансів 5.56 finance
+дивився 5.56 looked
+продавати 5.56 sell
+місту 5.56 "the city"
+робиться 5.56 "is done"
+їде 5.56 goes
+перегляду 5.56 viewing
+візьміть 5.56 "take it"
+передай 5.56 "pass on"
+око 5.56 eye
+зору 5.56 view
+зайти 5.56 enter
+філософія 5.56 philosophy
+американського 5.54 American
+алмати 5.54 almaty
+збираються 5.54 "are going"
+зателефонуйте 5.54 call
+серіал 5.54 serial
+займаєтеся 5.54 "are engaged"
+господарства 5.54 farms
+follow 5.54 follow
+результаті 5.54 results
+планує 5.54 plans
+будуть 5.54 "will be"
+дати 5.54 give
+відзначається 5.54 "is noted"
+однозначно 5.54 unambiguously
+таємниця 5.54 secrecy
+вночі 5.54 "at night"
+коло 5.54 circle
+дія 5.54 action
+форумі 5.54 forum
+пам&#39;яті 5.54 memory
+жителів 5.54 residents
+побачать 5.54 "to see"
+мужика 5.54 "the man"
+висловити 5.54 express
+makes 5.54 makes
+проектів 5.54 projects
+вибачте 5.54 Sorry
+адмірал 5.54 admiral
+стають 5.54 become
+дзвоню 5.54 "I&#39;m calling"
+оцінки 5.54 estimates
+джерелом 5.54 source
+пиво 5.54 beer
+земний 5.54 earthly
+висоті 5.54 height
+користуватися 5.54 use
+тримайте 5.54 "hold on"
+висловлює 5.54 expresses
+нам 5.54 "to us"
+візьми 5.54 "take it"
+заплатити 5.54 pay
+встановити 5.54 "to install"
+стоїть 5.54 "worth it"
+зеніт 5.54 zenith
+інтенсивності 5.54 intensity
+загальні 5.54 common
+журналу 5.54 magazine
+поговори 5.54 talk
+see 5.54 see
+дивилася 5.54 looked
+контакту 5.54 contact
+справою 5.54 case
+кімната 5.54 room
+полів 5.54 fields
+відповідає 5.54 meets
+центрі 5.54 center
+будь-яку 5.54 any
+центр 5.54 center
+ebook 5.54 ebook
+має 5.54 has
+повної 5.54 complete
+фрау 5.54 woman
+реал 5.54 real
+повному 5.54 full
+потрібні 5.54 needed
+послухай 5.54 Listen
+цитата 5.54 quote
+course 5.54 course
+лена 5.54 lena
+чула 5.54 heard
+вести 5.54 lead
+дивляться 5.54 "to watch"
+вулиця 5.54 street
+перетворень 5.54 transformations
+сер 5.54 ser
+колектив 5.54 collective
+питаєш 5.54 "you ask"
+характером 5.54 character
+відмінність 5.54 difference
+з&#39;їв 5.54 ate
+нагорі 5.54 "on the mountain"
+візьмемо 5.54 "let&#39;s take"
+айфони 5.54 iPhones
+red 5.54 red
+детектив 5.54 detective
+хотіли 5.54 wanted
+бачив 5.54 saw
+американських 5.54 American
+розмови 5.54 conversations
+наступна 5.54 next
+виглядає 5.54 "looks like"
+панове 5.54 gentlemen
+основних 5.54 basic
+маргарет 5.54 margaret
+майки 5.54 mothers
+ліфт 5.54 elevator
+представлена 5.54 presented
+глибина 5.54 depth
+матчу 5.54 match
+приймали 5.54 accepted
+професора 5.54 professor
+change 5.54 change
+ваша 5.54 your
+певний 5.54 certain
+підготовка 5.54 preparation
+studio 5.54 studio
+тіла 5.54 body
+точності 5.54 accuracy
+огляд 5.52 review
+розробці 5.52 development
+площа 5.52 area
+ходжу 5.52 "I go"
+замовив 5.52 ordered
+слухай 5.52 listen
+software 5.52 software
+свідомості 5.52 consciousness
+загальна 5.52 total
+вікном 5.52 window
+проф 5.52 prof
+особливостей 5.52 features
+відповім 5.52 "I will answer"
+кажи 5.52 say
+make 5.52 make
+пережити 5.52 experience
+характері 5.52 character
+вважаєш 5.52 "do you think"
+склав 5.52 "made up"
+підходь 5.52 approach
+їла 5.52 ate
+динаміки 5.52 speakers
+основа 5.52 basis
+символ 5.52 symbol
+перекладено 5.52 translated
+all 5.52 all
+отриманих 5.52 received
+величину 5.52 magnitude
+кваліфікації 5.52 qualifications
+прийдеш 5.52 "you will come"
+союзу 5.52 union
+прийшло 5.52 came
+короля 5.52 "the king"
+технологія 5.52 technology
+припускає 5.52 assumes
+конструктор 5.52 designer
+насіння 5.52 seed
+таксі 5.52 Taxi
+послуги 5.52 services
+данте 5.52 dante
+бізнесу 5.52 business
+міський 5.52 urban
+www 5.52 www
+дізнався 5.52 learned
+встановив 5.52 installed
+рус 5.52 rus
+3g 5.52 3g
+прийом 5.52 reception
+тисячі 5.52 thousands
+плечі 5.52 shoulders
+написала 5.52 wrote
+times 5.52 times
+electronic 5.52 electronic
+піду 5.52 go
+прийти 5.52 "to come"
+tv 5.52 tv
+зібрав 5.52 collected
+застосуванні 5.52 application
+цілих 5.52 whole
+твердо 5.52 firm
+продукції 5.52 products
+почнуть 5.52 "to start"
+представляє 5.52 represents
+пішли 5.52 went
+збиралися 5.52 "were going"
+інституту 5.52 institute
+дослідженні 5.52 research
+сезону 5.52 season
+пам&#39;ятай 5.52 remember
+вуха 5.52 ears
+feliz 5.52 happy
+князів 5.52 princes
+показали 5.52 showed
+american 5.52 american
+події 5.52 events
+зверху 5.52 "from above"
+залишимося 5.52 "let&#39;s stay"
+ідейно 5.52 ideologically
+напиши 5.52 write
+карти 5.52 cards
+явища 5.52 phenomena
+дала 5.52 gave
+сусід 5.52 neighbor
+дороги 5.52 roads
+склала 5.52 "made up"
+їдуть 5.52 go
+твоїми 5.52 yours
+проспект 5.52 prospectus
+вчив 5.52 taught
+спостережень 5.52 observations
+сценарій 5.52 scenario
+назвали 5.52 called
+пробував 5.52 tried
+вашу 5.52 your
+центральної 5.52 central
+виробляти 5.52 produce
+собою 5.52 "by itself"
+станеш 5.52 "you get up"
+утворюються 5.52 "are formed"
+публікації 5.52 publications
+роботу 5.52 work
+day 5.52 day
+працюємо 5.52 "we work"
+ах 5.52 Ah
+образів 5.52 images
+stream 5.52 stream
+постійно 5.52 constantly
+додаткові 5.52 additional
+підготовці 5.52 preparation
+збиратися 5.52 gather
+отримай 5.52 "get it"
+мотор 5.52 motor
+розташовані 5.52 located
+грунті 5.52 soil
+сказали 5.52 said
+написали 5.52 wrote
+пишіть 5.5 write
+bed 5.5 bed
+вирішує 5.5 decides
+написав 5.5 "I wrote"
+показати 5.5 "to show"
+встановлена 5.5 installed
+усім 5.5 everyone
+блозі 5.5 blog
+come 5.5 come
+разок 5.5 once
+провела 5.5 spent
+сказати 5.5 say
+кімнати 5.5 rooms
+перекладі 5.5 translation
+таємниці 5.5 secrets
+скаже 5.5 "will say"
+ірина 5.5 Iryna
+синтез 5.5 synthesis
+тримаю 5.5 "I hold"
+варіанти 5.5 options
+привести 5.5 lead
+готуватися 5.5 prepare
+men 5.5 men
+працюють 5.5 work
+вплив 5.5 influence
+східної 5.5 eastern
+ведеш 5.5 "you drive"
+усіма 5.5 all
+йорка 5.5 york
+штуки 5.5 pieces
+помітили 5.5 noticed
+пам&#39;ятайте 5.5 remember
+every 5.5 every
+виступає 5.5 acts
+годинник 5.5 watch
+присутність 5.5 presence
+краю 5.5 edge
+вибирати 5.5 choose
+багатьом 5.5 "to many"
+увійшов 5.5 entered
+техніки 5.5 techniques
+колективу 5.5 team
+кхл 5.5 khl
+response 5.5 response
+еліс 5.5 alice
+практичною 5.5 practical
+дзвонила 5.5 called
+руб 5.5 руб
+поговорю 5.5 "I&#39;ll talk"
+займусь 5.5 "I&#39;ll do it"
+веде 5.5 leads
+знадобиться 5.5 "will be needed"
+навколо 5.5 around
+перекладу 5.5 translation
+спектр 5.5 spectrum
+підготовки 5.5 training
+товари 5.5 goods
+нью 5.5 new
+кожна 5.5 each
+way 5.5 way
+особливості 5.5 specifics
+підсумки 5.5 results
+експерименту 5.5 experiment
+знав 5.5 "I knew"
+лілі 5.5 lily
+пиши 5.5 write
+диск 5.5 disc
+моменти 5.5 moments
+кроки 5.5 steps
+припускати 5.5 assume
+ефір 5.5 ether
+зміниться 5.5 "will change"
+trailer 5.5 trailer
+прокидатися 5.5 "wake up"
+твої 5.5 your
+давніх 5.5 ancient
+населення 5.5 population
+зерен 5.5 grain
+будівництва 5.5 construction
+отримували 5.5 received
+прокинься 5.5 "wake up"
+американці 5.5 Americans
+сам 5.5 himself
+беріть 5.5 take
+мають 5.5 have
+алла 5.5 alla
+яйце 5.5 egg
+адам 5.5 Adam
+платить 5.5 "to pay"
+спільної 5.5 common
+дракона 5.5 dragon
+провели 5.5 spent
+htc 5.5 htc
+черевики 5.5 shoes
+work 5.5 work
+розмовляли 5.5 talked
+починаючи 5.5 starting
+повідомлень 5.5 messages
+закінчу 5.5 "I&#39;ll finish"
+вирішили 5.5 decided
+західного 5.5 western
+появи 5.5 appeared
+deep 5.5 deep
+виглядав 5.5 looked
+інтенсивність 5.5 intensity
+стати 5.5 become
+могла 5.5 could
+обидві 5.5 both
+продаю 5.5 "for sale"
+громадське 5.5 public
+качай 5.5 download
+виділяються 5.5 "stand out"
+план 5.5 plan
+мінеральних 5.5 mineral
+переконатися 5.5 "make sure"
+social 5.5 social
+видно 5.5 visible
+олії 5.48 oil
+final 5.48 final
+швидкостей 5.48 speeds
+знайдуть 5.48 "will find"
+йдеш 5.48 "you go"
+слово 5.48 word
+всіх 5.48 all
+риб 5.48 fish
+особами 5.48 persons
+включає 5.48 includes
+поведінка 5.48 behavior
+дзвінка 5.48 call
+guide 5.48 guide
+being 5.48 being
+руках 5.48 hands
+брюс 5.48 bruce
+залишиться 5.48 "will remain"
+види 5.48 see
+твого 5.48 yours
+рф 5.48 rf
+дії 5.48 actions
+york 5.48 york
+call 5.48 call
+представлений 5.48 presented
+глибше 5.48 deeper
+нагадати 5.48 remind
+особі 5.48 person
+явно 5.48 obviously
+каталог 5.48 catalog
+місії 5.48 mission
+учасники 5.48 participants
+наступне 5.48 "the following"
+вами 5.48 you
+напрямок 5.48 direction
+перехід 5.48 transition
+утворюється 5.48 "is formed"
+ролі 5.48 roles
+намагаєшся 5.48 "you try"
+шериф 5.48 sheriff
+слухав 5.48 "I listened"
+говоріть 5.48 "speak up"
+машин 5.48 machines
+з&#39;ясувати 5.48 "find out"
+знаходяться 5.48 are
+дій 5.48 action
+блог 5.48 blog
+хвилини 5.48 minutes
+belarus 5.48 Belarus
+господарських 5.48 economic
+балів 5.48 points
+форум 5.48 forum
+#android 5.48 #android
+терпіння 5.48 patience
+нації 5.48 nation
+нас 5.48 us
+мішель 5.48 Michelle
+моменту 5.48 moment
+сьогоднішній 5.48 today
+будь-яке 5.48 any
+словом 5.48 "in a word"
+уникнути 5.48 "to avoid"
+народному 5.48 "to the people"
+тихо 5.48 quietly
+пояснюється 5.48 explained
+скажи 5.48 say
+організувати 5.48 organize
+крок 5.48 step
+повідомляє 5.48 informs
+валіза 5.48 suitcase
+розмірі 5.48 size
+народи 5.48 peoples
+бачить 5.48 "to see"
+половина 5.48 half
+московського 5.48 Moscow
+діяльністю 5.48 activities
+виглядають 5.48 "look like"
+думка 5.48 opinion
+ходиш 5.48 "you walk"
+підмосков&#39;я 5.48 "Moscow region"
+києві 5.48 Kiev
+наступною 5.48 next
+віктор 5.48 Victor
+now 5.48 now
+хелен 5.48 helen
+відкрийте 5.48 open
+принципи 5.48 principles
+виступають 5.48 perform
+будь-які 5.48 any
+учасників 5.48 participants
+зміст 5.48 content
+виступив 5.48 spoke
+водити 5.48 drive
+трансляцію 5.48 broadcast
+спеціальні 5.48 special
+способи 5.48 ways
+західному 5.48 western
+акцій 5.48 shares
+blue 5.48 blue
+думала 5.48 "I thought"
+приклади 5.48 examples
+довжиною 5.48 length
+продається 5.48 "for sale"
+проводиться 5.48 "is carried out"
+наступний 5.48 following
+визнав 5.48 admitted
+проходьте 5.48 pass
+телевізор 5.48 TV
+дощ 5.48 rain
+store 5.48 store
+дня 5.48 "of the day"
+одночасно 5.48 simultaneously
+сотні 5.48 hundreds
+ширина 5.48 width
+техніка 5.48 machinery
+name 5.48 name
+практиці 5.48 practice
+вашої 5.46 your
+підписати 5.46 sign
+земель 5.46 lands
+дозволу 5.46 permission
+go 5.46 go
+зловити 5.46 catch
+уроків 5.46 lessons
+theory 5.46 theory
+участю 5.46 participation
+показує 5.46 shows
+#news 5.46 #news
+синій 5.46 blue
+помітно 5.46 markedly
+нагадує 5.46 reminds
+діючих 5.46 acting
+чекає 5.46 waiting
+суттєво 5.46 significantly
+дзвонять 5.46 "to call"
+view 5.46 view
+сім 5.46 seven
+склали 5.46 "made up"
+двигун 5.46 engine
+рахуватися 5.46 consider
+having 5.46 having
+кузен 5.46 cousin
+пацани 5.46 boys
+week 5.46 week
+обом 5.46 both
+пристрій 5.46 device
+встановлюється 5.46 "is installed"
+рахувати 5.46 count
+компа 5.46 computer
+давали 5.46 gave
+віків 5.46 centuries
+talk 5.46 talk
+відношенню 5.46 attitude
+оцінку 5.46 assessment
+застосовується 5.46 applies
+вова 5.46 вова
+запам&#39;ятай 5.46 remember
+дворі 5.46 yard
+демократичною 5.46 democratic
+обіцяй 5.46 promise
+ru 5.46 ru
+настане 5.46 occurs
+цска 5.46 цска
+експериментальні 5.46 experimental
+приватних 5.46 private
+істоті 5.46 creature
+гостроти 5.46 acuity
+суспільство 5.46 society
+змінилася 5.46 "has changed"
+gaga 5.46 gaga
+сайті 5.46 site
+відбувається 5.46 happens
+чуєте 5.46 "you hear"
+основні 5.46 basic
+тримайтесь 5.46 "hold on"
+луїза 5.46 Louise
+рівнем 5.46 level
+mars 5.46 March
+йди 5.46 go
+точніше 5.46 "more precisely"
+величина 5.46 size
+our 5.46 our
+включаючи 5.46 including
+зробиш 5.46 "you will do"
+гороскоп 5.46 horoscope
+зразок 5.46 sample
+дозволь 5.46 permission
+пройти 5.46 pass
+величині 5.46 magnitude
+водій 5.46 "the driver"
+млн 5.46 million
+застосовуються 5.46 "are applied"
+застосування 5.46 application
+явищ 5.46 phenomena
+обіцяла 5.46 promised
+рішенні 5.46 solution
+вулицях 5.46 streets
+івана 5.46 Ivan
+поступово 5.46 gradually
+uploaded 5.46 uploaded
+становище 5.46 position
+момент 5.46 moment
+групою 5.46 group
+нічний 5.46 night
+обміну 5.46 exchange
+курси 5.46 courses
+концентрація 5.46 concentration
+мосьє 5.46 monsieur
+зв&#39;язків 5.46 connections
+існувати 5.46 exist
+обговоримо 5.46 "let&#39;s discuss"
+проявляється 5.46 "manifests itself"
+поблизу 5.46 near
+перевірив 5.46 checked
+секундочку 5.46 "a second"
+авеню 5.46 avenue
+звертається 5.46 addresses
+становила 5.46 became
+прийоми 5.46 receptions
+залишитися 5.46 stay
+take 5.46 take
+підписуємося 5.46 subscribe
+дав 5.46 gave
+чіпайте 5.46 touch
+увага 5.46 warning
+ваше 5.46 your
+отже 5.46 therefore
+повний 5.44 full
+емма 5.44 emma
+обличчям 5.44 face
+візьму 5.44 "I&#39;ll take it"
+громадські 5.44 public
+вогонь 5.44 fire
+вашого 5.44 your
+сходив 5.44 "went down"
+обрали 5.44 chose
+попросила 5.44 asked
+кімнаті 5.44 room
+відбуваються 5.44 occur
+товариства 5.44 society
+твоїх 5.44 yours
+прямо 5.44 direct
+звернути 5.44 "to draw"
+одно 5.44 "one thing"
+певну 5.44 certain
+поїзди 5.44 trains
+утворює 5.44 forms
+напрямків 5.44 directions
+проведення 5.44 "carrying out"
+знали 5.44 "they knew"
+питають 5.44 "they ask"
+суму 5.44 amount
+триматися 5.44 "hold on"
+спіймав 5.44 caught
+елізабет 5.44 Elizabeth
+напрямки 5.44 directions
+рахують 5.44 count
+скрізь 5.44 everywhere
+всього 5.44 total
+розглянуті 5.44 considered
+шляхів 5.44 ways
+центром 5.44 "the center"
+site 5.44 site
+скористатися 5.44 use
+ймовірності 5.44 probability
+існуючих 5.44 existing
+автобус 5.44 bus
+личку 5.44 personal
+сто 5.44 hundred
+імені 5.44 name
+оцінка 5.44 rating
+школу 5.44 school
+істоти 5.44 creatures
+посилення 5.44 strengthening
+дізнаєтесь 5.44 "you will learn"
+вася 5.44 Vasya
+еллі 5.44 ellie
+міняти 5.44 change
+інститутів 5.44 institutes
+підійди 5.44 "come on"
+дивишся 5.44 "you look"
+торгових 5.44 shopping
+господарського 5.44 economic
+договір 5.44 contract
+форми 5.44 forms
+проведенні 5.44 conducting
+двері 5.44 door
+збираєшся 5.44 "you are going"
+привів 5.44 led
+єдино 5.44 only
+носити 5.44 wear
+щодня 5.44 daily
+рішенню 5.44 decision
+містером 5.44 Mr.
+клієнтів 5.44 customers
+рейс 5.44 flight
+представляється 5.44 "it seems"
+матеріальної 5.44 material
+передам 5.44 "I will pass"
+дзвонили 5.44 called
+кличко 5.44 nickname
+старовини 5.44 antiquities
+класи 5.44 classes
+техніці 5.44 technique
+пройде 5.44 pass
+церкви 5.44 church
+походження 5.44 origin
+переїхати 5.44 move
+продукція 5.44 product
+леонард 5.44 Leonard
+вибір 5.44 choice
+привели 5.44 led
+remix 5.44 remix
+збирається 5.44 going
+розглядати 5.44 consider
+прохання 5.44 request
+місцевих 5.44 local
+прикладі 5.44 example
+послідовності 5.44 sequence
+pro 5.44 pro
+лягати 5.44 "lie down"
+#nowplaying 5.44 #nowplaying
+експериментальних 5.44 experimental
+кажуть 5.44 "they say"
+йдіть 5.44 go
+флоту 5.44 fleet
+ранніх 5.44 early
+народів 5.44 peoples
+африки 5.44 Africa
+міських 5.44 urban
+твіттер 5.44 twitter
+сьюзі 5.44 Susie
+ви 5.44 you
+течія 5.44 current
+кермо 5.44 helm
+концепція 5.42 concept
+зовнішнього 5.42 external
+передачі 5.42 transmission
+пішки 5.42 "on foot"
+снігу 5.42 snow
+наступні 5.42 "the following"
+сайтів 5.42 sites
+наступному 5.42 next
+рук 5.42 hands
+бетті 5.42 betty
+елемент 5.42 element
+балансу 5.42 balance
+печі 5.42 furnaces
+виразом 5.42 expression
+йдете 5.42 go
+настав 5.42 "came on"
+фізики 5.42 physics
+московській 5.42 Moscow
+teen 5.42 teen
+спостерігалося 5.42 "was observed"
+тисячам 5.42 thousands
+двох 5.42 two
+дві 5.42 two
+селян 5.42 peasant
+називається 5.42 "is called"
+time 5.42 time
+лягай 5.42 "lie down"
+irina 5.42 irina
+загальним 5.42 common
+містить 5.42 contains
+теоретичні 5.42 theoretical
+бро 5.42 bro
+тримати 5.42 keep
+помітити 5.42 "to notice"
+дивилися 5.42 watched
+лера 5.42 lera
+газету 5.42 newspaper
+робота 5.42 work
+серії 5.42 series
+написати 5.42 write
+гір 5.42 mountains
+спав 5.42 slept
+getting 5.42 getting
+затвердження 5.42 approval
+сибірі 5.42 Siberia
+царя 5.42 "the king"
+себастьян 5.42 Sebastian
+програма 5.42 program
+глави 5.42 heads
+використовується 5.42 used
+запитайте 5.42 ask
+виділити 5.42 highlight
+запах 5.42 scent
+фонд 5.42 stock
+фрази 5.42 phrases
+класі 5.42 class
+руці 5.42 hands
+дається 5.42 "is given"
+знаходимося 5.42 "we are"
+суттєві 5.42 significant
+вашим 5.42 your
+часом 5.42 sometimes
+чув 5.42 "I heard"
+називає 5.42 calls
+націй 5.42 nations
+величини 5.42 quantities
+кількістю 5.42 quantity
+видання 5.42 edition
+us 5.42 us
+двору 5.42 yard
+виходить 5.42 "it turns out"
+подібне 5.42 similar
+прикладів 5.42 examples
+doing 5.42 doing
+розташування 5.42 Location
+сходила 5.42 "went down"
+виявлено 5.42 detected
+піднімайся 5.42 "get up"
+поставила 5.42 set
+продуктивності 5.42 productivity
+вашингтон 5.42 washington
+group 5.42 group
+прізвища 5.42 surnames
+вираз 5.42 expression
+йдемо 5.42 "let&#39;s go"
+групі 5.42 group
+рухів 5.42 movements
+весь 5.42 all
+конкретних 5.42 specific
+безперервно 5.42 continuously
+парі 5.42 bet
+ретельно 5.42 carefully
+знову 5.42 again
+їй 5.42 her
+щорічно 5.42 annually
+хо 5.42 ho
+things 5.42 things
+кажучи 5.42 saying
+яшин 5.42 yashin
+спільнота 5.42 community
+робити 5.42 do
+потихеньку 5.42 slowly
+всієї 5.42 all
+виявиться 5.42 "will be revealed"
+поради 5.42 advice
+історичних 5.42 historical
+призначений 5.42 designed
+послідовність 5.42 sequence
+німецького 5.42 German
+подумайте 5.42 think
+звик 5.42 habit
+мужик 5.42 peasant
+рот 5.42 mouth
+доля 5.42 fate
+центральних 5.42 central
+річ 5.42 thing
+друку 5.42 printing
+спеціальний 5.42 special
+центрального 5.42 central
+tell 5.42 tell
+печатка 5.42 seal
+м&#39;ясо 5.42 meat
+кейт 5.4 Kate
+форма 5.4 form
+ендрю 5.4 Andrew
+виявили 5.4 discovered
+темпи 5.4 pace
+правом 5.4 right
+всюди 5.4 throughout
+watching 5.4 watching
+твіттері 5.4 twitter
+знак 5.4 sign
+засоби 5.4 means
+києва 5.4 Kiev
+поставили 5.4 set
+pls 5.4 pls
+місяць 5.4 moon
+банк 5.4 bank
+оголосив 5.4 announced
+зазирни 5.4 "look around"
+словами 5.4 "in words"
+вибачитися 5.4 "to apologize"
+вітер 5.4 wind
+меґгі 5.4 Maggie
+бум 5.4 boom
+самого 5.4 most
+основними 5.4 basic
+зміна 5.4 change
+чувак 5.4 dude
+дією 5.4 action
+заходів 5.4 measures
+така 5.4 so
+течії 5.4 currents
+послугу 5.4 service
+вулиці 5.4 streets
+скажете 5.4 say
+звертатися 5.4 address
+соціальних 5.4 social
+кіл 5.4 circles
+об&#39;єднань 5.4 associations
+розміру 5.4 size
+тиждень 5.4 week
+html 5.4 html
+відомості 5.4 data
+психології 5.4 psychology
+київ 5.4 Kyiv
+кількість 5.4 number
+містера 5.4 Mr.
+визначається 5.4 determined
+шукаємо 5.4 "we are looking for"
+групи 5.4 groups
+сортів 5.4 varieties
+мережа 5.4 chain
+ступенем 5.4 degree
+антоніо 5.4 Antonio
+немов 5.4 like
+назва 5.4 name
+рукою 5.4 hand
+тепер 5.4 now
+речами 5.4 things
+дон 5.4 don
+показників 5.4 indicators
+тканини 5.4 fabrics
+спектри 5.4 spectra
+спеціальною 5.4 special
+мегафон 5.4 megaphone
+господарстві 5.4 economy
+checked 5.4 checked
+міг 5.4 could
+запису 5.4 record
+козаків 5.4 Cossacks
+keep 5.4 keep
+передбачається 5.4 "is expected"
+стань 5.4 become
+get 5.4 get
+класу 5.4 class
+канал 5.4 channel
+говорила 5.4 "she spoke"
+задумав 5.4 "I thought"
+сумку 5.4 bag
+olga 5.4 olga
+обох 5.4 both
+someone 5.4 someone
+тема 5.4 topic
+десятки 5.4 dozens
+питає 5.4 asks
+їв 5.4 ate
+сторінки 5.4 pages
+нотатки 5.4 notes
+лежать 5.4 "to lie down"
+запис 5.4 record
+суспільству 5.4 society
+tweet 5.4 tweet
+імперії 5.4 empire
+значення 5.4 value
+info 5.4 info
+певною 5.4 certain
+коштів 5.4 funds
+plz 5.4 plz
+шляхи 5.4 ways
+епоху 5.4 era
+встановлені 5.4 installed
+господарської 5.4 economic
+назви 5.4 names
+прийдуть 5.4 "will come"
+бачили 5.4 "have seen"
+мінськ 5.4 Minsk
+покликати 5.4 call
+голоси 5.4 voices
+троє 5.4 three
+коментар 5.4 comment
+шосе 5.4 highway
+питав 5.4 "I asked"
+замовлення 5.4 order
+банку 5.4 bank
+казахстан 5.4 Kazakhstan
+дні 5.4 days
+будівництві 5.4 construction
+називати 5.4 call
+стояла 5.4 stood
+редакції 5.4 "editorial office"
+ukraine 5.4 Ukraine
+покажіть 5.4 show
+щаблі 5.4 steps
+харків 5.4 Kharkiv
+повним 5.4 complete
+основи 5.38 foundations
+рядки 5.38 lines
+бачите 5.38 "you see"
+газета 5.38 newspaper
+дана 5.38 given
+розташованих 5.38 located
+глибоке 5.38 deep
+змінився 5.38 "has changed"
+працюєш 5.38 "you work"
+series 5.38 series
+браун 5.38 brown
+вірив 5.38 believed
+вважав 5.38 believed
+кожному 5.38 "to everyone"
+сайту 5.38 site
+конкретні 5.38 specific
+купи 5.38 buy
+скажеш 5.38 "you say"
+істота 5.38 being
+гороскопів 5.38 horoscopes
+певні 5.38 certain
+витягнути 5.38 "pull out"
+всьому 5.38 everything
+обмін 5.38 exchange
+подій 5.38 events
+багатьох 5.38 many
+господарств 5.38 farms
+відповідні 5.38 appropriate
+підійшов 5.38 approached
+польше 5.38 Poland
+працюєте 5.38 "you work"
+влаштували 5.38 arranged
+чіпай 5.38 touch
+телеканал 5.38 "TV channel"
+стрибай 5.38 jump
+заходить 5.38 "come in"
+програму 5.38 program
+продам 5.38 "for sale"
+конференції 5.38 conference
+реалізму 5.38 realism
+запитати 5.38 "to ask"
+характерні 5.38 characteristic
+виробництво 5.38 production
+величин 5.38 quantities
+віллі 5.38 villas
+журналіст 5.38 journalist
+розраховувати 5.38 expect
+марш 5.38 march
+вівторок 5.38 Tuesday
+судно 5.38 ship
+руку 5.38 hand
+луна 5.38 echo
+будь-яка 5.38 any
+click 5.38 click
+try 5.38 try
+республіці 5.38 republic
+приклад 5.38 example
+аллен 5.38 allen
+thing 5.38 thing
+вашими 5.38 yours
+кожну 5.38 each
+центральний 5.38 central
+північного 5.38 northern
+пов&#39;язано 5.38 related
+зразки 5.38 samples
+голови 5.38 heads
+тривалість 5.38 duration
+журналістів 5.38 journalists
+думки 5.38 thoughts
+планів 5.38 plans
+зроби 5.38 do
+імена 5.38 names
+сільське 5.38 rural
+спосіб 5.38 way
+опис 5.38 description
+збиралася 5.38 "was going"
+просимо 5.38 please
+inside 5.38 inside
+твіттера 5.38 twitter
+бігбаззі 5.38 "big base"
+проводжу 5.38 "I spend"
+набір 5.38 set
+сходити 5.38 go
+написано 5.38 written
+нами 5.38 us
+говориться 5.38 "it is said"
+окуляри 5.38 glasses
+made 5.38 made
+джессіка 5.38 Jessica
+ворота 5.38 goal
+численних 5.38 numerous
+писала 5.38 wrote
+передайте 5.38 "pass on"
+східного 5.38 eastern
+клара 5.38 Clara
+покласти 5.38 put
+днів 5.38 days
+хотіла 5.38 wanted
+розглянемо 5.38 consider
+голосом 5.38 voice
+веду 5.38 lead
+відповісти 5.38 answer
+сідайте 5.38 "sit down"
+лекції 5.38 lectures
+фунтів 5.38 pounds
+особливостями 5.38 features
+сценарію 5.38 script
+розібратися 5.38 "to understand"
+прикладу 5.38 example
+поширення 5.38 spread
+продукту 5.38 product
+місцевого 5.38 local
+веди 5.38 lead
+продукцію 5.38 products
+ім&#39;ям 5.38 name
+площі 5.38 area
+натисніть 5.38 press
+шлюб 5.38 marriage
+сільських 5.38 rural
+матеріали 5.38 materials
+відрізняється 5.38 "is different"
+хвилинку 5.38 minute
+tits 5.38 tits
+нещодавно 5.36 newly
+міша 5.36 Misha
+серія 5.36 series
+двісті 5.36 "two hundred"
+основою 5.36 basis
+попросити 5.36 ask
+хід 5.36 course
+газеті 5.36 newspaper
+нік 5.36 nickname
+сфері 5.36 sphere
+сюди 5.36 here
+зуби 5.36 teeth
+восени 5.36 "in the fall"
+значенням 5.36 value
+поєднання 5.36 combination
+основного 5.36 basic
+спостерігаються 5.36 "are observed"
+also 5.36 also
+принцип 5.36 principle
+тенденції 5.36 trends
+загальних 5.36 common
+тексту 5.36 text
+казахстану 5.36 Kazakhstan
+загальний 5.36 general
+алекс 5.36 alex
+відразу 5.36 "at once"
+stay 5.36 stay
+place 5.36 place
+залишається 5.36 remains
+країні 5.36 country
+саме 5.36 exactly
+громадський 5.36 public
+маленьким 5.36 small
+сукупність 5.36 totality
+способів 5.36 ways
+силами 5.36 forces
+поставив 5.36 put
+джей 5.36 Jay
+запитала 5.36 "she asked"
+twitter 5.36 twitter
+ситуацію 5.36 situation
+нога 5.36 leg
+let 5.36 years
+календар 5.36 calendar
+століття 5.36 century
+багатьма 5.36 many
+роботі 5.36 work
+звернутися 5.36 "to apply"
+gonna 5.36 gonna
+норм 5.36 norms
+всю 5.36 all
+рельєфу 5.36 relief
+релігії 5.36 religion
+час 5.36 time
+самому 5.36 himself
+урок 5.36 lesson
+міські 5.36 urban
+мммм 5.36 mmmm
+намагатися 5.36 try
+хотів 5.36 wanted
+церква 5.36 church
+давав 5.36 gave
+договору 5.36 contract
+street 5.36 street
+коментарі 5.36 comments
+матеріально 5.36 materially
+сенсі 5.36 sense
+фонду 5.36 fund
+бадді 5.36 buddy
+blog 5.36 blog
+проекту 5.36 project
+сказала 5.36 "she said"
+say 5.36 say
+пана 5.36 sir
+республік 5.36 republics
+власне 5.36 actually
+кремля 5.36 Kremlin
+стрічку 5.36 tape
+справам 5.36 "I do"
+способу 5.36 way
+певного 5.36 certain
+складає 5.36 is
+транспорт 5.36 transport
+мінералів 5.36 minerals
+роді 5.36 "kind of"
+сторінці 5.36 page
+займався 5.36 engaged
+влаштував 5.36 arranged
+діячів 5.36 figures
+ступінь 5.36 degree
+days 5.36 days
+місяців 5.36 months
+громадян 5.36 citizens
+заздалегідь 5.36 "in advance"
+громадських 5.36 public
+check 5.36 check
+писав 5.36 wrote
+стан 5.36 state
+купер 5.36 cooper
+змінює 5.36 changes
+знайди 5.36 find
+тваринництва 5.36 livestock
+повна 5.36 full
+країнами 5.36 countries
+ноги 5.36 legs
+переходить 5.36 "to pass"
+фізичної 5.36 physical
+виробів 5.36 products
+дивлячись 5.36 looking
+сказав 5.36 said
+лягти 5.36 "lie down"
+утворюють 5.36 form
+ом 5.36 ohm
+помітив 5.36 noticed
+годин 5.36 hours
+розробка 5.36 development
+usa 5.36 usa
+працюючих 5.36 working
+ведуть 5.36 lead
+конкретно 5.36 specifically
+матеріал 5.36 material
+ставлю 5.36 "I put"
+чек 5.36 check
+стрічка 5.36 tape
+землею 5.36 ground
+будь-який 5.36 any
+майк 5.36 Mike
+стануть 5.36 "will become"
+серію 5.36 series
+глибину 5.36 depth
+рівень 5.36 level
+підходу 5.36 approach
+сан 5.34 dignity
+редактор 5.34 editor
+користуються 5.34 enjoy
+карту 5.34 map
+визначає 5.34 determines
+теорію 5.34 theory
+програмі 5.34 program
+дано 5.34 given
+йому 5.34 him
+спитаю 5.34 "I ask"
+німецьких 5.34 German
+#kinopoisk 5.34 #kinopoisk
+наступних 5.34 "the following"
+часу 5.34 time
+писали 5.34 wrote
+справами 5.34 affairs
+встати 5.34 "get up"
+президент 5.34 president
+шукаю 5.34 "looking for"
+чекала 5.34 waited
+робіть 5.34 do
+маленький 5.34 small
+dvd 5.34 DVD
+визначаються 5.34 "are determined"
+штани 5.34 trousers
+help 5.34 help
+market 5.34 market
+слів 5.34 words
+кількості 5.34 quantity
+#ru 5.34 #ru
+відповідав 5.34 answered
+post 5.34 post
+провести 5.34 "to spend"
+цифри 5.34 figures
+будівлі 5.34 buildings
+могли 5.34 could
+поняття 5.34 concept
+національної 5.34 national
+залишайтесь 5.34 stay
+днях 5.34 days
+будівель 5.34 buildings
+тканин 5.34 tissue
+кріс 5.34 Chris
+обладнання 5.34 equipment
+формами 5.34 forms
+тілі 5.34 bodies
+контакті 5.34 contacts
+ногу 5.34 leg
+стюарт 5.34 stewart
+спеціальних 5.34 special
+продюсер 5.34 producer
+продати 5.34 sell
+віскі 5.34 whiskey
+піди 5.34 go
+місцеві 5.34 local
+роджер 5.34 roger
+pics 5.34 pics
+московський 5.34 Moscow
+справі 5.34 case
+побачить 5.34 "to see"
+шкіра 5.34 skin
+посада 5.34 position
+ja 5.34 yes
+царю 5.34 "the king"
+звуть 5.34 name
+груп 5.34 groups
+шпалери 5.34 wallpaper
+версія 5.34 version
+вк 5.34 incl
+акаунт 5.34 account
+січні 5.34 January
+матеріалом 5.34 material
+фонди 5.34 funds
+ух 5.34 ух
+інженерно 5.34 engineering
+маленькою 5.34 small
+шукає 5.34 "looking for"
+вухо 5.34 ear
+роком 5.34 year
+подібного 5.34 similar
+о_о 5.34 о_о
+рівня 5.34 equal
+враховувати 5.34 consider
+use 5.34 use
+#новини 5.34 #news
+трубку 5.34 tube
+занять 5.34 "to occupy"
+закономірності 5.34 patterns
+схоже 5.34 "it seems"
+різних 5.34 different
+спеціального 5.34 special
+чули 5.34 heard
+текст 5.34 text
+змістом 5.34 content
+вулицю 5.34 "the street"
+прогноз 5.34 forecast
+taylor 5.34 taylor
+maybe 5.34 maybe
+господарством 5.34 economy
+напрямках 5.34 directions
+правилам 5.34 rules
+національного 5.34 national
+лабораторії 5.34 laboratories
+вийшла 5.34 "came out"
+спостерігається 5.34 observed
+присутності 5.34 presence
+журналісти 5.34 journalists
+posted 5.34 posted
+практично 5.34 practically
+вас 5.34 you
+центрів 5.34 centers
+чарльз 5.34 Charles
+властивості 5.34 properties
+стріт 5.34 street
+шию 5.34 neck
+кожне 5.34 each
+даси 5.34 give
+перед 5.32 before
+моллі 5.32 molly
+сторінку 5.32 page
+технічний 5.32 technical
+половини 5.32 halves
+ринок 5.32 market
+вважає 5.32 believes
+випадок 5.32 case
+місце 5.32 place
+мабуть 5.32 apparently
+наводить 5.32 "to suggest"
+зала 5.32 hall
+with 5.32 with
+uncensored 5.32 uncensored
+boobs 5.32 boobs
+методів 5.32 methods
+рівнів 5.32 levels
+ґрунти 5.32 soils
+ізраїль 5.32 Israel
+спроба 5.32 attempt
+ще 5.32 more
+попрацювати 5.32 "to work"
+селяни 5.32 peasants
+підготовку 5.32 training
+приладів 5.32 devices
+молекули 5.32 molecules
+користуючись 5.32 using
+лягаю 5.32 "I go to bed"
+соціальне 5.32 social
+технологічних 5.32 technological
+кожною 5.32 each
+визначення 5.32 definition
+пройдуть 5.32 "will pass"
+єкатеринбурзі 5.32 Ekaterinburg
+розглядаються 5.32 "are considered"
+випуску 5.32 release
+рамблер-новини 5.32 "rambler news"
+вихід 5.32 Entrance
+дорогах 5.32 roads
+методи 5.32 methods
+наводяться 5.32 "are induced"
+автоматизації 5.32 automation
+year 5.32 year
+пологів 5.32 childbirth
+відповідного 5.32 appropriate
+групу 5.32 group
+підприємства 5.32 enterprises
+here 5.32 here
+ніс 5.32 nose
+retweet 5.32 retweet
+оператор 5.32 operator
+підсумків 5.32 results
+виявилася 5.32 "turned out"
+справи 5.32 affairs
+review 5.32 review
+порівняно 5.32 comparatively
+макс 5.32 max
+edition 5.32 edition
+ніки 5.32 nicknames
+ознаки 5.32 signs
+факт 5.32 fact
+характерно 5.32 characteristically
+певне 5.32 "for sure"
+підписав 5.32 signed
+том 5.32 volume
+павла 5.32 Paul
+сільськогосподарських 5.32 agricultural
+little 5.32 little
+кнопка 5.32 button
+твою 5.32 yours
+п&#39;яти 5.32 five
+стояв 5.32 "I stood"
+окулярів 5.32 glasses
+джуді 5.32 Judy
+показано 5.32 shown
+ставки 5.32 rates
+племен 5.32 tribes
+виключно 5.32 exclusively
+добірка 5.32 selection
+містах 5.32 cities
+застосуванням 5.32 application
+часи 5.32 hours
+спочатку 5.32 first
+наступним 5.32 next
+xd 5.32 xd
+загальну 5.32 general
+вінсент 5.32 vincent
+трудящих 5.32 workers
+громадянської 5.32 civil
+визначити 5.32 "to determine"
+днк 5.32 dnk
+будівля 5.32 building
+намагається 5.32 trying
+Усе 5.32 All
+государ 5.32 sovereign
+картер 5.32 casing
+овнам 5.32 rams
+чекають 5.32 "are waiting"
+звичайний 5.32 usual
+знайдіть 5.32 find
+чати 5.32 chat
+товар 5.32 goods
+транспорту 5.32 transport
+половині 5.32 half
+пакет 5.32 package
+приведе 5.32 lead
+обговорення 5.32 discussion
+взяти 5.32 take
+інституті 5.32 institute
+кирилл 5.32 Cyril
+покажчик 5.32 index
+виникає 5.32 arises
+поставити 5.32 put
+методиці 5.32 methods
+газети 5.32 newspapers
+називаєш 5.32 "you call"
+користувачів 5.3 users
+конструкції 5.3 construction
+технічних 5.3 technical
+поверхні 5.3 surface
+йшли 5.3 went
+подав 5.3 filed
+зразка 5.3 sample
+принесіть 5.3 bring
+артур 5.3 Arthur
+закономірностей 5.3 patterns
+стоїш 5.3 "you stand"
+пам&#39;ятників 5.3 monuments
+теоретичних 5.3 theoretical
+асоціації 5.3 associations
+метод 5.3 method
+показник 5.3 indicator
+хвіст 5.3 tail
+клянусь 5.3 "I swear"
+ля 5.3 la
+соціальна 5.3 social
+цар 5.3 king
+станів 5.3 states
+довжина 5.3 length
+ринку 5.3 market
+проспекті 5.3 prospectus
+понять 5.3 "to understand"
+шкіл 5.3 schools
+республіка 5.3 republic
+магнітного 5.3 magnetic
+думали 5.3 thought
+засіб 5.3 means
+генерала 5.3 general
+ліги 5.3 league
+діяч 5.3 leader
+пальці 5.3 fingers
+пост 5.3 post
+кевін 5.3 kevin
+тижнів 5.3 weeks
+будівельних 5.3 construction
+джонатан 5.3 Jonathan
+продажів 5.3 sales
+ймовірно 5.3 probably
+теорія 5.3 theory
+металу 5.3 metal
+вирази 5.3 expressions
+знімати 5.3 remove
+виходжу 5.3 "I&#39;m leaving"
+сторінках 5.3 pages
+перевіримо 5.3 "let&#39;s check"
+глибини 5.3 depths
+#minsk 5.3 #minsk
+штат 5.3 state
+визначенню 5.3 definition
+правило 5.3 rule
+робили 5.3 did
+відтепер 5.3 "from now on"
+він 5.3 he
+episode 5.3 episode
+проводити 5.3 conduct
+породи 5.3 breed
+шукаєте 5.3 "looking for"
+пальців 5.3 fingers
+томмі 5.3 tommy
+значень 5.3 values
+взяв 5.3 took
+споруд 5.3 buildings
+оооо 5.3 oooo
+назвати 5.3 "to call"
+основу 5.3 basis
+рахуй 5.3 count
+stardoll 5.3 stardoll
+лягла 5.3 "went to bed"
+механізації 5.3 mechanization
+найняв 5.3 hired
+підхід 5.3 approach
+долю 5.3 share
+окрузі 5.3 district
+намагаються 5.3 trying
+називали 5.3 called
+будь-якого 5.3 any
+середовищі 5.3 environment
+країн 5.3 countries
+зіставлення 5.3 comparison
+нею 5.3 her
+північ 5.3 North
+механізм 5.3 mechanism
+плані 5.3 plan
+got 5.3 got
+громадської 5.3 public
+нитку 5.3 thread
+народом 5.3 people
+борт 5.3 board
+наступного 5.3 next
+знаходиться 5.3 "is located"
+тут 5.3 here
+база 5.3 base
+франків 5.3 francs
+наявністю 5.3 availability
+адреси 5.3 addresses
+франсуа 5.3 Francois
+вони 5.3 they
+номери 5.3 numbers
+зняти 5.3 withdraw
+звичайна 5.3 ordinary
+встановлений 5.3 installed
+обсягу 5.3 volume
+дзвінки 5.3 calls
+біології 5.3 biology
+територію 5.3 territory
+cover 5.3 cover
+запитувати 5.3 ask
+йдуть 5.3 go
+сторона 5.3 side
+адреса 5.3 address
+п&#39;ятдесят 5.3 fifty
+продуктивних 5.3 productive
+пам&#39;ятники 5.3 monuments
+пошту 5.3 mail
+мережі 5.3 networks
+числа 5.3 numbers
+виражається 5.3 "is expressed"
+виконавець 5.3 performer
+принципі 5.3 principle
+методами 5.3 methods
+певних 5.3 certain
+around 5.3 around
+замислитися 5.3 "to think"
+побути 5.28 stay
+колективів 5.28 teams
+видом 5.28 view
+поєднанні 5.28 combination
+невже 5.28 really
+три 5.28 three
+соціально 5.28 socially
+речі 5.28 things
+видань 5.28 publications
+носить 5.28 "to wear"
+двома 5.28 two
+fedex 5.28 fedex
+бути 5.28 be
+програми 5.28 programs
+виробництва 5.28 production
+формою 5.28 form
+працівника 5.28 employee
+клітин 5.28 cells
+показало 5.28 showed
+властивостями 5.28 properties
+становищем 5.28 position
+задай 5.28 ask
+каналі 5.28 channels
+четверо 5.28 four
+автобусі 5.28 buses
+коштувало 5.28 "worth it"
+тв 5.28 tv
+відмічено 5.28 marked
+проводили 5.28 conducted
+рому 5.28 rum
+стрічки 5.28 ribbons
+джозеф 5.28 Joseph
+тел 5.28 tel
+говорили 5.28 "they talked"
+значенні 5.28 meaning
+сутність 5.28 essence
+деніс 5.28 Denis
+гаррі 5.28 Harry
+статті 5.28 articles
+додаткових 5.28 additional
+господарству 5.28 economy
+запитав 5.28 "I asked"
+край 5.28 land
+ознака 5.28 sign
+*про* 5.28 *about*
+внутрішньої 5.28 internal
+главі 5.28 chapter
+хвилину 5.28 minute
+long 5.28 long
+рішенням 5.28 decision
+ретвітнути 5.28 retweet
+приходив 5.28 "I came"
+різними 5.28 different
+співробітники 5.28 employees
+використовує 5.28 uses
+приладдя 5.28 accessories
+фізичних 5.28 physical
+потік 5.28 flow
+daily 5.28 daily
+брати 5.28 take
+глава 5.28 chapter
+дверима 5.28 doors
+сказано 5.28 said
+#peopleschoice 5.28 #peopleschoice
+предмет 5.28 subject
+шон 5.28 Sean
+сталі 5.28 steel
+банки 5.28 banks
+навчальних 5.28 training
+стає 5.28 becomes
+назавжди 5.28 forever
+мотиви 5.28 motives
+місцевості 5.28 terrain
+забирай 5.28 "take it away"
+чао 5.28 bye
+форм 5.28 forms
+could 5.28 could
+механізмів 5.28 mechanisms
+іванів 5.28 Ivanov
+механізму 5.28 mechanism
+встановлено 5.28 installed
+капітальних 5.28 capital
+показника 5.28 indicator
+грудня 5.28 December
+половиною 5.28 half
+йшла 5.28 went
+обговорити 5.28 "to discuss"
+her 5.28 her
+дістану 5.28 "will get"
+всередині 5.28 within
+темі 5.28 topics
+піски 5.28 sands
+трудовий 5.28 labor
+програм 5.28 programs
+сорти 5.28 varieties
+розмірів 5.28 sizes
+зрозумій 5.28 understand
+гоу 5.28 go
+подібно 5.28 like
+губернії 5.28 province
+китай 5.28 China
+дата 5.28 date
+регіону 5.28 region
+фірми 5.28 firms
+стою 5.28 "I stand"
+вважається 5.28 "is considered"
+реакція 5.28 reaction
+замінити 5.28 replace
+записку 5.28 note
+ступеня 5.28 degree
+речей 5.28 things
+провів 5.28 spent
+залишилася 5.28 remained
+курс 5.28 course
+компе 5.28 computer
+столі 5.28 tables
+рік 5.28 year
+слідуйте 5.28 follow
+працею 5.28 work
+стану 5.28 state
+сара 5.28 Sarah
+паспорти 5.28 passports
+генрі 5.28 Henry
+говорилося 5.28 "it was said"
+підкреслити 5.28 emphasize
+закон 5.28 law
+сил 5.28 forces
+#follow 5.28 #follow
+государя 5.28 sovereign
+зразків 5.28 samples
+вересня 5.28 September
+коли 5.28 When
+фізику 5.28 physics
+здійснив 5.28 "carried out"
+штатів 5.28 states
+виконувати 5.28 perform
+відповідати 5.28 answer
+ґрунтах 5.28 soils
+роду 5.28 kind
+визначають 5.26 determine
+туру 5.26 round
+характеризуються 5.26 "are characterized"
+глибоко 5.26 deep
+роботи 5.26 work
+складають 5.26 "make up"
+райони 5.26 areas
+сільськогосподарського 5.26 agricultural
+матеріалі 5.26 materials
+перейти 5.26 "to go"
+глибокої 5.26 deep
+аа 5.26 aa
+статей 5.26 articles
+довести 5.26 prove
+різним 5.26 different
+місця 5.26 places
+настільки 5.26 so
+шкіри 5.26 skin
+теорії 5.26 theory
+позиції 5.26 positions
+#дурів 5.26 "# fools"
+супроводжується 5.26 "accompanied by"
+обіцяли 5.26 promised
+курсу 5.26 course
+дало 5.26 gave
+формі 5.26 form
+some 5.26 some
+теми 5.26 topics
+підприємство 5.26 enterprise
+способом 5.26 way
+бере 5.26 takes
+міститься 5.26 contained
+пахне 5.26 smells
+приблизно 5.26 about
+паспорт 5.26 passport
+факторів 5.26 factors
+деталі 5.26 details
+lots 5.26 lots
+матеріалу 5.26 material
+жили 5.26 lived
+складових 5.26 components
+підкреслює 5.26 emphasizes
+ryan 5.26 ryan
+столітті 5.26 century
+громадського 5.26 public
+телевізору 5.26 TV
+звичайним 5.26 ordinary
+необхідних 5.26 necessary
+московському 5.26 Moscow
+столом 5.26 table
+дванадцять 5.26 twelve
+буквально 5.26 literally
+вставати 5.26 "get up"
+суспільством 5.26 society
+самим 5.26 themselves
+зовнішньої 5.26 external
+твіти 5.26 tweets
+пацан 5.26 boy
+перевищує 5.26 exceeds
+сутності 5.26 essence
+дослідів 5.26 experiments
+характеристика 5.26 characteristic
+do 5.26 to
+виходьте 5.26 "get out"
+раніше 5.26 before
+історико 5.26 historically
+стані 5.26 condition
+шукаєш 5.26 "you are looking for"
+училища 5.26 schools
+станції 5.26 station
+закладів 5.26 institutions
+повідомили 5.26 reported
+основі 5.26 basis
+концепції 5.26 concept
+підсумкам 5.26 results
+залишатися 5.26 remain
+стіл 5.26 table
+кей 5.26 kay
+лінію 5.26 line
+описи 5.26 descriptions
+знаходилися 5.26 were
+твітів 5.26 tweets
+технічної 5.26 technical
+вологості 5.26 humidity
+справа 5.26 case
+областей 5.26 areas
+п&#39;ятнадцять 5.26 fifteen
+тему 5.26 topic
+даної 5.26 given
+осіб 5.26 persons
+вісім 5.26 eight
+michael 5.26 michael
+тридцять 5.26 thirty
+полиця 5.26 shelf
+зими 5.26 winters
+поглядів 5.26 views
+відповідної 5.26 appropriate
+громадяни 5.26 citizens
+ларрі 5.26 Larry
+фондів 5.26 funds
+будучи 5.26 being
+становищі 5.26 position
+емі 5.26 Amy
+порівняння 5.26 comparison
+попередити 5.26 "to warn"
+провінції 5.26 provinces
+звали 5.26 called
+використовуються 5.26 "are used"
+лінія 5.26 line
+si 5.26 yes
+азарів 5.26 azars
+показники 5.26 Indexes
+вигляд 5.26 appearance
+чол 5.26 people
+ділянки 5.26 plots
+взяли 5.26 took
+розмір 5.26 size
+склад 5.26 storage
+обговорювати 5.26 discuss
+формулі 5.26 formula
+півгодини 5.26 "half an hour"
+трьох 5.24 three
+використовувати 5.24 use
+тенденція 5.24 trend
+числом 5.24 number
+бачачи 5.24 seeing
+тест 5.24 test
+posting 5.24 posting
+олег 5.24 oleg
+бігцем 5.24 fugitive
+ла 5.24 la
+характеризує 5.24 characterizes
+стілець 5.24 chair
+did 5.24 did
+агенція 5.24 agency
+акцію 5.24 action
+james 5.24 james
+реакцій 5.24 reactions
+густина 5.24 density
+ліки 5.24 medicine
+джен 5.24 Jen
+грунтів 5.24 soils
+фургон 5.24 van
+кругом 5.24 around
+апарат 5.24 apparatus
+робив 5.24 did
+стрічці 5.24 tape
+привід 5.24 occasion
+класифікації 5.24 classification
+змінюється 5.24 "is changing"
+порад 5.24 advice
+нині 5.24 now
+задати 5.24 "to ask"
+тримає 5.24 holds
+ерл 5.24 earl
+економічного 5.24 economic
+напередодні 5.24 "on the eve"
+точку 5.24 point
+ведеться 5.24 "to be conducted"
+функцій 5.24 functions
+риси 5.24 lynx
+працівники 5.24 workers
+столу 5.24 table
+вип&#39;ємо 5.24 "let&#39;s drink"
+двадцять 5.24 twenty
+групами 5.24 groups
+деталей 5.24 details
+секунду 5.24 second
+знаходився 5.24 was
+плазми 5.24 plasma
+вийдеш 5.24 "you come out"
+центру 5.24 center
+says 5.24 says
+систем 5.24 systems
+стать 5.24 sex
+проведено 5.24 conducted
+конструкція 5.24 construction
+ios 5.24 ios
+товариств 5.24 societies
+десять 5.24 ten
+кори 5.24 bark
+принеси 5.24 bring
+зв&#39;язатися 5.24 "to contact"
+речах 5.24 "I said"
+єдине 5.24 "the only one"
+перебувати 5.24 be
+білайн 5.24 beeline
+наводиться 5.24 "is given"
+посади 5.24 positions
+кожен 5.24 each
+just 5.24 just
+спитай 5.24 ask
+періоди 5.24 periods
+схема 5.24 scheme
+президенти 5.24 presidents
+олівер 5.24 oliver
+району 5.24 district
+тому 5.24 ago
+подібні 5.24 similar
+ін 5.24 etc.
+всякі 5.24 "all sorts"
+зовні 5.24 outside
+лікар 5.24 doctor
+продають 5.24 sell
+часів 5.24 times
+компонентів 5.24 components
+євреїв 5.24 Jews
+видів 5.24 species
+сутінки 5.24 dusk
+будови 5.24 buildings
+уралу 5.24 "the Urals"
+хвилина 5.24 minute
+фраза 5.24 phrase
+управління 5.24 management
+переговори 5.24 talks
+прям 5.24 straight
+класів 5.24 classes
+сторінка 5.24 page
+стверджує 5.24 claims
+переговорів 5.24 negotiations
+основ 5.24 basics
+середині 5.24 "in the middle"
+three 5.24 three
+#belarus 5.24 #belarus
+функція 5.24 function
+синтезу 5.24 synthesis
+параметрів 5.24 parameters
+глибині 5.24 depth
+сподівався 5.24 hoped
+трьома 5.24 three
+значить 5.24 means
+вже 5.24 already
+обробка 5.24 processing
+масу 5.24 mass
+перевірте 5.24 check
+змісту 5.24 content
+подати 5.24 "to file"
+ask 5.24 ask
+штату 5.24 state
+другого 5.24 another
+економічних 5.24 economic
+середні 5.24 medium
+назвав 5.24 called
+ерік 5.24 Eric
+використання 5.22 using
+поведінки 5.22 behavior
+складі 5.22 composition
+характеризується 5.22 characterized
+суміш 5.22 mixture
+номері 5.22 rooms
+закликав 5.22 called
+зовнішніх 5.22 external
+соціальні 5.22 social
+пам&#39;ятник 5.22 monument
+дан 5.22 dan
+відрізняються 5.22 differ
+організацією 5.22 organization
+ввести 5.22 "to enter"
+питанні 5.22 issues
+чекаю 5.22 "I&#39;m waiting"
+посилання 5.22 link
+семи 5.22 seven
+безпосередньо 5.22 directly
+суспільно 5.22 socially
+льюїс 5.22 Lewis
+відбувалося 5.22 happened
+зате 5.22 but
+мікі 5.22 Mickey
+деякі 5.22 some
+місцях 5.22 places
+селянства 5.22 peasantry
+форму 5.22 form
+середи 5.22 Wednesday
+речовини 5.22 substances
+спільного 5.22 common
+схеми 5.22 schemes
+кеннеді 5.22 Kennedy
+апарату 5.22 apparatus
+палець 5.22 finger
+внутрішня 5.22 internal
+there 5.22 there
+#ukraine 5.22 #ukraine
+стільки 5.22 "so much"
+положень 5.22 provisions
+теж 5.22 also
+умов 5.22 conditions
+зимовий 5.22 winter
+громадянського 5.22 civil
+представник 5.22 representative
+виявляються 5.22 "are detected"
+технічні 5.22 technical
+фон 5.22 background
+формула 5.22 formula
+старше 5.22 older
+об&#39;єкт 5.22 object
+виду 5.22 kind
+серйозно 5.22 seriously
+формах 5.22 forms
+стояли 5.22 stood
+концентрації 5.22 concentration
+місці 5.22 place
+питанням 5.22 question
+десяти 5.22 ten
+зростанням 5.22 growth
+елементами 5.22 elements
+став 5.22 pond
+кнопку 5.22 button
+зої 5.22 Zoe
+електроенергії 5.22 electricity
+поклав 5.22 put
+пароль 5.22 password
+закликає 5.22 calls
+двом 5.22 two
+нього 5.22 him
+властивостей 5.22 properties
+аналог 5.22 analog
+коліна 5.22 lap
+дев&#39;ять 5.22 nine
+самих 5.22 themselves
+спектру 5.22 spectrum
+пояснення 5.22 explanation
+інша 5.22 another
+передзвоню 5.22 "I&#39;ll call you back"
+називають 5.22 called
+території 5.22 territory
+національних 5.22 national
+станете 5.22 "get up"
+потоку 5.22 flow
+представники 5.22 representatives
+вересні 5.22 September
+відноситься 5.22 applies
+ба 5.22 ba
+гордон 5.22 Gordon
+саллі 5.22 sally
+фактів 5.22 facts
+процесів 5.22 processes
+врахувати 5.22 "take into account"
+руди 5.22 ore
+третя 5.22 third
+хддд 5.22 hddd
+фізика 5.22 physics
+директор 5.22 director
+думав 5.22 "I thought"
+ліній 5.22 lines
+управлінні 5.22 management
+сов 5.22 sov
+осінь 5.22 autumn
+виробництву 5.22 production
+вимірювань 5.22 measurements
+бібл 5.22 bibl
+твердих 5.22 solid
+несподівано 5.22 unexpectedly
+потреби 5.22 need
+ходила 5.22 walked
+залишаються 5.22 remain
+проводились 5.22 "were conducted"
+доннер 5.22 donner
+номер 5.22 number
+даний 5.22 present
+могло 5.22 could
+ніл 5.22 Nile
+#moscow 5.22 #moscow
+штук 5.22 pieces
+відомостей 5.22 information
+фредді 5.22 Freddie
+am 5.22 am
+взимку 5.22 "in winter"
+питаю 5.22 "I ask"
+хапай 5.22 "grab it"
+лежав 5.22 "lying down"
+громади 5.22 communities
+предметів 5.22 items
+версію 5.22 version
+mi 5.2 we
+diaz 5.2 diaz
+добу 5.2 days
+omg 5.2 omg
+фактор 5.2 factor
+випадках 5.2 cases
+коштами 5.2 funds
+gets 5.2 gets
+умовах 5.2 conditions
+впливом 5.2 influence
+віддам 5.2 "I will give"
+організація 5.2 organization
+цикл 5.2 cycle
+марк 5.2 mark
+перевірити 5.2 verify
+лежить 5.2 lying
+працювала 5.2 worked
+шести 5.2 sixth
+челсі 5.2 chelsea
+хвилин 5.2 minutes
+send 5.2 send
+змін 5.2 changes
+розділ 5.2 section
+саймон 5.2 Simon
+джеймі 5.2 Jamie
+state 5.2 state
+собівартості 5.2 cost
+mr 5.2 mr
+покладіть 5.2 put
+економічні 5.2 economic
+казахстані 5.2 Kazakhstan
+http 5.2 http
+жовтня 5.2 October
+#novosti 5.2 #news
+додаток 5.2 addition
+his 5.2 his
+федерації 5.2 federation
+хдд 5.2 hdd
+ніг 5.2 feet
+busty 5.2 busts
+прошу 5.2 Please
+селянином 5.2 "a peasant"
+елементів 5.2 elements
+монастир 5.2 monastery
+on 5.2 he
+вантажівка 5.2 truck
+питань 5.2 issues
+господар 5.2 host
+ціну 5.2 price
+вод 5.2 vod
+ділянках 5.2 areas
+му 5.2 mu
+училище 5.2 school
+раз 5.2 time
+підстав 5.2 grounds
+уейн 5.2 Wayne
+подібних 5.2 similar
+офіс 5.2 office
+займає 5.2 occupies
+передати 5.2 pass
+реп 5.2 rep
+установки 5.2 installation
+вам 5.2 you
+норми 5.2 norms
+рахуючи 5.2 counting
+сигналів 5.2 signals
+ооо 5.2 ooo
+шкарпетки 5.2 socks
+становили 5.2 were
+going 5.2 going
+чисельності 5.2 number
+and 5.2 and
+стоять 5.2 "to stand"
+працювали 5.2 worked
+краплі 5.2 drops
+would 5.2 would
+прийомів 5.2 receptions
+підніміть 5.2 "lift up"
+смуги 5.2 stripes
+шарів 5.2 layers
+сідай 5.2 "sit down"
+виклали 5.2 "laid out"
+район 5.2 district
+яку 5.2 which
+внутрішні 5.2 internal
+графа 5.2 column
+this 5.2 this
+analysis 5.2 analysis
+суті 5.2 essence
+розміри 5.2 dimensions
+томи 5.2 tomi
+будова 5.2 structure
+роками 5.2 years
+звичка 5.2 habit
+років 5.2 years
+хd 5.2 xd
+рівняння 5.2 equation
+сільськогосподарської 5.2 agricultural
+економічно 5.2 economically
+люк 5.2 hatch
+too 5.2 too
+республіки 5.2 republic
+організму 5.2 organism
+роби 5.2 do
+ряду 5.2 row
+розподіл 5.2 distribution
+обстановки 5.2 environment
+деякою 5.2 some
+станцій 5.2 stations
+добрив 5.2 fertilizers
+кожного 5.2 Each
+економіки 5.2 economy
+лео 5.2 leo
+блакитний 5.2 blue
+випадку 5.2 case
+ставити 5.2 put
+two 5.2 two
+each 5.2 each
+розділу 5.2 section
+рідини 5.2 liquids
+висновки 5.2 conclusions
+редакцію 5.2 "editorial office"
+виходь 5.2 "get out"
+нафти 5.2 oil
+попросив 5.2 asked
+іонів 5.2 ions
+папери 5.2 papers
+official 5.2 official
+ever 5.2 ever
+келлі 5.2 Kelly
+qip 5.2 qip
+thirty 5.2 thirty
+позиція 5.2 position
+дайте 5.2 give
+paul 5.2 paul
+середній 5.2 average
+вітру 5.2 wind
+even 5.18 even
+середньому 5.18 "on average"
+даних 5.18 data
+something 5.18 something
+голосів 5.18 votes
+динамо 5.18 dynamo
+бувало 5.18 "it happened"
+над 5.18 over
+статистики 5.18 statistics
+жовтні 5.18 October
+товстого 5.18 thick
+заліза 5.18 iron
+him 5.18 him
+несе 5.18 carries
+where 5.18 where
+настає 5.18 "is coming"
+діаметром 5.18 diameter
+тейлор 5.18 taylor
+частиною 5.18 "part of"
+коефіцієнт 5.18 coefficient
+також 5.18 also
+незважаючи 5.18 despite
+елементи 5.18 elements
+рр 5.18 рр
+[pic] 5.18 [pic]
+економіка 5.18 economy
+методом 5.18 method
+аспекти 5.18 aspects
+структуру 5.18 structure
+кожним 5.18 everyone
+prescription 5.18 prescription
+молекул 5.18 molecules
+система 5.18 system
+сторони 5.18 parties
+нерідко 5.18 "quite often"
+луїс 5.18 Louis
+then 5.18 then
+органічних 5.18 organic
+генерал 5.18 general
+ділянку 5.18 plot
+-я 5.18 -I
+ханна 5.18 Hannah
+для 5.18 for
+необхідною 5.18 necessary
+коштувати 5.18 cost
+фоні 5.18 background
+інший 5.18 another
+залишився 5.18 remained
+розберусь 5.18 "I will understand"
+системи 5.18 systems
+командир 5.18 commander
+характеристик 5.18 characteristics
+субтитри 5.18 subtitles
+reuters 5.18 reuters
+what 5.18 what
+чисельність 5.18 number
+ян 5.18 Jan
+виникають 5.18 arise
+who 5.18 who
+елемента 5.18 element
+кілька 5.18 sprat
+областях 5.18 areas
+назвою 5.18 name
+тонн 5.18 tons
+містять 5.18 contain
+#гороскоп 5.18 #horoscope
+вирушив 5.18 went
+методики 5.18 methods
+john 5.18 john
+відправив 5.18 sent
+4s 5.18 4s
+com 5.18 com
+реакції 5.18 reactions
+даними 5.18 data
+промисловості 5.18 industry
+причому 5.18 moreover
+проходять 5.18 pass
+там 5.18 there
+нд 5.18 Sun
+бігти 5.18 run
+аналогічні 5.18 similar
+число 5.18 numeric
+чверті 5.18 quarters
+#lastfm 5.18 #lastfm
+does 5.18 does
+плану 5.18 plan
+третього 5.18 "the third"
+районах 5.18 areas
+випадки 5.18 cases
+тексті 5.18 text
+діапазоні 5.18 range
+суміші 5.18 mixture
+статуси 5.18 status
+секунди 5.18 seconds
+здається 5.18 "it seems"
+другу 5.18 "to another"
+one 5.18 one
+тижня 5.18 week
+нехай 5.18 let
+ногами 5.18 feet
+числу 5.18 number
+вуглецю 5.18 carbon
+боки 5.18 sides
+формування 5.18 formation
+аналіз 5.18 analysis
+before 5.18 before
+тед 5.18 ted
+ра 5.18 ра
+даному 5.16 given
+впливає 5.16 affects
+чия 5.16 whose
+серед 5.16 among
+розподілу 5.16 distribution
+середнього 5.16 secondary
+розряду 5.16 category
+кінцевому 5.16 final
+організатори 5.16 organizers
+споруди 5.16 buildings
+#happybdayjaredleto 5.16 #happybdayjaredleto
+допустити 5.16 "to allow"
+ізраїлю 5.16 Israel
+необхідне 5.16 necessary
+сидимо 5.16 "we are sitting"
+боці 5.16 side
+назовні 5.16 outside
+реформи 5.16 reforms
+xdd 5.16 xdd
+карл 5.16 Charles
+ходив 5.16 "I went"
+точки 5.16 points
+followed 5.16 followed
+джейк 5.16 Jake
+все-таки 5.16 though
+йшло 5.16 went
+масштабі 5.16 scale
+деякими 5.16 some
+функцію 5.16 function
+матеріалів 5.16 materials
+питання 5.16 question
+матеріалам 5.16 materials
+частоти 5.16 frequencies
+предметом 5.16 subject
+пий 5.16 drink
+грейс 5.16 grace
+оп 5.16 op
+координат 5.16 coordinates
+період 5.16 period
+зробіть 5.16 do
+середнє 5.16 average
+бі 5.16 bi
+селянської 5.16 peasant
+лінії 5.16 lines
+чий 5.16 whose
+речовин 5.16 substances
+ситуації 5.16 situations
+same 5.16 same
+збирався 5.16 "was going"
+put 5.16 way
+одне 5.16 one
+завтра/на 5.16 tomorrow
+while 5.16 while
+ядра 5.16 nuclei
+базікати 5.16 chatter
+міді 5.16 copper
+бюджет 5.16 budget
+організацій 5.16 organizations
+центів 5.16 cents
+поверх 5.16 floor
+привело 5.16 led
+кожні 5.16 each
+рахунок 5.16 score
+мтс 5.16 mts
+кількох 5.16 several
+спині 5.16 back
+відстані 5.16 distance
+шість 5.16 six
+говорив 5.16 "I spoke"
+пройшов 5.16 passed
+кооперації 5.16 cooperation
+імен 5.16 names
+шари 5.16 layers
+різні 5.16 different
+ногою 5.16 foot
+процес 5.16 process
+конструкцій 5.16 structures
+жарко 5.16 hot
+вигляді 5.16 "kind of"
+поясни 5.16 explain
+архів 5.16 archive
+дисципліни 5.16 discipline
+спускайся 5.16 "go down"
+трудового 5.16 labor
+функції 5.16 functions
+чином 5.16 way
+оон 5.16 UN
+попрошу 5.16 "I will ask"
+тук 5.16 here
+трапляється 5.16 happens
+північних 5.16 northern
+каналу 5.16 channel
+ознак 5.16 signs
+фактично 5.16 actually
+напис 5.16 inscription
+обсязі 5.16 volume
+частот 5.16 frequencies
+чотири 5.16 four
+фактори 5.16 factors
+маленьке 5.16 small
+статі 5.16 sex
+німці 5.16 "the Germans"
+допоможи 5.16 help
+доказів 5.16 evidence
+необхідним 5.16 necessary
+ряд 5.16 number
+діаметр 5.16 diameter
+anything 5.16 anything
+підлозі 5.16 floor
+області 5.16 area
+хто 5.14 who
+виявляється 5.14 "it turns out"
+вогню 5.14 fire
+галкіна 5.14 galkina
+який 5.14 which
+стояти 5.14 stand
+вважали 5.14 believed
+деяке 5.14 some
+президента 5.14 "the president"
+тими 5.14 teams
+розрахунки 5.14 calculations
+десь 5.14 somewhere
+зазвичай 5.14 usually
+виробництві 5.14 production
+співробітників 5.14 employees
+продав 5.14 sold
+обробці 5.14 processing
+жила 5.14 lived
+економічна 5.14 economic
+році 5.14 year
+область 5.14 region
+стаття 5.14 article
+сьогодні/на 5.14 "today / on"
+метрів 5.14 meters
+шалено 5.14 madly
+сенатор 5.14 senator
+has 5.14 has
+всякого 5.14 everyone
+корпуси 5.14 housings
+секретар 5.14 secretary
+потрапити 5.14 "to get"
+предмети 5.14 items
+періоду 5.14 period
+відсоток 5.14 interest
+ціні 5.14 prices
+використанням 5.14 using
+ким 5.14 kim
+структурі 5.14 structure
+місць 5.14 seats
+milf 5.14 milf
+бо 5.14 for
+акт 5.14 act
+зніміть 5.14 remove
+a 5.14 a
+фред 5.14 Fred
+воїн 5.14 warrior
+предмета 5.14 subject
+впливу 5.14 impact
+процесі 5.14 process
+вів 5.14 led
+дані 5.14 data
+виробничого 5.14 production
+виникла 5.14 arose
+німців 5.14 Germans
+північної 5.14 northern
+два 5.14 two
+полицю 5.14 shelf
+фрг 5.14 фрг
+сб 5.14 Sat
+уолтер 5.14 Walter
+завданням 5.14 task
+взагалі 5.14 "in general"
+висновку 5.14 conclusion
+ділянок 5.14 plots
+причини 5.14 reasons
+мск 5.14 "Moscow time"
+ван 5.14 van
+співвідношення 5.14 correlation
+компоненти 5.14 components
+vote 5.14 vote
+порід 5.14 breeds
+вважаєте 5.14 believe
+базі 5.14 base
+сфери 5.14 spheres
+обстановці 5.14 situation
+установок 5.14 installations
+мартін 5.14 martin
+випадково 5.14 accidentally
+використовують 5.14 use
+розглядається 5.14 considered
+врятуй 5.14 save
+розчину 5.14 solution
+стосується 5.14 applies
+dvdrip 5.14 dvdrip
+сиділа 5.14 sat
+поспіль 5.14 "in a row"
+сукупності 5.14 aggregate
+свердловин 5.14 wells
+годину 5.14 "an hour"
+принципів 5.14 principles
+підприємствами 5.14 enterprises
+даного 5.14 given
+адвоката 5.14 "the lawyer"
+частинок 5.14 particles
+приймав 5.14 accepted
+табір 5.14 camp
+точці 5.14 point
+питаннями 5.14 questions
+заберу 5.14 "I&#39;ll take it"
+жж 5.14 жж
+газет 5.14 newspapers
+національно 5.14 nationally
+переходу 5.14 transition
+xddd 5.14 xddd
+градусів 5.14 degrees
+засобом 5.14 means
+ian 5.14 ian
+цьому 5.14 this
+спеціалізації 5.14 specialization
+цією 5.14 this
+футів 5.14 feet
+категорії 5.14 categories
+поверхня 5.14 surface
+беруть 5.14 take
+туди 5.14 there
+лікарі 5.14 doctors
+стало 5.14 became
+такими 5.14 such
+раптом 5.14 suddenly
+держав 5.14 states
+ряди 5.14 rows
+використанні 5.14 use
+соціальної 5.14 social
+економічне 5.14 economic
+#vk 5.14 #vk
+years 5.14 years
+вік 5.14 age
+національні 5.12 national
+мірі 5.12 "to some extent"
+пристрої 5.12 devices
+la 5.12 la
+seconds 5.12 seconds
+set 5.12 set
+глав 5.12 chap
+роках 5.12 years
+використовуючи 5.12 using
+пунктів 5.12 points
+обороту 5.12 turnover
+між 5.12 between
+заводів 5.12 factories
+миль 5.12 miles
+до 5.12 to
+#сахарова 5.12 "# сахарова"
+інших 5.12 others
+використанню 5.12 use
+part 5.12 part
+віддаємо 5.12 "we give"
+секретаря 5.12 secretary
+грудень 5.12 December
+серйозні 5.12 serious
+розчин 5.12 solution
+всяку 5.12 everyone
+мішок 5.12 bag
+перевір 5.12 check
+технічного 5.12 technical
+посеред 5.12 among
+таким 5.12 so
+via 5.12 via
+іншим 5.12 others
+статуту 5.12 statute
+представників 5.12 representatives
+es 5.12 es
+закінчимо 5.12 "let&#39;s finish"
+марлі 5.12 gauze
+параметри 5.12 parameters
+щось 5.12 something
+об&#39;єктів 5.12 objects
+антон 5.12 Anton
+версії 5.12 version
+його 5.12 him
+де 5.12 where
+рон 5.12 ron
+зиму 5.12 winter
+уілл 5.12 will
+одиниць 5.12 units
+всяке 5.12 everything
+середини 5.12 "the middle"
+третій 5.12 third
+роботою 5.12 work
+зима 5.12 winter
+вибору 5.12 choice
+частина 5.12 part
+because 5.12 because
+when 5.12 when
+вставай 5.12 "Get up"
+таких 5.12 such
+these 5.12 these
+бригад 5.12 brigade
+кг 5.12 kg
+side 5.12 side
+пальцем 5.12 finger
+такий 5.12 such
+працівників 5.12 employees
+третьої 5.12 "the third"
+числі 5.12 number
+термін 5.12 term
+полковник 5.12 colonel
+нести 5.12 carry
+in 5.12 in
+категорій 5.12 categories
+причина 5.12 reason
+from 5.12 from
+winter 5.12 winter
+пункт 5.12 item
+паралельно 5.12 "in parallel"
+газетах 5.12 newspapers
+загону 5.12 detachment
+на 5.12 on
+конференція 5.12 conference
+враховуючи 5.12 considering
+заводах 5.12 factories
+джош 5.12 Josh
+досліди 5.12 experiments
+пермі 5.12 perm
+another 5.12 another
+друге 5.12 "the second"
+сплавів 5.12 alloys
+що-небудь 5.12 anything
+ніби 5.12 "as if"
+куди 5.12 where
+список 5.12 list
+орієнтації 5.12 orientation
+відділ 5.12 department
+віднести 5.12 "to carry"
+ааа 5.12 aaa
+інше 5.12 other
+that 5.12 that
+наскільки 5.12 "as far as"
+=d 5.12 "= d"
+установка 5.12 installation
+формат 5.12 format
+фактором 5.12 factor
+лютому 5.12 February
+профілю 5.12 profile
+об&#39;єкта 5.12 object
+угу 5.12 yes
+шукала 5.12 searched
+документи 5.12 documents
+відсотків 5.12 percent
+державі 5.12 state
+організацію 5.12 organization
+лютого 5.12 February
+оо 5.12 oo
+докази 5.12 evidence
+селянських 5.12 peasant
+іноді 5.12 sometimes
+монастиря 5.12 monastery
+фразу 5.12 phrase
+необхідні 5.12 necessary
+скажуть 5.12 "they will say"
+ногах 5.12 feet
+los 5.1 los
+площині 5.1 plane
+іншого 5.1 another
+двічі 5.1 twice
+відносяться 5.1 include
+голосно 5.1 aloud
+твориться 5.1 "is happening"
+badge 5.1 badge
+any 5.1 any
+іншими 5.1 others
+якусь 5.1 some
+нарада 5.1 conference
+які 5.1 which
+директора 5.1 director
+лейтенант 5.1 lieutenant
+ній 5.1 her
+методика 5.1 method
+керівник 5.1 head
+точто 5.1 "the point"
+завдань 5.1 tasks
+#ipadgames 5.1 #ipadgames
+стадії 5.1 stage
+пива 5.1 beer
+маса 5.1 mass
+поспішайте 5.1 "Hurry up"
+наведених 5.1 given
+дерек 5.1 derek
+сибір 5.1 Siberia
+he 5.1 he
+промислової 5.1 industrial
+корпус 5.1 corps
+палива 5.1 fuel
+металів 5.1 metals
+клер 5.1 clergy
+бувають 5.1 happen
+чотирьох 5.1 four
+структурних 5.1 structural
+залі 5.1 hall
+атомів 5.1 atoms
+horny 5.1 horny
+свідчить 5.1 testifies
+вздовж 5.1 along
+знімай 5.1 "take off"
+невелика 5.1 small
+мул 5.1 silt
+якої 5.1 which
+слід 5.1 trace
+тримав 5.1 kept
+повторюю 5.1 "I repeat"
+відсотка 5.1 percent
+випадків 5.1 cases
+позицій 5.1 positions
+сигнал 5.1 signal
+курсі 5.1 course
+залишишся 5.1 "you will stay"
+алі 5.1 but
+код 5.1 code
+половину 5.1 half
+коефіцієнти 5.1 coefficients
+адже 5.1 "after all"
+сидиш 5.1 "you are sitting"
+якось 5.1 somehow
+процеси 5.1 processes
+franks 5.1 franks
+over 5.1 over
+зупинитися 5.1 "to stop"
+#24дек 5.1 "# 24Dec"
+тим 5.1 team
+статтю 5.1 article
+вийду 5.1 "I will leave"
+тоді 5.1 then
+формуванні 5.1 formation
+правила 5.1 rules
+установ 5.1 institutions
+циклу 5.1 cycle
+поверніться 5.1 "come back"
+нафту 5.1 oil
+крізь 5.1 through
+for 5.1 for
+app 5.1 app
+попередньо 5.1 previously
+деяких 5.1 some
+яка 5.1 which
+частини 5.1 parts
+водню 5.1 hydrogen
+кілометрів 5.1 kilometers
+методу 5.1 method
+i 5.1 i
+таблиці 5.1 tables
+them 5.1 them
+державна 5.1 state
+яке 5.1 which
+зайняти 5.1 "to occupy"
+been 5.1 been
+опитування 5.1 poll
+вкоднокласники 5.1 вкоднокласники
+ящик 5.08 box
+офіцерів 5.08 officers
+то 5.08 then
+блискавка 5.08 lightning
+економіці 5.08 economy
+такого 5.08 such
+йшов 5.08 went
+вибач 5.08 sorry
+працював 5.08 worked
+звернувся 5.08 turned
+ту 5.08 tu
+довжини 5.08 length
+через 5.08 through
+труби 5.08 pipes
+всупереч 5.08 "contrary to"
+виявилося 5.08 "it turned out"
+test 5.08 test
+промислового 5.08 industrial
+когось 5.08 someone
+го 5.08 him
+хд 5.08 hd
+галузі 5.08 industry
+голосую 5.08 "I vote"
+відділу 5.08 department
+виробництвом 5.08 production
+сорок 5.08 forty
+структура 5.08 structure
+полювання 5.08 hunting
+доби 5.08 age
+обстановка 5.08 situation
+служили 5.08 served
+ретвіт 5.08 retweet
+тц 5.08 тц
+щільності 5.08 density
+пройшла 5.08 passed
+займають 5.08 occupy
+still 5.08 still
+дослідах 5.08 experiments
+сировини 5.08 "raw materials"
+вказують 5.08 indicate
+меч 5.08 sword
+металургії 5.08 metallurgy
+наново 5.08 again
+вийшли 5.08 "came out"
+підставі 5.08 grounds
+en 5.08 en
+пити 5.08 drink
+by 5.08 by
+і 5.08 and
+округи 5.08 counties
+цього 5.08 this
+адвокат 5.08 lawyer
+кудись 5.08 somewhere
+той 5.08 that
+блок 5.08 bloc
+доповідь 5.08 report
+економічною 5.08 economic
+again 5.08 again
+jared 5.08 jared
+близько 5.08 close
+сісти 5.08 "sit down"
+бази 5.08 bases
+кандидат 5.08 candidate
+док 5.08 dock
+року 5.08 year
+профспілок 5.08 "trade unions"
+представниками 5.08 representatives
+such 5.08 such
+філ 5.08 phil
+підприємствах 5.08 enterprises
+принципу 5.08 principle
+цибуля 5.08 onion
+складу 5.08 composition
+hd 5.08 hd
+визначенні 5.08 definition
+втім 5.08 however
+дай 5.08 give
+цими 5.08 these
+роботах 5.08 works
+вага 5.08 weight
+are 5.08 are
+інші 5.08 others
+поміняти 5.08 change
+колись 5.08 once
+збір 5.08 gathering
+щодо 5.08 of
+justin 5.08 justin
+which 5.08 which
+чекаємо 5.08 "we are waiting"
+структур 5.08 structures
+секунд 5.08 seconds
+табори 5.06 camps
+ходу 5.06 move
+якийсь 5.06 some
+цей 5.06 this
+осі 5.06 axis
+пункти 5.06 items
+аааа 5.06 aaaa
+місцями 5.06 "in places"
+підприємств 5.06 enterprises
+how 5.06 how
+що 5.06 what
+сядьте 5.06 "sit down"
+хтось 5.06 someone
+підніми 5.06 lift
+kim 5.06 kim
+віці 5.06 age
+схем 5.06 schemes
+члени 5.06 members
+ось 5.06 here
+about 5.06 about
+намагаючись 5.06 trying
+перевірю 5.06 "I&#39;ll check"
+переході 5.06 transition
+півроку 5.06 "half year"
+від 5.06 from
+ya 5.06 ya
+ті 5.06 those
+позицію 5.06 position
+соціального 5.06 social
+моше 5.06 moshe
+якась 5.06 somehow
+їх 5.06 their
+системі 5.06 system
+дик 5.06 dick
+якими 5.06 which
+цих 5.06 these
+малої 5.06 small
+ціна 5.06 price
+повіту 5.06 county
+всередину 5.06 within
+відповідальність 5.06 responsibility
+змінити 5.06 change
+its 5.06 its
+держави 5.06 states
+робітники 5.06 workers
+than 5.06 than
+viii 5.06 viii
+оболонки 5.06 shell
+ліворуч 5.06 left
+розчині 5.06 solution
+офіцер 5.06 officer
+trey 5.06 trey
+тоні 5.06 tons
+частки 5.06 shares
+свити 5.06 retinue
+so 5.06 so
+середньої 5.06 secondary
+свідчать 5.06 testify
+кордоном 5.06 border
+пошуках 5.06 searching
+офіційний 5.06 official
+ця 5.06 this
+ділянці 5.06 plot
+мм 5.06 mm
+орган 5.06 body
+галузях 5.06 industries
+склянка 5.06 glass
+vse 5.06 everything
+пошуки 5.06 search
+районі 5.06 area
+to 5.06 to
+вказує 5.06 indicates
+при 5.06 at
+ща 5.06 will
+сторін 5.06 parties
+others 5.06 others
+техн 5.06 tech
+videofrom 5.06 "video form"
+плати 5.06 pay
+промисловість 5.06 industry
+справ 5.06 affairs
+bu 5.06 bu
+xii 5.06 xii
+лс 5.06 hp
+повтори 5.06 repeat
+чимось 5.06 something
+керівництво 5.04 leadership
+звідки 5.04 where
+трудових 5.04 labor
+уроку 5.04 lesson
+мовляв 5.04 "they say"
+those 5.04 those
+повторювати 5.04 repeat
+вилазь 5.04 "get out"
+етапу 5.04 stage
+ет 5.04 fl
+if 5.04 if
+сигналу 5.04 signal
+спуститися 5.04 "to go down"
+чекай 5.04 wait
+december 5.04 December
+формули 5.04 formulas
+шк 5.04 school
+це 5.04 it
+ps 5.04 ps
+таборі 5.04 camp
+o 5.04 o
+побудова 5.04 construction
+всяких 5.04 "of all kinds"
+камери 5.04 cameras
+губернатора 5.04 "the governor"
+виявилися 5.04 "turned out"
+умови 5.04 conditions
+внутрішнього 5.04 internal
+цим 5.04 hereby
+сі 5.04 si
+розчинів 5.04 solutions
+керівництвом 5.04 leadership
+смій 5.04 laugh
+hq 5.04 hq
+офіційно 5.04 officially
+аву 5.04 wow
+кандидатом 5.04 candidate
+електронів 5.04 electrons
+the 5.04 the
+навіть 5.04 even
+проголосували 5.04 voted
+аналізі 5.04 analysis
+маси 5.04 tables
+актів 5.04 acts
+віку 5.04 age
+сиджу 5.04 "I&#39;m sitting"
+відправили 5.04 sent
+постривай 5.04 shave
+свідок 5.04 witness
+служить 5.04 "to serve"
+ді 5.04 di
+них 5.04 them
+буває 5.04 "it happens"
+other 5.04 other
+is 5.04 is
+тих 5.04 quiet
+зазначених 5.04 specified
+установи 5.04 establish
+обліком 5.04 accounting
+w 5.04 w
+кому 5.04 whom
+якого 5.04 whose
+скільки 5.04 "How many"
+яким 5.04 which
+коул 5.04 cole
+системою 5.04 system
+second 5.04 second
+дієта 5.04 diet
+it 5.04 it
+щоб 5.04 "in order to"
+районів 5.04 districts
+фази 5.04 phases
+nu 5.04 well
+організації 5.04 organizations
+системах 5.04 systems
+спроби 5.04 attempts
+здалося 5.04 "it seemed"
+вартість 5.04 cost
+їм 5.04 them
+гдр 5.04 gdr
+яких 5.04 whose
+руд 5.02 rood
+дін 5.02 din
+реєстрації 5.02 registration
+державної 5.02 state
+залишилися 5.02 remained
+якому 5.02 which
+а 5.02 and
+невеликі 5.02 small
+as 5.02 as
+ю 5.02 ю
+тієї 5.02 that
+документ 5.02 document
+кого 5.02 whom
+змінилося 5.02 "has changed"
+економічний 5.02 economic
+виявитися 5.02 "to turn out"
+різниця 5.02 difference
+#10дек 5.02 "# 10Dec"
+частинах 5.02 parts
+until 5.02 until
+бригади 5.02 brigade
+питанню 5.02 question
+всякий 5.02 any
+завод 5.02 plant
+загін 5.02 detachment
+заступник 5.02 deputy
+цю 5.02 "this one"
+v 5.02 v
+внутрішніх 5.02 internal
+решта 5.02 rest
+поверсі 5.02 floor
+робітниками 5.02 workers
+робітник 5.02 worker
+другий 5.02 second
+#ridus 5.02 #ridus
+скинути 5.02 cast
+поміщиків 5.02 landowners
+кабінет 5.02 office
+тільки 5.02 only
+шукав 5.02 "I was looking for"
+організаціями 5.02 organizations
+бабаків 5.02 marmots
+вибачення 5.02 apology
+комусь 5.02 "to someone"
+аааааа 5.02 aaaaaa
+залишалися 5.02 remained
+роки 5.02 years
+виробничої 5.02 production
+van 5.02 van
+заявив 5.02 stated
+вказується 5.02 "is indicated"
+j 5.02 j
+північному 5.02 north
+after 5.02 after
+півтора 5.02 "one and a half"
+членами 5.02 members
+ме 5.02 me
+voted 5.02 voted
+спеціально 5.02 specially
+#ua 5.02 #ua
+кін 5.02 end
+одним 5.02 one
+розрахунку 5.02 calculation
+виробничих 5.02 production
+оу 5.02 ou
+утримати 5.02 "to keep"
+рядів 5.02 rows
+азоту 5.02 nitrogen
+оскільки 5.02 because
+обл 5.02 reg
+здам 5.02 "for rent"
+шукають 5.0 "looking for"
+жовтень 5.0 October
+викликав 5.0 called
+потреба 5.0 need
+структурою 5.0 structure
+пром 5.0 prom
+10-му 5.0 10th
+iii 5.0 iii
+only 5.0 only
+зусиль 5.0 effort
+державами 5.0 states
+президентом 5.0 "the president"
+pc 5.0 pc
+собівартість 5.0 cost
+причину 5.0 "the reason"
+питаннях 5.0 issues
+п 5.0 n
+малих 5.0 small
+одиниці 5.0 units
+одну 5.0 one
+скотт 5.0 Scott
+dec 5.0 dec
+державою 5.0 state
+vii 5.0 vii
+oh 5.0 oh
+спину 5.0 back
+обробки 5.0 processing
+під 5.0 under
+vs 5.0 vs
+здавати 5.0 surrender
+проходить 5.0 "to pass"
+que 5.0 that
+стіни 5.0 walls
+точок 5.0 points
+ж 5.0 g
+ста 5.0 hundred
+кадрів 5.0 personnel
+аналізу 5.0 analysis
+в… 5.0 in…
+голосувати 5.0 vote
+чим 5.0 than
+-ти 5.0 -you
+галузей 5.0 industries
+звідти 5.0 "from there"
+бюджету 5.0 budget
+межами 5.0 outside
+розрахунків 5.0 calculations
+з 5.0 with
+окремим 5.0 separate
+віддав 5.0 gave
+в 5.0 in
+прем&#39;єр-міністр 5.0 "Prime Minister"
+x 5.0 x
+vi 5.0 you
+ло 5.0 lo
+умовам 5.0 "I understand"
+s 5.0 s
+правил 5.0 rules
+бен 5.0 ben
+into 5.0 into
+майже 5.0 almost
+#fb 5.0 #fb
+розділі 5.0 section
+ситуація 5.0 situation
+тимчасового 5.0 temporary
+para 5.0 for
+#msk 5.0 #msk
+l 5.0 l
+u 5.0 u
+шукали 5.0 sought
+naked 5.0 naked
+вели 5.0 "he said"
+заводі 5.0 factory
+питома 5.0 specific
+плата 5.0 pay
+дюнан 5.0 dune
+розрахунок 5.0 calculation
+середніх 5.0 medium
+чан 5.0 vat
+потреб 5.0 needs
+різниці 5.0 differences
+ааааа 5.0 aaaaa
+st 5.0 st
+постав 5.0 set
+фабрики 5.0 factories
+лу 4.98 лу
+зійшли 4.98 "came down"
+торги 4.98 auction
+ними 4.98 them
+va 4.98 and
+господаря 4.98 master
+умовами 4.98 conditions
+струму 4.98 current
+передо 4.98 before
+одного 4.98 one
+an 4.98 an
+солей 4.98 salts
+се 4.98 se
+радянське 4.98 Soviet
+мб 4.98 mb
+se 4.98 se
+спиною 4.98 back
+xx 4.98 xx
+остаточно 4.98 finally
+кордонів 4.98 borders
+процесу 4.98 process
+le 4.98 le
+структури 4.98 structures
+кутом 4.98 angle
+робітника 4.98 worker
+потім 4.98 then
+ір 4.98 ir
+робіт 4.98 works
+вказав 4.98 "pointed out"
+жив 4.98 alive
+тоа 4.98 toa
+рулікс 4.98 rulix
+said 4.98 said
+ремонт 4.98 repair
+вкп 4.98 вкп
+однак 4.98 however
+замість 4.98 instead
+de 4.98 de
+очікуванні 4.98 waiting
+рівнянь 4.98 equations
+каміння 4.98 stones
+керівництва 4.98 leadership
+дм 4.98 dm
+сліди 4.98 traces
+перерізу 4.98 "cross section"
+стін 4.98 walls
+стривай 4.98 wait
+валовий 4.98 gross
+уроки 4.98 lessons
+зачекайте 4.98 Wait
+ре 4.98 re
+зняв 4.98 "took off"
+держава 4.98 state
+робітником 4.98 worker
+чекали 4.98 waited
+вугіллям 4.98 coal
+верховного 4.98 supreme
+соціал 4.98 social
+нібито 4.98 allegedly
+коефіцієнтів 4.98 coefficients
+why 4.98 why
+g 4.98 g
+доповіді 4.98 reports
+по 4.98 on
+вартості 4.98 value
+служив 4.98 served
+притулок 4.98 shelter
+прохорова 4.98 prokhorov
+ряді 4.98 series
+охороні 4.98 protection
+напр 4.98 e.g.
+розгляд 4.98 consideration
+черговий 4.98 regular
+сіль 4.98 salt
+кв 4.98 sq
+bir 4.98 bir
+ан 4.98 an
+конституції 4.98 constitution
+умові 4.98 provided
+wait 4.96 wait
+акад 4.96 acad
+служити 4.96 serve
+р 4.96 p
+півночі 4.96 midnight
+губернатор 4.96 governor
+частково 4.96 part
+forex 4.96 forex
+навпаки 4.96 "vice versa"
+divx 4.96 divx
+тінь 4.96 shadow
+ст 4.96 Art
+yo 4.96 yo
+грузії 4.96 Georgia
+дорожче 4.96 "more expensive"
+газ 4.96 gas
+згодом 4.96 subsequently
+витікає 4.96 follows
+сидить 4.96 "to sit"
+чомусь 4.96 "for some reason"
+твіт 4.96 tweet
+at 4.96 at
+скучила 4.96 bored
+воно 4.96 it
+зі 4.96 with
+як 4.96 how
+відповідальності 4.96 responsibility
+обліку 4.96 accounting
+t 4.96 t
+невелике 4.96 small
+кордоні 4.96 border
+виборчих 4.96 electoral
+кайл 4.96 kyle
+тк 4.96 tk
+камінь 4.96 stone
+залізних 4.96 iron
+re 4.96 re
+ii 4.96 ii
+охорона 4.96 protection
+вийдемо 4.96 "let&#39;s go out"
+голосування 4.96 voting
+члена 4.96 member
+su 4.96 are
+зовсім 4.96 completely
+h 4.96 h
+or 4.96 or
+rt 4.96 rt
+економії 4.96 savings
+єврей 4.96 Jew
+фазі 4.96 phase
+іма 4.96 ima
+вогнем 4.96 "by fire"
+цеху 4.96 shop
+одиницю 4.96 unit
+км 4.96 km
+рамки 4.96 frames
+окремих 4.96 individual
+таблиця 4.96 table
+фаз 4.96 phase
+ладу 4.96 mode
+внизу 4.96 below
+вернись 4.96 "come back"
+горло 4.96 throat
+камера 4.96 cell
+прем&#39;єр 4.96 "prime minister"
+членом 4.96 member
+силою 4.96 "by force"
+наполовину 4.96 half
+фізико 4.96 physics
+іншу 4.96 another
+одні 4.96 alone
+державний 4.96 state
+або 4.96 or
+k 4.94 k
+залишався 4.94 remained
+морган 4.94 morgan
+льоду 4.94 ice
+капіталізму 4.94 capitalism
+деяким 4.94 some
+просила 4.94 asked
+здавалося 4.94 "it seemed"
+хан 4.94 khan
+пори 4.94 pores
+євреї 4.94 Jews
+який-небудь 4.94 any
+м 4.94 m
+вчора 4.94 yesterday
+un 4.94 un
+збору 4.94 collection
+xiii 4.94 xiii
+кн 4.94 kn
+якщо 4.94 if
+рас 4.94 race
+етапі 4.94 stage
+рамках 4.94 within
+виходити 4.94 "go out"
+оцмережі 4.94 networks
+табл 4.94 table
+алан 4.94 alan
+коефіцієнта 4.94 coefficient
+ред 4.94 ed
+служать 4.94 "to serve"
+кі 4.94 ki
+купік 4.94 "a bunch"
+#tjournal 4.94 #tjournal
+якесь 4.94 some
+виходу 4.94 exit
+про 4.94 about
+роз&#39; 4.94 rose
+побуту 4.94 life
+державних 4.94 public
+#лимонів 4.94 "# lemons"
+ш 4.94 w
+ве 4.94 ve
+систему 4.94 system
+штабу 4.94 headquarters
+kak 4.94 how
+анжі 4.94 anji
+виробничі 4.94 production
+#24dec 4.94 "# 24dec"
+рій 4.94 swarm
+сядь 4.94 "sit down"
+виявився 4.94 "turned out"
+quit 4.94 quit
+командира 4.94 commander
+такому 4.94 such
+голосуємо 4.94 "we are voting"
+спостерігачів 4.94 observers
+буржуазних 4.94 bourgeois
+мав 4.94 "he had"
+живіт 4.94 stomach
+причин 4.94 reasons
+бюро 4.94 bureau
+nate 4.94 nate
+заводи 4.94 plants
+заводу 4.94 factory
+того 4.94 "of that"
+суб&#39;єкта 4.94 subject
+дж 4.94 j
+масового 4.94 mass
+промислових 4.94 industrial
+казино 4.94 casino
+св 4.94 st
+стінки 4.94 walls
+змі 4.94 media
+пр 4.92 ave
+листопад 4.92 November
+p 4.92 p
+зупинити 4.92 stop
+забери 4.92 "take it away"
+стіні 4.92 wall
+службовців 4.92 employees
+im 4.92 im
+тіні 4.92 shadows
+проголосував 4.92 voted
+should 4.92 should
+ъ 4.92 uh
+нігті 4.92 nails
+#5dec 4.92 "# 5dec"
+тягне 4.92 pulls
+окремі 4.92 separate
+лікаря 4.92 doctor
+посл 4.92 last
+закони 4.92 laws
+наліво 4.92 "to the left"
+#6дек 4.92 "# 6dec"
+навіщо 4.92 why
+чет 4.92 Thu
+міністр 4.92 minister
+c 4.92 c
+сидіти 4.92 sit
+ну 4.92 Well
+тимчасово 4.92 temporarily
+причиною 4.92 "the reason"
+na 4.92 and
+законодавства 4.92 legislation
+гр 4.92 gr
+державного 4.92 state
+el 4.92 el
+була 4.92 was
+загони 4.92 detachments
+заспокойтесь 4.92 "calm down"
+тр 4.92 tr
+розпорядження 4.92 order
+під&#39; 4.92 under&#39;
+комітету 4.92 committee
+мали 4.92 small
+чогось 4.92 something
+xxx 4.92 xxx
+типи 4.92 types
+знизу 4.92 "from below"
+вибачаюсь 4.92 "I&#39;m sorry"
+держ 4.92 state
+пов&#39;язана 4.92 connected
+зачекаю 4.92 "I&#39;ll wait"
+резолюції 4.92 resolution
+#followback 4.92 #followback
+см 4.9 see
+вв 4.9 centuries
+надъ 4.9 hope
+кінчай 4.9 finish
+здати 4.9 "to hand over"
+зупинився 4.9 stopped
+хіба 4.9 unless
+вказував 4.9 "pointed out"
+/на 4.9 /on
+клітини 4.9 cells
+прохорів 4.9 prokhorov
+викликати 4.9 cause
+коротше 4.9 shorter
+боменталю 4.9 bommental
+#kharkiv 4.9 #kharkiv
+вказано 4.9 indicated
+ago 4.9 ago
+мн 4.9 many
+потрібно 4.9 "need to"
+невеликий 4.9 little
+пас 4.9 pass
+надовго 4.9 "for a long time"
+виклик 4.9 challenge
+e 4.9 e
+#androidgames 4.9 #androidgames
+намагався 4.9 tried
+блоку 4.9 block
+дістати 4.9 "to get"
+просили 4.9 asked
+керівники 4.9 leaders
+чому 4.9 Why
+цін 4.9 prices
+неодноразово 4.9 repeatedly
+ка 4.9 ka
+д 4.9 e
+канд 4.9 Cand
+зняли 4.9 removed
+ur 4.9 ur
+лізь 4.9 lick
+винятком 4.9 "with the exception"
+ної 4.9 noah
+витрачати 4.9 spend
+штаб 4.9 headquarters
+бом 4.9 bom
+ся 4.9 ся
+навальний 4.9 bulk
+кабінеті 4.9 office
+державному 4.9 state
+групона 4.88 group
+ц 4.88 ц
+b 4.88 b
+одних 4.88 some
+мг 4.88 mg
+зачекати 4.88 wait
+почекай 4.88 wait
+m 4.88 m
+пір 4.88 then
+судячи 4.88 "judging by"
+капіталістичних 4.88 capitalist
+урядом 4.88 government
+r 4.88 r
+заспокойся 4.88 "calm down"
+твіттеричан 4.88 "Twitter users"
+чого 4.88 what
+cont 4.88 cont
+н 4.88 N
+ако 4.88 if
+базз 4.88 базз
+ск 4.88 sk
+листопаді 4.88 November
+рахунки 4.88 accounts
+л 4.88 l
+w/ 4.88 "w /"
+документів 4.88 documents
+типу 4.88 type
+устань 4.88 "get up"
+окремо 4.88 separately
+лід 4.88 ice
+розгляду 4.88 consideration
+межах 4.88 within
+дивним 4.88 strange
+тт 4.88 tt
+нижній 4.88 lower
+умова 4.88 condition
+ti 4.88 you
+трапиться 4.88 "to happen"
+трохи 4.88 slightly
+оао 4.88 oao
+xv 4.88 xv
+dddd 4.88 dddd
+т 4.88 t
+бойовий 4.88 combat
+ільїч 4.88 Ilyich
+dd 4.88 dd
+фоловерів 4.88 followers
+пов&#39;язаних 4.88 related
+y 4.86 y
+після 4.86 after
+пов&#39;язані 4.86 related
+рсфср 4.86 rsfsr
+кордон 4.86 border
+ь 4.86 l
+були 4.86 were
+біжимо 4.86 "let&#39;s run"
+постанови 4.86 decrees
+ddd 4.86 ddd
+купу 4.86 "a bunch"
+канделаки 4.86 candelabra
+боротися 4.86 fight
+te 4.86 and
+пішло 4.86 gone
+буржуазії 4.86 bourgeoisie
+просить 4.86 "to ask"
+мл 4.86 Jr.
+б 4.86 b
+температурі 4.86 temperature
+полк 4.86 regiment
+нижнього 4.86 lower
+мас 4.86 wt
+обставини 4.86 circumstance
+температур 4.86 temperatures
+голосував 4.86 voted
+охорони 4.86 protection
+вказати 4.86 "to indicate"
+n 4.86 n
+ммм 4.86 mmm
+робітників 4.86 workers
+ууу 4.86 uuu
+тихіше 4.86 Hush
+#5дек 4.86 "# 5Dec"
+тд 4.86 td
+ного 4.86 foot
+фк 4.84 fk
+законом 4.84 "by law"
+ненадовго 4.84 "for a short time"
+грн 4.84 UAH
+d 4.84 d
+бол 4.84 bol
+#sledui 4.84 #sledui
+of 4.84 of
+ф 4.84 f
+lesnar 4.84 lesnar
+виборчі 4.84 election
+інакше 4.84 otherwise
+кут 4.84 angle
+зап 4.84 zap
+ел 4.84 el
+f 4.84 f
+платити 4.84 pay
+del 4.84 del
+виділення 4.84 selection
+ея 4.84 her
+чекав 4.84 "I was waiting"
+палати 4.84 chambers
+пустіть 4.84 "let go"
+ний 4.84 niy
+тп 4.84 etc.
+членів 4.84 members
+невеликих 4.84 small
+бензин 4.84 gasoline
+реклами 4.84 advertising
+органів 4.84 bodies
+#v 4.84 #v
+зам 4.84 Deputy
+іа 4.84 ia
+хімії 4.84 chemistry
+відпустити 4.84 release
+had 4.84 had
+поклади 4.84 deposits
+біжи 4.84 run
+ур 4.84 ur
+натрію 4.84 sodium
+обставина 4.84 circumstance
+керівників 4.84 leaders
+#twiby 4.84 #twiby
+сесії 4.84 session
+пл 4.84 pl
+стіну 4.84 wall
+са 4.84 are
+ворушіться 4.84 move
+ht 4.84 ht
+обставин 4.84 circumstances
+постанову 4.84 resolution
+майор 4.84 major
+звіт 4.84 report
+ньому 4.84 him
+-а 4.84 -and
+негайно 4.84 immediately
+подалі 4.82 away
+міністра 4.82 Minister
+випий 4.82 drink
+fire 4.82 fire
+#instantfollowback 4.82 #instantfollowback
+закону 4.82 "the law"
+брав 4.82 lock
+#10dec 4.82 "# 10dec"
+випити 4.82 "to drink"
+залишилося 4.82 left
+окремими 4.82 separate
+агент 4.82 agent
+службу 4.82 service
+соц 4.82 soc
+сержант 4.82 sergeant
+солі 4.82 salt
+послав 4.82 sent
+слідів 4.82 traces
+наради 4.82 meetings
+xvi 4.82 xvi
+вип 4.82 issue
+газу 4.82 gas
+су 4.82 su
+облік 4.82 accounting
+htt 4.82 htt
+повинно 4.82 should
+гзапоріжжя 4.82 gzaporozhye
+комплекс 4.82 complex
+хм 4.82 hmm
+дивне 4.82 strange
+недовго 4.82 "not long"
+президентських 4.82 presidential
+займе 4.82 "will take"
+#ru_ff 4.82 #ru_ff
+частин 4.82 parts
+парламент 4.82 parliament
+маршрутці 4.82 minibuses
+пройшли 4.82 passed
+стійте 4.82 wait
+зар 4.82 zar
+викликає 4.82 causes
+лукашенко 4.82 Lukashenko
+п&#39;ю 4.8 "I drink"
+жовтневої 4.8 October
+контролю 4.8 control
+ордер 4.8 warrant
+аж 4.8 until
+усср 4.8 ussr
+просив 4.8 "I asked"
+notabenoid 4.8 notabenoid
+зупинилися 4.8 stopped
+законів 4.8 laws
+радгоспів 4.8 "state farms"
+крім 4.8 except
+трапилося 4.8 "it happened"
+використовували 4.8 used
+однієї 4.8 one
+вантажів 4.8 cargo
+рано 4.8 early
+необхідності 4.8 necessity
+типів 4.8 types
+нтв 4.8 ntv
+далеко 4.8 far
+комплексу 4.8 complex
+офісі 4.8 office
+eto 4.8 here
+х 4.8 x
+-d 4.8 -d
+бос 4.8 boss
+радянські 4.8 Soviet
+дієти 4.8 diet
+просять 4.8 ask
+сиділи 4.8 sat
+iv 4.8 iv
+xix 4.78 xix
+шеф 4.78 chief
+оборони 4.78 defense
+камеру 4.78 camera
+сів 4.78 "sat down"
+міністерства 4.78 ministry
+дер 4.78 der
+звір 4.78 beast
+скидокдо 4.78 discount
+необхідно 4.78 necessary
+е 4.78 is
+етап 4.78 stage
+кута 4.78 angle
+гер 4.78 ger
+відділення 4.78 department
+дрібні 4.78 small
+хімічного 4.78 chemical
+чо 4.78 cho
+ft 4.78 ft
+доводилося 4.78 "had to"
+буржуазного 4.78 bourgeois
+струм 4.78 current
+державні 4.78 state
+буржуазної 4.78 bourgeois
+сидять 4.78 "to sit"
+сти 4.78 sti
+гвідо 4.78 guide
+службі 4.78 service
+смієш 4.78 "you laugh"
+рекламу 4.78 advertising
+залишалося 4.78 remained
+стежити 4.78 follow
+віддати 4.78 give
+температури 4.78 temperature
+залишимо 4.76 "let&#39;s leave"
+член 4.76 member
+органу 4.76 body
+under 4.76 under
+навального 4.76 bulk
+хімічної 4.76 chemical
+ціни 4.76 prices
+понеділок 4.76 Monday
+яко 4.76 as
+забрати 4.76 take
+хімічних 4.76 chemical
+тип 4.76 type
+#sutvremeni 4.76 #contemporary
+комітет 4.76 committee
+рядовий 4.76 ordinary
+гм 4.76 Ahem
+залишу 4.76 "I will leave"
+медведєва 4.76 bearish
+використані 4.76 used
+перестати 4.76 "to stop"
+уряд 4.76 government
+звідси 4.76 "from here"
+дієт 4.76 diet
+контрольна 4.76 control
+асср 4.76 assr
+адміністрації 4.76 administration
+але 4.76 but
+cock 4.76 cock
+політичний 4.76 political
+партій 4.76 parties
+ссср 4.76 USSR
+владою 4.76 power
+малого 4.76 small
+сл 4.76 fig
+засідання 4.74 meeting
+урателеко 4.74 urateleko
+режимі 4.74 mode
+якво 4.74 what
+колгоспів 4.74 "collective farms"
+залишати 4.74 leave
+бензином 4.74 gasoline
+сталося 4.74 happened
+думу 4.74 thought
+залиште 4.74 leave
+органами 4.74 authorities
+капіталістичного 4.74 capitalist
+was 4.74 was
+біса 4.74 "the devil"
+адміністрація 4.74 administration
+умовою 4.74 condition
+колгоспу 4.74 "collective farm"
+контроль 4.74 control
+наступ 4.74 offensive
+пізніше 4.74 later
+служба 4.74 service
+дивна 4.74 strange
+but 4.74 but
+пе 4.74 pe
+просити 4.74 ask
+need 4.74 need
+#np 4.74 #np
+опозиціонери 4.74 oppositionists
+чен 4.74 chen
+сиди 4.74 "sit down"
+переробки 4.74 processing
+г 4.72 d
+ввп 4.72 vvp
+туалет 4.72 toilet
+зайнятих 4.72 busy
+занадто 4.72 too
+осетії 4.72 Ossetia
+вчорашнього 4.72 yesterday
+стеж 4.72 follow
+служби 4.72 services
+поділу 4.72 division
+режим 4.72 regime
+сиськи 4.72 tits
+думи 4.72 words
+ер 4.72 er
+радянської 4.72 Soviet
+намагалися 4.72 tried
+начальник 4.72 head
+уряду 4.72 government
+ой 4.72 Oh
+відстань 4.72 distance
+контролем 4.72 control
+солдат 4.72 soldier
+печінки 4.72 liver
+зак 4.72 zak
+відд 4.72 dept
+#rt 4.72 #rt
+маркс 4.72 Marx
+купа 4.72 pile
+ри 4.7 ri
+ай 4.7 Ai
+back 4.7 back
+політичних 4.7 political
+#tfb 4.7 #tfb
+зто 4.7 зто
+тя 4.7 she
+дивізії 4.7 division
+off 4.7 off
+#навальний 4.7 "# bulk"
+радянському 4.7 Soviet
+дивний 4.7 strange
+хвилює 4.7 worries
+політику 4.7 politics
+сесію 4.7 session
+реклама 4.7 advertising
+було 4.7 was
+залишив 4.7 left
+потрапила 4.7 got
+одному 4.7 one
+висновок 4.7 conclusion
+#вибори 4.7 #election
+необхідністю 4.7 necessity
+минулого 4.7 "of the past"
+вийти 4.7 "go out"
+одна 4.7 one
+купікупона 4.68 coupon
+допоможіть 4.68 Help
+доведеться 4.68 "will have to"
+віддайте 4.68 give
+органи 4.68 authorities
+біжіть 4.68 run
+por 4.68 por
+використав 4.68 used
+кутку 4.68 corner
+навряд 4.68 hardly
+надзвичайно 4.68 extremely
+енгельс 4.68 engels
+політичну 4.68 political
+stop 4.68 stop
+хмм 4.68 hmm
+путіна 4.68 Putin
+къ 4.68 to
+з&#39;їзду 4.68 Congress
+опусти 4.68 lower
+ne 4.68 no
+#кургінян 4.66 "# kurginyan"
+колгоспників 4.66 "collective farmers"
+забудемо 4.66 "let&#39;s forget"
+політичне 4.66 political
+міністерство 4.66 ministry
+залишків 4.66 residues
+пропустіть 4.66 skip
+з&#39;їзді 4.66 Congress
+був 4.66 was
+політика 4.66 policy
+жиринівський 4.66 Zhirinovsky
+давно 4.66 long
+зупиніться 4.66 stop
+виборами 4.66 elections
+#ссср 4.66 "# ссср"
+дрібних 4.66 small
+дивні 4.66 strange
+терміново 4.66 urgently
+влада 4.66 power
+шматки 4.66 pieces
+виборам 4.66 elections
+засіданні 4.66 meetings
+п&#39;ятирічки 4.66 "five years"
+перестав 4.66 stopped
+терміну 4.66 term
+ідеології 4.66 ideology
+раптово 4.66 suddenly
+терміни 4.64 deadlines
+останню 4.64 "the last one"
+away 4.64 away
+зупини 4.64 stop
+хрест 4.64 cross
+ср 4.64 cf.
+нереально 4.64 unreal
+рідко 4.64 rarely
+опадів 4.64 precipitation
+відповідай 4.64 answer
+доводиться 4.64 "it is necessary"
+нижче 4.64 lower
+випробувань 4.64 tests
+довго 4.64 long
+баби 4.64 grandmothers
+кінців 4.64 ends
+соціалістичних 4.64 socialist
+закінчиться 4.64 "will end"
+з&#39;їзд 4.64 congress
+зловили 4.64 caught
+гд 4.64 gd
+pussy 4.64 pussy
+пройшло 4.64 passed
+масових 4.64 mass
+минулому 4.64 "the past"
+мороз 4.64 frost
+залежить 4.64 depends
+контролювати 4.64 control
+#ff 4.64 #ff
+політичного 4.62 political
+старого 4.62 old
+waiting 4.62 waiting
+зупинись 4.62 stop
+комісія 4.62 commission
+залишити 4.62 keep
+партію 4.62 party
+потрапив 4.62 hit
+відбитки 4.62 prints
+міністрів 4.62 ministers
+температурах 4.62 temperatures
+випав 4.62 "dropped out"
+сср 4.62 сср
+out 4.62 out
+виборах 4.6 elections
+вниз 4.6 down
+кавказу 4.6 Caucasus
+поділ 4.6 divide
+вимогам 4.6 requirements
+минулим 4.6 past
+партії 4.6 party
+чекати 4.6 wait
+позаду 4.6 behind
+крайньої 4.6 extreme
+матер 4.6 mater
+залиши 4.6 leave
+зон 4.6 zones
+мовчки 4.6 silently
+дорого 4.6 dear
+радянських 4.58 Soviet
+мінімум 4.58 minimum
+вказівки 4.58 instructions
+політичні 4.58 political
+чекаєш 4.58 "you are waiting"
+комісарам 4.58 Commissioners
+колгоспах 4.58 "collective farms"
+опозиції 4.58 opposition
+партійних 4.58 party
+колгоспи 4.58 "collective farms"
+forget 4.58 forget
+вистачить 4.58 enough
+газів 4.58 gases
+т_т 4.58 т_т
+вибори 4.58 election
+минуле 4.58 past
+минулий 4.58 past
+сесія 4.56 session
+#twiwar 4.56 #twiwar
+хв 4.56 min
+путіним 4.56 Putin
+вимагає 4.56 requires
+будильник 4.56 "alarm clock"
+неважливо 4.56 "does not matter"
+кавказ 4.56 Caucasus
+поверніть 4.56 return
+стоп 4.56 stop
+нуль 4.56 zero
+відпусти 4.56 "let go"
+обережні 4.56 careful
+низьких 4.54 low
+звіра 4.54 beast
+розслідування 4.54 investigation
+один 4.54 one
+комітетів 4.54 committees
+експлуатації 4.54 operation
+боротьбу 4.54 struggle
+вантаж 4.54 cargo
+умовно 4.54 conditionally
+обов&#39;язки 4.54 responsibilities
+марксу 4.54 Marx
+нічим 4.54 nothing
+must 4.54 must
+болотяну 4.54 swamp
+зупиніть 4.54 stop
+ніде 4.54 nowhere
+пусти 4.54 "let go"
+радянського 4.54 Soviet
+нікого 4.54 "no one"
+лдпр 4.54 ldpr
+вийди 4.54 "come out"
+стій 4.54 Stop
+зниження 4.54 decrease
+цик 4.54 cycle
+начальника 4.54 chief
+революційного 4.54 revolutionary
+пляшку 4.54 bottle
+революційних 4.54 revolutionary
+вчорашній 4.54 yesterday
+необхідність 4.54 necessity
+повинні 4.52 should
+радянський 4.52 Soviet
+залишила 4.52 left
+напруги 4.52 voltage
+вимкни 4.52 "turn it off"
+нато 4.52 nato
+мда 4.52 mda
+держдеп 4.52 "State Department"
+сидів 4.52 sat
+залишили 4.52 left
+чурова 4.52 churova
+виборів 4.52 elections
+менше 4.52 Less
+міжвиборної 4.52 inter-election
+настання 4.52 onset
+бла 4.52 blah
+політична 4.52 political
+труси 4.52 shorts
+віддай 4.52 "give it away"
+свідків 4.5 witnesses
+че 4.5 that
+політиці 4.5 politics
+радянським 4.5 Soviet
+партія 4.5 party
+#teamfollowback 4.5 #teamfollowback
+crazy 4.5 crazy
+без 4.5 without
+повільно 4.5 slow
+потрапили 4.48 got
+чекайте 4.48 wait
+пробити 4.48 "to break through"
+посперечатися 4.48 "to argue"
+соціалістичне 4.48 socialist
+опору 4.48 resistance
+назад 4.48 back
+опір 4.48 resistance
+радянсько 4.48 Soviet
+ніхто 4.48 "no one"
+соціалістичної 4.48 socialist
+ніякого 4.48 no
+виборців 4.48 voters
+температура 4.48 temperature
+цк 4.46 цк
+wtf 4.46 wtf
+явка 4.46 attendance
+соціалізму 4.46 socialism
+військово 4.46 militarily
+зайнята 4.46 busy
+президії 4.46 presidium
+соціалістичному 4.46 socialist
+боротьбі 4.46 fight
+революційної 4.46 revolutionary
+last 4.46 last
+останніх 4.46 "the latter"
+випив 4.46 drank
+обов&#39;язків 4.46 responsibilities
+поверни 4.46 return
+військові 4.46 military
+пролетаріату 4.46 "of the proletariat"
+послали 4.46 sent
+останньої 4.46 "the latter"
+мітингів 4.46 rallies
+партійні 4.44 party
+бюлетенів 4.44 ballots
+фбр 4.44 fbr
+тиском 4.44 pressure
+ніяких 4.44 no
+довелося 4.44 "had to"
+судів 4.44 courts
+наслідком 4.44 consequence
+сирії 4.44 Syria
+операції 4.44 operations
+перевірка 4.44 audit
+леніна 4.44 Lenin
+соціалістична 4.44 socialist
+слідство 4.44 investigation
+повинна 4.44 should
+рсдрп 4.44 рсдрп
+соціалістичного 4.44 socialist
+держдуму 4.44 "State Duma"
+політики 4.44 policy
+комісар 4.44 commissioner
+закінчилася 4.44 "is over"
+bieber 4.44 bieber
+різкість 4.44 sharpness
+натовп 4.44 crowd
+рідше 4.44 "less often"
+end 4.42 end
+sorry 4.42 sorry
+іран 4.42 Iran
+хакери 4.42 hackers
+попався 4.42 "got caught"
+нікому 4.42 "to anyone"
+відкладень 4.42 deposits
+поліцейський 4.42 policeman
+радянська 4.42 Soviet
+політичної 4.42 political
+охуенно 4.42 fucking
+янукович 4.42 Yanukovych
+кислот 4.42 acids
+останнє 4.42 "the last"
+залишки 4.42 leftovers
+боротьба 4.42 struggle
+цру 4.42 цру
+фракції 4.42 factions
+залежать 4.42 "to depend"
+чорного 4.42 black
+відпустіть 4.42 "let go"
+пропустити 4.4 miss
+наробив 4.4 did
+вимог 4.4 requirements
+закрити 4.4 close
+операцій 4.4 operations
+вимога 4.4 requirement
+закрий 4.4 close
+опозиція 4.4 opposition
+закрийте 4.4 close
+ніяк 4.4 any
+інспектор 4.4 inspector
+санітари 4.4 paramedics
+велів 4.4 commanded
+режиму 4.4 mode
+відійди 4.38 "go away"
+no 4.38 no
+зони 4.38 zones
+without 4.38 without
+поїхав 4.38 went
+армії 4.38 army
+відійдіть 4.38 "go away"
+марксизму 4.38 Marxism
+військової 4.38 military
+указ 4.38 decree
+закінчується 4.38 ends
+воїнів 4.38 warriors
+заплачу 4.38 "I will pay"
+вимагаю 4.38 demand
+обережніше 4.38 "Go easy"
+чорні 4.38 black
+clinic 4.38 clinic
+мітингу 4.38 rally
+кндр 4.36 DPRK
+напруг 4.36 voltage
+закінчилося 4.36 over
+чурів 4.36 churiv
+чутки 4.36 rumors
+перевірки 4.36 checks
+держдуми 4.36 "State Duma"
+зайняті 4.36 busy
+повинен 4.36 should
+кислоти 4.36 acids
+влади 4.36 authorities
+дна 4.36 bottom
+поліцейські 4.36 police
+партійною 4.36 party
+забрав 4.36 "I forgot"
+худоби 4.36 cattle
+not 4.36 not
+комісії 4.34 commission
+кінцю 4.34 "the end"
+мимоволі 4.34 involuntarily
+баба 4.34 woman
+black 4.34 black
+військових 4.34 military
+чорний 4.34 black
+імперіалізму 4.34 imperialism
+соціалізм 4.34 socialism
+чорною 4.34 black
+мовчати 4.34 "keep silent"
+боротьби 4.34 struggle
+туалеті 4.34 toilets
+ризикувати 4.32 risk
+колишнього 4.32 "the former"
+пила 4.32 saw
+овд 4.32 ovd
+мвд 4.32 мвд
+пацієнт 4.32 patient
+киньте 4.32 throw
+останнього 4.32 "the latter"
+зменшення 4.32 reduction
+едро 4.3 wholesale
+кинь 4.3 throw
+повз 4.3 past
+партією 4.3 party
+соснули 4.3 "fell asleep"
+тиску 4.3 pressure
+змінив 4.3 changed
+вимоги 4.3 requirements
+ніщо 4.3 nothing
+останнім 4.3 last
+відсутній 4.3 missing
+мітинг 4.3 rally
+низькою 4.28 low
+складною 4.28 difficult
+попереджаю 4.28 "I warn you"
+копи 4.28 copy
+атаку 4.28 attack
+таблетки 4.28 tablets
+fall 4.28 fall
+зобов&#39;язаний 4.28 obliged
+невідомо 4.28 unknown
+гіркого 4.28 bitter
+dark 4.28 dark
+потребує 4.28 needs
+вимагають 4.28 require
+чорних 4.28 black
+комуністичного 4.28 communist
+риса 4.28 feature
+ох 4.28 Oh
+скінчиться 4.28 "will end"
+nothing 4.28 nothing
+нікуди 4.28 nowhere
+млинець 4.28 pancake
+мітингувальників 4.28 protesters
+дістав 4.28 got
+військовий 4.28 military
+пішла 4.26 followed
+поліцейських 4.26 "police officers"
+хз 4.26 хз
+зоні 4.26 zone
+критики 4.26 criticism
+dick 4.26 dick
+поліцейського 4.26 "police officer"
+ленін 4.26 Lenin
+підуть 4.26 "will go"
+партійного 4.26 party
+гармату 4.26 gun
+попередження 4.26 warning
+путіну 4.26 Putin
+втекти 4.26 "to run away"
+сумніви 4.26 doubts
+забудьте 4.24 "forget it"
+ланцюги 4.24 chains
+кінця 4.24 "the end"
+забуду 4.24 "I will forget"
+коп 4.24 kop
+fight 4.24 fight
+бойових 4.24 combat
+зайнятий 4.24 busy
+вимагати 4.24 require
+зникли 4.24 disappeared
+поїхала 4.24 went
+неминуче 4.24 inevitably
+комплексів 4.24 complexes
+addiction 4.24 addiction
+hard 4.24 hard
+складних 4.24 complex
+мітинги 4.24 rallies
+іспити 4.24 exams
+припинити 4.24 "to stop"
+холодною 4.24 cold
+#ботокс 4.24 "# Botox"
+зобов&#39;язані 4.24 "are obliged"
+пропаганди 4.22 propaganda
+військового 4.22 military
+пропустив 4.22 missed
+чорна 4.22 black
+зменшується 4.22 decreases
+гармата 4.22 gun
+поліції 4.22 police
+повстання 4.22 rebellion
+колишній 4.2 former
+#чп 4.2 "# чп"
+останній 4.2 last
+зюганів 4.2 zyuganov
+ні 4.2 No
+суддя 4.2 judge
+сумніваюся 4.2 "I doubt it"
+залежності 4.2 dependencies
+скорочення 4.2 abbreviation
+морозу 4.2 frost
+фсб 4.2 fsb
+швидку 4.2 fast
+черги 4.2 queues
+солдати 4.2 soldiers
+піде 4.2 "will go"
+наказ 4.18 order
+суду 4.18 court
+перестаньте 4.18 "stop it"
+наказав 4.18 "I punished"
+кидай 4.18 throw
+примара 4.18 ghost
+прибери 4.18 "put it away"
+порно 4.18 porn
+сумую 4.18 "I miss"
+кредит 4.18 credit
+едра 4.18 large
+криві 4.18 curves
+алкоголь 4.18 alcohol
+різко 4.18 sharply
+відмовилася 4.18 refused
+піти 4.18 leave
+собчак 4.18 sobchak
+наслідки 4.18 consequences
+іспит 4.18 exam
+кпрф 4.16 кпрф
+забувай 4.16 "forget it"
+темно 4.16 dark
+крива 4.16 curve
+заважати 4.16 interfere
+ммм-2011 4.16 mmm-2011
+забудь 4.16 "forget it"
+суворо 4.16 strictly
+остання 4.14 "the last"
+депутатів 4.14 deputies
+ніж 4.14 than
+покинути 4.14 "to leave"
+кривих 4.14 curves
+never 4.14 never
+перестань 4.14 "Stop it"
+армію 4.14 army
+заважає 4.14 interferes
+депутат 4.14 deputy
+обережно 4.14 carefully
+терпіти 4.12 tolerate
+приберіть 4.12 remove
+прибрати 4.12 "clean up"
+витратив 4.12 spent
+колишніх 4.12 former
+забрали 4.12 "took away"
+заперечуєте 4.12 object
+порожній 4.1 empty
+комуністичної 4.1 communist
+відсутні 4.1 missing
+депутати 4.1 deputies
+тиск 4.1 pressure
+останні 4.1 "the last"
+складні 4.1 complex
+#мітинг 4.1 #rally
+критиці 4.1 criticism
+кривий 4.1 crooked
+фронту 4.1 front
+поїхали 4.1 "let&#39;s go"
+комуністи 4.1 communists
+зник 4.08 disappeared
+комуністів 4.08 communists
+шум 4.08 noise
+гармати 4.08 guns
+припиніть 4.08 "stop it"
+витрат 4.08 costs
+комунізму 4.08 communism
+революцію 4.08 revolution
+військ 4.08 troops
+комуністична 4.08 communist
+підвалі 4.08 basements
+сперечатися 4.06 argue
+протиріч 4.06 contradictions
+відмовився 4.06 refused
+кістки 4.06 bones
+забув 4.06 Forgot
+протесту 4.06 protest
+марксистсько 4.06 Marxist
+кинути 4.06 "to throw"
+old 4.06 old
+дурниць 4.06 nonsense
+забиратися 4.04 "to get out"
+благаю 4.04 "I beg you"
+пофіг 4.04 "don&#39;t care"
+подери 4.04 poderi
+операцію 4.04 operation
+позбутися 4.04 "get rid of"
+немає 4.04 no
+забули 4.04 forgot
+відмовитися 4.04 refuse
+падає 4.04 falls
+кпсс 4.04 кпсс
+фіга 4.04 fig
+більшовики 4.04 "the Bolsheviks"
+деформації 4.04 deformation
+мало 4.04 small
+припини 4.04 stop
+більшовиків 4.04 Bolsheviks
+пізно 4.04 late
+змушує 4.04 forces
+закрито 4.04 closed
+бою 4.02 battle
+важкий 4.02 heavy
+мовчи 4.02 "shut up"
+важкі 4.02 heavy
+ніколи 4.02 never
+горить 4.02 "to burn"
+lost 4.02 lost
+ризик 4.02 risk
+ножем 4.02 knife
+поліція 4.02 police
+змушені 4.02 forced
+відсутності 4.0 absence
+вина 4.0 fault
+тяжкості 4.0 severity
+революція 4.0 revolution
+ліквідації 4.0 liquidation
+операція 4.0 operation
+єдиноросам 4.0 "United Russia"
+алкоголю 4.0 alcohol
+поліцію 3.98 "the police"
+тісно 3.98 closely
+даремно 3.98 "in vain"
+забула 3.98 forgot
+#революція 3.98 #revolution
+забути 3.98 forget
+хвилюйтесь 3.98 worry
+зад 3.98 ass
+мінус 3.98 minus
+омон 3.98 omon
+фронт 3.98 front
+дико 3.98 wild
+пішов 3.96 left
+кину 3.96 kinu
+бережись 3.96 beware
+черга 3.96 turn
+зона 3.96 zone
+війська 3.96 military
+суді 3.96 court
+прощайте 3.94 goodbye
+напруга 3.94 High-voltage
+зайвий 3.94 excessive
+пробка 3.94 stopper
+супротивника 3.94 "the enemy"
+зникла 3.94 disappeared
+cigarette 3.94 cigarettes
+складно 3.92 difficult
+пив 3.92 beer
+компромати 3.92 compromising
+незручно 3.92 inconveniently
+горілка 3.92 vodka
+військами 3.92 troops
+нелегко 3.92 "not easy"
+горілку 3.9 vodka
+відставку 3.9 resignation
+проти 3.9 against
+porn 3.9 porn
+кінець 3.9 end
+фронті 3.9 front
+провини 3.9 guilt
+хвилюйся 3.9 worry
+відсутність 3.88 absence
+старі 3.88 old
+нерви 3.88 nerve
+змусив 3.88 forced
+чужі 3.88 strangers
+слабо 3.88 weak
+дурниці 3.86 nonsense
+помиляєшся 3.86 "you are wrong"
+зомбі 3.86 zombie
+складності 3.86 complexity
+суперечки 3.86 disputes
+армія 3.86 army
+критика 3.86 Critics
+старих 3.86 old
+змусити 3.86 "to force"
+сигарету 3.86 "a cigarette"
+тяжкою 3.84 severe
+застряг 3.84 stuck
+накази 3.84 orders
+старий 3.84 old
+ліберасти 3.84 liberals
+турбувати 3.82 disturb
+smoking 3.82 smoking
+труднощі 3.82 difficulty
+проблемі 3.82 problem
+набридло 3.8 tired
+бив 3.8 ex
+проблему 3.8 "the problem"
+витрати 3.8 costs
+прокуратура 3.8 "prosecutor&#39;s office"
+alone 3.8 alone
+змія 3.8 snake
+переживай 3.8 worry
+нашистам 3.8 nashistam
+гібдд 3.8 gibdd
+важких 3.8 heavy
+недостатньо 3.78 "not enough"
+турбуйтесь 3.78 worry
+вину 3.78 guilt
+революції 3.78 revolution
+втік 3.78 escaped
+хвилююся 3.78 "I&#39;m worried"
+гіркий 3.76 bitter
+бій 3.76 fight
+заебись 3.76 "fuck off"
+горілки 3.76 vodka
+суд 3.76 court
+кинув 3.76 threw
+шоці 3.74 shock
+сталін 3.74 Stalin
+впала 3.74 fell
+фіг 3.74 FIG
+неможливо 3.74 impossible
+затримані 3.74 detained
+помилку 3.74 error
+нах-нахі 3.74 nah-nahi
+недолік 3.74 drawback
+турбує 3.74 worries
+турбуйся 3.74 worry
+кинула 3.72 threw
+геть 3.72 away
+втомилися 3.72 tired
+озброєних 3.72 armed
+валі 3.72 vali
+помилився 3.7 "was wrong"
+сталіна 3.7 Stalin
+заздрю 3.7 "I&#39;m jealous"
+залежність 3.68 dependence
+затримали 3.68 detained
+проспала 3.68 overslept
+турбуватися 3.68 "worry about"
+крик 3.68 cry
+удар 3.66 shock
+втомилася 3.66 tired
+жерсть 3.66 tin
+фу 3.66 fu
+ass 3.66 ass
+куля 3.66 ball
+дурня 3.66 stupid
+кричить 3.66 "to shout"
+недоліки 3.66 shortcomings
+кричати 3.66 cry
+помилок 3.64 errors
+лікарні 3.64 hospitals
+хвилюватися 3.64 "to worry"
+проспав 3.64 overslept
+замовкни 3.62 "Shut up"
+порушення 3.62 violation
+зброєю 3.62 weapons
+неправильно 3.58 wrong
+порушень 3.58 violations
+боїшся 3.58 "you are afraid"
+жалкую 3.58 sorry
+судити 3.58 judge
+жерти 3.58 devour
+кров 3.58 blood
+гей 3.56 gay
+зброї 3.56 weapons
+впав 3.56 fell
+турбуюся 3.56 "I&#39;m worried"
+крові 3.56 blood
+нервової 3.56 nervous
+свиня 3.56 pig
+нафіг 3.56 see
+зламав 3.56 broke
+мафія 3.56 mafia
+відмова 3.54 refusal
+налякав 3.54 scared
+проблема 3.54 problem
+важко 3.54 hard
+втомився 3.54 tired
+пробки 3.54 "traffic jams"
+кинули 3.54 threw
+стріляй 3.54 shoot
+проблем 3.52 problems
+пістолет 3.52 pistol
+лінь 3.52 laziness
+втратила 3.52 lost
+холодно 3.52 coldly
+кулі 3.52 bullets
+відчепись 3.52 unhook
+борг 3.52 debt
+проблемам 3.5 problems
+overdose 3.5 overdose
+помилки 3.5 mistakes
+хрін 3.5 horseradish
+палити 3.48 smoke
+запізнююся 3.48 "I&#39;m late"
+стріляти 3.48 shoot
+боїться 3.48 afraid
+прощай 3.48 goodbye
+нудьгувати 3.48 "to be bored"
+втратив 3.48 lost
+дурний 3.46 stupid
+сигарети 3.46 cigarettes
+нудно 3.46 boring
+покінчити 3.46 "do away"
+п&#39;яний 3.46 drunk
+сліз 3.46 tears
+заборонено 3.46 forbidden
+неправда 3.46 falsehood
+втратили 3.46 lost
+шок 3.44 shock
+бруду 3.44 dirt
+злякався 3.44 scared
+шкода 3.44 damage
+бідна 3.44 poor
+втрат 3.44 losses
+боялася 3.42 "she was afraid"
+боявся 3.42 "was afraid"
+бухати 3.42 plump
+бий 3.42 beat
+лікарню 3.42 hospital
+фігня 3.4 bullshit
+жорстко 3.4 hard
+шкоди 3.4 damage
+маячня 3.4 beacon
+боїтеся 3.38 "are afraid"
+невдахи 3.38 losers
+курю 3.38 "I smoke"
+затриманих 3.38 detainees
+дурість 3.38 stupidity
+втратити 3.38 "to lose"
+нечесно 3.38 "not fair"
+рани 3.36 wounds
+ніфіга 3.36 nifiga
+монстр 3.36 monster
+помилка 3.36 error
+зіпсував 3.36 spoiled
+занепокоєння 3.36 concern
+бідний 3.34 poor
+кулю 3.34 bullet
+програв 3.34 lost
+проблеми 3.34 problems
+зброя 3.34 weapon
+тупо 3.34 stupidly
+лякає 3.32 scares
+начхати 3.32 sneeze
+втрачати 3.32 lose
+втрати 3.32 losses
+мат 3.32 mate
+bad 3.3 bad
+винна 3.3 guilty
+пох 3.3 ref
+стріляйте 3.3 shoot
+брудні 3.28 dirty
+крики 3.28 shouting
+ппц 3.28 ппц
+брудний 3.28 dirty
+покарання 3.28 punishment
+напад 3.28 attack
+боюся 3.28 "I&#39;m afraid"
+сміття 3.28 waste
+напали 3.26 attacked
+наплювати 3.26 "don&#39;t care"
+кров&#39;ю 3.24 blood
+кризи 3.24 crises
+щур 3.24 rat
+бійся 3.22 "be afraid"
+бійтеся 3.22 "be afraid"
+вирок 3.2 sentence
+чортові 3.18 "damn it"
+зруйнувати 3.18 "to destroy"
+постріл 3.18 shot
+рак 3.18 cancer
+несправедливо 3.18 unfair
+фальсифікація 3.16 falsification
+фак 3.16 fac
+божевілля 3.16 madness
+самотньо 3.16 alone
+боятися 3.16 fear
+плачу 3.14 "I&#39;m crying"
+звинувачення 3.14 accusation
+гріхи 3.14 sins
+чортова 3.14 "damn it"
+погані 3.14 bad
+засмучений 3.14 sorry
+стріляли 3.12 shot
+печаль 3.12 sorrow
+неприємно 3.12 unpleasant
+погане 3.12 bad
+ідіот 3.12 idiot
+тупі 3.12 stupid
+псих 3.12 psycho
+фальсифікації 3.12 falsification
+стріляв 3.12 shot
+забирайтеся 3.1 "get out"
+пожежа 3.1 fire
+прикро 3.1 sorry
+гірше 3.1 worse
+бруд 3.1 dirt
+нах 3.1 nah
+чортів 3.1 "damn it"
+болять 3.1 "to hurt"
+ворогів 3.1 enemies
+вдарив 3.08 hit
+бити 3.08 beat
+небезпечно 3.08 dangerously
+сумно 3.08 sadly
+дупи 3.08 ass
+аварії 3.08 accidents
+дурень 3.08 fool
+плачеш 3.06 "you cry"
+збив 3.06 "knocked down"
+сльози 3.06 tears
+соромно 3.06 ashamed
+погано 3.06 badly
+#жалюгідний 3.06 #wretched
+хворих 3.06 patients
+тупий 3.04 dull
+сізо 3.04 sizo
+ганьба 3.04 shame
+дратує 3.04 annoying
+дтп 3.02 "road accident"
+небезпеки 3.02 danger
+тривога 3.02 anxiety
+провалюй 3.0 fail
+біслять 3.0 whiten
+сліпий 2.98 blind
+хрона 2.98 horseradish
+брехні 2.98 lies
+бояться 2.98 "to be afraid"
+знищити 2.98 "to destroy"
+страху 2.98 fear
+криза 2.98 crisis
+вірус 2.96 virus
+звільнили 2.96 released
+дурдомі 2.96 madhouse
+поганого 2.96 bad
+украв 2.96 stole
+страшний 2.94 terrible
+брехня 2.94 lie
+боягуз 2.94 coward
+поранений 2.94 wounded
+дупу 2.94 ass
+хворію 2.94 "I&#39;m sick"
+страшного 2.92 terrible
+придурок 2.92 dork
+ідіоти 2.92 idiots
+забирайся 2.92 "get out"
+захворіла 2.92 "fell ill"
+постраждали 2.9 suffered
+хрень 2.9 crap
+чорт 2.9 devil
+fucked 2.9 fucked
+смердить 2.9 "to stink"
+вибуху 2.86 explosion
+кретин 2.86 cretin
+гидко 2.86 disgusting
+чудовисько 2.86 monster
+херня 2.86 bullshit
+диявола 2.86 "the devil"
+болить 2.84 "to hurt"
+дохуя 2.84 dohuya
+хвора 2.84 sick
+злодіїв 2.84 thieves
+хера 2.84 hera
+бісить 2.84 enrages
+вороги 2.84 enemies
+гріх 2.82 sin
+жертву 2.82 "the victim"
+заарештували 2.8 arrested
+матом 2.8 mat
+бомби 2.8 bombs
+провал 2.78 failure
+ворога 2.78 "the enemy"
+бомба 2.78 bomb
+страшно 2.76 terrible
+die 2.76 the
+fucking 2.76 fucking
+хренотень 2.74 asshole
+hate 2.74 hate
+жертва 2.74 victim
+плаче 2.74 crying
+нещасний 2.74 unhappy
+заарештувати 2.74 arrest
+погана 2.74 bad
+засранець 2.74 asshole
+хвороба 2.72 disease
+вкрали 2.72 stole
+болі 2.72 pain
+небезпека 2.72 danger
+брехати 2.72 lie
+заткнися 2.7 "shut up"
+вкрасти 2.7 "to steal"
+сучка 2.7 bitch
+хер 2.68 her
+плач 2.68 weep
+хвороби 2.68 diseases
+жахлива 2.68 horrible
+поганий 2.68 bad
+лох 2.66 sucker
+злий 2.66 evil
+вибух 2.64 explosion
+нудить 2.64 "to be bored"
+зла 2.64 evil
+війну 2.62 war
+жахливо 2.62 terribly
+злодій 2.62 thief
+fuck 2.62 fuck
+пограбування 2.62 robbery
+ворог 2.62 enemy
+жертв 2.62 victims
+хворіти 2.62 "to get sick"
+неприємності 2.6 trouble
+страх 2.6 fear
+боляче 2.6 "it hurts"
+отрута 2.6 poison
+гнів 2.6 anger
+бомбу 2.58 bomb
+нахрен 2.58 fuck
+ненавиджу 2.58 "I hate"
+дебіл 2.58 moron
+горе 2.58 grief
+повія 2.56 prostitute
+дебіли 2.56 morons
+злочинець 2.56 offender
+жопу 2.56 ass
+в&#39;язницю 2.52 prison
+цвинтар 2.52 cemetery
+дупа 2.52 ass
+війні 2.5 war
+в&#39;язниці 2.5 prisons
+ненавидиш 2.5 "you hate"
+могилу 2.5 grave
+хворий 2.5 patient
+землетрус 2.48 earthquake
+жахливий 2.48 horrible
+зрадник 2.46 traitor
+загибелі 2.46 death
+war 2.46 war
+жахливі 2.46 horrible
+сукін 2.44 bitch
+жахливе 2.44 horrible
+біль 2.44 pain
+жах 2.44 horror
+війни 2.42 war
+ненавидить 2.42 "to hate"
+наркотиків 2.42 drugs
+жертви 2.4 victims
+сволота 2.38 bastard
+просрали 2.38 "fucked up"
+мерзотник 2.36 scoundrel
+диявол 2.36 Devil
+хуй 2.34 cock
+мудаки 2.34 assholes
+погань 2.34 trash
+зло 2.34 evil
+в&#39;язниця 2.32 prison
+нахер 2.3 fuck
+злочини 2.3 crimes
+гітлер 2.3 Hitler
+наркотики 2.28 drugs
+біда 2.28 misfortune
+сука 2.22 bitch
+наркотиками 2.22 drugs
+злочин 2.2 crime
+мертвих 2.18 "of the dead"
+бля 2.18 fuck
+мудак 2.16 asshole
+говно 2.14 shit
+помирають 2.12 "are dying"
+ненависть 2.12 hatred
+помре 2.12 "he will die"
+похуй 2.1 fuck
+пиздець 2.1 cunt
+блядь 2.08 fuck
+ебать 2.08 fuck
+вбила 2.08 killed
+хулі 2.06 blasphemy
+помирати 2.06 "to die"
+помру 2.06 "I will die"
+здохнути 2.04 "to die"
+хуйня 2.02 shit
+хуя 2.02 dick
+dead 2.02 dead
+пизда 2.02 cunt
+загинув 2.0 died
+нахуя 2.0 fuck
+помреш 2.0 "you die"
+пекло 2.0 hell
+вбиває 2.0 kills
+уб&#39;є 1.98 "will kill"
+ніхуя 1.98 fuck
+лайно 1.98 shit
+ебаний 1.98 fucking
+вмираю 1.96 "I&#39;m dying"
+гавно 1.96 shit
+смерті 1.96 death
+загиблих 1.94 "of the dead"
+вбивцю 1.9 "the killer"
+#пиздець 1.9 "# pussy"
+війна 1.9 war
+лайном 1.88 shit
+death 1.86 death
+уб&#39;ю 1.86 "I will kill"
+проебали 1.84 pierced
+вбито 1.82 killed
+вбивав 1.82 killed
+хуйню 1.82 shit
+нахуй 1.8 fuck
+помирає 1.8 dies
+вбивстві 1.78 murder
+заебали 1.78 "fucked up"
+труп 1.76 corpse
+смертю 1.76 death
+вбивають 1.74 kill
+загинули 1.72 died
+вбийте 1.72 kill
+померли 1.7 died
+вбивати 1.7 "to kill"
+вбивств 1.7 murders
+вбивства 1.68 murders
+уб&#39;ють 1.68 "will kill"
+вбив 1.66 killed
+померти 1.66 die
+мертва 1.66 dead
+смерть 1.66 death
+вбиті 1.64 killed
+вбити 1.64 "to kill"
+вбили 1.62 killed
+помер 1.62 died
+самогубство 1.6 suicide
+померла 1.52 died
+вбивці 1.48 killers
+вбивство 1.36 murder
+вбивця 1.36 "the killer"
