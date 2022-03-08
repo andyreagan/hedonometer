@@ -8,6 +8,7 @@ class WordList(models.Model):
     language = models.CharField(max_length=2, default="en")
     reference = models.URLField()
     referencetitle = models.CharField(max_length=300, default="this paper")
+    dimension = models.CharField(max_length=80, default="happiness")
     showindropdown = models.BooleanField(default=False)
     showinfulllist = models.BooleanField(default=False)
 
