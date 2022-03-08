@@ -23,7 +23,7 @@
 {% block content %}
     <div class="container">
       <h1>Hedonometer word list: <i><strong>{{ wl.title }}</strong></i></h1>
-      <p>This is a score list created on {{ wl.date.isoformat }}, from the most used words in {{ wl.language_long }} ("{{ wl.language }}"), rated by native speakers of the language.</p>
+      <p>This is a score list created on {{ wl.date.isoformat }}, from the most used words in {{ wl.language_long }} ("{{ wl.language }}"), rated by native speakers of the language (with the exception of Ukranian, which was translated from Russian via Google Translate).</p>
       <p>For reference and citation please use: <a href="{{ wl.reference }}" target="_blank">{{ wl.referencetitle }}</a>.</p>
       <h3 id="wait">Please be patient, this page takes ~10 seconds to load the table.</h3>
       <div class="row">

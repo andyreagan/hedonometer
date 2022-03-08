@@ -15,7 +15,7 @@ class WordList(models.Model):
         return self.title
 
     def language_long(self):
-        shortcodes = {'arabic': 'ar', 'chinese': 'zh', 'english': 'en', 'french': 'fr', 'german': 'de', 'hindi': 'hi', 'indonesian': 'id', 'korean': 'ko', 'pashto': 'ps', 'portuguese': 'pt', 'russian': 'ru', 'spanish': 'es', 'urdu': 'ur'}
+        shortcodes = {'arabic': 'ar', 'chinese': 'zh', 'english': 'en', 'french': 'fr', 'german': 'de', 'hindi': 'hi', 'indonesian': 'id', 'korean': 'ko', 'pashto': 'ps', 'portuguese': 'pt', 'russian': 'ru', 'spanish': 'es', 'urdu': 'ur', 'ukranian': 'uk'}
         shortcodes_reverse = {y: x for x, y in shortcodes.items()}
         return shortcodes_reverse[self.language]
 
