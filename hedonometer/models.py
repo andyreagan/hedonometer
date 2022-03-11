@@ -9,6 +9,8 @@ class WordList(models.Model):
     reference = models.URLField()
     referencetitle = models.CharField(max_length=300, default="this paper")
     dimension = models.CharField(max_length=80, default="happiness")
+    dimension_modifier_up = models.CharField(max_length=80, default="happier")
+    dimension_modifier_down = models.CharField(max_length=80, default="sadder")
     showindropdown = models.BooleanField(default=False)
     showinfulllist = models.BooleanField(default=False)
 
