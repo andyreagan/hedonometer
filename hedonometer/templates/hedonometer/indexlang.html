@@ -14,7 +14,7 @@
     var ignoreWords = [{% for word in model.stopwords %}"{{ word|escapejs }}",{% endfor %}];
     var words = [{% for word in model.words %}"{{ word|escapejs }}",{% endfor %}];
     var words_en = [{% for word in model.words_en %}"{{ word|escapejs }}",{% endfor %}];
-    var lens = [{% for word in model.scores %}{{ word|escapejs }},{% endfor %}];
+    var lens = [{% for word in model.scores %}{{ word }},{% endfor %}];
 
     var happs = [{% for h in happs %}{{ '{' }}date: "{{ h.date.isoformat }}", value: {{ h.value|escapejs }},freq: {{ h.frequency|escapejs }}{{ '}' }},{% endfor %}];
 
