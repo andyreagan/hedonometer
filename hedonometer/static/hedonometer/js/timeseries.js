@@ -73,6 +73,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     hedotools.shifter._lens(lens);
     hedotools.shifter._words(words);
     hedotools.shifter._words_en(words_en);
+    hedotools.shifter._xlabel_text("Per word average " + dimension + " shift")
     hedotools.shifter.ignore(ignoreWords);
 
     const initialMonths = (document.documentElement.clientWidth < 500) ? 3 : 18;
@@ -862,7 +863,7 @@ var intStr0 = ["zero", "one", "two", "three"];
                     return d.compH;
                 });
 
-                shortlist.append("svg:text").attr("x", 20).attr("y", 25).text("Average Happiness: " + parseFloat(tcomp).toFixed(2)).attr("font-size", "10px").attr("class", "shifttitlehavg");
+                shortlist.append("svg:text").attr("x", 20).attr("y", 25).text("Average " + capitaliseFirstLetter(dimension) + ": " + parseFloat(tcomp).toFixed(2)).attr("font-size", "10px").attr("class", "shifttitlehavg");
 
                 // wrap the longer sentence
                 shortlist.append("svg:text").attr("x", 20).attr("y", 62).attr("font-size", "10px").text(function() {
@@ -870,7 +871,7 @@ var intStr0 = ["zero", "one", "two", "three"];
                     // longer
                     // return havg <= tcomp ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
                     // shorter
-                    return havg <= tcomp ? head + "happier" : head + "sadder";
+                    return havg <= tcomp ? head + dimension_modifier_up : head + dimension_modifier_down;
                 }).attr("class", "shifttitlewhatisone");
                 shortlist.append("svg:text").attr("x", 20).attr("y", 72).attr("font-size", "10px").text(function() {
                     return "than the last seven days:"
@@ -1175,14 +1176,14 @@ var intStr0 = ["zero", "one", "two", "three"];
 
                 // modalbody.insert("p","svg").attr("class","shifttitle").text(function(d,i) { return "Average happiness: "+parseFloat(hedotools.shifter._compH()).toFixed(3); });
 
-                tmptext = tmptext.concat(["Average happiness: " + parseFloat(hedotools.shifter._compH()).toFixed(2)]);
+                tmptext = tmptext.concat(["Average " + capitaliseFirstLetter(dimension) + ": " + parseFloat(hedotools.shifter._compH()).toFixed(2)]);
 
                 // modalbody.insert("p","svg").text(function() {
                 //     var head = "What's making this day ";
                 //     return hedotools.shifter._refH() <= hedotools.shifter._compH() ? head + "happier than the last seven days:" : head + "sadder than the last seven days:";
                 // });
 
-                tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + "happier than the last seven days:" : "What's making this day " + "sadder than the last seven days:"]);
+                tmptext = tmptext.concat([hedotools.shifter._refH() <= hedotools.shifter._compH() ? "What's making this day " + dimension_modifier_up + " than the last seven days:" : "What's making this day " + dimension_modifier_down + " than the last seven days:"]);
 
                 if (update.getTime() === happs[0].date.getTime()) {
                     modalfooter.select(".left").attr("disabled", "disabled");

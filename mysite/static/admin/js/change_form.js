@@ -1,1 +1,16 @@
-/home/prod/app/pyenv38/lib/python3.8/site-packages/django/contrib/admin/static/admin/js/change_form.js
+'use strict';
+{
+    const inputTags = ['BUTTON', 'INPUT', 'SELECT', 'TEXTAREA'];
+    const modelName = document.getElementById('django-admin-form-add-constants').dataset.modelName;
+    if (modelName) {
+        const form = document.getElementById(modelName + '_form');
+        for (const element of form.elements) {
+            // HTMLElement.offsetParent returns null when the element is not
+            // rendered.
+            if (inputTags.includes(element.tagName) && !element.disabled && element.offsetParent) {
+                element.focus();
+                break;
+            }
+        }
+    }
+}
