@@ -4,7 +4,7 @@ django-tastypie==0.14.3
 twython==3.7.0
 labMTsimple==2.8.7
 marisa-trie==0.7.5
-numpy==1.14.5
+numpy==1.22.0
 datrie==0.8.2
 requests==2.23.0
 psycopg2-binary==2.8.5
