@@ -81,7 +81,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     // these variables are all available to everything inside of this closure
     var dur = 550;
 
-    var today = new Date;
+    var today = new Date("2023-06-31");
     var bigdays = {};
     var shiftTypeSelect = false;
     var formatDate = d3.timeFormat("%b %Y");
@@ -417,11 +417,13 @@ var intStr0 = ["zero", "one", "two", "three"];
                 [new Date(2018, 00, 01), new Date(2018, 11, 31)],
                 [new Date(2019, 00, 01), new Date(2019, 11, 31)],
                 [new Date(2020, 00, 01), new Date(2020, 11, 31)],
-                [new Date(2021, 00, 01), endOfTime],
+                [new Date(2021, 00, 01), new Date(2021, 11, 31)],
+                [new Date(2022, 00, 01), new Date(2022, 11, 31)],
+                [new Date(2023, 00, 01), endOfTime],
                 [beginningOfTime, endOfTime],
                 [d3.timeMonth.offset(endOfTime, -18), endOfTime],
             ],
-            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "Full", "Last 18 mo"],
+            yearstrings = ["\u2192 2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "Full", "Final 18 mo"],
             yearstringslen = yearstrings.map(function(d) {
                 return d.width();
             }),
