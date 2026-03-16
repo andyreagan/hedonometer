@@ -42,8 +42,11 @@ ALLOWED_HOSTS = [
 ]
 if DEBUG:
     ALLOWED_HOSTS.append('127.0.0.1')
+    ALLOWED_HOSTS.append('localhost')
 
 SITE_ID = 1
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -75,12 +78,14 @@ WSGI_APPLICATION = 'mysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DJ_DB_ENGINE'),
-        'NAME': os.getenv('DJ_DB_NAME'),
-        'USER': os.getenv('DJ_DB_USER'),
-        'PASSWORD': os.getenv('DJ_DB_PASSWORD'),
-        'HOST': os.getenv('DJ_DB_HOST'),
-        'PORT': os.getenv('DJ_DB_PORT'),
+        # 'ENGINE': os.getenv('DJ_DB_ENGINE'),
+        # 'NAME': os.getenv('DJ_DB_NAME'),
+        # 'USER': os.getenv('DJ_DB_USER'),
+        # 'PASSWORD': os.getenv('DJ_DB_PASSWORD'),
+        # 'HOST': os.getenv('DJ_DB_HOST'),
+        # 'PORT': os.getenv('DJ_DB_PORT'),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR + '/db.sqlite3',        
     }
 }
 
