@@ -76,18 +76,24 @@ ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': os.getenv('DJ_DB_ENGINE'),
-        # 'NAME': os.getenv('DJ_DB_NAME'),
-        # 'USER': os.getenv('DJ_DB_USER'),
-        # 'PASSWORD': os.getenv('DJ_DB_PASSWORD'),
-        # 'HOST': os.getenv('DJ_DB_HOST'),
-        # 'PORT': os.getenv('DJ_DB_PORT'),
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR + '/db.sqlite3',        
+if os.getenv('DJ_DB_ENGINE'):
+    DATABASES = {
+        'default': {
+            'ENGINE': os.getenv('DJ_DB_ENGINE'),
+            'NAME': os.getenv('DJ_DB_NAME'),
+            'USER': os.getenv('DJ_DB_USER'),
+            'PASSWORD': os.getenv('DJ_DB_PASSWORD'),
+            'HOST': os.getenv('DJ_DB_HOST'),
+            'PORT': os.getenv('DJ_DB_PORT'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR + '/db.sqlite3',
+        }
+    }
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'America/New_York'
