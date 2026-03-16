@@ -76,6 +76,14 @@ ROOT_URLCONF = 'mysite.urls'
 
 WSGI_APPLICATION = 'mysite.wsgi.application'
 
+# Use bundled modern SQLite if system version is too old (e.g. Ubuntu 16.04)
+try:
+    import pysqlite3
+    import sys
+    sys.modules['sqlite3'] = pysqlite3
+except ImportError:
+    pass
+
 if os.getenv('DJ_DB_ENGINE'):
     DATABASES = {
         'default': {
