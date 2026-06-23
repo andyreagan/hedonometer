@@ -303,7 +303,7 @@ var intStr0 = ["zero", "one", "two", "three"];
     legendgroup.selectAll("circle")
         .data(weekDaysShort)
         .enter()
-        .append("circle").on("mousedown", function(d, i) {
+        .append("circle").on("mousedown", function(event, d) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
         })
@@ -321,7 +321,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         .append("text")
         .attr("x", (d, i) => 15 + legendboxwidth * i)
         .attr("y", 14)
-        .on("mousedown", function(d, i) {
+        .on("mousedown", function(event, d) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
         })
@@ -341,7 +341,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         .attr("height", 19)
         .attr("fill", "white")
         .attr("opacity", "0.0")
-        .on("mousedown", function(d, i) {
+        .on("mousedown", function(event, d) {
             var currRange = (x.domain()[1].getTime() - x.domain()[0].getTime());
             legendDict.toggle(d, rScale(currRange));
         });
@@ -497,7 +497,7 @@ var intStr0 = ["zero", "one", "two", "three"];
             .attr("height", 19)
             .attr("fill", "white")
             .attr("opacity", "0.0")
-            .on("mousedown", function(d, i) {
+            .on("mousedown", function(event, d) {
                 console.log([x2(d[0]), x2(d[1])]);
                 brushgroup.call(brush.move, [x2(d[0]), x2(d[1])])
                 var cutoff = bigdayscale(d[1].getTime() - d[0].getTime());
@@ -555,7 +555,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         //     .attr("visibility", "hidden");
     }
 
-    function brushed() {
+    function brushed(event) {
         // console.log("brushed");
         // console.log(d3.event);
         // console.log(d3.event.selection.map(x2.invert));
@@ -565,7 +565,7 @@ var intStr0 = ["zero", "one", "two", "three"];
         // console.log(x2.domain());
         // console.log(brush.extent()());
 
-        const currRange = d3.event.selection.map(x2.invert);
+        const currRange = event.selection.map(x2.invert);
         console.log(currRange);
 
         x.domain(currRange);
@@ -698,10 +698,10 @@ var intStr0 = ["zero", "one", "two", "three"];
         // parseInt(d3.select("#moveshifthere").style("width"));
         var modalheight = 495;
 
-        d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv", function(tmp) {
+        d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(popdate) + "-sum.csv").then(function(tmp) {
             const compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
 
-            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(popdate, 0)) + "-prev7.csv", function(tmp2) {
+            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(popdate, 0)) + "-prev7.csv").then(function(tmp2) {
 
                 const refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -841,7 +841,7 @@ var intStr0 = ["zero", "one", "two", "three"];
             }
         }
 
-        d3.csv(dataUrl + "/" + directory + "/" + shiftDir + "/" + cformat(popdate) + "-shift.csv", function(csv) {
+        d3.csv(dataUrl + "/" + directory + "/" + shiftDir + "/" + cformat(popdate) + "-shift.csv").then(function(csv) {
             var names = csv.map(function(d) {
                 return d.word;
             });
@@ -857,7 +857,7 @@ var intStr0 = ["zero", "one", "two", "three"];
             //var x = d3.scaleLinear().domain([-x0, x0]).range([0, 400]);
             //var y = d3.scaleLinear().domain(d3.range(sizes.length)).range([5, 7]);
 
-            d3.csv(dataUrl + "/" + directory + "/" + shiftDir + "/" + cformat(popdate) + "-metashift.csv", function(csv) {
+            d3.csv(dataUrl + "/" + directory + "/" + shiftDir + "/" + cformat(popdate) + "-metashift.csv").then(function(csv) {
                 var havg = csv.map(function(d) {
                     return d.refH;
                 });
@@ -1071,7 +1071,7 @@ var intStr0 = ["zero", "one", "two", "three"];
             .on('mouseover', null)
             .on('mouseout', function(d) {
                 var rectSelection = d3.select(this).style(
-                    opacity, '0.7'
+                    "opacity", '0.7'
                 );
             });
 
@@ -1111,10 +1111,10 @@ var intStr0 = ["zero", "one", "two", "three"];
         console.log("nextDay", update);
         dateencoder.varval(cformat(update));
 
-        d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(update) + "-sum.csv", function(tmp) {
+        d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(update) + "-sum.csv").then(function(tmp) {
 
             const compFvec = tmp.split(',').length > tmp.split('\n').length ? tmp.split(',') : tmp.split('\n');
-            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(update, 0)) + "-prev7.csv", function(tmp2) {
+            d3.text(dataUrl + "/" + directory + "/" + wordVecDir + "/" + cformat(d3.timeDay.offset(update, 0)) + "-prev7.csv").then(function(tmp2) {
 
                 const refFvec = tmp2.split(',').length > tmp2.split('\n').length ? tmp2.split(',') : tmp2.split('\n');
 
@@ -1445,9 +1445,8 @@ var intStr0 = ["zero", "one", "two", "three"];
 
     var format = d3.timeFormat("%m-%d");
 
-    d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title,
-        function(err, json) {
-            console.log(err);
+    d3.json('/api/v1/events/?format=json&happs__timeseries__title=' + title)
+        .then(function(json) {
             console.log(json);
             bigdays = json.objects.map(function(d) {
                 d.date = cparse(d.happs.date);
