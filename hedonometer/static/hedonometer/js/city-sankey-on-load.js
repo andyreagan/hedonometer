@@ -1,4 +1,12 @@
-hedotools.sankeyoncall = function() { 
+// hedotools@7 ships sankey as a factory (missing the IIFE call that
+// shifter/the old local modules have), so hedotools.sankey is a function, not
+// the singleton instance this glue drives. Instantiate it once. Defensive
+// (only if still a function) so it also works once hedotools ships it invoked.
+["sankey"].forEach(function(m) {
+    if (hedotools[m] && typeof hedotools[m] === "function") { hedotools[m] = hedotools[m](); }
+});
+
+hedotools.sankeyoncall = function() {
     var test = function(i,data) {
 	console.log("set on call");
     }
@@ -51,47 +59,47 @@ function initializePlot() {
 
 function timeDrop() {
     d3.select("#refSelect").selectAll("a")
-        .on("click", function(d,i) {
-	    key = i;
+        .on("click", function(event, d) {
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#refSelect a"), this);
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+	    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
 	});
     d3.select("#compSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
             // key = this.selectedIndex;
-	    key = i;
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#compSelect a"), this);
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+	    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
 	});
     d3.select("#refSelectBottom").selectAll("a")
-        .on("click", function(d,i) {
-	    key = i;
+        .on("click", function(event, d) {
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#refSelectBottom a"), this);
 	    d3.select(".reftimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".reftimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    reftimeselencoder.varval(timeFrames[key]);
-	    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+	    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 		ref = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
 	});
     d3.select("#compSelectBottom").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
             // key = this.selectedIndex;
-	    key = i;
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#compSelectBottom a"), this);
 	    d3.select(".comptimelabel").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    d3.select(".comptimelabelbottom").html("All tweets from "+timeFrames[key]+' <span class="caret"></span>');
 	    comptimeselencoder.varval(timeFrames[key]);
-	    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+	    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 		comp = text.split("\n").slice(0,304);
 		hedotools.sankey.setdata(ref,comp,cities).replot();
 	    });
@@ -100,15 +108,15 @@ function timeDrop() {
 
 function loadCsv() {
     var csvLoadsRemaining = 3;
-    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/cityList_"+(reftimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 	ref = text.split("\n").slice(0,304);
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/cityList_"+(comptimeseldecoder().cached)+"_top100Happs.csv").then(function(text) {
 	comp = text.split("\n").slice(0,304);;
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("https://hedonometer.org/data/cities/mutualCities.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/mutualCities.csv").then(function(text) {
 	cities = text.split("\n").slice(0,304);;
 	if (!--csvLoadsRemaining) initializePlotPlot();
     });
@@ -153,12 +161,12 @@ function initializePlotPlot() {
     var refF;
     var compF;
     if ( refshifttimedecoder().cached.length > 0) {
-	d3.text(reffile,function(text) {
+	d3.text(reffile).then(function(text) {
 	    refF = text.split(",");
 	    console.log(refF);
 	    if (!--popupshiftct) drawShift();
 	});
-	d3.text(compfile,function(text) {
+	d3.text(compfile).then(function(text) {
 	    compF = text.split(",");
 	    console.log(compF);
 	    if (!--popupshiftct) drawShift();
@@ -168,7 +176,7 @@ function initializePlotPlot() {
     // set some data
     var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
     var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
-    d3.text(scoresFile, function(text) {
+    d3.text(scoresFile).then(function(text) {
 	var tmp = text.split("\n");
 	console.log("loaded words");
 	//console.log(tmp[tmp.length-1]);
@@ -182,7 +190,7 @@ function initializePlotPlot() {
 	hedotools.shifter._lens(lens);
 	if (!--popupshiftct) drawShift();
     });
-    d3.text(wordsFile, function(text) {
+    d3.text(wordsFile).then(function(text) {
 	var tmp = text.split("\n");
 	var words = tmp;
 	var len = words.length - 1;

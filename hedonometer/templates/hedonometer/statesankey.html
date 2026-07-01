@@ -93,15 +93,19 @@
 
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-    <script src="{% static "hedonometer/js/sankey.js" %}"></script>
-    <script src="{% static "hedonometer/js/topojson.v1.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.lens.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3/dist/topojson-client.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/d3-shifterator@7/dist/shifterator.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7/js/hedotools.init.v4.js"></script>
+    <!-- hedotools@7 modules (lens) use hedotools.urllib; the page glue uses d3.urllib (local urllib.js above) -->
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7/js/hedotools.urllib.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7/js/hedotools.shifter.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7/js/hedotools.lens.js"></script>
+    <!-- computeHapps is not part of hedotools@7 (pure, d3-agnostic helper) -->
     <script src="{% static "hedonometer/js/hedotools.computeHapps.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.sankey.js" %}"></script>
+    <!-- hedotools.sankey@7 is self-contained (inlined link generator, no d3-sankey) -->
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7/js/hedotools.sankey.js"></script>
     <script src="{% static "hedonometer/js/sankey-on-load.js" %}"></script>
 
 {% endblock %}
