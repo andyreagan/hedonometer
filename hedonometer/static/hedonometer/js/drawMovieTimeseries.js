@@ -47,7 +47,7 @@ hedotools.booktimeseries = function() {
     // var fulltimeseries;
 
     drawRefArea = function(extent) {
-	var refarea = d3.svg.area()
+	var refarea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
@@ -64,7 +64,7 @@ hedotools.booktimeseries = function() {
     }
 
     drawCompArea = function(extent) {
-	var comparea = d3.svg.area()
+	var comparea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
@@ -138,7 +138,7 @@ hedotools.booktimeseries = function() {
 	if (show) {
 	    var moviefile = "https://hedonometer.org/data/moviedata/raw/"+movieref+".txt";
 	    var pheight;
-	    d3.text(moviefile, function (text) {
+	    d3.text(moviefile).then(function (text) {
 		// globaltext = text;
 		words = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi);
 		// globalwords = words;
@@ -156,7 +156,7 @@ hedotools.booktimeseries = function() {
 
 	    var fheight;
 	    var moviefile2 = "https://hedonometer.org/data/moviedata/rawer/"+movieref+".html.clean01";
-	    d3.text(moviefile2, function (text) {
+	    d3.text(moviefile2).then(function (text) {
 		// use this to test the total words in this different file
 		// lwords = text.match(/[\w\@\#\'\&\]\*\-\/\[\=\;]+/gi); 
 		// globalwords2 = lwords;
@@ -186,7 +186,7 @@ hedotools.booktimeseries = function() {
 		// globalwords3 = kwords;
 
 		var breakfile = "https://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+"-breaks.csv";
-		d3.text(breakfile, function (breaks) {
+		d3.text(breakfile).then(function (breaks) {
 		    // console.log("loaded movie full uncleaned text");
 		    // console.log(breaks);
 		    dabreaks = breaks.split(",").map(parseFloat);
@@ -209,19 +209,18 @@ hedotools.booktimeseries = function() {
 
 	    // console.log("showing line")
 	    canvas.append("line")
-	    .attr({
-		"class": "hoverline",
-		"x1": 0,
-		"y1": 0,
-		"x2": 0,
-		"y2": 0,
-		"stroke": "#A8A8A8",
-		"stroke-width": "1.5px", });
+		.attr("class", "hoverline")
+		.attr("x1", 0)
+		.attr("y1", 0)
+		.attr("x2", 0)
+		.attr("y2", 0)
+		.attr("stroke", "#A8A8A8")
+		.attr("stroke-width", "1.5px");
 
 	    // console.log(width);
 	    // console.log(data.length);
-	    canvas.on("mousemove",function() {
-		var m = d3.mouse(this);
+	    canvas.on("mousemove",function(event) {
+		var m = d3.pointer(event, this);
 		// console.log(m);
 		// console.log(y(m[1]/width*data.length));
 		// data.length
@@ -264,7 +263,7 @@ hedotools.booktimeseries = function() {
 	// console.log(perc);
 	// console.log(point);
 	// console.log("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie);
-	d3.json("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie,function(error,json) {
+	d3.json("/api/v1/movieannotation/?format=json&position="+perc+"&movie__title="+movie).then(function(json) {
 	    console.log(json);
 	    globaljson = json.objects;
 
@@ -336,9 +335,9 @@ hedotools.booktimeseries = function() {
     	    .attr("cx",function(d,i) { return x(d);})
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","#1193c0")
-    	    .attr("class","mincircle")	
+    	    .attr("class","mincircle")
     	    .attr("r",6)
-	    .on("click",function(d,i) {
+	    .on("click",function(event,d) {
 		// console.log("click on min element number");
 		// console.log(d);
 		// remove them all
@@ -363,9 +362,9 @@ hedotools.booktimeseries = function() {
     	    .attr("cx",function(d,i) { return x(d);})
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","red")
-    	    .attr("class","maxcircle blink")	
+    	    .attr("class","maxcircle blink")
     	    .attr("r",6)
-	    .on("click",function(d,i) {
+	    .on("click",function(event,d) {
 		// console.log("click on max element number");
 		// console.log(d);
 		// remove them all
@@ -392,23 +391,17 @@ hedotools.booktimeseries = function() {
     var hovergroup;
 
     var hidehover = function() {
-	hovergroup.style({
-	    "visibility": "hidden",
-	});
+	hovergroup.style("visibility", "hidden");
     }
 
     var plot = function() {
 
-	hovergroup = figure.append("div").attr({
-	    "class": "hoverinfogroup",
-	    // "transform": "translate("+(x+hoverboxxoffset+margin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
-	})
-	    .style({
-		"position": "absolute",
-		"top": "100px",
-		"left": "100px",
-		"visibility": "hidden",
-	    });
+	hovergroup = figure.append("div")
+	    .attr("class", "hoverinfogroup")
+	    .style("position", "absolute")
+	    .style("top", "100px")
+	    .style("left", "100px")
+	    .style("visibility", "hidden");
 
 
 	// remove an old figure if it exists
@@ -423,21 +416,21 @@ hedotools.booktimeseries = function() {
 	//console.log(data.length);
 
 	// create the x and y axis
-	x = d3.scale.linear()
+	x = d3.scaleLinear()
 	//.domain([d3.min(lens),d3.max(lens)])
         // map from the start of the timeseries point to the max
 	    .domain([0,data.length-1])
 	    .range([0,width]);
-	
+
 	// use d3.layout http://bl.ocks.org/mbostock/3048450
 	// data = d3.layout.histogram()
 	//     .bins(x.ticks(65))
 	//     (lens);
 
 	// linear scale function
-	y =  d3.scale.linear()
+	y =  d3.scaleLinear()
 	    .domain([d3.min(data),d3.max(data)])
-	    .range([height-50, 50]); 
+	    .range([height-50, 50]);
 
 	// console.log([d3.min(data),d3.max(data)])
 
@@ -454,27 +447,24 @@ hedotools.booktimeseries = function() {
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("class", "bg")
-	    .style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	    .style('stroke-width','2')
+	    .style('stroke','rgb(0,0,0)')
 	    .attr("fill", "#FCFCFC");
 
 	// axes creation functions
 	var create_xAxis = function() {
-	    return d3.svg.axis()
-		.scale(x)
-		.ticks(9)
-		.orient("bottom"); }
+	    return d3.axisBottom(x)
+		.ticks(9); }
 
 	// axis creation function
 	var create_yAxis = function() {
-	    return d3.svg.axis()
-		.ticks(5)
-		.scale(y) //linear scale function
-		.orient("left"); }
+	    return d3.axisLeft(y)
+		.ticks(5); }
 
 	// draw the axes
 	var yAxis = create_yAxis()
-	    .innerTickSize(6)
-	    .outerTickSize(0);
+	    .tickSizeInner(6)
+	    .tickSizeOuter(0);
 
 	axes.append("g")
 	    .attr("class", "top")
@@ -496,11 +486,11 @@ hedotools.booktimeseries = function() {
 	// axes = axes.append("g")
 	// 	.attr("clip-path","url(#clip)");
 
-	line = d3.svg.line()
+	line = d3.line()
 	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	// console.log(data.slice(minWindows/2,data.length-minWindows/2));
 	mainline = axes.append("path")
@@ -511,11 +501,11 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	beglineline = d3.svg.line()
+	beglineline = d3.line()
 	    .x(function(d,i) { return x(i); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	// console.log(data.slice(0,minWindows/2+1));
 	begline = axes.append("path")
@@ -527,11 +517,11 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	endlineline = d3.svg.line()
+	endlineline = d3.line()
 	    .x(function(d,i) { return x(i+data.length-minWindows/2-1); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	// endtimeseries.unshift(data[data.length-1]);
 
@@ -545,7 +535,7 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	area = d3.svg.area()
+	area = d3.area()
 	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d); });
@@ -567,10 +557,10 @@ hedotools.booktimeseries = function() {
 	// console.log(d3.mean(data));
 	var avhapps = d3.mean(data.slice(minWindows/2,data.length-minWindows/2));
 
-	var linearline = d3.svg.line()
+	var linearline = d3.line()
 	    .x(function(d,i) { return x(d.index); })
 	    .y(function(d) { return y(d.value); })
-	    .interpolate("linear");
+	    .curve(d3.curveLinear);
 
 	var averageline = axes.append("path")
 	    .datum([
@@ -587,20 +577,18 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var averagetext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(avhapps)-3,
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(avhapps)-3)
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Average");
 
 	var averagetext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(avhapps)+12,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(avhapps)+12)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(avhapps.toFixed(2));
 
 	// console.log(d3.min(data));
@@ -639,20 +627,18 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var mintext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(minhapps)-3,
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(minhapps)-3)
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Least Happy");
 
 	var mintext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(minhapps)+12,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(minhapps)+12)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(minhapps.toFixed(2));
 
 	var maxcircle  = axes.append("circle")
@@ -677,32 +663,29 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var mintext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(maxhapps),
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(maxhapps))
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Happiest");
 
 	var maxtext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(maxhapps)+15,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(maxhapps)+15)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(maxhapps.toFixed(2));
 
 	// d3.select(window).on("resize.booktimeseries",resize);
 
 	trademark = axes.append("text")
-	    .attr({ "x": 3,
-		    "y": height-7,
-		    "fill": "#606060",
-		    // "font-weight": "bold",
-		    "font-size": ".8em",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", 3)
+	    .attr("y", height-7)
+	    .attr("fill", "#606060")
+	    // .attr("font-weight", "bold")
+	    .attr("font-size", ".8em")
+	    .attr("text-anchor", "start")
 	    .text("visualization by @hedonometer team and @andyreagan");
 	
 	function resize() {

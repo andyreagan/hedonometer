@@ -34,7 +34,7 @@ def embedNYT(request,sectionref,sectioncomp):
     # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedCBS(request,hostref,hostcomp):
@@ -63,7 +63,7 @@ def embedCBS(request,hostref,hostcomp):
     # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedMainSimple(request,onedate):
@@ -92,7 +92,7 @@ def embedMainSimple(request,onedate):
     }
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedMain(request,dateref,datecomp):
@@ -110,7 +110,6 @@ def embedMain(request,dateref,datecomp):
     }
 
     # logger.debug(filenames)
-    # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
