@@ -129,22 +129,16 @@ hedotools.sankey = function() {
 	figcenter = width/2;
 	leftOffsetStatic = axeslabelmargin.left;
 
-	var hovergroup = figure.append("div").attr({
-	    "class": "hoverinfogroup",
-	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
-	})
-	    .style({
-		"position": "absolute",
-		"top": "100px",
-		"left": "100px",
-		"visibility": "hidden",
-	    });
+	var hovergroup = figure.append("div").attr("class", "hoverinfogroup")
+	    // .style("transform", "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")")
+	    .style("position", "absolute")
+	    .style("top", "100px")
+	    .style("left", "100px")
+	    .style("visibility", "hidden");
 
 	function hidehover() {
 	    console.log("hiding hover");
-	    hovergroup.style({
-		"visibility": "hidden",
-	    });
+	    hovergroup.style("visibility", "hidden");
 	}
 
 	// remove an old figure if it exists
@@ -155,15 +149,15 @@ hedotools.sankey = function() {
 	    .attr("height",figheight)
 	    .attr("class","canvas")
 
-	// x scale, maps all the data to 
-	x = d3.scale.linear()
+	// x scale, maps all the data to
+	x = d3.scaleLinear()
 	    .domain([0,1])
 	    .range([5,width-10]);
 
 	// linear scale function
-	y =  d3.scale.linear()
+	y =  d3.scaleLinear()
 	    .domain([newlist.length,1])
-	    .range([height-20, 0]); 
+	    .range([height-20, 0]);
 
 	// create the axes themselves
 	axes = canvas.append("g")
@@ -188,27 +182,26 @@ hedotools.sankey = function() {
 	    .style("text-anchor", "start")
 	    .attr("y",function(d,i) { return y(d.oldindex+1)+11; } )
             .text(function(d,i) { return (d.oldindex+1)+". "+d.name; })
-	    .on("mouseover", function(d,i) { 
+	    .on("mouseover", function(event, d) {
+		var i = d.index;
 		var hoverboxheight = 90;
 		var hoverboxwidth = 200;
 		var hoverboxyoffset = 0;
 		var hoverboxxoffset = 0;
 
-		var x = d3.mouse(this)[0];
-		var y = d3.mouse(this)[1];
-		
+		var x = d3.pointer(event, this)[0];
+		var y = d3.pointer(event, this)[1];
+
                 var hoverboxheightguess = 190;
 		if (refcity.length > 0) {
 		    hoverboxheightguess = 270;
 		}
 		if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
 
-		    hovergroup.style({
-			"position": "absolute",
-			"top": y+"px",
-			"left": x+"px",
-			"visibility": "visible",
-		    });
+		    hovergroup.style("position", "absolute")
+			.style("top", y+"px")
+			.style("left", x+"px")
+			.style("visibility", "visible");
 
 		    hovergroup.selectAll("p,h3,button,br").remove();
 
@@ -256,12 +249,12 @@ hedotools.sankey = function() {
 			console.log(compfile);
 			var refF;
 			var compF;
-			d3.text(reffile,function(text) {
+			d3.text(reffile).then(function(text) {
 			    refF = text.split(",");
 			    console.log(refF);
 			    if (!--csvLoadsRemaining) drawShift();
 			});
-			d3.text(compfile,function(text) {
+			d3.text(compfile).then(function(text) {
 			    compF = text.split(",");
 			    console.log(compF);
 			    if (!--csvLoadsRemaining) drawShift();
@@ -341,7 +334,7 @@ hedotools.sankey = function() {
 
 		popuptimer = setTimeout(hidehover,3000);
 	    })
-	    .on("mouseout", function(d,i) { 
+	    .on("mouseout", function(event, d) {
 		clearTimeout(popuptimer);
 
 		popuptimer = setTimeout(hidehover,3000);
@@ -356,27 +349,26 @@ hedotools.sankey = function() {
 	    .style("text-anchor", "start")
 	    .attr("y",function(d,i) { return y(d.newindex+1)+11; } )
             .text(function(d,i) { return (d.newindex+1)+". "+d.name; })
-	    .on("mouseover", function(d,i) { 
+	    .on("mouseover", function(event, d) {
+		    var i = d.index;
 		    var hoverboxheight = 90;
 		    var hoverboxwidth = 200;
 		    var hoverboxyoffset = 0;
 		    var hoverboxxoffset = 0;
 
-		    var x = d3.mouse(this)[0];
-		    var y = d3.mouse(this)[1];
+		    var x = d3.pointer(event, this)[0];
+		    var y = d3.pointer(event, this)[1];
 
                 var hoverboxheightguess = 190;
 		if (refcity.length > 0) {
 		    hoverboxheightguess = 270;
 		}
 		if ((y+hoverboxheightguess)>height) { y-=(y+hoverboxheightguess-height); }
-		    
-		    hovergroup.style({
-			"position": "absolute",
-			"top": y+"px",
-			"left": x+"px",
-			"visibility": "visible",
-		    });
+
+		    hovergroup.style("position", "absolute")
+			.style("top", y+"px")
+			.style("left", x+"px")
+			.style("visibility", "visible");
 
 		    hovergroup.selectAll("p,h3,button,br").remove();
 
@@ -424,12 +416,12 @@ hedotools.sankey = function() {
 			console.log(compfile);
 			var refF;
 			var compF;
-			d3.text(reffile,function(text) {
+			d3.text(reffile).then(function(text) {
 			    refF = text.split(",");
 			    console.log(refF);
 			    if (!--csvLoadsRemaining) drawShift();
 			});
-			d3.text(compfile,function(text) {
+			d3.text(compfile).then(function(text) {
 			    compF = text.split(",");
 			    console.log(compF);
 			    if (!--csvLoadsRemaining) drawShift();
@@ -509,7 +501,7 @@ hedotools.sankey = function() {
 
 		popuptimer = setTimeout(hidehover,3000);
 	    })
-	    .on("mouseout", function(d,i) { 
+	    .on("mouseout", function(event, d) {
 		clearTimeout(popuptimer);
 
 		popuptimer = setTimeout(hidehover,3000);
