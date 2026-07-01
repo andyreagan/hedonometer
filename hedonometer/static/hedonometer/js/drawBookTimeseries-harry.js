@@ -6,7 +6,7 @@ hedotools.booktimeseries = function() {
        -cut out stops words (0 the frequencies)
        -call shift on these frequency vectors */
 
-    // some colors 
+    // some colors
     // #1193c0 #759ae8
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0};
@@ -46,11 +46,11 @@ hedotools.booktimeseries = function() {
     // var fulltimeseries;
 
     drawRefArea = function(extent) {
-	var refarea = d3.svg.area()
+	var refarea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
-	
+
 	axes.selectAll(".refarea").remove();
 
 	console.log(extent);
@@ -63,11 +63,11 @@ hedotools.booktimeseries = function() {
     }
 
     drawCompArea = function(extent) {
-	var comparea = d3.svg.area()
+	var comparea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i-1); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
-	
+
 	axes.selectAll(".comparea").remove();
 
 	console.log(extent);
@@ -83,23 +83,26 @@ hedotools.booktimeseries = function() {
 
     var drawAnnotations = function() {
 	// draw all of the annotations
-	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book,function(error,json) {
+	d3.json("/api/v1/annotation/?format=json&winner=1&book__title="+book).then(function(json) {
 	    // console.log(json);
 
-	    var force = d3.layout.force()
-		.size([width,height])
-		.charge(-40)
-		.linkStrength(1.0)
-		.linkDistance(20)
-		.chargeDistance(50)
-	        .gravity(0.0)
-	        .friction(0.8);
+	    // nothing to draw (empty / missing data) -- bail before building the force sim
+	    if (!json || !json.objects || json.objects.length === 0) { return; }
+
+	    // d3 v7: force layout is now d3.forceSimulation; friction(0.8) -> velocityDecay(1-0.8),
+	    // charge/chargeDistance -> forceManyBody().strength().distanceMax(), link* -> forceLink(),
+	    // gravity(0.0) -> omit forceCenter. nodes/links are attached below once built.
+	    var force = d3.forceSimulation()
+		.velocityDecay(1-0.8)
+		.force("charge", d3.forceManyBody().strength(-40).distanceMax(50))
+		.force("link", d3.forceLink().distance(20).strength(1.0))
+		.stop();
 		// .linkDistance(1);
 
 	    // build a list of x,y for the bubbles
 	    var annotationnodes = Array(json.objects.length);
 	    var annotationlinks = Array(json.objects.length);
-	    
+
 	    for (var i=0; i<json.objects.length; i++) {
 		var newobj = json.objects[i];
 		newobj["i"] = Math.round(parseFloat(newobj.position.replace("%",""))/100*data.length);
@@ -124,32 +127,29 @@ hedotools.booktimeseries = function() {
 		.attr("class","bubblegroup");
 
 	    var bubbles = bubblegroup.append("text")
-		.attr({
-		    "class": "bubbletext",
-		    "x": function(d,i) { return d.x-20; },
-		    "y": function(d,i) { return d.y+5; },
-		    "font-family": "FontAwesome",
-		})
-		// .text('\uF075');
-		// .text('\uF0e5')
+		.attr("class", "bubbletext")
+		.attr("x", function(d,i) { return d.x-20; })
+		.attr("y", function(d,i) { return d.y+5; })
+		.attr("font-family", "FontAwesome")
+		// .text('');
+		// .text('')
 	        .text(function(d,i) { return d.annotation; })
-		.on("mouseover",function(d,i) { 
-		    // console.log(d.annotation); 
+		.on("mouseover",function(event,d) {
+		    // console.log(d.annotation);
 
 		    var hoverboxheight = 20;
 		    var hoverboxwidth = 100;
 		    var hoverboxyoffset = 0;
 		    var hoverboxxoffset = 0;
 
-		    var x = d3.mouse(this)[0];
-		    var y = d3.mouse(this)[1];
+		    var x = d3.pointer(event,this)[0];
+		    var y = d3.pointer(event,this)[1];
 
-		    hovergroup.style({
-			"position": "absolute",
-			"top": y+65+"px",
-			"left": x+"px",
-			"visibility": "visible",
-		    });
+		    hovergroup
+			.style("position", "absolute")
+			.style("top", y+65+"px")
+			.style("left", x+"px")
+			.style("visibility", "visible");
 
 		    hovergroup.selectAll("p,h5,button,br").remove();
 
@@ -157,20 +157,18 @@ hedotools.booktimeseries = function() {
 			.attr("class","title")
 			.text(d.annotation);
 		})
-		.on("mouseout",function(d,i) {
+		.on("mouseout",function(event,d) {
 		    setTimeout(hidehover,1000);
 		});
 
 	    var bubblelines = bubblegroup.append("line")
-		.attr({
-		    "class": "bubbleline",
-		    "x1": function(d,i) { return d.x0; },
-		    "y1": function(d,i) { return d.y0; },
-		    "x2": function(d,i) { return d.x-20; },
-		    "y2": function(d,i) { return d.y+5; },
-		    "stroke": "#A8A8A8",
-		    "stroke-width": "1.5px",
-		});
+		.attr("class", "bubbleline")
+		.attr("x1", function(d,i) { return d.x0; })
+		.attr("y1", function(d,i) { return d.y0; })
+		.attr("x2", function(d,i) { return d.x-20; })
+		.attr("y2", function(d,i) { return d.y+5; })
+		.attr("stroke", "#A8A8A8")
+		.attr("stroke-width", "1.5px");
 
 	    var timeseries2 = data.map(function(d,i) { return [x(i),y(d)]; });
 	    console.log(timeseries2);
@@ -181,46 +179,38 @@ hedotools.booktimeseries = function() {
 		nodes = solveSystem(annotationnodes,timeseries2,tstep);
 		// force.tick();
 		// reset the guys that shouldn't move
-		bubbles.attr({
-		    "x": function(d,i) { return annotationnodes[i].x; },
-		    "y": function(d,i) { return annotationnodes[i].y; },
-		});
-		bubblelines.attr({
-		    "x2": function(d,i) { 
-			if (annotationnodes[i].x<annotationnodes[i].x0) {
-			    return annotationnodes[i].x+12;
-			}
-			else {
-			    return annotationnodes[i].x;
-			}
-		    },
-		    "y2": function(d,i) { 
+		bubbles.attr("x", function(d,i) { return annotationnodes[i].x; })
+		    .attr("y", function(d,i) { return annotationnodes[i].y; });
+		bubblelines.attr("x2", function(d,i) {
+		    if (annotationnodes[i].x<annotationnodes[i].x0) {
+			return annotationnodes[i].x+12;
+		    }
+		    else {
+			return annotationnodes[i].x;
+		    }
+		})
+		    .attr("y2", function(d,i) {
 			if (annotationnodes[i].x<annotationnodes[i].x0) {
 			    return annotationnodes[i].y-10;
 			}
 			else {
 			    return annotationnodes[i].y;
 			}
-		    },
-		});
+		    });
 	    }
 
 	    var tick = function() {
 	    	console.log("ticking...");
 		// console.log(allnodes);
 		console.log(allnodes.slice(data.length,allnodes.length));
-		bubbles.attr({
-		    "x": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].x; },
-		    "y": function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].y; },
-		});
-		bubblelines.attr({
-		    "x2": function(d,i) { 
-			return allnodes.slice(data.length,allnodes.length)[i].x;
-		    },
-		    "y2": function(d,i) { 
+		bubbles.attr("x", function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].x; })
+		    .attr("y", function(d,i) { return allnodes.slice(data.length,allnodes.length)[i].y; });
+		bubblelines.attr("x2", function(d,i) {
+		    return allnodes.slice(data.length,allnodes.length)[i].x;
+		})
+		    .attr("y2", function(d,i) {
 			return allnodes.slice(data.length,allnodes.length)[i].y;
-		    },
-		});
+		    });
 	    	// console.log(testnodes);
 	    	// bubbles.attr()
 	    	// bubblelines.attr()
@@ -230,7 +220,9 @@ hedotools.booktimeseries = function() {
 	    	return {
 	    	    "x":x(i),
 	    	    "y":y(d),
-		    "fixed":1,
+		    // d3 v7: pin nodes with fx/fy (v3 used "fixed":1)
+		    "fx":x(i),
+		    "fy":y(d),
 	    	}
 	    });
 
@@ -242,14 +234,13 @@ hedotools.booktimeseries = function() {
 	    var allnodes = fixednodes.concat(annotationnodes)
 	    console.log(allnodes);
 
-	    force.nodes(allnodes)
-	    	.links(annotationlinks)
-	    	.on("tick",tick);
-
-	    force.start();
+	    force.nodes(allnodes);
+	    force.force("link").links(annotationlinks);
+	    force.on("tick",tick);
+	    force.restart();
 
 	    console.log(annotationnodes);
-	})
+	}).catch(function(error) { console.log(error); });
     }
 
     var solveSystem = function(nodes,timeseries,tstep) {
@@ -367,12 +358,13 @@ hedotools.booktimeseries = function() {
     var area;
     var mainarea;
     var trademark;
-    
+
     var buildForm = function(point) {
 	console.log("building form");
 	console.log("/api/v1/annotation/?format=json&position="+point+"&book__title="+book);
-	d3.json("/api/v1/annotation/?format=json&position="+point+"&book__title="+book,function(error,json) {
+	d3.json("/api/v1/annotation/?format=json&position="+point+"&book__title="+book).then(function(json) {
 	    console.log(json);
+	    if (!json || !json.objects) { return; }
 	    d3.select("#changeMeAlso")
 		.selectAll("input.annotation")
 		.data(json.objects)
@@ -396,7 +388,7 @@ hedotools.booktimeseries = function() {
 	    //       </div>
 	    //     </div>
 	    //   </div>
-	});
+	}).catch(function(error) { console.log(error); });
     }
 
     var highlightExtrema = function() {
@@ -426,9 +418,9 @@ hedotools.booktimeseries = function() {
     	    .attr("cx",function(d,i) { return x(d);})
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","#1193c0")
-    	    .attr("class","mincircle")	
+    	    .attr("class","mincircle")
     	    .attr("r",4)
-	    .on("click",function(d,i) {
+	    .on("click",function(event,d) {
 		console.log("click on min element number");
 		console.log(d);
 		// remove them all
@@ -453,9 +445,9 @@ hedotools.booktimeseries = function() {
     	    .attr("cx",function(d,i) { return x(d);})
     	    .attr("cy",function(d,i) { return y(data[d]);})
     	    .attr("fill","red")
-    	    .attr("class","maxcircle blink")	
+    	    .attr("class","maxcircle blink")
     	    .attr("r",4)
-	    .on("click",function(d,i) {
+	    .on("click",function(event,d) {
 		console.log("click on max element number");
 		console.log(d);
 		// remove them all
@@ -482,23 +474,18 @@ hedotools.booktimeseries = function() {
     var hovergroup;
 
     var hidehover = function() {
-	hovergroup.style({
-	    "visibility": "hidden",
-	});
+	hovergroup.style("visibility", "hidden");
     }
 
     var plot = function() {
 
-	hovergroup = figure.append("div").attr({
-	    "class": "hoverinfogroup",
-	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")", 
-	})
-	    .style({
-		"position": "absolute",
-		"top": "100px",
-		"left": "100px",
-		"visibility": "hidden",
-	    });
+	hovergroup = figure.append("div")
+	    .attr("class", "hoverinfogroup")
+	    // "transform": "translate("+(x+hoverboxxoffset+axeslabelmargin.left)+","+(d3.min([d3.max([0,y-hoverboxheight/2-hoverboxyoffset]),height-hoverboxheight]))+")",
+	    .style("position", "absolute")
+	    .style("top", "100px")
+	    .style("left", "100px")
+	    .style("visibility", "hidden");
 
 
 	// remove an old figure if it exists
@@ -513,21 +500,21 @@ hedotools.booktimeseries = function() {
 	//console.log(data.length);
 
 	// create the x and y axis
-	x = d3.scale.linear()
+	x = d3.scaleLinear()
 	//.domain([d3.min(lens),d3.max(lens)])
         // map from the start of the timeseries point to the max
 	    .domain([0,data.length-1])
 	    .range([0,width]);
-	
+
 	// use d3.layout http://bl.ocks.org/mbostock/3048450
 	// data = d3.layout.histogram()
 	//     .bins(x.ticks(65))
 	//     (lens);
 
 	// linear scale function
-	y =  d3.scale.linear()
+	y =  d3.scaleLinear()
 	    .domain([d3.min(data),d3.max(data)])
-	    .range([height-50, 50]); 
+	    .range([height-50, 50]);
 
 	// console.log([d3.min(data),d3.max(data)])
 
@@ -544,27 +531,24 @@ hedotools.booktimeseries = function() {
 	    .attr("width", width)
 	    .attr("height", height)
 	    .attr("class", "bg")
-	    .style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	    .style('stroke-width','2')
+	    .style('stroke','rgb(0,0,0)')
 	    .attr("fill", "#FCFCFC");
 
 	// axes creation functions
 	var create_xAxis = function() {
-	    return d3.svg.axis()
-		.scale(x)
-		.ticks(9)
-		.orient("bottom"); }
+	    return d3.axisBottom(x)
+		.ticks(9); }
 
 	// axis creation function
 	var create_yAxis = function() {
-	    return d3.svg.axis()
-		.ticks(5)
-		.scale(y) //linear scale function
-		.orient("left"); }
+	    return d3.axisLeft(y)
+		.ticks(5); }
 
 	// draw the axes
 	var yAxis = create_yAxis()
-	    .innerTickSize(6)
-	    .outerTickSize(0);
+	    .tickSizeInner(6)
+	    .tickSizeOuter(0);
 
 	axes.append("g")
 	    .attr("class", "top")
@@ -586,11 +570,11 @@ hedotools.booktimeseries = function() {
 	// axes = axes.append("g")
 	// 	.attr("clip-path","url(#clip)");
 
-	line = d3.svg.line()
+	line = d3.line()
 	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	console.log(data.slice(minWindows/2,data.length-minWindows/2));
 	mainline = axes.append("path")
@@ -601,11 +585,11 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	beglineline = d3.svg.line()
+	beglineline = d3.line()
 	    .x(function(d,i) { return x(i); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	console.log(data.slice(0,minWindows/2+1));
 	begline = axes.append("path")
@@ -617,11 +601,11 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	endlineline = d3.svg.line()
+	endlineline = d3.line()
 	    .x(function(d,i) { return x(i+data.length-minWindows/2-1); })
 	    .y(function(d) { return y(d); })
-	    .interpolate("cardinal");
-	// .interpolate("linear");
+	    .curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
 	// endtimeseries.unshift(data[data.length-1]);
 
@@ -635,7 +619,7 @@ hedotools.booktimeseries = function() {
 	    .attr("stroke-width",3)
 	    .attr("fill","none");
 
-	area = d3.svg.area()
+	area = d3.area()
 	    .x(function(d,i) { return x(i+minWindows/2); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d); });
@@ -657,14 +641,14 @@ hedotools.booktimeseries = function() {
 	// console.log(d3.mean(data));
 	var avhapps = d3.mean(data.slice(minWindows/2,data.length-minWindows/2));
 
-	var linearline = d3.svg.line()
+	var linearline = d3.line()
 	    .x(function(d,i) { return x(d.index); })
 	    .y(function(d) { return y(d.value); })
-	    .interpolate("linear");
+	    .curve(d3.curveLinear);
 
 	var averageline = axes.append("path")
 	    .datum([
-		{ "index": 0, 
+		{ "index": 0,
 		  "value": avhapps, },
 		{ "index": data.length-1,
 		  "value": avhapps, }]
@@ -677,20 +661,18 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var averagetext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(avhapps)-3,
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(avhapps)-3)
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Average");
 
 	var averagetext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(avhapps)+12,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(avhapps)+12)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(avhapps.toFixed(2));
 
 	// console.log(d3.min(data));
@@ -717,9 +699,9 @@ hedotools.booktimeseries = function() {
 
 	var minline = axes.append("path")
 	    .datum([
-		{ "index": minhappsindex+minWindows/2, 
+		{ "index": minhappsindex+minWindows/2,
 		  "value": minhapps, },
-		{ "index": data.length-1, 
+		{ "index": data.length-1,
 		  "value": minhapps, }]
 		  )
 	    .attr("class", "line")
@@ -729,20 +711,18 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var mintext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(minhapps)-3,
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(minhapps)-3)
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Least Happy");
 
 	var mintext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(minhapps)+12,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(minhapps)+12)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(minhapps.toFixed(2));
 
 	var maxcircle  = axes.append("circle")
@@ -755,9 +735,9 @@ hedotools.booktimeseries = function() {
 
 	var maxline = axes.append("path")
 	    .datum([
-		{ "index": maxhappsindex+minWindows/2, 
+		{ "index": maxhappsindex+minWindows/2,
 		  "value": maxhapps, },
-		{ "index": data.length-1, 
+		{ "index": data.length-1,
 		  "value": maxhapps, }]
 		  )
 	    .attr("class", "line")
@@ -767,34 +747,31 @@ hedotools.booktimeseries = function() {
 	    .attr("fill","none");
 
 	var mintext1 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(maxhapps),
-		    "fill": "#606060",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(maxhapps))
+	    .attr("fill", "#606060")
+	    .attr("text-anchor", "start")
 	    .text("Happiest");
 
 	var maxtext2 = axes.append("text")
-	    .attr({ "x": width+5,
-		    "y": y(maxhapps)+15,
-		    "fill": "#606060",
-		    "font-weight": "bold",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", width+5)
+	    .attr("y", y(maxhapps)+15)
+	    .attr("fill", "#606060")
+	    .attr("font-weight", "bold")
+	    .attr("text-anchor", "start")
 	    .text(maxhapps.toFixed(2));
 
 	// d3.select(window).on("resize.booktimeseries",resize);
 
 	trademark = axes.append("text")
-	    .attr({ "x": 3,
-		    "y": height-7,
-		    "fill": "#606060",
-		    // "font-weight": "bold",
-		    "font-size": ".8em",
-		    "text-anchor": "start",
-		  })
+	    .attr("x", 3)
+	    .attr("y", height-7)
+	    .attr("fill", "#606060")
+	    // .attr("font-weight", "bold")
+	    .attr("font-size", ".8em")
+	    .attr("text-anchor", "start")
 	    .text("visualization by @hedonometer team and @andyreagan");
-	
+
 	function resize() {
 	    figwidth = parseInt(d3.select('#chapters03').style('width')) - margin.left - margin.right,
 	    width = .775*figwidth;
@@ -822,8 +799,3 @@ hedotools.booktimeseries = function() {
     return opublic;
 
 }();
-
-
-
-
-

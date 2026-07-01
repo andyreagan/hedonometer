@@ -21,9 +21,9 @@ def embedNYT(request,sectionref,sectioncomp):
         specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format('New York Times Wordshift',c.genre.title()+' section compared to the whole Times',c.genre.title(),'the whole Times')
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
+                 'refFile': 'https://hedonometer.org/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
                  'refFileName': sectionref,
-                 'compFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % c.filename,
+                 'compFile': 'https://hedonometer.org/data/NYT/NYT_labVecs/%s.stripped.indexed' % c.filename,
                  'compFileName': sectioncomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
@@ -34,7 +34,7 @@ def embedNYT(request,sectionref,sectioncomp):
     # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedCBS(request,hostref,hostcomp):
@@ -63,7 +63,7 @@ def embedCBS(request,hostref,hostcomp):
     # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedMainSimple(request,onedate):
@@ -92,7 +92,7 @@ def embedMainSimple(request,onedate):
     }
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)
 
 
 def embedMain(request,dateref,datecomp):
@@ -100,9 +100,9 @@ def embedMain(request,dateref,datecomp):
     # logger.debug(some_hash)
 
     filenames = {'h': 'dont matter',
-                 'refFile': 'https://hedonometer.org/data/word-vectors/vacc/%s.csv' % dateref,
+                 'refFile': 'https://hedonometer.org/data/word-vectors/vacc/%s-sum.csv' % dateref,
                  'refFileName': dateref,
-                 'compFile': 'https://hedonometer.org/data/word-vectors/vacc/%s.csv' % datecomp,
+                 'compFile': 'https://hedonometer.org/data/word-vectors/vacc/%s-sum.csv' % datecomp,
                  'compFileName': datecomp,
                  'fulltext': '',
                  'contextflag': 'none',
@@ -110,7 +110,6 @@ def embedMain(request,dateref,datecomp):
     }
 
     # logger.debug(filenames)
-    # logger.debug(Context(filenames))
 
     # now pass those into the view
-    return render(request, 'hedonometer/embed.html', Context(filenames))
+    return render(request, 'hedonometer/embed.html', filenames)

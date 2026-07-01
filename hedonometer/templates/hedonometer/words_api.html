@@ -181,10 +181,10 @@
 {% endblock %}
 
 {% block bottomjs %}
-    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script type="text/javascript">
         var list = '{{ wl.title }}';
-        d3.json('/api/v1/words/?format=json&wordlist__title=' + list, function(d) {
+        d3.json('/api/v1/words/?format=json&wordlist__title=' + list).then(function(d) {
             console.log(d);
             d3.select("#loader").remove();
             d3.select("#wait").remove();

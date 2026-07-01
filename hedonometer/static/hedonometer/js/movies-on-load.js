@@ -42,7 +42,7 @@ function initializePlot() {
     movie = movieDecoder().cached;
     // console.log("not a classic");
     // hit the random api
-    d3.json("https://hedonometer.org/api/v1/movies/?format=json&title__startswith="+movie,function(data) {
+    d3.json("https://hedonometer.org/api/v1/movies/?format=json&title__startswith="+movie).then(function(data) {
 	var result = data.objects[0];
 	// console.log(result);
 	lang = result.language;
@@ -72,7 +72,7 @@ function initializePlot() {
 function loadCsv() {
     var csvLoadsRemaining = 4;
     var moviefile = "https://hedonometer.org/data/moviedata/timeseries/"+windowDecoder().cached+"/"+movieref+".csv";
-    d3.text(moviefile, function (text) {
+    d3.text(moviefile).then(function (text) {
 	var tmpminwin = 10;
 	fulltimeseries = text.split(",").map(parseFloat);
 	begtimeseries = fulltimeseries.slice(0,tmpminwin/2+1);
@@ -80,7 +80,7 @@ function loadCsv() {
 	timeseries = fulltimeseries.slice(tmpminwin/2,fulltimeseries.length-tmpminwin/2);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTscores-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTscores-"+lang+".csv").then(function (text) {
         var tmp = text.split("\n");
         //console.log(tmp.length);
         //console.log(tmp[tmp.length-1]);
@@ -94,7 +94,7 @@ function loadCsv() {
 	hedotools.shifter._lens(lens);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTwords-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTwords-"+lang+".csv").then(function (text) {
         var tmp = text.split("\n");
         var words = tmp;
         var len = words.length - 1;
@@ -106,7 +106,7 @@ function loadCsv() {
 	hedotools.shifter._words(words);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTwordsEn-"+lang+".csv", function (text) {
+    d3.text("https://hedonometer.org/data/moviedata/labMT/labMTwordsEn-"+lang+".csv").then(function (text) {
         var tmp = text.split("\n");
         var words_en = tmp;
         var len = words_en.length - 1;
@@ -187,7 +187,7 @@ var loadwordshiftdata = function() {
     var spinner = new Spinner(opts).spin(target);
 
     var moviefile = "https://hedonometer.org/data/moviedata/word-vectors/"+windowDecoder().cached+"/"+movieref+".csv";
-    d3.text(moviefile, function (text) {
+    d3.text(moviefile).then(function (text) {
         tmp = text.split("\n");
 
         // build the full data, terrible
@@ -396,7 +396,7 @@ var substringMatcher = function() {
     return function findMatches(q,cb) {
         var matches, substringRegex;
         matches = [];
-	d3.json("https://hedonometer.org/api/v1/movies/?format=json&title__icontains="+q,function(data) {
+	d3.json("https://hedonometer.org/api/v1/movies/?format=json&title__icontains="+q).then(function(data) {
 	    var result = data.objects;
 	    var newresult = [];
 	    for (var i=0; i<result.length; i++) {
@@ -412,7 +412,7 @@ var substringMatcher = function() {
 $(document).ready(function() {
     // send a random movie
     $('#randombook').on("click",function() {
-	d3.json("https://hedonometer.org/api/v1/randommovie/?format=json",function(data) {
+	d3.json("https://hedonometer.org/api/v1/randommovie/?format=json").then(function(data) {
 	    var result = data.objects[0];
 	    window.location.replace("/movies/"+result.title+"/");
 	})	

@@ -135,12 +135,14 @@
 
 {% block bottomjs %}
 
-    <script src="https://d3js.org/d3.v4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap-datepicker.js" %}"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/d3-shifterator@4/dist/shifterator.js"></script>
+    <!-- timeseries.js now runs on global d3 v7, so the shifterator shares it
+         via the lean non-bundled build (no second copy of d3). -->
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/d3-shifterator@7/dist/shifterator.js"></script>
     <script src="{% static "hedonometer/js/timeseries.js" %}"></script>
 
 {% endblock %}

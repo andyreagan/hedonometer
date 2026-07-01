@@ -21,7 +21,7 @@ hedotools.barchartoncall = function() {
 
 var stateSelType = true;
 
-d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) { 
+d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(event, d) {
     	    if (stateSelType !== d) {
 		stateSelType = d;
 		d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one")
@@ -85,7 +85,8 @@ var timeFrameText = timeFrames;
 
 var refcompdrops = function() {
     d3.select("#compSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
+	    var i = Array.prototype.indexOf.call(document.querySelectorAll("#compSelect a"), this);
 	    shiftComp = cityIndex(cityListSortedUSFirst[i]);
 	    d3.select(".complabel").text(cityListSortedUSFirst[i]);
 	    compencoder.varval(cityListSortedUSFirst[i]);
@@ -94,7 +95,8 @@ var refcompdrops = function() {
 	    }
 	});
     d3.select("#refSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
+	    var i = Array.prototype.indexOf.call(document.querySelectorAll("#refSelect a"), this);
 	    // console.log(i);
 	    shiftRef = cityIndex(cityListSortedUSFirst[i]);
 	    d3.select(".reflabel").text(cityListSortedUSFirst[i]);
@@ -104,7 +106,7 @@ var refcompdrops = function() {
 	    }
 	});
     d3.select("#rotate")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
 	    var tmp = shiftComp;
 	    shiftComp = shiftRef;
 	    shiftRef = tmp;
@@ -121,8 +123,8 @@ var refcompdrops = function() {
 
 var timeDrop = function() {
     d3.select("#timeSelect").selectAll("a")
-        .on("click", function(d,i) {
-	    key = i;
+        .on("click", function(event, d) {
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#timeSelect a"), this);
             timeName = timeFrames[key];
 	    d3.select(".timelabel").text(timeFrameText[key]);
 	    timeselencoder.varval(timeFrameText[key]);
@@ -144,7 +146,7 @@ function loadCsv(time) {
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
     var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
     var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
-    d3.text(scoresFile, function(text) {
+    d3.text(scoresFile).then(function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
 	var len = lens.length - 1;
@@ -155,7 +157,7 @@ function loadCsv(time) {
 	hedotools.shifter._lens(lens);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text(wordsFile, function(text) {
+    d3.text(wordsFile).then(function(text) {
 	var tmp = text.split("\n");
 	words = tmp;
 	var len = words.length - 1;
@@ -166,11 +168,11 @@ function loadCsv(time) {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text("https://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_PLOSHapps.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/cityList_"+(timeseldecoder().cached)+"_PLOSHapps.csv").then(function(text) {
 	cityHappsList = text.split("\n").slice(0,304).map(parseFloat);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text("https://hedonometer.org/data/cities/mutualCities.csv", function(text) {
+    d3.text("https://hedonometer.org/data/cities/mutualCities.csv").then(function(text) {
 	cityList = text.split("\n").slice(0,304);
 	classColor.domain([cityList.length,1]);
 	if (!--allLoadsRemaining) initializeBoth();
@@ -245,12 +247,12 @@ var drawTheFreakingShift = function() {
     var refF;
     var compF;
 
-    d3.text(reffile,function(text) {
+    d3.text(reffile).then(function(text) {
 	refF = text.split(",");
 	// console.log(refF);
 	if (!--finalLoadsRemaining) drawShift();
     });
-    d3.text(compfile,function(text) {
+    d3.text(compfile).then(function(text) {
 	compF = text.split(",");
 	// console.log(compF);
 	if (!--finalLoadsRemaining) drawShift();

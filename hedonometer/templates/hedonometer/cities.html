@@ -125,11 +125,13 @@
 
     <script src="{% static "hedonometer/js/jquery-1.11.0.min.js" %}"></script>
     <script src="{% static "hedonometer/js/bootstrap.min.js" %}"></script>
-    <script src="{% static "hedonometer/js/d3.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
     <script src="{% static "hedonometer/js/urllib.js" %}"></script>
-    <script src="{% static "hedonometer/js/sankey.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.init.js" %}"></script>
-    <script src="{% static "hedonometer/js/hedotools.shifter.js" %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/d3-shifterator@7/dist/shifterator.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7.2.0/js/hedotools.init.v4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7.2.0/js/hedotools.urllib.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@andyreagan/hedotools@7.2.0/js/hedotools.shifter.js"></script>
+    <!-- hedotools.nonsankey is not part of hedotools@7 (kept local, migrated to d3 v7) -->
     <script src="{% static "hedonometer/js/hedotools.nonsankey.js" %}"></script>
     <script src="{% static "hedonometer/js/city-nonsankey-on-load.js" %}"></script>
 

@@ -93,26 +93,25 @@ function sectionIndex(name) {
 
 var refcompdrops = function() {
     d3.select("#compSelect").selectAll("a")
-        .on("click", function(d,i) {
-	    shiftComp = sectionIndex(sectionListWAllFirst[i].title);
-	    d3.select(".complabel").text(sectionListWAllFirst[i].title);
-	    compencoder.varval(sectionListWAllFirst[i].title);
+        .on("click", function(event, d) {
+	    shiftComp = sectionIndex(d.title);
+	    d3.select(".complabel").text(d.title);
+	    compencoder.varval(d.title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
 	});
     d3.select("#refSelect").selectAll("a")
-        .on("click", function(d,i) {
-	    // console.log(i);
-	    shiftRef = sectionIndex(sectionListWAllFirst[i].title);
-	    d3.select(".reflabel").text(sectionListWAllFirst[i].title);
-	    refencoder.varval(sectionListWAllFirst[i].title);
+        .on("click", function(event, d) {
+	    shiftRef = sectionIndex(d.title);
+	    d3.select(".reflabel").text(d.title);
+	    refencoder.varval(d.title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
 	});
     d3.select("#rotate")
-        .on("click", function(d,i) {
+        .on("click", function(event) {
 	    var tmp = shiftComp;
 	    shiftComp = shiftRef;
 	    shiftRef = tmp;
@@ -133,7 +132,7 @@ function loadCsv() {
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
     var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
     var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
-    d3.text(scoresFile, function(text) {
+    d3.text(scoresFile).then(function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
 	var len = lens.length - 1;
@@ -144,7 +143,7 @@ function loadCsv() {
 	hedotools.shifter._lens(lens);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text(wordsFile, function(text) {
+    d3.text(wordsFile).then(function(text) {
 	var tmp = text.split("\n");
 	words = tmp;
 	var len = words.length - 1;
@@ -155,14 +154,16 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/api/v1/moviesminimal/?format=json&length__gte=10000", function(json) {
+    // repointed to the absolute live API: the local dev DB has no Movie rows.
+    d3.json("https://hedonometer.org/api/v1/moviesminimal/?format=json&length__gte=10000").then(function(json) {
 	sectionList = json.objects;
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("/api/v1/moviesminimal/?format=json&title=all", function(json) {
-	allEntry = json.objects;
-	if (!--allLoadsRemaining) initializeBoth();
-    });
+    // The aggregate "all" baseline movie row no longer exists in the DB, but its
+    // word-vector file (full/All.csv) does. Synthesize the baseline entry; its
+    // happs is filled from the mean of the loaded movies in initializeList.
+    allEntry = [{ title: "All", filename: "All", happs: 5.89, ignorewords: "" }];
+    if (!--allLoadsRemaining) initializeBoth();
 };
 
 var initializeBoth = function() { 
@@ -172,6 +173,8 @@ var initializeBoth = function() {
 
 var initializeList = function() {
     console.log("initializing list...");
+    // fill the synthesized baseline happs from the mean of the loaded movies
+    allEntry[0].happs = d3.mean(sectionList, function(d) { return parseFloat(d.happs); });
     sectionListWAllFirst = allEntry.concat(sectionList);
     var happslist = sectionList.map(function(d) { return parseFloat(d.happs)-parseFloat(allEntry[0].happs); });
     var titlelist = sectionList.map(function(d) { return d.title; });
@@ -199,7 +202,7 @@ var ignoreWords = ["camera","cuts"];
 var initializeShift = function() {
     hedotools.shifter.ignore(ignoreWords);
     hedotools.shifter.setfigure(d3.select('#shift01'));
-    hedotools.shifter.stoprange([3,7]);
+    hedotools.shifter._stoprange([3,7]);
 
     // get the indices from the url decoders
     shiftComp = sectionIndex(compdecoder().cached);
@@ -246,12 +249,12 @@ var drawShift = function() {
     // I made all of this for the NYT thing? go me.
     // d3.select("#embedtextarea").html("<iframe src=\"https://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
-    d3.text(refFile,function(text) {
+    d3.text(refFile).then(function(text) {
 	refF = text.split(",");
 	console.log(refF);
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
-    d3.text(compFile,function(text) {
+    d3.text(compFile).then(function(text) {
 	compF = text.split(",");
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
@@ -261,7 +264,7 @@ function initializePlot() {
     d3.select(".reflabel").text(refdecoder().cached);
     d3.select(".complabel").text(compdecoder().cached);
 
-    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) { 
+    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(event, d) {
 	if (selType !== d) {
 	    selType = d;
 	    d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one")

@@ -35,7 +35,7 @@ var stateSelType = true;
 var activeHover = true;
 // until a selection is fixed, let this be true
 
-d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) { 
+d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(event, d) { var i = d ? 1 : 0;
     	    if (stateSelType !== d) {
 		stateSelType = d;
 		activeHover = true;
@@ -130,7 +130,7 @@ timeFrameText = ["2013","2012","2011"];
 
 function refcompdrops() {
     d3.select("#compSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
 	    // console.log(i);
 	    d3.selectAll(".state").attr("stroke-width",0.7);
 	    activeHover = true;
@@ -152,7 +152,7 @@ function refcompdrops() {
 	});
 
     d3.select("#refSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
 	    // console.log(i);
 	    d3.selectAll(".state").attr("stroke-width",0.7);
 	    activeHover = true;
@@ -174,7 +174,7 @@ function refcompdrops() {
 	});
 
     d3.select("#rotate")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
 	    // console.log(i);
 	    d3.selectAll(".state").attr("stroke-width",0.7);
 	    activeHover = true;
@@ -197,9 +197,9 @@ function refcompdrops() {
 
 function timeDrop() {
     d3.select("#timeSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
             // key = this.selectedIndex;
-	    key = i;
+	    key = Array.prototype.indexOf.call(document.querySelectorAll("#timeSelect a"), this);
             timeName = timeFrames[key];
 	    d3.select(".timelabel").text(timeFrameText[key]);
 	    timeselencoder.varval(timeFrameText[key]);
@@ -215,12 +215,12 @@ function loadCsv(time) {
 	console.log("loading year words and scores");
 	var scoresFile = "https://hedonometer.org/data/geodata/wordScores.csv";
 	var wordsFile = "https://hedonometer.org/data/geodata/words.csv";
-	d3.text(scoresFile, function(text) {
+	d3.text(scoresFile).then(function(text) {
 	    var tmp = text.split(",");
 	    lens = tmp.map(parseFloat);
 	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 	});
-	d3.text(wordsFile, function(text) {
+	d3.text(wordsFile).then(function(text) {
 	    var tmp = text.split(",");
 	    words = tmp;
 	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
@@ -230,7 +230,7 @@ function loadCsv(time) {
 	// load labMT files
 	var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
 	var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
-	d3.text(scoresFile, function(text) {
+	d3.text(scoresFile).then(function(text) {
 	    var tmp = text.split("\n");
 	    //console.log(tmp.length);
 	    //console.log(tmp[tmp.length-1]);
@@ -243,7 +243,7 @@ function loadCsv(time) {
 	    }
 	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 	});
-	d3.text(wordsFile, function(text) {
+	d3.text(wordsFile).then(function(text) {
 	    var tmp = text.split("\n");
 	    words = tmp;
 	    var len = words.length - 1;
@@ -255,13 +255,13 @@ function loadCsv(time) {
 	    if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
 	});
     }
-    d3.json("https://hedonometer.org/data/geodata/us-states.topojson", function(data) {
+    d3.json("https://hedonometer.org/data/geodata/us-states.topojson").then(function(data) {
 	geoJson = data;
 	stateFeatures = topojson.feature(geoJson,geoJson.objects.states).features;
 	if (!--csvLoadsRemaining) initializePlotPlot(lens,words);
     });
     // trying to load from a new format for the more recent tweets
-    d3.text("https://hedonometer.org/data/geodata/wordCounts"+(time)+".csv", function(text) {
+    d3.text("https://hedonometer.org/data/geodata/wordCounts"+(time)+".csv").then(function(text) {
     // var time = "2014-08-25-week"
     // d3.text("https://hedonometer.org/data/geodata/combined-word-vectors/"+(time)+".csv", function(text) {
 	tmp = text.split("\n");

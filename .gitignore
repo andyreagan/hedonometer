@@ -27,3 +27,6 @@ scratch
 # data for the database
 scripts/data/
 pyenv38/
+
+# stray sqlite fallback (real DB is postgres)
+db.sqlite3

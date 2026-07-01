@@ -30,7 +30,7 @@ function commaSeparateNumber(val){
 var my_shifter;
 
 function initializePlot() {
-    my_shifter = hedotools.shifter();
+    my_shifter = hedotools.shifter;
     loadCsv();
 }
 
@@ -44,7 +44,7 @@ function loadCsv() {
         --csvLoadsRemaining;
     }
     else {
-        d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+bookinfo.lang+".csv", function (text) {
+        d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwordsEn-"+bookinfo.lang+".csv").then(function (text) {
             var tmp = text.split("\n");
             words_en = tmp;
             var len = words_en.length - 1;
@@ -57,16 +57,7 @@ function loadCsv() {
             if (!--csvLoadsRemaining) initializePlotPlot();
         });
     }
-    d3.text(bookfile, function (error,text) {
-        if (error) {
-            missing_file = true;
-            console.log("file is missing");
-            bookinfo.avhapps = "N/A";
-            bookinfo.len = "N/A";
-            cat_card(bookinfo);
-            d3.select("#booktitle").append("h4").html("** book file not available");
-            return;
-        }
+    d3.text(bookfile).then(function (text) {
         tmp = text.split("\n");
         // kill extra rows
         var len = tmp.length - 1;
@@ -86,8 +77,16 @@ function loadCsv() {
 	if (bookinfo.length < 10000) { alert("There are too few words in this book for the hedonometer to accurately generate a timeseries. Currently we need at least 10000 words, and this book has "+bookinfo.length+"."); }
         //console.log(d3.sum(allDataRaw[0]));
         if (!--csvLoadsRemaining) initializePlotPlot();
+    }).catch(function (error) {
+        missing_file = true;
+        console.log("file is missing");
+        bookinfo.avhapps = "N/A";
+        bookinfo.len = "N/A";
+        cat_card(bookinfo);
+        d3.select("#booktitle").append("h4").html("** book file not available");
+        return;
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTscores-"+bookinfo.lang+".csv", function (text) {
+    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTscores-"+bookinfo.lang+".csv").then(function (text) {
         var tmp = text.split("\n");
         //console.log(tmp.length);
         //console.log(tmp[tmp.length-1]);
@@ -101,7 +100,7 @@ function loadCsv() {
 	my_shifter._lens(lens);
         if (!--csvLoadsRemaining) initializePlotPlot();
     });
-    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+bookinfo.lang+".csv", function (text) {
+    d3.text("http://hedonometer.org/data/bookdata/labMT/labMTwords-"+bookinfo.lang+".csv").then(function (text) {
         var tmp = text.split("\n");
         words = tmp;
         var len = words.length - 1;
@@ -251,7 +250,7 @@ var substringMatcher = function(apik1,apik2) {
         //     }
         // }
         // if (matches.length === 0) { matches.push({ value: "<i>book not indexed</i>" }); }
-	d3.json(query_string+q,function(data) {
+	d3.json(query_string+q).then(function(data) {
 	    var result = data.objects;
 	    console.log(result);
 	    var newresult = [];
@@ -282,7 +281,7 @@ $(document).ready(function() {
 	    window.location.replace("/books/v3/"+(Math.floor((Math.random() * 51249) + 1)).toFixed(0)+"/");
         }
         else {
-            d3.text("/static/hedonometer/gut_ids.txt", function (text) {
+            d3.text("/static/hedonometer/gut_ids.txt").then(function (text) {
                 var tmp = text.split("\n");
                 var rand_ind = Math.floor((Math.random() * tmp.length));
                 window.location.replace("/books/v3/"+tmp[rand_ind]+"/");

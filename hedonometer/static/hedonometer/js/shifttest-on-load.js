@@ -20,7 +20,7 @@ hedotools.loader = function() {
     var refFvec;
     var compFvec;
     var load = function() {
-	d3.text(scoresFile, function(text) {
+	d3.text(scoresFile).then(function(text) {
 	    var tmp = text.split("\n");
 	    //console.log(tmp.length);
 	    //console.log(tmp[tmp.length-1]);
@@ -33,7 +33,7 @@ hedotools.loader = function() {
 	    }
 	    if (!--csvLoadsRemaining) onload();
 	});
-	d3.text(wordsFile, function(text) {
+	d3.text(wordsFile).then(function(text) {
 	    var tmp = text.split("\n");
 	    words = tmp;
 	    var len = words.length - 1;
@@ -44,11 +44,11 @@ hedotools.loader = function() {
 	    }
 	    if (!--csvLoadsRemaining) onload();
 	});
-	d3.text(embedDetails.compFile,function(tmp) {
+	d3.text(embedDetails.compFile).then(function(tmp) {
 	    compFvec = tmp.split('\n').slice(0,10222);
 	    if (!--csvLoadsRemaining) onload();
 	});
-	d3.text(embedDetails.refFile,function(tmp2) {
+	d3.text(embedDetails.refFile).then(function(tmp2) {
 	    refFvec = tmp2.split('\n').slice(0,10222);
 	    if (!--csvLoadsRemaining) onload();
 	});

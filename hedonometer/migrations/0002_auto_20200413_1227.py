@@ -16,7 +16,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='embeddable',
             name='author',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='twython_django.TwitterProfile'),
+            # Originally a FK to twython_django.TwitterProfile; that app is no
+            # longer installed, this field is removed in migration 0010, and the
+            # Embeddable model is deleted in 0011 -- so the target is irrelevant
+            # to the final schema. Repointed to 'self' so a fresh `migrate`
+            # (new dev env / CI) can replay without the defunct twython-django.
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, to='hedonometer.Embeddable'),
         ),
         migrations.AddField(
             model_name='band',

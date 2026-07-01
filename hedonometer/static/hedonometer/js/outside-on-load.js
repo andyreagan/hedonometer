@@ -103,26 +103,26 @@ function sectionIndex(name) {
 
 var refcompdrops = function() {
     d3.select("#compSelect").selectAll("a")
-        .on("click", function(d,i) {
-	    shiftComp = sectionIndex(sectionListWAllFirst[i].title);
-	    d3.select(".complabel").text(sectionListWAllFirst[i].title);
-	    compencoder.varval(sectionListWAllFirst[i].title);
+        .on("click", function(event, d) {
+	    shiftComp = sectionIndex(d.title);
+	    d3.select(".complabel").text(d.title);
+	    compencoder.varval(d.title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
 	});
     d3.select("#refSelect").selectAll("a")
-        .on("click", function(d,i) {
+        .on("click", function(event, d) {
 	    // console.log(i);
-	    shiftRef = sectionIndex(sectionListWAllFirst[i].title);
-	    d3.select(".reflabel").text(sectionListWAllFirst[i].title);
-	    refencoder.varval(sectionListWAllFirst[i].title);
+	    shiftRef = sectionIndex(d.title);
+	    d3.select(".reflabel").text(d.title);
+	    refencoder.varval(d.title);
 	    if (shiftRef !== shiftComp) {
 		drawShift();
 	    }
 	});
     d3.select("#rotate")
-        .on("click", function(d,i) {
+        .on("click", function(event) {
 	    var tmp = shiftComp;
 	    shiftComp = shiftRef;
 	    shiftRef = tmp;
@@ -143,7 +143,7 @@ function loadCsv() {
     var allLoadsRemaining = listLoadsRemaining+shiftLoadsRemaining;
     var scoresFile = "https://hedonometer.org/data/labMT/labMTscores-english.csv";
     var wordsFile = "https://hedonometer.org/data/labMT/labMTwords-english.csv";
-    d3.text(scoresFile, function(text) {
+    d3.text(scoresFile).then(function(text) {
 	var tmp = text.split("\n");
 	lens = tmp.map(parseFloat);
 	var len = lens.length - 1;
@@ -154,7 +154,7 @@ function loadCsv() {
 	hedotools.shifter._lens(lens);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.text(wordsFile, function(text) {
+    d3.text(wordsFile).then(function(text) {
 	var tmp = text.split("\n");
 	words = tmp;
 	var len = words.length - 1;
@@ -165,11 +165,11 @@ function loadCsv() {
 	hedotools.shifter._words(words);
 	if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("https://hedonometer.org/data/outside/metadata.json", function(json) {
+    d3.json("https://hedonometer.org/data/outside/metadata.json").then(function(json) {
         sectionList = json;
         if (!--allLoadsRemaining) initializeBoth();
     });
-    d3.json("https://hedonometer.org/data/outside/all.json", function(json) {
+    d3.json("https://hedonometer.org/data/outside/all.json").then(function(json) {
         allEntry = json;
         if (!--allLoadsRemaining) initializeBoth();
     });
@@ -250,12 +250,12 @@ var drawShift = function() {
 
     // d3.select("#embedtextarea").html("<iframe src=\"https://hedonometer.org/embed/nyt/"+sectionListWAllFirst[shiftRef].title+"/"+sectionListWAllFirst[shiftComp].title+"/\" width=\"590\" height=\"800\" frameborder=\"0\" scrolling=\"no\"></iframe>");
 
-    d3.text(refFile,function(text) {
+    d3.text(refFile).then(function(text) {
 	refF = text.split("\n");
 	console.log(refF);
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
-    d3.text(compFile,function(text) {
+    d3.text(compFile).then(function(text) {
 	compF = text.split("\n");
 	if (!--finalLoadsRemaining) drawShiftInternal();
     });
@@ -267,7 +267,7 @@ function initializePlot() {
     d3.select(".reflabel").text(refdecoder().cached);
     d3.select(".complabel").text(compdecoder().cached);
 
-    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(d,i) {
+    d3.selectAll(".selbutton").data([false,true]).on("mousedown",function(event, d) {
 	if (selType !== d) {
 	    selType = d;
 	    d3.select(".selbutton.one").attr("class","btn btn-default btn-xs pull-right selbutton one")

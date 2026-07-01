@@ -34,7 +34,7 @@ function drawBookTimeseries(figure,data) {
     //console.log(data.length);
 
     // create the x and y axis
-    var x = d3.scale.linear()
+    var x = d3.scaleLinear()
 	//.domain([d3.min(lens),d3.max(lens)])
         // map from the start of the timeseries point to the max
 	.domain([-minWindows/2,data.length+minWindows/2-1])
@@ -46,7 +46,7 @@ function drawBookTimeseries(figure,data) {
     //     (lens);
 
     // linear scale function
-    var y =  d3.scale.linear()
+    var y =  d3.scaleLinear()
 	.domain([d3.min(data),d3.max(data)])
 	.range([height-10, 10]); 
 
@@ -65,27 +65,24 @@ function drawBookTimeseries(figure,data) {
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "bg")
-	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.style('stroke-width','2')
+	.style('stroke','rgb(0,0,0)')
 	.attr("fill", "#FCFCFC");
 
     // axes creation functions
     var create_xAxis = function() {
-	return d3.svg.axis()
-	    .scale(x)
-	    .ticks(9)
-	    .orient("bottom"); }
+	return d3.axisBottom(x)
+	    .ticks(9); }
 
     // axis creation function
     var create_yAxis = function() {
-	return d3.svg.axis()
-	    .ticks(5)
-	    .scale(y) //linear scale function
-	    .orient("left"); }
+	return d3.axisLeft(y)
+	    .ticks(5); }
 
     // draw the axes
     var yAxis = create_yAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
+	.tickSizeInner(6)
+	.tickSizeOuter(0);
 
     axes.append("g")
 	.attr("class", "top")
@@ -107,11 +104,11 @@ function drawBookTimeseries(figure,data) {
     // axes = axes.append("g")
     // 	.attr("clip-path","url(#clip)");
 
-    var line = d3.svg.line()
+    var line = d3.line()
 	.x(function(d,i) { return x(i); })
 	.y(function(d) { return y(d); })
-	.interpolate("cardinal");
-	// .interpolate("linear");
+	.curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
     var mainline = axes.append("path")
 	.datum(data)
@@ -121,11 +118,11 @@ function drawBookTimeseries(figure,data) {
 	.attr("stroke-width",3)
 	.attr("fill","none");
 
-    var beglineline = d3.svg.line()
+    var beglineline = d3.line()
 	.x(function(d,i) { return x(i-minWindows/2); })
 	.y(function(d) { return y(d); })
-	.interpolate("cardinal");
-	// .interpolate("linear");
+	.curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
     begtimeseries.push(data[0]);
     
@@ -138,11 +135,11 @@ function drawBookTimeseries(figure,data) {
 	.attr("stroke-width",3)
 	.attr("fill","none");
 
-    var endlineline = d3.svg.line()
+    var endlineline = d3.line()
 	.x(function(d,i) { return x(i+data.length-1); })
 	.y(function(d) { return y(d); })
-	.interpolate("cardinal");
-	// .interpolate("linear");
+	.curve(d3.curveCardinal);
+	// .curve(d3.curveLinear);
 
     endtimeseries.unshift(data[data.length-1]);
 
@@ -155,7 +152,7 @@ function drawBookTimeseries(figure,data) {
 	.attr("stroke-width",3)
 	.attr("fill","none");
 
-    var area = d3.svg.area()
+    var area = d3.area()
 	.x(function(d,i) { return x(i); })
 	.y0(height-1)
 	.y1(function(d) { return y(d); });
@@ -170,7 +167,7 @@ function drawBookTimeseries(figure,data) {
 
     drawRefArea = function drawRefArea(extent) {
 
-	var refarea = d3.svg.area()
+	var refarea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i-minWindows/2); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
@@ -191,7 +188,7 @@ function drawBookTimeseries(figure,data) {
 
     drawCompArea = function drawCompArea(extent) {
 
-	var comparea = d3.svg.area()
+	var comparea = d3.area()
 	    .x(function(d,i) { return x(extent[0]+i-minWindows/2-1); })
 	    .y0(height-1)
 	    .y1(function(d) { return y(d)+2; });
@@ -213,10 +210,10 @@ function drawBookTimeseries(figure,data) {
     // console.log(d3.mean(data));
     var avhapps = d3.mean(data);
 
-    var linearline = d3.svg.line()
+    var linearline = d3.line()
 	.x(function(d,i) { if (i===0) { return x(d.index); } else { return x(d.index)+3 } })
 	.y(function(d) { return y(d.value); })
-	.interpolate("linear");
+	.curve(d3.curveLinear);
 
     var averageline = axes.append("path")
 	.datum([
@@ -233,20 +230,18 @@ function drawBookTimeseries(figure,data) {
 	.attr("fill","none");
 
     var averagetext1 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(avhapps)-3,
-		"fill": "#606060",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(avhapps)-3)
+	.attr("fill", "#606060")
+	.attr("text-anchor", "start")
 	    .text("Average");
 
     var averagetext2 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(avhapps)+12,
-		"fill": "#606060",
-		"font-weight": "bold",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(avhapps)+12)
+	.attr("fill", "#606060")
+	.attr("font-weight", "bold")
+	.attr("text-anchor", "start")
 	    .text(avhapps.toFixed(2));
 
     // console.log(d3.min(data));
@@ -285,20 +280,18 @@ function drawBookTimeseries(figure,data) {
 	.attr("fill","none");
 
     var mintext1 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(minhapps)-3,
-		"fill": "#606060",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(minhapps)-3)
+	.attr("fill", "#606060")
+	.attr("text-anchor", "start")
 	    .text("Least Happy");
 
     var mintext2 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(minhapps)+12,
-		"fill": "#606060",
-		"font-weight": "bold",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(minhapps)+12)
+	.attr("fill", "#606060")
+	.attr("font-weight", "bold")
+	.attr("text-anchor", "start")
 	    .text(minhapps.toFixed(2));
 
     var maxcircle  = axes.append("circle")
@@ -323,20 +316,18 @@ function drawBookTimeseries(figure,data) {
 	.attr("fill","none");
 
     var mintext1 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(maxhapps),
-		"fill": "#606060",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(maxhapps))
+	.attr("fill", "#606060")
+	.attr("text-anchor", "start")
 	    .text("Happiest");
 
     var maxtext2 = axes.append("text")
-	.attr({ "x": width+5,
-		"y": y(maxhapps)+15,
-		"fill": "#606060",
-		"font-weight": "bold",
-		"text-anchor": "start",
-	      })
+	.attr("x", width+5)
+	.attr("y", y(maxhapps)+15)
+	.attr("fill", "#606060")
+	.attr("font-weight", "bold")
+	.attr("text-anchor", "start")
 	    .text(maxhapps.toFixed(2));
 
     d3.select(window).on("resize.booktimeseries",resize);
