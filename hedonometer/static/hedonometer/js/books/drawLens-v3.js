@@ -1,9 +1,10 @@
-function drawLens(figure,lens) {
+ function drawLens(figure,lens) {
 /* takes a d3 selection and draws the lens distribution
    on slide of the stop-window
      -reload data csv's
      -cut out stops words (0 the frequencies)
      -call shift on these frequency vectors */
+
 
     var margin = {top: 0, right: 0, bottom: 0, left: 0},
     figwidth = parseInt(d3.select('#lens01').style('width')) - margin.left - margin.right,
@@ -23,20 +24,22 @@ function drawLens(figure,lens) {
 
 
     // create the x and y axis
-    var x = d3.scale.linear()
+    var x = d3.scaleLinear()
 	//.domain([d3.min(lens),d3.max(lens)])
 	.domain([1.00,9.00])
 	.range([0,width]);
     
-    // use d3.layout http://bl.ocks.org/mbostock/3048450
-    var data = d3.layout.histogram()
-        .bins(x.ticks(65))
+    // use d3.bin (v7 replacement for d3.layout.histogram); bins are arrays with
+    // .x0/.x1 (edges) and .length (count) instead of v3's .x/.dx/.y
+    var data = d3.bin()
+        .domain(x.domain())
+        .thresholds(x.ticks(65))
         (lens);
 
     // linear scale function
-    var y =  d3.scale.linear()
-	.domain([0,d3.max(data,function(d) { return d.y; } )])
-	.range([height, 0]); 
+    var y =  d3.scaleLinear()
+	.domain([0,d3.max(data,function(d) { return d.length; } )])
+	.range([height, 0]);
 
     // create the axes themselves
     var axes = canvas.append("g")
@@ -51,27 +54,24 @@ function drawLens(figure,lens) {
 	.attr("width", width)
 	.attr("height", height)
 	.attr("class", "bg")
-	.style({'stroke-width':'2','stroke':'rgb(0,0,0)'})
+	.style('stroke-width','2')
+	.style('stroke','rgb(0,0,0)')
 	.attr("fill", "#FFFFF0");
 
     // axes creation functions
     var create_xAxis = function() {
-	return d3.svg.axis()
-	    .scale(x)
-	    .ticks(9)
-	    .orient("bottom"); }
+	return d3.axisBottom(x)
+	    .ticks(9); }
 
     // axis creation function
     var create_yAxis = function() {
-	return d3.svg.axis()
-	    .ticks(3)
-	    .scale(y) //linear scale function
-	    .orient("left"); }
+	return d3.axisLeft(y)
+	    .ticks(3); }
 
     // draw the axes
     var yAxis = create_yAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
+	.tickSizeInner(6)
+	.tickSizeOuter(0);
 
     axes.append("g")
 	.attr("class", "top")
@@ -80,8 +80,8 @@ function drawLens(figure,lens) {
 	.call(yAxis);
 
     var xAxis = create_xAxis()
-	.innerTickSize(6)
-	.outerTickSize(0);
+	.tickSizeInner(6)
+	.tickSizeOuter(0);
 
     axes.append("g")
 	.attr("class", "x axis ")
@@ -89,7 +89,7 @@ function drawLens(figure,lens) {
 	.attr("transform", "translate(0," + (height) + ")")
 	.call(xAxis);
 
-    d3.selectAll(".tick line").style({'stroke':'black'});
+    d3.selectAll(".tick line").style('stroke','black');
 
     // create the clip boundary
     var clip = axes.append("svg:clipPath")
@@ -130,18 +130,18 @@ function drawLens(figure,lens) {
         .enter()
         .append("g")
         .attr("class","distrect")
-        .attr("fill",function(d,i) { if (d.x > lensMean) {return "#D3D3D3";} else { return "#D3D3D3";}})
-        .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+        .attr("fill",function(d,i) { if (d.x0 > lensMean) {return "#D3D3D3";} else { return "#D3D3D3";}})
+        .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
 
     var mainrect = bar.append("rect")
 	.attr("x", 1)
-	.attr("width", x(data[0].dx+1)-2 )
-	.attr("height", function(d) { return height - y(d.y); });
+	.attr("width", x(data[0].x1-data[0].x0+1)-2 )
+	.attr("height", function(d) { return height - y(d.length); });
 
-    var line = d3.svg.line()
-	.x(function(d,i) { return x(d.x); })
-	.y(function(d) { return y(d.y); })
-	.interpolate("linear");
+    var line = d3.line()
+	.x(function(d,i) { return x(d.x0); })
+	.y(function(d) { return y(d.length); })
+	.curve(d3.curveLinear);
 
     var mainline = axes.append("path")
 	.datum(data)
@@ -153,34 +153,28 @@ function drawLens(figure,lens) {
 
     //console.log(x(d3.min(lens)));
 
-    var brushX = d3.scale.linear()
+    var brushX = d3.scaleLinear()
         .domain([1,9])
         .range([figwidth*.125,width+figwidth*.125]);
     
-    var brush = d3.svg.brush()
-        .x(brushX)
-        .extent(lensExtent)
-        .on("brushend",brushended);
+    // d3 v7 brushX: selection is in pixels; convert with brushX.invert.
+    var brush = d3.brushX()
+        .extent([[figwidth*.125, 15], [width+figwidth*.125, height+15]])
+        .on("end",brushended);
 
     var gBrush = canvas.append("g")
         .attr("class","lensbrush")
-        .call(brush)
-        .call(brush.event);
-
-    gBrush.selectAll("rect")
-        .attr("height",height)
-        .attr("y",15)
-	.style({'stroke-width':'2','stroke':'rgb(100,100,100)','opacity': 0.95})
-	.attr("fill", "#FCFCFC");
+        .call(brush);
+    gBrush.call(brush.move, lensExtent.map(brushX));
 
      //console.log(lensExtent);
 
      lensencoder = d3.urllib.encoder().varname("lens"); //.varval(lensExtent);
 
-     function brushended() {
-	if (!d3.event.sourceEvent) return;
-	var extent0 = brush.extent(),
-	    extent1 = extent0;
+     function brushended(event) {
+	if (!event.sourceEvent) return;
+	if (!event.selection) return;
+	var extent1 = event.selection.map(brushX.invert);
 	// round to nearest tenth (set 4 to 10)
 	// round to nearest quarter
 
@@ -200,16 +194,14 @@ function drawLens(figure,lens) {
 	    my_shifter.shifter();
 	    var happysad = my_shifter._compH() > my_shifter._refH() ? "happier" : "less happy";
 	    var shifttext = ["Why comparison section is "+happysad+" than reference section:","Reference section's happiness: "+my_shifter._refH().toFixed(2),"Comparison section's happiness: "+my_shifter._compH().toFixed(2)]
-	    my_shifter.setText(shifttext);
-	    my_shifter.plot();
+	    my_shifter.setText(shifttext).plot();
 
 	    // set the lens extent in the browser, if it didn't already exist
 	    // break down the current window.location
 	}
 
 	d3.select(this).transition()
-	    .call(brush.extent(lensExtent))
-	    .call(brush.event);
+	    .call(brush.move, lensExtent.map(brushX));
 
 	lensencoder.varval(lensExtent);
     }
@@ -233,20 +225,19 @@ function drawLens(figure,lens) {
 	//xAxisHandle.call(xAxis);
 	canvas.select(".x.axis").call(xAxis);
 
-	canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+	canvas.selectAll(".distrect").attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.length) + ")"; });
 	
 	// xlabel.attr("x",(leftOffsetStatic+width/2));
 
-	d3.selectAll(".tick line").style({'stroke':'black'});
+	d3.selectAll(".tick line").style('stroke','black');
 
 	// //brushX.range([figwidth*.125,width+figwidth*.125]);
 	brushX.range([leftOffsetStatic,leftOffsetStatic+width]);
-	brush.x(brushX);
-	d3.select(".lensbrush") //.transition()
-	    .call(brush.extent(lensExtent))
-	    .call(brush.event);
+	brush.extent([[leftOffsetStatic, 15], [leftOffsetStatic+width, height+15]]);
+	d3.select(".lensbrush")
+	    .call(brush)
+	    .call(brush.move, lensExtent.map(brushX));
 	//brushing();
-	//brush.event();
     }
 
 }
