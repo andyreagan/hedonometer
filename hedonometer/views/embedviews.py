@@ -21,9 +21,9 @@ def embedNYT(request,sectionref,sectioncomp):
         specialtext = '{0}\n{1}\nComparison happiness: avhapps\nWhat\'s making {2} updown than {3}:'.format('New York Times Wordshift',c.genre.title()+' section compared to the whole Times',c.genre.title(),'the whole Times')
 
     filenames = {'h': 'dont matter',
-                 'refFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
+                 'refFile': 'https://hedonometer.org/data/NYT/NYT_labVecs/%s.stripped.indexed' % r.filename,
                  'refFileName': sectionref,
-                 'compFile': '/data/NYT/NYT_labVecs/%s.stripped.indexed' % c.filename,
+                 'compFile': 'https://hedonometer.org/data/NYT/NYT_labVecs/%s.stripped.indexed' % c.filename,
                  'compFileName': sectioncomp,
                  'fulltext': specialtext,
                  'contextflag': 'main', # 'none'
