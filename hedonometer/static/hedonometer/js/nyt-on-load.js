@@ -1,11 +1,3 @@
-// hedotools@7 ships lens/barchart as factories (missing the IIFE call), so
-// hedotools.lens/barchart are functions, not the singleton instances this glue
-// drives. Instantiate them once. Defensive (only if still a function) so it
-// also works once hedotools ships them invoked. (shifter is already an instance.)
-["lens", "barchart"].forEach(function(m) {
-    if (hedotools[m] && typeof hedotools[m] === "function") { hedotools[m] = hedotools[m](); }
-});
-
 // we need a decent amount of documentation here!
 // or any
 // there are a bunch of global variables so I'm going to put them all here:

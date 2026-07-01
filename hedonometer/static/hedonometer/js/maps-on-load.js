@@ -1,11 +1,3 @@
-// hedotools@7 ships lens/map/barchart as factories (missing the IIFE call that
-// shifter/the old local modules have), so hedotools.lens etc. are functions, not
-// the singleton instances this glue drives. Instantiate them once. Defensive
-// (only if still a function) so it also works once hedotools ships them invoked.
-["lens", "map", "barchart"].forEach(function(m) {
-    if (hedotools[m] && typeof hedotools[m] === "function") { hedotools[m] = hedotools[m](); }
-});
-
 // begin with some helper functions
 // http://stackoverflow.com/a/1026087/3780153
 function capitaliseFirstLetter(string)

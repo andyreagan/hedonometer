@@ -1,11 +1,3 @@
-// hedotools@7 ships sankey as a factory (missing the IIFE call that
-// shifter/the old local modules have), so hedotools.sankey is a function, not
-// the singleton instance this glue drives. Instantiate it once. Defensive
-// (only if still a function) so it also works once hedotools ships it invoked.
-["sankey"].forEach(function(m) {
-    if (hedotools[m] && typeof hedotools[m] === "function") { hedotools[m] = hedotools[m](); }
-});
-
 hedotools.sankeyoncall = function() {
     var test = function(i,data) {
 	console.log("set on call");

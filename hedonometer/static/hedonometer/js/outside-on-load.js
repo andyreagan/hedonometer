@@ -1,11 +1,3 @@
-// hedotools@7 ships lens/barchart as factories (missing the IIFE call), so
-// hedotools.lens/barchart are functions, not the singleton instances this glue
-// drives. Instantiate them once. Defensive (only if still a function) so it
-// also works once hedotools ships them invoked. (shifter is already an instance.)
-["lens", "barchart"].forEach(function(m) {
-    if (hedotools[m] && typeof hedotools[m] === "function") { hedotools[m] = hedotools[m](); }
-});
-
 // we need a decent amount of documentation here!
 // or any
 // there are a bunch of global variables so I'm going to put them all here:
@@ -204,13 +196,6 @@ var initializeList = function() {
 	._datanames(titlelist)
 	._figheight(800)
 	.plot();
-
-    // hedotools.barchart@7 dropped the mousedown handler that invoked
-    // barchartonclick, so re-wire click-to-open here. d[0] is the sorted index,
-    // matching the (d,i) contract that hedotools.barchartonclick.test expects.
-    d3.select("#barChart").selectAll("rect.staterect, text.statetext")
-        .style("cursor", "pointer")
-        .on("click", function(event, d) { hedotools.barchartonclick.test(d, d[0]); });
 
     var refListDrop = d3.select("#refSelect").select("ul").selectAll("li").data(sectionListWAllFirst);
     refListDrop.enter().append("li").append("a").text(function(d,i) { return d.title; });
